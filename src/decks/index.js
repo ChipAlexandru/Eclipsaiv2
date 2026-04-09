@@ -3,6 +3,7 @@
 // About lives at the shelf level (popup on Home + /about page promoted from old Chapter 5).
 
 import { aiTransformationDeck } from "./ai-transformation.js";
+import { assertShelfValid } from "../types.js";
 
 export const shelf = {
   decks: [aiTransformationDeck],
@@ -38,6 +39,13 @@ export const shelf = {
     },
   ],
 };
+
+// Dev-time sanity check — catches typos in featured deep links, duplicate
+// slide ids, missing titles, unknown slide types, etc. Throws on failure so
+// bad data shows up loud during development.
+if (typeof process === "undefined" || process.env?.NODE_ENV !== "production") {
+  assertShelfValid(shelf);
+}
 
 export function getDeck(deckId) {
   return shelf.decks.find((d) => d.id === deckId);
