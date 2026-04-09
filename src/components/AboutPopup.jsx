@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { C } from "../theme.js";
 
 // About popup — anchored to the About link in the Home masthead.
@@ -6,7 +6,11 @@ import { C } from "../theme.js";
 // z-index 1001 on the masthead row so it wins the stacking context against the headline.
 // The caller is responsible for rendering this inside a positioned ancestor with
 // zIndex: 1001, and for wiring the open/close state + LinkedIn URL from the shelf.
-export function AboutPopup({ open, onClose, name, blurb, linkedinUrl }) {
+//
+// The popup stays deliberately thin. The full /about content (methodology, phases,
+// credentials — promoted from the old Chapter 5 in m3) lives on the AboutPage,
+// reached via the "Read more →" link at the bottom.
+export function AboutPopup({ open, onClose, name, blurb, linkedinUrl, onReadMore }) {
   if (!open) return null;
   return (
     <>
@@ -66,6 +70,24 @@ export function AboutPopup({ open, onClose, name, blurb, linkedinUrl }) {
           }}>in</span>
           LinkedIn
         </a>
+
+        {/* Read more — navigates to the full /about page */}
+        {onReadMore && (
+          <>
+            <div style={{ height: 1, background: C.border, margin: "14px 0 10px" }} />
+            <button
+              onClick={() => { onReadMore(); onClose(); }}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 4,
+                background: "transparent", border: "none", cursor: "pointer",
+                color: C.accent, fontSize: 12, fontWeight: 600, padding: 0,
+              }}
+            >
+              Read more
+              <ArrowRight size={12} />
+            </button>
+          </>
+        )}
       </div>
     </>
   );

@@ -9,7 +9,7 @@ import { VideoCard } from "../components/VideoCard.jsx";
 // Featured cards deep-link into specific slides in specific decks via `shelf.featured`.
 //
 // The about popup's stacking context fix (zIndex 1001 on the masthead row) is preserved here.
-export function HomePage({ shelf, onNavigate }) {
+export function HomePage({ shelf, onNavigate, onOpenAbout }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const { about, featured } = shelf;
 
@@ -51,6 +51,7 @@ export function HomePage({ shelf, onNavigate }) {
             name={about.name}
             blurb={about.blurb}
             linkedinUrl={about.linkedinUrl}
+            onReadMore={onOpenAbout}
           />
         </div>
       </div>

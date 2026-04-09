@@ -1,6 +1,6 @@
 // AI Transformation deck — extracted from definitive.jsx CHAPTERS.
-// Behavior-preserving in milestone 1. Chapter 5 ("About Eclipsai") is dropped
-// in milestone 3 and promoted to the shelf-level /about page.
+// Four chapters. Chapter 5 ("About Eclipsai") was dropped in milestone 3 and
+// promoted to the shelf-level /about page — see shelf.aboutPage in decks/index.js.
 // Lucide icons are attached by the pages that render the cover, not baked in here,
 // so this module stays plain data (no React dependency).
 
@@ -168,48 +168,6 @@ export const aiTransformationDeck = {
           title: "Investment & Returns",
           body: "Total program investment is front-loaded in H1 to establish infrastructure and prove value. Payback begins mid-H2 as automation compounds.",
           callout: { value: "14 months", label: "Expected payback", sub: "with 3.2× ROI by end of Year 2" },
-        },
-      ],
-    },
-    // Chapter 5 "About Eclipsai" preserved here in milestone 1.
-    // Dropped in milestone 3 and promoted to shelf-level /about page.
-    {
-      id: "eclipsai",
-      num: "05",
-      title: "About Eclipsai",
-      iconName: "Building2",
-      subtitle: "Tested methodology, real expertise",
-      slides: [
-        {
-          id: "c5s1",
-          type: "standard",
-          title: "Who We Are",
-          body: "Management consultancy and transformation partner — not an AI product company. A consultant with deep, tested expertise in deploying AI inside organizations, operating as an embedded transformation lead. Claude is the current platform of focus; the methodology is platform-portable.",
-          pillars: [
-            { title: "Skills Architecture", desc: "Custom skill development using blind-test methodology — build, test vs. real work, fix, retest. 15+ plugins evaluated." },
-            { title: "Knowledge Bases", desc: "Structured KBs that make AI organization-specific. Speed of creation from unstructured sources enables previously infeasible work." },
-            { title: "Methodology Hybrid", desc: "Traditional consulting discipline (stakeholder management, business case, change management) combined with rapid iteration." },
-          ],
-        },
-        {
-          id: "c5s2",
-          type: "standard",
-          title: "Five-Phase Methodology",
-          body: "Traditional consulting rigor combined with rapid AI iteration. Most consultants lack technical depth; most technical teams lack consulting structure. Eclipsai bridges both.",
-          pillars: [
-            { title: "1. Discovery", desc: "Map workflows and pain points. Identify 'specialist bypass' opportunities. Build the quantified business case with go/no-go criteria." },
-            { title: "2. Foundation", desc: "Claude Teams operational in days. Cross-functional 'ninja team' assembled. Initial knowledge bases and pre-tested skills installed." },
-            { title: "3. First Priorities", desc: "Implement blind-test validated skills. Build observability alongside every deployment. Measure against business case. Build the expansion case." },
-            { title: "4. Scale & Deepen", desc: "End-to-end automation. Data architecture. Expand to new functions. Transition to Enterprise. Address change management head-on." },
-            { title: "5. Transfer & Exit", desc: "Train internal capability team. Document everything. Hand over the playbook. Optional ongoing advisory retainer." },
-          ],
-        },
-        {
-          id: "c5s3",
-          type: "standard",
-          title: "Tested Expertise",
-          body: "Not theoretical. Every claim is backed by documented development, testing, and iteration.",
-          callout: { value: "15+", label: "Plugins evaluated", sub: "Against 3-level maturity framework with blind-test methodology" },
         },
       ],
     },

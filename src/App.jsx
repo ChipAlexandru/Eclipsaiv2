@@ -5,16 +5,20 @@ import { LeftRail } from "./components/LeftRail.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { CoverPage } from "./pages/CoverPage.jsx";
 import { SlidePage } from "./pages/SlidePage.jsx";
+import { AboutPage } from "./pages/AboutPage.jsx";
 
 // ─── MAIN APP SHELL ──────────────────────────────────────────────────
 // Routing + state + keyboard/scroll navigation + vertical transitions.
 //
-// State shape (milestone 1 — in-memory only, URL routing lands in the
-// Next.js migration milestone):
-//   view        : "home" | "cover" | "slides"
-//   activeDeck  : deck id (ignored on home)
+// State shape (in-memory only, URL routing lands in the Next.js migration milestone):
+//   view        : "home" | "cover" | "slides" | "about"
+//   activeDeck  : deck id (ignored on home + about)
 //   chapterIdx  : index into the active deck's chapters
 //   slideIdx    : index into the current chapter's slides
+//
+// "about" is a shelf-level page (not a deck slide). It takes over the whole
+// viewport — no rail, no progress bar, no kbd/scroll capture — and exits via
+// its own back button.
 //
 // For now the shelf has a single deck, so activeDeck defaults to the first one
 // and deep-linking from Home sets it via openFeatured().
@@ -181,6 +185,21 @@ export default function App() {
   const isHome = view === "home";
   const isCover = view === "cover";
   const isSlides = view === "slides";
+  const isAbout = view === "about";
+
+  // About is a shelf-level page — no rail, no progress, no kbd/wheel capture.
+  // Early-return before the main shell so the AboutPage owns the viewport.
+  if (isAbout) {
+    return (
+      <div style={{ fontFamily: FONT.sans }}>
+        <style>{GLOBAL_CSS}</style>
+        <AboutPage
+          about={shelf.about}
+          onBack={() => setView("home")}
+        />
+      </div>
+    );
+  }
 
   // Flat index for progress bar: home = 0, cover = 1, slides = 2+
   const totalContentSlides = deck.chapters.reduce((a, ch) => a + ch.slides.length, 0);
@@ -257,7 +276,7 @@ export default function App() {
             maxHeight: "calc(100vh - 120px)",
             ...getSlideStyle(),
           }}>
-            {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} />}
+            {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}
             {isCover && <CoverPage deck={deck} onEnterChapter={enterChapter} />}
             {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} />}
           </div>

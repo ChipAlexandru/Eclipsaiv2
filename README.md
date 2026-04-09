@@ -5,8 +5,9 @@ Refactor of `../definitive.jsx` into the modular structure defined in `../CLAUDE
 ## Status
 
 - **Milestone 1 — structure split** ✅ (behavior-preserving)
-- Milestone 2 — types
-- Milestone 3 — drop Chapter 5, promote to shelf-level /about
+- **Milestone 2 — types.js + runtime shelf validation** ✅
+- **Milestone 3 — drop Chapter 5, promote to shelf-level /about page** ✅
+- Milestone 3.5 — add Vite dev harness for visual verification
 - Milestone 4 — MarketplaceSlide (rebuilt from `10. Marketplace/files/skills-marketplace`)
 - Milestone 5 — Next.js migration + Vercel deployment
 
@@ -31,6 +32,7 @@ src/
     HomePage.jsx             global home
     CoverPage.jsx            per-deck cover
     SlidePage.jsx            dispatches content/custom slides
+    AboutPage.jsx            shelf-level /about (promoted Chapter 5)
   decks/
     index.js                 shelf (decks + about + featured)
     ai-transformation.js     the deck, preserved incl. Chapter 5 for now
