@@ -1,0 +1,175 @@
+// Marketplace skills — canonical data snapshot.
+// Migrated from the original skills-marketplace repo (lib/skills.js) in m4.
+// v2 is now the single source of truth; the old repo is being deprecated.
+//
+// Minimal card fields only (name/author/description/rating/badge/industries/
+// functions). The heavy per-skill detail (long_description, inputs, outputs,
+// how_it_works, use_cases, tools, skills_list) will be folded in during m5
+// when the standalone /skills/[slug] route is introduced.
+
+export const SKILLS = [
+  {
+    id: 1,
+    slug: "brand-voice",
+    name: "Brand Voice",
+    author: "Unknown",
+    description: "Turn scattered brand materials into enforceable AI guardrails so every piece of content Claude generates sounds like your company wrote it.",
+    rating: null,
+    badge: null,
+    industries: [],
+    functions: [],
+  },
+  {
+    id: 2,
+    slug: "data",
+    name: "Data",
+    author: "Unknown",
+    description: "Turn raw data into validated insights, interactive dashboards, and publication-quality charts — from a single conversation.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "industrials", "tmt", "healthcare", "logistics"],
+    functions: ["data", "operations", "finance", "strategy"],
+  },
+  {
+    id: 3,
+    slug: "equity-research",
+    name: "Equity Research",
+    author: "Anthropic FSI",
+    description: "Produces the core deliverables of a sell-side equity research analyst — first-time coverage reports, quarterly earnings updates, and daily morning notes.",
+    rating: 1,
+    badge: null,
+    industries: ["financial"],
+    functions: ["finance", "strategy", "data"],
+  },
+  {
+    id: 4,
+    slug: "finance",
+    name: "Finance",
+    author: "Anthropic",
+    description: "Automate month-end close, journal entries, reconciliations, variance analysis, and SOX testing so your finance team closes faster and audits cleaner.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "industrials", "tmt", "healthcare", "privatecapital"],
+    functions: ["finance", "risk", "operations"],
+  },
+  {
+    id: 5,
+    slug: "financial-analysis",
+    name: "Financial Analysis",
+    author: "Anthropic FSI",
+    description: "Build institutional-quality financial models — DCF, comps, LBO, and 3-statement — directly from data inputs and SEC filings.",
+    rating: null,
+    badge: null,
+    industries: [],
+    functions: [],
+  },
+  {
+    id: 6,
+    slug: "human-resources",
+    name: "Human Resources",
+    author: "Anthropic",
+    description: "Turn people operations into structured, audit-ready deliverables — from offer letters and onboarding plans to compensation benchmarks and calibration packages.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "industrials", "tmt", "healthcare"],
+    functions: ["people", "operations"],
+  },
+  {
+    id: 7,
+    slug: "investment-banking",
+    name: "Investment Banking",
+    author: "Unknown",
+    description: "Accelerate sell-side and buy-side deal execution with automated CIMs, merger models, buyer lists, and pitch materials.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "privatecapital"],
+    functions: ["finance", "ma", "strategy"],
+  },
+  {
+    id: 8,
+    slug: "legal",
+    name: "Legal",
+    author: "Unknown",
+    description: "Automates contract review, NDA triage, compliance checks, and legal briefings so in-house counsel can focus on judgment calls.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "industrials", "tmt", "healthcare", "privatecapital"],
+    functions: ["legal", "risk", "operations"],
+  },
+  {
+    id: 9,
+    slug: "marketing",
+    name: "Marketing",
+    author: "Unknown",
+    description: "Turn campaign goals into structured plans, performance data into executive insights, and audience briefs into production-ready email sequences — all from a single plugin.",
+    rating: 1,
+    badge: null,
+    industries: ["retail", "cpg", "tmt", "travel", "healthcare"],
+    functions: ["marketing", "sales", "strategy"],
+  },
+  {
+    id: 10,
+    slug: "operations",
+    name: "Operations",
+    author: "Anthropic",
+    description: "Turn operational chaos into structured processes, plans, and reports your team can actually follow.",
+    rating: 1,
+    badge: null,
+    industries: ["retail", "cpg", "industrials", "logistics", "tmt", "healthcare"],
+    functions: ["operations", "procurement", "strategy"],
+  },
+  {
+    id: 11,
+    slug: "private-equity",
+    name: "Private Equity",
+    author: "Unknown",
+    description: "Covers the entire private equity workflow: sourcing, due diligence, returns modeling, investment committee memos, and portfolio management after close.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "privatecapital"],
+    functions: ["finance", "ma", "strategy"],
+  },
+  {
+    id: 12,
+    slug: "sales",
+    name: "Sales",
+    author: "Unknown",
+    description: "Turn web research, pipeline data, and call notes into personalized outreach, deal forecasts, and meeting prep in minutes — no integrations required.",
+    rating: 1,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "tmt", "industrials", "healthcare"],
+    functions: ["sales", "marketing", "strategy"],
+  },
+  {
+    id: 13,
+    slug: "strategy-consultant",
+    name: "Strategy Consultant",
+    author: "Chip Alexandru",
+    description: "Runs a complete consulting-grade analytical workflow from problem definition to an executive-grade, source-traced Word document in a single engagement.",
+    rating: 2,
+    badge: null,
+    industries: ["financial", "retail", "cpg", "industrials", "tmt", "healthcare", "privatecapital"],
+    functions: ["strategy", "finance", "operations", "ma"],
+  },
+  {
+    id: 14,
+    slug: "wealth-management",
+    name: "Wealth Management",
+    author: "Anthropic FSI",
+    description: "Turn client data into meeting-ready reviews, financial plans, and tax-optimized portfolio actions — in minutes, not hours.",
+    rating: 1,
+    badge: null,
+    industries: ["financial"],
+    functions: ["finance", "risk"],
+  },
+];
+
+// Sort by rating DESC (installs are all 0 in the snapshot; original repo sorted
+// by installs then rating — we collapse that to rating-first for the deck).
+export function getSkills() {
+  return [...SKILLS].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+}
+
+export function getSkillBySlug(slug) {
+  return SKILLS.find((s) => s.slug === slug) || null;
+}

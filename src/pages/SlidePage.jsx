@@ -2,11 +2,16 @@ import { SlideTemplate } from "../components/SlideTemplate.jsx";
 import { StandardSlide } from "../components/slides/StandardSlide.jsx";
 import { TufteSlide } from "../components/slides/TufteSlide.jsx";
 import { ScrollSlide } from "../components/slides/ScrollSlide.jsx";
+import { MarketplaceExplainer } from "../marketplace/MarketplaceExplainer.jsx";
+import { MarketplaceDirectory } from "../marketplace/MarketplaceDirectory.jsx";
 
 // Registry of custom slide components — for slides with { type: 'custom', component: '...' }.
-// MarketplaceSlide lands in milestone 4. Registered here so adding it is one import.
+// Both marketplace slides were added in milestone 4. The module they import from
+// (v2/src/marketplace/) is the canonical source and will also power the standalone
+// /skills and /skills/[slug] routes in the Next.js migration (m5).
 const CUSTOM_COMPONENTS = {
-  // MarketplaceSlide: lazy-loaded in milestone 4
+  MarketplaceExplainer,
+  MarketplaceDirectory,
 };
 
 // Dispatches a slide to the right renderer based on `type`.

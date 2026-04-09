@@ -130,6 +130,19 @@ export const aiTransformationDeck = {
           body: "Tiered review by risk level — not blanket bureaucracy. This removes friction from 80% of use cases while maintaining rigorous oversight where stakes are highest.",
           callout: { value: "Tiered Risk", label: "Governance model", sub: "Low-risk use cases deploy in days, not months" },
         },
+        // m4: tested-skills showcase. Explainer (maturity + example) first,
+        // then the interactive directory. Both render full-bleed in marketplace
+        // palette via the custom component registry in SlidePage.
+        {
+          id: "c3s4",
+          type: "custom",
+          component: "MarketplaceExplainer",
+        },
+        {
+          id: "c3s5",
+          type: "custom",
+          component: "MarketplaceDirectory",
+        },
       ],
     },
     {

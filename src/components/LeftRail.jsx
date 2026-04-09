@@ -84,8 +84,12 @@ export function LeftRail({
               {ch.title}
             </button>
             <div style={{ padding: "2px 0 2px 14px" }}>
-              {ch.slides.slice(0, 4).map((sl, si) => {
+              {ch.slides.map((sl, si) => {
                 const isCurrentSlide = isActive && si === activeSlide;
+                // Custom slides don't carry a title — fall back to the component
+                // name so they still get a rail entry.
+                const rawLabel = sl.title || sl.component || "Slide";
+                const label = rawLabel.length > 34 ? rawLabel.slice(0, 32) + "…" : rawLabel;
                 return (
                   <button key={sl.id} onClick={() => onNavigate(ch.id, si)} style={{
                     display: "block", width: "100%", padding: "3px 10px", borderRadius: 4, border: "none",
@@ -98,7 +102,7 @@ export function LeftRail({
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                   }}>
-                    {sl.title.length > 34 ? sl.title.slice(0, 32) + "…" : sl.title}
+                    {label}
                   </button>
                 );
               })}

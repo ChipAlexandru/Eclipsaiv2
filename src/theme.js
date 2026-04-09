@@ -60,4 +60,9 @@ export const GLOBAL_CSS = `
     from { opacity: 0; transform: translateX(-24px); }
     to { opacity: 1; transform: translateX(0); }
   }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .mp-skill-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.06); transform: translateY(-1px); }
 `;
