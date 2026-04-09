@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { C, FONT, GLOBAL_CSS } from "./theme.js";
 import { shelf, getDeck } from "./decks/index.js";
