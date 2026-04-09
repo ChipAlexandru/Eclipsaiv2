@@ -11,23 +11,43 @@ import { AboutPage } from "./pages/AboutPage.jsx";
 // ─── MAIN APP SHELL ──────────────────────────────────────────────────
 // Routing + state + keyboard/scroll navigation + vertical transitions.
 //
-// State shape (in-memory only, URL routing lands in the Next.js migration milestone):
+// State shape:
 //   view        : "home" | "cover" | "slides" | "about"
 //   activeDeck  : deck id (ignored on home + about)
 //   chapterIdx  : index into the active deck's chapters
 //   slideIdx    : index into the current chapter's slides
 //
+// URL model (m5.3): the app is mounted from multiple Next.js routes, each
+// passing initialView/initialDeckId/initialChapterId/initialSlideIdx as props
+// so direct hits deep-link into the right state. In-session navigation still
+// runs through setState + animatedNav (for smooth transitions); a useEffect
+// mirrors state → URL via history.replaceState so Copy link + reloads keep
+// the user where they are without a full route re-mount. Browser back/forward
+// is intentionally not a slide navigator — it goes to the previous document.
+//
 // "about" is a shelf-level page (not a deck slide). It takes over the whole
 // viewport — no rail, no progress bar, no kbd/scroll capture — and exits via
 // its own back button.
-//
-// For now the shelf has a single deck, so activeDeck defaults to the first one
-// and deep-linking from Home sets it via openFeatured().
-export default function App() {
-  const [view, setView] = useState("home");
-  const [activeDeckId, setActiveDeckId] = useState(shelf.decks[0].id);
-  const [chapterIdx, setChapterIdx] = useState(0);
-  const [slideIdx, setSlideIdx] = useState(0);
+export default function App({
+  initialView = "home",
+  initialDeckId,
+  initialChapterId,
+  initialSlideIdx = 0,
+}) {
+  const startDeckId = initialDeckId || shelf.decks[0].id;
+  const startDeck = getDeck(startDeckId) || shelf.decks[0];
+  const startChapterIdx = initialChapterId
+    ? Math.max(0, startDeck.chapters.findIndex((c) => c.id === initialChapterId))
+    : 0;
+  const startSlideIdx = Math.max(
+    0,
+    Math.min(initialSlideIdx, startDeck.chapters[startChapterIdx].slides.length - 1),
+  );
+
+  const [view, setView] = useState(initialView);
+  const [activeDeckId, setActiveDeckId] = useState(startDeck.id);
+  const [chapterIdx, setChapterIdx] = useState(startChapterIdx);
+  const [slideIdx, setSlideIdx] = useState(startSlideIdx);
   const [transition, setTransition] = useState("none");
   const scrollCooldown = useRef(false);
   const contentRef = useRef(null);
@@ -42,6 +62,20 @@ export default function App() {
   const chapter = deck.chapters[chapterIdx];
   const slide = chapter.slides[slideIdx];
   const totalSlides = chapter.slides.length;
+
+  // Mirror state → URL so Copy link + reloads drop the user at the same place.
+  // replaceState (not pushState) means browser back doesn't step through slides,
+  // it steps out of the site — that's intentional for a single-page deck feel.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let path = "/";
+    if (view === "about") path = "/about";
+    else if (view === "cover") path = `/${activeDeckId}`;
+    else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slideIdx}`;
+    if (window.location.pathname !== path) {
+      window.history.replaceState(null, "", path);
+    }
+  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id]);
 
   // ── Animated navigation helper ────────────────────────────────────
   const animatedNav = useCallback((direction, navFn) => {
