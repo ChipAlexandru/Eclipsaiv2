@@ -12,8 +12,9 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }) {
-  const skill = getSkillBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const skill = getSkillBySlug(slug);
   if (!skill) {
     return { title: "Skill not found — Eclipsai" };
   }
@@ -23,8 +24,9 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function SkillDetailPage({ params }) {
-  const skill = getSkillBySlug(params.slug);
+export default async function SkillDetailPage({ params }) {
+  const { slug } = await params;
+  const skill = getSkillBySlug(slug);
   if (!skill) notFound();
   return <SkillDetailView skill={skill} />;
 }

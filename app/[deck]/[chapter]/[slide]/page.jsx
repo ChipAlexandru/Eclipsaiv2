@@ -31,8 +31,8 @@ function resolve(params) {
   return { deck, chapter, slide: chapter.slides[idx], idx };
 }
 
-export function generateMetadata({ params }) {
-  const hit = resolve(params);
+export async function generateMetadata({ params }) {
+  const hit = resolve(await params);
   if (!hit) return { title: "Not found — Eclipsai" };
   const { deck, chapter, slide } = hit;
   // Custom slides (marketplace explainer + directory) have no title of their
@@ -44,8 +44,8 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function SlideDeepLinkPage({ params }) {
-  const hit = resolve(params);
+export default async function SlideDeepLinkPage({ params }) {
+  const hit = resolve(await params);
   if (!hit) notFound();
   return (
     <App

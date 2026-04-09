@@ -3,10 +3,11 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { C, FONT, GLOBAL_CSS } from "./theme.js";
 import { shelf, getDeck } from "./decks/index.js";
 import { LeftRail } from "./components/LeftRail.jsx";
-import { HomePage } from "./pages/HomePage.jsx";
-import { CoverPage } from "./pages/CoverPage.jsx";
-import { SlidePage } from "./pages/SlidePage.jsx";
-import { AboutPage } from "./pages/AboutPage.jsx";
+import { CopyLinkButton } from "./components/CopyLinkButton.jsx";
+import { HomePage } from "./views/HomePage.jsx";
+import { CoverPage } from "./views/CoverPage.jsx";
+import { SlidePage } from "./views/SlidePage.jsx";
+import { AboutPage } from "./views/AboutPage.jsx";
 
 // ─── MAIN APP SHELL ──────────────────────────────────────────────────
 // Routing + state + keyboard/scroll navigation + vertical transitions.
@@ -282,7 +283,9 @@ export default function App({
       )}
 
       {/* Main Content */}
-      <div ref={contentRef} style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <div ref={contentRef} style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
+        {/* Copy link — only meaningful on cover/slide routes, hidden on home */}
+        {(isCover || isSlides) && <CopyLinkButton />}
         {/* Top bar: progress */}
         <div style={{ flexShrink: 0 }}>
           <div style={{ height: 3, background: C.borderLight }}>

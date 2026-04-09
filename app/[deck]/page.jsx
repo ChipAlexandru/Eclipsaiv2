@@ -10,8 +10,9 @@ export function generateStaticParams() {
   return shelf.decks.map((d) => ({ deck: d.id }));
 }
 
-export function generateMetadata({ params }) {
-  const deck = getDeck(params.deck);
+export async function generateMetadata({ params }) {
+  const { deck: deckId } = await params;
+  const deck = getDeck(deckId);
   if (!deck) return { title: "Not found — Eclipsai" };
   return {
     title: `${deck.title} — Eclipsai`,
@@ -19,8 +20,9 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function DeckCoverPage({ params }) {
-  const deck = getDeck(params.deck);
+export default async function DeckCoverPage({ params }) {
+  const { deck: deckId } = await params;
+  const deck = getDeck(deckId);
   if (!deck) notFound();
   return <App initialView="cover" initialDeckId={deck.id} />;
 }
