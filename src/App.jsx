@@ -50,6 +50,7 @@ export default function App({
   const [chapterIdx, setChapterIdx] = useState(startChapterIdx);
   const [slideIdx, setSlideIdx] = useState(startSlideIdx);
   const [transition, setTransition] = useState("none");
+  const [articleOpen, setArticleOpen] = useState(false);
   const scrollCooldown = useRef(false);
   const contentRef = useRef(null);
   const rootRef = useRef(null);
@@ -81,6 +82,7 @@ export default function App({
   // ── Animated navigation helper ────────────────────────────────────
   const animatedNav = useCallback((direction, navFn) => {
     if (transition !== "none") return;
+    setArticleOpen(false);
     pendingNav.current = navFn;
     setTransition(direction === "forward" ? "out-up" : "out-down");
   }, [transition]);
@@ -181,14 +183,30 @@ export default function App({
   }, [view, slideIdx, chapterIdx, animatedNav, deck]);
 
   // ── Keyboard + wheel navigation ───────────────────────────────────
+  const closeArticle = useCallback(() => {
+    setArticleOpen(false);
+    const canvas = document.querySelector("[data-slide-canvas]");
+    if (canvas) canvas.scrollTo(0, 0);
+  }, []);
+
+  const openArticle = useCallback(() => {
+    setArticleOpen(true);
+  }, []);
+
   const handleKeyDown = useCallback((e) => {
+    if (articleOpen && e.key === "Escape") {
+      e.preventDefault();
+      closeArticle();
+      return;
+    }
+    if (articleOpen) return; // let browser handle scroll naturally
     if (transition !== "none") return;
     if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " " || e.key === "PageDown") {
       e.preventDefault(); next();
     } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
       e.preventDefault(); prev();
     }
-  }, [next, prev, transition]);
+  }, [next, prev, transition, articleOpen, closeArticle]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -199,6 +217,8 @@ export default function App({
     const el = contentRef.current;
     if (!el) return;
     const handler = (e) => {
+      // When article is expanded, let the browser handle all scrolling.
+      if (articleOpen) return;
       // If the slide canvas is scrollable, allow native scroll until the
       // user reaches the top/bottom edge — only then trigger slide nav.
       const canvas = el.querySelector("[data-slide-canvas]");
@@ -216,7 +236,7 @@ export default function App({
     };
     el.addEventListener("wheel", handler, { passive: false });
     return () => el.removeEventListener("wheel", handler);
-  }, [next, prev, transition]);
+  }, [next, prev, transition, articleOpen]);
 
   // ── Slide transition styles ───────────────────────────────────────
   const getSlideStyle = () => {
@@ -330,7 +350,7 @@ export default function App({
           }}>
             {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}
             {isCover && <CoverPage deck={deck} onEnterChapter={enterChapter} />}
-            {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} />}
+            {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} articleOpen={articleOpen} onArticleOpen={openArticle} onArticleClose={closeArticle} />}
           </div>
         </div>
 

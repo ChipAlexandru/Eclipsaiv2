@@ -93,7 +93,8 @@ export function LeftRail({
                 const label = rawLabel.length > 34 ? rawLabel.slice(0, 32) + "…" : rawLabel;
                 return (
                   <button key={sl.id} onClick={() => onNavigate(ch.id, si)} style={{
-                    display: "block", width: "100%", padding: "3px 10px", borderRadius: 4, border: "none",
+                    display: "flex", alignItems: "center", gap: 4,
+                    width: "100%", padding: "3px 10px", borderRadius: 4, border: "none",
                     cursor: "pointer", textAlign: "left", fontSize: 11, lineHeight: 1.4,
                     color: isCurrentSlide ? C.accent : C.textMuted,
                     fontWeight: 500,
@@ -103,7 +104,14 @@ export function LeftRail({
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                   }}>
-                    {label}
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{label}</span>
+                    {sl.article && (
+                      <span style={{
+                        display: "inline-block", flexShrink: 0,
+                        width: 5, height: 5, borderRadius: "50%",
+                        background: C.wine, opacity: 0.6,
+                      }} />
+                    )}
                   </button>
                 );
               })}

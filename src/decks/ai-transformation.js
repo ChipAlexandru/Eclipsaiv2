@@ -252,6 +252,36 @@ export const aiTransformationDeck = {
           title: "Investment & Returns",
           body: "Total program investment is front-loaded in H1 to establish infrastructure and prove value. Payback begins mid-H2 as automation compounds.",
           callout: { value: "14 months", label: "Expected payback", sub: "with 3.2× ROI by end of Year 2" },
+          article: {
+            sections: [
+              {
+                subhead: "The revenue trajectory",
+                body: "From ~$200M in 2023 revenue to $30B annualized run-rate in April 2026 — a 150× increase in under three years. Growth accelerated from $14B to $30B ARR in just eight weeks (Feb–Apr 2026), driven by enterprise adoption at scale: 1,000+ clients each spending $1M+/year.",
+              },
+              {
+                body: "This trajectory is unprecedented in enterprise software. For context, Salesforce took 17 years to reach $30B in annual revenue. Anthropic reached the same run-rate in under three years.",
+              },
+              {
+                type: "pullquote",
+                text: "We're seeing a new category of company emerge — one where AI isn't a feature, it's the operating system.",
+                source: "Anthropic internal report, 2026",
+              },
+              {
+                subhead: "Productivity at every level",
+                body: "Anthropic's internal study documented a 50% median productivity increase across all employees who use AI tools regularly. Among the top 14% of power users, productivity doubled — a 100%+ boost. These gains span engineering, legal, growth marketing, product design, and data analytics.",
+              },
+              {
+                type: "callout",
+                value: "150×",
+                label: "revenue growth in 3 years",
+              },
+              {
+                subhead: "What this means for enterprises",
+                body: "The Anthropic case demonstrates that AI-native organizations don't just adopt AI as a tool — they restructure workflows around it. The result is compounding returns: higher individual productivity feeds faster product cycles, which drives revenue growth, which funds more AI investment.",
+              },
+            ],
+            source: "Eclipsai analysis; Bloomberg; The Information; CNBC; Reuters",
+          },
         },
       ],
     },
