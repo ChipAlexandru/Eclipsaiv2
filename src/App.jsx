@@ -50,7 +50,9 @@ export default function App({
   const [chapterIdx, setChapterIdx] = useState(startChapterIdx);
   const [slideIdx, setSlideIdx] = useState(startSlideIdx);
   const [transition, setTransition] = useState("none");
-  const [articleOpen, setArticleOpen] = useState(false);
+  const [articleOpen, setArticleOpen] = useState(
+    typeof window !== "undefined" && window.location.hash === "#article"
+  );
   const scrollCooldown = useRef(false);
   const contentRef = useRef(null);
   const rootRef = useRef(null);
@@ -74,10 +76,12 @@ export default function App({
     if (view === "about") path = "/about";
     else if (view === "cover") path = `/${activeDeckId}`;
     else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slide.id}`;
-    if (window.location.pathname !== path) {
-      window.history.replaceState(null, "", path);
+    const hash = articleOpen ? "#article" : "";
+    const fullPath = path + hash;
+    if (window.location.pathname + window.location.hash !== fullPath) {
+      window.history.replaceState(null, "", fullPath);
     }
-  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id, slide.id]);
+  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id, slide.id, articleOpen]);
 
   // ── Animated navigation helper ────────────────────────────────────
   const animatedNav = useCallback((direction, navFn) => {

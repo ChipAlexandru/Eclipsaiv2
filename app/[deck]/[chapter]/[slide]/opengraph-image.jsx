@@ -86,6 +86,7 @@ export default async function SlideOg({ params }) {
       headline,
       sub,
       chips: accentChips(slide),
+      footer: slide.article ? "Long read available" : undefined,
     }),
     { ...size },
   );

@@ -118,30 +118,33 @@ export function renderOgCard({
         ) : null}
       </div>
 
-      {/* Footer: chips row OR plain footer text */}
-      {chips.length > 0 ? (
-        <div style={{ display: "flex", gap: 24 }}>
-          {chips.map((c, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "12px 22px",
-                borderLeft: `3px solid ${theme.rule}`,
-                minWidth: 160,
-              }}
-            >
-              {c.big ? (
-                <div style={{ fontSize: 34, fontWeight: 900, color: theme.accent, letterSpacing: -0.5 }}>{c.big}</div>
-              ) : null}
-              <div style={{ fontSize: 15, color: theme.textMuted, marginTop: c.big ? 4 : 0, fontWeight: c.big ? 400 : 700 }}>{c.small}</div>
-            </div>
-          ))}
+      {/* Footer: chips row and/or plain footer text */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {chips.length > 0 ? (
+          <div style={{ display: "flex", gap: 24 }}>
+            {chips.map((c, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "12px 22px",
+                  borderLeft: `3px solid ${theme.rule}`,
+                  minWidth: 160,
+                }}
+              >
+                {c.big ? (
+                  <div style={{ fontSize: 34, fontWeight: 900, color: theme.accent, letterSpacing: -0.5 }}>{c.big}</div>
+                ) : null}
+                <div style={{ fontSize: 15, color: theme.textMuted, marginTop: c.big ? 4 : 0, fontWeight: c.big ? 400 : 700 }}>{c.small}</div>
+              </div>
+            ))}
+          </div>
+        ) : null}
+        <div style={{ fontSize: 18, color: theme.textMuted }}>
+          {footer || (chips.length === 0 ? "eclipsai.com" : null)}
         </div>
-      ) : (
-        <div style={{ fontSize: 18, color: theme.textMuted }}>{footer || "eclipsai.com"}</div>
-      )}
+      </div>
     </div>
   );
 }
