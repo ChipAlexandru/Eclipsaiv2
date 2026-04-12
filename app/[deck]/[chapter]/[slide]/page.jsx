@@ -13,8 +13,8 @@ export function generateStaticParams() {
   const params = [];
   for (const deck of shelf.decks) {
     for (const chapter of deck.chapters) {
-      for (let i = 0; i < chapter.slides.length; i++) {
-        params.push({ deck: deck.id, chapter: chapter.id, slide: String(i) });
+      for (const slide of chapter.slides) {
+        params.push({ deck: deck.id, chapter: chapter.id, slide: slide.id });
       }
     }
   }
@@ -26,8 +26,8 @@ function resolve(params) {
   if (!deck) return null;
   const chapter = deck.chapters.find((c) => c.id === params.chapter);
   if (!chapter) return null;
-  const idx = Number.parseInt(params.slide, 10);
-  if (!Number.isFinite(idx) || idx < 0 || idx >= chapter.slides.length) return null;
+  const idx = chapter.slides.findIndex((s) => s.id === params.slide);
+  if (idx < 0) return null;
   return { deck, chapter, slide: chapter.slides[idx], idx };
 }
 
@@ -52,7 +52,7 @@ export default async function SlideDeepLinkPage({ params }) {
       initialView="slides"
       initialDeckId={hit.deck.id}
       initialChapterId={hit.chapter.id}
-      initialSlideIdx={hit.idx}
+      initialSlideId={hit.slide.id}
     />
   );
 }

@@ -33,17 +33,17 @@ export default function App({
   initialView = "home",
   initialDeckId,
   initialChapterId,
-  initialSlideIdx = 0,
+  initialSlideId,
 }) {
   const startDeckId = initialDeckId || shelf.decks[0].id;
   const startDeck = getDeck(startDeckId) || shelf.decks[0];
   const startChapterIdx = initialChapterId
     ? Math.max(0, startDeck.chapters.findIndex((c) => c.id === initialChapterId))
     : 0;
-  const startSlideIdx = Math.max(
-    0,
-    Math.min(initialSlideIdx, startDeck.chapters[startChapterIdx].slides.length - 1),
-  );
+  const startChapter = startDeck.chapters[startChapterIdx];
+  const startSlideIdx = initialSlideId
+    ? Math.max(0, startChapter.slides.findIndex((s) => s.id === initialSlideId))
+    : 0;
 
   const [view, setView] = useState(initialView);
   const [activeDeckId, setActiveDeckId] = useState(startDeck.id);
@@ -72,11 +72,11 @@ export default function App({
     let path = "/";
     if (view === "about") path = "/about";
     else if (view === "cover") path = `/${activeDeckId}`;
-    else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slideIdx}`;
+    else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slide.id}`;
     if (window.location.pathname !== path) {
       window.history.replaceState(null, "", path);
     }
-  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id]);
+  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id, slide.id]);
 
   // ── Animated navigation helper ────────────────────────────────────
   const animatedNav = useCallback((direction, navFn) => {
@@ -126,16 +126,20 @@ export default function App({
   }, [view, chapterIdx, slideIdx, animatedNav, deck]);
 
   // Cross-deck deep link from Home's featured picks.
-  // Switches deck, chapter, and slide in a single nav.
-  const openFeatured = useCallback((deckId, chapterId, sIdx) => {
+  // Switches deck, chapter, and slide in a single nav. Slide is identified by
+  // its stable id so reordering chapters never breaks shared links.
+  const openFeatured = useCallback((deckId, chapterId, slideId) => {
     const targetDeck = getDeck(deckId);
     if (!targetDeck) return;
     const ci = targetDeck.chapters.findIndex(c => c.id === chapterId);
     if (ci < 0) return;
+    const si = slideId
+      ? Math.max(0, targetDeck.chapters[ci].slides.findIndex(s => s.id === slideId))
+      : 0;
     animatedNav("forward", () => {
       setActiveDeckId(deckId);
       setChapterIdx(ci);
-      setSlideIdx(sIdx || 0);
+      setSlideIdx(si);
       setView("slides");
     });
   }, [animatedNav]);
@@ -195,6 +199,14 @@ export default function App({
     const el = contentRef.current;
     if (!el) return;
     const handler = (e) => {
+      // If the slide canvas is scrollable, allow native scroll until the
+      // user reaches the top/bottom edge — only then trigger slide nav.
+      const canvas = el.querySelector("[data-slide-canvas]");
+      if (canvas && canvas.scrollHeight > canvas.clientHeight + 2) {
+        const atTop = canvas.scrollTop <= 0;
+        const atBottom = canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 2;
+        if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) return;
+      }
       e.preventDefault();
       if (transition !== "none" || scrollCooldown.current) return;
       scrollCooldown.current = true;
@@ -270,6 +282,7 @@ export default function App({
       {!isHome && (
         <div style={{ animation: "railSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both" }}>
           <LeftRail
+            deckTitle={deck.title}
             chapters={deck.chapters}
             activeChapter={chapter.id}
             activeSlide={slideIdx}
@@ -298,7 +311,9 @@ export default function App({
         </div>
 
         {/* Slide canvas */}
-        <div style={{
+        <div
+          data-slide-canvas
+          style={{
           flex: 1,
           display: "flex",
           alignItems: isSlides ? "flex-start" : "center",
@@ -306,12 +321,11 @@ export default function App({
           padding: isSlides
             ? "clamp(24px, 4vh, 48px) clamp(20px, 4vw, 48px) clamp(16px, 3vh, 40px)"
             : "clamp(16px, 3vh, 40px) clamp(20px, 4vw, 48px)",
-          overflow: "hidden",
+          overflow: isSlides ? "auto" : "hidden",
         }}>
           <div style={{
             maxWidth: isHome ? 900 : 840,
             width: "100%",
-            maxHeight: "calc(100vh - 120px)",
             ...getSlideStyle(),
           }}>
             {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}

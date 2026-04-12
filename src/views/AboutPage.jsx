@@ -1,5 +1,7 @@
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import { C, FONT } from "../theme.js";
+import { AnimNum } from "../components/AnimNum.jsx";
 
 // /about — shelf-level page promoted from the old Chapter 5 in milestone 3.
 // Not a slide: no eyebrow/title/divider chrome, no prev/next, no scroll-snap.
@@ -146,26 +148,7 @@ export function AboutPage({ about, onBack }) {
 
         {/* Credential callout */}
         {about.credential && (
-          <div style={{ marginTop: 52, animation: "cardSlideUp 0.5s ease 0.4s both" }}>
-            <div style={{
-              padding: "26px 30px", borderRadius: 14,
-              background: C.accentBg, border: `1px solid ${C.accentBorder}`,
-              display: "flex", alignItems: "center", gap: 26,
-            }}>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 42, fontWeight: 900, color: C.accent, lineHeight: 1, fontFamily: FONT.serif }}>
-                  {about.credential.value}
-                </div>
-                <div style={{ fontSize: 11, color: C.textMuted, marginTop: 6, textTransform: "uppercase", letterSpacing: 1.2 }}>
-                  {about.credential.label}
-                </div>
-              </div>
-              <div style={{ width: 1, height: 52, background: C.accentBorder }} />
-              <div style={{ fontSize: 14, color: C.textLight, lineHeight: 1.65 }}>
-                {about.credential.sub}
-              </div>
-            </div>
-          </div>
+          <CredentialCallout credential={about.credential} />
         )}
 
         {/* LinkedIn CTA */}
@@ -189,6 +172,43 @@ export function AboutPage({ about, onBack }) {
             }}>in</span>
             Connect on LinkedIn
           </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Credential callout with IntersectionObserver-triggered number animation.
+function CredentialCallout({ credential }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  // Parse leading number from value like "15+"
+  const m = String(credential.value).match(/^(\d+)(.*)$/);
+  return (
+    <div ref={ref} style={{ marginTop: 52, animation: "cardSlideUp 0.5s ease 0.4s both" }}>
+      <div style={{
+        padding: "26px 30px", borderRadius: 14,
+        background: C.accentBg, border: `1px solid ${C.accentBorder}`,
+        display: "flex", alignItems: "center", gap: 26,
+      }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 42, fontWeight: 900, color: C.accent, lineHeight: 1, fontFamily: FONT.serif }}>
+            {m ? <AnimNum value={parseInt(m[1], 10)} unit={m[2]} visible={visible} /> : credential.value}
+          </div>
+          <div style={{ fontSize: 11, color: C.textMuted, marginTop: 6, textTransform: "uppercase", letterSpacing: 1.2 }}>
+            {credential.label}
+          </div>
+        </div>
+        <div style={{ width: 1, height: 52, background: C.accentBorder }} />
+        <div style={{ fontSize: 14, color: C.textLight, lineHeight: 1.65 }}>
+          {credential.sub}
         </div>
       </div>
     </div>

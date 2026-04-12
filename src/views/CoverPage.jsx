@@ -16,9 +16,6 @@ export function CoverPage({ deck, onEnterChapter }) {
         <h1 style={{ fontSize: 46, fontWeight: 900, margin: 0, lineHeight: 1.05, color: C.text, letterSpacing: -1.2 }}>
           {deck.title}
         </h1>
-        <p style={{ fontSize: 14, color: C.textLight, marginTop: 12, maxWidth: 540, lineHeight: 1.6 }}>
-          Pick a starting point — or scroll through in order.
-        </p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>

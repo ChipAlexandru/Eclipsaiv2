@@ -31,7 +31,7 @@ export function SlidePage({ chapter, slide, slideKey }) {
   }
 
   return (
-    <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title}>
+    <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source}>
       {slide.type === "standard" && <StandardSlide slide={slide} />}
       {slide.type === "tufte" && <TufteSlide slide={slide} />}
       {slide.type === "scroll" && <ScrollSlide slide={slide} isActive={true} key={slideKey} />}

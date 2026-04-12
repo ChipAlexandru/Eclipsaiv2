@@ -24,9 +24,9 @@ export default function sitemap() {
       lastModified: now,
     });
     for (const chapter of deck.chapters) {
-      for (let i = 0; i < chapter.slides.length; i++) {
+      for (const slide of chapter.slides) {
         deckEntries.push({
-          url: `${SITE_URL}/${deck.id}/${chapter.id}/${i}`,
+          url: `${SITE_URL}/${deck.id}/${chapter.id}/${slide.id}`,
           changeFrequency: "monthly",
           priority: 0.6,
           lastModified: now,

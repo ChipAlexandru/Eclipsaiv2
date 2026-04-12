@@ -20,6 +20,7 @@
  * @property {string} [eyebrow]           optional override; defaults to "<ch.num> · <ch.title>"
  * @property {string} [component]         for type: 'custom' — registry key
  * @property {string} [ogDescription]     one-line takeaway (~150 chars) for OG meta
+ * @property {string} [source]            attribution line rendered as a small footer
  * // ── content shape fields (by subtype) ──
  * @property {string}   [body]            standard + scroll
  * @property {Array<{title:string,desc:string}>} [pillars]   standard
@@ -90,8 +91,11 @@
 /**
  * A Feature is a deep-link editorial pick shown on Home.
  * Two kinds:
- *   - 'slide' — {deckId, chapterId, slideIdx, title, blurb}
+ *   - 'slide' — {deckId, chapterId, slideId, title, blurb}
  *   - 'video' — {title, src?, poster?}
+ *
+ * Slide is identified by its stable id (not index) so reordering chapter
+ * slides never breaks featured picks or external shared links.
  *
  * @typedef {Object} Feature
  * @property {'slide'|'video'} kind
@@ -99,7 +103,7 @@
  * @property {string} [blurb]
  * @property {string} [deckId]     slide kind
  * @property {string} [chapterId]  slide kind
- * @property {number} [slideIdx]   slide kind
+ * @property {string} [slideId]    slide kind
  * @property {string} [src]        video kind
  * @property {string} [poster]     video kind
  */
@@ -151,7 +155,7 @@ export function validateShelf(shelf) {
     if (f.kind === "slide") {
       if (!f.deckId) errors.push(`${path}.deckId: missing`);
       if (!f.chapterId) errors.push(`${path}.chapterId: missing`);
-      if (typeof f.slideIdx !== "number") errors.push(`${path}.slideIdx: expected number`);
+      if (typeof f.slideId !== "string" || !f.slideId) errors.push(`${path}.slideId: expected non-empty string`);
       // Check deep link resolves
       const targetDeck = (shelf.decks || []).find(d => d.id === f.deckId);
       if (f.deckId && !targetDeck) {
@@ -159,8 +163,8 @@ export function validateShelf(shelf) {
       } else if (targetDeck) {
         const ch = targetDeck.chapters.find(c => c.id === f.chapterId);
         if (f.chapterId && !ch) errors.push(`${path}: chapterId '${f.chapterId}' not in deck '${f.deckId}'`);
-        else if (ch && typeof f.slideIdx === "number" && (f.slideIdx < 0 || f.slideIdx >= ch.slides.length)) {
-          errors.push(`${path}: slideIdx ${f.slideIdx} out of range for chapter '${f.chapterId}'`);
+        else if (ch && f.slideId && !ch.slides.some(s => s.id === f.slideId)) {
+          errors.push(`${path}: slideId '${f.slideId}' not found in chapter '${f.chapterId}'`);
         }
       }
     }

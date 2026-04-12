@@ -11,7 +11,7 @@ import { C } from "../theme.js";
 // The current prototype uses smaller inline font sizes (10/28) inside 32/84 height zones and
 // a full-width 1px divider instead of 60×3px. Milestone 1 is a behavior-preserving refactor —
 // those spec upgrades land in a later polish pass, not here.
-export function SlideTemplate({ eyebrow, title, children }) {
+export function SlideTemplate({ eyebrow, title, source, children }) {
   return (
     <>
       {/* Eyebrow zone — fixed 32px */}
@@ -39,6 +39,15 @@ export function SlideTemplate({ eyebrow, title, children }) {
       <div style={{ height: 1, background: C.border, margin: "4px 0 24px 0" }} />
       {/* Body region */}
       {children}
+      {/* Source attribution */}
+      {source && (
+        <div style={{
+          marginTop: 20, fontSize: 11, color: C.textMuted,
+          fontStyle: "italic",
+        }}>
+          Source: {source}
+        </div>
+      )}
     </>
   );
 }

@@ -49,21 +49,23 @@ export const shelf = {
   },
 
   // Deep links into specific slides. Home page reads these and renders the three featured cards.
-  // Cards navigate to {deckId, chapterId, slideIdx}. Third entry is the video card — deckId null.
+  // Cards navigate to {deckId, chapterId, slideId}. Slide is identified by its stable id
+  // (not numeric index) so reordering chapter slides never breaks featured picks or shared
+  // links. Third entry is the video card — no deckId.
   featured: [
     {
       kind: "slide",
-      deckId: "ai-transformation",
+      deckId: "the-playbook",
       chapterId: "case",
-      slideIdx: 2,
-      title: "Why most AI programs stall",
-      blurb: "Three converging forcing functions that make the pilot graveyard inevitable — and what breaks the pattern.",
+      slideId: "anthropic-story",
+      title: "AI-native: what the first results look like",
+      blurb: "Anthropic: 50% productivity boost, $30B revenue run-rate \u2014 what happens when AI is used across every function.",
     },
     {
       kind: "slide",
-      deckId: "ai-transformation",
+      deckId: "the-playbook",
       chapterId: "impl",
-      slideIdx: 1,
+      slideId: "c4s2",
       title: "What a 90-day plan looks like",
       blurb: "The proof points that matter in the first quarter — and the investment envelope to get there.",
     },

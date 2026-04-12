@@ -67,8 +67,8 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
           letterSpacing: -1.4,
           maxWidth: 820,
         }}>
-          Most AI programs stall at pilots.{" "}
-          <span style={{ color: C.accent }}>Ours don't.</span>
+          <span style={{ color: C.accent }}>The Playbook:</span>{" "}
+          every role, dramatically{" "}<span style={{ color: C.accent }}>more capable.</span>
         </h1>
       </div>
 
@@ -85,7 +85,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
             return (
               <button
                 key={i}
-                onClick={() => onNavigate(f.deckId, f.chapterId, f.slideIdx)}
+                onClick={() => onNavigate(f.deckId, f.chapterId, f.slideId)}
                 style={{
                   display: "flex", flexDirection: "column", alignItems: "flex-start",
                   padding: "28px 24px 22px",

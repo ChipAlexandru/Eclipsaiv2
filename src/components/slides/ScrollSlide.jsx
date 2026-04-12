@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { C } from "../../theme.js";
+import { C, FONT } from "../../theme.js";
 import { AnimNum } from "../AnimNum.jsx";
+import { Chart } from "../charts/Chart.jsx";
 
 // "scroll" slide type — a row of big animated stat cards + optional body paragraph.
 // When the slide becomes active, cards fade/lift in staggered, then body fades in.
@@ -43,12 +44,15 @@ export function ScrollSlide({ slide, isActive }) {
           </div>
         ))}
       </div>
+      {slide.chart && <Chart chart={slide.chart} isActive={visible} />}
       {slide.body && (
         <p style={{
-          fontSize: 15, color: C.textLight, lineHeight: 1.75, margin: 0, maxWidth: 700,
+          fontSize: 15, color: C.text, lineHeight: 1.75,
+          margin: 0, maxWidth: 700,
+          fontFamily: FONT.serif, fontWeight: 700,
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(12px)",
-          transition: "opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s",
+          transition: `opacity 0.5s ease ${slide.chart ? "1.8s" : "0.4s"}, transform 0.5s ease ${slide.chart ? "1.8s" : "0.4s"}`,
         }}>
           {slide.body}
         </p>

@@ -5,6 +5,7 @@ import { C } from "../theme.js";
 // (toggle to icon-only on narrow viewports) lands in a later polish pass — milestone 1
 // is a behavior-preserving refactor only.
 export function LeftRail({
+  deckTitle,
   chapters,
   activeChapter,
   activeSlide,
@@ -46,7 +47,7 @@ export function LeftRail({
           color: isCoverActive ? C.accent : C.textMuted,
           letterSpacing: 2, textTransform: "uppercase",
         }}>
-          Cover
+          {deckTitle || "Cover"}
         </div>
       </button>
 
