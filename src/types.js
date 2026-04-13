@@ -89,20 +89,19 @@
  */
 
 /**
- * A Feature is a deep-link editorial pick shown on Home.
- * Two kinds:
- *   - 'slide' — {deckId, chapterId, slideId, title, blurb}
- *   - 'video' — {title, src?, poster?}
- *
- * Slide is identified by its stable id (not index) so reordering chapter
- * slides never breaks featured picks or external shared links.
+ * A Feature is an editorial pick shown on Home.
+ * Three kinds:
+ *   - 'chapter' — {deckId, chapterId, label, title, blurb} → links to first slide
+ *   - 'slide'   — {deckId, chapterId, slideId, title, blurb}
+ *   - 'video'   — {title, src?, poster?}
  *
  * @typedef {Object} Feature
- * @property {'slide'|'video'} kind
+ * @property {'chapter'|'slide'|'video'} kind
  * @property {string} title
  * @property {string} [blurb]
- * @property {string} [deckId]     slide kind
- * @property {string} [chapterId]  slide kind
+ * @property {string} [label]      chapter kind — section label above the title
+ * @property {string} [deckId]     chapter + slide kind
+ * @property {string} [chapterId]  chapter + slide kind
  * @property {string} [slideId]    slide kind
  * @property {string} [src]        video kind
  * @property {string} [poster]     video kind
@@ -149,13 +148,12 @@ export function validateShelf(shelf) {
 
   (shelf.featured || []).forEach((f, fi) => {
     const path = `featured[${fi}]`;
-    if (f.kind !== "slide" && f.kind !== "video") {
-      errors.push(`${path}.kind: expected 'slide' | 'video', got ${f.kind}`);
+    if (f.kind !== "slide" && f.kind !== "video" && f.kind !== "chapter") {
+      errors.push(`${path}.kind: expected 'chapter' | 'slide' | 'video', got ${f.kind}`);
     }
-    if (f.kind === "slide") {
+    if (f.kind === "slide" || f.kind === "chapter") {
       if (!f.deckId) errors.push(`${path}.deckId: missing`);
       if (!f.chapterId) errors.push(`${path}.chapterId: missing`);
-      if (typeof f.slideId !== "string" || !f.slideId) errors.push(`${path}.slideId: expected non-empty string`);
       // Check deep link resolves
       const targetDeck = (shelf.decks || []).find(d => d.id === f.deckId);
       if (f.deckId && !targetDeck) {
@@ -163,8 +161,11 @@ export function validateShelf(shelf) {
       } else if (targetDeck) {
         const ch = targetDeck.chapters.find(c => c.id === f.chapterId);
         if (f.chapterId && !ch) errors.push(`${path}: chapterId '${f.chapterId}' not in deck '${f.deckId}'`);
-        else if (ch && f.slideId && !ch.slides.some(s => s.id === f.slideId)) {
-          errors.push(`${path}: slideId '${f.slideId}' not found in chapter '${f.chapterId}'`);
+        if (f.kind === "slide") {
+          if (typeof f.slideId !== "string" || !f.slideId) errors.push(`${path}.slideId: expected non-empty string`);
+          else if (ch && !ch.slides.some(s => s.id === f.slideId)) {
+            errors.push(`${path}: slideId '${f.slideId}' not found in chapter '${f.chapterId}'`);
+          }
         }
       }
     }

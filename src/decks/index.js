@@ -48,30 +48,32 @@ export const shelf = {
     },
   },
 
-  // Deep links into specific slides. Home page reads these and renders the three featured cards.
-  // Cards navigate to {deckId, chapterId, slideId}. Slide is identified by its stable id
-  // (not numeric index) so reordering chapter slides never breaks featured picks or shared
-  // links. Third entry is the video card — no deckId.
+  // Chapter cards — one per chapter. Home page renders these as the top row.
+  // Each links to the first slide in its chapter.
   featured: [
     {
-      kind: "slide",
+      kind: "chapter",
       deckId: "the-playbook",
       chapterId: "case",
-      slideId: "anthropic-story",
+      label: "Case for change",
       title: "AI-native: what the first results look like",
-      blurb: "Anthropic: 50% productivity boost, $30B revenue run-rate \u2014 what happens when AI is used across every function.",
+      blurb: "Anthropic: 50% productivity boost, $30B revenue run-rate. What happens when AI is used across every function.",
     },
     {
-      kind: "slide",
+      kind: "chapter",
+      deckId: "the-playbook",
+      chapterId: "approach",
+      label: "Approach",
+      title: "Five ways to deploy AI. One compounds.",
+      blurb: "SaaS, copilots, vertical tools, skilled AI, custom builds. Tested across 11 functions with real work.",
+    },
+    {
+      kind: "chapter",
       deckId: "the-playbook",
       chapterId: "impl",
-      slideId: "c4s2",
-      title: "What a 90-day plan looks like",
-      blurb: "The proof points that matter in the first quarter — and the investment envelope to get there.",
-    },
-    {
-      kind: "video",
-      title: "The pitch in 90 seconds",
+      label: "Implementation",
+      title: "From pilot to operating model in 90 days",
+      blurb: "Context engineering, evaluation frameworks, change management. The technical and organizational playbook.",
     },
   ],
 };
@@ -85,4 +87,27 @@ if (typeof process === "undefined" || process.env?.NODE_ENV !== "production") {
 
 export function getDeck(deckId) {
   return shelf.decks.find((d) => d.id === deckId);
+}
+
+// Returns the N most recently added slides across all decks, sorted by
+// dateAdded descending. Each entry includes deckId, chapterId, slideId,
+// title, and dateAdded so the homepage can render + link them directly.
+// Slides without dateAdded get a fallback of "1970-01-01" so they sort last.
+export function getLatestSlides(count = 3) {
+  const all = [];
+  for (const deck of shelf.decks) {
+    for (const chapter of deck.chapters) {
+      for (const slide of chapter.slides) {
+        all.push({
+          deckId: deck.id,
+          chapterId: chapter.id,
+          slideId: slide.id,
+          title: slide.title,
+          dateAdded: slide.dateAdded || null,
+        });
+      }
+    }
+  }
+  all.sort((a, b) => (b.dateAdded || "1970-01-01").localeCompare(a.dateAdded || "1970-01-01"));
+  return all.slice(0, count);
 }

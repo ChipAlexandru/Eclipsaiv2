@@ -5,7 +5,7 @@ import { shelf, getDeck } from "./decks/index.js";
 import { LeftRail } from "./components/LeftRail.jsx";
 import { CopyLinkButton } from "./components/CopyLinkButton.jsx";
 import { HomePage } from "./views/HomePage.jsx";
-import { CoverPage } from "./views/CoverPage.jsx";
+// CoverPage removed — with one deck, Home's chapter cards make the cover redundant.
 import { SlidePage } from "./views/SlidePage.jsx";
 import { AboutPage } from "./views/AboutPage.jsx";
 
@@ -13,7 +13,7 @@ import { AboutPage } from "./views/AboutPage.jsx";
 // Routing + state + keyboard/scroll navigation + vertical transitions.
 //
 // State shape:
-//   view        : "home" | "cover" | "slides" | "about"
+//   view        : "home" | "slides" | "about"
 //   activeDeck  : deck id (ignored on home + about)
 //   chapterIdx  : index into the active deck's chapters
 //   slideIdx    : index into the current chapter's slides
@@ -45,7 +45,9 @@ export default function App({
     ? Math.max(0, startChapter.slides.findIndex((s) => s.id === initialSlideId))
     : 0;
 
-  const [view, setView] = useState(initialView);
+  // "cover" is no longer a valid view; treat it as "slides" for backward compat
+  // with the /[deck] route which still mounts with initialView="cover".
+  const [view, setView] = useState(initialView === "cover" ? "slides" : initialView);
   const [activeDeckId, setActiveDeckId] = useState(startDeck.id);
   const [chapterIdx, setChapterIdx] = useState(startChapterIdx);
   const [slideIdx, setSlideIdx] = useState(startSlideIdx);
@@ -74,7 +76,6 @@ export default function App({
     if (typeof window === "undefined") return;
     let path = "/";
     if (view === "about") path = "/about";
-    else if (view === "cover") path = `/${activeDeckId}`;
     else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slide.id}`;
     const hash = articleOpen ? "#article" : "";
     const fullPath = path + hash;
@@ -115,10 +116,6 @@ export default function App({
     animatedNav("backward", () => { setView("home"); });
   }, [animatedNav]);
 
-  const goCover = useCallback(() => {
-    animatedNav("forward", () => { setView("cover"); });
-  }, [animatedNav]);
-
   // Intra-deck navigation (used by rail + Cover cards).
   const navigate = useCallback((chId, sIdx) => {
     const ci = deck.chapters.findIndex(c => c.id === chId);
@@ -152,10 +149,6 @@ export default function App({
 
   const next = useCallback(() => {
     if (view === "home") {
-      animatedNav("forward", () => setView("cover"));
-      return;
-    }
-    if (view === "cover") {
       animatedNav("forward", () => { setView("slides"); setChapterIdx(0); setSlideIdx(0); });
       return;
     }
@@ -168,12 +161,8 @@ export default function App({
 
   const prev = useCallback(() => {
     if (view === "home") return;
-    if (view === "cover") {
-      animatedNav("backward", () => setView("home"));
-      return;
-    }
     if (slideIdx === 0 && chapterIdx === 0) {
-      animatedNav("backward", () => setView("cover"));
+      animatedNav("backward", () => setView("home"));
       return;
     }
     if (slideIdx > 0) {
@@ -255,7 +244,6 @@ export default function App({
   };
 
   const isHome = view === "home";
-  const isCover = view === "cover";
   const isSlides = view === "slides";
   const isAbout = view === "about";
 
@@ -273,14 +261,13 @@ export default function App({
     );
   }
 
-  // Flat index for progress bar: home = 0, cover = 1, slides = 2+
+  // Flat index for progress bar: home = 0, slides = 1+
   const totalContentSlides = deck.chapters.reduce((a, ch) => a + ch.slides.length, 0);
-  const flatTotal = 2 + totalContentSlides;
+  const flatTotal = 1 + totalContentSlides;
   let flatIdx = 0;
   if (isHome) flatIdx = 0;
-  else if (isCover) flatIdx = 1;
   else {
-    let counter = 2;
+    let counter = 1;
     for (let ci = 0; ci < deck.chapters.length; ci++) {
       for (let si = 0; si < deck.chapters[ci].slides.length; si++) {
         if (ci === chapterIdx && si === slideIdx) { flatIdx = counter; break; }
@@ -312,8 +299,8 @@ export default function App({
             activeSlide={slideIdx}
             onNavigate={navigate}
             onGoHome={goHome}
-            onGoCover={goCover}
-            isCoverActive={isCover}
+            onGoCover={goHome}
+            isCoverActive={false}
             isSlides={isSlides}
           />
         </div>
@@ -321,8 +308,8 @@ export default function App({
 
       {/* Main Content */}
       <div ref={contentRef} style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
-        {/* Copy link — only meaningful on cover/slide routes, hidden on home */}
-        {(isCover || isSlides) && <CopyLinkButton />}
+        {/* Copy link — only meaningful on slide routes, hidden on home */}
+        {isSlides && <CopyLinkButton />}
         {/* Top bar: progress */}
         <div style={{ flexShrink: 0 }}>
           <div style={{ height: 3, background: C.borderLight }}>
@@ -353,7 +340,6 @@ export default function App({
             ...getSlideStyle(),
           }}>
             {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}
-            {isCover && <CoverPage deck={deck} onEnterChapter={enterChapter} />}
             {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} articleOpen={articleOpen} onArticleOpen={openArticle} onArticleClose={closeArticle} />}
           </div>
         </div>
@@ -377,7 +363,6 @@ export default function App({
           ))}
           {isSlides && <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 4 }}>{slideIdx + 1}/{totalSlides}</span>}
           {isHome && <span style={{ fontSize: 11, color: "transparent" }}>·</span>}
-          {isCover && <span style={{ fontSize: 11, color: "transparent" }}>·</span>}
         </div>
       </div>
     </div>

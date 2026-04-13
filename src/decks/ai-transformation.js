@@ -12,12 +12,13 @@ export const aiTransformationDeck = {
     {
       id: "case",
       num: "01",
-      title: "Case for action",
+      title: "Case for change",
       iconName: "Zap",
       subtitle: "AI impact is clear, just not evenly distributed",
       slides: [
         {
           id: "anthropic-story",
+          dateAdded: "2026-04-10",
           type: "scroll",
           source: "Eclipsai analysis, Anthropic",
           title: "Anthropic: internal AI use drives productivity and growth",
@@ -73,6 +74,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "anthropic-departments",
+          dateAdded: "2026-04-10",
           type: "tufte",
           source: "Anthropic",
           title: "Anthropic: broad AI use in all functions",
@@ -91,6 +93,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "medvi-telehealth",
+          dateAdded: "2026-04-10",
           type: "standard",
           title: "Hyper-growth: 1B+ AI telehealth platform with no staff.",
           source: "The New York Times",
@@ -103,6 +106,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "ai-results-rare",
+          dateAdded: "2026-04-10",
           type: "tufte",
           title: "AI impact not everywhere: S&P 500 quantified benefits still rare",
           source: "Goldman Sachs",
@@ -121,14 +125,15 @@ export const aiTransformationDeck = {
       ],
     },
     {
-      id: "what",
+      id: "approach",
       num: "02",
-      title: "What",
+      title: "Approach",
       iconName: "Target",
       subtitle: "From pockets of AI to enterprise intelligence",
       slides: [
         {
           id: "c2s1",
+          dateAdded: "2026-04-08",
           type: "standard",
           title: "From Pockets of AI to Enterprise Intelligence",
           body: "The vision moves beyond isolated use cases toward a fundamentally redesigned operating model. AI becomes the connective tissue between decision-making, customer engagement, operations, and knowledge — not a feature added to existing workflows but the foundation they run on.",
@@ -136,6 +141,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "c2s2",
+          dateAdded: "2026-04-08",
           type: "standard",
           title: "Four Transformation Pillars",
           body: "Each pillar addresses a distinct capability gap with its own success metrics, ownership, and timeline.",
@@ -148,6 +154,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "c2s3",
+          dateAdded: "2026-04-08",
           type: "tufte",
           title: "What This IS and What It Is NOT",
           paragraphs: [
@@ -162,14 +169,15 @@ export const aiTransformationDeck = {
       ],
     },
     {
-      id: "how",
+      id: "impl",
       num: "03",
-      title: "How",
+      title: "Implementation",
       iconName: "Settings",
       subtitle: "Architecture, talent, and governance for speed",
       slides: [
         {
           id: "c3s1",
+          dateAdded: "2026-04-08",
           type: "standard",
           title: "A Three-Layer Architecture",
           body: "The technical approach separates concerns to allow independent evolution and prevent vendor lock-in at any tier.",
@@ -181,6 +189,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "c3s2",
+          dateAdded: "2026-04-08",
           type: "scroll",
           title: "Talent Strategy: Build, Buy, Borrow",
           stats: [
@@ -192,6 +201,7 @@ export const aiTransformationDeck = {
         },
         {
           id: "c3s3",
+          dateAdded: "2026-04-08",
           type: "standard",
           title: "Governance That Enables Speed",
           body: "Tiered review by risk level — not blanket bureaucracy. This removes friction from 80% of use cases while maintaining rigorous oversight where stakes are highest.",
@@ -202,6 +212,7 @@ export const aiTransformationDeck = {
         // palette via the custom component registry in SlidePage.
         {
           id: "c3s4",
+          dateAdded: "2026-04-11",
           type: "custom",
           component: "MarketplaceExplainer",
           title: "Tested Skills — Maturity Framework",
@@ -209,79 +220,11 @@ export const aiTransformationDeck = {
         },
         {
           id: "c3s5",
+          dateAdded: "2026-04-11",
           type: "custom",
           component: "MarketplaceDirectory",
           title: "Business Skills Directory",
           ogDescription: "14 skills across 11 functions — every role, dramatically more capable.",
-        },
-      ],
-    },
-    {
-      id: "impl",
-      num: "04",
-      title: "Implementation",
-      iconName: "Rocket",
-      subtitle: "Three horizons — quick wins to frontier capability",
-      slides: [
-        {
-          id: "c4s1",
-          type: "standard",
-          title: "Three Horizons, One Program",
-          body: "Each horizon funds and de-risks the next. Quick wins generate savings and credibility, core transformation delivers structural change, frontier initiatives create moats.",
-          pillars: [
-            { title: "H1: Quick Wins (0–6 mo)", desc: "Deploy 5 high-impact use cases, establish data foundation, stand up AI Center of Excellence" },
-            { title: "H2: Core Transform (6–18 mo)", desc: "Redesign target processes end-to-end, scale proven patterns, build internal ML capability" },
-            { title: "H3: Frontier (18–36 mo)", desc: "Autonomous operations in selected domains, AI-native products, ecosystem orchestration" },
-          ],
-        },
-        {
-          id: "c4s2",
-          type: "scroll",
-          title: "First 90 Days — Proof Points That Matter",
-          stats: [
-            { label: "Weeks 1–4", value: "Found", unit: "ation", desc: "Data access, team formation, governance charter" },
-            { label: "Weeks 5–8", value: "First", unit: " Deploy", desc: "2 use cases live in production with metrics" },
-            { label: "Weeks 9–12", value: "Scale", unit: " Signal", desc: "ROI validated, expansion roadmap approved" },
-          ],
-          body: "The first 90 days are engineered to produce visible, measurable wins that convert skeptics and secure sustained commitment.",
-          isText: true,
-        },
-        {
-          id: "c4s3",
-          type: "standard",
-          title: "Investment & Returns",
-          body: "Total program investment is front-loaded in H1 to establish infrastructure and prove value. Payback begins mid-H2 as automation compounds.",
-          callout: { value: "14 months", label: "Expected payback", sub: "with 3.2× ROI by end of Year 2" },
-          article: {
-            sections: [
-              {
-                subhead: "The revenue trajectory",
-                body: "From ~$200M in 2023 revenue to $30B annualized run-rate in April 2026 — a 150× increase in under three years. Growth accelerated from $14B to $30B ARR in just eight weeks (Feb–Apr 2026), driven by enterprise adoption at scale: 1,000+ clients each spending $1M+/year.",
-              },
-              {
-                body: "This trajectory is unprecedented in enterprise software. For context, Salesforce took 17 years to reach $30B in annual revenue. Anthropic reached the same run-rate in under three years.",
-              },
-              {
-                type: "pullquote",
-                text: "We're seeing a new category of company emerge — one where AI isn't a feature, it's the operating system.",
-                source: "Anthropic internal report, 2026",
-              },
-              {
-                subhead: "Productivity at every level",
-                body: "Anthropic's internal study documented a 50% median productivity increase across all employees who use AI tools regularly. Among the top 14% of power users, productivity doubled — a 100%+ boost. These gains span engineering, legal, growth marketing, product design, and data analytics.",
-              },
-              {
-                type: "callout",
-                value: "150×",
-                label: "revenue growth in 3 years",
-              },
-              {
-                subhead: "What this means for enterprises",
-                body: "The Anthropic case demonstrates that AI-native organizations don't just adopt AI as a tool — they restructure workflows around it. The result is compounding returns: higher individual productivity feeds faster product cycles, which drives revenue growth, which funds more AI investment.",
-              },
-            ],
-            source: "Eclipsai analysis; Bloomberg; The Information; CNBC; Reuters",
-          },
         },
       ],
     },

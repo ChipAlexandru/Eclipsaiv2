@@ -26,6 +26,11 @@ const jsonLd = {
     name: "Chip Alexandru",
     sameAs: "https://www.linkedin.com/in/chip-alexandru/",
   },
+  sameAs: [
+    "https://www.linkedin.com/in/chip-alexandru/",
+    // Add Eclipsai LinkedIn company page URL here once created:
+    // "https://www.linkedin.com/company/eclipsai/",
+  ],
 };
 
 export const metadata = {
