@@ -35,22 +35,6 @@ export function LeftRail({
         <div style={{ width: 32, height: 2, background: C.accent, marginTop: 7 }} />
       </button>
 
-      {/* Cover (deck title) button */}
-      <button onClick={onGoCover} style={{
-        display: "flex", alignItems: "center", gap: 10, width: "100%",
-        padding: "8px 12px", borderRadius: 8, border: "none", cursor: "pointer", textAlign: "left",
-        background: isCoverActive ? C.accentBg : "transparent", marginBottom: 10,
-        transition: "background 0.2s",
-      }}>
-        <div style={{
-          fontSize: 11, fontWeight: 700,
-          color: isCoverActive ? C.accent : C.textMuted,
-          letterSpacing: 2, textTransform: "uppercase",
-        }}>
-          {deckTitle || "Cover"}
-        </div>
-      </button>
-
       <div style={{ height: 1, background: C.border, marginBottom: 14, marginRight: 20 }} />
 
       {chapters.map((ch) => {
