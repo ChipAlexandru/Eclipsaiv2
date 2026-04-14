@@ -29,6 +29,17 @@ import { BarSeries } from "./BarSeries.jsx";
 // For line charts: points use xVal (numeric position on X axis).
 // For bar charts: points use implicit index matching chart.xLabels order.
 
+// Sample N items evenly from an array, always keeping first and last.
+// Used to thin x-axis labels on narrow charts so they don't collide.
+function thinLabels(arr, maxCount) {
+  if (arr.length <= maxCount) return arr;
+  if (maxCount < 2) return [arr[0]];
+  const step = (arr.length - 1) / (maxCount - 1);
+  const out = [];
+  for (let i = 0; i < maxCount; i++) out.push(arr[Math.round(i * step)]);
+  return out;
+}
+
 const DESKTOP = {
   margin: { top: 30, right: 20, bottom: 40, left: 48 },
   W: 760,
@@ -116,6 +127,14 @@ export function Chart({ chart, isActive }) {
     });
   }
 
+  // ── X label thinning ──
+  // On narrow viewports, drop intermediate labels so they don't collide.
+  // Always keeps first and last; samples evenly in between. Generic — works
+  // for any chart without per-chart config. Default cap is 4 on mobile.
+  const visibleXLabels = isMobile && xLabels.length > 4
+    ? thinLabels(xLabels, chart.mobileMaxXLabels || 4)
+    : xLabels;
+
   // ── Legend ──
   const legend = chart.legend || series.filter((s) => s.label).map((s) => ({
     label: s.label,
@@ -157,7 +176,7 @@ export function Chart({ chart, isActive }) {
         />
 
         {/* X labels + tick marks */}
-        {xLabels.map((item, i) => (
+        {visibleXLabels.map((item, i) => (
           <g key={i}>
             <text
               x={item.x} y={H - 4}
