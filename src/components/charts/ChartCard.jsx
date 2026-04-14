@@ -3,7 +3,7 @@ import { C, FONT } from "../../theme.js";
 // Card chrome that wraps every chart: header (title + unit), SVG slot, legend.
 export function ChartCard({ title, unit, legend, visible, children }) {
   return (
-    <div style={{
+    <div className="chart-card-wrap" style={{
       background: C.surface,
       border: `1px solid ${C.border}`,
       borderRadius: 14,
@@ -14,7 +14,7 @@ export function ChartCard({ title, unit, legend, visible, children }) {
       transition: "opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s",
     }}>
       {(title || unit) && (
-        <div style={{
+        <div className="chart-card-header" style={{
           display: "flex", alignItems: "baseline",
           justifyContent: "space-between", marginBottom: 14,
         }}>

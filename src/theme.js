@@ -37,6 +37,26 @@ export const GLOBAL_CSS = `
     .leftRailDesktop { display: none !important; }
     .slideContent { padding: 16px 20px !important; }
     .featuredGrid { grid-template-columns: 1fr !important; }
+    /* Canvas: top-align + native scroll on mobile (relax the "1 viewport = 1 slide" rule) */
+    .slide-canvas { align-items: flex-start !important; padding: 12px 16px 8px !important; overflow-y: auto !important; }
+    /* Slide title: smaller + 3-line clamp on mobile */
+    .slide-title-zone { min-height: 0 !important; }
+    .slide-title-h1 { font-size: 22px !important; -webkit-line-clamp: 3 !important; line-height: 1.22 !important; letter-spacing: -0.2px !important; }
+    /* ScrollSlide: stats stack to 1 column as horizontal cards */
+    .scroll-stat-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+    .scroll-stat-card { flex-direction: row !important; align-items: center !important; text-align: left !important; gap: 14px !important; padding: 14px 16px !important; }
+    .scroll-stat-value { min-width: 70px !important; text-align: left !important; font-size: 28px !important; }
+    .scroll-stat-label { margin-top: 0 !important; font-size: 13px !important; }
+    .scroll-stat-desc { margin-top: 2px !important; font-size: 11px !important; }
+    /* TufteSlide: stack paragraphs + notes vertically */
+    .tufte-layout { flex-direction: column !important; gap: 14px !important; }
+    .tufte-col { flex: 0 0 auto !important; max-width: 100% !important; width: 100% !important; }
+    .tufte-notes-head { display: block !important; }
+    /* ChartCard: tighter padding */
+    .chart-card-wrap { padding: 12px 14px 10px !important; }
+    .chart-card-header { margin-bottom: 8px !important; }
+    /* ArticleSection: slightly smaller title */
+    .article-title-h2 { font-size: 20px !important; }
   }
   @media (min-width: 769px) and (max-width: 960px) {
     .featuredGrid { grid-template-columns: repeat(2, 1fr) !important; }

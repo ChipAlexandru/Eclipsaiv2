@@ -101,7 +101,7 @@ export function ArticleContent({ article, onClose }) {
 
       {/* Article title */}
       {article.title && (
-        <h2 style={{
+        <h2 className="article-title-h2" style={{
           fontSize: 22, fontWeight: 800, color: C.text,
           lineHeight: 1.3, margin: "0 0 24px 0",
           fontFamily: FONT.serif,

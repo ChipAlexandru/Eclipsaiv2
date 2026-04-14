@@ -22,11 +22,11 @@ export function SlideTemplate({ eyebrow, title, source, children }) {
       }}>
         {eyebrow}
       </div>
-      {/* Title zone — 2 lines max */}
-      <div style={{
+      {/* Title zone — 2 lines max (3 on mobile via .slide-title-h1 override) */}
+      <div className="slide-title-zone" style={{
         minHeight: 56, display: "flex", alignItems: "flex-start", paddingTop: 2,
       }}>
-        <h1 style={{
+        <h1 className="slide-title-h1" style={{
           fontSize: 26, fontWeight: 800, color: C.text, margin: 0,
           lineHeight: 1.2, letterSpacing: -0.4,
           display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",

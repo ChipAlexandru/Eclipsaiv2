@@ -19,28 +19,41 @@ export function ScrollSlide({ slide, isActive }) {
 
   return (
     <div ref={ref}>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${slide.stats.length}, 1fr)`,
-        gap: 10,
-        marginBottom: 14,
-      }}>
+      <div
+        className="scroll-stat-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${slide.stats.length}, 1fr)`,
+          gap: 10,
+          marginBottom: 14,
+        }}
+      >
         {slide.stats.map((s, i) => (
-          <div key={i} style={{
-            padding: "14px 12px", borderRadius: 12,
-            background: C.surface, border: `1px solid ${C.border}`, textAlign: "center",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(16px)",
-            transition: `opacity 0.5s ease ${i * 0.15}s, transform 0.5s ease ${i * 0.15}s`,
-          }}>
-            <div style={{
-              fontSize: 28, fontWeight: 800, color: C.accent,
-              lineHeight: 1.1, fontVariantNumeric: "tabular-nums",
-            }}>
+          <div
+            key={i}
+            className="scroll-stat-card"
+            style={{
+              padding: "14px 12px", borderRadius: 12,
+              background: C.surface, border: `1px solid ${C.border}`,
+              display: "flex", flexDirection: "column", textAlign: "center",
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(16px)",
+              transition: `opacity 0.5s ease ${i * 0.15}s, transform 0.5s ease ${i * 0.15}s`,
+            }}
+          >
+            <div
+              className="scroll-stat-value"
+              style={{
+                fontSize: 28, fontWeight: 800, color: C.accent,
+                lineHeight: 1.1, fontVariantNumeric: "tabular-nums",
+              }}
+            >
               <AnimNum value={s.value} unit={s.unit} visible={visible} isText={slide.isText || s.isText} />
             </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginTop: 8 }}>{s.label}</div>
-            <div style={{ fontSize: 12, color: C.textMuted, marginTop: 3 }}>{s.desc}</div>
+            <div>
+              <div className="scroll-stat-label" style={{ fontSize: 13, fontWeight: 600, color: C.text, marginTop: 8 }}>{s.label}</div>
+              <div className="scroll-stat-desc" style={{ fontSize: 12, color: C.textMuted, marginTop: 3 }}>{s.desc}</div>
+            </div>
           </div>
         ))}
       </div>

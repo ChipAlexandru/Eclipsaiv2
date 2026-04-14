@@ -24,8 +24,8 @@ export function TufteSlide({ slide }) {
   const toggle = (i) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
 
   return (
-    <div style={{ display: "flex", gap: 48 }}>
-      <div style={{ flex: "0 0 58%", maxWidth: "58%" }}>
+    <div className="tufte-layout" style={{ display: "flex", gap: 48 }}>
+      <div className="tufte-col" style={{ flex: "0 0 58%", maxWidth: "58%" }}>
         {slide.paragraphs.map((p, i) => {
           const text = typeof p === "string" ? p : p.text;
           const italic = typeof p === "object" && p.italic;
@@ -53,7 +53,7 @@ export function TufteSlide({ slide }) {
           );
         })}
       </div>
-      <div style={{ flex: "0 0 34%", maxWidth: "34%", paddingTop: 4 }}>
+      <div className="tufte-col" style={{ flex: "0 0 34%", maxWidth: "34%", paddingTop: 4 }}>
         {slide.notes.map((n, i) => {
           const parsed = parseNumericMarker(n.marker);
           return (

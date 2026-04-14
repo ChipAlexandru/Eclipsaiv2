@@ -324,15 +324,16 @@ export default function App({
         {/* Slide canvas */}
         <div
           data-slide-canvas
+          className="slide-canvas"
           style={{
           flex: 1,
           display: "flex",
-          alignItems: isSlides ? "flex-start" : "center",
+          alignItems: "flex-start",
           justifyContent: "center",
           padding: isSlides
             ? "clamp(14px, 2vh, 24px) clamp(20px, 4vw, 48px) clamp(8px, 1.5vh, 16px)"
             : "clamp(16px, 3vh, 40px) clamp(20px, 4vw, 48px)",
-          overflow: isSlides ? "auto" : "hidden",
+          overflow: "auto",
           position: "relative",
         }}>
           <div style={{

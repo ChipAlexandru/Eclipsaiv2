@@ -29,12 +29,22 @@ import { BarSeries } from "./BarSeries.jsx";
 // For line charts: points use xVal (numeric position on X axis).
 // For bar charts: points use implicit index matching chart.xLabels order.
 
-const MARGIN = { top: 30, right: 20, bottom: 40, left: 48 };
-const W = 760;
-const DEFAULT_H = 180;
+const DESKTOP = {
+  margin: { top: 30, right: 20, bottom: 40, left: 48 },
+  W: 760,
+  defaultH: 180,
+  fontSize: 10,
+};
+const MOBILE = {
+  margin: { top: 20, right: 12, bottom: 30, left: 36 },
+  W: 380,
+  defaultH: 140,
+  fontSize: 14,
+};
 
 export function Chart({ chart, isActive }) {
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (isActive !== false) {
@@ -44,8 +54,22 @@ export function Chart({ chart, isActive }) {
     setVisible(false);
   }, [isActive]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  const cfg = isMobile ? MOBILE : DESKTOP;
+  const MARGIN = cfg.margin;
+  const W = cfg.W;
+  const FONT_SIZE = cfg.fontSize;
+
   const { type = "line", series = [] } = chart;
-  const H = chart.height || DEFAULT_H;
+  const H = isMobile ? (chart.mobileHeight || cfg.defaultH) : (chart.height || cfg.defaultH);
   const plotW = W - MARGIN.left - MARGIN.right;
   const plotH = H - MARGIN.top - MARGIN.bottom;
 
@@ -118,7 +142,7 @@ export function Chart({ chart, isActive }) {
             <text
               x={MARGIN.left - 8} y={yScale(v) + 3}
               textAnchor="end"
-              style={{ fontSize: 10, fill: C.textMuted, fontFamily: "'Inter', -apple-system, sans-serif" }}
+              style={{ fontSize: FONT_SIZE, fill: C.textMuted, fontFamily: "'Inter', -apple-system, sans-serif" }}
             >
               {formatValue(chart.yFormat, v)}
             </text>
@@ -139,7 +163,7 @@ export function Chart({ chart, isActive }) {
               x={item.x} y={H - 4}
               textAnchor="middle"
               style={{
-                fontSize: 10, fill: C.textMuted,
+                fontSize: FONT_SIZE, fill: C.textMuted,
                 fontFamily: "'Inter', -apple-system, sans-serif",
                 fontWeight: 600,
               }}
