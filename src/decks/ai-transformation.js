@@ -166,6 +166,7 @@ export const aiTransformationDeck = {
         {
           id: "medvi-telehealth",
           dateAdded: "2026-04-10",
+          dateUpdated: "2026-04-13",
           type: "tufte",
           title: "$400M in revenue with two employees. What worked and what broke.",
           source: "NYT, FDA, Eclipsai analysis",
@@ -240,6 +241,7 @@ export const aiTransformationDeck = {
         {
           id: "ai-results-rare",
           dateAdded: "2026-04-10",
+          dateUpdated: "2026-04-12",
           type: "scroll",
           title: "Reported AI gains concentrated in 1% of organizations",
           source: "Goldman Sachs, McKinsey, BCG, Eclipsai analysis",

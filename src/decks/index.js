@@ -56,8 +56,8 @@ export const shelf = {
       deckId: "the-playbook",
       chapterId: "case",
       label: "Case for change",
-      title: "AI-native: what the first results look like",
-      blurb: "Anthropic: 50% productivity boost, $30B revenue run-rate. What happens when AI is used across every function.",
+      title: "Where AI delivers results",
+      blurb: "AI-native companies, controlled studies, and earnings data. Continuously updated.",
     },
     {
       kind: "chapter",
@@ -89,25 +89,30 @@ export function getDeck(deckId) {
   return shelf.decks.find((d) => d.id === deckId);
 }
 
-// Returns the N most recently added slides across all decks, sorted by
-// dateAdded descending. Each entry includes deckId, chapterId, slideId,
-// title, and dateAdded so the homepage can render + link them directly.
-// Slides without dateAdded get a fallback of "1970-01-01" so they sort last.
+// Returns the N most recently touched slides across all decks. Sort key is
+// `dateUpdated || dateAdded` so authors can manually surface a slide whose
+// content was rewritten without changing its original add date. The Home
+// "Latest" card shows whichever date drove the sort.
+// Slides without either date sort last via a "1970-01-01" fallback.
 export function getLatestSlides(count = 3) {
   const all = [];
   for (const deck of shelf.decks) {
     for (const chapter of deck.chapters) {
       for (const slide of chapter.slides) {
+        const sortDate = slide.dateUpdated || slide.dateAdded || null;
         all.push({
           deckId: deck.id,
           chapterId: chapter.id,
           slideId: slide.id,
           title: slide.title,
           dateAdded: slide.dateAdded || null,
+          dateUpdated: slide.dateUpdated || null,
+          // The date driving sort + display. Home renders this.
+          sortDate,
         });
       }
     }
   }
-  all.sort((a, b) => (b.dateAdded || "1970-01-01").localeCompare(a.dateAdded || "1970-01-01"));
+  all.sort((a, b) => (b.sortDate || "1970-01-01").localeCompare(a.sortDate || "1970-01-01"));
   return all.slice(0, count);
 }

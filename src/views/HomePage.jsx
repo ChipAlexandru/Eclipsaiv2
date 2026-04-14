@@ -178,9 +178,9 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                 }}>
                   {s.title}
                 </div>
-                {s.dateAdded && (
+                {s.sortDate && (
                   <div style={{ fontSize: 12, color: C.textMuted }}>
-                    {fmtDate(s.dateAdded)}
+                    {s.dateUpdated ? `Updated ${fmtDate(s.sortDate)}` : fmtDate(s.sortDate)}
                   </div>
                 )}
               </button>
