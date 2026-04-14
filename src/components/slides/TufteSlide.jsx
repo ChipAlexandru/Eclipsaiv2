@@ -37,12 +37,12 @@ export function TufteSlide({ slide }) {
           let marginTop = 0;
           if (i > 0) {
             if (italic) marginTop = 2;           // quote tucks under its parent
-            else if (prevIsItalic) marginTop = 28; // new thought after a quote pair
-            else marginTop = 22;                   // normal paragraph gap
+            else if (prevIsItalic) marginTop = 20; // new thought after a quote pair
+            else marginTop = 14;                   // normal paragraph gap
           }
           return (
             <p key={i} style={{
-              fontSize: 15, color: C.text, lineHeight: 1.8,
+              fontSize: 15, color: C.text, lineHeight: 1.6,
               fontFamily: FONT.serif, fontWeight: 700,
               fontStyle: italic ? "italic" : "normal",
               margin: 0,

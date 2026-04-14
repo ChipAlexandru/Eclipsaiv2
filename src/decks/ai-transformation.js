@@ -166,33 +166,158 @@ export const aiTransformationDeck = {
         {
           id: "medvi-telehealth",
           dateAdded: "2026-04-10",
-          type: "standard",
-          title: "Hyper-growth: 1B+ AI telehealth platform with no staff.",
-          source: "The New York Times",
-          bodyLines: [
-            "Medvi.org launched in September 2024 with $20,000 and zero employees.",
-            "AI runs development, marketing, customer service.",
-            "Achieved $401M in 2025 sales, 16.2% net margin.",
+          type: "tufte",
+          title: "$400M in revenue with two employees. What worked and what broke.",
+          source: "NYT, FDA, Eclipsai analysis",
+          paragraphs: [
+            "Founded September 2024. Scaled to $400M revenue in 15 months with two employees, no external funding, profitable.",
+            "Outsourced regulated components to third-party vendors. Retained the customer relationship and scaled from 300 to 250,000 customers.",
+            "Built the entire customer-facing business with AI tools: ChatGPT, Claude, and Grok for code and copy, Midjourney and Runway for ad creative, custom agents to orchestrate workflows.",
+            "2026: FDA warning letter, class action lawsuit, FTC investigation request.",
           ],
-          callout: { value: "$0K → $1.8B", sub: "2024–26 Revenue growth (projected)" },
+          notes: [
+            { marker: "$400M", label: "2025 Revenue (first full year)" },
+            { marker: "250K", label: "2025 Customers (first full year)" },
+            { marker: "AI tools-driven", label: "No engineering team" },
+            { marker: "Compliance breakdown", label: "deepfake patient photos, fake accounts, unlicensed physician names" },
+          ],
+          article: {
+            title: "$401M in AI-native revenue with two employees. What worked and what broke.",
+            sections: [
+              {
+                body: "Medvi.org is a boundary case for enterprise AI deployment. It demonstrates both the extraordinary productivity potential of AI-native operations and the regulatory and ethical risks when scale vastly outpaces ethical guardrails.",
+              },
+              {
+                subhead: "The AI operational achievement",
+                body: "Matthew Gallagher founded Medvi in September 2024 with $20,000 and scaled it to $401 million in revenue within 15 months with two employees. The company generates approximately $3 million in daily revenue with a 16.2% net margin and no external funding.",
+              },
+              {
+                body: "The operational model is straightforward. Gallagher built the entire customer-facing business (branding, website, paid media, checkout flow, customer communications) using commodity AI tools. He used ChatGPT, Claude, and Grok for code generation and copywriting. He deployed Midjourney and Runway for advertisement creative and image generation. He tested ElevenLabs for voice-based customer communication. He connected these tools with custom AI agents to orchestrate workflows across disparate systems.",
+              },
+              {
+                body: "Medvi outsourced the regulated components (prescriptions, pharmacy operations, compliance, licensed physicians) to third-party vendors: CareValidate and OpenLoop Health absorbed the burden of ensuring that actual doctors reviewed cases, that pharmacies fulfilled orders, and that shipping complied with state regulations. Gallagher retained ownership of the customer relationship.",
+              },
+              {
+                body: "By April 2026, Gallagher\u2019s projected revenue for 2026 was $1.8 billion. The company had grown from 300 to over 250,000 customers. That growth rate represents a different category of business outcome, one that is possible only when the operational constraint is moved entirely outside the human system.",
+              },
+              {
+                subhead: "What broke",
+                body: "By early 2026, Medvi faced an FDA warning letter, a class action lawsuit, and an FTC investigation request. The specific violations:",
+                items: [
+                  "AI-generated deepfake \u201cbefore and after\u201d patient photos",
+                  "Recycled images from Reddit users who lost weight years before GLP-1 medications existed",
+                  "At least 800 fake Facebook accounts featuring AI-generated doctor profiles",
+                  "Licensed physicians named in company materials who had no involvement with Medvi",
+                ],
+              },
+              {
+                subhead: "What this means for enterprise AI deployment",
+                body: "What Medvi did well: built a $401M revenue operation with two employees and $20,000 in starting capital. Used commodity AI tools (ChatGPT, Claude, Grok, Midjourney, Runway) for the entire customer-facing business: branding, website, paid media, checkout, customer communications. Outsourced regulated components to third-party vendors. Scaled from 300 to 250,000 customers in 15 months. Projected $1.8B for 2026.",
+              },
+              {
+                body: "What it needed: machine-executable governance matching the speed of the operation.",
+                items: [
+                  "Automated compliance checking in customer-facing text (caught by the FDA for misbranding claims)",
+                  "Image verification before publication (deepfake patient photos, recycled Reddit images)",
+                  "Identity validation for marketing assets (800 fake Facebook accounts with AI-generated doctor profiles)",
+                  "Physician credentialing checks (real doctors named without involvement)",
+                ],
+              },
+              {
+                body: "None of these require human manual review. All require systems designed to enforce rules at machine speed.",
+              },
+            ],
+            sources: [
+              { label: "Techmeme: AI-powered startup Medvi hits $401M in 2025 sales; tracking for $1.8B in 2026", url: "https://www.techmeme.com/260402/p12" },
+              { label: "The Decoder: Telehealth startup Medvi generated billions in revenue with AI-powered fake advertising", url: "https://the-decoder.com/telehealth-startup-medvi-generated-billions-in-revenue-with-ai-powered-fake-advertising/" },
+              { label: "Futurism: Why Is the New York Times Laundering the Reputation of a Sleazy AI Startup", url: "https://futurism.com/artificial-intelligence/new-york-times-medvi-ai-glp1s" },
+              { label: "StatNews: The FDA is targeting telehealth marketing of GLP-1 drugs", url: "https://www.statnews.com/2026/03/12/fda-telehealth-marketing-glp1-prescribers-behind-warning-letters/" },
+              { label: "Techdirt: The New York Times Got Played By A Telehealth Scam And Called It The Future Of AI", url: "https://www.techdirt.com/2026/04/07/the-new-york-times-got-played-by-a-telehealth-scam-and-called-it-the-future-of-ai/" },
+              { label: "Drug Discovery and Development: The New York Times spotlighted MEDVi. The FDA had already warned the self-proclaimed 'fastest growing company in history.'", url: "https://www.drugdiscoverytrends.com/the-new-york-times-spotlighted-medvi-the-fda-had-already-warned-the-self-proclaimed-fastest-growing-company-in-history/" },
+            ],
+          },
         },
         {
           id: "ai-results-rare",
           dateAdded: "2026-04-10",
-          type: "tufte",
-          title: "AI impact not everywhere: S&P 500 quantified benefits still rare",
-          source: "Goldman Sachs",
-          paragraphs: [
-            "While 70% of S&P 500 management teams discussed AI on their quarterly calls, with 54% specifically framing the technology around productivity and efficiency…",
-            "…only 10% of S&P 500 quantified AI's impact on specific use cases, and just 1% show impact on earnings.",
-            "However, where companies do measure, the median gain on specific tasks is ~30%.",
+          type: "scroll",
+          title: "Reported AI gains concentrated in 1% of organizations",
+          source: "Goldman Sachs, McKinsey, BCG, Eclipsai analysis",
+          stats: [
+            { value: 70, unit: "%", label: "S&P 500 discuss AI", desc: "on quarterly earnings calls" },
+            { value: 6, unit: "%", label: "see material EBIT impact", desc: "McKinsey, 1,993 organizations" },
+            { value: 1, unit: "%", label: "quantify earnings impact", desc: "S&P 500, Q4 2025 calls" },
           ],
-          notes: [
-            { marker: "70%", label: "Discuss AI on quarterly calls" },
-            { marker: "54%", label: "Frame it around productivity" },
-            { marker: "10%", label: "Quantify specific use cases" },
-            { marker: "1%", label: "Quantify earnings impact" },
-          ],
+          body: "McKinsey tested 25 organizational variables and found workflow redesign had the strongest correlation with EBIT impact. However only 21% of organizations have redesigned workflows around AI.",
+          article: {
+            title: "AI Productivity Impact: What the Evidence Actually Shows",
+            sections: [
+              {
+                subhead: "Executive Summary",
+                body: "AI is generating measurable productivity gains in specific domains, with documented improvements ranging from 4% to 30% where firms actually measure. Yet the aggregate macroeconomic data shows minimal impact on overall GDP or labor productivity. Only a small fraction of firms have redesigned workflows around AI, and most organizations lack the measurement infrastructure to identify where AI actually delivers value.",
+              },
+              {
+                subhead: "The Macroeconomic Puzzle: Productivity Gains Without Economic Acceleration",
+                body: "Goldman Sachs' \"AI-nxiety\" report found no aggregate relationship between AI adoption and GDP growth. Despite massive AI investment, U.S. GDP growth did not accelerate in 2025, and Goldman's analysis concluded that AI investment contributed \"basically zero\" to U.S. GDP that year.",
+              },
+              {
+                body: "The earnings call data tells the story. 70% of S&P 500 management teams discussed AI on their Q4 2025 quarterly calls. 54% specifically framed it around productivity and efficiency. But only 10% quantified AI's impact on a specific use case, and just 1% quantified impact on earnings. Where firms did measure, median productivity gains reached ~30%, concentrated in customer support and software development.",
+              },
+              {
+                body: "The Federal Reserve Bank of St. Louis measured a 1.3% implied productivity gain from AI deployment since late 2022. Their November 2025 survey found that 37.4% of U.S. workers now use AI at work, with time savings equivalent to 1.6% of all work hours. Material but modest, consistent with early-stage adoption rather than transformation.",
+              },
+              {
+                body: "Acemoglu's macroeconomic model projects AI will generate a 1.1–1.6% GDP increase over a decade, equivalent to roughly 0.53–0.66% in total factor productivity gains annually. His core finding: most firms pursue \"so-so automation,\" replacing workers on tasks where the productivity gain is marginal. The U.S. tax code reinforces this, burdening labor more heavily than capital investment, giving firms incentive to automate even when the gain is minimal. The wider potential lies in augmentation and new task creation, but both require complementary investment in training, workflow redesign, and organizational change that most firms have not made.",
+              },
+              {
+                subhead: "Measured Productivity Gains: Where AI Delivers",
+                body: "Brynjolfsson, Li, and Raymond tracked 5,172 customer support agents at a single firm and found an average 15% productivity improvement from AI access. The gains were uneven: 34% for novice workers, but minimal improvement for experienced workers, who saw small declines in output quality. The authors caution against generalizing. The study covered one firm, one function, in a structured domain with clear right answers. They note that firms may respond to novice productivity gains by de-skilling positions rather than augmenting the workforce.",
+              },
+              {
+                body: "The European Investment Bank and Bank for International Settlements found that AI adoption increased labor productivity by 4% on average across 12,000+ European firms, with no adverse employment effects in the short run. Productivity gains concentrated in medium and large firms with complementary IT infrastructure. Small firms showed minimal benefit. Gains amplified substantially when firms invested in complementary software, data infrastructure, and training.",
+              },
+              {
+                subhead: "The Value Concentration Problem: Why Most Firms See Little Benefit",
+                body: "McKinsey surveyed 1,993 organizations. 88% use AI regularly. Only 6% see more than 5% EBIT impact. The differentiator: workflow redesign had the strongest correlation with EBIT impact of all 25 organizational variables tested. Only 21% of organizations had done it.",
+              },
+              {
+                body: "BCG surveyed 1,250+ firms. 60% report no material value from AI investment. 5% capture value at scale. The top 5% achieve 5x the revenue increases and 3x the cost reductions versus peers. They share three characteristics: they redesign workflows, they invest in complementary capabilities (IT infrastructure, talent, organizational design), and they measure continuously.",
+              },
+              {
+                body: "BCG's employee survey found frontline adoption stalled at 51%, a \"silicon ceiling.\" Leadership support is the lever: employee positivity about AI rose from 15% to 55% with strong executive sponsorship.",
+              },
+              {
+                subhead: "Management Capability as the Binding Constraint",
+                body: "Mollick's MBA experiment: students using AI agents completed startup prototypes in 4 days that previously required a full semester. A 20x acceleration. The bottleneck was management quality: scoping problems precisely, delegating clearly, evaluating output, and iterating.",
+              },
+              {
+                subhead: "Synthesis: The Three Core Findings",
+                body: "First, aggregate economic impact remains modest to date. The Fed's 1.3% implied productivity gain, Acemoglu's 1.1–1.6% over a decade, and Brynjolfsson's contested 2.7% jump in 2025 represent the plausible range. All modest compared to pre-2020 productivity growth cycles.",
+              },
+              {
+                body: "Second, firm-level productivity gains are real but concentrate in specific domains and organizations. Controlled studies document 4–34% productivity improvements in customer support, software development, and augmentation contexts. These gains reach only the firms that redesign workflows and measure impact, estimated at 5–6% of organizations.",
+              },
+              {
+                body: "Third, the critical bottleneck is organizational readiness, not AI capability. Complementary investment in IT infrastructure, workflow redesign, measurement systems, and management capability determine whether AI deployment yields value. Most organizations have not invested in these complements.",
+              },
+            ],
+            sources: [
+              { label: "Acemoglu, Daron. \"The Simple Macroeconomics of AI.\" Economic Policy, Vol. 40(121), January 2025.", url: "https://academic.oup.com/economicpolicy/article-abstract/40/121/13/7728473" },
+              { label: "Brynjolfsson, Erik. \"The AI Productivity Take-Off.\" Stanford Digital Economy Lab, February 2026.", url: "https://fortune.com/2026/02/15/ai-productivity-liftoff-doubling-2025-jobs-report-transition-harvest-phase-j-curve/" },
+              { label: "Brynjolfsson, Erik, Li, Danielle, and Raymond, Lanier. \"Generative AI at Work.\" Quarterly Journal of Economics, Vol. 140(2), 2025.", url: "https://academic.oup.com/qje/article/140/2/889/7990658" },
+              { label: "Goldman Sachs Research. \"AI Earnings and GDP Impact.\" February-March 2026.", url: "https://fortune.com/2026/03/03/goldman-earnings-ai-anxiety-no-meaningful-impact-productivity-economy-30-percent-in-2-areas/" },
+              { label: "Boston Consulting Group. \"The Widening AI Value Gap.\" September-October 2025.", url: "https://www.bcg.com/publications/2025/are-you-generating-value-from-ai-the-widening-gap" },
+              { label: "Boston Consulting Group. \"AI at Work 2025.\" June 2025.", url: "https://www.bcg.com/publications/2025/ai-at-work-momentum-builds-but-gaps-remain" },
+              { label: "Federal Reserve Bank of St. Louis. \"AI Adoption in 2025.\" November 2025.", url: "https://www.stlouisfed.org/on-the-economy/2025/nov/state-generative-ai-adoption-2025" },
+              { label: "European Central Bank. \"AI Adoption in the Euro Area.\" March 2025-March 2026.", url: "https://www.ecb.europa.eu/press/blog/date/2025/html/ecb.blog20250321~6af1337b6b.en.html" },
+              { label: "European Investment Bank & Bank for International Settlements. \"AI Adoption, Productivity & Employment.\" 2026.", url: "https://www.bis.org/publ/work1325.htm" },
+              { label: "Deloitte. \"State of AI in the Enterprise 2026.\" Early 2026.", url: "https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html" },
+              { label: "McKinsey & Company. \"The State of AI in 2025.\" March-November 2025.", url: "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" },
+              { label: "Wharton School & GBK Collective. \"Accountable Acceleration.\" October 2025.", url: "https://ai.wharton.upenn.edu/wp-content/uploads/2025/10/2025-Wharton-GBK-AI-Adoption-Report_Full-Report.pdf" },
+              { label: "Mollick, Ethan. \"Management as AI Superpower.\" One Useful Thing, 2025.", url: "https://www.oneusefulthing.org/p/management-as-ai-superpower" },
+              { label: "U.S. Bureau of Labor Statistics. \"AI Employment Projections.\" February 2025.", url: "https://www.bls.gov/opub/mlr/2025/article/incorporating-ai-impacts-in-bls-employment-projections.htm" },
+            ],
+          },
         },
       ],
     },

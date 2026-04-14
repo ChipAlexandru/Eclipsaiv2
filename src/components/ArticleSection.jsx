@@ -171,7 +171,7 @@ export function ArticleContent({ article, onClose }) {
           );
         }
 
-        // Default: prose section (optional subhead + body)
+        // Default: prose section (optional subhead + body + optional bullet list)
         return (
           <div key={i} style={{ marginTop: i > 0 ? 0 : 0 }}>
             {section.subhead && (
@@ -192,6 +192,18 @@ export function ArticleContent({ article, onClose }) {
               }}>
                 {section.body}
               </p>
+            )}
+            {section.items && section.items.length > 0 && (
+              <ul style={{
+                margin: 0, marginTop: (section.subhead || section.body) ? 12 : (i > 0 ? 18 : 0),
+                paddingLeft: 22,
+                fontSize: 15, color: C.text, lineHeight: 1.75,
+                fontFamily: FONT.serif,
+              }}>
+                {section.items.map((item, j) => (
+                  <li key={j} style={{ marginBottom: 6 }}>{item}</li>
+                ))}
+              </ul>
             )}
           </div>
         );
