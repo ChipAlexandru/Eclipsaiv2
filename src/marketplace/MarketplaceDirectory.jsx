@@ -48,49 +48,21 @@ export function MarketplaceDirectory() {
         border: "1px solid rgba(0,0,0,.06)",
       }}
     >
-      {/* DARK HEADER */}
-      <div style={{ background: gradient, color: "#fff", padding: "14px 22px 16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-          <div>
-            <div
-              style={{
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: ".14em",
-                textTransform: "uppercase",
-                color: "#fb923c",
-                marginBottom: 3,
-              }}
-            >
-              Live directory · eclipsai.com/skills
-            </div>
-            <span
-              style={{
-                fontSize: 17,
-                fontWeight: 700,
-                color: "#fff",
-                letterSpacing: "-.02em",
-              }}
-            >
-              Business Skills for Claude Cowork
-            </span>
-          </div>
-          <p
-            style={{
-              fontSize: 11,
-              fontStyle: "italic",
-              color: "#a1a1aa",
-              textAlign: "right",
-              margin: 0,
-              lineHeight: 1.5,
-              maxWidth: 320,
-            }}
-          >
-            "Turn expertise into reusable capabilities so Claude can apply them automatically."
-            <br />
-            <span style={{ fontStyle: "normal", fontWeight: 600 }}>— Anthropic</span>
-          </p>
-        </div>
+      {/* Intro strip — dark gradient band with the Anthropic attribution.
+          Slide title + eyebrow now come from SlideTemplate chrome. */}
+      <div style={{ background: gradient, color: "#fff", padding: "10px 22px 11px" }}>
+        <p
+          style={{
+            fontSize: 11,
+            fontStyle: "italic",
+            color: "#d4a574",
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          "Turn expertise into reusable capabilities so Claude can apply them automatically."
+          <span style={{ fontStyle: "normal", fontWeight: 600, color: "#fb923c", marginLeft: 8 }}>— Anthropic</span>
+        </p>
       </div>
 
       {/* BODY */}

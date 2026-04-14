@@ -331,12 +331,66 @@ export const aiTransformationDeck = {
       subtitle: "From pockets of AI to enterprise intelligence",
       slides: [
         {
-          id: "c2s1",
-          dateAdded: "2026-04-08",
+          id: "deployment-modes",
+          dateAdded: "2026-04-14",
           type: "standard",
-          title: "From Pockets of AI to Enterprise Intelligence",
-          body: "The vision moves beyond isolated use cases toward a fundamentally redesigned operating model. AI becomes the connective tissue between decision-making, customer engagement, operations, and knowledge — not a feature added to existing workflows but the foundation they run on.",
-          callout: { value: "AI-Native", label: "Target state", sub: "Operating model within 24 months" },
+          title: "Five enterprise AI deployment modes",
+          source: "Eclipsai analysis",
+          pillarsLayout: "list",
+          pillars: [
+            { title: "AI Work Platforms", desc: "Claude Code, Claude Cowork. Custom agents and workflows on shared infrastructure." },
+            { title: "Horizontal Assistants", desc: "ChatGPT Enterprise, Microsoft Copilot, Gemini. General-purpose AI across knowledge work." },
+            { title: "Vertical Solutions", desc: "Harvey (legal), Abridge (clinical), Feedzai (fraud). Domain-specific AI with built-in compliance." },
+            { title: "SaaS-Embedded AI", desc: "Salesforce Agentforce, Adobe Firefly, ServiceNow. AI inside platforms you already use." },
+            { title: "Custom Builds", desc: "Internal agents and pipelines." },
+          ],
+          callout: {
+            text: "We believe the future is the AI work platform, which absorbs capabilities from every other mode: horizontal assistant features, vertical workflow depth, and custom build flexibility.",
+          },
+          article: {
+            title: "Five Enterprise AI Deployment Modes",
+            sections: [
+              { body: "Enterprise AI has crystallized around five deployment modes." },
+
+              { subhead: "1. Horizontal Assistants", body: "ChatGPT Enterprise, Microsoft Copilot for Microsoft 365, Google Gemini Enterprise. General-purpose AI across knowledge work: writing, analysis, coding, design." },
+              { body: "The largest segment at $8.4 billion in 2025, growing 5.3x year-over-year. Copilots account for 86% of that spend. ChatGPT Enterprise seats grew 9x year-over-year to 7+ million." },
+              { body: "Advantages: Fastest time-to-use. No integration engineering required." },
+              { body: "Limitations: Adoption stalls after purchase. Microsoft Copilot achieved 15 million paid seats but only 35.8% active usage per a Recon Analytics survey of 150,000+ respondents. However ChatGPT Enterprise reached 83.1%, indicating the gap is product-specific." },
+
+              { subhead: "2. AI Work Platforms", body: "Claude Code, Claude Cowork. AI as productivity infrastructure for building custom agents and workflows." },
+              { body: "Claude Code reached a $1 billion run rate six months after launch. Claude Cowork reached general availability in April 2026. Usage is spreading beyond engineering into operations, marketing, finance, and legal." },
+              { body: "Advantages: Organizations build domain-specific workflows on shared infrastructure. Plugin architecture enables reuse across teams." },
+              { body: "Limitations: Requires internal capability building." },
+
+              { subhead: "3. Vertical Solutions", body: "Harvey for legal, Abridge for clinical documentation, Feedzai for fraud detection. AI optimized for a single domain with built-in compliance and workflow fit." },
+              { body: "Vertical AI reached $3.5 billion in 2025, tripling from $1.2 billion in 2024. Healthcare dominates at $1.5 billion, with ambient scribes alone at $600 million. Legal AI reached $650 million. Bessemer projects the vertical AI market cap could grow 10x larger than legacy SaaS." },
+              { body: "Advantages: Fastest domain-specific ROI. Pre-built compliance controls for regulated industries. Strong adoption: 100% of Harvey law firms said lawyers would be upset if it was taken away." },
+              { body: "Limitations: Cannot be repurposed across domains." },
+
+              { subhead: "4. SaaS-Embedded AI", body: "Salesforce Agentforce, Adobe Firefly, ServiceNow. AI capabilities integrated directly into enterprise platforms organizations already use." },
+              { body: "Salesforce Agentforce and Data 360 combined hit $1.4 billion ARR. Over 60% of enterprise SaaS products now have embedded AI features." },
+              { body: "Advantages: No new vendor relationship. AI works within existing workflows, data, and permissions. Reduced implementation burden." },
+              { body: "Limitations: End-user engagement lags behind deal closure. Actual Agentforce adoption rates run sub-20% in many implementations." },
+
+              { subhead: "5. Custom Builds", body: "Internal agents and pipelines built from first principles. Coinbase, Spotify, Ramp, and similar engineering-heavy organizations." },
+              { body: "Only 5.2% of organizations have AI agents live in production. Coinbase moved from proof-of-concept to production in six weeks, then published \u201Cpaved roads\u201D cutting new agent build time from 12+ weeks to under one week." },
+              { body: "Advantages: Maximum control and customization. Proprietary workflows become competitive moats. No vendor lock-in." },
+              { body: "Limitations: Requires dedicated engineering teams, production-grade infrastructure, and evaluation discipline most organizations lack." },
+
+              { subhead: "Our point of view", body: "We believe the future is the AI work platforms, and vertical AI when regulation or domain complexity demands it. Horizontal assistants are table stakes and face the adoption ceiling." },
+              { body: "AI Work platforms are absorbing capabilities from every other mode. The platform architecture expands into adjacent territory: horizontal assistant features, vertical workflow depth, and custom build flexibility, all on shared infrastructure." },
+            ],
+            sources: [
+              { label: "Menlo Ventures, \u201C2025: The State of Generative AI in the Enterprise\u201D (2025)", url: "https://menlovc.com/perspective/2025-the-state-of-generative-ai-in-the-enterprise/" },
+              { label: "Recon Analytics, Microsoft Copilot Adoption Survey (2026)", url: "https://www.bitget.com/news/detail/12560605336991" },
+              { label: "Anthropic, Revenue and Claude Code Growth (2026)", url: "https://www.indexbox.io/blog/anthropic-reports-30b-revenue-run-rate-fueled-by-enterprise-ai-adoption/" },
+              { label: "Bessemer Venture Partners, \u201CThe State of AI 2025\u201D", url: "https://www.bvp.com/atlas/the-state-of-ai-2025" },
+              { label: "Cleanlab, \u201CAI Agents in Production 2025\u201D", url: "https://cleanlab.ai/ai-agents-in-production-2025/" },
+              { label: "Harvey, Legal AI Impact and Growth", url: "https://www.harvey.ai" },
+              { label: "Salesforce, Agentforce Metrics", url: "https://www.salesforce.com/agentforce/metrics/" },
+              { label: "Coinbase, Building Enterprise AI Agents", url: "https://www.coinbase.com" },
+            ],
+          },
         },
         // Tested-skills showcase. Explainer (maturity + example) first,
         // then the interactive directory. Both render full-bleed in marketplace

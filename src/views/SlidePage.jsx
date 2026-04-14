@@ -18,6 +18,9 @@ const CUSTOM_COMPONENTS = {
 // When a slide has an `article` property, a "Continue reading" trigger is shown;
 // clicking it expands the long-form article below the slide content.
 export function SlidePage({ chapter, slide, slideKey, articleOpen, onArticleOpen, onArticleClose }) {
+  // Custom slides: render inside SlideTemplate if they carry a title so they
+  // share the deck's eyebrow + title + divider chrome (opt out with
+  // `bareCanvas: true` for cover/splash-style custom slides).
   if (slide.type === "custom") {
     const Component = CUSTOM_COMPONENTS[slide.component];
     if (!Component) {
@@ -27,7 +30,20 @@ export function SlidePage({ chapter, slide, slideKey, articleOpen, onArticleOpen
         </div>
       );
     }
-    return <Component slide={slide} />;
+    if (slide.bareCanvas || !slide.title) {
+      return <Component slide={slide} />;
+    }
+    return (
+      <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source}>
+        <Component slide={slide} />
+        {slide.article && !articleOpen && (
+          <ArticleTrigger article={slide.article} onOpen={onArticleOpen} />
+        )}
+        {slide.article && articleOpen && (
+          <ArticleContent article={slide.article} onClose={onArticleClose} />
+        )}
+      </SlideTemplate>
+    );
   }
 
   return (

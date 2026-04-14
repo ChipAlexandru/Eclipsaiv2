@@ -16,51 +16,25 @@ export function MarketplaceExplainer() {
       style={{
         background: gradient,
         borderRadius: 14,
-        padding: "26px 30px 28px",
+        padding: "20px 26px 22px",
         color: "#fff",
         fontFamily: "system-ui, -apple-system, sans-serif",
         boxShadow: "0 12px 40px rgba(0,0,0,.18)",
       }}
     >
-      {/* Header */}
-      <div style={{ marginBottom: 18 }}>
-        <div
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: ".14em",
-            textTransform: "uppercase",
-            color: "#fb923c",
-            marginBottom: 6,
-          }}
-        >
-          Skills for Claude Cowork
-        </div>
-        <h2
-          style={{
-            fontSize: 26,
-            fontWeight: 800,
-            color: "#fff",
-            margin: 0,
-            lineHeight: 1.15,
-            letterSpacing: "-.02em",
-          }}
-        >
-          Tested skills, rated for production readiness
-        </h2>
-        <p
-          style={{
-            fontSize: 12.5,
-            lineHeight: 1.55,
-            color: "#d4a574",
-            margin: "8px 0 0",
-            maxWidth: 620,
-          }}
-        >
-          Every skill is evaluated against real work using a blind-test methodology. Each gets
-          a maturity rating so you know exactly what you're installing — not a demo, a benchmark.
-        </p>
-      </div>
+      {/* Intro line — slide title + eyebrow now come from SlideTemplate chrome */}
+      <p
+        style={{
+          fontSize: 12.5,
+          lineHeight: 1.55,
+          color: "#d4a574",
+          margin: "0 0 16px",
+          maxWidth: 620,
+        }}
+      >
+        Every skill is evaluated against real work using a blind-test methodology. Each gets a
+        maturity rating so you know exactly what you're installing — not a demo, a benchmark.
+      </p>
 
       {/* Maturity cards */}
       <div
