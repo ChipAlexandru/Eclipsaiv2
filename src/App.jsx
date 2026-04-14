@@ -1,13 +1,16 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { Menu as MenuIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { C, FONT, GLOBAL_CSS } from "./theme.js";
 import { shelf, getDeck } from "./decks/index.js";
 import { LeftRail } from "./components/LeftRail.jsx";
+import { MobileDrawer } from "./components/MobileDrawer.jsx";
 import { CopyLinkButton } from "./components/CopyLinkButton.jsx";
 import { HomePage } from "./views/HomePage.jsx";
 // CoverPage removed — with one deck, Home's chapter cards make the cover redundant.
 import { SlidePage } from "./views/SlidePage.jsx";
 import { AboutPage } from "./views/AboutPage.jsx";
+import { useIsMobile } from "./hooks/useIsMobile.js";
 
 // ─── MAIN APP SHELL ──────────────────────────────────────────────────
 // Routing + state + keyboard/scroll navigation + vertical transitions.
@@ -59,6 +62,8 @@ export default function App({
   const contentRef = useRef(null);
   const rootRef = useRef(null);
   const pendingNav = useRef(null);
+  const isMobile = useIsMobile();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (rootRef.current) rootRef.current.focus();
@@ -231,6 +236,38 @@ export default function App({
     return () => el.removeEventListener("wheel", handler);
   }, [next, prev, transition, articleOpen]);
 
+  // ── Touch swipe navigation (mobile) ───────────────────────────────
+  // Horizontal swipe only — vertical scrolls fall through to native scroll
+  // so tall slides still pan normally. Threshold: 50px horizontal travel and
+  // dx must exceed dy to register as a swipe (not a scroll).
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    let startX = 0, startY = 0, tracking = false;
+    const onStart = (e) => {
+      if (articleOpen || drawerOpen) return;
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY; tracking = true;
+    };
+    const onEnd = (e) => {
+      if (!tracking) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (Math.abs(dx) < 50) return;
+      if (Math.abs(dx) < Math.abs(dy) * 1.2) return; // dominantly vertical → ignore
+      if (transition !== "none") return;
+      if (dx < 0) next(); else prev();
+    };
+    el.addEventListener("touchstart", onStart, { passive: true });
+    el.addEventListener("touchend", onEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchend", onEnd);
+    };
+  }, [next, prev, transition, articleOpen, drawerOpen]);
+
   // ── Slide transition styles ───────────────────────────────────────
   const getSlideStyle = () => {
     const base = { transition: "opacity 0.22s ease, transform 0.22s ease" };
@@ -289,8 +326,8 @@ export default function App({
     >
       <style>{GLOBAL_CSS}</style>
 
-      {/* Left rail — hidden on Home, slides in on cover/slides */}
-      {!isHome && (
+      {/* Left rail — desktop only, hidden on Home, slides in on cover/slides */}
+      {!isHome && !isMobile && (
         <div style={{ animation: "railSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both" }}>
           <LeftRail
             deckTitle={deck.title}
@@ -304,6 +341,20 @@ export default function App({
             isSlides={isSlides}
           />
         </div>
+      )}
+
+      {/* Mobile nav drawer — full-screen overlay */}
+      {isMobile && (
+        <MobileDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          deckTitle={deck.title}
+          chapters={deck.chapters}
+          activeChapter={chapter.id}
+          activeSlide={slideIdx}
+          onNavigate={navigate}
+          onGoHome={goHome}
+        />
       )}
 
       {/* Main Content */}
@@ -320,6 +371,43 @@ export default function App({
             }} />
           </div>
         </div>
+
+        {/* Mobile-only header row: hamburger + chapter eyebrow.
+            Sits between progress bar and slide canvas so it never overlaps title. */}
+        {isMobile && isSlides && (
+          <div style={{
+            flexShrink: 0,
+            display: "flex", alignItems: "center", gap: 4,
+            padding: "4px 6px 0",
+          }}>
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              style={{
+                width: 44, height: 44, flexShrink: 0,
+                background: "transparent", border: "none", borderRadius: 10,
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer", color: C.text,
+              }}
+            >
+              <MenuIcon size={22} />
+            </button>
+            <button
+              onClick={() => navigate(chapter.id, 0)}
+              style={{
+                background: "transparent", border: "none", padding: "8px 4px",
+                cursor: "pointer",
+                fontSize: 10, fontWeight: 700, letterSpacing: 1.4,
+                textTransform: "uppercase", color: C.textMuted,
+                whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                minWidth: 0,
+              }}
+            >
+              <span style={{ color: C.accent, marginRight: 6 }}>{chapter.num}</span>
+              {chapter.title}
+            </button>
+          </div>
+        )}
 
         {/* Slide canvas */}
         <div
@@ -360,26 +448,110 @@ export default function App({
           )}
         </div>
 
-        {/* Bottom: progress dots */}
-        <div style={{
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          padding: "6px 32px", flexShrink: 0,
-        }}>
-          {isSlides && chapter.slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => navigate(chapter.id, i)}
-              aria-label={`Go to slide ${i + 1}`}
-              style={{
-                width: i === slideIdx ? 24 : 7, height: 7, borderRadius: 4, border: "none",
-                background: i === slideIdx ? C.accent : C.border,
-                cursor: "pointer", transition: "all 0.3s", padding: 0,
-              }}
-            />
-          ))}
-          {isSlides && <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 4 }}>{slideIdx + 1}/{totalSlides}</span>}
-          {isHome && <span style={{ fontSize: 11, color: "transparent" }}>·</span>}
-        </div>
+        {/* Bottom: progress dots (desktop) or chevron-flanked dots (mobile) */}
+        {!isMobile && (
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            padding: "6px 32px", flexShrink: 0,
+          }}>
+            {isSlides && chapter.slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => navigate(chapter.id, i)}
+                aria-label={`Go to slide ${i + 1}`}
+                style={{
+                  width: i === slideIdx ? 24 : 7, height: 7, borderRadius: 4, border: "none",
+                  background: i === slideIdx ? C.accent : C.border,
+                  cursor: "pointer", transition: "all 0.3s", padding: 0,
+                }}
+              />
+            ))}
+            {isSlides && <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 4 }}>{slideIdx + 1}/{totalSlides}</span>}
+            {isHome && <span style={{ fontSize: 11, color: "transparent" }}>·</span>}
+          </div>
+        )}
+        {isMobile && isSlides && (() => {
+          const isFirst = chapterIdx === 0 && slideIdx === 0;
+          const isLastInChapter = slideIdx === totalSlides - 1;
+          const isLastEverywhere = isLastInChapter && chapterIdx === deck.chapters.length - 1;
+          // Highlight next button as accent fill when leaving current chapter
+          // (matches mockup frame 5: signals "you're entering chapter N").
+          const nextEntersNewChapter = isLastInChapter && !isLastEverywhere;
+          return (
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "8px 12px 10px", flexShrink: 0,
+              gap: 6,
+            }}>
+              <button
+                onClick={prev}
+                disabled={isFirst}
+                aria-label="Previous slide"
+                style={{
+                  width: 52, height: 52, borderRadius: 999,
+                  background: C.surface,
+                  border: `1px solid ${C.border}`,
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  cursor: isFirst ? "default" : "pointer",
+                  opacity: isFirst ? 0.35 : 1,
+                  color: C.accent, padding: 0, flexShrink: 0,
+                }}
+              >
+                <ChevronLeft size={22} />
+              </button>
+
+              <div style={{
+                display: "flex", alignItems: "center", gap: 2,
+                flex: 1, justifyContent: "center",
+                overflow: "hidden",
+              }}>
+                {chapter.slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => navigate(chapter.id, i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    style={{
+                      width: 28, height: 44, padding: 0,
+                      display: "inline-flex", alignItems: "center", justifyContent: "center",
+                      background: "transparent", border: "none", cursor: "pointer",
+                    }}
+                  >
+                    <span style={{
+                      display: "block",
+                      width: i === slideIdx ? 26 : 8,
+                      height: 8,
+                      borderRadius: 5,
+                      background: i === slideIdx ? C.accent : C.border,
+                      transition: "all 0.3s",
+                    }} />
+                  </button>
+                ))}
+                <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 8, whiteSpace: "nowrap" }}>
+                  {slideIdx + 1}/{totalSlides}
+                </span>
+              </div>
+
+              <button
+                onClick={next}
+                disabled={isLastEverywhere}
+                aria-label="Next slide"
+                style={{
+                  width: 52, height: 52, borderRadius: 999,
+                  background: nextEntersNewChapter ? C.accent : C.surface,
+                  border: `1px solid ${nextEntersNewChapter ? C.accent : C.border}`,
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  cursor: isLastEverywhere ? "default" : "pointer",
+                  opacity: isLastEverywhere ? 0.35 : 1,
+                  color: nextEntersNewChapter ? "#FFFCF7" : C.accent,
+                  padding: 0, flexShrink: 0,
+                  transition: "background 0.3s, color 0.3s, border-color 0.3s",
+                }}
+              >
+                <ChevronRight size={22} />
+              </button>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

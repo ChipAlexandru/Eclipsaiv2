@@ -3,6 +3,7 @@ import { ArrowDown as ArrowDownIcon } from "lucide-react";
 import { C, FONT } from "../theme.js";
 import { AboutPopup } from "../components/AboutPopup.jsx";
 import { getLatestSlides } from "../decks/index.js";
+import { useIsMobile } from "../hooks/useIsMobile.js";
 
 // Global Home (decision 1C). One home for the whole shelf.
 // Renders: masthead, headline, three chapter cards, Latest row, scroll hint.
@@ -11,6 +12,7 @@ import { getLatestSlides } from "../decks/index.js";
 // Latest cards auto-pick the 3 most recently added slides by dateAdded.
 export function HomePage({ shelf, onNavigate, onOpenAbout }) {
   const [aboutOpen, setAboutOpen] = useState(false);
+  const isMobile = useIsMobile();
   const { about, featured } = shelf;
   const latest = getLatestSlides(3);
 
@@ -187,16 +189,16 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
         </div>
       )}
 
-      {/* Scroll hint */}
+      {/* Scroll/tap hint — copy switches by input modality */}
       <div style={{
         animation: "cardSlideUp 0.5s ease 0.46s both",
         display: "flex", alignItems: "center", gap: 10,
       }}>
         <div style={{ width: 28, height: 1, background: C.textMuted, opacity: 0.35 }} />
         <span style={{ fontSize: 10, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", fontWeight: 700 }}>
-          Or scroll to begin
+          {isMobile ? "Tap a chapter to begin" : "Or scroll to begin"}
         </span>
-        <ArrowDownIcon size={12} color={C.textMuted} style={{ opacity: 0.55 }} />
+        {!isMobile && <ArrowDownIcon size={12} color={C.textMuted} style={{ opacity: 0.55 }} />}
       </div>
     </div>
   );
