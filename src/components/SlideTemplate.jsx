@@ -14,21 +14,21 @@ import { C } from "../theme.js";
 export function SlideTemplate({ eyebrow, title, source, children }) {
   return (
     <>
-      {/* Eyebrow zone — fixed 32px */}
+      {/* Eyebrow zone */}
       <div style={{
-        height: 32, display: "flex", alignItems: "center",
+        height: 22, display: "flex", alignItems: "center",
         fontSize: 10, fontWeight: 700, color: C.textMuted,
         textTransform: "uppercase", letterSpacing: 2,
       }}>
         {eyebrow}
       </div>
-      {/* Title zone — fixed 84px, 2 lines max */}
+      {/* Title zone — 2 lines max */}
       <div style={{
-        height: 84, display: "flex", alignItems: "flex-start", paddingTop: 4,
+        minHeight: 56, display: "flex", alignItems: "flex-start", paddingTop: 2,
       }}>
         <h1 style={{
-          fontSize: 28, fontWeight: 800, color: C.text, margin: 0,
-          lineHeight: 1.22, letterSpacing: -0.4,
+          fontSize: 26, fontWeight: 800, color: C.text, margin: 0,
+          lineHeight: 1.2, letterSpacing: -0.4,
           display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
           overflow: "hidden",
         }}>
@@ -36,13 +36,13 @@ export function SlideTemplate({ eyebrow, title, source, children }) {
         </h1>
       </div>
       {/* Divider rule */}
-      <div style={{ height: 1, background: C.border, margin: "4px 0 24px 0" }} />
+      <div style={{ height: 1, background: C.border, margin: "2px 0 10px 0" }} />
       {/* Body region */}
       {children}
       {/* Source attribution */}
       {source && (
         <div style={{
-          marginTop: 20, fontSize: 11, color: C.textMuted,
+          marginTop: 6, fontSize: 11, color: C.textMuted,
           fontStyle: "italic",
         }}>
           Source: {source}

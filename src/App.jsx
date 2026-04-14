@@ -330,9 +330,10 @@ export default function App({
           alignItems: isSlides ? "flex-start" : "center",
           justifyContent: "center",
           padding: isSlides
-            ? "clamp(24px, 4vh, 48px) clamp(20px, 4vw, 48px) clamp(16px, 3vh, 40px)"
+            ? "clamp(14px, 2vh, 24px) clamp(20px, 4vw, 48px) clamp(8px, 1.5vh, 16px)"
             : "clamp(16px, 3vh, 40px) clamp(20px, 4vw, 48px)",
           overflow: isSlides ? "auto" : "hidden",
+          position: "relative",
         }}>
           <div style={{
             maxWidth: isHome ? 900 : 840,
@@ -342,12 +343,26 @@ export default function App({
             {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}
             {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} articleOpen={articleOpen} onArticleOpen={openArticle} onArticleClose={closeArticle} />}
           </div>
+          {/* Dev-mode fold line: marks the bottom of the visible viewport so authors
+              can spot content that would require scrolling. Only renders in dev. */}
+          {process.env.NODE_ENV === "development" && isSlides && !articleOpen && (
+            <div style={{
+              position: "absolute", left: 0, right: 0, bottom: 0,
+              borderBottom: "2px dashed rgba(220, 40, 40, 0.35)",
+              pointerEvents: "none", zIndex: 999,
+            }}>
+              <span style={{
+                position: "absolute", right: 8, bottom: 2,
+                fontSize: 9, color: "rgba(220, 40, 40, 0.5)", fontFamily: "monospace",
+              }}>fold</span>
+            </div>
+          )}
         </div>
 
         {/* Bottom: progress dots */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          padding: "14px 32px", flexShrink: 0,
+          padding: "6px 32px", flexShrink: 0,
         }}>
           {isSlides && chapter.slides.map((_, i) => (
             <button

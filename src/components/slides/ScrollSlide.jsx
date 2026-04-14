@@ -22,19 +22,19 @@ export function ScrollSlide({ slide, isActive }) {
       <div style={{
         display: "grid",
         gridTemplateColumns: `repeat(${slide.stats.length}, 1fr)`,
-        gap: 14,
-        marginBottom: 24,
+        gap: 10,
+        marginBottom: 14,
       }}>
         {slide.stats.map((s, i) => (
           <div key={i} style={{
-            padding: "24px 16px", borderRadius: 12,
+            padding: "14px 12px", borderRadius: 12,
             background: C.surface, border: `1px solid ${C.border}`, textAlign: "center",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(16px)",
             transition: `opacity 0.5s ease ${i * 0.15}s, transform 0.5s ease ${i * 0.15}s`,
           }}>
             <div style={{
-              fontSize: 32, fontWeight: 800, color: C.accent,
+              fontSize: 28, fontWeight: 800, color: C.accent,
               lineHeight: 1.1, fontVariantNumeric: "tabular-nums",
             }}>
               <AnimNum value={s.value} unit={s.unit} visible={visible} isText={slide.isText || s.isText} />
@@ -47,8 +47,8 @@ export function ScrollSlide({ slide, isActive }) {
       {slide.chart && <Chart chart={slide.chart} isActive={visible} />}
       {slide.body && (
         <p style={{
-          fontSize: 15, color: C.text, lineHeight: 1.75,
-          margin: 0, maxWidth: 700,
+          fontSize: 13, color: C.text, lineHeight: 1.4,
+          margin: 0,
           fontFamily: FONT.serif, fontWeight: 700,
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(12px)",

@@ -20,8 +20,8 @@ export function ArticleTrigger({ article, onOpen }) {
       style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
         width: "100%", maxWidth: 700,
-        padding: "16px 0",
-        marginTop: 12,
+        padding: "10px 0",
+        marginTop: 6,
         borderTop: `1px solid ${C.border}`,
         border: "none", borderTop: `1px solid ${C.border}`,
         background: "transparent",
@@ -98,6 +98,17 @@ export function ArticleContent({ article, onClose }) {
 
       {/* Accent separator */}
       <div style={{ width: 48, height: 1, background: C.accentBorder, marginBottom: 28 }} />
+
+      {/* Article title */}
+      {article.title && (
+        <h2 style={{
+          fontSize: 22, fontWeight: 800, color: C.text,
+          lineHeight: 1.3, margin: "0 0 24px 0",
+          fontFamily: FONT.serif,
+        }}>
+          {article.title}
+        </h2>
+      )}
 
       {/* Sections */}
       {article.sections.map((section, i) => {
@@ -186,8 +197,27 @@ export function ArticleContent({ article, onClose }) {
         );
       })}
 
-      {/* Footer source */}
-      {article.source && (
+      {/* Footer sources */}
+      {article.sources && article.sources.length > 0 && (
+        <div style={{ marginTop: 32, borderTop: `1px solid ${C.borderLight}`, paddingTop: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>
+            Sources
+          </div>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {article.sources.map((s, i) => (
+              <li key={i} style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.6 }}>
+                {s.url ? (
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: C.accent, textDecoration: "none" }}>
+                    {s.label}
+                  </a>
+                ) : s.label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {/* Legacy plain-text source */}
+      {!article.sources && article.source && (
         <div style={{
           marginTop: 32, fontSize: 12, fontStyle: "italic", color: C.textMuted,
         }}>

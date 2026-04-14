@@ -7,8 +7,8 @@ export function ChartCard({ title, unit, legend, visible, children }) {
       background: C.surface,
       border: `1px solid ${C.border}`,
       borderRadius: 14,
-      padding: "28px 28px 20px",
-      marginBottom: 20,
+      padding: "16px 20px 14px",
+      marginBottom: 6,
       opacity: visible ? 1 : 0,
       transform: visible ? "translateY(0)" : "translateY(14px)",
       transition: "opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s",
@@ -16,7 +16,7 @@ export function ChartCard({ title, unit, legend, visible, children }) {
       {(title || unit) && (
         <div style={{
           display: "flex", alignItems: "baseline",
-          justifyContent: "space-between", marginBottom: 24,
+          justifyContent: "space-between", marginBottom: 14,
         }}>
           {title && (
             <div style={{
