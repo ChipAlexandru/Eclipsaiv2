@@ -37,7 +37,7 @@ export function ScrollSlide({ slide, isActive }) {
               fontSize: 32, fontWeight: 800, color: C.accent,
               lineHeight: 1.1, fontVariantNumeric: "tabular-nums",
             }}>
-              <AnimNum value={s.value} unit={s.unit} visible={visible} isText={slide.isText} />
+              <AnimNum value={s.value} unit={s.unit} visible={visible} isText={slide.isText || s.isText} />
             </div>
             <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginTop: 8 }}>{s.label}</div>
             <div style={{ fontSize: 12, color: C.textMuted, marginTop: 3 }}>{s.desc}</div>

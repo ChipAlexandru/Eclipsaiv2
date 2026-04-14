@@ -17,15 +17,15 @@ export const aiTransformationDeck = {
       subtitle: "AI impact is clear, just not evenly distributed",
       slides: [
         {
-          id: "anthropic-story",
-          dateAdded: "2026-04-10",
+          id: "anthropic-ai-native",
+          dateAdded: "2026-04-14",
           type: "scroll",
           source: "Eclipsai analysis, Anthropic",
           title: "Anthropic: internal AI use drives productivity and growth",
           stats: [
-            { label: "Productivity increase", value: 50, unit: "%", desc: "across all employees" },
-            { label: "Power users (14%)", value: "2×", unit: "", desc: "productivity boost", isText: true },
-            { label: "Product releases", value: "1+", unit: "/day", desc: "Anthropic, past quarter", isText: true },
+            { label: "Productivity increase", value: 50, unit: "%", desc: "self-reported, year-over-year" },
+            { label: "New work created", value: 27, unit: "%", desc: "tasks that would not have been done without AI" },
+            { label: "Non-developer usage", value: "50%+", unit: "", desc: "Legal, Finance, Marketing, Data, Security", isText: true },
           ],
           chart: {
             type: "line",
@@ -70,26 +70,46 @@ export const aiTransformationDeck = {
               },
             ],
           },
-          isText: true,
-        },
-        {
-          id: "anthropic-departments",
-          dateAdded: "2026-04-10",
-          type: "tufte",
-          source: "Anthropic",
-          title: "Anthropic: broad AI use in all functions",
-          paragraphs: [
-            "Internal study documented broad use of AI outside software development (Legal, Growth, Product Design, Data and Analytics, Security).",
-            { text: "\u201CLegal is shipping software now.\u201D", italic: true },
-            "Employee report better performance.",
-            { text: "\u201CIt did a way better job than I ever would\u2019ve.\u201D", italic: true },
-            "Most work with AI is iterative, not hands-off (only 0–20% fully delegated to AI).",
-          ],
-          notes: [
-            { marker: "10–15 → 5 min", label: "Security review" },
-            { marker: "1 week → 2 calls", label: "Product Design iteration" },
-            { marker: "5–10 → 100", label: "Growth Marketing creative variations per batch" },
-          ],
+          body: "Three takeaways from Anthropic\u2019s AI-native operating model. First, make AI a component of core operations. Second, the organizational structure must distribute decision-making. Third, target the highest-friction workflows and measure success by new output capacity.",
+          article: {
+            sections: [
+              {
+                subhead: "Revenue trajectory",
+                body: "Anthropic has achieved $30B annual revenue run-rate by April 2026, less than 14 months after crossing $1B in ARR. Growth accelerated from $14B to $30B ARR in just eight weeks (Feb\u2013Apr 2026), driven by enterprise adoption at scale: 1,000+ clients each spending $1M+/year. The company\u2019s valuation reached $380B in Series G funding completed February 2026. Claude Code achieved $2.5B ARR by February 2026, doubling since January.",
+              },
+              {
+                subhead: "Internal productivity gains",
+                body: "Anthropic conducted a formal productivity study across 132 engineers: 53 in-depth interviews and 200,000 Claude Code transcripts analyzed. Claude usage in daily work grew from 28% to 59% of engineers over 12 months. Productivity gains ranged from 20% to 50% year-over-year, with power users (14% of surveyed population) reporting gains exceeding 100%. Merged pull requests per engineer per day increased by 67% among adopters.",
+              },
+              {
+                type: "callout",
+                value: "27%",
+                label: "of AI-assisted work represented tasks that would not have been completed at all without the tool",
+              },
+              {
+                subhead: "Cross-functional adoption",
+                body: "50% or more of Claude Code usage originates from non-developer roles. Growth Marketing generated hundreds of ad variations in minutes. Legal built accessibility tools and automated workflows without engineering support. Data Infrastructure analyzed Kubernetes diagnostics via screenshot analysis. Finance generated Excel reports through Claude Code without manual data assembly. Security accelerated Terraform plan parsing by distributing analysis across Claude.",
+              },
+              {
+                type: "pullquote",
+                text: "A company with 10,000 employees organized into 25 functional areas can adopt AI tools selectively within each area. Anthropic\u2019s experience suggests that treating AI as an engineering-only tool leaves substantial productivity gains on the table.",
+                source: "Eclipsai analysis",
+              },
+              {
+                subhead: "Augmentation over automation",
+                body: "Analysis of approximately 2M conversations across Claude.ai and API usage found augmentation accounted for 52% of AI-assisted work, while automation accounted for 45%. The speedup ratio on college-level tasks was 12\u00d7, while high-school-level tasks achieved 9\u00d7. 49% of jobs showed AI use applied to 25% or more of their tasks. When adjusted for coverage, failure rates, and industry exposure, the effective productivity contribution was approximately 1.0\u20131.2 percentage points of annual growth \u2014 meaningful but an order of magnitude smaller than raw speedup implies.",
+              },
+              {
+                subhead: "Organizational design",
+                body: "Every technical employee holds the title \u201cMember of Technical Staff,\u201d eliminating management layers. The company operates remote-first across the US, UK, and Canada with 25% in-office presence. As a public benefit corporation, decisions incorporate explicit consideration of safety, societal impact, and long-term consequences. Revenue per employee ranges from $3.8M to $6M, well above the $1\u2013$2M typical of enterprise software.",
+              },
+              {
+                subhead: "Implications for enterprises",
+                body: "Anthropic demonstrates that AI-native operations require simultaneous transformation across three dimensions: technical infrastructure treating AI as a core component, organizational structure distributing decision-making authority, and adoption strategy targeting highest-friction workflows and measuring success by new output capacity rather than headcount reduction. The constraint in most enterprises is not tool availability but the organizational structures that determine which teams can access AI and how they integrate it into daily workflows.",
+              },
+            ],
+            source: "Eclipsai analysis; Anthropic Research (Dec 2025); Anthropic Economic Index (Jan 2026); CNBC; IndexBox; SaaStr; VentureBeat",
+          },
         },
         {
           id: "medvi-telehealth",
