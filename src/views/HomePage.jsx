@@ -14,7 +14,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const isMobile = useIsMobile();
   const { about, featured } = shelf;
-  const latest = getLatestSlides(3);
+  const latest = getLatestSlides();
 
   // Format "2026-04-10" → "Apr 10"
   const fmtDate = (iso) => {

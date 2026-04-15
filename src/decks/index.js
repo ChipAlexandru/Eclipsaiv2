@@ -89,30 +89,35 @@ export function getDeck(deckId) {
   return shelf.decks.find((d) => d.id === deckId);
 }
 
-// Returns the N most recently touched slides across all decks. Sort key is
-// `dateUpdated || dateAdded` so authors can manually surface a slide whose
-// content was rewritten without changing its original add date. The Home
-// "Latest" card shows whichever date drove the sort.
-// Slides without either date sort last via a "1970-01-01" fallback.
-export function getLatestSlides(count = 3) {
-  const all = [];
+// Returns the most recently touched slide from each chapter of the default
+// deck, in chapter order. The Home page renders these column-aligned under
+// their parent chapter cards, so the "Latest" row visually maps one card per
+// chapter column. Sort key is `dateUpdated || dateAdded` so authors can
+// manually surface a slide whose content was rewritten without changing its
+// original add date. Slides without either date sort last via a "1970-01-01"
+// fallback. Chapters with zero slides are skipped.
+export function getLatestSlides() {
+  const results = [];
   for (const deck of shelf.decks) {
     for (const chapter of deck.chapters) {
+      if (!chapter.slides?.length) continue;
+      let best = null;
       for (const slide of chapter.slides) {
-        const sortDate = slide.dateUpdated || slide.dateAdded || null;
-        all.push({
-          deckId: deck.id,
-          chapterId: chapter.id,
-          slideId: slide.id,
-          title: slide.title,
-          dateAdded: slide.dateAdded || null,
-          dateUpdated: slide.dateUpdated || null,
-          // The date driving sort + display. Home renders this.
-          sortDate,
-        });
+        const sortDate = slide.dateUpdated || slide.dateAdded || "1970-01-01";
+        if (!best || sortDate.localeCompare(best.sortDate) > 0) {
+          best = {
+            deckId: deck.id,
+            chapterId: chapter.id,
+            slideId: slide.id,
+            title: slide.title,
+            dateAdded: slide.dateAdded || null,
+            dateUpdated: slide.dateUpdated || null,
+            sortDate,
+          };
+        }
       }
+      if (best) results.push(best);
     }
   }
-  all.sort((a, b) => (b.sortDate || "1970-01-01").localeCompare(a.sortDate || "1970-01-01"));
-  return all.slice(0, count);
+  return results;
 }
