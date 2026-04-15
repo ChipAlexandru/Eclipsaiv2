@@ -123,6 +123,9 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                 fontSize: 22, fontWeight: 800, color: C.text,
                 lineHeight: 1.22, letterSpacing: -0.5, marginBottom: 14,
                 fontFamily: FONT.serif,
+                // Reserve two lines so blurbs align across cards whether
+                // the title wraps or not.
+                minHeight: "2.44em",
               }}>
                 {f.title}
               </div>
@@ -175,6 +178,9 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                   lineHeight: 1.3, letterSpacing: -0.3,
                   fontFamily: FONT.serif,
                   marginBottom: 10,
+                  // Reserve two lines so the date row aligns across cards
+                  // whether the title wraps or not.
+                  minHeight: "2.6em",
                 }}>
                   {s.title}
                 </div>
