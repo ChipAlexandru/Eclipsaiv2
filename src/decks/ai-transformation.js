@@ -421,36 +421,50 @@ export const aiTransformationDeck = {
       subtitle: "Architecture, talent, and governance for speed",
       slides: [
         {
-          id: "c3s1",
-          dateAdded: "2026-04-08",
+          id: "model-routing",
+          dateAdded: "2026-04-14",
           type: "standard",
-          title: "A Three-Layer Architecture",
-          body: "The technical approach separates concerns to allow independent evolution and prevent vendor lock-in at any tier.",
+          title: "Model routing: optimize costs by using the best model for each task",
+          source: "RouteLLM (ICLR 2025), Anthropic Building Effective Agents, OpenAI Reasoning Best Practices",
+          body: "Model routing matches each query to the cheapest model that meets the quality bar, concentrating expensive reasoning tokens on the planning phase.",
+          callout: {
+            value: "85%",
+            label: "cost reduction",
+            sub: "Cost reduction for production deployments, while retaining 95% of frontier-model quality",
+          },
           pillars: [
-            { title: "Infrastructure", desc: "Cloud-native data platform, model serving, security guardrails, and cost management" },
-            { title: "Intelligence", desc: "Foundation models, fine-tuned domain models, RAG pipelines, and evaluation frameworks" },
-            { title: "Interface", desc: "AI embedded in existing tools and workflows — no new standalone applications to learn" },
+            { title: "Rule-based routing", desc: "Assign complexity tiers to query types. No ML required. Audit your query mix and implement within a week." },
+            { title: "Classifier-based routing", desc: "Train a lightweight model on production logs to predict which queries need frontier capabilities. Handles the ambiguous middle." },
+            { title: "Cascade routing", desc: "Start every query on the cheapest model. Escalate only when the output fails a quality check. Progressive cost control." },
           ],
-        },
-        {
-          id: "c3s2",
-          dateAdded: "2026-04-08",
-          type: "scroll",
-          title: "Talent Strategy: Build, Buy, Borrow",
-          stats: [
-            { label: "Internal upskilling", value: 60, unit: "%", desc: "of capability need — proprietary models, governance" },
-            { label: "Strategic hires", value: 25, unit: "%", desc: "ML engineering, prompt design, data architecture" },
-            { label: "Partner augmentation", value: 15, unit: "%", desc: "surge capacity and niche expertise" },
-          ],
-          body: "No single talent strategy works at this scale. The 60/25/15 model builds deep internal capability while avoiding the bottleneck of trying to hire your way to readiness.",
-        },
-        {
-          id: "c3s3",
-          dateAdded: "2026-04-08",
-          type: "standard",
-          title: "Governance That Enables Speed",
-          body: "Tiered review by risk level — not blanket bureaucracy. This removes friction from 80% of use cases while maintaining rigorous oversight where stakes are highest.",
-          callout: { value: "Tiered Risk", label: "Governance model", sub: "Low-risk use cases deploy in days, not months" },
+          article: {
+            title: "Model routing: optimize costs by using best model for task",
+            sections: [
+              { body: "Most enterprise AI deployments send every query to the most expensive model available. A 12x productivity speedup at 10x the per-query cost is a 1.2x improvement in unit economics. Model routing fixes this by matching each query to the cheapest model that meets the quality bar. Production deployments report 85% cost reduction while retaining 95% of frontier-model quality." },
+
+              { subhead: "The planner/doer pattern separates reasoning from execution", body: "A reasoning model plans the approach. A cheaper execution model carries out the steps. This applies to data validation, code review, financial analysis, and agentic planning. The cost savings come from concentrating expensive reasoning tokens on the planning phase and running execution on models that cost a fraction per token." },
+              { body: "Anthropic structures this as three tiers. Opus handles complex reasoning and orchestration. Sonnet covers the majority of production workloads. Haiku processes classification, extraction, and formatting. The tier boundaries map to task complexity: augmented LLMs for simple tool use, workflows for deterministic multi-step processes, autonomous agents for open-ended reasoning." },
+
+              { subhead: "Three routing strategies, layered progressively", body: "Rule-based routing assigns complexity tiers to query types and sends each tier to the appropriate model. This requires no machine learning, just an audit of your query mix." },
+              { body: "Classifier-based routing trains a lightweight model on production logs to predict which queries need frontier capabilities. This handles the ambiguous queries that rules miss." },
+              { body: "Cascade routing starts every query on the cheapest model and escalates only when the output fails a quality check." },
+              { body: "The implementation sequence: audit your query distribution, implement rules to catch obvious low-complexity traffic, then train a classifier on the queries where rules are ambiguous." },
+
+              { subhead: "Model selection starts from the cheapest option that works", body: "Free-tier models handle a meaningful share of production workloads. Each model has a specific cost profile and a specific capability boundary. Organizations that route effectively map those boundaries to their actual task distribution." },
+              { body: "Extended reasoning time improves performance on complex tasks but burns tokens on simple queries where the additional computation adds nothing. Monitoring reasoning traces also detects misbehavior, so the same mechanism that improves quality serves as a safety check." },
+
+              { subhead: "Implementation path", body: "Start with a query audit. Implement rule-based routing within a week. Measure cost reduction over 30 days. Invest in classifier-based routing for the ambiguous middle." },
+            ],
+            sources: [
+              { label: "RouteLLM: Learning to Route LLMs with Preference Data, UC Berkeley (ICLR 2025)", url: "https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf" },
+              { label: "Reasoning Best Practices, OpenAI", url: "https://developers.openai.com/api/docs/guides/reasoning-best-practices" },
+              { label: "Prompting Best Practices (Claude 4.x Models), Anthropic", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices" },
+              { label: "Building Effective Agents, Anthropic Research (December 2024)", url: "https://www.anthropic.com/research/building-effective-agents" },
+              { label: "LLM Routing: How to Stop Paying Frontier Model Prices for Simple Queries, Tian Pan (October 2025)", url: "https://tianpan.co/blog/2025-10-19-llm-routing-production" },
+              { label: "Practical Guide for Model Selection for Real-World Use Cases, OpenAI Cookbook", url: "https://cookbook.openai.com/examples/partners/model_selection_guide/model_selection_guide" },
+              { label: "Anthropic Economic Index V4, Economic Primitives (January 2026)", url: "https://www.anthropic.com/research/economic-index-primitives" },
+            ],
+          },
         },
       ],
     },
