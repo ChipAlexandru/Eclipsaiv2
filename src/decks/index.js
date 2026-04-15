@@ -57,7 +57,7 @@ export const shelf = {
       chapterId: "case",
       label: "Case for change",
       title: "Business impact",
-      blurb: "Results from AI-natives, earnings data, and controlled studies.",
+      blurb: "Results from AI-natives, earnings data, and controlled studies. Continuously updated.",
     },
     {
       kind: "chapter",
@@ -65,7 +65,7 @@ export const shelf = {
       chapterId: "approach",
       label: "Approach",
       title: "Compounding productivity",
-      blurb: "AI tools, self-improving workflows across functions.",
+      blurb: "Latest AI tools and self-improving workflows across functions.",
     },
     {
       kind: "chapter",
