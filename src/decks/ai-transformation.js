@@ -421,6 +421,25 @@ export const aiTransformationDeck = {
       subtitle: "Architecture, talent, and governance for speed",
       slides: [
         {
+          id: "technical-capabilities",
+          dateAdded: "2026-04-15",
+          type: "standard",
+          title: "TECHNICAL CAPABILITIES required for enterprise AI delivery",
+          source: "Eclipsai",
+          pillarsLayout: "list",
+          listTitleWidth: 210,
+          pillars: [
+            { title: "Model routing", desc: "Match task difficulty to model version to balance performance and cost." },
+            { title: "Enterprise connectors", desc: "Give agents access to systems and tools when relevant." },
+            { title: "Memory and workflows", desc: "Understand previous work, generate useful deliverables." },
+            { title: "Context engineering", desc: "Give the right information required for the task." },
+            { title: "Evals and testing", desc: "Deliver repeatable, high-quality work." },
+            { title: "Safety and security", desc: "Protect against possible risks." },
+            { title: "Human collaboration", desc: "Implement patterns of AI augmentation." },
+            { title: "Cost and latency", desc: "Full-system cost optimization." },
+          ],
+        },
+        {
           id: "model-routing",
           dateAdded: "2026-04-14",
           type: "standard",

@@ -60,7 +60,7 @@ export function StandardSlide({ slide }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: slide.callout?.text ? 18 : 0 }}>
           {slide.pillars.map((p, i) => (
             <div key={i} style={{
-              display: "grid", gridTemplateColumns: "170px 1fr",
+              display: "grid", gridTemplateColumns: `${slide.listTitleWidth || 170}px 1fr`,
               gap: 20, alignItems: "baseline",
               padding: "12px 16px 12px 14px",
               background: C.surface, border: `1px solid ${C.border}`,

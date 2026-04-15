@@ -34,7 +34,7 @@ export function SlidePage({ chapter, slide, slideKey, articleOpen, onArticleOpen
       return <Component slide={slide} />;
     }
     return (
-      <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source}>
+      <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source} updatedAt={slide.dateUpdated || slide.dateAdded}>
         <Component slide={slide} />
         {slide.article && !articleOpen && (
           <ArticleTrigger article={slide.article} onOpen={onArticleOpen} />
@@ -47,7 +47,7 @@ export function SlidePage({ chapter, slide, slideKey, articleOpen, onArticleOpen
   }
 
   return (
-    <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source}>
+    <SlideTemplate eyebrow={`${chapter.num} · ${chapter.title}`} title={slide.title} source={slide.source} updatedAt={slide.dateUpdated || slide.dateAdded}>
       {slide.type === "standard" && <StandardSlide slide={slide} />}
       {slide.type === "tufte" && <TufteSlide slide={slide} />}
       {slide.type === "scroll" && <ScrollSlide slide={slide} isActive={true} key={slideKey} />}

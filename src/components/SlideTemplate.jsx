@@ -11,16 +11,26 @@ import { C } from "../theme.js";
 // The current prototype uses smaller inline font sizes (10/28) inside 32/84 height zones and
 // a full-width 1px divider instead of 60×3px. Milestone 1 is a behavior-preserving refactor —
 // those spec upgrades land in a later polish pass, not here.
-export function SlideTemplate({ eyebrow, title, source, children }) {
+function formatUpdated(iso) {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (isNaN(d)) return null;
+  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  return `UPDATED ${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
+export function SlideTemplate({ eyebrow, title, source, updatedAt, children }) {
+  const updatedLabel = formatUpdated(updatedAt);
   return (
     <>
       {/* Eyebrow zone */}
       <div style={{
-        height: 22, display: "flex", alignItems: "center",
+        height: 22, display: "flex", alignItems: "center", justifyContent: "space-between",
         fontSize: 10, fontWeight: 700, color: C.textMuted,
         textTransform: "uppercase", letterSpacing: 2,
       }}>
-        {eyebrow}
+        <span>{eyebrow}</span>
+        {updatedLabel && <span style={{ color: C.textLight, letterSpacing: 1.5 }}>{updatedLabel}</span>}
       </div>
       {/* Title zone — 2 lines max (3 on mobile via .slide-title-h1 override) */}
       <div className="slide-title-zone" style={{
