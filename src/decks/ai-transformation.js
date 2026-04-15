@@ -507,6 +507,44 @@ export const aiTransformationDeck = {
             ],
           },
         },
+        {
+          id: "memory-workflows",
+          dateAdded: "2026-04-15",
+          type: "standard",
+          title: "Memory and workflows: deliver output where work happens",
+          source: "Anthropic Research, Claude Code docs, OpenAI Projects, Ethan Mollick, Latent Space",
+          body: "Most AI-generated output requires manual transfer into the system where the work happens. A contract review lands in a chat window; the lawyer copies it into the contract management system. Organizations extracting the most value build automated pipelines from AI output to downstream systems.",
+          callout: {
+            text: "The gap between generating a useful answer and delivering it into the system where work happens is where custom integration work lives.",
+          },
+          pillars: [
+            { title: "Persistent context files", desc: "CLAUDE.md files load automatically by directory: user-level for preferences, project-level for team conventions, directory-level for task requirements. No manual configuration between sessions." },
+            { title: "Three interface modes", desc: "Chat for decisions. Code for repos and infrastructure. Cowork for documents, spreadsheets, and reports written directly to desktop folders. Each reduces the manual transfer step." },
+            { title: "Pipeline to system of record", desc: "Match each workflow to the interface that delivers closest to where work happens. Extend with MCP connectors where output needs to reach systems the interface cannot write to directly." },
+          ],
+          article: {
+            title: "Memory and workflows: deliver output where work happens",
+            sections: [
+              { body: "Most AI-generated output requires manual transfer into the system where the work happens. A contract review lands in a chat window. The lawyer copies it into the contract management system. A financial analysis appears as markdown. The analyst reformats it for the board deck. Organizations extracting the most value build automated pipelines from AI output to downstream systems: dashboards, approval chains, project trackers, compliance records." },
+
+              { subhead: "Persistent context files retain project knowledge across sessions", body: "CLAUDE.md files store instructions that load automatically based on directory structure. A user-level file sets global preferences. A project-level file sets team or codebase conventions. A directory-level file sets task-specific requirements. The agent inherits all three without manual configuration. OpenAI Projects takes a different approach, keeping chats, files, and instructions together in a shared workspace that teams can branch and reuse. Projects usage grew 19x year-to-date, with over 1 million organizations on the platform." },
+
+              { subhead: "Three interface modes move output closer to where work happens", body: "Claude Chat handles conversational interaction. Claude Code operates from the terminal, writing directly to files, repos, and project structures. Claude Cowork writes spreadsheets, documents, and reports directly to the user's desktop folders. OpenAI Canvas opened a separate creation window for code and text editing alongside the chat. Each mode reduces the manual transfer step between AI-generated output and the system of record. The interfaces are early and evolving. Cowork is a research preview. Canvas adoption data is limited." },
+
+              { subhead: "Workflow UX remains the thinnest-documented capability area", body: "After surveying 84 sources across the enterprise AI capability stack, workflow UX has the least practitioner documentation. Most public guidance describes chat-based interfaces. Documentation on building AI outputs that integrate into existing enterprise workflows, meaning dashboards, reports, approval chains, and compliance systems, is nearly nonexistent. The gap between generating a useful answer and delivering it into the system where work happens is where custom integration work lives." },
+
+              { subhead: "Implementation path", body: "Match each workflow to the interface mode that delivers output closest to the system of record. Use Code for repo and infrastructure changes. Use Cowork for documents, spreadsheets, and reports that belong in project folders. Use Chat for exploration and decisions that need a human before going anywhere. Start with the workflows where the manual transfer step consumes the most time. Extend with MCP connectors where the output needs to reach systems the interface cannot write to directly." },
+            ],
+            sources: [
+              { label: "How AI Is Transforming Work at Anthropic, Anthropic Research (December 2025)", url: "https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic" },
+              { label: "Claude Code Overview and CLAUDE.md Documentation, Anthropic", url: "https://code.claude.com/docs/en/overview" },
+              { label: "Projects in ChatGPT, OpenAI Help Center", url: "https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt" },
+              { label: "OpenAI Canvas, OpenAI (October 2024)", url: "https://openai.com/index/introducing-canvas/" },
+              { label: "The Shape of the Thing, Ethan Mollick (March 2026)", url: "https://www.oneusefulthing.org/p/the-shape-of-the-thing" },
+              { label: "Agent Engineering, Swyx / Latent Space (June 2025)", url: "https://www.latent.space/p/agent" },
+            ],
+          },
+        },
       ],
     },
   ],
