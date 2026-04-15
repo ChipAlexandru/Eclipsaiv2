@@ -60,7 +60,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
             name={about.name}
             blurb={about.blurb}
             linkedinUrl={about.linkedinUrl}
-            onReadMore={onOpenAbout}
+            onReadMore={process.env.NODE_ENV === "development" ? onOpenAbout : undefined}
           />
         </div>
       </div>
