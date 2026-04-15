@@ -515,7 +515,7 @@ export const aiTransformationDeck = {
           source: "Anthropic Research, Claude Code docs, OpenAI Projects, Ethan Mollick, Latent Space",
           body: "Most AI-generated output requires manual transfer into the system where the work happens. A contract review lands in a chat window; the lawyer copies it into the contract management system. Organizations extracting the most value build automated pipelines from AI output to downstream systems.",
           callout: {
-            text: "The gap between generating a useful answer and delivering it into the system where work happens is where custom integration work lives.",
+            text: "The gap between generating a useful answer and delivering it where work happens is where the productivity upside lives.",
           },
           pillars: [
             { title: "Persistent context files", desc: "CLAUDE.md files load automatically by directory: user-level for preferences, project-level for team conventions, directory-level for task requirements. No manual configuration between sessions." },
