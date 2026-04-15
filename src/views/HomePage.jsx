@@ -112,7 +112,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
             >
               {f.label && (
                 <div style={{
-                  fontSize: 10, fontWeight: 800, letterSpacing: 2,
+                  fontSize: 11, fontWeight: 800, letterSpacing: 2,
                   textTransform: "uppercase", color: C.accent,
                   marginBottom: 12,
                 }}>
@@ -129,7 +129,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
               }}>
                 {f.title}
               </div>
-              <div style={{ fontSize: 13, color: C.textLight, lineHeight: 1.6, flex: 1 }}>
+              <div style={{ fontSize: 15, color: C.textLight, lineHeight: 1.6, flex: 1 }}>
                 {f.blurb}
               </div>
             </button>
@@ -141,7 +141,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
       {latest.length > 0 && (
         <div style={{ animation: "cardSlideUp 0.5s ease 0.36s both" }}>
           <div style={{
-            fontSize: 10, fontWeight: 800, letterSpacing: 2,
+            fontSize: 11, fontWeight: 800, letterSpacing: 2,
             textTransform: "uppercase", color: C.textMuted,
             marginBottom: 12,
           }}>
@@ -174,7 +174,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                 }}
               >
                 <div style={{
-                  fontSize: 15, fontWeight: 700, color: C.text,
+                  fontSize: 16, fontWeight: 700, color: C.text,
                   lineHeight: 1.3, letterSpacing: -0.3,
                   fontFamily: FONT.serif,
                   marginBottom: 10,
