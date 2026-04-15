@@ -345,7 +345,7 @@ export const aiTransformationDeck = {
             { title: "Custom Builds", desc: "Internal agents and pipelines." },
           ],
           callout: {
-            text: "We believe the future is the AI work platform, which absorbs capabilities from every other mode: horizontal assistant features, vertical workflow depth, and custom build flexibility.",
+            text: "The future is the AI work platform, which works where you work and embeds capabilities from other modes: horizontal assistant features, vertical workflow depth, and custom build flexibility.",
           },
           article: {
             title: "Five Enterprise AI Deployment Modes",
