@@ -392,6 +392,50 @@ export const aiTransformationDeck = {
             ],
           },
         },
+        {
+          id: "ai-work-platforms-cowork",
+          dateAdded: "2026-04-15",
+          type: "standard",
+          title: "AI work platforms: Cowork",
+          source: "Anthropic (Claude Cowork), Simon Willison, VentureBeat, NBIM",
+          body: "A desktop application that runs locally, accesses files, executes code, and connects to enterprise systems. The user describes what they need. Cowork reads relevant documents and pulls data from connected sources. It executes the work and saves finished output as files.",
+          pillarsLayout: "grid-2x2",
+          pillars: [
+            { title: "Persistent memory across sessions", desc: "Each project maintains its own memory, files, and instructions." },
+            { title: "Reusable skills", desc: "Teams package common workflows as reusable skills. Organizations build and distribute their own through private marketplaces." },
+            { title: "Parallel execution", desc: "Cowork runs multiple sub-agents simultaneously, so several tasks execute at once." },
+            { title: "Scheduled and recurring tasks", desc: "Workflows can be scheduled to run automatically." },
+          ],
+          article: {
+            title: "AI Work Platforms for knowledge work",
+            sections: [
+              { body: "An AI work platform is a desktop app with access to a language model, persistent memory, direct file system access, connectors to enterprise applications, and the ability to execute code and run scheduled tasks. The user describes an outcome and the system coordinates work across files, tools, and data sources to deliver a finished result." },
+              { body: "Claude Cowork/Code leads adoption outside engineering. The alternatives are OpenAI (ChatGPT Enterprise with connectors) or Microsoft (Copilot, Copilot Studio)." },
+
+              { subhead: "Knowledge Work Drives the Majority of Claude's Enterprise Growth", body: "Anthropic reached $30 billion in annual revenue run-rate by April 2026, less than 14 months after crossing $1 billion in ARR. The majority of that usage comes from outside engineering teams." },
+              { body: "Product managers, finance analysts, and legal teams adopted Claude Code throughout late 2025. Cowork launched in 2026 and simplified access for non-technical roles. Investment firms published tactical playbooks for Claude in portfolio work. Finance leadership communities ran sessions on Cowork workflows. Legal publications covered Cowork as a competitive alternative to vertical AI tools." },
+              { body: "Enterprise deployment followed. The Norwegian sovereign wealth fund deployed Claude to all employees. Approximately half of staff now build their own AI tools for ESG risk monitoring, regulatory filing analysis, and contract negotiation simulations." },
+
+              { subhead: "Cowork Key Capabilities", body: "A desktop application that works with your files and systems. Claude Cowork runs in a local virtual machine with access to files, a code execution environment, and connectors to enterprise systems. The user describes what they need. Cowork reads relevant documents and pulls data from connected sources. It executes the work and saves finished output as files." },
+              { body: "Pre-built enterprise connectors. Cowork connects to Google Drive, Gmail, Calendar, Slack, GitHub, Microsoft 365, Zoom, and more. Organizations can add custom connectors on all plans, with org-level read and write permissions on Team and Enterprise tiers." },
+              { body: "Persistent memory across sessions. Each project maintains its own memory, files, and instructions, so Cowork retains context about an organization's terminology, processes, and standards without re-prompting." },
+              { body: "Scheduled and recurring tasks. Workflows can be scheduled to run automatically on a set cadence or triggered on demand." },
+              { body: "Reusable plugins scoped to teams and roles. Common workflows are packaged as shareable plugins. Anthropic shared 11 open-source starter plugins covering sales, legal, and data analysis. Organizations build and distribute their own through private marketplaces." },
+              { body: "Parallel execution within a single session. Cowork runs multiple sub-agents simultaneously, so several tasks execute at once." },
+              { body: "Available on Pro, Max, Team, and Enterprise plans. Team and Enterprise tiers add org-level connector permissions, per-tool controls, role-based access via SCIM, group spend limits, a usage analytics API, and OpenTelemetry integration for SIEM systems." },
+            ],
+            sources: [
+              { label: "Making Claude Cowork ready for enterprise (Anthropic, April 2026)", url: "https://claude.com/blog/cowork-for-enterprise" },
+              { label: "Get started with Claude Cowork (Anthropic Help Center)", url: "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" },
+              { label: "Use connectors to extend Claude's capabilities (Anthropic Help Center)", url: "https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities" },
+              { label: "Claude Cowork architecture analysis (Micheal Lanham, February 2026)", url: "https://medium.com/@Micheal-Lanham/claude-cowork-architecture-how-anthropic-built-a-desktop-agent-that-actually-respects-your-files-cf601325df86" },
+              { label: "First impressions of Claude Cowork (Simon Willison, January 2026)", url: "https://simonwillison.net/2026/Jan/12/claude-cowork/" },
+              { label: "Anthropic says Claude Code transformed programming, now Claude Cowork is next (VentureBeat, March 2026)", url: "https://venturebeat.com/orchestration/anthropic-says-claude-code-transformed-programming-now-claude-cowork-is/" },
+              { label: "Anthropic reports $30B revenue run-rate (IndexBox/CNBC, April 2026)", url: "https://www.indexbox.io/blog/anthropic-reports-30b-revenue-run-rate-fueled-by-enterprise-ai-adoption/" },
+              { label: "NBIM Claude enterprise deployment (Anthropic)", url: "https://claude.com/customers/nbim" },
+            ],
+          },
+        },
         // Tested-skills showcase. Explainer (maturity + example) first,
         // then the interactive directory. Both render full-bleed in marketplace
         // palette via the custom component registry in SlidePage.

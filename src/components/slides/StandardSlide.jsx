@@ -81,10 +81,16 @@ export function StandardSlide({ slide }) {
         </div>
       )}
       {slide.pillars && slide.pillarsLayout !== "list" && (
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(slide.pillars.length, 3)}, 1fr)`, gap: 12 }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: slide.pillarsLayout === "grid-2x2"
+            ? "1fr 1fr"
+            : `repeat(${Math.min(slide.pillars.length, 3)}, 1fr)`,
+          gap: 12,
+        }}>
           {slide.pillars.map((p, i) => (
             <div key={i} style={{
-              padding: "20px 18px", borderRadius: 12,
+              padding: "16px 18px", borderRadius: 12,
               background: C.surface, border: `1px solid ${C.border}`,
               borderTop: `3px solid ${C.accent}`,
               opacity: visible ? 1 : 0,
@@ -92,7 +98,7 @@ export function StandardSlide({ slide }) {
               transition: `opacity 0.45s ease ${0.1 + i * 0.1}s, transform 0.45s ease ${0.1 + i * 0.1}s`,
             }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 6 }}>{p.title}</div>
-              <div style={{ fontSize: 13, color: C.textLight, lineHeight: 1.6 }}>{p.desc}</div>
+              <div style={{ fontSize: 13, color: C.textLight, lineHeight: 1.55 }}>{p.desc}</div>
             </div>
           ))}
         </div>
