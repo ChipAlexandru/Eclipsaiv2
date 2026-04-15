@@ -13,6 +13,7 @@
 import { ImageResponse } from "next/og";
 import { shelf, getDeck } from "../../../../src/decks/index.js";
 import { renderOgCard, OG_SIZE, THEME_CREAM } from "../../../_og/card.jsx";
+import { resolveSlideSub } from "../../../_og/sub.js";
 
 export const runtime = "nodejs";
 export const alt = "Eclipsai slide";
@@ -65,31 +66,6 @@ function accentChips(slide) {
   return [];
 }
 
-// Trim a long body/article paragraph down to ~120 chars on a word boundary
-// so it fits the OG card's sub line without wrapping awkwardly.
-function truncate(s, n = 120) {
-  if (!s) return null;
-  const clean = s.replace(/\s+/g, " ").trim();
-  if (clean.length <= n) return clean;
-  const cut = clean.slice(0, n);
-  const lastSpace = cut.lastIndexOf(" ");
-  return cut.slice(0, lastSpace > 60 ? lastSpace : n) + "…";
-}
-
-// Resolve the OG sub line from slide content, falling back to chapter subtitle.
-// Order: explicit override → body → text-style callout → first article paragraph
-// → chapter subtitle. Lets every slide carry its own context without authors
-// having to maintain an `ogDescription` field by hand.
-function resolveSub(slide, chapter) {
-  return (
-    slide.ogDescription
-    || truncate(slide.body)
-    || truncate(slide.callout?.text)
-    || truncate(slide.article?.sections?.[0]?.body)
-    || chapter.subtitle
-  );
-}
-
 export default async function SlideOg({ params }) {
   const hit = resolve(await params);
   if (!hit) {
@@ -101,7 +77,7 @@ export default async function SlideOg({ params }) {
   const { deck, chapter, slide } = hit;
   const eyebrow = `${chapter.num} · ${chapter.title}`.toUpperCase();
   const headline = slide.title || chapter.title;
-  const sub = resolveSub(slide, chapter);
+  const sub = resolveSlideSub(slide, chapter);
 
   return new ImageResponse(
     renderOgCard({

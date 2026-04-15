@@ -8,6 +8,7 @@
 import { notFound } from "next/navigation";
 import App from "../../../../src/App.jsx";
 import { shelf, getDeck } from "../../../../src/decks/index.js";
+import { resolveSlideSub } from "../../../_og/sub.js";
 
 export function generateStaticParams() {
   const params = [];
@@ -38,9 +39,21 @@ export async function generateMetadata({ params }) {
   // Custom slides (marketplace explainer + directory) have no title of their
   // own — fall back to the chapter label so OG previews stay meaningful.
   const slideLabel = slide.title || chapter.title;
+  // The browser <title> keeps the long form for clarity; the LinkedIn/Slack
+  // OG card uses the slide title alone (brand is implied by the eclipsai.com
+  // domain row that those previews render automatically).
+  const sub = resolveSlideSub(slide, chapter);
   return {
     title: `${slideLabel} — ${deck.title} — Eclipsai`,
-    description: chapter.subtitle || deck.title,
+    description: sub,
+    openGraph: {
+      title: slideLabel,
+      description: sub,
+    },
+    twitter: {
+      title: slideLabel,
+      description: sub,
+    },
   };
 }
 
