@@ -55,9 +55,9 @@ export const shelf = {
       kind: "chapter",
       deckId: "the-playbook",
       chapterId: "case",
-      label: "Case for change",
+      label: "AI business impact",
       title: "Where AI delivers results",
-      blurb: "AI-native companies, controlled studies, and earnings data. Continuously updated.",
+      blurb: "Results from AI-native companies, earnings data, and controlled studies. Continuously updated.",
     },
     {
       kind: "chapter",
