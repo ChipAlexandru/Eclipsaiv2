@@ -466,6 +466,47 @@ export const aiTransformationDeck = {
             ],
           },
         },
+        {
+          id: "enterprise-connectors",
+          dateAdded: "2026-04-14",
+          type: "standard",
+          title: "Enterprise connectors: give AI access to enterprise systems and tools",
+          source: "MCP Specification v2025-11-25, Anthropic Agent Skills, Microsoft Foundry, Google Gemini Enterprise",
+          body: "A customer support agent using MCP reads CRM records, pulls ticket history, searches the knowledge base, and escalates to a human in the same conversation. MCP orchestrates across multiple tools and data sources in a persistent session, handling discovery, authentication, and execution.",
+          callout: {
+            value: "2,000",
+            label: "MCP registry entries",
+            sub: "By November 2025. Endorsed by GitHub, OpenAI, Microsoft, and AWS.",
+          },
+          pillars: [
+            { title: "Platform adoption", desc: "Azure AI Foundry: 1,400+ tools. Gemini Enterprise: 50+ connectors. ChatGPT Enterprise: Gmail, SharePoint, GitHub, Teams. Catalog size is visible. Integration depth varies." },
+            { title: "Skills framework", desc: "Bundles tool integrations into shareable directories. Each Skill loads only the context the agent needs, preventing the context window from filling with irrelevant tool descriptions." },
+            { title: "Per-connector governance", desc: "Platform-level controls cover permissions, spend caps, and audit trails. The unsolved layer: which employees use which integrations on which data with which approval workflows." },
+          ],
+          article: {
+            title: "Enterprise connectors: give AI access to enterprise systems and tools",
+            sections: [
+              { body: "A customer support agent using MCP reads CRM records, pulls ticket history, searches the knowledge base, and escalates to a human in the same conversation. The Model Context Protocol reached 2,000 registry entries by November 2025, with endorsements from GitHub, OpenAI, Microsoft, and AWS. Enterprise deployments rarely involve a single integration. MCP orchestrates across multiple tools and data sources in a persistent session, handling discovery, authentication, and execution." },
+
+              { subhead: "Every major platform adopted MCP as the connector standard", body: "Azure AI Foundry includes over 1,400 tools. Google Gemini Enterprise offers 50+ enterprise connectors. ChatGPT Enterprise added connectors to Gmail, SharePoint, GitHub, and Teams. All support MCP. The catalog size is visible. The integration depth varies. A Salesforce connector that reads opportunity records is available from every platform. A connector that maps your sales stages, applies your forecasting methodology, and reads the custom fields where pipeline intelligence lives requires configuration work specific to each organization." },
+
+              { subhead: "Skills package tool access into reusable, scoped capabilities", body: "The Agent Skills framework bundles tool integrations into shareable directories. Each Skill loads only the context the agent needs for the current task. For enterprises running agents with dozens of connected tools, this prevents the context window from filling with irrelevant tool descriptions and truncating critical instructions." },
+
+              { subhead: "Per-connector governance is the unsolved layer", body: "Platform-level admin controls cover compliance APIs, tool permissions, file access restrictions, spend caps, and usage analytics. These address the question every CISO asks: who has access to what, and how do we audit it. The gap is one layer deeper: which employees can use which tool integrations on which data sets with which approval workflows. That layer is still custom work for each organization." },
+
+              { subhead: "Implementation path", body: "Inventory the systems your highest-value workflows touch. Build or source MCP connectors for those systems first. Validate integration depth against actual use cases before scaling the connector catalog." },
+            ],
+            sources: [
+              { label: "MCP Specification v2025-11-25, Model Context Protocol", url: "https://modelcontextprotocol.io/specification/2025-11-25" },
+              { label: "One Year of MCP, MCP Core Maintainers (November 2025)", url: "https://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/" },
+              { label: "Function Calling, OpenAI API Guide", url: "https://platform.openai.com/docs/guides/function-calling" },
+              { label: "Equipping Agents for the Real World with Agent Skills, Anthropic Engineering (2025)", url: "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" },
+              { label: "Microsoft Foundry Documentation, Microsoft (2025-2026)", url: "https://learn.microsoft.com/en-us/azure/foundry/" },
+              { label: "Gemini Enterprise, Google Cloud (October 2025)", url: "https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise" },
+              { label: "Claude Code and New Admin Controls for Business Plans, Anthropic (August 2025)", url: "https://www.anthropic.com/news/claude-code-on-team-and-enterprise" },
+            ],
+          },
+        },
       ],
     },
   ],
