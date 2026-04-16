@@ -89,6 +89,22 @@ export function getDeck(deckId) {
   return shelf.decks.find((d) => d.id === deckId);
 }
 
+// Flat slide index for progress display: home = 0, then each slide in chapter
+// order is 1, 2, 3, ... Returns { flatIdx, flatTotal }.
+export function flatSlideIndex(deck, chapterIdx, slideIdx) {
+  const totalContentSlides = deck.chapters.reduce((a, ch) => a + ch.slides.length, 0);
+  const flatTotal = 1 + totalContentSlides;
+  let flatIdx = 0;
+  let counter = 1;
+  for (let ci = 0; ci < deck.chapters.length; ci++) {
+    for (let si = 0; si < deck.chapters[ci].slides.length; si++) {
+      if (ci === chapterIdx && si === slideIdx) { flatIdx = counter; }
+      counter++;
+    }
+  }
+  return { flatIdx, flatTotal };
+}
+
 // Returns the most recently touched slide from each chapter of the default
 // deck, in chapter order. The Home page renders these column-aligned under
 // their parent chapter cards, so the "Latest" row visually maps one card per

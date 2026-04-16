@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { X, Home as HomeIcon } from "lucide-react";
 import { C } from "../theme.js";
+import { NavList } from "./NavList.jsx";
 
 // Full-screen nav drawer for mobile. Mirrors LeftRail content (Home, deck title,
 // chapter list with sub-bullets) but sized for touch (44px row minimum).
@@ -107,68 +108,14 @@ export function MobileDrawer({
           {deckTitle || "Cover"}
         </div>
 
-        {chapters.map((ch) => {
-          const isActive = ch.id === activeChapter;
-          return (
-            <div key={ch.id} style={{ marginBottom: 12, position: "relative" }}>
-              {isActive && (
-                <div style={{
-                  position: "absolute", left: 0, top: 6, bottom: 6, width: 3,
-                  background: C.accent, borderRadius: 2,
-                }} />
-              )}
-              <button
-                onClick={() => { onClose(); onNavigate(ch.id, 0); }}
-                style={{
-                  display: "block", width: "100%",
-                  padding: "12px 12px 12px 14px", minHeight: 44,
-                  background: "transparent", border: "none", borderRadius: 6,
-                  cursor: "pointer", textAlign: "left",
-                  fontSize: 13, fontWeight: 700,
-                  color: isActive ? C.text : C.textLight,
-                  letterSpacing: 0.4, textTransform: "uppercase", lineHeight: 1.3,
-                }}
-              >
-                <span style={{ color: C.textMuted, marginRight: 6 }}>{ch.num}</span>
-                {ch.title}
-              </button>
-              <div style={{ padding: "2px 0 2px 14px" }}>
-                {ch.slides.map((sl, si) => {
-                  const isCurrent = isActive && si === activeSlide;
-                  const rawLabel = sl.title || sl.component || "Slide";
-                  const label = rawLabel.length > 38 ? rawLabel.slice(0, 36) + "…" : rawLabel;
-                  return (
-                    <button
-                      key={sl.id}
-                      onClick={() => { onClose(); onNavigate(ch.id, si); }}
-                      style={{
-                        display: "flex", alignItems: "center", gap: 6,
-                        width: "100%", padding: "10px 12px", minHeight: 44,
-                        background: isCurrent ? C.accentBg : "transparent",
-                        border: "none", borderRadius: 6,
-                        cursor: "pointer", textAlign: "left",
-                        fontSize: 13, lineHeight: 1.4,
-                        color: isCurrent ? C.accent : C.textMuted,
-                        fontWeight: isCurrent ? 600 : 500,
-                      }}
-                    >
-                      <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>
-                        {label}
-                      </span>
-                      {sl.article && (
-                        <span style={{
-                          display: "inline-block", flexShrink: 0,
-                          width: 5, height: 5, borderRadius: "50%",
-                          background: C.wine, opacity: 0.6,
-                        }} />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+        <NavList
+          chapters={chapters}
+          activeChapter={activeChapter}
+          activeSlide={activeSlide}
+          onNavigate={onNavigate}
+          onBeforeNavigate={onClose}
+          size="touch"
+        />
       </div>
     </>
   );

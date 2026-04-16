@@ -19,6 +19,28 @@ export const C = {
   wineBorder: "rgba(140,58,79,0.16)",
 };
 
+// Marketplace palette — darker theme used on the skills pages.
+// Ported from the old standalone skills-marketplace repo.
+export const MP = {
+  bg: "#fafafa",
+  cardBg: "#fff",
+  border: "#e4e4e7",
+  borderLight: "#f4f4f5",
+  text: "#18181b",
+  textMed: "#52525b",
+  textMuted: "#71717a",
+  textFaint: "#a1a1aa",
+  textFaintLight: "#d4d4d8",
+  accent: "#fb923c",
+  accentDark: "#ea580c",
+  accentDeep: "#c2410c",
+  headerGradient: "linear-gradient(160deg,#0f0f0f 0%,#1a1a1a 30%,#8b2500 100%)",
+  headerAccent: "#d4a574",
+  success: "#16a34a",
+  successBg: "#f0fdf4",
+  mono: "ui-monospace, SFMono-Regular, monospace",
+};
+
 // Font stacks — Georgia serif for titles, system sans for body.
 export const FONT = {
   serif: "'Georgia', serif",
@@ -93,4 +115,6 @@ export const GLOBAL_CSS = `
     to { opacity: 1; transform: translateY(0); }
   }
   .mp-skill-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.06); transform: translateY(-1px); }
+  .hover-lift { transition: all 0.25s; }
+  .hover-lift:hover { transform: translateY(-3px); border-color: ${C.accent} !important; }
 `;

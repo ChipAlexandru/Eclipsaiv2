@@ -1,6 +1,18 @@
 import { useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { C, FONT } from "../theme.js";
+import { StatCallout } from "./StatCallout.jsx";
+
+// Parse **bold** markers in body text into <strong> spans.
+function renderBody(text) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  if (parts.length === 1) return text;
+  return parts.map((part, i) =>
+    part.startsWith("**") && part.endsWith("**")
+      ? <strong key={i}>{part.slice(2, -2)}</strong>
+      : part
+  );
+}
 
 // Compute reading time from article sections.
 function computeReadingTime(sections) {
@@ -22,7 +34,6 @@ export function ArticleTrigger({ article, onOpen }) {
         width: "100%", maxWidth: 700,
         padding: "10px 0",
         marginTop: 6,
-        borderTop: `1px solid ${C.border}`,
         border: "none", borderTop: `1px solid ${C.border}`,
         background: "transparent",
         cursor: "pointer",
@@ -140,34 +151,13 @@ export function ArticleContent({ article, onClose }) {
 
         if (section.type === "callout") {
           return (
-            <div key={i} style={{
-              padding: "24px 28px", borderRadius: 14,
-              background: C.accentBg, border: `1px solid ${C.accentBorder}`,
-              display: "flex", alignItems: "center", gap: 24,
-              margin: "24px 0",
-            }}>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 36, fontWeight: 800, color: C.accent, lineHeight: 1.1 }}>
-                  {section.value}
-                </div>
-                {section.label && (
-                  <div style={{
-                    fontSize: 11, color: C.textMuted, marginTop: 4,
-                    textTransform: "uppercase", letterSpacing: 1.2,
-                  }}>
-                    {section.label}
-                  </div>
-                )}
-              </div>
-              {section.sub && (
-                <>
-                  <div style={{ width: 1, height: 44, background: C.accentBorder }} />
-                  <div style={{ fontSize: 14, color: C.textLight, lineHeight: 1.6 }}>
-                    {section.sub}
-                  </div>
-                </>
-              )}
-            </div>
+            <StatCallout
+              key={i}
+              value={section.value}
+              label={section.label}
+              sub={section.sub}
+              style={{ margin: "24px 0" }}
+            />
           );
         }
 
@@ -190,7 +180,7 @@ export function ArticleContent({ article, onClose }) {
                 fontFamily: FONT.serif,
                 margin: 0, marginTop: section.subhead ? 0 : (i > 0 ? 18 : 0),
               }}>
-                {section.body}
+                {renderBody(section.body)}
               </p>
             )}
             {section.items && section.items.length > 0 && (

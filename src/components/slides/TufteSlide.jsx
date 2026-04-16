@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { C, FONT } from "../../theme.js";
 import { AnimNum } from "../AnimNum.jsx";
+import { useDelayedVisible } from "../../hooks/useDelayedVisible.js";
 
 // Try to parse a marker like "70%" or "1%" into { number, unit }.
 // Returns null for text markers like "10–15 → 5 min".
@@ -15,12 +16,7 @@ function parseNumericMarker(marker) {
 // Notes toggle on click or Enter. Numeric markers animate on mount.
 export function TufteSlide({ slide }) {
   const [expanded, setExpanded] = useState({});
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 200);
-    return () => clearTimeout(t);
-  }, []);
+  const visible = useDelayedVisible(200);
   const toggle = (i) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
 
   return (

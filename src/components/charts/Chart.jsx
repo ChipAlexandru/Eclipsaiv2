@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
 import { C } from "../../theme.js";
 import { linearScale, autoTicks, formatValue } from "./scales.js";
 import { ChartCard } from "./ChartCard.jsx";
 import { LineSeries } from "./LineSeries.jsx";
 import { BarSeries } from "./BarSeries.jsx";
+import { useDelayedVisible } from "../../hooks/useDelayedVisible.js";
+import { useIsMobile } from "../../hooks/useIsMobile.js";
 
 // ── Main chart component ────────────────────────────────────────────
 // Renders a chart card with SVG grid/axes and dispatches to the right
@@ -54,25 +55,8 @@ const MOBILE = {
 };
 
 export function Chart({ chart, isActive }) {
-  const [visible, setVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (isActive !== false) {
-      const t = setTimeout(() => setVisible(true), 300);
-      return () => clearTimeout(t);
-    }
-    setVisible(false);
-  }, [isActive]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(max-width: 768px)");
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
+  const visible = useDelayedVisible(300, isActive !== false);
+  const isMobile = useIsMobile();
 
   const cfg = isMobile ? MOBILE : DESKTOP;
   const MARGIN = cfg.margin;

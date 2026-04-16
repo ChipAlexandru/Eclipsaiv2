@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Menu as MenuIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu as MenuIcon } from "lucide-react";
 import { C, FONT, GLOBAL_CSS } from "./theme.js";
-import { shelf, getDeck } from "./decks/index.js";
+import { shelf, getDeck, flatSlideIndex } from "./decks/index.js";
 import { LeftRail } from "./components/LeftRail.jsx";
 import { MobileDrawer } from "./components/MobileDrawer.jsx";
 import { CopyLinkButton } from "./components/CopyLinkButton.jsx";
+import { MobileSlideNav } from "./components/MobileSlideNav.jsx";
 import { HomePage } from "./views/HomePage.jsx";
 // CoverPage removed — with one deck, Home's chapter cards make the cover redundant.
 import { SlidePage } from "./views/SlidePage.jsx";
@@ -299,20 +300,8 @@ export default function App({
   }
 
   // Flat index for progress bar: home = 0, slides = 1+
-  const totalContentSlides = deck.chapters.reduce((a, ch) => a + ch.slides.length, 0);
-  const flatTotal = 1 + totalContentSlides;
-  let flatIdx = 0;
-  if (isHome) flatIdx = 0;
-  else {
-    let counter = 1;
-    for (let ci = 0; ci < deck.chapters.length; ci++) {
-      for (let si = 0; si < deck.chapters[ci].slides.length; si++) {
-        if (ci === chapterIdx && si === slideIdx) { flatIdx = counter; break; }
-        counter++;
-      }
-      if (ci === chapterIdx) break;
-    }
-  }
+  const { flatIdx: slideFlatIdx, flatTotal } = flatSlideIndex(deck, chapterIdx, slideIdx);
+  const flatIdx = isHome ? 0 : slideFlatIdx;
 
   return (
     <div
@@ -470,88 +459,17 @@ export default function App({
             {isHome && <span style={{ fontSize: 11, color: "transparent" }}>·</span>}
           </div>
         )}
-        {isMobile && isSlides && (() => {
-          const isFirst = chapterIdx === 0 && slideIdx === 0;
-          const isLastInChapter = slideIdx === totalSlides - 1;
-          const isLastEverywhere = isLastInChapter && chapterIdx === deck.chapters.length - 1;
-          // Highlight next button as accent fill when leaving current chapter
-          // (matches mockup frame 5: signals "you're entering chapter N").
-          const nextEntersNewChapter = isLastInChapter && !isLastEverywhere;
-          return (
-            <div style={{
-              display: "flex", alignItems: "center", justifyContent: "space-between",
-              padding: "8px 12px 10px", flexShrink: 0,
-              gap: 6,
-            }}>
-              <button
-                onClick={prev}
-                disabled={isFirst}
-                aria-label="Previous slide"
-                style={{
-                  width: 52, height: 52, borderRadius: 999,
-                  background: C.surface,
-                  border: `1px solid ${C.border}`,
-                  display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  cursor: isFirst ? "default" : "pointer",
-                  opacity: isFirst ? 0.35 : 1,
-                  color: C.accent, padding: 0, flexShrink: 0,
-                }}
-              >
-                <ChevronLeft size={22} />
-              </button>
-
-              <div style={{
-                display: "flex", alignItems: "center", gap: 2,
-                flex: 1, justifyContent: "center",
-                overflow: "hidden",
-              }}>
-                {chapter.slides.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => navigate(chapter.id, i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                    style={{
-                      width: 28, height: 44, padding: 0,
-                      display: "inline-flex", alignItems: "center", justifyContent: "center",
-                      background: "transparent", border: "none", cursor: "pointer",
-                    }}
-                  >
-                    <span style={{
-                      display: "block",
-                      width: i === slideIdx ? 26 : 8,
-                      height: 8,
-                      borderRadius: 5,
-                      background: i === slideIdx ? C.accent : C.border,
-                      transition: "all 0.3s",
-                    }} />
-                  </button>
-                ))}
-                <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 8, whiteSpace: "nowrap" }}>
-                  {slideIdx + 1}/{totalSlides}
-                </span>
-              </div>
-
-              <button
-                onClick={next}
-                disabled={isLastEverywhere}
-                aria-label="Next slide"
-                style={{
-                  width: 52, height: 52, borderRadius: 999,
-                  background: nextEntersNewChapter ? C.accent : C.surface,
-                  border: `1px solid ${nextEntersNewChapter ? C.accent : C.border}`,
-                  display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  cursor: isLastEverywhere ? "default" : "pointer",
-                  opacity: isLastEverywhere ? 0.35 : 1,
-                  color: nextEntersNewChapter ? "#FFFCF7" : C.accent,
-                  padding: 0, flexShrink: 0,
-                  transition: "background 0.3s, color 0.3s, border-color 0.3s",
-                }}
-              >
-                <ChevronRight size={22} />
-              </button>
-            </div>
-          );
-        })()}
+        {isMobile && isSlides && (
+          <MobileSlideNav
+            chapter={chapter}
+            slideIdx={slideIdx}
+            chapterIdx={chapterIdx}
+            totalChapters={deck.chapters.length}
+            onPrev={prev}
+            onNext={next}
+            onNavigate={navigate}
+          />
+        )}
       </div>
     </div>
   );

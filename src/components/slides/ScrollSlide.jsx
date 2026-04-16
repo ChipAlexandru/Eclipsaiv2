@@ -1,21 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { C, FONT } from "../../theme.js";
 import { AnimNum } from "../AnimNum.jsx";
 import { Chart } from "../charts/Chart.jsx";
+import { useDelayedVisible } from "../../hooks/useDelayedVisible.js";
 
 // "scroll" slide type — a row of big animated stat cards + optional body paragraph.
 // When the slide becomes active, cards fade/lift in staggered, then body fades in.
 export function ScrollSlide({ slide, isActive }) {
-  const [visible, setVisible] = useState(false);
+  const visible = useDelayedVisible(200, isActive);
   const ref = useRef(null);
-
-  useEffect(() => {
-    if (isActive) {
-      const t = setTimeout(() => setVisible(true), 200);
-      return () => clearTimeout(t);
-    }
-    setVisible(false);
-  }, [isActive]);
 
   return (
     <div ref={ref}>

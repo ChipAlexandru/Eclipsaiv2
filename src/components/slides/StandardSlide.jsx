@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
 import { C, FONT } from "../../theme.js";
 import { Chart } from "../charts/Chart.jsx";
+import { StatCallout } from "../StatCallout.jsx";
+import { useDelayedVisible } from "../../hooks/useDelayedVisible.js";
 
 // "standard" slide type — body + optional callout + optional pillars grid.
 // Callout fades in on mount; pillars stagger.
 export function StandardSlide({ slide }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 250);
-    return () => clearTimeout(t);
-  }, []);
+  const visible = useDelayedVisible(250);
   return (
     <div>
       {slide.body && (
@@ -27,33 +24,17 @@ export function StandardSlide({ slide }) {
         </div>
       )}
       {slide.callout && !slide.callout.text && (
-        <div style={{
-          padding: "24px 28px", borderRadius: 14,
-          background: C.accentBg, border: `1px solid ${C.accentBorder}`,
-          display: "flex", alignItems: "center", gap: 24, marginBottom: 24,
-          opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
-          transition: "opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s",
-        }}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 36, fontWeight: 800, color: C.accent, lineHeight: 1.1 }}>
-              {slide.callout.value}
-            </div>
-            {slide.callout.label && (
-              <div style={{ fontSize: 11, color: C.textMuted, marginTop: 4, textTransform: "uppercase", letterSpacing: 1.2 }}>
-                {slide.callout.label}
-              </div>
-            )}
-          </div>
-          {slide.callout.sub && (
-            <>
-              <div style={{ width: 1, height: 44, background: C.accentBorder }} />
-              <div style={{ fontSize: 14, color: C.textLight, lineHeight: 1.6 }}>
-                {slide.callout.sub}
-              </div>
-            </>
-          )}
-        </div>
+        <StatCallout
+          value={slide.callout.value}
+          label={slide.callout.label}
+          sub={slide.callout.sub}
+          style={{
+            marginBottom: 24,
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
+            transition: "opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s",
+          }}
+        />
       )}
       {slide.chart && <Chart chart={slide.chart} isActive={visible} />}
       {slide.pillars && slide.pillarsLayout === "list" && (

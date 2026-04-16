@@ -90,6 +90,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
           {featured.map((f, i) => (
             <button
               key={i}
+              className="hover-lift"
               onClick={() => onNavigate(f.deckId, f.chapterId, f.kind === "slide" ? f.slideId : undefined)}
               style={{
                 display: "flex", flexDirection: "column", alignItems: "flex-start",
@@ -98,16 +99,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                 background: C.surface,
                 border: `1px solid ${C.border}`,
                 cursor: "pointer", textAlign: "left",
-                transition: "all 0.25s",
                 minHeight: 220,
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.borderColor = C.accent;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.borderColor = C.border;
               }}
             >
               {f.label && (
@@ -154,6 +146,7 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
             {latest.map((s, i) => (
               <button
                 key={i}
+                className="hover-lift"
                 onClick={() => onNavigate(s.deckId, s.chapterId, s.slideId)}
                 style={{
                   display: "flex", flexDirection: "column", alignItems: "flex-start",
@@ -162,15 +155,6 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
                   background: C.surface,
                   border: `1px solid ${C.border}`,
                   cursor: "pointer", textAlign: "left",
-                  transition: "all 0.25s",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.borderColor = C.accent;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = C.border;
                 }}
               >
                 <div style={{
