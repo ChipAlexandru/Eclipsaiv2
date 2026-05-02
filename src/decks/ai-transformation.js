@@ -396,7 +396,7 @@ export const aiTransformationDeck = {
           id: "ai-work-platforms-cowork-codex",
           dateAdded: "2026-05-02",
           type: "standard",
-          title: "AI work platforms:",
+          title: "AI work platforms",
           source: "Eclipsai analysis, Anthropic, OpenAI, VentureBeat",
           body: "Cowork (Anthropic, launched January 2026) and Codex (OpenAI, pivoted from coding in April 2026) are desktop applications that put a frontier AI model inside a harness with file access, enterprise connectors, and reusable skill files to execute knowledge work tasks autonomously.",
           pillarsLayout: "grid-2x2",
