@@ -2,6 +2,8 @@
 
 Rules for adding new slides and inline articles to a deck.
 
+**Slide content design** — before writing the JS object, design the slide surface content using Step 6 of `seo-ai-discoverability/04-Article-Production-Process.md`. That step covers how to define what the slide should say, in context of the existing deck, before choosing a type and mapping to fields here.
+
 ## Slide basics
 
 Each slide lives in a chapter's `slides` array. Required fields:
