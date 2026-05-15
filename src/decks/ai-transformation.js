@@ -241,15 +241,16 @@ export const aiTransformationDeck = {
         {
           id: "banks-operational-priority",
           dateAdded: "2026-05-14",
+          dateUpdated: "2026-05-15",
           type: "standard",
-          title: "Top global banks moved AI from experiment to operating model. Only a third disclose outcomes",
+          title: "AI is now operating priority for top banks. Only a third disclose outcomes",
           source: "JPMorgan, HSBC, Goldman Sachs, DBS, UBS, Evident Insights",
           pillars: [
-            { title: "JPMorgan: 200k users, #1 four years running", desc: "LLM Suite onboarded 200,000 employees in 8 months. #1 on Evident AI Index 4 consecutive years. USD 2B AI-driven ROI guidance from JPM President (2025)." },
-            { title: "Goldman Sachs: 10k to 46.5k in 6 months", desc: "GS AI Assistant scaled from 10,000-employee pilot (Jan 2025) to firmwide (Jun 2025) across IB, Markets, WM, AM, Research, Engineering. Multi-model routing across OpenAI, Gemini, Llama." },
-            { title: "UBS: 90% of staff on AI marketplace", desc: "Eliza marketplace live to 46,000 employees (90% of staff); Red on 52,000 with 60k investment-advice documents indexed. CAIO Magazzeni (ex-JPM EMEA) effective Jan 2026." },
-            { title: "HSBC: 600+ live, 88% client outcome metric", desc: "600+ AI use cases in operation. 20,000+ developers on coding assistants (15% efficiency). 3M annual client interactions via CIB GenAI; 88% of CIB clients rate HSBC 'easy to deal with' post-rollout. Mistral partnership for European sovereign AI." },
+            { title: "JPMorgan: USD 2B AI savings match AI spend", desc: "Annual AI spend matched by annual AI savings (Dimon, Oct 2025). 150,000 employees use internal AI weekly. 10-11% productivity gain in engineering, operations, fraud." },
             { title: "DBS: ~USD 770M value, 5.5× in 3 years", desc: "SGD 1B (~USD 770M) AI economic value disclosed in 2025 Annual Report. Auditable, use-case-traceable. 5.5× growth from SGD 180M (2022). 430+ live use cases on 2,000+ models." },
+            { title: "HSBC: 600+ live, 88% client outcome metric", desc: "600+ AI use cases in operation. 20,000+ developers on coding assistants (15% efficiency). 3M annual client interactions via CIB GenAI; 88% of CIB clients rate HSBC 'easy to deal with' post-rollout. Mistral partnership for European sovereign AI." },
+            { title: "UBS: 300+ live AI use cases", desc: "M365 Copilot + Red rolling to all employees. 280+ AI use cases live as of Q2 2025 (+10% QoQ). Magazzeni (ex-JPM EMEA) appointed Chief AI Officer effective Jan 2026." },
+            { title: "Goldman Sachs: 46,500 knowledge workers invited", desc: "Invited to GS AI Assistant after Jun 2025 firmwide launch (10,000 in pilot from Jan 2025). Multi-model routing across OpenAI, Gemini, Llama." },
             { title: "Sector: 47 of 50 banks announced, 3 of 10 disclosed", desc: "173 announcements industry-wide in 12 months. Only 30% include any impact metric. DBS and HSBC are the disclosure outliers." },
           ],
           callout: {
@@ -260,8 +261,9 @@ export const aiTransformationDeck = {
             sections: [
               { body: "Throughout 2025, every top global bank moved past pilot phase. Five institutions span US universal banking, European universal banking, US investment banking and wealth, and Asian universal banking. They cover 200,000+ active LLM users (JPM alone), 90%-of-staff marketplace penetration (UBS), 6-month pilot-to-firmwide scaling (Goldman), and the only publicly disclosed multi-year AI value curve in banking (DBS)." },
 
-              { subhead: "JPMorgan: the public AI-disclosure benchmark", body: "Teresa Heitsenrether appointed Chief Data & Analytics Officer in June 2023 to lead AI. LLM Suite released to 140,000 employees in August 2024 as the proprietary GenAI platform. By early 2025, 200,000 users were onboarded in 8 months alongside IndexGPT for client-facing thematic investing. The platform won American Banker 'Innovation of the Year' (Generative AI) in June 2025." },
-              { body: "JPM has ranked #1 on the Evident AI Index for four consecutive years. Peer-validated rather than self-reported. The 2024 technology budget is USD 17B; JPM's President has guided to USD 2B in AI-driven ROI in public commentary. 450+ AI proofs of concept are in flight; 500+ active use cases are in production." },
+              { subhead: "JPMorgan: the public AI-disclosure benchmark", body: "Jamie Dimon disclosed in October 2025 that annual AI savings now match annual AI spend, the strongest public AI-ROI statement from any US bank CEO. 150,000 employees use internal AI tools weekly. JPM has measured 10-11% productivity gains across engineering, operations, and fraud functions." },
+              { body: "Teresa Heitsenrether appointed Chief Data & Analytics Officer in June 2023 to lead AI. LLM Suite released to 140,000 employees in August 2024 as the proprietary GenAI platform. By early 2025, 200,000 users were onboarded in 8 months alongside IndexGPT for client-facing thematic investing. The platform won American Banker 'Innovation of the Year' (Generative AI) in June 2025." },
+              { body: "JPM has ranked #1 on the Evident AI Index for four consecutive years. Peer-validated rather than self-reported. The 2024 technology budget is USD 17B. 450+ AI proofs of concept are in flight; 500+ active use cases are in production." },
 
               { subhead: "HSBC: deepest published use-case count and a sovereign-AI partnership", body: "AI Markets launched May 2023, including the HSBC ESG Risk Improvers Index using NLP. October 2024 simplified the org into four global businesses with GenAI named a core strategic priority. December 2024 brought a multi-year Mistral AI partnership for bank-wide frontier model integration, explicitly framed as European sovereign AI." },
               { body: "2025 saw 20,000+ developers given GenAI coding assistants with 15% time-spent-coding efficiency. Group CIO Stuart Riley disclosed 600+ AI use cases in operation with 1H25 AI Review Councils embedded. The Corporate & Institutional Banking GenAI assistant supports 3M annual client interactions; 88% of CIB clients rate HSBC 'easy to deal with' post-rollout. One of the rare disclosed outcome metrics in the sector." },
@@ -280,6 +282,7 @@ export const aiTransformationDeck = {
               { body: "This is the strongest signal that enterprise AI is in the deployment-without-measurement phase. The technology constraint has been removed, the operating-model constraint has not. Change management, talent, governance, and above all the gap between generating an answer and getting it into the system of record where work happens determine who realises value. The next slide quantifies how widespread that gap is across the broader economy." },
             ],
             sources: [
+              { label: "Bloomberg: Dimon — AI cost savings now match spend (Oct 2025)", url: "https://www.bloomberg.com/news/articles/2025-10-14/jpmorgan-jpm-dimon-says-ai-cost-savings-now-match-spending" },
               { label: "JPMorgan Chase Technology Blog: LLM Suite / American Banker Innovation Award (Jun 2025)", url: "https://www.jpmorganchase.com/about/technology/blog/llmsuite-ab-award" },
               { label: "HSBC: Transforming HSBC with AI", url: "https://www.hsbc.com/who-we-are/hsbc-and-digital/hsbc-and-ai/transforming-hsbc-with-ai" },
               { label: "Goldman Sachs Internal AI Assistant: Fortune (Jun 2025)", url: "https://fortune.com/2025/06/24/goldman-sachs-internal-ai-assistant/" },
