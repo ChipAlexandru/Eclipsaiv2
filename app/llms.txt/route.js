@@ -13,7 +13,7 @@ export async function GET() {
   const lines = [
     "# Eclipsai",
     "",
-    "> Strategy consulting with deep, tested expertise in deploying AI inside organizations. Management consultancy and transformation partner — not an AI product company.",
+    "> Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
     "",
     "## About",
     "",

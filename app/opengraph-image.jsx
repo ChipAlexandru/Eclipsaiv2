@@ -10,19 +10,19 @@
 //
 // Uses renderOgCard from app/_og/card.jsx so all four files share chrome.
 import { ImageResponse } from "next/og";
-import { renderOgCard, OG_SIZE, THEME_DARK } from "./_og/card.jsx";
+import { renderOgCard, OG_SIZE, THEME_CREAM } from "./_og/card.jsx";
 
 export const runtime = "nodejs";
-export const alt = "Eclipsai — Strategy consulting for AI transformation";
+export const alt = "Eclipsai — One deliverable, then a workflow that stays";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default async function OgImage() {
   return new ImageResponse(
     renderOgCard({
-      theme: THEME_DARK,
-      headline: "The Playbook: every role, dramatically more capable.",
-      sub: "Strategy consulting with deep, tested expertise in deploying AI inside organizations.",
+      theme: THEME_CREAM,
+      headline: "One deliverable, then a workflow that stays.",
+      sub: "We turn the AI tools you already use into recurring work you can trust.",
     }),
     { ...size },
   );

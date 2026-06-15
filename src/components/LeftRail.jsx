@@ -19,22 +19,8 @@ export function LeftRail({
       borderRight: `1px solid ${C.border}`, background: C.bg,
       display: "flex", flexDirection: "column",
     }}>
-      {/* Eclipsai masthead — persistent signature AND home button */}
-      <button onClick={onGoHome} style={{
-        padding: "2px 12px 18px 2px", marginBottom: 10,
-        background: "transparent", border: "none", cursor: "pointer", textAlign: "left",
-      }}>
-        <div style={{
-          fontSize: 13, fontWeight: 800, color: C.wine,
-          letterSpacing: 3, textTransform: "uppercase",
-        }}>
-          Eclipsai
-        </div>
-        <div style={{ width: 32, height: 2, background: C.accent, marginTop: 7 }} />
-      </button>
-
-      <div style={{ height: 1, background: C.border, marginBottom: 14, marginRight: 20 }} />
-
+      {/* Wordmark/home now live in the global SiteHeader; the rail opens with
+          the chapter list. */}
       <NavList
         chapters={chapters}
         activeChapter={activeChapter}

@@ -41,10 +41,13 @@ export const MP = {
   mono: "ui-monospace, SFMono-Regular, monospace",
 };
 
-// Font stacks — Georgia serif for titles, system sans for body.
+// Font stacks — Georgia serif for titles, Inter sans for body.
+// `--font-inter` is the variable injected by next/font/google in app/layout.jsx;
+// it resolves to the self-hosted Inter face, with -apple-system as the fallback
+// before the font loads / where the variable is absent.
 export const FONT = {
   serif: "'Georgia', serif",
-  sans: "'Inter', -apple-system, sans-serif",
+  sans: "var(--font-inter), 'Inter', -apple-system, sans-serif",
 };
 
 // Global CSS string — injected once at the App root.

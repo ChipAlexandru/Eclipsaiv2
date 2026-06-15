@@ -66,6 +66,7 @@ export default async function SlideDeepLinkPage({ params }) {
       initialDeckId={hit.deck.id}
       initialChapterId={hit.chapter.id}
       initialSlideId={hit.slide.id}
+      homePath="/insights"
     />
   );
 }

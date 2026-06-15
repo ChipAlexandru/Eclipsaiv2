@@ -11,6 +11,16 @@
 // Both are added via next/script with afterInteractive strategy so the
 // client bundle hydrates first and neither blocks the initial paint.
 import Script from "next/script";
+import { Inter } from "next/font/google";
+
+// Inter, self-hosted via next/font. Exposed as a CSS variable so the theme's
+// FONT.sans stack (and the product page's --sans) resolve to the loaded face
+// with -apple-system as the fallback. Georgia stays the serif for headings.
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 const SITE_URL = "https://eclipsai.com";
 
@@ -20,7 +30,7 @@ const jsonLd = {
   name: "Eclipsai",
   url: SITE_URL,
   description:
-    "Strategy consulting with deep, tested expertise in deploying AI inside organizations.",
+    "Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
   founder: {
     "@type": "Person",
     name: "Chip Alexandru",
@@ -36,30 +46,30 @@ const jsonLd = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Eclipsai — Strategy consulting for AI transformation",
+    default: "Eclipsai — One deliverable, then a workflow that stays",
     template: "%s",
   },
   description:
-    "Strategy consulting with deep, tested expertise in deploying AI inside organizations. Most AI programs stall at pilots. Ours don't.",
+    "Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: "Eclipsai",
-    title: "Eclipsai — Strategy consulting for AI transformation",
+    title: "Eclipsai — One deliverable, then a workflow that stays",
     description:
-      "Most AI programs stall at pilots. Ours don't. Tested methodology, real expertise, deployed inside organizations.",
+      "We turn the AI tools you already use into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eclipsai — Strategy consulting for AI transformation",
+    title: "Eclipsai — One deliverable, then a workflow that stays",
     description:
-      "Most AI programs stall at pilots. Ours don't.",
+      "Recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head>
         <script
           type="application/ld+json"

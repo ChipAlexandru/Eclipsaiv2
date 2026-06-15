@@ -1,11 +1,9 @@
-"use client";
-// Home route — renders the deck shell with its in-memory state model.
-// For m5.1 this is a pure client-side SPA at /, identical in behavior to the
-// Vite harness it replaces. In m5.3 the slide view gets promoted to its own
-// /[deck]/[chapter]/[slide] route with router-driven navigation and per-slide
-// generateMetadata for OG.
-import App from "../src/App.jsx";
+// Root route / — the Eclipsai product home page. A self-contained client
+// component (vertical scroll-snap deck) ported from the finished mockup.
+// Default metadata for this route is set in app/layout.jsx; the legacy
+// playbook/insights experience now lives at /insights (app/insights/page.jsx).
+import { ProductHome } from "../src/views/ProductHome.jsx";
 
 export default function HomePage() {
-  return <App />;
+  return <ProductHome />;
 }

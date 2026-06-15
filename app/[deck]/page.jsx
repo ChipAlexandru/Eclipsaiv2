@@ -24,5 +24,5 @@ export default async function DeckCoverPage({ params }) {
   const { deck: deckId } = await params;
   const deck = getDeck(deckId);
   if (!deck) notFound();
-  return <App initialView="cover" initialDeckId={deck.id} />;
+  return <App initialView="cover" initialDeckId={deck.id} homePath="/insights" />;
 }

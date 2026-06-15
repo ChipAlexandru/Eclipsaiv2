@@ -11,6 +11,8 @@ import { HomePage } from "./views/HomePage.jsx";
 // CoverPage removed — with one deck, Home's chapter cards make the cover redundant.
 import { SlidePage } from "./views/SlidePage.jsx";
 import { AboutPage } from "./views/AboutPage.jsx";
+import { SiteHeader } from "./components/SiteHeader.jsx";
+import { AboutPopup } from "./components/AboutPopup.jsx";
 import { useIsMobile } from "./hooks/useIsMobile.js";
 
 // ─── MAIN APP SHELL ──────────────────────────────────────────────────
@@ -38,6 +40,11 @@ export default function App({
   initialDeckId,
   initialChapterId,
   initialSlideId,
+  // Path the "home" view mirrors to. Defaults to "/". The insights experience
+  // mounts this App with homePath="/insights" so its home (and any in-app nav
+  // back to home from a deck/about) stays under /insights instead of bouncing
+  // to "/", which now serves the standalone product page.
+  homePath = "/",
 }) {
   const startDeckId = initialDeckId || shelf.decks[0].id;
   const startDeck = getDeck(startDeckId) || shelf.decks[0];
@@ -65,6 +72,8 @@ export default function App({
   const pendingNav = useRef(null);
   const isMobile = useIsMobile();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  // Shared About popup, opened from the global SiteHeader on every App view.
+  const [aboutPopupOpen, setAboutPopupOpen] = useState(false);
 
   useEffect(() => {
     if (rootRef.current) rootRef.current.focus();
@@ -80,7 +89,7 @@ export default function App({
   // it steps out of the site — that's intentional for a single-page deck feel.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    let path = "/";
+    let path = homePath;
     if (view === "about") path = "/about";
     else if (view === "slides") path = `/${activeDeckId}/${chapter.id}/${slide.id}`;
     const hash = articleOpen ? "#article" : "";
@@ -88,7 +97,7 @@ export default function App({
     if (window.location.pathname + window.location.hash !== fullPath) {
       window.history.replaceState(null, "", fullPath);
     }
-  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id, slide.id, articleOpen]);
+  }, [view, activeDeckId, chapterIdx, slideIdx, chapter.id, slide.id, articleOpen, homePath]);
 
   // ── Animated navigation helper ────────────────────────────────────
   const animatedNav = useCallback((direction, navFn) => {
@@ -289,12 +298,18 @@ export default function App({
   // Early-return before the main shell so the AboutPage owns the viewport.
   if (isAbout) {
     return (
-      <div style={{ fontFamily: FONT.sans }}>
+      <div style={{
+        display: "flex", flexDirection: "column", height: "100vh",
+        background: C.bg, color: C.text, fontFamily: FONT.sans,
+      }}>
         <style>{GLOBAL_CSS}</style>
-        <AboutPage
-          about={shelf.about}
-          onBack={() => setView("home")}
-        />
+        <div style={{ flexShrink: 0, padding: "12px clamp(20px, 4vw, 48px)" }}>
+          <SiteHeader active={null} onAboutOpen={() => setAboutPopupOpen(true)} />
+        </div>
+        <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
+          <AboutPage about={shelf.about} />
+        </div>
+        <AboutPopup open={aboutPopupOpen} onClose={() => setAboutPopupOpen(false)} />
       </div>
     );
   }
@@ -309,12 +324,19 @@ export default function App({
       tabIndex={-1}
       onKeyDown={handleKeyDown}
       style={{
-        display: "flex", height: "100vh", background: C.bg,
+        display: "flex", flexDirection: "column", height: "100vh", background: C.bg,
         fontFamily: FONT.sans, color: C.text, outline: "none",
       }}
     >
       <style>{GLOBAL_CSS}</style>
 
+      {/* Global site header — identical across every Eclipsai surface */}
+      <div style={{ flexShrink: 0, padding: "12px clamp(20px, 4vw, 48px)" }}>
+        <SiteHeader active="insights" onAboutOpen={() => setAboutPopupOpen(true)} />
+      </div>
+
+      {/* Rail + main content row (fills the height left below the header) */}
+      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
       {/* Left rail — desktop only, hidden on Home, slides in on cover/slides */}
       {!isHome && !isMobile && (
         <div style={{ animation: "railSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both" }}>
@@ -418,7 +440,7 @@ export default function App({
             width: "100%",
             ...getSlideStyle(),
           }}>
-            {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} onOpenAbout={() => setView("about")} />}
+            {isHome && <HomePage shelf={shelf} onNavigate={openFeatured} />}
             {isSlides && <SlidePage chapter={chapter} slide={slide} slideKey={slide.id} articleOpen={articleOpen} onArticleOpen={openArticle} onArticleClose={closeArticle} />}
           </div>
           {/* Dev-mode fold line: marks the bottom of the visible viewport so authors
@@ -471,6 +493,8 @@ export default function App({
           />
         )}
       </div>
+      </div>
+      <AboutPopup open={aboutPopupOpen} onClose={() => setAboutPopupOpen(false)} />
     </div>
   );
 }

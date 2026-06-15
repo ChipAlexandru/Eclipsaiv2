@@ -1,19 +1,17 @@
-import { useState } from "react";
 import { ArrowDown as ArrowDownIcon } from "lucide-react";
 import { C, FONT } from "../theme.js";
-import { AboutPopup } from "../components/AboutPopup.jsx";
 import { getLatestSlides } from "../decks/index.js";
 import { useIsMobile } from "../hooks/useIsMobile.js";
 
-// Global Home (decision 1C). One home for the whole shelf.
-// Renders: masthead, headline, three chapter cards, Latest row, scroll hint.
+// Insights home (/insights). The masthead now lives in the global <SiteHeader>
+// rendered by the App shell, so this view is just the editorial content:
+// headline, three chapter cards, the Latest row, and the scroll hint.
 //
 // Chapter cards link to the first slide in each chapter (kind: "chapter").
 // Latest cards auto-pick the 3 most recently added slides by dateAdded.
-export function HomePage({ shelf, onNavigate, onOpenAbout }) {
-  const [aboutOpen, setAboutOpen] = useState(false);
+export function HomePage({ shelf, onNavigate }) {
   const isMobile = useIsMobile();
-  const { about, featured } = shelf;
+  const { featured } = shelf;
   const latest = getLatestSlides();
 
   // Format "2026-04-10" → "Apr 10"
@@ -30,50 +28,15 @@ export function HomePage({ shelf, onNavigate, onOpenAbout }) {
       padding: "8px 4px",
       position: "relative",
     }}>
-      {/* Masthead row — wordmark left, About link right. */}
-      <div style={{
-        animation: "cardSlideUp 0.5s ease both",
-        display: "flex", alignItems: "flex-start", justifyContent: "space-between",
-        gap: 24,
-        position: "relative", zIndex: 1001,
-      }}>
-        <div>
-          <div style={{ fontSize: 14, fontWeight: 800, color: C.wine, letterSpacing: 3.5, textTransform: "uppercase" }}>
-            Eclipsai
-          </div>
-          <div style={{ width: 44, height: 2, background: C.accent, marginTop: 8 }} />
-        </div>
-        <div style={{ position: "relative", zIndex: 1001 }}>
-          <button
-            onClick={() => setAboutOpen(v => !v)}
-            style={{
-              background: "transparent", border: "none", cursor: "pointer",
-              fontSize: 15, fontWeight: 600, color: C.accent,
-              padding: "4px 0",
-            }}
-          >
-            About
-          </button>
-          <AboutPopup
-            open={aboutOpen}
-            onClose={() => setAboutOpen(false)}
-            name={about.name}
-            blurb={about.blurb}
-            linkedinUrl={about.linkedinUrl}
-            onReadMore={process.env.NODE_ENV === "development" ? onOpenAbout : undefined}
-          />
-        </div>
-      </div>
-
       {/* Headline */}
       <div style={{ animation: "cardSlideUp 0.6s ease 0.12s both" }}>
         <h1 style={{
           fontSize: "clamp(32px, 5.2vw, 60px)",
-          fontWeight: 900,
+          fontWeight: 600,
           margin: 0,
-          lineHeight: 1.05,
+          lineHeight: 1.06,
           color: C.text,
-          letterSpacing: -1.4,
+          letterSpacing: -1.2,
           maxWidth: 820,
         }}>
           <span style={{ color: C.accent }}>The Playbook:</span>{" "}

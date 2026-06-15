@@ -56,36 +56,18 @@
  */
 
 /**
- * Shelf-level About. Powers the AboutPopup on Home (thin, name + blurb + LinkedIn
- * + "Read more →" link) AND the dedicated /about page (full content promoted from
- * the old Chapter 5 in milestone 3).
+ * Shelf-level About. Powers the AboutPopup on the insights Home (thin, name +
+ * blurb + LinkedIn + "Read more →" link) AND the dedicated /about page.
  *
  * The popup reads `name`, `blurb`, `linkedinUrl`. The /about page additionally
- * reads `headline`, `intro`, `capabilities`, `phases`, `credential`.
- *
- * @typedef {Object} AboutCapability
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} AboutPhase
- * @property {string} num      '1'..'5'
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} AboutCredential
- * @property {string} value    big number/stat (e.g. '15+')
- * @property {string} label    short caption
- * @property {string} sub      one-line explanation
+ * reads `paras` (the two-paragraph positioning); `paras[0]` doubles as the
+ * page + Person-schema description.
  *
  * @typedef {Object} About
  * @property {string} name
- * @property {string} blurb          one-line, rendered inside the popup
+ * @property {string} blurb          one-line credential, rendered inside the popup
  * @property {string} linkedinUrl
- * @property {string} [headline]     /about page hero title
- * @property {string} [intro]        /about page lead paragraph
- * @property {AboutCapability[]} [capabilities]  "Skills Architecture" etc.
- * @property {AboutPhase[]} [phases] five-phase methodology
- * @property {AboutCredential} [credential]      big-number proof point
+ * @property {string[]} [paras]      /about page positioning paragraphs
  */
 
 /**
