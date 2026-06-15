@@ -486,6 +486,76 @@ const CSS = `
       text-transform: uppercase;
       box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
     }
+    /* Scene 01 (paradox): GDPval benchmark extract card — full-stage-width, clamp-sized like the non-A4 artifacts */
+    .gd-stack {
+      width: 100%;
+      container-type: inline-size;
+    }
+    .gd4-card {
+      background: #fffdf8;
+      border: 1px solid rgba(28, 28, 28, .14);
+      border-radius: 3px;
+      box-shadow: 0 22px 52px rgba(47,35,39,.11);
+      padding: clamp(22px, 5.4cqw, 34px);
+      display: grid;
+      align-content: start;
+      gap: clamp(12px, 2.6cqw, 18px);
+      overflow: hidden;
+      color: #242220;
+      font-family: var(--sans);
+    }
+    .gd4-proof {
+      display: grid;
+      gap: clamp(8px, 1.8cqw, 13px);
+    }
+    .gd4-proof p {
+      margin: 0;
+      font-size: clamp(13px, 2.9cqw, 16px);
+      line-height: 1.25;
+      font-weight: 500;
+      color: #242220;
+    }
+    .gd4-proof strong {
+      font-size: clamp(20px, 4.8cqw, 28px);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      margin-right: clamp(5px, 1.1cqw, 9px);
+    }
+    .gd4-rule {
+      height: 1px;
+      width: 100%;
+      background: rgba(28, 28, 28, .14);
+    }
+    .gd4-ex {
+      display: grid;
+      gap: clamp(5px, 1.1cqw, 8px);
+    }
+    .gd4-exh {
+      font-size: clamp(10px, 2.2cqw, 12px);
+      line-height: 1.4;
+      font-weight: 700;
+      color: #242220;
+    }
+    .gd4-ex ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: clamp(5px, 1.1cqw, 8px);
+    }
+    .gd4-ex li {
+      font-size: clamp(10px, 2.2cqw, 12px);
+      line-height: 1.4;
+      font-weight: 500;
+      font-style: italic;
+      color: #33302e;
+    }
+    .gd4-note {
+      font-size: clamp(10px, 2.2cqw, 12px);
+      line-height: 1.45;
+      font-weight: 600;
+      color: rgba(28, 28, 28, .5);
+    }
     .recurring-folder {
       position: relative;
       background: #ded3c0;
@@ -2593,23 +2663,22 @@ const BODY = `
         <p class="lead">You still have to reconcile the facts, find the exceptions, and prepare the review.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
-        <div class="email-stack">
-          <div class="email-draft autocomplete-email">
-            <div class="email-head">
-              <div>
-                <h3 class="email-heading">Cash variance follow-up</h3>
-              </div>
+        <div class="gd-stack">
+          <article class="gd4-card" aria-label="GDPval benchmark extract">
+            <div class="gd4-proof">
+              <p><strong>80%+</strong> wins or ties human experts</p>
+              <p><strong>~100x</strong> faster and cheaper</p>
             </div>
-            <div class="email-row"><span>From</span><strong>maria.reyes@finance-team.com</strong></div>
-            <div class="email-row"><span>To</span><strong>lina.keller@treasury-ops.com</strong></div>
-            <div class="email-row"><span>Subject</span><strong>Bank file mismatch before 09:00 review</strong></div>
-            <div class="email-body">
-              <p>Hi Lina,</p>
-              <p>The latest bank file shows a CHF 1.2m variance against the W24 cash forecast.</p>
-              <div class="autocomplete-line">Can you confirm whether the file includes the late sweep posted after cut-off <span class="ghost-text">so the 09:00 review uses the reconciled cash position.</span></div>
-              <div class="tab-hint"><span class="tab-key">Tab</span><span>accept suggestion</span></div>
+            <div class="gd4-rule"></div>
+            <div class="gd4-ex">
+              <div class="gd4-exh">Example tasks.</div>
+              <ul>
+                <li>Summarize revenue and expense movements from operating files, then produce a finance lead's review note.</li>
+                <li>Analyze full-year retail sales, identify performance drivers, and prepare a regional account recap.</li>
+              </ul>
             </div>
-          </div>
+            <div class="gd4-note">GDPval tests models on well-defined workplace deliverables: OpenAI GPT-5.5 - 84.9%; Claude Opus 4.7 - 80.3%.</div>
+          </article>
         </div>
       </div>
     </section>
