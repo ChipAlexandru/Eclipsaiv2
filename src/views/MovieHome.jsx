@@ -840,10 +840,10 @@ const CSS = `
       container-type: inline-size;
     }
     .promise-report-shell {
-      width: min(100%, 430px);
-      aspect-ratio: 210 / 297;
+      width: min(100%, 340px);
       position: relative;
-      overflow: hidden;
+      overflow: visible;
+      margin: 0 auto;
       background: var(--paper);
       border: 1px solid rgba(35, 35, 35, .15);
       border-radius: 3px;
@@ -851,22 +851,18 @@ const CSS = `
       container-type: inline-size;
     }
     .promise-report {
-      aspect-ratio: 210 / 297;
-      position: absolute;
-      inset: 0 auto auto 0;
+      position: static;
       width: 100%;
       min-height: 0;
       padding: 2.45cqw;
       display: grid;
       align-content: start;
       gap: 1.08cqw;
-      overflow: hidden;
+      overflow: visible;
       border-radius: 3px;
       border: 0;
       box-shadow: none;
       color: #242220;
-      transform: scale(1.62);
-      transform-origin: top left;
     }
     .ready-strip {
       border: 1px solid rgba(63,112,106,.35);
@@ -951,10 +947,10 @@ const CSS = `
       container-type: inline-size;
     }
     .challenge-report-shell {
-      width: min(100%, 430px);
-      aspect-ratio: 210 / 297;
+      width: min(100%, 340px);
       position: relative;
-      overflow: hidden;
+      overflow: visible;
+      margin: 0 auto;
       background: var(--paper);
       border: 1px solid rgba(35, 35, 35, .15);
       border-radius: 3px;
@@ -962,22 +958,18 @@ const CSS = `
       container-type: inline-size;
     }
     .challenge-report {
-      aspect-ratio: 210 / 297;
-      position: absolute;
-      inset: -16.2% auto auto 0;
+      position: static;
       width: 100%;
       min-height: 0;
       padding: 2.45cqw;
       display: grid;
       align-content: start;
       gap: 1.08cqw;
-      overflow: hidden;
+      overflow: visible;
       border-radius: 3px;
       border: 0;
       box-shadow: none;
       color: #242220;
-      transform: scale(1.96);
-      transform-origin: top left;
     }
     .challenge-report .report-doc-head,
     .challenge-report .forecast-meta,
@@ -2328,19 +2320,6 @@ const CSS = `
       .challenge-stage {
         width: 100%;
         min-height: auto;
-      }
-      /* On mobile, reset the desktop scale-up + absolute framing on the act-scene
-         reports so they flow at natural size (matching the scene 01 email artifact)
-         instead of zoomed in 1.6-2x and overflowing/clipping the title. */
-      .promise-report,
-      .challenge-report {
-        position: static;
-        transform: none;
-      }
-      .promise-report-shell,
-      .challenge-report-shell {
-        height: auto;
-        overflow: visible;
       }
       .insight .stage,
       .turn .stage,
