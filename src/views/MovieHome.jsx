@@ -1768,6 +1768,16 @@ const CSS = `
       transform: rotate(.7deg);
       border-color: rgba(35, 35, 35, .15);
     }
+    /* Page 2: render the same custom deliverable card as page 4's right side,
+       but as a single centered, upright card (same size as the scene 01 email). */
+    .compare-stage.promise-single {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    .compare-stage.promise-single .compare-report {
+      width: calc((100% - var(--compare-gap)) / 2);
+      transform: none;
+    }
     .compare-kicker {
       color: rgba(28, 28, 28, .58);
       font-size: 1.35cqw;
@@ -2612,52 +2622,38 @@ const BODY = `
         <p class="lead">By the time the day starts, the analysis is refreshed, checked, and ready for the decision.</p>
       </div>
       <div class="stage" aria-hidden="true">
-        <div class="promise-stage">
-          <div class="promise-report-shell">
-            <div class="artifact promise-report">
-              <div class="report-doc-head">
-                <div>
-                  <h3 class="compare-title">W24 treasury actions</h3>
-                </div>
-                <div class="report-period">09:00</div>
+        <div class="compare-stage promise-single">
+          <div class="artifact compare-report custom-report">
+            <div class="report-doc-head">
+              <div>
+                <h3 class="compare-title">W24 treasury actions</h3>
               </div>
-              <div class="forecast-meta">
-                <span><em>Review</em>Committee</span>
-                <span><em>Owner</em>Treasury</span>
-                <span><em>Cutoff</em>08:30</span>
-              </div>
-              <div class="custom-summary"><strong>Takeaway</strong>Receivable delay creates downside gap under stress case. Committee decision needed before 09:00.</div>
-              <div class="forecast-kpis">
-                <span><em>Risk</em>Funding gap</span>
-                <span><em>Stress</em>CHF -6.4m</span>
-                <span><em>Decision</em>09:00</span>
-              </div>
-              <table class="forecast-table">
-                <thead>
-                  <tr><th>Item</th><th>Signal</th><th>Trigger</th><th>Action</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>Bank variance</td><td>CHF -1.2m</td><td>Late sweep</td><td>Confirm file</td></tr>
-                  <tr><td>Receivable</td><td>+3 days</td><td>Friday slip</td><td>Escalate owner</td></tr>
-                  <tr><td>Downside case</td><td>CHF -6.4m</td><td>Gap appears</td><td>Prepare bridge</td></tr>
-                  <tr><td>Committee note</td><td>Open decision</td><td>09:00 review</td><td>Update memo</td></tr>
-                  <tr><td>Run log</td><td>W24 complete</td><td>Checks passed</td><td>Record run</td></tr>
-                </tbody>
-              </table>
-              <div class="forecast-lines">
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-                <span class="forecast-line"></span>
-              </div>
-              <div class="portable-strip">Before 09:00: confirm bridge facility trigger and update committee note.</div>
+              <div class="report-period">09:00</div>
             </div>
+            <div class="forecast-meta">
+              <span><em>Review</em>Committee</span>
+              <span><em>Owner</em>Treasury</span>
+              <span><em>Cutoff</em>08:30</span>
+            </div>
+            <div class="custom-summary"><strong>Takeaway</strong>Receivable delay creates downside gap under stress case. Committee decision needed before 09:00.</div>
+            <div class="forecast-kpis">
+              <span><em>Risk</em>Funding gap</span>
+              <span><em>Stress</em>CHF -6.4m</span>
+              <span><em>Decision</em>09:00</span>
+            </div>
+            <table class="forecast-table">
+              <thead>
+                <tr><th>Item</th><th>Signal</th><th>Trigger</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Bank variance</td><td>CHF -1.2m</td><td>Late sweep</td><td>Confirm file</td></tr>
+                <tr><td>Receivable</td><td>+3 days</td><td>Friday slip</td><td>Escalate owner</td></tr>
+                <tr><td>Downside case</td><td>CHF -6.4m</td><td>Gap appears</td><td>Prepare bridge</td></tr>
+                <tr><td>Committee note</td><td>Open decision</td><td>09:00 review</td><td>Update memo</td></tr>
+                <tr><td>Run log</td><td>W24 complete</td><td>Checks passed</td><td>Record run</td></tr>
+              </tbody>
+            </table>
+            <div class="portable-strip">Before 09:00: confirm bridge facility trigger and update committee note.</div>
           </div>
         </div>
       </div>
