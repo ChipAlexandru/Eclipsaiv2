@@ -839,10 +839,13 @@ const CSS = `
       place-items: center;
       container-type: inline-size;
     }
+    /* Page 2 (promise): full A4 page — same card size as the scene 01 email,
+       document fills the sheet (the placeholder lines flex to fill). */
     .promise-report-shell {
-      width: min(100%, 340px);
+      width: calc((100% - var(--compare-gap)) / 2);
+      aspect-ratio: 210 / 297;
       position: relative;
-      overflow: visible;
+      overflow: hidden;
       margin: 0 auto;
       background: var(--paper);
       border: 1px solid rgba(35, 35, 35, .15);
@@ -851,18 +854,24 @@ const CSS = `
       container-type: inline-size;
     }
     .promise-report {
-      position: static;
+      position: absolute;
+      inset: 0;
       width: 100%;
-      min-height: 0;
       padding: 2.45cqw;
-      display: grid;
-      align-content: start;
+      display: flex;
+      flex-direction: column;
       gap: 1.08cqw;
-      overflow: visible;
+      overflow: hidden;
       border-radius: 3px;
       border: 0;
       box-shadow: none;
       color: #242220;
+    }
+    .promise-report .forecast-lines {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .ready-strip {
       border: 1px solid rgba(63,112,106,.35);
@@ -946,10 +955,13 @@ const CSS = `
       place-items: center;
       container-type: inline-size;
     }
+    /* Page 3 (challenge): same card size as page 2, but a zoomed-in close-up
+       (like the initial demo) — scaled and cropped to the A4 frame. */
     .challenge-report-shell {
-      width: min(100%, 340px);
+      width: calc((100% - var(--compare-gap)) / 2);
+      aspect-ratio: 210 / 297;
       position: relative;
-      overflow: visible;
+      overflow: hidden;
       margin: 0 auto;
       background: var(--paper);
       border: 1px solid rgba(35, 35, 35, .15);
@@ -958,18 +970,20 @@ const CSS = `
       container-type: inline-size;
     }
     .challenge-report {
-      position: static;
+      position: absolute;
+      inset: 0;
       width: 100%;
-      min-height: 0;
       padding: 2.45cqw;
       display: grid;
       align-content: start;
       gap: 1.08cqw;
-      overflow: visible;
+      overflow: hidden;
       border-radius: 3px;
       border: 0;
       box-shadow: none;
       color: #242220;
+      transform: scale(1.85);
+      transform-origin: top left;
     }
     .challenge-report .report-doc-head,
     .challenge-report .forecast-meta,
