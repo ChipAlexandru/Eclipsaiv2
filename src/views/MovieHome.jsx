@@ -2329,6 +2329,19 @@ const CSS = `
         width: 100%;
         min-height: auto;
       }
+      /* On mobile, reset the desktop scale-up + absolute framing on the act-scene
+         reports so they flow at natural size (matching the scene 01 email artifact)
+         instead of zoomed in 1.6-2x and overflowing/clipping the title. */
+      .promise-report,
+      .challenge-report {
+        position: static;
+        transform: none;
+      }
+      .promise-report-shell,
+      .challenge-report-shell {
+        height: auto;
+        overflow: visible;
+      }
       .insight .stage,
       .turn .stage,
       .resolution .stage {
