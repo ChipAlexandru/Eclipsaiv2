@@ -2617,39 +2617,33 @@ const BODY = `
             <div class="artifact promise-report">
               <div class="report-doc-head">
                 <div>
-                  <h3 class="compare-title">Treasury weekly review</h3>
+                  <h3 class="compare-title">W24 treasury actions</h3>
                 </div>
-                <div class="report-period">W24</div>
+                <div class="report-period">09:00</div>
               </div>
               <div class="forecast-meta">
-                <span><em>Prepared</em>08:12</span>
-                <span><em>Review</em>09:00</span>
-                <span><em>Status</em>Ready</span>
+                <span><em>Review</em>Committee</span>
+                <span><em>Owner</em>Treasury</span>
+                <span><em>Cutoff</em>08:30</span>
               </div>
-              <div class="custom-summary"><strong>Takeaway</strong>Cash position is within policy, but downside stress shows a funding gap if the delayed receivable slips beyond Friday.</div>
+              <div class="custom-summary"><strong>Takeaway</strong>Receivable delay creates downside gap under stress case. Committee decision needed before 09:00.</div>
               <div class="forecast-kpis">
-                <span><em>Cash</em>CHF 42.6m</span>
-                <span><em>Forecast</em>-CHF 1.2m</span>
-                <span><em>Exceptions</em>3 flagged</span>
+                <span><em>Risk</em>Funding gap</span>
+                <span><em>Stress</em>CHF -6.4m</span>
+                <span><em>Decision</em>09:00</span>
               </div>
               <table class="forecast-table">
                 <thead>
-                  <tr><th>Item</th><th>Movement</th><th>Risk</th><th>Action</th></tr>
+                  <tr><th>Item</th><th>Signal</th><th>Trigger</th><th>Action</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Opening cash</td><td>CHF 42.6m</td><td>Within policy</td><td>No change</td></tr>
-                  <tr><td>Bank variance</td><td>CHF -1.2m</td><td>File mismatch</td><td>Confirm sweep</td></tr>
-                  <tr><td>Receivables delay</td><td>+3 days</td><td>Friday slip</td><td>Call owner</td></tr>
-                  <tr><td>Downside stress</td><td>CHF -6.4m</td><td>Funding gap</td><td>Prepare bridge</td></tr>
-                  <tr><td>Committee action</td><td>09:00 review</td><td>Decision needed</td><td>Update note</td></tr>
+                  <tr><td>Bank variance</td><td>CHF -1.2m</td><td>Late sweep</td><td>Confirm file</td></tr>
+                  <tr><td>Receivable</td><td>+3 days</td><td>Friday slip</td><td>Escalate owner</td></tr>
+                  <tr><td>Downside case</td><td>CHF -6.4m</td><td>Gap appears</td><td>Prepare bridge</td></tr>
+                  <tr><td>Committee note</td><td>Open decision</td><td>09:00 review</td><td>Update memo</td></tr>
+                  <tr><td>Run log</td><td>W24 complete</td><td>Checks passed</td><td>Record run</td></tr>
                 </tbody>
               </table>
-              <div class="promise-check-grid">
-                <div class="promise-check"><em>Bank file</em>Loaded and matched to latest cash position.</div>
-                <div class="promise-check"><em>Forecast</em>Reconciled against W24 committee view.</div>
-                <div class="promise-check"><em>Exceptions</em>Variance, delay, and stress gap flagged.</div>
-                <div class="promise-check"><em>Run log</em>Monday review workflow recorded.</div>
-              </div>
               <div class="forecast-lines">
                 <span class="forecast-line"></span>
                 <span class="forecast-line"></span>
@@ -2662,8 +2656,7 @@ const BODY = `
                 <span class="forecast-line"></span>
                 <span class="forecast-line"></span>
               </div>
-              <div class="ready-strip">Ready for review</div>
-              <div class="report-note">Inputs refreshed overnight: cash movement, bank variance, receivables delay, and downside stress case.</div>
+              <div class="portable-strip">Before 09:00: confirm bridge facility trigger and update committee note.</div>
             </div>
           </div>
         </div>
