@@ -195,9 +195,6 @@ const CSS = `
       background: var(--cream);
       grid-template-columns: minmax(300px, .92fr) minmax(360px, 1.08fr);
       gap: clamp(48px, 7vw, 104px);
-      align-items: start;
-      padding-top: clamp(176px, 25vh, 260px);
-      padding-bottom: 80px;
     }
     .promise { background: var(--cream); }
     .challenge { background: var(--cream); }
@@ -2225,11 +2222,6 @@ const CSS = `
         gap: 28px;
         padding: 104px 22px 58px;
       }
-      .paradox {
-        gap: 24px !important;
-        padding-top: 108px !important;
-        padding-bottom: 64px !important;
-      }
       .false-path {
         align-content: start;
         gap: 28px !important;
@@ -2793,69 +2785,22 @@ const BODY = `
         <p class="lead"><strong>So we build around your own work instead. Portable across tools. Owned by you.</strong></p>
       </div>
       <div class="stage" aria-hidden="true">
-        <div class="compare-stage">
-          <div class="artifact compare-report generic-report">
-            <div class="report-doc-head">
-              <div>
-                <h3 class="compare-title">Weekly treasury summary</h3>
-              </div>
-              <div class="report-period">W24</div>
+        <div class="gd-stack">
+          <article class="gd4-card" aria-label="OfficeQA Pro benchmark extract">
+            <div class="gd4-proof">
+              <p><strong>54%</strong> accuracy on real enterprise work, with standard agent setup</p>
+              <p><strong>+0.9 pts</strong> improvement from GPT-5.4 to GPT-5.5</p>
             </div>
-            <div class="forecast-meta">
-              <span><em>Scope</em>All entities</span>
-              <span><em>Run</em>Monday AM</span>
-              <span><em>Status</em>Draft</span>
+            <div class="gd4-rule"></div>
+            <div class="gd4-ex">
+              <div class="gd4-exh">Example tasks.</div>
+              <ul>
+                <li>Find the latest revised Treasury value, not the earlier preliminary value.</li>
+                <li>Extract the required value from a chart or figure, then calculate the final answer.</li>
+              </ul>
             </div>
-            <div class="generic-summary"><strong>Takeaway</strong>Cash position appears stable. Monitor forecast and review exceptions.</div>
-            <table class="forecast-table">
-              <thead>
-                <tr><th>Area</th><th>Signal</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Cash</td><td>Within range</td><td>Monitor</td></tr>
-                <tr><td>Forecast</td><td>Minor movement</td><td>Review</td></tr>
-                <tr><td>Exceptions</td><td>Some variance</td><td>Follow up</td></tr>
-              </tbody>
-            </table>
-            <div class="forecast-lines">
-              <span class="forecast-line"></span>
-              <span class="forecast-line"></span>
-              <span class="forecast-line"></span>
-              <span class="forecast-line"></span>
-            </div>
-          </div>
-          <div class="artifact compare-report custom-report">
-            <div class="report-doc-head">
-              <div>
-                <h3 class="compare-title">W24 treasury actions</h3>
-              </div>
-              <div class="report-period">09:00</div>
-            </div>
-            <div class="forecast-meta">
-              <span><em>Review</em>Committee</span>
-              <span><em>Owner</em>Treasury</span>
-              <span><em>Cutoff</em>08:30</span>
-            </div>
-            <div class="custom-summary"><strong>Takeaway</strong>Receivable delay creates downside gap under stress case. Committee decision needed before 09:00.</div>
-            <div class="forecast-kpis">
-              <span><em>Risk</em>Funding gap</span>
-              <span><em>Stress</em>CHF -6.4m</span>
-              <span><em>Decision</em>09:00</span>
-            </div>
-            <table class="forecast-table">
-              <thead>
-                <tr><th>Item</th><th>Signal</th><th>Trigger</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Bank variance</td><td>CHF -1.2m</td><td>Late sweep</td><td>Confirm file</td></tr>
-                <tr><td>Receivable</td><td>+3 days</td><td>Friday slip</td><td>Escalate owner</td></tr>
-                <tr><td>Downside case</td><td>CHF -6.4m</td><td>Gap appears</td><td>Prepare bridge</td></tr>
-                <tr><td>Committee note</td><td>Open decision</td><td>09:00 review</td><td>Update memo</td></tr>
-                <tr><td>Run log</td><td>W24 complete</td><td>Checks passed</td><td>Record run</td></tr>
-              </tbody>
-            </table>
-            <div class="portable-strip">Before 09:00: confirm bridge facility trigger and update committee note.</div>
-          </div>
+            <div class="gd4-note">OfficeQA Pro tests exact answers across enterprise-style documents: OpenAI GPT-5.5 - 54.1%; Claude Opus 4.7 - 43.6%</div>
+          </article>
         </div>
       </div>
     </section>
