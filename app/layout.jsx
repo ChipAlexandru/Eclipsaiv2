@@ -67,6 +67,12 @@ export const metadata = {
   },
 };
 
+// Default theme-color (cream) for the App-shell routes (/insights, /about, decks,
+// skills). The movie homepage overrides this with a dark value in app/page.jsx.
+export const viewport = {
+  themeColor: "#F8F4EE",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
