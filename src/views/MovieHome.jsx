@@ -3051,9 +3051,9 @@ const BODY = `
     .movie-nav .scene-index a{ border-color:rgba(255,255,255,.5) !important; }
     .movie-nav .scene-index a.active{ background:rgba(255,255,255,.30) !important; }
     /* Hero headline animation: show "be done by hand", strike it, then reveal "simply be ready." */
-    #title .hero-strike{ background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 .56em; background-size:0% .055em; animation:heroStrike .6s cubic-bezier(.4,0,.2,1) 1.1s forwards; }
+    #title .hero-strike{ background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 .56em; background-size:0% .055em; animation:heroStrike .8s cubic-bezier(.4,0,.2,1) 1.6s forwards; }
     @keyframes heroStrike{ to{ background-size:100% .055em; } }
-    #title .hero-add{ opacity:0; animation:heroAdd .6s ease 1.95s forwards; }
+    #title .hero-add{ opacity:0; animation:heroAdd .8s ease 2.9s forwards; }
     @keyframes heroAdd{ from{ opacity:0; } to{ opacity:1; } }
     @media (prefers-reduced-motion: reduce){ #title .hero-strike{ background-size:100% .055em; animation:none; } #title .hero-add{ opacity:1; animation:none; } }
   </style>
