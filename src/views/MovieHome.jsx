@@ -3083,11 +3083,6 @@ const BODY = `
             <div class="faq-a"><p>If the workflow proves value, you can maintain it internally, ask Eclipsai to maintain and improve it, or expand into a portfolio of managed workflows across more recurring decisions. As more workflows are added, management gets one view of the work AI is actually doing.</p></div>
           </details>
         </div>
-        <div class="faq-cta">
-          <h3 class="faq-cta-h">Have one recurring decision in mind?</h3>
-          <p class="faq-cta-sub">Bring the next cycle. We will scope whether the work behind it can become a managed workflow.</p>
-          <a class="cta-button" href="#contact">Start with one decision</a>
-        </div>
       </div>
     </section>
 
@@ -3141,7 +3136,7 @@ const BODY = `
     .faq-cta-sub{ font-size:clamp(15px,1.6vw,18px); line-height:1.5; color:#6b5f57; margin:0 0 4px; max-width:60ch; }
     .start-fineprint{ margin:14px 0 0; font-size:13px; line-height:1.5; color:rgba(255,253,248,.66); font-weight:600; max-width:540px; }
     /* Contact appendix — final section after FAQ (not a scene, not in menu) */
-    .contact-section{ background:var(--cream); color:#2a211d; padding:clamp(56px,8vh,96px) 6vw clamp(72px,11vh,128px); scroll-margin-top:84px; border-top:1px solid rgba(41,36,33,.12); }
+    .contact-section{ background:var(--cream); color:#2a211d; padding:clamp(96px,14vh,176px) 6vw clamp(72px,11vh,128px); scroll-margin-top:84px; border-top:1px solid rgba(41,36,33,.14); }
     .contact-section>*{ max-width:900px; margin-left:auto; margin-right:auto; }
     .contact-section h2{ font-family:var(--serif); font-size:clamp(26px,3.4vw,36px); line-height:1.12; font-weight:700; color:#241f1b; margin:0 auto 12px; }
     .contact-section p{ font-size:clamp(15px,1.7vw,18px); line-height:1.55; color:#4f463f; margin:0 auto; }
