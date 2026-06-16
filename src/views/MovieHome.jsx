@@ -2654,7 +2654,7 @@ const BODY = `
     <section class="scene title-scene" id="title" data-scene="00" aria-label="Title">
       <img src="/assets/cinematic-prototype/hero-watchtable.jpg" alt="Decision brief waiting on an executive table before the workday starts." width="1672" height="941" loading="eager" decoding="async" fetchpriority="high">
       <div class="title-card">
-        <h1>Some work should not be done by hand. It should simply be ready.</h1>
+        <h1>Some work should <s>be done by hand</s> simply be ready.</h1>
         <p class="title-subline">The work behind recurring decisions, ready before you ask<br>Inside the AI tools you already use</p>
       </div>
     </section>
@@ -2793,7 +2793,7 @@ const BODY = `
       <div class="scene-copy">
         <h2>Don't wait for better AI.</h2>
         <p class="lead">Better models can challenge assumptions, surface options, and work harder.</p>
-        <p class="lead">They still do not arrive knowing what “right” means here: what matters, what to trust, and how the work has to be done.</p>
+        <p class="lead">They still do not arrive knowing what “right” means here: what matters, what to trust, and how the work is done.</p>
         <p class="lead"><strong>So we build around your own work instead. Portable across tools. Owned by you.</strong></p>
       </div>
       <div class="stage" aria-hidden="true">
@@ -2822,7 +2822,7 @@ const BODY = `
         <h2>Build the system around the work.</h2>
         <p class="lead">We start with the decision: its inputs, outputs, quality bar, and expectations.</p>
         <p class="lead">The work behind it becomes a workflow standard: required files, gates, critical checks, and a run ledger.</p>
-        <p class="lead">The system is built when it runs and leaves evidence behind.</p>
+        <p class="lead">The system is built while it runs and leaves evidence behind.</p>
       </div>
       <div class="stage" aria-hidden="true">
         <div class="cu">
@@ -2953,7 +2953,7 @@ const BODY = `
     <section class="scene resolution" id="resolution" data-scene="07">
       <div class="scene-copy">
         <h2>One workflow. Then another.</h2>
-        <p class="lead">After the first job, the company keeps more than the output.</p>
+        <p class="lead">After the first job, you keep more than the output.</p>
         <p class="lead">The workflow runs again, records cost and time saved, checks quality, and shows whether the standard is holding.</p>
         <p class="lead">As more workflows are added, management gets one view of the work AI is actually doing.</p>
       </div>
