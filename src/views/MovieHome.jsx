@@ -553,6 +553,18 @@ const CSS = `
       font-weight: 600;
       color: rgba(28, 28, 28, .5);
     }
+    .artifact-caption {
+      width: min(100%, 740px);
+      margin: 14px 0 0;
+      color: rgba(47, 35, 39, .68);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+    .artifact-caption strong {
+      color: #292421;
+      font-weight: 850;
+    }
     .recurring-folder {
       position: relative;
       background: #ded3c0;
@@ -2884,6 +2896,7 @@ const BODY = `
             </div>
           </div>
         </div>
+        <p class="artifact-caption"><strong>What the decision needs:</strong> the files to use, facts to check, exceptions to catch, and finished work to review.</p>
       </div>
     </section>
 
@@ -2933,6 +2946,7 @@ const BODY = `
             </div>
           </div>
         </div>
+        <p class="artifact-caption"><strong>Proof the decision is supported:</strong> checked, scored, compared, and traceable back to the facts.</p>
       </div>
     </section>
 
@@ -2995,6 +3009,7 @@ const BODY = `
             </div>
           </div>
         </div>
+        <p class="artifact-caption"><strong>Whether it is worth scaling:</strong> time and cost saved versus doing the work manually.</p>
       </div>
     </section>
 
