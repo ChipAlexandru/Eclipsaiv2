@@ -2736,8 +2736,8 @@ const BODY = `
       <div class="scene-copy">
         <h2>Plausible is not enough.</h2>
         <p class="lead">The review has to be right: the movement explained, the exception clear, the recommendation defensible.</p>
-        <p class="lead">Producing it once is hard enough. Then the inputs change, the template shifts, or a reviewer asks a new question.</p>
-        <p class="lead"><strong>AI can be unreliable, and one stale number or missed exception is enough to break trust.</strong></p>
+        <p class="lead">Producing it once is hard enough. Next cycle, the inputs change, the template shifts, or a reviewer asks a new question.</p>
+        <p class="lead"><strong>One stale number or missed exception is enough to break trust.</strong></p>
       </div>
       <div class="stage" aria-hidden="true">
         <div class="challenge-stage">
