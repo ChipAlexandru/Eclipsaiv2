@@ -3023,7 +3023,7 @@ const BODY = `
             <p class="lead">Pick one recurring business decision you need to prepare for.</p>
             <p class="lead">In two to three weeks, we prove the work behind it can be ready before you ask.</p>
             <p class="lead start-tight">Fixed first scope. Continue only where value is proven. You keep what we build.</p>
-            <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Start with one decision</a>
+            <a class="cta-button" href="#contact">Start with one decision</a>
             <p class="start-fineprint">Fixed first scope. One recurring decision. Priced after we understand the decision, data, and delivery environment.</p>
           </div>
         </div>
@@ -3086,9 +3086,16 @@ const BODY = `
         <div class="faq-cta">
           <h3 class="faq-cta-h">Have one recurring decision in mind?</h3>
           <p class="faq-cta-sub">Bring the next cycle. We will scope whether the work behind it can become a managed workflow.</p>
-          <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Start with one decision</a>
+          <a class="cta-button" href="#contact">Start with one decision</a>
         </div>
       </div>
+    </section>
+
+    <section id="contact" class="contact-section" aria-label="Contact">
+      <h2>Start with one decision</h2>
+      <p>Send a short note with the recurring decision or review you want to test.</p>
+      <p class="contact-email"><a href="mailto:chip.alexandru@eclipsai.com">chip.alexandru@eclipsai.com</a></p>
+      <p class="contact-note">Include the next cycle date if you already know it.</p>
     </section>
   </main>
 
@@ -3133,6 +3140,15 @@ const BODY = `
     .faq-cta-h{ font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.12; font-weight:700; color:#241f1b; margin:0 0 10px; }
     .faq-cta-sub{ font-size:clamp(15px,1.6vw,18px); line-height:1.5; color:#6b5f57; margin:0 0 4px; max-width:60ch; }
     .start-fineprint{ margin:14px 0 0; font-size:13px; line-height:1.5; color:rgba(255,253,248,.66); font-weight:600; max-width:540px; }
+    /* Contact appendix — final section after FAQ (not a scene, not in menu) */
+    .contact-section{ background:var(--cream); color:#2a211d; padding:clamp(56px,8vh,96px) 6vw clamp(72px,11vh,128px); scroll-margin-top:84px; border-top:1px solid rgba(41,36,33,.12); }
+    .contact-section>*{ max-width:900px; margin-left:auto; margin-right:auto; }
+    .contact-section h2{ font-family:var(--serif); font-size:clamp(26px,3.4vw,36px); line-height:1.12; font-weight:700; color:#241f1b; margin:0 auto 12px; }
+    .contact-section p{ font-size:clamp(15px,1.7vw,18px); line-height:1.55; color:#4f463f; margin:0 auto; }
+    .contact-section .contact-email{ margin:18px auto 0; font-size:clamp(19px,2.4vw,25px); font-weight:700; }
+    .contact-section .contact-email a{ color:#9a6a22; text-decoration:none; border-bottom:1px solid rgba(154,106,34,.45); }
+    .contact-section .contact-email a:hover{ border-bottom-color:#9a6a22; }
+    .contact-section .contact-note{ margin:14px auto 0; font-size:14px; color:#6b5f57; }
   </style>
 `;
 
