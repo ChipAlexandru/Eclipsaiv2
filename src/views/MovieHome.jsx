@@ -2654,7 +2654,7 @@ const BODY = `
     <section class="scene title-scene" id="title" data-scene="00" aria-label="Title">
       <img src="/assets/cinematic-prototype/hero-watchtable.jpg" alt="Decision brief waiting on an executive table before the workday starts." width="1672" height="941" loading="eager" decoding="async" fetchpriority="high">
       <div class="title-card">
-        <h1>Some work should <s>be done by hand</s> simply be ready.</h1>
+        <h1>Some work should <span class="hero-strike">be done by hand</span> <span class="hero-add">simply be ready.</span></h1>
         <p class="title-subline">The work behind recurring decisions, ready before you ask<br>Inside the AI tools you already use</p>
       </div>
     </section>
@@ -3050,6 +3050,12 @@ const BODY = `
     .movie-nav .brand,.movie-nav .scene-index a,.movie-nav .quick-links a,.movie-nav .quick-links button{ color:#fffdf8 !important; }
     .movie-nav .scene-index a{ border-color:rgba(255,255,255,.5) !important; }
     .movie-nav .scene-index a.active{ background:rgba(255,255,255,.30) !important; }
+    /* Hero headline animation: show "be done by hand", strike it, then reveal "simply be ready." */
+    #title .hero-strike{ background-image:linear-gradient(currentColor,currentColor); background-repeat:no-repeat; background-position:0 .56em; background-size:0% .055em; animation:heroStrike .6s cubic-bezier(.4,0,.2,1) 1.1s forwards; }
+    @keyframes heroStrike{ to{ background-size:100% .055em; } }
+    #title .hero-add{ opacity:0; animation:heroAdd .6s ease 1.95s forwards; }
+    @keyframes heroAdd{ from{ opacity:0; } to{ opacity:1; } }
+    @media (prefers-reduced-motion: reduce){ #title .hero-strike{ background-size:100% .055em; animation:none; } #title .hero-add{ opacity:1; animation:none; } }
   </style>
 `;
 
