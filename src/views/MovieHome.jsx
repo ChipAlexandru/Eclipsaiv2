@@ -2655,7 +2655,7 @@ const BODY = `
       <img src="/assets/cinematic-prototype/hero-watchtable.jpg" alt="Decision brief waiting on an executive table before the workday starts." width="1672" height="941" loading="eager" decoding="async" fetchpriority="high">
       <div class="title-card">
         <h1>Some work should not be done by hand. It should simply be ready.</h1>
-        <p class="title-subline">Recurring work that runs itself — and proves it’s right.<br>Inside the AI tools you already use.</p>
+        <p class="title-subline">The work behind recurring decisions, ready before you ask<br>Inside the AI tools you already use</p>
       </div>
     </section>
 
