@@ -2820,8 +2820,8 @@ const BODY = `
     <section class="scene insight" id="insight" data-scene="05">
       <div class="scene-copy">
         <h2>Build the system around the work.</h2>
-        <p class="lead">We start with the current work: inputs, outputs, quality bar, goals, and expectations.</p>
-        <p class="lead">The work becomes a workflow standard: required files, gates, critical checks, and a run ledger.</p>
+        <p class="lead">We start with the decision: its inputs, outputs, quality bar, and expectations.</p>
+        <p class="lead">The work behind it becomes a workflow standard: required files, gates, critical checks, and a run ledger.</p>
         <p class="lead">The system is built when it runs and leaves evidence behind.</p>
       </div>
       <div class="stage" aria-hidden="true">
