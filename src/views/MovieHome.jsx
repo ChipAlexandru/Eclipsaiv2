@@ -3016,11 +3016,11 @@ const BODY = `
     <section class="scene start" id="start" data-scene="08">
       <img class="start-bg" src="/assets/cinematic-prototype/hero-watchtable.jpg" alt="" width="1672" height="941" loading="lazy" decoding="async">
       <div class="scene-copy">
-        <h2>For teams using AI but not seeing the work move.</h2>
+        <h2>For teams using AI but still doing the work.</h2>
         <div class="start-action-row">
           <div class="start-body">
-            <p class="lead">Pick one deliverable that comes back every cycle.</p>
-            <p class="lead">In two to three weeks, we prove it can become recurring work that runs itself and proves it’s right.</p>
+            <p class="lead">Pick one recurring business decision you need to prepare for.</p>
+            <p class="lead">In two to three weeks, we prove the work behind it can be ready before you ask.</p>
             <p class="lead start-tight">Fixed first scope. Continue only where value is proven. You keep what we build.</p>
             <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Bring one recurring deliverable</a>
           </div>
