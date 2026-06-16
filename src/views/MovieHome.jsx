@@ -2663,8 +2663,8 @@ const BODY = `
       <div class="scene-copy">
         <h2>If AI can do it, why are you still working on it?</h2>
         <p class="lead">AI helps with drafts, summaries, and research.</p>
-        <p class="lead">This is useful, but the work that matters is <strong>still not done for you</strong>.</p>
-        <p class="lead">You still have to reconcile the facts, find the exceptions, and prepare the review.</p>
+        <p class="lead">But the work behind recurring decisions is <strong>not done for you</strong>.</p>
+        <p class="lead">You still have to reconcile the numbers, find the exceptions, and prepare the review.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="gd-stack">
