@@ -3022,7 +3022,7 @@ const BODY = `
             <p class="lead">Pick one recurring business decision you need to prepare for.</p>
             <p class="lead">In two to three weeks, we prove the work behind it can be ready before you ask.</p>
             <p class="lead start-tight">Fixed first scope. Continue only where value is proven. You keep what we build.</p>
-            <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Bring one recurring deliverable</a>
+            <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Start with one decision</a>
           </div>
         </div>
         <div class="start-about">
