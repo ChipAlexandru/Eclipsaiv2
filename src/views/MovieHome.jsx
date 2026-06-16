@@ -2647,6 +2647,7 @@ const BODY = `
     <div class="quick-links" aria-label="Quick links">
       <a href="#turn">Proof</a>
       <a href="#start">Start</a>
+      <a href="#faq">FAQ</a>
     </div>
   </header>
 
@@ -3023,10 +3024,69 @@ const BODY = `
             <p class="lead">In two to three weeks, we prove the work behind it can be ready before you ask.</p>
             <p class="lead start-tight">Fixed first scope. Continue only where value is proven. You keep what we build.</p>
             <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Start with one decision</a>
+            <p class="start-fineprint">Fixed first scope. One recurring decision. Priced after we understand the decision, data, and delivery environment.</p>
           </div>
         </div>
         <div class="start-about">
           <p>Eclipsai builds managed AI workflows for recurring business work. Led by Chip Alexandru, 20+ years in strategy consulting at BCG, PwC, and Accenture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq-section" aria-label="Frequently asked questions">
+      <div class="faq-inner">
+        <h2 class="faq-title">Questions before you bring one decision</h2>
+        <p class="faq-intro">Practical answers for teams considering a fixed first scope.</p>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>What do we get after the first proof?</summary>
+            <div class="faq-a"><p>You get the work behind one recurring business decision: the recommendation, supporting analysis, source evidence, and backup material. You also get the workflow folder that can recreate the work for future cycles in your own AI environment.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What kind of work is this for?</summary>
+            <div class="faq-a"><p>Recurring internal business work where a team prepares facts, exceptions, analysis, and a recommendation before a decision. Good examples include commercial reviews, finance reviews, management notes, QBR packs, category reviews, account briefs, and market scans.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What is not a good fit?</summary>
+            <div class="faq-a"><p>Work that is not based on facts, sources, or analysis is not a good first fit. We also do not start with external reporting, audit, legal, HR, customer-facing decisions, regulatory filings, or workflows where an unchecked error would create unacceptable risk.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How does Eclipsai build the workflow?</summary>
+            <div class="faq-a"><p>We start with the decision: its inputs, outputs, quality bar, and expectations. The work behind it becomes a workflow standard: required files, source maps, gates, critical checks, evaluation criteria, and a run ledger.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Does the workflow make the decision?</summary>
+            <div class="faq-a"><p>No. The workflow prepares the work behind the decision. The decision owner remains responsible for reviewing the output, checking the evidence, and approving the final decision.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How do we know the output is right?</summary>
+            <div class="faq-a"><p>Before the proof starts, we agree what “good enough to support the decision” means. Typical checks include correct facts, source traceability, missing-data flags, exception handling, defensible recommendation, and reviewer confidence. The workflow can also be compared against direct AI use without the workflow layer.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What do you need from us?</summary>
+            <div class="faq-a"><p>One named recurring decision, the source files normally used, and ideally four to five prior examples of the report, review, pack, or memo. We also need the people closest to the decision quality for one scoping meeting and two joint review sessions.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Where does the workflow run?</summary>
+            <div class="faq-a"><p>The first workflow is built for Codex or Claude Desktop. The preferred setup is to run in your own approved environment. Broader Microsoft, AWS, or other platform implementation can be assessed later.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What does the first proof cost?</summary>
+            <div class="faq-a"><p>The first proof is fixed-scope and priced after we understand the decision, data, and delivery environment. It covers one recurring decision workflow. Multiple workflows, system integration, broad platform rollout, stakeholder training, and ongoing maintenance are separate.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What happens if the proof does not work?</summary>
+            <div class="faq-a"><p>If the workflow does not meet the agreed quality standard for the agreed one-decision scope, we keep improving within that scope or refund the proof fee. If refunded, the workflow is not used.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>What happens after the first proof?</summary>
+            <div class="faq-a"><p>If the workflow proves value, you can maintain it internally, ask Eclipsai to maintain and improve it, or expand into a portfolio of managed workflows across more recurring decisions. As more workflows are added, management gets one view of the work AI is actually doing.</p></div>
+          </details>
+        </div>
+        <div class="faq-cta">
+          <h3 class="faq-cta-h">Have one recurring decision in mind?</h3>
+          <p class="faq-cta-sub">Bring the next cycle. We will scope whether the work behind it can become a managed workflow.</p>
+          <a class="cta-button" href="https://www.linkedin.com/in/chip-alexandru/" target="_blank" rel="noopener noreferrer">Start with one decision</a>
         </div>
       </div>
     </section>
@@ -3056,6 +3116,23 @@ const BODY = `
     #title .hero-add{ opacity:0; animation:heroAdd .8s ease 2.9s forwards; }
     @keyframes heroAdd{ from{ opacity:0; } to{ opacity:1; } }
     @media (prefers-reduced-motion: reduce){ #title .hero-strike{ background-size:100% .055em; animation:none; } #title .hero-add{ opacity:1; animation:none; } }
+    /* FAQ appendix — unnumbered practical section after Scene 08 (not a movie scene) */
+    .faq-section{ background:var(--cream); color:#2a211d; padding:clamp(64px,9vh,120px) 6vw; scroll-margin-top:84px; }
+    .faq-inner{ max-width:900px; margin:0 auto; }
+    .faq-title{ font-family:var(--serif); font-size:clamp(28px,4vw,40px); line-height:1.1; font-weight:700; color:#241f1b; margin:0 0 12px; }
+    .faq-intro{ font-size:clamp(15px,2vw,18px); line-height:1.5; color:#6b5f57; margin:0 0 clamp(28px,4vh,44px); }
+    .faq-list{ border-top:1px solid rgba(41,36,33,.14); }
+    .faq-item{ border-bottom:1px solid rgba(41,36,33,.14); }
+    .faq-item>summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:20px 4px; font-family:var(--sans); font-size:clamp(16px,1.6vw,19px); font-weight:700; color:#241f1b; }
+    .faq-item>summary::-webkit-details-marker{ display:none; }
+    .faq-item>summary::after{ content:"+"; font-size:1.5em; font-weight:400; line-height:1; color:#9a6a22; transition:transform .25s ease; flex:none; }
+    .faq-item[open]>summary::after{ transform:rotate(45deg); }
+    .faq-a{ padding:0 4px 22px; }
+    .faq-a p{ margin:0; max-width:72ch; font-size:clamp(15px,1.5vw,17px); line-height:1.62; color:#4f463f; font-weight:400; }
+    .faq-cta{ margin-top:clamp(40px,6vh,64px); padding-top:clamp(28px,4vh,40px); border-top:1px solid rgba(41,36,33,.14); }
+    .faq-cta-h{ font-family:var(--serif); font-size:clamp(22px,3vw,30px); line-height:1.12; font-weight:700; color:#241f1b; margin:0 0 10px; }
+    .faq-cta-sub{ font-size:clamp(15px,1.6vw,18px); line-height:1.5; color:#6b5f57; margin:0 0 4px; max-width:60ch; }
+    .start-fineprint{ margin:14px 0 0; font-size:13px; line-height:1.5; color:rgba(255,253,248,.66); font-weight:600; max-width:540px; }
   </style>
 `;
 
