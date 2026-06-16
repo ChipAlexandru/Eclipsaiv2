@@ -2952,7 +2952,7 @@ const BODY = `
 
     <section class="scene resolution" id="resolution" data-scene="07">
       <div class="scene-copy">
-        <h2>One workflow stays. The work moves.</h2>
+        <h2>One workflow. Then another.</h2>
         <p class="lead">After the first job, the company keeps more than the output.</p>
         <p class="lead">The workflow runs again, records cost and time saved, checks quality, and shows whether the standard is holding.</p>
         <p class="lead">As more workflows are added, management gets one view of the work AI is actually doing.</p>
