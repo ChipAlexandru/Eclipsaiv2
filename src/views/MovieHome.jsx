@@ -1036,6 +1036,7 @@ const CSS = `
       position: relative;
     }
     .challenge-stage .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:0; }
+    #insight .stage>.artifact-caption,#turn .stage>.artifact-caption,#resolution .stage>.artifact-caption{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
     /* Page 3 (challenge): same card size as page 2, but a zoomed-in close-up
        (like the initial demo) — scaled and cropped to the A4 frame. */
     .challenge-report-shell {
@@ -2671,7 +2672,6 @@ const BODY = `
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="fn-stack">
           <div class="needs-card" role="group" aria-label="Work still needed, by function">
-            <div class="needs-title">Work still needed</div>
             <div class="needs-fn">
               <div class="needs-fn-name">Commercial</div>
               <ul>
@@ -2698,7 +2698,6 @@ const BODY = `
             </div>
           </div>
           <div class="proof-badge gdpval-badge">
-            <span class="proof-badge-lead">AI can already produce serious business work.</span>
             <span class="proof-badge-tag">GDPval · business work</span>
             <span class="proof-badge-text"><strong>80%+</strong> wins or ties human experts · <strong>100x</strong> faster and cheaper</span>
             <span class="proof-badge-models">OpenAI GPT-5.5 84.9% · Claude Opus 4.7 80.3%</span>
@@ -3147,7 +3146,7 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
-    .needs-card{ width:min(100%, 470px); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:clamp(15px,1.7vw,20px); color:#1c1a18; }
+    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:clamp(15px,1.7vw,20px); color:#1c1a18; }
     .needs-title{ font-family:var(--serif); font-size:clamp(21px,2.4vw,26px); line-height:1.1; font-weight:700; color:#1c1a18; padding-bottom:clamp(12px,1.4vw,16px); border-bottom:1px solid rgba(35,35,35,.16); }
     .needs-fn{ display:grid; gap:7px; }
     .needs-fn-name{ font-size:clamp(13px,1.35vw,15px); font-weight:800; letter-spacing:.04em; color:#1c1a18; }
