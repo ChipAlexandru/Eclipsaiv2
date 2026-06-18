@@ -1033,7 +1033,9 @@ const CSS = `
       display: grid;
       place-items: center;
       container-type: inline-size;
+      position: relative;
     }
+    .challenge-stage .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:0; }
     /* Page 3 (challenge): same card size as page 2, but a zoomed-in close-up
        (like the initial demo) — scaled and cropped to the A4 frame. */
     .challenge-report-shell {
@@ -3151,15 +3153,16 @@ const BODY = `
     .proof-badge-text{ font-size:13px; line-height:1.42; font-weight:600; color:#3f3833; }
     .proof-badge-text strong{ font-weight:900; font-variant-numeric:tabular-nums; }
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
-    .fn-stack{ display:grid; justify-items:center; gap:clamp(16px,2.6cqw,24px); width:100%; }
-    .rotor{ width:min(100%,440px); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(20px,4.6cqw,28px); display:grid; color:#2a211d; container-type:inline-size; }
-    .rotor-panel{ grid-area:1 / 1; display:grid; gap:clamp(11px,2.6cqw,16px); align-content:start; animation:fnRotate 13.5s ease-in-out infinite; }
+    .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
+    .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
+    .rotor{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:3cqw 3.1cqw; display:grid; color:#1c1a18; }
+    .rotor-panel{ grid-area:1 / 1; display:grid; gap:2.4cqw; align-content:start; animation:fnRotate 13.5s ease-in-out infinite; }
     .rotor-panel:nth-child(2){ animation-delay:4.5s; }
     .rotor-panel:nth-child(3){ animation-delay:9s; }
-    .rotor-fn{ font-family:var(--serif); font-size:clamp(19px,5.6cqw,24px); line-height:1.1; font-weight:700; color:#241f1b; }
-    .rotor-block{ display:grid; gap:3px; }
-    .rotor-label{ font-size:clamp(10px,2.5cqw,11px); font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:#9a6a22; }
-    .rotor-text{ margin:0; font-size:clamp(13px,3.4cqw,15px); line-height:1.5; font-weight:500; color:#3f3833; }
+    .rotor-fn{ font-family:var(--serif); font-size:3.5cqw; line-height:1.08; font-weight:700; color:#1c1a18; border-bottom:1px solid rgba(35,35,35,.16); padding-bottom:1.4cqw; }
+    .rotor-block{ display:grid; gap:.7cqw; }
+    .rotor-label{ font-size:1.7cqw; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#1c1a18; }
+    .rotor-text{ margin:0; font-size:2.5cqw; line-height:1.55; font-weight:500; color:#1c1a18; }
     @keyframes fnRotate{ 0%{opacity:0} 4%{opacity:1} 31%{opacity:1} 35%{opacity:0} 100%{opacity:0} }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }
