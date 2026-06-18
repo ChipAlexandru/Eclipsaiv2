@@ -2662,9 +2662,9 @@ const BODY = `
     <section class="scene paradox" id="paradox" data-scene="01">
       <div class="scene-copy">
         <h2>If AI can do the work, why are you still working on it?</h2>
-        <p class="lead">AI can now produce serious workplace deliverables.</p>
+        <p class="lead">AI can now produce serious business deliverables.</p>
         <p class="lead">You would expect more of the work to be done for you.</p>
-        <p class="lead">But the recurring work behind decisions still remains: reconcile numbers, find exceptions, prepare reviews.</p>
+        <p class="lead">But the work behind recurring decisions still remains: reconcile the numbers, find the exceptions, prepare the review.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="gd-stack">
@@ -2999,7 +2999,7 @@ const BODY = `
             <p class="lead">In two to three weeks, we prove the work behind it can be ready before you ask.</p>
             <p class="lead start-tight">Fixed first scope. Continue only where value is proven. You keep what we build.</p>
             <a class="cta-button" href="#contact">Start with one decision</a>
-            <p class="start-fineprint">Fixed first scope. One recurring decision. Priced after we understand the decision, data, and delivery environment.</p>
+            <p class="start-fineprint">One recurring decision. Priced after we understand the decision, data, and delivery environment.</p>
           </div>
         </div>
         <div class="start-about">
