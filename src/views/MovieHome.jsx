@@ -345,6 +345,7 @@ const CSS = `
       min-height: 520px;
       align-items: center;
       justify-items: center;
+      justify-self: center;
       padding-top: 0;
       container-type: inline-size;
     }
@@ -3146,14 +3147,12 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
-    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:0; color:#1c1a18; }
-    .needs-title{ font-family:var(--serif); font-size:clamp(21px,2.4vw,26px); line-height:1.1; font-weight:700; color:#1c1a18; padding-bottom:clamp(12px,1.4vw,16px); border-bottom:1px solid rgba(35,35,35,.16); }
-    .needs-fn{ display:grid; gap:9px; }
-    .needs-fn + .needs-fn{ border-top:1px solid rgba(35,35,35,.12); margin-top:clamp(16px,2vw,22px); padding-top:clamp(16px,2vw,22px); }
-    .needs-fn-name{ font-family:var(--serif); font-size:clamp(17px,1.9vw,21px); line-height:1.1; font-weight:700; color:#1c1a18; }
-    .needs-fn ul{ margin:0; padding-left:18px; display:grid; gap:6px; list-style:disc; }
-    .needs-fn li{ font-size:clamp(14px,1.4vw,16px); line-height:1.5; font-weight:500; color:#1c1a18; }
-    .needs-fn li::marker{ color:#9a6a22; }
+    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); background:#2e2620; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:clamp(22px,2.6vw,30px); display:grid; gap:0; color:#f4efe7; }
+    .needs-fn{ display:grid; gap:7px; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.14); margin-top:clamp(13px,1.5vw,17px); padding-top:clamp(13px,1.5vw,17px); }
+    .needs-fn-name{ font-family:var(--serif); font-size:clamp(22px,2.4vw,28px); line-height:1.08; font-weight:700; color:#fffdf8; }
+    .needs-fn ul{ margin:0; padding:0; display:grid; gap:4px; list-style:none; }
+    .needs-fn li{ font-size:clamp(15px,1.55vw,18px); line-height:1.5; font-weight:500; color:rgba(255,253,248,.82); }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }  </style>
 `;
