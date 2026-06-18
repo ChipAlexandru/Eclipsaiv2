@@ -2817,7 +2817,7 @@ const BODY = `
       <div class="scene-copy">
         <h2>Build the system around the work.</h2>
         <p class="lead">We start with the decision: its inputs, outputs, quality bar, and expectations.</p>
-        <p class="lead">The work behind it becomes a workflow standard: required files, gates, critical checks, and a run ledger.</p>
+        <p class="lead">The work behind it becomes a repeatable skill: inputs, rules, checks, and a run record.</p>
         <p class="lead">The system is built while it runs and leaves evidence behind.</p>
       </div>
       <div class="stage" aria-hidden="true">
@@ -2864,7 +2864,7 @@ const BODY = `
                   </div>
                 </div>
                 <div class="col right">
-                  <div class="col-h">The deliverable it produces</div>
+                  <div class="col-h">The output it produces</div>
                   <div class="out-path">outputs / committee-memo.md</div>
                   <div class="deliv">
                     <div class="deliv-head">
@@ -3035,7 +3035,7 @@ const BODY = `
         <div class="faq-list">
           <details class="faq-item">
             <summary>What do we get after the first proof?</summary>
-            <div class="faq-a"><p>You get the work behind one recurring business decision: the recommendation, supporting analysis, source evidence, and backup material. You also get the workflow folder that can recreate the work for future cycles in your own AI environment.</p></div>
+            <div class="faq-a"><p>You get the work behind one recurring business decision: the recommendation, supporting analysis, source evidence, and backup material. You also get the skill, run records, and output history needed to recreate and improve the work in future cycles.</p></div>
           </details>
           <details class="faq-item">
             <summary>What kind of work is this for?</summary>
@@ -3075,7 +3075,7 @@ const BODY = `
           </details>
           <details class="faq-item">
             <summary>What happens after the first proof?</summary>
-            <div class="faq-a"><p>If the workflow proves value, you can maintain it internally, ask Eclipsai to maintain and improve it, or expand into a portfolio of managed workflows across more recurring decisions. As more workflows are added, management gets one view of the work AI is actually doing.</p></div>
+            <div class="faq-a"><p>If the workflow proves value, you can maintain it internally, ask Eclipsai to maintain and improve it, or expand into more recurring decisions, each with its own skill, run records, checks, cost, and review status.</p></div>
           </details>
         </div>
       </div>

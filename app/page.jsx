@@ -8,7 +8,7 @@ import { MovieHome } from "../src/views/MovieHome.jsx";
 
 const TITLE = "Eclipsai — Managed AI workflows for recurring work";
 const DESCRIPTION =
-  "Some work should not be done by hand — it should simply be ready. Eclipsai turns the AI tools your team already uses into a recurring deliverable, proven against your standard, then a workflow that stays.";
+  "Eclipsai builds company-specific AI skills that support commercial, financial, and operational decisions by analyzing company data, preparing recommendations, and proposing next steps.";
 
 export const metadata = {
   title: TITLE,
