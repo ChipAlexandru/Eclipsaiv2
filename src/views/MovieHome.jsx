@@ -3145,17 +3145,17 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:10px; }
-    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); aspect-ratio:210 / 297; background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:5.4cqw; display:grid; align-content:space-between; gap:0; overflow:hidden; color:#f4efe7; container-type:inline-size; }
-    .needs-fn{ display:grid; gap:1.1cqw; }
-    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.13); padding-top:2.4cqw; }
-    .needs-fn-name{ font-family:var(--serif); font-size:6cqw; line-height:1.05; font-weight:700; color:#fffdf8; }
-    .needs-fn ul{ margin:0; padding:0; display:grid; gap:.5cqw; list-style:none; }
-    .needs-fn li{ font-size:3.9cqw; line-height:1.38; font-weight:500; color:rgba(255,253,248,.85); }
-    .needs-proof{ border-top:1px solid rgba(255,255,255,.22); padding-top:2.8cqw; display:grid; gap:.9cqw; }
-    .needs-proof-tag{ font-size:2.5cqw; font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,253,248,.7); }
-    .needs-proof-stat{ font-size:3.4cqw; line-height:1.3; font-weight:600; color:#fffdf8; }
+    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); aspect-ratio:210 / 297; background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:5cqw; display:flex; flex-direction:column; overflow:hidden; color:#f4efe7; container-type:inline-size; }
+    .needs-fn{ display:grid; gap:.7cqw; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.13); margin-top:2.2cqw; padding-top:2.2cqw; }
+    .needs-fn-name{ font-family:var(--serif); font-size:7.2cqw; line-height:1.04; font-weight:700; color:#fffdf8; }
+    .needs-fn ul{ margin:0; padding:0; display:grid; gap:.4cqw; list-style:none; }
+    .needs-fn li{ font-size:5.3cqw; line-height:1.28; font-weight:500; color:rgba(255,253,248,.86); }
+    .needs-proof{ margin-top:auto; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.13); border-radius:1.7cqw; padding:2.6cqw 3cqw; display:grid; gap:.5cqw; }
+    .needs-proof-tag{ font-size:5.3cqw; font-weight:800; letter-spacing:.02em; text-transform:uppercase; color:rgba(255,253,248,.6); }
+    .needs-proof-stat{ font-size:5.3cqw; line-height:1.26; font-weight:600; color:#fffdf8; }
     .needs-proof-stat strong{ font-weight:900; font-variant-numeric:tabular-nums; }
-    .needs-proof-models{ font-size:2.8cqw; line-height:1.3; font-weight:500; color:rgba(255,253,248,.55); font-variant-numeric:tabular-nums; }
+    .needs-proof-models{ font-size:5.3cqw; line-height:1.26; font-weight:500; color:rgba(255,253,248,.5); font-variant-numeric:tabular-nums; }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }  </style>
 `;
