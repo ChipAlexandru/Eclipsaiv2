@@ -2670,35 +2670,27 @@ const BODY = `
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="fn-stack">
-          <div class="rotor" role="group" aria-label="Work still needed, by function">
-            <div class="rotor-panel">
-              <div class="rotor-head">
-                <div class="rotor-fn">Commercial</div>
-                <div class="rotor-sub">Work still needed</div>
-              </div>
-              <ul class="rotor-list">
+          <div class="needs-card" role="group" aria-label="Work still needed, by function">
+            <div class="needs-title">Work still needed</div>
+            <div class="needs-fn">
+              <div class="needs-fn-name">Commercial</div>
+              <ul>
                 <li>Where and why performance slipped?</li>
                 <li>Which opportunity was missed?</li>
                 <li>What action should follow?</li>
               </ul>
             </div>
-            <div class="rotor-panel">
-              <div class="rotor-head">
-                <div class="rotor-fn">Finance</div>
-                <div class="rotor-sub">Work still needed</div>
-              </div>
-              <ul class="rotor-list">
+            <div class="needs-fn">
+              <div class="needs-fn-name">Finance</div>
+              <ul>
                 <li>Why it does not reconcile?</li>
                 <li>Where value leaks?</li>
                 <li>Who must do what?</li>
               </ul>
             </div>
-            <div class="rotor-panel">
-              <div class="rotor-head">
-                <div class="rotor-fn">Operations</div>
-                <div class="rotor-sub">Work still needed</div>
-              </div>
-              <ul class="rotor-list">
+            <div class="needs-fn">
+              <div class="needs-fn-name">Operations</div>
+              <ul>
                 <li>What are the key issue and the root causes?</li>
                 <li>What are the proposed actions?</li>
                 <li>What is pending from last cycle?</li>
@@ -3155,20 +3147,15 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
-    .rotor{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:3cqw 3.1cqw; display:grid; color:#1c1a18; }
-    .rotor-panel{ grid-area:1 / 1; display:grid; gap:2.6cqw; align-content:start; background:var(--paper); animation:fnRotate 13.5s linear infinite; }
-    .rotor-panel:nth-child(2){ animation-delay:4.5s; }
-    .rotor-panel:nth-child(3){ animation-delay:9s; }
-    .rotor-head{ display:grid; gap:.5cqw; border-bottom:1px solid rgba(35,35,35,.16); padding-bottom:1.7cqw; }
-    .rotor-fn{ font-family:var(--serif); font-size:3.5cqw; line-height:1.08; font-weight:700; color:#1c1a18; }
-    .rotor-sub{ font-size:1.65cqw; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#1c1a18; }
-    .rotor-list{ margin:0; padding-left:1.9cqw; display:grid; gap:1.5cqw; list-style:disc; }
-    .rotor-list li{ font-size:2.5cqw; line-height:1.5; font-weight:500; color:#1c1a18; padding-left:.4cqw; }
-    @keyframes fnRotate{ 0%{opacity:1} 33.333%{opacity:1} 33.334%{opacity:0} 100%{opacity:0} }
+    .needs-card{ width:min(100%, 470px); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:clamp(15px,1.7vw,20px); color:#1c1a18; }
+    .needs-title{ font-family:var(--serif); font-size:clamp(21px,2.4vw,26px); line-height:1.1; font-weight:700; color:#1c1a18; padding-bottom:clamp(12px,1.4vw,16px); border-bottom:1px solid rgba(35,35,35,.16); }
+    .needs-fn{ display:grid; gap:7px; }
+    .needs-fn-name{ font-size:clamp(13px,1.35vw,15px); font-weight:800; letter-spacing:.04em; color:#1c1a18; }
+    .needs-fn ul{ margin:0; padding-left:18px; display:grid; gap:5px; list-style:disc; }
+    .needs-fn li{ font-size:clamp(14px,1.4vw,16px); line-height:1.5; font-weight:500; color:#1c1a18; }
+    .needs-fn li::marker{ color:#9a6a22; }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
-    .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }
-    @media (prefers-reduced-motion: reduce){ .rotor-panel{ animation:none; opacity:0; } .rotor-panel:first-child{ opacity:1; } }
-  </style>
+    .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }  </style>
 `;
 
 const SCRIPT = `
