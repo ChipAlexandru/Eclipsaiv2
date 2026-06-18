@@ -3147,12 +3147,12 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:10px; }
-    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); aspect-ratio:210 / 297; background:#2e2620; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:5.5cqw; display:grid; align-content:space-between; gap:0; overflow:hidden; color:#f4efe7; container-type:inline-size; }
-    .needs-fn{ display:grid; gap:1.4cqw; }
-    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.14); padding-top:3.4cqw; }
-    .needs-fn-name{ font-family:var(--serif); font-size:6.6cqw; line-height:1.06; font-weight:700; color:#fffdf8; }
-    .needs-fn ul{ margin:0; padding:0; display:grid; gap:.7cqw; list-style:none; }
-    .needs-fn li{ font-size:4.4cqw; line-height:1.42; font-weight:500; color:rgba(255,253,248,.82); }
+    .needs-card{ width:min(100%, 360px); background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:clamp(20px,2.3vw,28px); display:grid; gap:clamp(14px,1.6vw,20px); color:#f4efe7; }
+    .needs-fn{ display:grid; gap:8px; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.14); padding-top:clamp(14px,1.6vw,20px); }
+    .needs-fn-name{ font-family:var(--serif); font-size:clamp(20px,2.1vw,25px); line-height:1.1; font-weight:700; color:#fffdf8; }
+    .needs-fn ul{ margin:0; padding:0; display:grid; gap:5px; list-style:none; }
+    .needs-fn li{ font-size:clamp(14px,1.6vw,18px); line-height:1.5; font-weight:500; color:rgba(255,253,248,.88); }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }  </style>
 `;
