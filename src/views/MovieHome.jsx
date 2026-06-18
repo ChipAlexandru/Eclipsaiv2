@@ -2670,39 +2670,39 @@ const BODY = `
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="fn-stack">
-          <div class="rotor" role="group" aria-label="What the decision still needs, by function">
+          <div class="rotor" role="group" aria-label="Work still needed, by function">
             <div class="rotor-panel">
-              <div class="rotor-fn">Commercial</div>
-              <div class="rotor-block">
-                <div class="rotor-label">Your tools today</div>
-                <p class="rotor-text">Live commercial views: sales, margin, stock, forecast, promotions, customers, categories, and SKUs.</p>
+              <div class="rotor-head">
+                <div class="rotor-fn">Commercial</div>
+                <div class="rotor-sub">Work still needed</div>
               </div>
-              <div class="rotor-block">
-                <div class="rotor-label">What the decision still needs</div>
-                <p class="rotor-text">The movement that matters, the reason behind it, and the supplier or category follow-up to take next.</p>
-              </div>
+              <ul class="rotor-list">
+                <li>Where and why performance slipped?</li>
+                <li>Which opportunity was missed?</li>
+                <li>What action should follow?</li>
+              </ul>
             </div>
             <div class="rotor-panel">
-              <div class="rotor-fn">Finance</div>
-              <div class="rotor-block">
-                <div class="rotor-label">Your tools today</div>
-                <p class="rotor-text">Budgets, invoices, accruals, claims, approvals, evidence, and variance reports.</p>
+              <div class="rotor-head">
+                <div class="rotor-fn">Finance</div>
+                <div class="rotor-sub">Work still needed</div>
               </div>
-              <div class="rotor-block">
-                <div class="rotor-label">What the decision still needs</div>
-                <p class="rotor-text">What reconciles, where value may leak, what matters before close, and who must clear it.</p>
-              </div>
+              <ul class="rotor-list">
+                <li>Why it does not reconcile?</li>
+                <li>Where value leaks?</li>
+                <li>Who must do what?</li>
+              </ul>
             </div>
             <div class="rotor-panel">
-              <div class="rotor-fn">Operations</div>
-              <div class="rotor-block">
-                <div class="rotor-label">Your tools today</div>
-                <p class="rotor-text">Demand, staffing, stock, service, tasks, forecasts, and exception views.</p>
+              <div class="rotor-head">
+                <div class="rotor-fn">Operations</div>
+                <div class="rotor-sub">Work still needed</div>
               </div>
-              <div class="rotor-block">
-                <div class="rotor-label">What the decision still needs</div>
-                <p class="rotor-text">The issue that matters, the root cause, the owner, the proposed fix, and what changed since last cycle.</p>
-              </div>
+              <ul class="rotor-list">
+                <li>What are the key issue and the root causes?</li>
+                <li>What are the proposed actions?</li>
+                <li>What is pending from last cycle?</li>
+              </ul>
             </div>
           </div>
           <div class="proof-badge gdpval-badge">
@@ -3156,14 +3156,15 @@ const BODY = `
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
     .rotor{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:3cqw 3.1cqw; display:grid; color:#1c1a18; }
-    .rotor-panel{ grid-area:1 / 1; display:grid; gap:2.4cqw; align-content:start; animation:fnRotate 13.5s ease-in-out infinite; }
+    .rotor-panel{ grid-area:1 / 1; display:grid; gap:2.6cqw; align-content:start; background:var(--paper); animation:fnRotate 13.5s linear infinite; }
     .rotor-panel:nth-child(2){ animation-delay:4.5s; }
     .rotor-panel:nth-child(3){ animation-delay:9s; }
-    .rotor-fn{ font-family:var(--serif); font-size:3.5cqw; line-height:1.08; font-weight:700; color:#1c1a18; border-bottom:1px solid rgba(35,35,35,.16); padding-bottom:1.4cqw; }
-    .rotor-block{ display:grid; gap:.7cqw; }
-    .rotor-label{ font-size:1.7cqw; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#1c1a18; }
-    .rotor-text{ margin:0; font-size:2.5cqw; line-height:1.55; font-weight:500; color:#1c1a18; }
-    @keyframes fnRotate{ 0%{opacity:0} 4%{opacity:1} 31%{opacity:1} 35%{opacity:0} 100%{opacity:0} }
+    .rotor-head{ display:grid; gap:.5cqw; border-bottom:1px solid rgba(35,35,35,.16); padding-bottom:1.7cqw; }
+    .rotor-fn{ font-family:var(--serif); font-size:3.5cqw; line-height:1.08; font-weight:700; color:#1c1a18; }
+    .rotor-sub{ font-size:1.65cqw; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#1c1a18; }
+    .rotor-list{ margin:0; padding-left:1.9cqw; display:grid; gap:1.5cqw; list-style:disc; }
+    .rotor-list li{ font-size:2.5cqw; line-height:1.5; font-weight:500; color:#1c1a18; padding-left:.4cqw; }
+    @keyframes fnRotate{ 0%{opacity:1} 33.333%{opacity:1} 33.334%{opacity:0} 100%{opacity:0} }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }
     @media (prefers-reduced-motion: reduce){ .rotor-panel{ animation:none; opacity:0; } .rotor-panel:first-child{ opacity:1; } }
