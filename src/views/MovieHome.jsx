@@ -2578,6 +2578,256 @@ const CSS = `
   .cu .deliv-foot{margin-top:1cqw;border-top:1px solid rgba(28,28,28,.09);padding-top:.8cqw;font:700 1.1cqw/1.5 var(--cu-mono);color:var(--cu-muted)}
   .cu .deliv-foot .ok{color:var(--cu-teal)}
 
+  /* Scene 04 workbench */
+  .cu .surface-shell {
+    width: min(100%, 840px);
+    container-type: inline-size;
+  }
+  .cu .surface-workbench {
+    background: #fff;
+    --skill-accent: var(--cu-wine);
+    --skill-accent-soft: rgba(74, 28, 42, .07);
+    --skill-accent-line: rgba(74, 28, 42, .28);
+  }
+  .cu .surface-switch {
+    display: flex;
+    gap: .55cqw;
+    padding: .85cqw 1.25cqw;
+    border-bottom: 1px solid var(--cu-brd);
+    background: #fff;
+  }
+  .cu .surface-choice {
+    appearance: none;
+    border: 1px solid rgba(42, 42, 48, .16);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--cu-txt2);
+    padding: .48cqw .82cqw;
+    font: 850 .9cqw/1 var(--cu-sans);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .cu .surface-choice.active,
+  .cu .surface-choice:hover,
+  .cu .surface-choice:focus-visible {
+    background: #2a2a30;
+    border-color: #2a2a30;
+    color: #fff;
+    outline: 0;
+  }
+  .cu .surface-grid {
+    display: grid;
+    grid-template-columns: 27% minmax(0, 1fr) 35%;
+    min-height: 29cqw;
+  }
+  .cu .surface-col {
+    min-width: 0;
+    padding: 1.25cqw 1.25cqw 1.45cqw;
+  }
+  .cu .surface-folder {
+    border-right: 1px solid var(--cu-brd);
+    background: #fff;
+  }
+  .cu .surface-skill {
+    border-right: 1px solid var(--cu-brd);
+    background: #fff;
+  }
+  .cu .surface-output {
+    background: #fff;
+  }
+  .cu .surface-col-h {
+    font: 900 .92cqw/1 var(--cu-sans);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cu-txt2);
+    margin-bottom: 1.1cqw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cu .folder-card {
+    position: relative;
+    margin-top: 1.4cqw;
+    border: 1px solid rgba(35, 35, 35, .16);
+    border-radius: .45cqw .45cqw .35cqw .35cqw;
+    background: #f4f4f2;
+    box-shadow: 0 .9cqw 2.1cqw rgba(47, 35, 39, .1);
+    color: #2a2a30;
+  }
+  .cu .folder-card::before {
+    content: "";
+    position: absolute;
+    left: -.05cqw;
+    top: -1.05cqw;
+    width: 8.8cqw;
+    height: 1.2cqw;
+    border: 1px solid rgba(35, 35, 35, .16);
+    border-bottom: 0;
+    border-radius: .42cqw .42cqw 0 0;
+    background: #f4f4f2;
+  }
+  .cu .folder-tab {
+    padding: 1.15cqw 1cqw .75cqw;
+    color: #2a2a30;
+    font: 850 1.03cqw/1 var(--cu-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cu .folder-items {
+    display: grid;
+    gap: .1cqw;
+    padding: 0 1cqw 1.05cqw;
+  }
+  .cu .folder-items div {
+    display: block;
+    min-width: 0;
+    padding: .38cqw 0;
+    color: #2a2a30;
+    font: 760 1.04cqw/1.18 var(--cu-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cu .folder-items div::before {
+    content: none !important;
+    display: none !important;
+  }
+  .cu .skill-card {
+    border: 1px solid var(--skill-accent-line);
+    border-radius: .42cqw;
+    background: #fff;
+    box-shadow: 0 .7cqw 1.8cqw rgba(47, 35, 39, .06);
+    overflow: hidden;
+  }
+  .cu .skill-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .8cqw;
+    padding: .76cqw .95cqw;
+    border-bottom: 1px solid rgba(74, 28, 42, .1);
+    background: var(--skill-accent-soft);
+  }
+  .cu .skill-path {
+    color: var(--skill-accent);
+    font: 850 .96cqw/1 var(--cu-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cu .skill-body {
+    display: grid;
+    gap: .72cqw;
+    padding: .9cqw .95cqw 1cqw;
+  }
+  .cu .skill-code {
+    margin: 0;
+    color: #2a2a30;
+    font: 760 1.04cqw/1.48 var(--cu-mono);
+    white-space: pre-wrap;
+  }
+  .cu .skill-code .md-head {
+    color: var(--skill-accent);
+    font-weight: 900;
+  }
+  .cu .recommendation-card {
+    margin: 0;
+    display: grid;
+    gap: 1cqw;
+    background: #fff;
+    border: 1px solid rgba(35,35,35,.15);
+    border-radius: .42cqw;
+    box-shadow: 0 1cqw 2.6cqw rgba(40,40,55,.12);
+    padding: 1.35cqw 1.45cqw;
+    color: #242220;
+  }
+  .cu .recommendation-card h5 {
+    margin: 0;
+    color: #242220;
+    font-family: var(--cu-serif);
+    font-size: 1.95cqw;
+    line-height: 1.06;
+    font-weight: 700;
+  }
+  .cu .recommendation-text {
+    border-left: .28cqw solid rgba(42, 42, 48, .22);
+    background: #f4f4f2;
+    border-radius: .25cqw;
+    padding: .95cqw 1cqw;
+    color: #3a3633;
+    font: 760 1.28cqw/1.4 var(--cu-sans);
+  }
+  .cu .recommendation-numbers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid rgba(28,28,28,.09);
+    border-radius: .36cqw;
+    overflow: hidden;
+  }
+  .cu .recommendation-numbers span {
+    min-width: 0;
+    border-left: 1px solid rgba(28,28,28,.09);
+    padding: .82cqw .8cqw;
+    color: #242220;
+    font: 850 1.35cqw/1.1 var(--cu-sans);
+  }
+  .cu .recommendation-numbers span:first-child {
+    border-left: 0;
+  }
+  .cu .recommendation-numbers em {
+    display: block;
+    color: var(--cu-muted);
+    font: 900 .82cqw/1 var(--cu-sans);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-style: normal;
+    margin-bottom: .45cqw;
+  }
+  @media (max-width: 720px) {
+    .cu .surface-grid {
+      grid-template-columns: 1fr;
+    }
+    .cu .surface-switch {
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 9px 12px;
+    }
+    .cu .surface-choice {
+      font-size: 10px;
+      padding: 7px 10px;
+    }
+    .cu .surface-folder,
+    .cu .surface-skill {
+      border-right: 0;
+      border-bottom: 1px solid var(--cu-brd);
+    }
+    .cu .surface-col-h {
+      font-size: 11px;
+    }
+    .cu .folder-tab,
+    .cu .folder-items div {
+      font-size: 12px;
+    }
+    .cu .skill-code {
+      font-size: 12px;
+    }
+    .cu .recommendation-card {
+      padding: 12px;
+    }
+    .cu .recommendation-card h5 {
+      font-size: 20px;
+    }
+    .cu .recommendation-text,
+    .cu .recommendation-numbers span {
+      font-size: 12px;
+    }
+    .cu .recommendation-numbers em {
+      font-size: 9px;
+    }
+  }
+
   /* 06 + 07 dashboards */
   .cu .dash{padding:1.6cqw}
   .cu .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.8cqw;margin-bottom:1.6cqw}
@@ -2809,84 +3059,84 @@ const BODY = `
 
     <section class="scene insight" id="insight" data-scene="04">
       <div class="scene-copy">
-        <h2>Build the system around the work.</h2>
-        <p class="lead">We start with the decision: its inputs, outputs, quality bar, and expectations.</p>
-        <p class="lead">The work behind it becomes a repeatable skill: inputs, rules, checks, and a run record.</p>
-        <p class="lead">The system is built while it runs and leaves evidence behind.</p>
+        <h2>Start with a working folder.</h2>
+        <p class="lead">Not a platform migration. Use the files, data, examples, and reviewer notes already used for a recurring decision.</p>
+        <p class="lead">That work becomes a repeatable skill: inputs, goals, checks, and outputs.</p>
+        <p class="lead">The workflow runs the recurring work for you.</p>
       </div>
-      <div class="stage" aria-hidden="true">
+      <div class="stage">
         <div class="cu">
-          <div class="ws-shell" style="width:min(100%,800px)">
-            <div class="ws">
-              <div class="ws-bar">treasury-weekly-review <span class="sep">/</span> <b>SKILL.md</b>
-                <span class="aitabs"><span class="ai">claude</span><span class="ai">codex</span><span class="ai">copilot</span><span class="ai">gemini</span></span>
+          <div class="ws-shell surface-shell">
+            <div class="ws surface-workbench surface-kind-finance" data-surface-workbench>
+              <div class="surface-switch" aria-label="Example workflow type">
+                <button class="surface-choice active" type="button" data-surface-choice="finance">Finance</button>
+                <button class="surface-choice" type="button" data-surface-choice="commercial">Commercial</button>
+                <button class="surface-choice" type="button" data-surface-choice="operations">Operations</button>
               </div>
-              <div class="ws-grid">
-                <div class="col side">
-                  <div class="col-h">The system</div>
-                  <div class="tree">
-                    <div class="d">treasury-weekly-review/</div>
-                    <div class="s2 open">SKILL.md</div>
-                    <div class="s2 d">inputs/ <span class="ct">3 files</span></div>
-                    <div class="s2 d">checks/ <span class="ct">2 critical</span></div>
-                    <div class="s2 d">outputs/</div>
-                    <div class="out-open">committee-memo.md</div>
-                    <div class="s2">runs.jsonl <span class="n">14</span></div>
+              <div class="surface-grid">
+                <div class="surface-col surface-folder">
+                  <div class="surface-col-h">Working folder</div>
+                  <div class="folder-card">
+                    <div class="folder-tab" data-folder-tab>treasury-review</div>
+                    <div class="folder-items" data-folder-items>
+                      <div>treasury_pack_week_19.xlsx</div>
+                      <div>prior-committee-memo.md</div>
+                      <div>reviewer-notes.md</div>
+                      <div>rules-thresholds.json</div>
+                      <div>runs.jsonl</div>
+                    </div>
                   </div>
                 </div>
-                <div class="col editor">
-                  <div class="col-h">The standard</div>
-                  <div class="file">
-                    <h4>Treasury weekly review</h4>
-                    <p>Turn the weekly treasury pack into a reconciled position, a downside stress, and a committee-ready memo.</p>
-                    <div class="k">Inputs</div>
-                    <div class="m">bank file · cash forecast · receivables</div>
-                    <div class="k">Run sequence</div>
-                    <div class="m">
-                      <span class="num">1</span>&nbsp; reconcile cash against latest bank file<br>
-                      <span class="num">2</span>&nbsp; flag exceptions and receivables movement<br>
-                      <span class="num">3</span>&nbsp; stress the downside funding case<br>
-                      <span class="num">4</span>&nbsp; draft committee memo and actions<br>
-                      <span class="num">5</span>&nbsp; validate traceability · log run
+                <div class="surface-col surface-skill">
+                  <div class="surface-col-h">Workflow</div>
+                  <div class="skill-card">
+                    <div class="skill-head">
+                      <span class="skill-path">SKILL.md</span>
                     </div>
-                    <div class="k">Critical checks</div>
-                    <div class="m">reconciliation&nbsp;&nbsp;<span class="crit">must pass</span><br>numeric traceability&nbsp;&nbsp;<span class="crit">must pass</span></div>
-                    <div class="k">Quality bar</div>
-                    <p>Every number traces to a source cell. Every exception named.</p>
-                    <div class="k">Reviewer · cadence</div>
-                    <div class="m">Group Treasury · Monday before 09:00</div>
+                    <div class="skill-body">
+                      <pre class="skill-code" data-skill-code><span class="md-head">---</span>
+<span class="md-head">name:</span> treasury-weekly-review
+<span class="md-head">description:</span> Turn the weekly treasury pack into a committee-ready memo with numeric traceability.
+<span class="md-head">---</span>
+
+<span class="md-head"># Treasury Weekly Review</span>
+
+<span class="md-head">## Operating Mode</span>
+Delivery only. Hard gates fail loudly; no silent fixes.
+
+<span class="md-head">## Inputs</span>
+treasury_pack_week_19.xlsx
+rules-thresholds.json
+reviewer-notes.md
+
+<span class="md-head">## Run Rules</span>
+Reconcile cash and forecast totals.
+Stress liquidity using approved thresholds.
+Flag exceptions above policy limits.
+
+<span class="md-head">## Output</span>
+Committee memo: action, numbers, source notes.
+Traceability report: every number tied to source.</pre>
+                    </div>
                   </div>
                 </div>
-                <div class="col right">
-                  <div class="col-h">The output it produces</div>
-                  <div class="out-path">outputs / committee-memo.md</div>
-                  <div class="deliv">
-                    <div class="deliv-head">
-                      <div><div class="deliv-kick">Committee memo</div><h5 class="deliv-title">Treasury weekly review</h5></div>
-                      <div class="deliv-per">W24</div>
-                    </div>
-                    <div class="deliv-take">Cash is within policy, but the delayed receivable opens a CHF 6.4m funding gap under the downside case. Confirm the bridge facility before the 09:00 committee.</div>
-                    <div class="deliv-kpis">
+                <div class="surface-col surface-output">
+                  <div class="surface-col-h">Output</div>
+                  <div class="recommendation-card">
+                    <h5 data-rec-title>Treasury weekly review</h5>
+                    <div class="recommendation-text" data-rec-text>Prepare the bridge facility option for the 09:00 committee. Current cash is within policy, but a three-day receivables slip creates a CHF 6.4m downside gap.</div>
+                    <div class="recommendation-numbers" data-rec-numbers>
                       <span><em>Cash</em>CHF 42.6m</span>
                       <span><em>Variance</em>CHF 1.2m</span>
-                      <span><em>Downside</em>−6.4m</span>
+                      <span><em>Downside gap</em>CHF 6.4m</span>
                     </div>
-                    <table>
-                      <thead><tr><th>Item</th><th>Action</th></tr></thead>
-                      <tbody>
-                        <tr><td>Bank variance</td><td>Corrected 1.2m</td></tr>
-                        <tr><td>Receivables</td><td>+3 day slip</td></tr>
-                        <tr><td>Downside case</td><td>Bridge trigger</td></tr>
-                      </tbody>
-                    </table>
-                    <div class="deliv-foot">reconciliation <span class="ok">pass</span> · traceability <span class="ok">pass</span></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <p class="artifact-caption"><strong>What the decision needs:</strong> the files to use, facts to check, exceptions to catch, and finished work to review.</p>
+        <p class="artifact-caption"><strong>Work is done for you:</strong> from data and dashboards to recommendations.</p>
       </div>
     </section>
 
@@ -3170,6 +3420,148 @@ const SCRIPT = `
       });
     }, { threshold: .52 });
     sections.forEach((section) => sceneObserver.observe(section));
+
+    const surfaceExamples = {
+      finance: {
+        kind: "finance",
+        folder: "treasury-review",
+        files: ["treasury_pack_week_19.xlsx", "prior-committee-memo.md", "reviewer-notes.md", "rules-thresholds.json", "runs.jsonl"],
+        skillCode: [
+          "---",
+          "name: treasury-weekly-review",
+          "description: Turn the weekly treasury pack into a committee-ready memo with numeric traceability.",
+          "---",
+          "",
+          "# Treasury Weekly Review",
+          "",
+          "## Operating Mode",
+          "Delivery only. Hard gates fail loudly; no silent fixes.",
+          "",
+          "## Inputs",
+          "treasury_pack_week_19.xlsx",
+          "rules-thresholds.json",
+          "reviewer-notes.md",
+          "",
+          "## Run Rules",
+          "Reconcile cash and forecast totals.",
+          "Stress liquidity using approved thresholds.",
+          "Flag exceptions above policy limits.",
+          "",
+          "## Output",
+          "Committee memo: action, numbers, source notes.",
+          "Traceability report: every number tied to source."
+        ],
+        recTitle: "Treasury weekly review",
+        recText: "Prepare the bridge facility option for the 09:00 committee. Current cash is within policy, but a three-day receivables slip creates a CHF 6.4m downside gap.",
+        numbers: [["Cash", "CHF 42.6m"], ["Variance", "CHF 1.2m"], ["Downside gap", "CHF 6.4m"]]
+      },
+      commercial: {
+        kind: "commercial",
+        folder: "category-review",
+        files: ["sales-by-store.xlsx", "margin-bridge.xlsx", "stock-cover.csv", "promo-calendar.xlsx", "last-category-review.md", "buyer-comments.md"],
+        skillCode: [
+          "---",
+          "name: category-performance-review",
+          "description: Turn weekly category files into a buyer-ready action memo with source-backed drivers.",
+          "---",
+          "",
+          "# Category Performance Review",
+          "",
+          "## Operating Mode",
+          "Delivery only. Separate facts, exceptions, and judgment.",
+          "",
+          "## Inputs",
+          "sales-by-store.xlsx",
+          "margin-bridge.xlsx",
+          "stock-cover.csv",
+          "promo-calendar.xlsx",
+          "",
+          "## Run Rules",
+          "Reconcile sales and margin to plan.",
+          "Check stock cover against promo calendar.",
+          "Flag stores where availability changes the action.",
+          "",
+          "## Output",
+          "Category memo: driver, exception, next move.",
+          "Evidence notes: source file for each claim."
+        ],
+        recTitle: "Category performance review",
+        recText: "Shift this week's promo spend away from low-margin discounts and replenish the seven South stores with stock-outs. The sales decline is concentrated where availability and margin both moved against plan.",
+        numbers: [["Sales", "-4.8%"], ["Margin", "-2.1pp"], ["Stock-outs", "7 stores"]]
+      },
+      operations: {
+        kind: "operations",
+        folder: "operations-review",
+        files: ["service-levels.csv", "incidents.xlsx", "staffing-plan.xlsx", "action-log.md", "ops-review-notes.md", "runs.jsonl"],
+        skillCode: [
+          "---",
+          "name: operations-exception-review",
+          "description: Turn weekly service files into an owner-ready action memo with exception traceability.",
+          "---",
+          "",
+          "# Operations Exception Review",
+          "",
+          "## Operating Mode",
+          "Delivery only. Group exceptions; name owner and due date.",
+          "",
+          "## Inputs",
+          "service-levels.csv",
+          "incidents.xlsx",
+          "staffing-plan.xlsx",
+          "action-log.md",
+          "",
+          "## Run Rules",
+          "Group late service and incidents by route.",
+          "Compare coverage to the staffing plan.",
+          "Flag repeated misses and owner gaps.",
+          "",
+          "## Output",
+          "Operations memo: owner, action, due date.",
+          "Exception log: route, cause, evidence."
+        ],
+        recTitle: "Operations weekly action",
+        recText: "Put one extra supervisor on routes North-04 and East-11 for the Friday cutoff, and ask Carrier B for a same-day recovery plan. Those two routes account for 9 of the 12 new incidents.",
+        numbers: [["On-time", "91%"], ["Incidents", "12"], ["Main routes", "2"]]
+      }
+    };
+    function renderSurfaceExample(key) {
+      const data = surfaceExamples[key];
+      if (!data) return;
+      document.querySelectorAll("[data-surface-choice]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.surfaceChoice === key);
+      });
+      const workbench = document.querySelector("[data-surface-workbench]");
+      if (workbench) {
+        workbench.classList.remove("surface-kind-finance", "surface-kind-commercial", "surface-kind-operations");
+        workbench.classList.add("surface-kind-" + data.kind);
+      }
+      const setText = (selector, value) => {
+        const el = document.querySelector(selector);
+        if (el) el.textContent = value;
+      };
+      const renderSkill = (lines) => lines
+        .map((line) => line.replace(/^(---|name:|description:|# .*|## .*)/, '<span class="md-head">$1</span>'))
+        .join("\\n");
+      const setSkill = (selector, lines) => {
+        const el = document.querySelector(selector);
+        if (el) el.innerHTML = renderSkill(lines);
+      };
+      setText("[data-folder-tab]", data.folder);
+      setSkill("[data-skill-code]", data.skillCode);
+      setText("[data-rec-title]", data.recTitle);
+      setText("[data-rec-text]", data.recText);
+      const folder = document.querySelector("[data-folder-items]");
+      if (folder) {
+        folder.innerHTML = data.files.map((name) => "<div>" + name + "</div>").join("");
+      }
+      const numbers = document.querySelector("[data-rec-numbers]");
+      if (numbers) {
+        numbers.innerHTML = data.numbers.map((pair) => "<span><em>" + pair[0] + "</em>" + pair[1] + "</span>").join("");
+      }
+    }
+    document.querySelectorAll("[data-surface-choice]").forEach((button) => {
+      button.addEventListener("click", () => renderSurfaceExample(button.dataset.surfaceChoice));
+    });
 
   `;
 
