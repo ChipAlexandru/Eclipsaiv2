@@ -2638,11 +2638,10 @@ const BODY = `
       <a href="#paradox" data-scene-link>01</a>
       <a href="#promise" data-scene-link>02</a>
       <a href="#challenge" data-scene-link>03</a>
-      <a href="#false-path" data-scene-link>04</a>
-      <a href="#insight" data-scene-link>05</a>
-      <a href="#turn" data-scene-link>06</a>
-      <a href="#resolution" data-scene-link>07</a>
-      <a href="#start" data-scene-link>08</a>
+      <a href="#insight" data-scene-link>04</a>
+      <a href="#turn" data-scene-link>05</a>
+      <a href="#resolution" data-scene-link>06</a>
+      <a href="#start" data-scene-link>07</a>
     </nav>
     <div class="quick-links" aria-label="Quick links">
       <a href="#turn">Proof</a>
@@ -2662,10 +2661,10 @@ const BODY = `
 
     <section class="scene paradox" id="paradox" data-scene="01">
       <div class="scene-copy">
-        <h2>If AI can do it, why are you still working on it?</h2>
-        <p class="lead">AI helps with drafts, summaries, and research.</p>
-        <p class="lead">But the work behind recurring decisions is <strong>not done for you</strong>.</p>
-        <p class="lead">You still have to reconcile the numbers, find the exceptions, and prepare the review.</p>
+        <h2>If AI can do the work, why are you still working on it?</h2>
+        <p class="lead">AI can now produce serious workplace deliverables.</p>
+        <p class="lead">You would expect more of the work to be done for you.</p>
+        <p class="lead">But the recurring work behind decisions still remains: reconcile numbers, find exceptions, prepare reviews.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
         <div class="gd-stack">
@@ -2736,9 +2735,9 @@ const BODY = `
     <section class="scene challenge" id="challenge" data-scene="03">
       <div class="scene-copy">
         <h2>Plausible is not enough.</h2>
-        <p class="lead">The review has to be right: the movement explained, the exception clear, the recommendation defensible.</p>
-        <p class="lead">Producing it once is hard enough. Next cycle, the inputs change, the template shifts, or a reviewer asks a new question.</p>
-        <p class="lead"><strong>One stale number or missed exception is enough to break trust.</strong></p>
+        <p class="lead">A review can look finished and still be wrong.</p>
+        <p class="lead">Better models help. They still do not arrive knowing what “right” means in your company.</p>
+        <p class="lead"><strong>So we build around your own work instead: the sources, checks, exceptions, and decision rules.</strong></p>
       </div>
       <div class="stage" aria-hidden="true">
         <div class="challenge-stage">
@@ -2786,39 +2785,15 @@ const BODY = `
               <div class="report-note">Draft looks complete, but one stale file changes the recommendation.</div>
             </div>
           </div>
+          <div class="proof-badge">
+            <span class="proof-badge-tag">OfficeQA Pro · enterprise documents</span>
+            <span class="proof-badge-text"><strong>54%</strong> accuracy on real enterprise work — OpenAI GPT-5.5 54.1%, Claude Opus 4.7 43.6%</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="scene false-path" id="false-path" data-scene="04">
-      <div class="scene-copy">
-        <h2>Don't wait for better AI.</h2>
-        <p class="lead">Better models can challenge assumptions, surface options, and work harder.</p>
-        <p class="lead">They still do not arrive knowing what “right” means here: what matters, what to trust, and how the work is done.</p>
-        <p class="lead"><strong>So we build around your own work instead. Portable across tools. Owned by you.</strong></p>
-      </div>
-      <div class="stage" aria-hidden="true">
-        <div class="gd-stack">
-          <article class="gd4-card" aria-label="OfficeQA Pro benchmark extract">
-            <div class="gd4-proof">
-              <p><strong>54%</strong> accuracy on real enterprise work, with standard agent setup</p>
-              <p><strong>+0.9 pts</strong> improvement from GPT-5.4 to GPT-5.5</p>
-            </div>
-            <div class="gd4-rule"></div>
-            <div class="gd4-ex">
-              <div class="gd4-exh">Example tasks.</div>
-              <ul>
-                <li>Find the latest revised Treasury value, not the earlier preliminary value.</li>
-                <li>Extract the required value from a chart or figure, then calculate the final answer.</li>
-              </ul>
-            </div>
-            <div class="gd4-note">OfficeQA Pro tests exact answers across enterprise-style documents: OpenAI GPT-5.5 - 54.1%; Claude Opus 4.7 - 43.6%</div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="scene insight" id="insight" data-scene="05">
+    <section class="scene insight" id="insight" data-scene="04">
       <div class="scene-copy">
         <h2>Build the system around the work.</h2>
         <p class="lead">We start with the decision: its inputs, outputs, quality bar, and expectations.</p>
@@ -2901,7 +2876,7 @@ const BODY = `
       </div>
     </section>
 
-    <section class="scene turn" id="turn" data-scene="06">
+    <section class="scene turn" id="turn" data-scene="05">
       <div class="scene-copy">
         <h2>Then prove it’s right.</h2>
         <p class="lead">A good-looking review is not enough.</p>
@@ -2951,7 +2926,7 @@ const BODY = `
       </div>
     </section>
 
-    <section class="scene resolution" id="resolution" data-scene="07">
+    <section class="scene resolution" id="resolution" data-scene="06">
       <div class="scene-copy">
         <h2>One workflow. Then another.</h2>
         <p class="lead">After the first job, you keep more than the output.</p>
@@ -3014,7 +2989,7 @@ const BODY = `
       </div>
     </section>
 
-    <section class="scene start" id="start" data-scene="08">
+    <section class="scene start" id="start" data-scene="07">
       <img class="start-bg" src="/assets/cinematic-prototype/hero-watchtable.jpg" alt="" width="1672" height="941" loading="lazy" decoding="async">
       <div class="scene-copy">
         <h2>For teams using AI but still doing the work.</h2>
@@ -3028,7 +3003,7 @@ const BODY = `
           </div>
         </div>
         <div class="start-about">
-          <p>Eclipsai builds managed AI workflows for recurring business work. Led by Chip Alexandru, 20+ years in strategy consulting at BCG, PwC, and Accenture.</p>
+          <p>Eclipsai builds managed AI workflows for recurring business work, proven through repeated runs, checks, and run records. Led by Chip Alexandru, 20+ years in strategy consulting at BCG, PwC, and Accenture.</p>
         </div>
       </div>
     </section>
@@ -3144,6 +3119,11 @@ const BODY = `
     .contact-section .contact-email a{ color:#9a6a22; text-decoration:none; border-bottom:1px solid rgba(154,106,34,.45); }
     .contact-section .contact-email a:hover{ border-bottom-color:#9a6a22; }
     .contact-section .contact-note{ margin:14px auto 0; font-size:14px; color:#6b5f57; }
+    /* Scene 03 (challenge) — small OfficeQA supporting proof badge under the main review */
+    .proof-badge{ margin-top:clamp(16px,2.6cqw,24px); width:min(100%,360px); background:var(--paper); border:1px solid rgba(35,35,35,.16); border-radius:8px; box-shadow:0 10px 26px rgba(47,35,39,.10); padding:12px 14px; display:grid; gap:5px; color:#2a211d; }
+    .proof-badge-tag{ font-size:11px; font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:#9a6a22; }
+    .proof-badge-text{ font-size:13px; line-height:1.42; font-weight:600; color:#3f3833; }
+    .proof-badge-text strong{ font-weight:900; font-variant-numeric:tabular-nums; }
   </style>
 `;
 
