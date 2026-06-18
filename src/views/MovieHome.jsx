@@ -2677,25 +2677,19 @@ const BODY = `
           <div class="needs-fn">
             <div class="needs-fn-name">Commercial</div>
             <ul>
-              <li>Where and why performance slipped?</li>
-              <li>Which opportunity was missed?</li>
-              <li>What action should follow?</li>
+              <li>Where did performance slip, and why?</li>
             </ul>
           </div>
           <div class="needs-fn">
             <div class="needs-fn-name">Finance</div>
             <ul>
-              <li>Why it does not reconcile?</li>
-              <li>Where value leaks?</li>
-              <li>Who must do what?</li>
+              <li>Where is value leaking?</li>
             </ul>
           </div>
           <div class="needs-fn">
             <div class="needs-fn-name">Operations</div>
             <ul>
-              <li>What are the key issue and the root causes?</li>
-              <li>What are the proposed actions?</li>
-              <li>What is pending from last cycle?</li>
+              <li>What actions should be taken?</li>
             </ul>
           </div>
           <div class="needs-proof">
@@ -3148,11 +3142,11 @@ const BODY = `
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:10px; }
     .needs-card{ width:calc((100% - var(--compare-gap)) / 2); aspect-ratio:210 / 297; background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:5cqw; display:flex; flex-direction:column; overflow:hidden; color:#f4efe7; container-type:inline-size; }
-    .needs-fn{ display:grid; gap:.7cqw; }
-    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.13); margin-top:2.2cqw; padding-top:2.2cqw; }
-    .needs-fn-name{ font-family:var(--serif); font-size:7.2cqw; line-height:1.04; font-weight:700; color:#fffdf8; }
+    .needs-fn{ display:grid; gap:1.4cqw; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.13); margin-top:4.5cqw; padding-top:4.5cqw; }
+    .needs-fn-name{ font-family:var(--serif); font-size:9.5cqw; line-height:1.04; font-weight:700; color:#fffdf8; }
     .needs-fn ul{ margin:0; padding:0; display:grid; gap:.4cqw; list-style:none; }
-    .needs-fn li{ font-size:5.3cqw; line-height:1.28; font-weight:500; color:rgba(255,253,248,.86); }
+    .needs-fn li{ font-size:7.2cqw; line-height:1.28; font-weight:500; color:rgba(255,253,248,.86); }
     .needs-proof{ margin-top:auto; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.13); border-radius:1.7cqw; padding:2.6cqw 3cqw; display:grid; gap:.5cqw; }
     .needs-proof-tag{ font-size:5.3cqw; font-weight:800; letter-spacing:.02em; text-transform:uppercase; color:rgba(255,253,248,.6); }
     .needs-proof-stat{ font-size:5.3cqw; line-height:1.26; font-weight:600; color:#fffdf8; }
