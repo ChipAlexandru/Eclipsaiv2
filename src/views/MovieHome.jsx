@@ -1036,7 +1036,9 @@ const CSS = `
       container-type: inline-size;
       position: relative;
     }
-    .challenge-stage .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:0; }
+    .challenge-report-shell .proof-badge{ position:absolute; top:auto; left:4cqw; right:4cqw; bottom:4cqw; z-index:3; width:auto; margin:0; background:#352a20; border:1px solid rgba(255,255,255,.18); border-radius:1.8cqw; box-shadow:0 8px 22px rgba(0,0,0,.45); padding:2.8cqw 3.2cqw; gap:1cqw; }
+    .challenge-report-shell .proof-badge .proof-badge-tag{ font-size:3cqw; color:rgba(255,253,248,.62); }
+    .challenge-report-shell .proof-badge .proof-badge-text{ font-size:3.8cqw; line-height:1.32; color:#fffdf8; }
     #insight .stage>.artifact-caption,#turn .stage>.artifact-caption,#resolution .stage>.artifact-caption{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
     /* Page 3 (challenge): same card size as page 2, but a zoomed-in close-up
        (like the initial demo) — scaled and cropped to the A4 frame. */
@@ -2802,10 +2804,10 @@ const BODY = `
               <div class="review-strip">Conclusion cannot be used</div>
               <div class="report-note">Draft looks complete, but one stale file changes the recommendation.</div>
             </div>
-          </div>
-          <div class="proof-badge">
-            <span class="proof-badge-tag">OfficeQA Pro · enterprise documents</span>
-            <span class="proof-badge-text"><strong>54%</strong> accuracy on real enterprise work — OpenAI GPT-5.5 54.1%, Claude Opus 4.7 43.6%</span>
+            <div class="proof-badge">
+              <span class="proof-badge-tag">OfficeQA Pro · enterprise documents</span>
+              <span class="proof-badge-text"><strong>54%</strong> accuracy on real enterprise work — OpenAI GPT-5.5 54.1%, Claude Opus 4.7 43.6%</span>
+            </div>
           </div>
         </div>
       </div>
