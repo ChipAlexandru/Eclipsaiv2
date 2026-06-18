@@ -2522,7 +2522,7 @@ const CSS = `
     --cu-serif:Georgia,"Times New Roman",serif;
     font-family:var(--cu-sans); width:100%; display:grid; place-items:center;
   }
-  @media (min-width:981px){ #insight, #turn, #resolution{ grid-template-columns:minmax(240px,.6fr) minmax(440px,1.4fr); } }
+  /* insight/turn/resolution use the shared scene grid so their artifacts align with pages 1-3 */
   .cu .ws-shell{container-type:inline-size}
   .cu .ws{width:100%;background:#fff;border:1px solid var(--cu-brd);border-radius:.7cqw;
     box-shadow:0 22px 52px rgba(40,40,55,.16);overflow:hidden;color:var(--cu-txt)}
@@ -3146,11 +3146,12 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); }
-    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:clamp(15px,1.7vw,20px); color:#1c1a18; }
+    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(22px,3vw,30px); display:grid; gap:0; color:#1c1a18; }
     .needs-title{ font-family:var(--serif); font-size:clamp(21px,2.4vw,26px); line-height:1.1; font-weight:700; color:#1c1a18; padding-bottom:clamp(12px,1.4vw,16px); border-bottom:1px solid rgba(35,35,35,.16); }
-    .needs-fn{ display:grid; gap:7px; }
-    .needs-fn-name{ font-size:clamp(13px,1.35vw,15px); font-weight:800; letter-spacing:.04em; color:#1c1a18; }
-    .needs-fn ul{ margin:0; padding-left:18px; display:grid; gap:5px; list-style:disc; }
+    .needs-fn{ display:grid; gap:9px; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(35,35,35,.12); margin-top:clamp(16px,2vw,22px); padding-top:clamp(16px,2vw,22px); }
+    .needs-fn-name{ font-family:var(--serif); font-size:clamp(17px,1.9vw,21px); line-height:1.1; font-weight:700; color:#1c1a18; }
+    .needs-fn ul{ margin:0; padding-left:18px; display:grid; gap:6px; list-style:disc; }
     .needs-fn li{ font-size:clamp(14px,1.4vw,16px); line-height:1.5; font-weight:500; color:#1c1a18; }
     .needs-fn li::marker{ color:#9a6a22; }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
