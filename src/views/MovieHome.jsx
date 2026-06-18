@@ -2662,27 +2662,53 @@ const BODY = `
     <section class="scene paradox" id="paradox" data-scene="01">
       <div class="scene-copy">
         <h2>If AI can do the work, why are you still working on it?</h2>
+        <p class="lead">You have systems, dashboards, reports, and copilots.</p>
         <p class="lead">AI can now produce serious business deliverables.</p>
-        <p class="lead">You would expect more of the work to be done for you.</p>
-        <p class="lead">But the work behind recurring decisions still remains: reconcile the numbers, find the exceptions, prepare the review.</p>
+        <p class="lead">Someone still has to do the work: read what changed, judge what matters, and prepare what needs action.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
-        <div class="gd-stack">
-          <article class="gd4-card" aria-label="GDPval benchmark extract">
-            <div class="gd4-proof">
-              <p><strong>80%+</strong> wins or ties human experts</p>
-              <p><strong>~100x</strong> faster and cheaper</p>
+        <div class="fn-stack">
+          <div class="rotor" role="group" aria-label="What the decision still needs, by function">
+            <div class="rotor-panel">
+              <div class="rotor-fn">Commercial</div>
+              <div class="rotor-block">
+                <div class="rotor-label">Your tools today</div>
+                <p class="rotor-text">Live commercial views: sales, margin, stock, forecast, promotions, customers, categories, and SKUs.</p>
+              </div>
+              <div class="rotor-block">
+                <div class="rotor-label">What the decision still needs</div>
+                <p class="rotor-text">The movement that matters, the reason behind it, and the supplier or category follow-up to take next.</p>
+              </div>
             </div>
-            <div class="gd4-rule"></div>
-            <div class="gd4-ex">
-              <div class="gd4-exh">Example tasks.</div>
-              <ul>
-                <li>Summarize revenue and expense movements from operating files, then produce a finance lead's review note.</li>
-                <li>Analyze full-year retail sales, identify performance drivers, and prepare a regional account recap.</li>
-              </ul>
+            <div class="rotor-panel">
+              <div class="rotor-fn">Finance</div>
+              <div class="rotor-block">
+                <div class="rotor-label">Your tools today</div>
+                <p class="rotor-text">Budgets, invoices, accruals, claims, approvals, evidence, and variance reports.</p>
+              </div>
+              <div class="rotor-block">
+                <div class="rotor-label">What the decision still needs</div>
+                <p class="rotor-text">What reconciles, where value may leak, what matters before close, and who must clear it.</p>
+              </div>
             </div>
-            <div class="gd4-note">GDPval tests models on well-defined workplace deliverables: OpenAI GPT-5.5 - 84.9%; Claude Opus 4.7 - 80.3%.</div>
-          </article>
+            <div class="rotor-panel">
+              <div class="rotor-fn">Operations</div>
+              <div class="rotor-block">
+                <div class="rotor-label">Your tools today</div>
+                <p class="rotor-text">Demand, staffing, stock, service, tasks, forecasts, and exception views.</p>
+              </div>
+              <div class="rotor-block">
+                <div class="rotor-label">What the decision still needs</div>
+                <p class="rotor-text">The issue that matters, the root cause, the owner, the proposed fix, and what changed since last cycle.</p>
+              </div>
+            </div>
+          </div>
+          <div class="proof-badge gdpval-badge">
+            <span class="proof-badge-lead">AI can already produce serious business work.</span>
+            <span class="proof-badge-tag">GDPval · business work</span>
+            <span class="proof-badge-text"><strong>80%+</strong> wins or ties human experts · <strong>100x</strong> faster and cheaper</span>
+            <span class="proof-badge-models">OpenAI GPT-5.5 84.9% · Claude Opus 4.7 80.3%</span>
+          </div>
         </div>
       </div>
     </section>
@@ -3124,6 +3150,20 @@ const BODY = `
     .proof-badge-tag{ font-size:11px; font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:#9a6a22; }
     .proof-badge-text{ font-size:13px; line-height:1.42; font-weight:600; color:#3f3833; }
     .proof-badge-text strong{ font-weight:900; font-variant-numeric:tabular-nums; }
+    /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
+    .fn-stack{ display:grid; justify-items:center; gap:clamp(16px,2.6cqw,24px); width:100%; }
+    .rotor{ width:min(100%,440px); background:var(--paper); border:1px solid rgba(35,35,35,.15); border-radius:8px; box-shadow:0 22px 52px rgba(47,35,39,.11); padding:clamp(20px,4.6cqw,28px); display:grid; color:#2a211d; container-type:inline-size; }
+    .rotor-panel{ grid-area:1 / 1; display:grid; gap:clamp(11px,2.6cqw,16px); align-content:start; animation:fnRotate 13.5s ease-in-out infinite; }
+    .rotor-panel:nth-child(2){ animation-delay:4.5s; }
+    .rotor-panel:nth-child(3){ animation-delay:9s; }
+    .rotor-fn{ font-family:var(--serif); font-size:clamp(19px,5.6cqw,24px); line-height:1.1; font-weight:700; color:#241f1b; }
+    .rotor-block{ display:grid; gap:3px; }
+    .rotor-label{ font-size:clamp(10px,2.5cqw,11px); font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:#9a6a22; }
+    .rotor-text{ margin:0; font-size:clamp(13px,3.4cqw,15px); line-height:1.5; font-weight:500; color:#3f3833; }
+    @keyframes fnRotate{ 0%{opacity:0} 4%{opacity:1} 31%{opacity:1} 35%{opacity:0} 100%{opacity:0} }
+    .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
+    .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }
+    @media (prefers-reduced-motion: reduce){ .rotor-panel{ animation:none; opacity:0; } .rotor-panel:first-child{ opacity:1; } }
   </style>
 `;
 
