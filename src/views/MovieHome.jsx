@@ -2671,37 +2671,35 @@ const BODY = `
         <p class="lead">Someone still has to do the work: read what changed, judge what matters, and prepare what needs action.</p>
       </div>
       <div class="stage paradox-stage" aria-hidden="true">
-        <div class="fn-stack">
-          <div class="needs-card" role="group" aria-label="Work still needed, by function">
-            <div class="needs-fn">
-              <div class="needs-fn-name">Commercial</div>
-              <ul>
-                <li>Where and why performance slipped?</li>
-                <li>Which opportunity was missed?</li>
-                <li>What action should follow?</li>
-              </ul>
-            </div>
-            <div class="needs-fn">
-              <div class="needs-fn-name">Finance</div>
-              <ul>
-                <li>Why it does not reconcile?</li>
-                <li>Where value leaks?</li>
-                <li>Who must do what?</li>
-              </ul>
-            </div>
-            <div class="needs-fn">
-              <div class="needs-fn-name">Operations</div>
-              <ul>
-                <li>What are the key issue and the root causes?</li>
-                <li>What are the proposed actions?</li>
-                <li>What is pending from last cycle?</li>
-              </ul>
-            </div>
+        <div class="needs-card" role="group" aria-label="Work still needed, by function">
+          <div class="needs-fn">
+            <div class="needs-fn-name">Commercial</div>
+            <ul>
+              <li>Where and why performance slipped?</li>
+              <li>Which opportunity was missed?</li>
+              <li>What action should follow?</li>
+            </ul>
           </div>
-          <div class="proof-badge gdpval-badge">
-            <span class="proof-badge-tag">GDPval · business work</span>
-            <span class="proof-badge-text"><strong>80%+</strong> wins or ties human experts · <strong>100x</strong> faster and cheaper</span>
-            <span class="proof-badge-models">OpenAI GPT-5.5 84.9% · Claude Opus 4.7 80.3%</span>
+          <div class="needs-fn">
+            <div class="needs-fn-name">Finance</div>
+            <ul>
+              <li>Why it does not reconcile?</li>
+              <li>Where value leaks?</li>
+              <li>Who must do what?</li>
+            </ul>
+          </div>
+          <div class="needs-fn">
+            <div class="needs-fn-name">Operations</div>
+            <ul>
+              <li>What are the key issue and the root causes?</li>
+              <li>What are the proposed actions?</li>
+              <li>What is pending from last cycle?</li>
+            </ul>
+          </div>
+          <div class="needs-proof">
+            <span class="needs-proof-tag">GDPval · business work</span>
+            <span class="needs-proof-stat"><strong>80%+</strong> wins or ties human experts · <strong>100x</strong> faster and cheaper</span>
+            <span class="needs-proof-models">OpenAI GPT-5.5 84.9% · Claude Opus 4.7 80.3%</span>
           </div>
         </div>
       </div>
@@ -3147,12 +3145,17 @@ const BODY = `
     /* Scene 01 (paradox) — rotating function card + GDPval proof badge */
     .fn-stack{ position:relative; display:grid; justify-items:center; width:100%; }
     .fn-stack .proof-badge{ position:absolute; top:100%; left:50%; transform:translateX(-50%); margin-top:10px; }
-    .needs-card{ width:min(100%, 360px); background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:clamp(20px,2.3vw,28px); display:grid; gap:clamp(14px,1.6vw,20px); color:#f4efe7; }
-    .needs-fn{ display:grid; gap:8px; }
-    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.14); padding-top:clamp(14px,1.6vw,20px); }
-    .needs-fn-name{ font-family:var(--serif); font-size:clamp(20px,2.1vw,25px); line-height:1.1; font-weight:700; color:#fffdf8; }
-    .needs-fn ul{ margin:0; padding:0; display:grid; gap:5px; list-style:none; }
-    .needs-fn li{ font-size:clamp(14px,1.6vw,18px); line-height:1.5; font-weight:500; color:rgba(255,253,248,.88); }
+    .needs-card{ width:calc((100% - var(--compare-gap)) / 2); aspect-ratio:210 / 297; background:#3a2c20; border:1px solid rgba(255,255,255,.10); border-radius:8px; box-shadow:0 24px 54px rgba(0,0,0,.32); padding:5.4cqw; display:grid; align-content:space-between; gap:0; overflow:hidden; color:#f4efe7; container-type:inline-size; }
+    .needs-fn{ display:grid; gap:1.1cqw; }
+    .needs-fn + .needs-fn{ border-top:1px solid rgba(255,255,255,.13); padding-top:2.4cqw; }
+    .needs-fn-name{ font-family:var(--serif); font-size:6cqw; line-height:1.05; font-weight:700; color:#fffdf8; }
+    .needs-fn ul{ margin:0; padding:0; display:grid; gap:.5cqw; list-style:none; }
+    .needs-fn li{ font-size:3.9cqw; line-height:1.38; font-weight:500; color:rgba(255,253,248,.85); }
+    .needs-proof{ border-top:1px solid rgba(255,255,255,.22); padding-top:2.8cqw; display:grid; gap:.9cqw; }
+    .needs-proof-tag{ font-size:2.5cqw; font-weight:900; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,253,248,.7); }
+    .needs-proof-stat{ font-size:3.4cqw; line-height:1.3; font-weight:600; color:#fffdf8; }
+    .needs-proof-stat strong{ font-weight:900; font-variant-numeric:tabular-nums; }
+    .needs-proof-models{ font-size:2.8cqw; line-height:1.3; font-weight:500; color:rgba(255,253,248,.55); font-variant-numeric:tabular-nums; }
     .proof-badge-lead{ font-size:13px; line-height:1.4; font-weight:800; color:#241f1b; }
     .proof-badge-models{ font-size:12px; line-height:1.4; font-weight:600; color:rgba(41,36,33,.55); font-variant-numeric:tabular-nums; }  </style>
 `;
