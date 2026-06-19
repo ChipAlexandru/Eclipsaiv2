@@ -248,7 +248,7 @@ const CSS = `
       font-size: 64px;
       line-height: 1.02;
       max-width: 980px;
-      margin-bottom: 132px;
+      margin-bottom: clamp(56px, 9vh, 88px);
     }
     .start .lead {
       max-width: 800px;
@@ -299,7 +299,7 @@ const CSS = `
     }
     .start-about {
       max-width: 620px;
-      margin-top: 72px;
+      margin-top: clamp(38px, 6vh, 56px);
       padding-top: 0;
       border-top: 0;
       color: rgba(255, 253, 248, .72);
@@ -3335,16 +3335,43 @@ Traceability report: every number tied to source.</pre>
 
   
   <style id="page-lighting">
-    /* each page its own FLAT color. 01 dark, progressively lighter to 04; 05-07 light; 00 & 08 photo. */
-    #paradox{ background:#443a34 !important; }
-    #promise{ background:#524740 !important; }
-    #challenge{ background:#5f5249 !important; }
-    #false-path{ background:#837567 !important; }
-    #insight,#turn,#resolution{ background:var(--cream) !important; }
-    #paradox .scene-label,#promise .scene-label,#challenge .scene-label,#false-path .scene-label{color:#f1b58e !important}
-    #paradox h2,#promise h2,#challenge h2,#false-path h2{color:#fffdf8 !important}
-    #paradox .lead,#promise .lead,#challenge .lead,#false-path .lead{color:rgba(255,253,248,.88) !important}
-    #paradox .lead strong,#promise .lead strong,#challenge .lead strong,#false-path .lead strong{color:#fff !important}
+    /* Framed act lighting: 00 photo unframed; 01-03 dark tension; 04-06 light solution; 07 photo close (unframed). */
+    .scene {
+      --page-frame: rgba(74, 28, 42, .16);
+      --page-frame-soft: rgba(255, 253, 248, .34);
+    }
+    .scene:not(.title-scene)::before {
+      content: "";
+      position: absolute;
+      inset: clamp(14px, 2vw, 28px);
+      z-index: 4;
+      pointer-events: none;
+      border: 1px solid var(--page-frame);
+      box-shadow: inset 0 0 0 1px var(--page-frame-soft);
+    }
+    #paradox,
+    #promise,
+    #challenge {
+      --page-frame: rgba(255,253,248,.22);
+      --page-frame-soft: rgba(0,0,0,.18);
+    }
+    #insight,
+    #turn,
+    #resolution {
+      --page-frame: rgba(74,28,42,.15);
+      --page-frame-soft: rgba(255,253,248,.58);
+    }
+    #start::before{ display:none; }
+    #paradox{ background:#3f352f !important; }
+    #promise{ background:#4d413a !important; }
+    #challenge{ background:#5a4c43 !important; }
+    #insight{ background:#f4efe7 !important; }
+    #turn{ background:#f7f2ea !important; }
+    #resolution{ background:#efe8dd !important; }
+    #paradox .scene-label,#promise .scene-label,#challenge .scene-label{color:#f1b58e !important}
+    #paradox h2,#promise h2,#challenge h2{color:#fffdf8 !important}
+    #paradox .lead,#promise .lead,#challenge .lead{color:rgba(255,253,248,.88) !important}
+    #paradox .lead strong,#promise .lead strong,#challenge .lead strong{color:#fff !important}
     .movie-nav{ mix-blend-mode:normal !important; color:#fffdf8 !important;
       background:linear-gradient(180deg, rgba(20,14,13,.60), rgba(20,14,13,0)) !important;
       padding-bottom:28px !important; }
