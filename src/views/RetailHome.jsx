@@ -36,6 +36,42 @@ export function RetailHome() {
     script.id = "retail-inline-script";
     script.textContent = "(function(){\n" + RETAIL_JS + "\n})();";
     document.body.appendChild(script);
+
+    // Production adaptation for mobile: native muted autoplay is frequently
+    // deferred or blocked on phones (iOS Low Power Mode, data-saver modes, or
+    // browsers that only autoplay once the video is on-screen). Because the
+    // clip plays a single pass and then pauses, a viewer who reaches it late
+    // would see a paused last frame. Instead, drive playback from scroll: start
+    // it with a muted, playsinline programmatic play() — which mobile permits
+    // without a tap — the first time it enters the viewport. Single pass: it is
+    // not restarted on re-entry, preserving the prototype's play-once feel.
+    const videos = [...document.querySelectorAll("video[data-playback-rate]")];
+    videos.forEach((v) => {
+      // On-view becomes the single trigger; neutralize the native autoplay so
+      // it doesn't run an early, unseen pass before the viewer scrolls down.
+      v.removeAttribute("autoplay");
+      try {
+        v.pause();
+        v.currentTime = 0;
+      } catch {}
+    });
+    const seen = new WeakSet();
+    const playObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || seen.has(entry.target)) return;
+          seen.add(entry.target);
+          const v = entry.target;
+          try {
+            v.currentTime = 0;
+          } catch {}
+          const p = v.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
+        });
+      },
+      { threshold: 0.35 }
+    );
+    videos.forEach((v) => playObserver.observe(v));
   }, []);
 
   return (
