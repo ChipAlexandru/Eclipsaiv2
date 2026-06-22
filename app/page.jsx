@@ -1,14 +1,15 @@
-// Root route / — the 8-scene Eclipsai movie homepage (managed AI workflows),
-// ported faithfully from the approved prototype. The previous product-deck home
-// is backed up under _archive/homepage-2026-06-15/ and its component
-// (src/views/ProductHome.jsx) is retained. Production <head> essentials live
-// here (title, description, canonical, OG/Twitter) and in app/layout.jsx
-// (favicon via app/icon.svg, theme-color, JSON-LD, analytics).
-import { MovieHome } from "../src/views/MovieHome.jsx";
+// Root route "/" — now the retail-focused homepage. It renders the same shared
+// RetailHome component as /retail (one source of truth, see src/views/RetailHome.jsx).
+// The previous/general movie homepage is preserved unchanged at /general
+// (app/general/page.jsx, rendering src/views/MovieHome.jsx). Production <head>
+// essentials live here (title, description, canonical, OG/Twitter) and in
+// app/layout.jsx (favicon via app/icon.svg, theme-color, JSON-LD, analytics).
+import { RetailHome } from "../src/views/RetailHome.jsx";
 
-const TITLE = "Eclipsai — Managed AI workflows for recurring work";
+const TITLE =
+  "Eclipsai — Turn the weekly retail performance pack into owner-ready actions";
 const DESCRIPTION =
-  "Eclipsai builds company-specific AI skills that support commercial, financial, and operational decisions by analyzing company data, preparing recommendations, and proposing next steps.";
+  "Eclipsai builds company-specific AI workflows that turn the weekly retail performance pack into owner-ready actions — analyzing your sources, applying your checks, and naming the owner, question, and deadline for each one.";
 
 export const metadata = {
   title: TITLE,
@@ -35,5 +36,5 @@ export const viewport = {
 };
 
 export default function HomePage() {
-  return <MovieHome />;
+  return <RetailHome />;
 }

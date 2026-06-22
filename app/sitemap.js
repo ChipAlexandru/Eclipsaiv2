@@ -11,6 +11,8 @@ export default function sitemap() {
 
   const staticEntries = [
     { url: `${SITE_URL}/`,         changeFrequency: "monthly", priority: 1.0, lastModified: now },
+    { url: `${SITE_URL}/retail`,   changeFrequency: "monthly", priority: 0.9, lastModified: now },
+    { url: `${SITE_URL}/general`,  changeFrequency: "monthly", priority: 0.6, lastModified: now },
     { url: `${SITE_URL}/insights`, changeFrequency: "weekly",  priority: 0.9, lastModified: now },
     { url: `${SITE_URL}/about`,    changeFrequency: "monthly", priority: 0.8, lastModified: now },
     { url: `${SITE_URL}/skills`,   changeFrequency: "weekly",  priority: 0.9, lastModified: now },
