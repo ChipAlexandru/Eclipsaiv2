@@ -30,7 +30,7 @@ const jsonLd = {
   name: "Eclipsai",
   url: SITE_URL,
   description:
-    "Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
+    "Eclipsai is the profit brain for fresh food: it helps growing fresh-food operators decide what to make tomorrow, reduce waste and measure each change in cash.",
   founder: {
     "@type": "Person",
     name: "Chip Alexandru",

@@ -1,18 +1,17 @@
-// /general — preserves the previous/general Eclipsai homepage exactly as it was
-// before the retail version took over "/". This renders the same MovieHome
-// component the root route used to render; nothing about it changed. The retail
-// homepage now lives at "/" and "/retail" (see app/page.jsx, app/retail/page.jsx).
-import { MovieHome } from "../../src/views/MovieHome.jsx";
+// /general — the generic "one deliverable, then a workflow that stays"
+// homepage. Renders the existing ProductHome component (the eight-section
+// product scroll deck) unchanged. The cinematic MovieHome that previously
+// rendered here now lives at /finance, and the root route carries the
+// fresh-food homepage (app/page.jsx → src/views/FreshFoodHome.jsx).
+import { ProductHome } from "../../src/views/ProductHome.jsx";
 
-const TITLE = "Eclipsai — Managed AI workflows for recurring work";
+const TITLE = "Eclipsai — One deliverable, then a workflow that stays";
 const DESCRIPTION =
-  "Eclipsai builds company-specific AI skills that support commercial, financial, and operational decisions by analyzing company data, preparing recommendations, and proposing next steps.";
+  "Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.";
 
 export const metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  // Relative canonical resolves against metadataBase (https://eclipsai.com) so
-  // it stays consistent with the rest of the site's non-www convention.
   alternates: { canonical: "/general" },
   openGraph: {
     type: "website",
@@ -28,11 +27,11 @@ export const metadata = {
   },
 };
 
-// Opens on the dark hero photo, so the mobile browser chrome should be dark.
+// ProductHome opens on the cream product deck, matching the app-shell default.
 export const viewport = {
-  themeColor: "#1c1413",
+  themeColor: "#F8F4EE",
 };
 
 export default function GeneralHomePage() {
-  return <MovieHome />;
+  return <ProductHome />;
 }

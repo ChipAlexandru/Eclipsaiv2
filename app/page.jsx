@@ -1,15 +1,16 @@
-// Root route "/" — now the retail-focused homepage. It renders the same shared
-// RetailHome component as /retail (one source of truth, see src/views/RetailHome.jsx).
-// The previous/general movie homepage is preserved unchanged at /general
-// (app/general/page.jsx, rendering src/views/MovieHome.jsx). Production <head>
-// essentials live here (title, description, canonical, OG/Twitter) and in
-// app/layout.jsx (favicon via app/icon.svg, theme-color, JSON-LD, analytics).
-import { RetailHome } from "../src/views/RetailHome.jsx";
+// Root route "/" — the approved fresh-food homepage ("The profit brain for
+// fresh food"), ported natively from the standalone Eclipse & Signal reference
+// (index-eclipse-ledger.html, 2026-07-13) in src/views/FreshFoodHome.jsx.
+//
+// The previous homepages are preserved at explicit routes:
+//   /general — ProductHome (generic "one deliverable, then a workflow that stays")
+//   /finance — MovieHome (finance/treasury-led cinematic version)
+//   /retail  — RetailHome (retail commercial-performance version)
+import { FreshFoodHome } from "../src/views/FreshFoodHome.jsx";
 
-const TITLE =
-  "Eclipsai — Turn the weekly retail performance pack into owner-ready actions";
+const TITLE = "Eclipsai | The profit brain for fresh food";
 const DESCRIPTION =
-  "Eclipsai builds company-specific AI workflows that turn the weekly retail performance pack into owner-ready actions — analyzing your sources, applying your checks, and naming the owner, question, and deadline for each one.";
+  "Eclipsai helps growing fresh-food operators decide what to make tomorrow, reduce waste and measure each change in cash.";
 
 export const metadata = {
   title: TITLE,
@@ -20,21 +21,21 @@ export const metadata = {
     url: "https://eclipsai.com",
     siteName: "Eclipsai",
     title: TITLE,
-    description: DESCRIPTION,
+    description: "Know what to make tomorrow. Waste less. Sell more.",
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
-    description: DESCRIPTION,
+    description: "Know what to make tomorrow. Waste less. Sell more.",
   },
 };
 
-// The homepage opens on the dark hero photo, so the mobile browser chrome
-// should be dark here (other routes default to cream in app/layout.jsx).
+// The homepage opens on the eclipse-ink hero, so the mobile browser chrome
+// should be ink here (other routes default to cream in app/layout.jsx).
 export const viewport = {
-  themeColor: "#1c1413",
+  themeColor: "#19171F",
 };
 
 export default function HomePage() {
-  return <RetailHome />;
+  return <FreshFoodHome />;
 }
