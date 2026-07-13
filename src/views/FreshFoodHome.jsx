@@ -226,8 +226,8 @@ export function FreshFoodHome() {
             <p className="eyebrow">The profit brain for fresh food</p>
             <h1>Know what to make tomorrow. Waste less. Sell more.</h1>
             <p className="hero-copy">
-              Eclipsai proposes changes based on sales, production, deliveries and what your team sees. We measure the
-              result of each change in cash.
+              Eclipsai finds the changes worth making from daily sales, production, deliveries and what your team
+              sees. We measure each result in cash.
             </p>
             <div className="hero-actions">
               <a className="button" href="#start">Find the profit leak</a>
@@ -242,17 +242,17 @@ export function FreshFoodHome() {
               <div className="clock reveal">
                 <span className="clock-value">18:45</span>
                 <p className="clock-quote">
-                  The till records the sale. Not the empty shelf, the leftovers or the question at the counter. That is
-                  where the profit leak hides.
+                  The till records what sold. Not the empty shelf, the leftovers or the question at the counter. That
+                  is where the profit leak hides.
                 </p>
               </div>
             </div>
             <div>
-              <p className="eyebrow reveal">What systems miss and owners know</p>
+              <p className="eyebrow reveal">What owners know and systems miss</p>
               <h2 className="reveal">Tomorrow is decided before today is understood.</h2>
               <p className="lede reveal">
-                At closing, tomorrow&apos;s quantities are set from what is left, past averages, special orders and
-                experience. That locks in the profit decision.
+                Tomorrow&apos;s orders combine what is left, special orders, past averages and experience. Across
+                hundreds of store × product × weekday decisions, the profit call is made at closing.
               </p>
               <div className="steps reveal">
                 <div className="step time-beat active" data-time="18:45" data-state="time-1845">
@@ -285,8 +285,8 @@ export function FreshFoodHome() {
                 </div>
               </div>
               <p className="clock-quote mobile-clock-quote">
-                The till records the sale. Not the empty shelf, the leftovers or the question at the counter. That is
-                where the profit leak hides.
+                The till records what sold. Not the empty shelf, the leftovers or the question at the counter. That
+                is where the profit leak hides.
               </p>
               <div className="loop-close" data-time="18:45" data-state="time-close" aria-hidden="true" />
             </div>
@@ -301,9 +301,9 @@ export function FreshFoodHome() {
                 <h2 className="reveal">It watches every shop, every day. It asks when it needs to.</h2>
               </div>
               <p className="lede reveal">
-                Eclipsai connects sales, production, deliveries and what your team sees. When a change is being tested,
-                it asks the right person what happened. It brings the decisions worth making into a weekly review and
-                answers questions at any time.
+                Eclipsai connects daily sales, production, deliveries and what your team sees. When a change is being
+                tested, it asks the right person what happened. It brings the decisions worth making into a weekly
+                review and answers questions at any time.
               </p>
             </div>
             <div className="product-stage">
@@ -411,8 +411,8 @@ export function FreshFoodHome() {
               </article>
             </div>
             <p className="proof-bridge conclusion">
-              Not every unsold piece is a mistake. Avoiding lost sales requires a cushion. The €40-60K sat in repeated
-              patterns nobody had time to see.
+              Some waste protects sales. The <span className="no-break">€40-60K</span> opportunity came from excessive
+              waste locked into old, repeated production patterns.
             </p>
             <p className="proof-note">
               From one multi-site operator&apos;s records, 2024 to 2025. Specific to that business, not a promise.
@@ -420,9 +420,10 @@ export function FreshFoodHome() {
             <div className="lesson reveal">
               <h3>What we learned</h3>
               <div className="lesson-text">
-                Forecasting alone <strong>lost money</strong>. Low-volume demand is noisy, and a missed sale costs more
-                than excess ingredients. The stronger approach was selective: find the few decisions worth changing,
-                make a reversible change and measure the result.
+                In our test, forecasting alone <strong>lost money</strong>. Low-volume demand is noisy, important
+                context sits outside the data, and a missed sale costs more than excess ingredients. Our approach adds
+                the signals forecasts miss, changes only the few decisions worth changing, and measures each result.
+                Every week, across every product and location.
               </div>
             </div>
           </div>
@@ -433,7 +434,7 @@ export function FreshFoodHome() {
             <p className="eyebrow reveal">What we do</p>
             <h2 className="reveal">How a profit leak gets fixed.</h2>
             <p className="lede reveal">
-              The same loop used on sixteen months of history can run continuously across your shops.
+              The loop that found the opportunity can run continuously across your shops.
             </p>
             <div className="loop-line reveal" aria-label="Decision loop">
               <div className="loop-step">
@@ -564,8 +565,8 @@ export function FreshFoodHome() {
               <p className="eyebrow reveal">See it in your own shops</p>
               <h2 className="reveal">Find the profit leaks worth fixing first.</h2>
               <p className="offer-copy reveal">
-                Eclipsai starts with the sales and production records you already have. We find repeated waste, missed
-                sales and production plans that no longer fit, then show what each is worth in cash.
+                We start with the sales and production records you already have. We find repeated waste, missed sales
+                and production plans that no longer fit, then show what each is worth in cash.
               </p>
             </div>
             <div className="offer-card reveal">
