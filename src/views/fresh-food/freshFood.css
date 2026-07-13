@@ -90,6 +90,54 @@
 }
 .ffh .nav:not(.past-hero) .nav-cta { opacity: 0; transform: translateY(-5px); pointer-events: none; }
 .ffh .nav.past-hero .nav-cta { border-color: var(--solar); background: var(--solar); color: var(--night); }
+.ffh .language-switcher { position: relative; border: 0; }
+.ffh .language-switcher summary {
+  min-width: 50px;
+  padding: 9px 12px;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 999px;
+  color: inherit;
+  font: 600 11px/1 var(--sans);
+  letter-spacing: .08em;
+  text-align: center;
+  cursor: pointer;
+  list-style: none;
+}
+.ffh .language-switcher summary::-webkit-details-marker { display: none; }
+.ffh .language-switcher summary::after { content: "⌄"; margin-left: 6px; font-size: 10px; }
+.ffh .language-switcher[open] > summary::after { content: "⌃"; }
+.ffh .language-switcher[open] summary { border-color: var(--solar); }
+.ffh .language-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 190px;
+  padding: 7px;
+  border: 1px solid rgba(239,238,231,.18);
+  border-radius: 4px;
+  background: var(--night);
+  color: var(--paper);
+  box-shadow: 0 18px 50px rgba(0,0,0,.28);
+}
+.ffh .language-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 11px;
+  border: 0;
+  border-top: 1px solid rgba(239,238,231,.1);
+  background: transparent;
+  color: inherit;
+  font: 500 13px/1.25 var(--sans);
+  text-align: left;
+  text-decoration: none;
+}
+.ffh .language-option:first-child { border-top: 0; }
+.ffh .language-option small { color: var(--muted-dark); font: 500 10px var(--mono); }
+.ffh .language-option.current { background: rgba(233,184,74,.12); color: var(--paper); }
+.ffh .language-option.current small { color: var(--solar); }
 
 .ffh .hero {
   min-height: 100svh;
@@ -408,7 +456,8 @@
 @media (max-width: 560px) {
   .ffh .nav-inner { height: 62px; padding: 0 18px; }
   .ffh .logo img { width: 116px; }
-  .ffh .nav-cta { padding: 8px 11px; }
+  .ffh .nav-cta { display: none; }
+  .ffh .language-switcher summary { min-width: 48px; padding: 8px 10px; }
   .ffh .hero-inner { padding-bottom: 35px; }
   .ffh .hero-copy { font-size: 16px; }
   .ffh .hero-actions { align-items: stretch; flex-direction: column; gap: 13px; }

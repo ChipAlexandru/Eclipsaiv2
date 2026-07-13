@@ -2,14 +2,20 @@
 
 // FreshFoodHome — the approved fresh-food homepage ("Eclipse & Signal"
 // operating-ledger system), ported natively from the standalone reference
-// (index-eclipse-ledger.html, 2026-07-13). Rendered at "/".
+// (index-eclipse-ledger.html, 2026-07-13).
 //
-// Markup and copy are transcribed verbatim; styles live in
-// fresh-food/freshFood.css, scoped under the .ffh root so legacy routes
-// (/general, /finance, /retail) are unaffected. The replay chart is built
-// declaratively in JSX from the same day-level data as the reference and
-// reconciles to 988 sales / 319 current waste / 189 proposed waste /
-// 130 fewer waste units.
+// One shared implementation serves every locale: the route pages ("/", "/de",
+// "/fr", "/it", "/ro") pass a validated content dictionary (see
+// fresh-food/locales.js — a missing translation key fails the build). All
+// user-visible and accessibility-facing strings render from that dictionary;
+// the wrapper carries lang={content.locale}. Evidence numbers in the replay
+// chart live below as shared data arrays — locales translate labels only.
+//
+// The language selector is the approved details/summary disclosure from the
+// mock: real links (work without JavaScript), locale names in their own
+// language, code chips, solar active treatment, no flags. JS enhancements:
+// Escape-to-close, close on outside click/focus, and section-hash
+// preservation when switching locale.
 //
 // Interaction lifecycle (one effect, fully cleaned up on unmount):
 //  - smooth anchor scrolling applied to <html> only while mounted
@@ -20,6 +26,7 @@
 //    and shows the poster/background still instead)
 import { useEffect, useRef } from "react";
 import { Newsreader, Manrope, DM_Mono } from "next/font/google";
+import { LOCALES } from "./fresh-food/locales.js";
 import "./fresh-food/freshFood.css";
 
 // Newsreader and Manrope are variable fonts (full weight range; Newsreader
@@ -45,23 +52,26 @@ const dmMono = DM_Mono({
 
 const ASSETS = "/assets/fresh-food";
 
+// In-page anchors that are preserved when switching language (/#proof →
+// /de#proof). The locale URL itself stays the source of truth.
+const SECTION_HASHES = new Set(["#top", "#problem", "#product", "#proof", "#vision", "#start"]);
+
 // ─── Replay chart (flagship artifact) ────────────────────────────────
-// Same data and geometry as the reference script. Dots: 1 dot = 5 units;
-// sold cobalt, waste-under-current persimmon, proposed order line eclipse ink.
-// Reconciliation (sum over days): sales 988; max(0, current−sales) = 319;
-// max(0, proposed−sales) = 189; delta 130 fewer waste units.
-const DAYS = ["M 23", "T 24", "W 25", "T 26", "F 27", "S 28", "S 29", "M 30", "T 1", "W 2", "T 3", "F 4", "S 5", "S 6"];
+// Same data and geometry as the reference script, shared across locales.
+// Dots: 1 dot = 5 units; sold cobalt, waste-under-current persimmon, proposed
+// order line eclipse ink. Reconciliation (sum over days): sales 988;
+// max(0, current−sales) = 319; max(0, proposed−sales) = 189; delta 130 fewer.
 const SALES = [61, 74, 81, 63, 59, 70, 88, 62, 78, 72, 82, 79, 65, 54];
 const CURRENT = [85, 85, 97, 85, 125, 90, 85, 85, 85, 97, 85, 125, 90, 85];
 const PROPOSED = [68, 83, 84, 85, 100, 82, 85, 68, 83, 84, 85, 100, 82, 85];
 
-function ReplayChart() {
+function ReplayChart({ replay }) {
   const left = 58;
   const right = 952;
   const top = 16;
   const bottom = 286;
   const max = 130;
-  const x = (index) => left + index * ((right - left) / (DAYS.length - 1));
+  const x = (index) => left + index * ((right - left) / (replay.days.length - 1));
   const y = (value) => bottom - (value / max) * (bottom - top);
 
   const gridTicks = [0, 50, 100, 125];
@@ -69,11 +79,8 @@ function ReplayChart() {
 
   return (
     <svg className="replay-chart" viewBox="0 0 980 340" role="img" aria-labelledby="replay-title replay-desc">
-      <title id="replay-title">Croissant production decision replay</title>
-      <desc id="replay-desc">
-        Fourteen days of croissant sales shown in blue dots, waste under the current order shown in orange dots and a
-        solid proposed order line. The proposal keeps 988 sales while reducing waste from 319 to 189 units.
-      </desc>
+      <title id="replay-title">{replay.ariaTitle}</title>
+      <desc id="replay-desc">{replay.ariaDesc}</desc>
       {gridTicks.map((tick) => (
         <line key={`grid-${tick}`} className="grid" x1={left} x2={right} y1={y(tick)} y2={y(tick)} />
       ))}
@@ -82,11 +89,11 @@ function ReplayChart() {
           {tick}
         </text>
       ))}
-      {DAYS.map((day, index) => {
+      {replay.days.map((day, index) => {
         const soldDots = Math.round(SALES[index] / 5);
         const wasteDots = Math.max(0, Math.round((CURRENT[index] - SALES[index]) / 5));
         return (
-          <g key={day}>
+          <g key={`${day}-${index}`}>
             {Array.from({ length: soldDots }, (_, dot) => (
               <circle key={`s-${dot}`} className="sold" cx={x(index)} cy={y((dot + 0.5) * 5)} r="4.4" />
             ))}
@@ -104,8 +111,49 @@ function ReplayChart() {
   );
 }
 
-export function FreshFoodHome() {
+// ─── Language selector ───────────────────────────────────────────────
+// Native <details> disclosure so language links work without JavaScript.
+// The client enhancement (in the page effect) adds Escape/outside-close.
+function LanguageSwitcher({ content }) {
+  const active = content.locale;
+
+  // Preserve the current section hash across the language switch. Plain href
+  // (no hash) remains the no-JS behavior.
+  const switchLocale = (event, path) => {
+    const hash = window.location.hash;
+    if (hash && SECTION_HASHES.has(hash)) {
+      event.preventDefault();
+      window.location.assign(path === "/" ? `/${hash}` : `${path}${hash}`);
+    }
+  };
+
+  return (
+    <details className="language-switcher">
+      <summary aria-label={content.nav.chooseLanguage}>{active.toUpperCase()}</summary>
+      <div className="language-menu" aria-label={content.nav.availableLanguages}>
+        {LOCALES.map((l) => (
+          <a
+            key={l.code}
+            className={l.code === active ? "language-option current" : "language-option"}
+            href={l.path}
+            lang={l.code}
+            aria-current={l.code === active ? "page" : undefined}
+            onClick={(event) => switchLocale(event, l.path)}
+          >
+            <span>{l.name}</span>
+            <small>{l.code.toUpperCase()}</small>
+          </a>
+        ))}
+      </div>
+    </details>
+  );
+}
+
+export function FreshFoodHome({ content }) {
   const rootRef = useRef(null);
+  const c = content;
+
+  const mailHref = `mailto:chip.alexandru@eclipsai.com?subject=${encodeURIComponent(c.offer.mailSubject)}&body=${encodeURIComponent(c.offer.mailBody)}`;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -144,6 +192,29 @@ export function FreshFoodHome() {
     };
     updateNav();
     window.addEventListener("scroll", updateNav, { passive: true });
+
+    // Language switcher enhancements: Escape closes and refocuses the
+    // trigger; clicking or moving focus outside closes. The <details>
+    // element itself keeps working without any of this.
+    const switcher = root.querySelector(".language-switcher");
+    const closeSwitcher = () => {
+      if (switcher) switcher.open = false;
+    };
+    const onDocumentClick = (event) => {
+      if (switcher && switcher.open && !switcher.contains(event.target)) closeSwitcher();
+    };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape" && switcher && switcher.open) {
+        closeSwitcher();
+        switcher.querySelector("summary")?.focus();
+      }
+    };
+    const onFocusOut = (event) => {
+      if (switcher && !switcher.contains(event.relatedTarget)) closeSwitcher();
+    };
+    document.addEventListener("click", onDocumentClick);
+    document.addEventListener("keydown", onKeyDown);
+    switcher?.addEventListener("focusout", onFocusOut);
 
     // Sticky scroll clock (desktop only, matching the reference's one-time
     // min-width check). The beat nearest the 43%-viewport focus line wins.
@@ -188,22 +259,30 @@ export function FreshFoodHome() {
       window.removeEventListener("scroll", updateNav);
       if (updateClock) window.removeEventListener("scroll", updateClock);
       cancelAnimationFrame(clockFrame);
+      document.removeEventListener("click", onDocumentClick);
+      document.removeEventListener("keydown", onKeyDown);
+      switcher?.removeEventListener("focusout", onFocusOut);
       html.style.scrollBehavior = previousScrollBehavior;
     };
   }, []);
 
   return (
-    <div ref={rootRef} className={`ffh ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}>
-      <nav className="nav" aria-label="Main navigation">
+    <div
+      ref={rootRef}
+      lang={c.locale}
+      className={`ffh ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}
+    >
+      <nav className="nav" aria-label={c.nav.ariaLabel}>
         <div className="nav-inner">
-          <a className="logo" href="#top" aria-label="Eclipsai home">
+          <a className="logo" href="#top" aria-label={c.nav.homeAriaLabel}>
             <img src={`${ASSETS}/eclipsai-wordmark-mineral-solar.svg`} alt="" />
           </a>
           <div className="nav-links">
-            <a href="#product">How it works</a>
-            <a href="#proof">Evidence</a>
-            <a href="#vision">Beyond production</a>
-            <a className="nav-cta" href="#start">Find the profit leak</a>
+            <a href="#product">{c.nav.product}</a>
+            <a href="#proof">{c.nav.proof}</a>
+            <a href="#vision">{c.nav.vision}</a>
+            <LanguageSwitcher content={c} />
+            <a className="nav-cta" href="#start">{c.nav.cta}</a>
           </div>
         </div>
       </nav>
@@ -223,16 +302,13 @@ export function FreshFoodHome() {
             <source src={`${ASSETS}/hero-video.mp4`} type="video/mp4" />
           </video>
           <div className="hero-inner">
-            <p className="eyebrow">The profit brain for fresh food</p>
-            <h1>Know what to make tomorrow. Waste less. Sell more.</h1>
-            <p className="hero-copy">
-              Eclipsai finds the changes worth making from daily sales, production, deliveries and what your team
-              sees. We measure each result in cash.
-            </p>
+            <p className="eyebrow">{c.hero.eyebrow}</p>
+            <h1>{c.hero.h1}</h1>
+            <p className="hero-copy">{c.hero.copy}</p>
             <div className="hero-actions">
-              <a className="button" href="#start">Find the profit leak</a>
+              <a className="button" href="#start">{c.hero.cta}</a>
             </div>
-            <small className="hero-audience">Built for growing fresh-food operators with 2 to 20 locations.</small>
+            <small className="hero-audience">{c.hero.audience}</small>
           </div>
         </header>
 
@@ -241,53 +317,30 @@ export function FreshFoodHome() {
             <div className="clock-shell">
               <div className="clock reveal">
                 <span className="clock-value">18:45</span>
-                <p className="clock-quote">
-                  The till records what sold. Not the empty shelf, the leftovers or the question at the counter. That
-                  is where the profit leak hides.
-                </p>
+                <p className="clock-quote">{c.problem.quote}</p>
               </div>
             </div>
             <div>
-              <p className="eyebrow reveal">What owners know and systems miss</p>
-              <h2 className="reveal">Tomorrow is decided before today is understood.</h2>
-              <p className="lede reveal">
-                Tomorrow&apos;s orders combine what is left, special orders, past averages and experience. Across
-                hundreds of store × product × weekday decisions, the profit call is made at closing.
-              </p>
+              <p className="eyebrow reveal">{c.problem.eyebrow}</p>
+              <h2 className="reveal">{c.problem.h2}</h2>
+              <p className="lede reveal">{c.problem.lede}</p>
               <div className="steps reveal">
-                <div className="step time-beat active" data-time="18:45" data-state="time-1845">
-                  <time>18:45</time>
-                  <div>
-                    <h3>Count what is left</h3>
-                    <p>What cannot stay on the shelf goes into surprise bags or the bin, rarely recorded.</p>
+                {c.problem.steps.map((step, i) => (
+                  <div
+                    key={step.state}
+                    className={i === 0 ? "step time-beat active" : "step time-beat"}
+                    data-time={step.time}
+                    data-state={step.state}
+                  >
+                    <time>{step.time}</time>
+                    <div>
+                      <h3>{step.h3}</h3>
+                      <p>{step.p}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="step time-beat" data-time="19:00" data-state="time-1900">
-                  <time>19:00</time>
-                  <div>
-                    <h3>Set tomorrow&apos;s order</h3>
-                    <p>Averages, templates and memory compete for attention while the shop still needs cleaning.</p>
-                  </div>
-                </div>
-                <div className="step time-beat" data-time="02:00" data-state="time-0200">
-                  <time>02:00</time>
-                  <div>
-                    <h3>Production starts</h3>
-                    <p>Yesterday&apos;s decision becomes today&apos;s perishable stock.</p>
-                  </div>
-                </div>
-                <div className="step time-beat" data-time="11:40" data-state="time-1140">
-                  <time>11:40</time>
-                  <div>
-                    <h3>The tray goes empty</h3>
-                    <p>It looks like success. Customers keep asking for it.</p>
-                  </div>
-                </div>
+                ))}
               </div>
-              <p className="clock-quote mobile-clock-quote">
-                The till records what sold. Not the empty shelf, the leftovers or the question at the counter. That
-                is where the profit leak hides.
-              </p>
+              <p className="clock-quote mobile-clock-quote">{c.problem.quote}</p>
               <div className="loop-close" data-time="18:45" data-state="time-close" aria-hidden="true" />
             </div>
           </div>
@@ -297,54 +350,29 @@ export function FreshFoodHome() {
           <div className="wrap">
             <div className="product-top">
               <div>
-                <p className="eyebrow reveal">The always-on profit brain</p>
-                <h2 className="reveal">It watches every shop, every day. It asks when it needs to.</h2>
+                <p className="eyebrow reveal">{c.product.eyebrow}</p>
+                <h2 className="reveal">{c.product.h2}</h2>
               </div>
-              <p className="lede reveal">
-                Eclipsai connects daily sales, production, deliveries and what your team sees. When a change is being
-                tested, it asks the right person what happened. It brings the decisions worth making into a weekly
-                review and answers questions at any time.
-              </p>
+              <p className="lede reveal">{c.product.lede}</p>
             </div>
             <div className="product-stage">
-              <div
-                className="product-media reveal"
-                aria-label="Example of Eclipsai monitoring a production decision through a familiar team channel"
-              >
+              <div className="product-media reveal" aria-label={c.product.mediaLabel}>
                 <video className="product-video" autoPlay muted loop playsInline preload="metadata">
                   <source src={`${ASSETS}/product-conversation.mp4`} type="video/mp4" />
                 </video>
               </div>
               <div className="product-copy reveal">
-                <p className="eyebrow">What changes</p>
+                <p className="eyebrow">{c.product.whatChanges}</p>
                 <ul className="number-list">
-                  <li>
-                    <span>01</span>
-                    <div>
-                      <strong>Captures what is needed.</strong>Leftovers, sellouts and customer requests.
-                    </div>
-                  </li>
-                  <li>
-                    <span>02</span>
-                    <div>
-                      <strong>Monitors every shop, product and day.</strong>Finds opportunities in waste, costs and
-                      sales.
-                    </div>
-                  </li>
-                  <li>
-                    <span>03</span>
-                    <div>
-                      <strong>Proposes and responds.</strong>Surfaces the changes worth making next week and answers
-                      questions when you ask.
-                    </div>
-                  </li>
-                  <li>
-                    <span>04</span>
-                    <div>
-                      <strong>Reports the results.</strong>Shows store performance and scores every decision against
-                      the alternative, in cash.
-                    </div>
-                  </li>
+                  {c.product.items.map((item) => (
+                    <li key={item.n}>
+                      <span>{item.n}</span>
+                      <div>
+                        <strong>{item.strong}</strong>
+                        {item.text}
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -355,75 +383,50 @@ export function FreshFoodHome() {
           <div className="wrap">
             <div className="proof-head">
               <div>
-                <p className="metadata">Evidence from one operator · 16 months</p>
+                <p className="metadata">{c.proof.metadata}</p>
                 <h2>
-                  We found a <span className="no-break">€40-60K</span> annual profit opportunity at one operator.
+                  {c.proof.h2Before}
+                  <span className="no-break">{c.proof.h2Value}</span>
+                  {c.proof.h2After}
                 </h2>
               </div>
-              <p className="lede reveal">
-                A multi-site fresh-food operator opened its records. We connected the POS and production systems and
-                followed every product across every shop and day.
-              </p>
+              <p className="lede reveal">{c.proof.lede}</p>
             </div>
-            <div className="evidence-ledger" aria-label="Evidence ledger from one operator">
-              <article className="evidence-row">
-                <span className="evidence-index">01</span>
-                <h3>We followed every piece</h3>
-                <strong className="evidence-value">860,000</strong>
-                <p className="evidence-copy">
-                  Sixteen months of sales and deliveries, matched between till and production. 92% of all pieces
-                  covered.
-                </p>
-              </article>
-              <article className="evidence-row">
-                <span className="evidence-index">02</span>
-                <h3>
-                  We found what never sold{" "}
-                  <span className="piece-ratio" aria-label="One in four pieces never sold">
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                  </span>
-                </h3>
-                <strong className="evidence-value">1 in 4</strong>
-                <p className="evidence-copy">
-                  One in four delivered pieces never sold. Hard to see day to day, unmistakable across products, shops
-                  and weekdays.
-                </p>
-              </article>
-              <article className="evidence-row">
-                <span className="evidence-index">03</span>
-                <h3>We sized the opportunity</h3>
-                <strong className="evidence-value">€40-60K</strong>
-                <p className="evidence-copy">
-                  The credible annual opportunity was concentrated in stale, repeated production patterns. The full
-                  unsold ingredient pool was €190K.
-                </p>
-              </article>
-              <article className="evidence-row">
-                <span className="evidence-index">04</span>
-                <h3>We tested the fixes</h3>
-                <strong className="evidence-value">86%</strong>
-                <p className="evidence-copy">
-                  When the strongest rule recommended making less, the shelf still lasted the day 86 times in 100.
-                </p>
-              </article>
+            <div className="evidence-ledger" aria-label={c.proof.ledgerLabel}>
+              {c.proof.rows.map((row) => (
+                <article key={row.index} className="evidence-row">
+                  <span className="evidence-index">{row.index}</span>
+                  <h3>
+                    {row.h3}
+                    {row.ratioLabel ? (
+                      <>
+                        {" "}
+                        <span className="piece-ratio" aria-label={row.ratioLabel}>
+                          <i></i>
+                          <i></i>
+                          <i></i>
+                          <i></i>
+                        </span>
+                      </>
+                    ) : null}
+                  </h3>
+                  <strong className="evidence-value">{row.value}</strong>
+                  <p className="evidence-copy">{row.copy}</p>
+                </article>
+              ))}
             </div>
             <p className="proof-bridge conclusion">
-              Some waste protects sales. The <span className="no-break">€40-60K</span> opportunity came from excessive
-              waste locked into old, repeated production patterns.
+              {c.proof.bridgeBefore}
+              <span className="no-break">{c.proof.bridgeValue}</span>
+              {c.proof.bridgeAfter}
             </p>
-            <p className="proof-note">
-              From one multi-site operator&apos;s records, 2024 to 2025. Specific to that business, not a promise.
-            </p>
+            <p className="proof-note">{c.proof.note}</p>
             <div className="lesson reveal">
-              <h3>What we learned</h3>
+              <h3>{c.proof.lessonHeading}</h3>
               <div className="lesson-text">
-                In our test, forecasting alone <strong>lost money</strong>. Low-volume demand is noisy, important
-                context sits outside the data, and a missed sale costs more than excess ingredients. Our approach adds
-                the signals forecasts miss, changes only the few decisions worth changing, and measures each result.
-                Every week, across every product and location.
+                {c.proof.lessonBefore}
+                <strong>{c.proof.lessonStrong}</strong>
+                {c.proof.lessonAfter}
               </div>
             </div>
           </div>
@@ -431,87 +434,62 @@ export function FreshFoodHome() {
 
         <section className="section loop-section">
           <div className="wrap">
-            <p className="eyebrow reveal">What we do</p>
-            <h2 className="reveal">How a profit leak gets fixed.</h2>
-            <p className="lede reveal">
-              The loop that found the opportunity can run continuously across your shops.
-            </p>
-            <div className="loop-line reveal" aria-label="Decision loop">
-              <div className="loop-step">
-                <span>01</span>
-                <b>Count.</b>
-                <p>Sales and production records are matched into one piece-level history.</p>
-              </div>
-              <div className="loop-step">
-                <span>02</span>
-                <b>Find.</b>
-                <p>
-                  Repeated patterns surface: the product wasted every Friday, the Saturday sellout and the standing
-                  order that has gone stale.
-                </p>
-              </div>
-              <div className="loop-step">
-                <span>03</span>
-                <b>Propose.</b>
-                <p>Small, reversible changes arrive in the weekly note. Reasons attached.</p>
-              </div>
-              <div className="loop-step">
-                <span>04</span>
-                <b>Score.</b>
-                <p>Every call is checked against real sales, in cash.</p>
-              </div>
-              <div className="loop-step">
-                <span>05</span>
-                <b>Fix the plan.</b>
-                <p>Changes that prove out are kept. The rest are revised or retired.</p>
-              </div>
-              <div className="loop-step">
-                <span>06</span>
-                <b>Keep watch.</b>
-                <p>The counting never stops, so nothing quietly creeps back.</p>
-              </div>
+            <p className="eyebrow reveal">{c.loop.eyebrow}</p>
+            <h2 className="reveal">{c.loop.h2}</h2>
+            <p className="lede reveal">{c.loop.lede}</p>
+            <div className="loop-line reveal" aria-label={c.loop.listLabel}>
+              {c.loop.steps.map((step) => (
+                <div key={step.n} className="loop-step">
+                  <span>{step.n}</span>
+                  <b>{step.b}</b>
+                  <p>{step.p}</p>
+                </div>
+              ))}
             </div>
             <div className="replay-artifact reveal">
               <div className="replay-head">
                 <div>
-                  <h3>Proposed croissant orders for 7-13 July</h3>
+                  <h3>{c.replay.title}</h3>
                 </div>
                 <div className="replay-change">
-                  <strong>130 fewer</strong>
-                  <span>waste units</span>
+                  <strong>{c.replay.changeStrong}</strong>
+                  <span>{c.replay.changeSpan}</span>
                 </div>
               </div>
               <div className="replay-plot-head">
-                <span>1 dot = 5 units</span>
+                <span>{c.replay.dotKey}</span>
               </div>
-              <ReplayChart />
+              <ReplayChart replay={c.replay} />
               <div className="replay-legend" aria-hidden="true">
                 <span>
-                  <i className="legend-dot sold"></i>Sold
+                  <i className="legend-dot sold"></i>
+                  {c.replay.legendSold}
                 </span>
                 <span>
-                  <i className="legend-dot waste"></i>Waste under current
+                  <i className="legend-dot waste"></i>
+                  {c.replay.legendWaste}
                 </span>
                 <span>
-                  <i className="legend-line"></i>Proposed order
+                  <i className="legend-line"></i>
+                  {c.replay.legendProposed}
                 </span>
               </div>
-              <table className="replay-results" aria-label="Decision replay results">
+              <table className="replay-results" aria-label={c.replay.tableLabel}>
                 <thead>
                   <tr>
-                    <th>Plan</th>
-                    <th>Sales</th>
-                    <th>Waste</th>
+                    <th>{c.replay.thPlan}</th>
+                    <th>{c.replay.thSales}</th>
+                    <th>{c.replay.thWaste}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th>Current</th>
+                    <th>{c.replay.rowCurrent}</th>
                     <td>988</td>
                     <td>319</td>
                   </tr>
                   <tr>
-                    <th>Proposed</th>
+                    <th>{c.replay.rowProposed}</th>
                     <td>988</td>
                     <td>189</td>
                   </tr>
@@ -523,67 +501,40 @@ export function FreshFoodHome() {
 
         <section className="section vision" id="vision">
           <div className="wrap">
-            <p className="eyebrow reveal">Beyond production</p>
-            <h2 className="reveal">Expand to every decision that drives profit.</h2>
-            <p className="vision-intro reveal">
-              Production comes first because the decision repeats every day and the result is visible quickly.
-            </p>
-            <div className="vision-path" aria-label="Eclipsai expansion path">
-              <article className="vision-step">
-                <span className="vision-index">01 · Now</span>
-                <h3>Production and waste</h3>
-                <p>
-                  Protect sales without repeating avoidable waste. Repair stale production plans and measure every
-                  change in cash.
-                </p>
-              </article>
-              <article className="vision-step">
-                <span className="vision-index">02 · Next</span>
-                <h3>Buying and pricing</h3>
-                <p>Catch supplier cost increases, weak margins and prices that no longer cover costs.</p>
-              </article>
-              <article className="vision-step">
-                <span className="vision-index">03 · Then</span>
-                <h3>Labour and operations</h3>
-                <p>See when smaller batches save waste but add work, or when understaffing costs sales.</p>
-              </article>
-              <article className="vision-step">
-                <span className="vision-index">04 · As you grow</span>
-                <h3>The next location</h3>
-                <p>Apply everything Eclipsai has learned from your shops to the next one.</p>
-              </article>
+            <p className="eyebrow reveal">{c.vision.eyebrow}</p>
+            <h2 className="reveal">{c.vision.h2}</h2>
+            <p className="vision-intro reveal">{c.vision.intro}</p>
+            <div className="vision-path" aria-label={c.vision.pathLabel}>
+              {c.vision.steps.map((step) => (
+                <article key={step.index} className="vision-step">
+                  <span className="vision-index">{step.index}</span>
+                  <h3>{step.h3}</h3>
+                  <p>{step.p}</p>
+                </article>
+              ))}
             </div>
-            <p className="loop-close-line conclusion">
-              One decision at a time, Eclipsai helps you keep more of what your business earns.
-            </p>
+            <p className="loop-close-line conclusion">{c.vision.closing}</p>
           </div>
         </section>
 
         <section className="section offer" id="start">
           <div className="wrap offer-grid">
             <div>
-              <p className="eyebrow reveal">See it in your own shops</p>
-              <h2 className="reveal">Find the profit leaks worth fixing first.</h2>
-              <p className="offer-copy reveal">
-                We start with the sales and production records you already have. We find repeated waste, missed sales
-                and production plans that no longer fit, then show what each is worth in cash.
-              </p>
+              <p className="eyebrow reveal">{c.offer.eyebrow}</p>
+              <h2 className="reveal">{c.offer.h2}</h2>
+              <p className="offer-copy reveal">{c.offer.copy}</p>
             </div>
             <div className="offer-card reveal">
-              <h3>Your first review</h3>
+              <h3>{c.offer.cardH3}</h3>
               <ul>
-                <li>The leaks worth fixing first</li>
-                <li>The evidence behind each one</li>
-                <li>The cash opportunity</li>
-                <li>The first reversible changes to test</li>
+                {c.offer.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
-              <p className="offer-reassurance">No new system for your team. Nothing changes until the evidence is clear.</p>
-              <p className="offer-audience">For growing fresh-food operators with 2 to 20 locations.</p>
-              <a
-                className="button"
-                href="mailto:chip.alexandru@eclipsai.com?subject=Find%20the%20profit%20leak&body=Number%20of%20sites%3A%0AWho%20sets%20tomorrow's%20order%3A%0ACurrent%20systems%3A%0A"
-              >
-                Find the profit leak
+              <p className="offer-reassurance">{c.offer.reassurance}</p>
+              <p className="offer-audience">{c.offer.audience}</p>
+              <a className="button" href={mailHref}>
+                {c.offer.cta}
               </a>
             </div>
           </div>
@@ -592,52 +543,16 @@ export function FreshFoodHome() {
         <section className="section faq">
           <div className="wrap faq-grid">
             <div>
-              <p className="eyebrow reveal">Common questions</p>
-              <h2 className="reveal">What owners want to know before starting.</h2>
+              <p className="eyebrow reveal">{c.faq.eyebrow}</p>
+              <h2 className="reveal">{c.faq.h2}</h2>
             </div>
             <div className="reveal">
-              <details>
-                <summary>Will making less cause us to sell out?</summary>
-                <p>
-                  Eclipsai measures both risks. Waste costs ingredients, while a missed sale costs most of the selling
-                  price. We propose small changes and check what actually happened before changing the standing plan.
-                </p>
-              </details>
-              <details>
-                <summary>Our system already recommends quantities. What is different?</summary>
-                <p>
-                  Most systems produce a forecast or suggested order. Eclipsai also captures what the team sees,
-                  proposes the decisions worth changing and measures whether each change made or lost money.
-                </p>
-              </details>
-              <details>
-                <summary>How much work does the team have to do?</summary>
-                <p>
-                  Very little. Eclipsai uses the records you already have and asks short, targeted questions only when
-                  an important signal is missing, such as a sellout, unusual leftovers or a local event.
-                </p>
-              </details>
-              <details>
-                <summary>What if our data is messy?</summary>
-                <p>
-                  That is normal. We match what is reliable, identify the gaps and show what the evidence can support
-                  before recommending a change.
-                </p>
-              </details>
-              <details>
-                <summary>Do we have to change every shop at once?</summary>
-                <p>
-                  No. We start with small, reversible changes for specific products and locations. A change expands
-                  only after the result supports it.
-                </p>
-              </details>
-              <details>
-                <summary>How do you charge?</summary>
-                <p>
-                  A monthly fee per location. The scope depends on the number of shops, systems and decisions being
-                  monitored.
-                </p>
-              </details>
+              {c.faq.items.map((item) => (
+                <details key={item.q}>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
@@ -646,13 +561,13 @@ export function FreshFoodHome() {
       <footer>
         <div className="footer-inner">
           <div>
-            <a className="logo" href="#top" aria-label="Eclipsai home">
+            <a className="logo" href="#top" aria-label={c.nav.homeAriaLabel}>
               <img src={`${ASSETS}/eclipsai-wordmark-mineral-solar.svg`} alt="" />
             </a>
-            <p>The profit brain for fresh food.</p>
+            <p>{c.footer.tagline}</p>
           </div>
           <p>
-            <a href="mailto:chip.alexandru@eclipsai.com">chip.alexandru@eclipsai.com</a> · Zürich, Switzerland
+            <a href="mailto:chip.alexandru@eclipsai.com">chip.alexandru@eclipsai.com</a> · {c.footer.location}
           </p>
         </div>
       </footer>
