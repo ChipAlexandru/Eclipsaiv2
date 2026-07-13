@@ -194,13 +194,15 @@ export function FreshFoodHome({ content }) {
     window.addEventListener("scroll", updateNav, { passive: true });
 
     // Language switcher enhancements: Escape closes and refocuses the
-    // trigger; clicking or moving focus outside closes. The <details>
+    // trigger; pointer or keyboard focus moving outside closes. The <details>
     // element itself keeps working without any of this.
     const switcher = root.querySelector(".language-switcher");
     const closeSwitcher = () => {
       if (switcher) switcher.open = false;
     };
-    const onDocumentClick = (event) => {
+    // Pointerdown (not click) so the menu closes as soon as an outside
+    // interaction starts; presses inside the menu are unaffected.
+    const onDocumentPointerDown = (event) => {
       if (switcher && switcher.open && !switcher.contains(event.target)) closeSwitcher();
     };
     const onKeyDown = (event) => {
@@ -209,10 +211,16 @@ export function FreshFoodHome({ content }) {
         switcher.querySelector("summary")?.focus();
       }
     };
+    // Close only when focus verifiably lands OUTSIDE the switcher (keyboard
+    // Tab-out always sets relatedTarget). When relatedTarget is null — which
+    // Safari produces for clicks on links, because it does not focus them —
+    // do nothing, or the menu would collapse mid-click and swallow the
+    // language selection. Outside pointer interactions are already covered
+    // by the pointerdown handler above.
     const onFocusOut = (event) => {
-      if (switcher && !switcher.contains(event.relatedTarget)) closeSwitcher();
+      if (switcher && event.relatedTarget && !switcher.contains(event.relatedTarget)) closeSwitcher();
     };
-    document.addEventListener("click", onDocumentClick);
+    document.addEventListener("pointerdown", onDocumentPointerDown);
     document.addEventListener("keydown", onKeyDown);
     switcher?.addEventListener("focusout", onFocusOut);
 
@@ -259,7 +267,7 @@ export function FreshFoodHome({ content }) {
       window.removeEventListener("scroll", updateNav);
       if (updateClock) window.removeEventListener("scroll", updateClock);
       cancelAnimationFrame(clockFrame);
-      document.removeEventListener("click", onDocumentClick);
+      document.removeEventListener("pointerdown", onDocumentPointerDown);
       document.removeEventListener("keydown", onKeyDown);
       switcher?.removeEventListener("focusout", onFocusOut);
       html.style.scrollBehavior = previousScrollBehavior;
