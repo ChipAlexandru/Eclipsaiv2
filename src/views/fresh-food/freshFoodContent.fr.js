@@ -13,16 +13,16 @@ export const fr = {
     product: "Comment ça marche",
     proof: "Preuves",
     vision: "Au-delà de la production",
-    cta: "Trouvez la fuite de profit",
+    cta: "Repérer les pertes de marge",
     chooseLanguage: "Choisir la langue",
     availableLanguages: "Langues disponibles",
   },
 
   hero: {
-    eyebrow: "Le cerveau du profit pour les produits frais",
+    eyebrow: "L'intelligence opérationnelle des métiers du frais",
     h1: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
-    copy: "Eclipsai repère les changements qui en valent la peine à partir des ventes quotidiennes, de la production, des livraisons et de ce que votre équipe observe. Nous mesurons chaque résultat en argent réel.",
-    cta: "Trouvez la fuite de profit",
+    copy: "Eclipsai repère les changements qui en valent la peine à partir des ventes quotidiennes, de la production, des livraisons et de ce que votre équipe observe. Nous mesurons l'impact économique de chaque changement.",
+    cta: "Repérer les pertes de marge",
     audience: "Conçu pour les exploitants de produits frais en croissance, de 2 à 20 points de vente.",
   },
 
@@ -36,11 +36,11 @@ export const fr = {
       { time: "02:00", state: "time-0200", h3: "La production démarre", p: "La décision d'hier devient le stock périssable d'aujourd'hui." },
       { time: "11:40", state: "time-1140", h3: "Le plateau se vide", p: "On dirait un succès. Les clients continuent d'en demander." },
     ],
-    quote: "La caisse enregistre ce qui s'est vendu. Pas le rayon vide, les invendus ni la question au comptoir. C'est là que se cache la fuite de profit.",
+    quote: "La caisse enregistre ce qui s'est vendu. Pas le rayon vide, les invendus ni la question au comptoir. C'est là que la marge se perd.",
   },
 
   product: {
-    eyebrow: "Le cerveau du profit, toujours actif",
+    eyebrow: "L'intelligence opérationnelle, toujours active",
     h2: "Il suit chaque boutique, chaque jour. Il pose la question quand il le faut.",
     lede: "Eclipsai relie les ventes quotidiennes, la production, les livraisons et ce que votre équipe observe. Quand un changement est à l'essai, il demande à la bonne personne ce qui s'est passé. Il rassemble les décisions qui comptent dans une revue hebdomadaire et répond aux questions à tout moment.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
@@ -49,7 +49,7 @@ export const fr = {
       { n: "01", strong: "Capte ce qui est nécessaire.", text: "Invendus, ruptures et demandes des clients." },
       { n: "02", strong: "Surveille chaque boutique, chaque produit, chaque jour.", text: "Repère les opportunités dans les pertes, les coûts et les ventes." },
       { n: "03", strong: "Propose et répond.", text: "Fait remonter les changements qui valent la peine la semaine prochaine et répond à vos questions quand vous les posez." },
-      { n: "04", strong: "Rend compte des résultats.", text: "Montre la performance des boutiques et évalue chaque décision face à l'alternative, en argent réel." },
+      { n: "04", strong: "Rend compte des résultats.", text: "Montre la performance des boutiques et mesure l'impact économique de chaque décision face à l'alternative." },
     ],
   },
 
@@ -78,14 +78,14 @@ export const fr = {
 
   loop: {
     eyebrow: "Ce que nous faisons",
-    h2: "Comment on répare une fuite de profit.",
+    h2: "Comment récupérer la marge perdue.",
     lede: "La boucle qui a trouvé l'opportunité peut tourner en continu dans vos boutiques.",
     listLabel: "Boucle de décision",
     steps: [
-      { n: "01", b: "Compter.", p: "Les données de vente et de production sont rapprochées en un historique à la pièce." },
+      { n: "01", b: "Relier.", p: "Les données de vente et de production sont réunies dans un historique au niveau de chaque unité." },
       { n: "02", b: "Repérer.", p: "Les schémas répétés émergent : le produit jeté chaque vendredi, la rupture du samedi et la commande permanente devenue obsolète." },
       { n: "03", b: "Proposer.", p: "De petits changements réversibles arrivent dans la note hebdomadaire. Avec leurs raisons." },
-      { n: "04", b: "Évaluer.", p: "Chaque décision est vérifiée face aux ventes réelles, en argent réel." },
+      { n: "04", b: "Mesurer.", p: "Chaque décision est vérifiée à partir des ventes réelles et mesurée par son impact économique." },
       { n: "05", b: "Corriger le plan.", p: "Les changements qui font leurs preuves restent. Les autres sont revus ou retirés." },
       { n: "06", b: "Rester vigilant.", p: "Le comptage ne s'arrête jamais, pour que rien ne revienne en douce." },
     ],
@@ -116,7 +116,7 @@ export const fr = {
     intro: "La production vient en premier parce que la décision se répète chaque jour et que le résultat se voit vite.",
     pathLabel: "Parcours d'extension d'Eclipsai",
     steps: [
-      { index: "01 · Maintenant", h3: "Production et pertes", p: "Protéger les ventes sans répéter les pertes évitables. Corriger les plans de production figés et mesurer chaque changement en argent réel." },
+      { index: "01 · Maintenant", h3: "Production et pertes", p: "Protéger les ventes sans répéter les pertes évitables. Corriger les plans de production figés et mesurer l'impact économique de chaque changement." },
       { index: "02 · Ensuite", h3: "Achats et prix", p: "Repérer les hausses de coûts fournisseurs, les marges faibles et les prix qui ne couvrent plus les coûts." },
       { index: "03 · Puis", h3: "Personnel et opérations", p: "Voir quand des lots plus petits réduisent les pertes mais ajoutent du travail, ou quand le sous-effectif coûte des ventes." },
       { index: "04 · En grandissant", h3: "Le prochain point de vente", p: "Appliquer tout ce qu'Eclipsai a appris de vos boutiques à la suivante." },
@@ -126,19 +126,19 @@ export const fr = {
 
   offer: {
     eyebrow: "À voir dans vos propres boutiques",
-    h2: "Trouvez les fuites de profit à corriger en premier.",
-    copy: "Nous partons des données de vente et de production que vous avez déjà. Nous repérons les pertes répétées, les ventes manquées et les plans de production qui ne conviennent plus, puis nous montrons ce que chacun vaut en argent réel.",
+    h2: "Repérez les pertes de marge à corriger en premier.",
+    copy: "Nous partons des données de vente et de production que vous avez déjà. Nous repérons les pertes répétées, les ventes manquées et les plans de production qui ne conviennent plus, puis nous montrons l'impact économique de chacun.",
     cardH3: "Votre première revue",
     items: [
-      "Les fuites à corriger en premier",
+      "Les pertes de marge à corriger en premier",
       "Les preuves derrière chacune",
-      "L'opportunité en argent réel",
+      "L'impact économique de l'opportunité",
       "Les premiers changements réversibles à tester",
     ],
     reassurance: "Aucun nouveau système pour votre équipe. Rien ne change tant que les preuves ne sont pas claires.",
     audience: "Pour les exploitants de produits frais en croissance, de 2 à 20 points de vente.",
-    cta: "Trouvez la fuite de profit",
-    mailSubject: "Trouver la fuite de profit",
+    cta: "Repérer les pertes de marge",
+    mailSubject: "Repérer les pertes de marge",
     mailBody: "Nombre de sites :\nQui fixe la commande de demain :\nSystèmes actuels :\n",
   },
 
@@ -174,13 +174,13 @@ export const fr = {
   },
 
   footer: {
-    tagline: "Le cerveau du profit pour les produits frais.",
+    tagline: "L'intelligence opérationnelle des métiers du frais.",
     location: "Zurich, Suisse",
   },
 
   meta: {
-    title: "Eclipsai | Le cerveau du profit pour les produits frais",
-    description: "Eclipsai aide les exploitants de produits frais en croissance à décider quoi produire demain, à réduire les pertes et à mesurer chaque changement en argent réel.",
+    title: "Eclipsai | L'intelligence opérationnelle des métiers du frais",
+    description: "Eclipsai aide les exploitants de produits frais en croissance à décider quoi produire demain, à réduire les pertes et à mesurer l'impact économique de chaque changement.",
     ogDescription: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
   },
 };

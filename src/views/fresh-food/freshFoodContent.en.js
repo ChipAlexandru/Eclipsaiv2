@@ -89,10 +89,10 @@ export const en = {
     lede: "The loop that found the opportunity can run continuously across your shops.",
     listLabel: "Decision loop",
     steps: [
-      { n: "01", b: "Count.", p: "Sales and production records are matched into one piece-level history." },
+      { n: "01", b: "Connect.", p: "Sales and production records become one piece-level history." },
       { n: "02", b: "Find.", p: "Repeated patterns surface: the product wasted every Friday, the Saturday sellout and the standing order that has gone stale." },
       { n: "03", b: "Propose.", p: "Small, reversible changes arrive in the weekly note. Reasons attached." },
-      { n: "04", b: "Score.", p: "Every call is checked against real sales, in cash." },
+      { n: "04", b: "Measure.", p: "Every decision is checked against real sales and measured in cash." },
       { n: "05", b: "Fix the plan.", p: "Changes that prove out are kept. The rest are revised or retired." },
       { n: "06", b: "Keep watch.", p: "The counting never stops, so nothing quietly creeps back." },
     ],

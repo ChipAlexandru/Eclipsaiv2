@@ -13,16 +13,16 @@ export const ro = {
     product: "Cum funcționează",
     proof: "Dovezi",
     vision: "Dincolo de producție",
-    cta: "Găsiți scurgerea de profit",
+    cta: "Descoperă unde pierzi marjă",
     chooseLanguage: "Alegeți limba",
     availableLanguages: "Limbi disponibile",
   },
 
   hero: {
-    eyebrow: "Creierul profitului pentru produse proaspete",
+    eyebrow: "Inteligență operațională pentru afacerile cu produse proaspete",
     h1: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
-    copy: "Eclipsai găsește schimbările care merită făcute pornind de la vânzările zilnice, producție, livrări și ce observă echipa dumneavoastră. Măsurăm fiecare rezultat în bani.",
-    cta: "Găsiți scurgerea de profit",
+    copy: "Eclipsai găsește schimbările care merită făcute pornind de la vânzările zilnice, producție, livrări și ce observă echipa dumneavoastră. Măsurăm impactul financiar al fiecărei schimbări.",
+    cta: "Descoperă unde pierzi marjă",
     audience: "Creat pentru operatori de produse proaspete în creștere, cu 2 până la 20 de locații.",
   },
 
@@ -36,11 +36,11 @@ export const ro = {
       { time: "02:00", state: "time-0200", h3: "Începe producția", p: "Decizia de ieri devine marfa perisabilă de azi." },
       { time: "11:40", state: "time-1140", h3: "Tava se golește", p: "Pare un succes. Clienții continuă să ceară produsul." },
     ],
-    quote: "Casa de marcat înregistrează ce s-a vândut. Nu raftul gol, resturile sau întrebarea de la tejghea. Acolo se ascunde scurgerea de profit.",
+    quote: "Casa de marcat înregistrează ce s-a vândut. Nu raftul gol, resturile sau întrebarea de la tejghea. Acolo se pierde marja.",
   },
 
   product: {
-    eyebrow: "Creierul profitului, mereu activ",
+    eyebrow: "Inteligență operațională, mereu activă",
     h2: "Urmărește fiecare magazin, în fiecare zi. Întreabă atunci când e nevoie.",
     lede: "Eclipsai conectează vânzările zilnice, producția, livrările și ce observă echipa dumneavoastră. Când o schimbare este în test, întreabă persoana potrivită ce s-a întâmplat. Aduce deciziile care merită luate într-o revizuire săptămânală și răspunde la întrebări oricând.",
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
@@ -49,7 +49,7 @@ export const ro = {
       { n: "01", strong: "Adună ce este necesar.", text: "Resturi, stocuri epuizate și cereri ale clienților." },
       { n: "02", strong: "Monitorizează fiecare magazin, produs și zi.", text: "Găsește oportunități în risipă, costuri și vânzări." },
       { n: "03", strong: "Propune și răspunde.", text: "Scoate la suprafață schimbările care merită făcute săptămâna viitoare și răspunde la întrebări când le puneți." },
-      { n: "04", strong: "Raportează rezultatele.", text: "Arată performanța magazinelor și evaluează fiecare decizie față de alternativă, în bani." },
+      { n: "04", strong: "Raportează rezultatele.", text: "Arată performanța magazinelor și măsoară impactul financiar al fiecărei decizii față de alternativă." },
     ],
   },
 
@@ -78,14 +78,14 @@ export const ro = {
 
   loop: {
     eyebrow: "Ce facem",
-    h2: "Cum se repară o scurgere de profit.",
+    h2: "Cum recuperăm marja pierdută.",
     lede: "Bucla care a găsit oportunitatea poate rula continuu în magazinele dumneavoastră.",
     listLabel: "Bucla de decizie",
     steps: [
-      { n: "01", b: "Numărăm.", p: "Datele de vânzări și producție sunt corelate într-un istoric la nivel de bucată." },
+      { n: "01", b: "Conectăm.", p: "Datele de vânzări și producție sunt reunite într-un istoric la nivel de unitate." },
       { n: "02", b: "Găsim.", p: "Tiparele repetate ies la suprafață: produsul risipit în fiecare vineri, epuizarea de sâmbătă și comanda permanentă care s-a învechit." },
       { n: "03", b: "Propunem.", p: "Schimbări mici și reversibile sosesc în nota săptămânală. Cu motivele atașate." },
-      { n: "04", b: "Evaluăm.", p: "Fiecare decizie este verificată pe vânzări reale, în bani." },
+      { n: "04", b: "Măsurăm.", p: "Fiecare decizie este verificată pe vânzările reale și măsurată prin impactul financiar." },
       { n: "05", b: "Corectăm planul.", p: "Schimbările care se dovedesc bune rămân. Restul sunt revizuite sau retrase." },
       { n: "06", b: "Rămânem atenți.", p: "Numărătoarea nu se oprește niciodată, ca nimic să nu revină pe furiș." },
     ],
@@ -116,7 +116,7 @@ export const ro = {
     intro: "Producția vine prima pentru că decizia se repetă zilnic, iar rezultatul se vede repede.",
     pathLabel: "Traseul de extindere Eclipsai",
     steps: [
-      { index: "01 · Acum", h3: "Producție și risipă", p: "Protejați vânzările fără să repetați risipa evitabilă. Corectați planurile de producție învechite și măsurați fiecare schimbare în bani." },
+      { index: "01 · Acum", h3: "Producție și risipă", p: "Protejați vânzările fără să repetați risipa evitabilă. Corectați planurile de producție învechite și măsurați impactul financiar al fiecărei schimbări." },
       { index: "02 · Urmează", h3: "Achiziții și prețuri", p: "Prindeți scumpirile furnizorilor, marjele slabe și prețurile care nu mai acoperă costurile." },
       { index: "03 · Apoi", h3: "Personal și operațiuni", p: "Vedeți când loturile mai mici reduc risipa dar adaugă muncă, sau când personalul insuficient costă vânzări." },
       { index: "04 · Pe măsură ce creșteți", h3: "Următoarea locație", p: "Aplicați tot ce a învățat Eclipsai din magazinele dumneavoastră la următorul." },
@@ -126,19 +126,19 @@ export const ro = {
 
   offer: {
     eyebrow: "Vedeți în propriile magazine",
-    h2: "Găsiți scurgerile de profit care merită reparate mai întâi.",
-    copy: "Pornim de la datele de vânzări și producție pe care le aveți deja. Găsim risipa repetată, vânzările ratate și planurile de producție care nu se mai potrivesc, apoi arătăm cât valorează fiecare în bani.",
+    h2: "Găsiți marja pierdută care merită recuperată mai întâi.",
+    copy: "Pornim de la datele de vânzări și producție pe care le aveți deja. Găsim risipa repetată, vânzările ratate și planurile de producție care nu se mai potrivesc, apoi arătăm impactul financiar al fiecăreia.",
     cardH3: "Prima dumneavoastră analiză",
     items: [
-      "Scurgerile care merită reparate mai întâi",
+      "Pierderile de marjă care merită recuperate mai întâi",
       "Dovezile din spatele fiecăreia",
-      "Oportunitatea în bani",
+      "Impactul financiar al oportunității",
       "Primele schimbări reversibile de testat",
     ],
     reassurance: "Niciun sistem nou pentru echipă. Nimic nu se schimbă până când dovezile nu sunt clare.",
     audience: "Pentru operatori de produse proaspete în creștere, cu 2 până la 20 de locații.",
-    cta: "Găsiți scurgerea de profit",
-    mailSubject: "Găsiți scurgerea de profit",
+    cta: "Descoperă unde pierzi marjă",
+    mailSubject: "Descoperă unde pierzi marjă",
     mailBody: "Număr de locații:\nCine stabilește comanda de mâine:\nSisteme actuale:\n",
   },
 
@@ -174,13 +174,13 @@ export const ro = {
   },
 
   footer: {
-    tagline: "Creierul profitului pentru produse proaspete.",
+    tagline: "Inteligență operațională pentru afacerile cu produse proaspete.",
     location: "Zürich, Elveția",
   },
 
   meta: {
-    title: "Eclipsai | Creierul profitului pentru produse proaspete",
-    description: "Eclipsai ajută operatorii de produse proaspete în creștere să decidă ce să producă mâine, să reducă risipa și să măsoare fiecare schimbare în bani.",
+    title: "Eclipsai | Inteligență operațională pentru afacerile cu produse proaspete",
+    description: "Eclipsai ajută operatorii de produse proaspete în creștere să decidă ce să producă mâine, să reducă risipa și să măsoare impactul financiar al fiecărei schimbări.",
     ogDescription: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
   },
 };
