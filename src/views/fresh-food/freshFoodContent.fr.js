@@ -138,8 +138,6 @@ export const fr = {
     reassurance: "Aucun nouveau système pour votre équipe. Rien ne change tant que les preuves ne sont pas claires.",
     audience: "Pour les exploitants de produits frais en croissance, de 2 à 20 points de vente.",
     cta: "Repérer les pertes de marge",
-    mailSubject: "Repérer les pertes de marge",
-    mailBody: "Nombre de sites :\nQui fixe la commande de demain :\nSystèmes actuels :\n",
   },
 
   faq: {

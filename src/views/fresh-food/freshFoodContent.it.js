@@ -138,8 +138,6 @@ export const it = {
     reassurance: "Nessun nuovo sistema per il vostro team. Nulla cambia finché le prove non sono chiare.",
     audience: "Per operatori del fresco in crescita, da 2 a 20 punti vendita.",
     cta: "Scopri dove perdi margine",
-    mailSubject: "Scopri dove perdi margine",
-    mailBody: "Numero di punti vendita:\nChi decide l'ordine di domani:\nSistemi attuali:\n",
   },
 
   faq: {

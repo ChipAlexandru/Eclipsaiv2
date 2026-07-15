@@ -138,8 +138,6 @@ export const de = {
     reassurance: "Kein neues System für Ihr Team. Nichts ändert sich, bevor die Belege eindeutig sind.",
     audience: "Für wachsende Frischwaren-Betriebe mit 2 bis 20 Standorten.",
     cta: "Verlorene Marge finden",
-    mailSubject: "Verlorene Marge finden",
-    mailBody: "Anzahl Standorte:\nWer legt die Bestellung für morgen fest:\nAktuelle Systeme:\n",
   },
 
   faq: {

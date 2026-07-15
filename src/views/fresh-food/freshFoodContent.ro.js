@@ -138,8 +138,6 @@ export const ro = {
     reassurance: "Niciun sistem nou pentru echipă. Nimic nu se schimbă până când dovezile nu sunt clare.",
     audience: "Pentru operatori de produse proaspete în creștere, cu 2 până la 20 de locații.",
     cta: "Descoperă unde pierzi marjă",
-    mailSubject: "Descoperă unde pierzi marjă",
-    mailBody: "Număr de locații:\nCine stabilește comanda de mâine:\nSisteme actuale:\n",
   },
 
   faq: {

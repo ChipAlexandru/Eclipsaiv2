@@ -145,8 +145,6 @@ export const en = {
     reassurance: "No new system for your team. Nothing changes until the evidence is clear.",
     audience: "For growing fresh-food operators with 2 to 20 locations.",
     cta: "Find the profit leak",
-    mailSubject: "Find the profit leak",
-    mailBody: "Number of sites:\nWho sets tomorrow's order:\nCurrent systems:\n",
   },
 
   faq: {

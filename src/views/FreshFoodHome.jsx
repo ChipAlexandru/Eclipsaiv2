@@ -52,6 +52,10 @@ const dmMono = DM_Mono({
 
 const ASSETS = "/assets/fresh-food";
 
+// Every "Find the profit leak" CTA (nav, hero, offer card) opens the
+// discovery-call booking page. No email is published on the site.
+const CALENDLY_URL = "https://calendly.com/chip-alexandru/discovery-call";
+
 // In-page anchors that are preserved when switching language (/#proof →
 // /de#proof). The locale URL itself stays the source of truth.
 const SECTION_HASHES = new Set(["#top", "#problem", "#product", "#proof", "#vision", "#start"]);
@@ -152,8 +156,6 @@ function LanguageSwitcher({ content }) {
 export function FreshFoodHome({ content }) {
   const rootRef = useRef(null);
   const c = content;
-
-  const mailHref = `mailto:chip.alexandru@eclipsai.com?subject=${encodeURIComponent(c.offer.mailSubject)}&body=${encodeURIComponent(c.offer.mailBody)}`;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -290,7 +292,7 @@ export function FreshFoodHome({ content }) {
             <a href="#proof">{c.nav.proof}</a>
             <a href="#vision">{c.nav.vision}</a>
             <LanguageSwitcher content={c} />
-            <a className="nav-cta" href="#start">{c.nav.cta}</a>
+            <a className="nav-cta" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{c.nav.cta}</a>
           </div>
         </div>
       </nav>
@@ -314,7 +316,7 @@ export function FreshFoodHome({ content }) {
             <h1>{c.hero.h1}</h1>
             <p className="hero-copy">{c.hero.copy}</p>
             <div className="hero-actions">
-              <a className="button" href="#start">{c.hero.cta}</a>
+              <a className="button" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{c.hero.cta}</a>
             </div>
             <small className="hero-audience">{c.hero.audience}</small>
           </div>
@@ -541,7 +543,7 @@ export function FreshFoodHome({ content }) {
               </ul>
               <p className="offer-reassurance">{c.offer.reassurance}</p>
               <p className="offer-audience">{c.offer.audience}</p>
-              <a className="button" href={mailHref}>
+              <a className="button" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                 {c.offer.cta}
               </a>
             </div>
@@ -574,9 +576,7 @@ export function FreshFoodHome({ content }) {
             </a>
             <p>{c.footer.tagline}</p>
           </div>
-          <p>
-            <a href="mailto:chip.alexandru@eclipsai.com">chip.alexandru@eclipsai.com</a> · {c.footer.location}
-          </p>
+          <p>{c.footer.location}</p>
         </div>
       </footer>
     </div>

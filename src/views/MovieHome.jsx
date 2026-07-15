@@ -3328,7 +3328,7 @@ Traceability report: every number tied to source.</pre>
     <section id="contact" class="contact-section" aria-label="Contact">
       <h2>Start with one decision</h2>
       <p>Send a short note with the recurring decision or review you want to test.</p>
-      <p class="contact-email"><a href="mailto:chip.alexandru@eclipsai.com">chip.alexandru@eclipsai.com</a></p>
+      <p class="contact-email"><a href="https://calendly.com/chip-alexandru/discovery-call" target="_blank" rel="noopener noreferrer">Book a discovery call</a></p>
       <p class="contact-note">Include the next cycle date if you already know it.</p>
     </section>
   </main>
