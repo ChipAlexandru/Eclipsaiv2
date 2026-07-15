@@ -368,7 +368,7 @@ export function FreshFoodHome({ content }) {
             <div className="product-stage">
               <div className="product-media reveal" aria-label={c.product.mediaLabel}>
                 <video className="product-video" autoPlay muted loop playsInline preload="metadata">
-                  <source src={`${ASSETS}/product-conversation.mp4`} type="video/mp4" />
+                  <source src={`${ASSETS}/product-conversation-v2.mp4`} type="video/mp4" />
                 </video>
               </div>
               <div className="product-copy reveal">
