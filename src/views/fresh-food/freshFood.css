@@ -209,6 +209,32 @@
 }
 .ffh .hero-copy strong { color: white; font-weight: 600; }
 .ffh .hero-actions { display: flex; align-items: center; gap: 19px; margin-top: 36px; }
+/* Compact fresh-food examples between the hero explanation and the CTA.
+   Concrete lines, not feature cards: no boxes, icons or dots — one restrained
+   row separated by hairline rules on desktop, a compact stack on mobile.
+   Visually subordinate to the headline and explanatory paragraph. */
+.ffh .hero-examples {
+  display: flex;
+  align-items: stretch;
+  max-width: 780px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(255,250,242,.66);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.ffh .hero-examples li { flex: 1; padding-right: 20px; }
+.ffh .hero-examples li + li {
+  padding-left: 20px;
+  border-left: 1px solid rgba(255,255,255,.22);
+}
+.ffh .hero-examples + .hero-actions { margin-top: 30px; }
+/* Short laptop viewports: trim hero paddings so the added examples row does
+   not push the audience line under the fold (hero stays within 100svh). */
+@media (max-height: 840px) and (min-width: 561px) {
+  .ffh .hero-inner { padding-top: 110px; padding-bottom: 48px; }
+}
 .ffh .hero-audience { display: block; margin-top: 17px; color: rgba(255,250,242,.58); font-size: 12px; line-height: 1.5; }
 .ffh .button {
   display: inline-flex;
@@ -448,6 +474,9 @@
   }
   .ffh .time-beat { opacity: 1; }
   .ffh .loop-close { display: none; }
+  .ffh .hero-examples { flex-direction: column; gap: 9px; max-width: 560px; }
+  .ffh .hero-examples li { padding-right: 0; }
+  .ffh .hero-examples li + li { padding-left: 0; border-left: 0; }
   .ffh .product-stage { gap: 70px; }
   .ffh .product-copy { grid-row: 1; }
   .ffh .loop-line { grid-template-columns: repeat(3, 1fr); row-gap: 40px; }
@@ -458,8 +487,12 @@
   .ffh .logo img { width: 116px; }
   .ffh .nav-cta { display: none; }
   .ffh .language-switcher summary { min-width: 48px; padding: 8px 10px; }
-  .ffh .hero-inner { padding-bottom: 35px; }
+  .ffh .hero-inner { padding-top: 96px; padding-bottom: 35px; }
+  .ffh .hero .eyebrow { margin-bottom: 14px; }
+  .ffh h1 { margin-bottom: 18px; }
   .ffh .hero-copy { font-size: 16px; }
+  .ffh .hero-examples { margin-top: 14px; gap: 6px; font-size: 12px; }
+  .ffh .hero-examples + .hero-actions { margin-top: 18px; }
   .ffh .hero-actions { align-items: stretch; flex-direction: column; gap: 13px; }
   .ffh .text-link { text-align: center; }
   .ffh .hero-meta { margin-top: 42px; grid-template-columns: 1fr; gap: 13px; }

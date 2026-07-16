@@ -21,7 +21,12 @@ export const de = {
   hero: {
     eyebrow: "Operative Intelligenz für Frischebetriebe",
     h1: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
-    copy: "Eclipsai findet die Änderungen, die sich lohnen: aus täglichen Verkäufen, Produktion, Lieferungen und dem, was Ihr Team sieht. Wir messen die finanzielle Wirkung jeder Änderung.",
+    copy: "Eclipsai beobachtet das Geschäft, erkennt, was sich ändern muss, handelt innerhalb Ihrer Vorgaben in Ihren Systemen und misst das Ergebnis in Geld.",
+    examples: [
+      "Passt die Produktionsbestellungen für morgen an.",
+      "Führt Sonderbestellungen durch Produktion, Lieferung und Rechnungsstellung.",
+      "Prüft Lieferantenpreise, Produktkosten und Margen.",
+    ],
     cta: "Verlorene Marge finden",
     audience: "Entwickelt für wachsende Frischwaren-Betriebe mit 2 bis 20 Standorten.",
   },
@@ -82,12 +87,12 @@ export const de = {
     lede: "Der Kreislauf, der das Potenzial gefunden hat, kann dauerhaft über Ihre Filialen laufen.",
     listLabel: "Entscheidungskreislauf",
     steps: [
-      { n: "01", b: "Verbinden.", p: "Verkaufs- und Produktionsdaten werden zu einer Historie auf Stückebene verbunden." },
-      { n: "02", b: "Finden.", p: "Wiederkehrende Muster werden sichtbar: das Produkt, das jeden Freitag im Abfall landet, der Samstags-Ausverkauf und die Standardbestellung, die veraltet ist." },
-      { n: "03", b: "Vorschlagen.", p: "Kleine, umkehrbare Änderungen kommen in der Wochennotiz. Mit Begründung." },
-      { n: "04", b: "Messen.", p: "Jede Entscheidung wird anhand realer Verkäufe und ihrer finanziellen Wirkung gemessen." },
-      { n: "05", b: "Plan korrigieren.", p: "Änderungen, die sich bewähren, bleiben. Der Rest wird angepasst oder verworfen." },
-      { n: "06", b: "Wachsam bleiben.", p: "Das Zählen hört nie auf, damit sich nichts leise wieder einschleicht." },
+      { n: "01", b: "Beobachten.", p: "Verbindet tägliche Verkäufe, Produktion, Lieferungen und Signale aus dem Team." },
+      { n: "02", b: "Entscheiden.", p: "Erkennt die wenigen Entscheidungen, die sich zu ändern lohnen, und wägt Abfall gegen entgangene Verkäufe ab." },
+      { n: "03", b: "Handeln.", p: "Passt die Bestellung an oder erledigt den freigegebenen nächsten Schritt, innerhalb der vom Inhaber gesetzten Grenzen." },
+      { n: "04", b: "Messen.", p: "Prüft das Ergebnis anhand tatsächlicher Verkäufe und Kosten, in Geld." },
+      { n: "05", b: "Lernen.", p: "Behält Änderungen, die sich bewähren, und korrigiert jene, die es nicht tun." },
+      { n: "06", b: "Wachsam bleiben.", p: "Beobachtet weiter, damit alte Muster nicht leise zurückkehren." },
     ],
   },
 

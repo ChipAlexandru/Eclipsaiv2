@@ -315,6 +315,11 @@ export function FreshFoodHome({ content }) {
             <p className="eyebrow">{c.hero.eyebrow}</p>
             <h1>{c.hero.h1}</h1>
             <p className="hero-copy">{c.hero.copy}</p>
+            <ul className="hero-examples">
+              {c.hero.examples.map((example) => (
+                <li key={example}>{example}</li>
+              ))}
+            </ul>
             <div className="hero-actions">
               <a className="button" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">{c.hero.cta}</a>
             </div>

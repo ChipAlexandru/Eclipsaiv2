@@ -28,7 +28,12 @@ export const en = {
   hero: {
     eyebrow: "The profit brain for fresh food",
     h1: "Know what to make tomorrow. Waste less. Sell more.",
-    copy: "Eclipsai finds the changes worth making from daily sales, production, deliveries and what your team sees. We measure each result in cash.",
+    copy: "Eclipsai watches the business, finds what needs to change, acts across systems within limits you set, and measures the result in cash.",
+    examples: [
+      "Adjusts tomorrow's production orders.",
+      "Carries special orders through production, delivery and invoicing.",
+      "Checks supplier prices, product costs and margins.",
+    ],
     cta: "Find the profit leak",
     audience: "Built for growing fresh-food operators with 2 to 20 locations.",
   },
@@ -89,12 +94,12 @@ export const en = {
     lede: "The loop that found the opportunity can run continuously across your shops.",
     listLabel: "Decision loop",
     steps: [
-      { n: "01", b: "Connect.", p: "Sales and production records become one piece-level history." },
-      { n: "02", b: "Find.", p: "Repeated patterns surface: the product wasted every Friday, the Saturday sellout and the standing order that has gone stale." },
-      { n: "03", b: "Propose.", p: "Small, reversible changes arrive in the weekly note. Reasons attached." },
-      { n: "04", b: "Measure.", p: "Every decision is checked against real sales and measured in cash." },
-      { n: "05", b: "Fix the plan.", p: "Changes that prove out are kept. The rest are revised or retired." },
-      { n: "06", b: "Keep watch.", p: "The counting never stops, so nothing quietly creeps back." },
+      { n: "01", b: "Watch.", p: "Connects daily sales, production, deliveries and signals from the team." },
+      { n: "02", b: "Decide.", p: "Identifies the few decisions worth changing and weighs waste against missed sales." },
+      { n: "03", b: "Act.", p: "Updates the order or completes the approved next step, within limits set by the operator." },
+      { n: "04", b: "Measure.", p: "Checks the result against actual sales and costs, in cash." },
+      { n: "05", b: "Learn.", p: "Keeps changes that prove successful and corrects those that do not." },
+      { n: "06", b: "Keep watch.", p: "Keeps monitoring so old patterns do not quietly return." },
     ],
   },
 

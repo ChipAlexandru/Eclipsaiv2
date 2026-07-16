@@ -21,7 +21,12 @@ export const fr = {
   hero: {
     eyebrow: "L'intelligence opérationnelle des métiers du frais",
     h1: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
-    copy: "Eclipsai repère les changements qui en valent la peine à partir des ventes quotidiennes, de la production, des livraisons et de ce que votre équipe observe. Nous mesurons l'impact économique de chaque changement.",
+    copy: "Eclipsai surveille l'activité, repère ce qui doit changer, agit dans les systèmes que vous utilisez déjà, dans les limites que vous fixez, et mesure l'impact économique du résultat.",
+    examples: [
+      "Ajuste les commandes de production de demain.",
+      "Fait passer les commandes spéciales par la production, la livraison et la facturation.",
+      "Contrôle les prix fournisseurs, les coûts produits et les marges.",
+    ],
     cta: "Repérer les pertes de marge",
     audience: "Conçu pour les exploitants de produits frais en croissance, de 2 à 20 points de vente.",
   },
@@ -82,12 +87,12 @@ export const fr = {
     lede: "La boucle qui a trouvé l'opportunité peut tourner en continu dans vos boutiques.",
     listLabel: "Boucle de décision",
     steps: [
-      { n: "01", b: "Relier.", p: "Les données de vente et de production sont réunies dans un historique au niveau de chaque unité." },
-      { n: "02", b: "Repérer.", p: "Les schémas répétés émergent : le produit jeté chaque vendredi, la rupture du samedi et la commande permanente devenue obsolète." },
-      { n: "03", b: "Proposer.", p: "De petits changements réversibles arrivent dans la note hebdomadaire. Avec leurs raisons." },
-      { n: "04", b: "Mesurer.", p: "Chaque décision est vérifiée à partir des ventes réelles et mesurée par son impact économique." },
-      { n: "05", b: "Corriger le plan.", p: "Les changements qui font leurs preuves restent. Les autres sont revus ou retirés." },
-      { n: "06", b: "Rester vigilant.", p: "Le comptage ne s'arrête jamais, pour que rien ne revienne en douce." },
+      { n: "01", b: "Surveiller.", p: "Relie les ventes quotidiennes, la production, les livraisons et les signaux de l'équipe." },
+      { n: "02", b: "Décider.", p: "Identifie les quelques décisions qui valent la peine de changer et met en balance les pertes et les ventes manquées." },
+      { n: "03", b: "Agir.", p: "Met à jour la commande ou réalise l'étape approuvée suivante, dans les limites fixées par l'exploitant." },
+      { n: "04", b: "Mesurer.", p: "Vérifie le résultat face aux ventes et aux coûts réels et mesure son impact économique." },
+      { n: "05", b: "Apprendre.", p: "Conserve les changements qui font leurs preuves et corrige ceux qui échouent." },
+      { n: "06", b: "Rester vigilant.", p: "Continue de surveiller pour que les anciennes habitudes ne reviennent pas en douce." },
     ],
   },
 

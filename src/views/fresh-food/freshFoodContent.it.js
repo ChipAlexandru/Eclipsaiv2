@@ -21,7 +21,12 @@ export const it = {
   hero: {
     eyebrow: "Intelligenza operativa per il fresco",
     h1: "Sapere cosa produrre domani. Meno sprechi. Più vendite.",
-    copy: "Eclipsai individua le decisioni che vale la pena cambiare analizzando vendite giornaliere, produzione, consegne e ciò che osserva il team. Misuriamo l'impatto economico di ogni cambiamento.",
+    copy: "Eclipsai osserva l'attività, individua cosa deve cambiare, agisce nei sistemi che già usate entro i limiti che definite e misura l'impatto economico del risultato.",
+    examples: [
+      "Adegua gli ordini di produzione di domani.",
+      "Segue gli ordini speciali attraverso produzione, consegna e fatturazione.",
+      "Controlla prezzi dei fornitori, costi dei prodotti e margini.",
+    ],
     cta: "Scopri dove perdi margine",
     audience: "Pensato per operatori del fresco in crescita, da 2 a 20 punti vendita.",
   },
@@ -82,12 +87,12 @@ export const it = {
     lede: "Il ciclo che ha trovato l'opportunità può girare in continuo nei vostri negozi.",
     listLabel: "Ciclo decisionale",
     steps: [
-      { n: "01", b: "Collegare.", p: "I dati di vendita e produzione confluiscono in uno storico a livello di singola unità." },
-      { n: "02", b: "Individuare.", p: "Emergono gli schemi ricorrenti: il prodotto buttato ogni venerdì, l'esaurito del sabato e l'ordine fisso ormai superato." },
-      { n: "03", b: "Proporre.", p: "Piccoli cambiamenti reversibili arrivano nella nota settimanale. Con le motivazioni." },
-      { n: "04", b: "Misurare.", p: "Ogni decisione viene verificata sulle vendite reali e misurata in termini economici." },
-      { n: "05", b: "Correggere il piano.", p: "I cambiamenti che si dimostrano validi restano. Gli altri vengono rivisti o ritirati." },
-      { n: "06", b: "Tenere d'occhio.", p: "Il monitoraggio non si ferma mai, così nulla torna a sfuggire." },
+      { n: "01", b: "Osservare.", p: "Collega vendite giornaliere, produzione, consegne e segnalazioni del team." },
+      { n: "02", b: "Decidere.", p: "Individua le poche decisioni che vale la pena cambiare e soppesa gli sprechi rispetto alle vendite perse." },
+      { n: "03", b: "Agire.", p: "Aggiorna l'ordine o completa il passo successivo approvato, entro i limiti definiti dal titolare." },
+      { n: "04", b: "Misurare.", p: "Verifica il risultato su vendite e costi reali, in termini economici." },
+      { n: "05", b: "Imparare.", p: "Mantiene i cambiamenti che si dimostrano validi e corregge quelli che non funzionano." },
+      { n: "06", b: "Tenere d'occhio.", p: "Continua a monitorare, così i vecchi schemi non tornano di nascosto." },
     ],
   },
 

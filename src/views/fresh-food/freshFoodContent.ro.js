@@ -21,7 +21,12 @@ export const ro = {
   hero: {
     eyebrow: "Inteligență operațională pentru afacerile cu produse proaspete",
     h1: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
-    copy: "Eclipsai găsește schimbările care merită făcute pornind de la vânzările zilnice, producție, livrări și ce observă echipa dumneavoastră. Măsurăm impactul financiar al fiecărei schimbări.",
+    copy: "Eclipsai urmărește afacerea, găsește ce trebuie schimbat, acționează în sistemele pe care le folosiți deja, în limitele stabilite de dumneavoastră, și măsoară impactul financiar al rezultatului.",
+    examples: [
+      "Ajustează comenzile de producție pentru mâine.",
+      "Duce comenzile speciale prin producție, livrare și facturare.",
+      "Verifică prețurile furnizorilor, costurile produselor și marjele.",
+    ],
     cta: "Descoperă unde pierzi marjă",
     audience: "Creat pentru operatori de produse proaspete în creștere, cu 2 până la 20 de locații.",
   },
@@ -82,12 +87,12 @@ export const ro = {
     lede: "Bucla care a găsit oportunitatea poate rula continuu în magazinele dumneavoastră.",
     listLabel: "Bucla de decizie",
     steps: [
-      { n: "01", b: "Conectăm.", p: "Datele de vânzări și producție sunt reunite într-un istoric la nivel de unitate." },
-      { n: "02", b: "Găsim.", p: "Tiparele repetate ies la suprafață: produsul risipit în fiecare vineri, epuizarea de sâmbătă și comanda permanentă care s-a învechit." },
-      { n: "03", b: "Propunem.", p: "Schimbări mici și reversibile sosesc în nota săptămânală. Cu motivele atașate." },
-      { n: "04", b: "Măsurăm.", p: "Fiecare decizie este verificată pe vânzările reale și măsurată prin impactul financiar." },
-      { n: "05", b: "Corectăm planul.", p: "Schimbările care se dovedesc bune rămân. Restul sunt revizuite sau retrase." },
-      { n: "06", b: "Rămânem atenți.", p: "Numărătoarea nu se oprește niciodată, ca nimic să nu revină pe furiș." },
+      { n: "01", b: "Urmărim.", p: "Conectăm vânzările zilnice, producția, livrările și semnalele din echipă." },
+      { n: "02", b: "Decidem.", p: "Identificăm puținele decizii care merită schimbate și cântărim risipa față de vânzările ratate." },
+      { n: "03", b: "Acționăm.", p: "Actualizăm comanda sau finalizăm pasul aprobat, în limitele stabilite de proprietar." },
+      { n: "04", b: "Măsurăm.", p: "Verificăm rezultatul pe vânzările și costurile reale, prin impactul financiar." },
+      { n: "05", b: "Învățăm.", p: "Păstrăm schimbările care se dovedesc bune și le corectăm pe cele care nu funcționează." },
+      { n: "06", b: "Rămânem atenți.", p: "Monitorizarea continuă, ca vechile tipare să nu revină pe furiș." },
     ],
   },
 
