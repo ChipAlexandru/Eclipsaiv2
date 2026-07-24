@@ -361,8 +361,7 @@
 }
 .ffh .product-copy { position: relative; z-index: 2; }
 .ffh .number-list { list-style: none; padding: 0; margin: 40px 0 0; }
-.ffh .number-list li { display: grid; grid-template-columns: 38px 1fr; gap: 18px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.13); color: var(--muted-dark); line-height: 1.55; }
-.ffh .number-list span { color: var(--solar); font: 500 11px var(--mono); }
+.ffh .number-list li { display: grid; grid-template-columns: 1fr; gap: 18px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.13); color: var(--muted-dark); line-height: 1.55; }
 .ffh .number-list strong { display: block; margin-bottom: 2px; color: var(--cream); font-weight: 600; }
 
 .ffh .proof { background: var(--cream); }
@@ -384,14 +383,38 @@
 .ffh .loop-section { background: var(--paper); }
 .ffh .loop-line {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-top: 65px;
   border-top: 1px solid var(--ink);
 }
 .ffh .loop-step { position: relative; padding: 23px 14px 0 0; }
 .ffh .loop-step::before { content: ""; position: absolute; width: 8px; height: 8px; top: -5px; left: 0; border-radius: 50%; background: var(--ink); }
-.ffh .loop-step span { color: var(--ink); font: 500 10px var(--mono); }
-.ffh .loop-step b { display: block; margin-top: 9px; font: 500 18px var(--serif); }
+.ffh .loop-step b { display: block; font: 500 18px var(--serif); }
+/* Cycle hint: a hairline return path under the row, from Improve back to
+   Capture. Restrained and decorative only; the stages carry the meaning. */
+.ffh .loop-cycle { position: relative; padding-bottom: 22px; }
+.ffh .loop-return {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 6px;
+  height: 10px;
+  border: 1px dashed rgba(36,34,41,.32);
+  border-top: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.ffh .loop-return::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  border-left: 1px solid rgba(36,34,41,.5);
+  border-top: 1px solid rgba(36,34,41,.5);
+  transform: rotate(45deg);
+}
 .ffh .loop-step p { margin: 11px 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .ffh .loop-close-line { margin-top: 45px; font: 400 34px/1.15 var(--serif); }
 .ffh .replay-artifact { margin-top: 70px; padding: 34px; border: 1px solid var(--line); background: rgba(239,238,231,.78); }
@@ -434,8 +457,7 @@
 .ffh .offer-card li { position: relative; padding: 12px 0 12px 22px; border-top: 1px solid rgba(36,34,41,.2); font-size: 14px; line-height: 1.5; }
 .ffh .offer-card li::before { content: ""; position: absolute; top: 19px; left: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--night); }
 .ffh .offer-card p { margin: 0 0 20px; font-size: 14px; line-height: 1.6; }
-.ffh .offer-card .offer-reassurance { margin: 22px 0 8px; font-weight: 600; }
-.ffh .offer-card .offer-audience { margin-bottom: 24px; opacity: .72; font-size: 12px; }
+.ffh .offer-card .offer-audience { margin: 22px 0 24px; opacity: .72; font-size: 12px; }
 .ffh .offer-card .button { width: 100%; background: var(--solar); color: var(--night); }
 
 .ffh .faq { background: var(--cream); }
@@ -510,6 +532,18 @@
   .ffh .offer-card { padding: 22px; }
   .ffh .footer-inner { grid-template-columns: 1fr; }
 }
+/* Very small phones (e.g. 320x700): the longer locales (German, Romanian)
+   would otherwise push the hero CTA under the fold. Tighten the hero stack
+   only at this size so the CTA stays reachable without a scroll. */
+@media (max-width: 560px) and (max-height: 760px) {
+  .ffh .hero-inner { padding-top: 78px; padding-bottom: 28px; }
+  .ffh .hero .eyebrow { margin-bottom: 10px; }
+  .ffh h1 { font-size: 36px; margin-bottom: 13px; }
+  .ffh .hero-copy { font-size: 15px; }
+  .ffh .hero-examples { margin-top: 12px; }
+  .ffh .hero-examples + .hero-actions { margin-top: 16px; }
+  .ffh .hero-audience { margin-top: 12px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ffh, .ffh *, .ffh *::before, .ffh *::after { transition: none !important; }
   .ffh .hero-video { display: none; }
@@ -561,7 +595,7 @@
 }
 .ffh .evidence-row {
   display: grid;
-  grid-template-columns: 54px minmax(200px, .85fr) minmax(150px, .45fr) 1.2fr;
+  grid-template-columns: minmax(200px, .85fr) minmax(150px, .45fr) 1.2fr;
   gap: 24px;
   align-items: center;
   min-height: 118px;
@@ -569,7 +603,6 @@
   border-top: 1px solid var(--line);
 }
 .ffh .evidence-row:first-child { border-top: 0; }
-.ffh .evidence-index { color: var(--muted); font: 500 10px var(--mono); }
 .ffh .evidence-row h3 { margin: 0; font: 500 19px/1.25 var(--sans); letter-spacing: -.02em; }
 .ffh .evidence-value { font: 500 clamp(27px, 3vw, 42px)/1 var(--mono); letter-spacing: -.055em; white-space: nowrap; }
 .ffh .evidence-copy { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
@@ -579,7 +612,8 @@
 .ffh .proof-bridge { margin-top: 32px; }
 .ffh .lesson { margin-top: 64px; padding-top: 44px; }
 .ffh .lesson h3 { font: 500 28px/1.1 var(--sans); letter-spacing: -.03em; }
-.ffh .lesson-text strong { color: var(--ink); }
+.ffh .lesson-text p { margin: 0 0 15px; }
+.ffh .lesson-text p:last-child { margin-bottom: 0; }
 .ffh .conclusion { font: 400 clamp(25px, 3vw, 36px)/1.22 var(--serif); letter-spacing: -.025em; }
 
 .ffh .loop-section { background: var(--paper); }
@@ -632,8 +666,11 @@
 .ffh .reveal, .ffh .reveal.visible { opacity: 1; transform: none; transition: none; }
 
 @media (max-width: 900px) {
-  .ffh .evidence-row { grid-template-columns: 38px 1fr auto; gap: 16px; }
-  .ffh .evidence-copy { grid-column: 2 / -1; }
+  .ffh .evidence-row { grid-template-columns: 1fr auto; gap: 16px; }
+  .ffh .evidence-copy { grid-column: 1 / -1; }
+  /* The horizontal return path only reads on the single-row desktop grid. */
+  .ffh .loop-cycle { padding-bottom: 0; }
+  .ffh .loop-return { display: none; }
   .ffh .vision-path { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--ink); margin-left: 5px; }
   .ffh .vision-step { padding: 0 0 34px 28px; }
   .ffh .vision-step::before { top: 3px; left: -1px; width: 10px; height: 1px; }
@@ -645,9 +682,9 @@
   .ffh .section h2 { font-size: 38px; }
   .ffh .product-stage { gap: 44px; }
   .ffh .evidence-ledger { margin-inline: -18px; }
-  .ffh .evidence-row { grid-template-columns: 30px 1fr; padding: 22px 18px; }
-  .ffh .evidence-value { grid-column: 2; font-size: 29px; }
-  .ffh .evidence-copy { grid-column: 2; }
+  .ffh .evidence-row { grid-template-columns: 1fr; gap: 10px; padding: 22px 18px; }
+  .ffh .evidence-value { grid-column: 1; font-size: 29px; }
+  .ffh .evidence-copy { grid-column: 1; }
   .ffh .lesson { margin-top: 48px; padding-top: 36px; }
   .ffh .loop-line { margin-top: 36px; }
   .ffh .vision-path { margin-top: 36px; }

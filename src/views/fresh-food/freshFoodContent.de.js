@@ -1,6 +1,7 @@
-// Fresh-food homepage content — German (Swiss-compatible Standard German).
-// Claude-produced translation of freshFoodContent.en.js; native review
-// recommended before broad launch. No ß (Swiss ss), no em dashes.
+// Fresh-food homepage content — German (Swiss Standard German).
+// Claude-produced translation of the approved English source; a native
+// operator/editor should make the final call (see
+// docs/fresh-food-locale-review.md). No ß (Swiss ss), no em dashes.
 // Evidence values are unchanged; number separators follow Swiss convention.
 
 export const de = {
@@ -13,86 +14,86 @@ export const de = {
     product: "So funktioniert es",
     proof: "Belege",
     vision: "Über die Produktion hinaus",
-    cta: "Verlorene Marge finden",
+    cta: "Kostenlos starten",
     chooseLanguage: "Sprache wählen",
     availableLanguages: "Verfügbare Sprachen",
   },
 
   hero: {
-    eyebrow: "Operative Intelligenz für Frischebetriebe",
+    eyebrow: "Operative Intelligenz für Frischebetriebe.",
     h1: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
-    copy: "Eclipsai beobachtet das Geschäft, erkennt, was sich ändern muss, handelt innerhalb Ihrer Vorgaben in Ihren Systemen und misst das Ergebnis in Geld.",
+    copy: "Eclipsai findet, wo Frischebetriebe Gewinn verlieren, setzt die Änderung um und belegt die finanzielle Wirkung. Es beginnt bei der Produktion und erweitert sich auf Bestellungen, Preise, Einkauf und Personal.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
-      "Führt Sonderbestellungen durch Produktion, Lieferung und Rechnungsstellung.",
-      "Prüft Lieferantenpreise, Produktkosten und Margen.",
+      "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",
+      "Meldet Preiserhöhungen von Lieferanten und Preise, die die Kosten nicht mehr decken.",
     ],
-    cta: "Verlorene Marge finden",
-    audience: "Entwickelt für wachsende Frischwaren-Betriebe mit 2 bis 20 Standorten.",
+    cta: "Kostenlos starten",
+    audience: "Für wachsende Frischebetriebe mit 2 bis 20 Standorten.",
   },
 
   problem: {
     eyebrow: "Was Inhaber wissen und Systeme übersehen",
-    h2: "Über morgen wird entschieden, bevor das Heute verstanden ist.",
-    lede: "In die Bestellung für morgen fliessen Restbestände, Sonderbestellungen, alte Durchschnittswerte und Erfahrung ein. Über Hunderte Entscheidungen pro Filiale × Produkt × Wochentag fällt der Gewinnentscheid bei Ladenschluss.",
+    h2: "Der Plan für morgen steht, bevor Verkäufe und Rückmeldungen aus der Filiale ihn noch ändern können.",
     steps: [
-      { time: "18:45", state: "time-1845", h3: "Zählen, was übrig ist", p: "Was nicht im Regal bleiben kann, landet in Überraschungstüten oder im Abfall und wird selten erfasst." },
-      { time: "19:00", state: "time-1900", h3: "Bestellung für morgen festlegen", p: "Durchschnittswerte, Vorlagen und Erinnerung konkurrieren um Aufmerksamkeit, während der Laden noch geputzt werden muss." },
+      { time: "18:45", state: "time-1845", h3: "Zählen, was übrig ist", p: "Was nicht im Regal bleiben kann, landet in Überraschungstüten oder im Abfall. Gezählt wird es selten erfasst." },
+      { time: "19:00", state: "time-1900", h3: "Bestellung für morgen festlegen", p: "Die Bestellung für morgen entsteht aus Durchschnittswerten, Vorlagen, Sonderbestellungen und Erfahrung, während der Laden noch geputzt werden muss." },
       { time: "02:00", state: "time-0200", h3: "Die Produktion beginnt", p: "Die Entscheidung von gestern wird zur verderblichen Ware von heute." },
-      { time: "11:40", state: "time-1140", h3: "Das Blech ist leer", p: "Es sieht nach Erfolg aus. Kunden fragen weiter danach." },
+      { time: "11:40", state: "time-1140", h3: "Das Blech ist leer", p: "Ein Ausverkauf kann heissen, dass der Plan stimmte, oder dass ein Verkauf entgangen ist. Die Kasse zeigt nicht, was von beidem." },
     ],
-    quote: "Die Kasse erfasst, was verkauft wurde. Nicht das leere Regal, die Reste oder die Frage an der Theke. Genau dort geht Marge verloren.",
+    quote: "Die Kasse erfasst, was verkauft wurde. Sie erfasst nicht, was übrig blieb, was ausverkauft war oder wonach Kunden fragten, als das Regal leer war. Genau dort geht Gewinn verloren.",
   },
 
   product: {
-    eyebrow: "Operative Intelligenz im Dauereinsatz",
-    h2: "Es beobachtet jede Filiale, jeden Tag. Es fragt nach, wenn es nötig ist.",
-    lede: "Eclipsai verbindet tägliche Verkäufe, Produktion, Lieferungen und das, was Ihr Team sieht. Wird eine Änderung getestet, fragt es die richtige Person, was passiert ist. Es bringt die lohnenden Entscheidungen in einen wöchentlichen Überblick und beantwortet Fragen jederzeit.",
+    eyebrow: "Operative Intelligenz im Einsatz",
+    h2: "Es beobachtet jede Filiale, jeden Tag. Es fragt nach, wenn die Daten nicht ausreichen.",
+    lede: "Eclipsai verbindet tägliche Verkäufe, Produktion, Lieferungen und das, was Ihr Team sieht. Wenn die Aufzeichnungen nicht erklären, was passiert ist, fragt es die Person, die es weiss. Es bringt die wenigen lohnenden Änderungen in den wöchentlichen Überblick und beantwortet Fragen, sobald sie auftauchen.",
     mediaLabel: "Beispiel: Eclipsai begleitet eine Produktionsentscheidung über einen vertrauten Teamkanal",
-    whatChanges: "Was sich ändert",
+    whatChanges: "So arbeitet Eclipsai",
     items: [
-      { n: "01", strong: "Erfasst, was gebraucht wird.", text: "Reste, Ausverkäufe und Kundenwünsche." },
-      { n: "02", strong: "Überwacht jede Filiale, jedes Produkt, jeden Tag.", text: "Findet Potenzial bei Abfall, Kosten und Verkäufen." },
-      { n: "03", strong: "Schlägt vor und antwortet.", text: "Zeigt die Änderungen, die sich nächste Woche lohnen, und beantwortet Fragen, wenn Sie sie stellen." },
-      { n: "04", strong: "Berichtet die Ergebnisse.", text: "Zeigt die Leistung der Filialen und misst die finanzielle Wirkung jeder Entscheidung gegenüber der Alternative." },
+      { strong: "Erfasst, was in den Daten fehlt", text: "Reste, Ausverkäufe, Kundenwünsche und den Kontext dahinter." },
+      { strong: "Findet, wo der Plan Gewinn verliert", text: "Über Filialen, Produkte und Tage hinweg." },
+      { strong: "Empfiehlt die nächste Änderung", text: "Zeigt, was zu ändern ist, warum, und was auf dem Spiel steht." },
+      { strong: "Belegt das Ergebnis", text: "Vergleicht jede Änderung finanziell mit dem Plan, den sie ersetzt hat." },
     ],
   },
 
   proof: {
     metadata: "Belege von einem Betrieb · 16 Monate",
     h2Before: "Wir haben bei einem Betrieb ein jährliches Gewinnpotenzial von ",
-    h2Value: "€40-60K",
+    h2Value: "€40–60K",
     h2After: " gefunden.",
-    lede: "Ein Frischwaren-Betrieb mit mehreren Standorten öffnete seine Daten. Wir verbanden Kassen- und Produktionssysteme und verfolgten jedes Produkt über jede Filiale und jeden Tag.",
+    lede: "Ein Frischebetrieb mit mehreren Standorten gab uns sechzehn Monate an Aufzeichnungen. Wir verbanden Kassen- und Produktionsdaten und glichen ab, was geliefert und was verkauft wurde, über Filialen, Produkte und Tage hinweg.",
     ledgerLabel: "Beleg-Journal eines Betriebs",
     rows: [
-      { index: "01", h3: "Wir haben jedes Stück verfolgt", value: "860'000", copy: "Sechzehn Monate Verkäufe und Lieferungen, abgeglichen zwischen Kasse und Produktion. 92 % aller Stücke erfasst." },
-      { index: "02", h3: "Wir haben gefunden, was nie verkauft wurde", ratioLabel: "Eines von vier Stücken wurde nie verkauft", value: "1 von 4", copy: "Eines von vier gelieferten Stücken wurde nie verkauft. Im Tagesgeschäft kaum sichtbar, über Produkte, Filialen und Wochentage hinweg unübersehbar." },
-      { index: "03", h3: "Wir haben das Potenzial beziffert", value: "€40-60K", copy: "Das realistische Jahrespotenzial konzentrierte sich auf veraltete, immer gleiche Produktionsmuster. Der gesamte Pool unverkaufter Zutaten lag bei €190K." },
-      { index: "04", h3: "Wir haben die Korrekturen getestet", value: "86 %", copy: "Wenn die stärkste Regel weniger Produktion empfahl, reichte das Regal in 86 von 100 Fällen trotzdem bis Ladenschluss." },
+      { h3: "analysierte Stück", value: "860'000", copy: "Sechzehn Monate Verkaufs- und Produktionsdaten. 92 % liessen sich zwischen beiden zuordnen." },
+      { h3: "gelieferte Stück unverkauft", ratioLabel: "Eines von vier gelieferten Stücken blieb unverkauft", value: "1 von 4", copy: "Das Muster konzentrierte sich auf bestimmte Filialen, Produkte und Wochentage." },
+      { h3: "Potenzial pro Jahr", value: "€40–60K", copy: "Wiederkehrende Produktionsmuster passten nicht mehr zur Nachfrage. Die Zutatenkosten aller unverkauften Stücke lagen bei €190K." },
+      { h3: "der Reduktionen deckten die Nachfrage", value: "86 %", copy: "Die stärkste historische Regel reduzierte ausgewählte Bestellungen, ohne dass die Ware ausging." },
     ],
     bridgeBefore: "Ein Teil des Abfalls schützt den Verkauf. Das Potenzial von ",
-    bridgeValue: "€40-60K",
-    bridgeAfter: " steckte in übermässigem Abfall, festgefahren in alten, immer gleichen Produktionsmustern.",
-    note: "Aus den Daten eines Betriebs mit mehreren Standorten, 2024 bis 2025. Spezifisch für dieses Geschäft, kein Versprechen.",
+    bridgeValue: "€40–60K",
+    bridgeAfter: " entstand durch wiederholte Überproduktion, nachdem sich die Nachfrage verändert hatte.",
+    note: "Aus den Aufzeichnungen eines Betriebs mit mehreren Standorten, 2024 bis 2025. Spezifisch für dieses Geschäft, kein Versprechen.",
     lessonHeading: "Was wir gelernt haben",
-    lessonBefore: "In unserem Test hat reines Forecasting ",
-    lessonStrong: "Geld verloren",
-    lessonAfter: ". Nachfrage bei kleinen Mengen schwankt stark, wichtiger Kontext liegt ausserhalb der Daten, und ein entgangener Verkauf kostet mehr als überschüssige Zutaten. Unser Ansatz ergänzt die Signale, die Prognosen fehlen, ändert nur die wenigen Entscheidungen, die sich lohnen, und misst jedes Ergebnis. Jede Woche, über jedes Produkt und jeden Standort.",
+    lessonParagraphs: [
+      "In unserer historischen Nachrechnung verlor es Geld, eine einzige Prognoseregel jede Produktionsbestellung bestimmen zu lassen. Sie senkte den Abfall, doch kleine Prognosefehler führten zu Ausverkäufen, deren entgangene Marge die eingesparten Zutaten überstieg.",
+      "Nachfrage bei kleinen Mengen schwankt stark. Die Aufzeichnungen enthalten nicht jeden lokalen Anlass und sagen nicht, was ein Ausverkauf bedeutete.",
+      "Eclipsai ergänzt die fehlenden Informationen, nimmt nur die wenigen Änderungen vor, die die Belege stützen, und misst die finanzielle Wirkung.",
+    ],
   },
 
   loop: {
     eyebrow: "Was wir tun",
-    h2: "So wird verlorene Marge zurückgewonnen.",
-    lede: "Der Kreislauf, der das Potenzial gefunden hat, kann dauerhaft über Ihre Filialen laufen.",
+    h2: "So entstehen bessere Entscheidungen.",
+    lede: "Derselbe Kreislauf kann den Gewinn in allen Ihren Filialen verbessern.",
     listLabel: "Entscheidungskreislauf",
     steps: [
-      { n: "01", b: "Beobachten.", p: "Verbindet tägliche Verkäufe, Produktion, Lieferungen und Signale aus dem Team." },
-      { n: "02", b: "Entscheiden.", p: "Erkennt die wenigen Entscheidungen, die sich zu ändern lohnen, und wägt Abfall gegen entgangene Verkäufe ab." },
-      { n: "03", b: "Handeln.", p: "Passt die Bestellung an oder erledigt den freigegebenen nächsten Schritt, innerhalb der vom Inhaber gesetzten Grenzen." },
-      { n: "04", b: "Messen.", p: "Prüft das Ergebnis anhand tatsächlicher Verkäufe und Kosten, in Geld." },
-      { n: "05", b: "Lernen.", p: "Behält Änderungen, die sich bewähren, und korrigiert jene, die es nicht tun." },
-      { n: "06", b: "Wachsam bleiben.", p: "Beobachtet weiter, damit alte Muster nicht leise zurückkehren." },
+      { b: "Erfassen", p: "Verbindet tägliche Verkäufe, Produktion, Lieferungen und das, was Ihr Team sieht." },
+      { b: "Entscheiden", p: "Erkennt die wenigen Entscheidungen, die sich zu ändern lohnen, und wägt Abfall gegen entgangene Verkäufe ab." },
+      { b: "Handeln", p: "Passt die Bestellung an oder führt den freigegebenen nächsten Schritt aus, innerhalb der vom Betrieb gesetzten Grenzen." },
+      { b: "Messen", p: "Prüft das Ergebnis finanziell anhand tatsächlicher Verkäufe und Kosten." },
+      { b: "Verbessern", p: "Behält Änderungen, die den Gewinn verbessern, und korrigiert jene, die es nicht tun." },
     ],
   },
 
@@ -101,13 +102,13 @@ export const de = {
     changeStrong: "130 weniger",
     changeSpan: "Einheiten Abfall",
     dotKey: "1 Punkt = 5 Einheiten",
-    ariaTitle: "Entscheidungs-Replay der Croissant-Produktion",
+    ariaTitle: "Entscheidungs-Nachrechnung der Croissant-Produktion",
     ariaDesc: "Vierzehn Tage Croissant-Verkäufe als blaue Punkte, Abfall bei der aktuellen Bestellung als orange Punkte und eine durchgezogene Linie für die vorgeschlagene Bestellung. Der Vorschlag hält 988 Verkäufe und senkt den Abfall von 319 auf 189 Einheiten.",
     days: ["M 23", "D 24", "M 25", "D 26", "F 27", "S 28", "S 29", "M 30", "D 1", "M 2", "D 3", "F 4", "S 5", "S 6"],
     legendSold: "Verkauft",
     legendWaste: "Abfall im aktuellen Plan",
     legendProposed: "Vorgeschlagene Bestellung",
-    tableLabel: "Ergebnisse des Entscheidungs-Replays",
+    tableLabel: "Ergebnisse der Entscheidungs-Nachrechnung",
     thPlan: "Plan",
     thSales: "Verkäufe",
     thWaste: "Abfall",
@@ -117,32 +118,29 @@ export const de = {
 
   vision: {
     eyebrow: "Über die Produktion hinaus",
-    h2: "Auf jede Entscheidung ausweiten, die den Gewinn bestimmt.",
+    h2: "Die nächsten Entscheidungen, die besser werden.",
     intro: "Die Produktion kommt zuerst, weil sich die Entscheidung täglich wiederholt und das Ergebnis schnell sichtbar wird.",
     pathLabel: "Ausbaupfad von Eclipsai",
     steps: [
-      { index: "01 · Jetzt", h3: "Produktion und Abfall", p: "Verkäufe schützen, ohne vermeidbaren Abfall zu wiederholen. Veraltete Produktionspläne korrigieren und jede Änderung in Geld messen." },
-      { index: "02 · Als Nächstes", h3: "Einkauf und Preise", p: "Lieferanten-Preiserhöhungen, schwache Margen und Preise erkennen, die die Kosten nicht mehr decken." },
-      { index: "03 · Danach", h3: "Personal und Betrieb", p: "Sehen, wann kleinere Chargen Abfall sparen, aber Arbeit kosten, oder wann Unterbesetzung Verkäufe kostet." },
-      { index: "04 · Beim Wachsen", h3: "Der nächste Standort", p: "Alles, was Eclipsai aus Ihren Filialen gelernt hat, auf die nächste übertragen." },
+      { index: "Start", h3: "Produktion und Abfall", p: "Verkäufe schützen und zugleich wiederholten, vermeidbaren Abfall senken. Produktionspläne anpassen, die nicht mehr zur Nachfrage passen." },
+      { index: "Als Nächstes", h3: "Einkauf und Preise", p: "Preiserhöhungen von Lieferanten melden und Preise, die die Kosten nicht mehr decken." },
+      { index: "Danach", h3: "Personal und Betrieb", p: "Sehen, wann kleinere Chargen Abfall sparen, aber Arbeit kosten, oder wann Unterbesetzung Verkäufe kostet." },
+      { index: "Beim Wachsen", h3: "Der nächste Standort", p: "Das, was in Ihren heutigen Filialen funktioniert, für die nächste nutzen." },
     ],
-    closing: "Entscheidung für Entscheidung hilft Eclipsai Ihnen, mehr von dem zu behalten, was Ihr Geschäft erwirtschaftet.",
   },
 
   offer: {
-    eyebrow: "In Ihren eigenen Filialen sehen",
-    h2: "Finden Sie die verlorene Marge, die sich zuerst zurückzuholen lohnt.",
-    copy: "Wir beginnen mit den Verkaufs- und Produktionsdaten, die Sie bereits haben. Wir finden wiederkehrenden Abfall, entgangene Verkäufe und Produktionspläne, die nicht mehr passen, und zeigen, was jedes davon in Geld wert ist.",
-    cardH3: "Ihre erste Auswertung",
+    h2: "Eclipsai unterstützt Sie bei den täglichen Entscheidungen, die über den Gewinn bestimmen.",
+    copy: "Es verbindet Verkäufe, Produktion und das, was Ihr Team sieht, findet die wenigen Entscheidungen, bei denen sich Handeln lohnt, und belegt das Ergebnis finanziell.",
+    cardH3: "Kostenlos starten",
     items: [
-      "Die Verluste, die sich zuerst zu beheben lohnen",
-      "Die Belege hinter jedem einzelnen",
-      "Das Potenzial in Geld",
-      "Die ersten umkehrbaren Änderungen zum Testen",
+      "Wo Sie Gewinn verlieren, Filiale für Filiale, über die Zeit",
+      "Bessere Produktionspläne, an vergangenen Daten getestet",
+      "Empfehlungen für die Bestellungen der nächsten Woche",
+      "Laufende Messung gegen den Plan, den Sie heute nutzen",
     ],
-    reassurance: "Kein neues System für Ihr Team. Nichts ändert sich, bevor die Belege eindeutig sind.",
-    audience: "Für wachsende Frischwaren-Betriebe mit 2 bis 20 Standorten.",
-    cta: "Verlorene Marge finden",
+    audience: "Für wachsende Frischebetriebe mit 2 bis 20 Standorten.",
+    cta: "Kostenlos starten",
   },
 
   faq: {
@@ -151,27 +149,27 @@ export const de = {
     items: [
       {
         q: "Sind wir ausverkauft, wenn wir weniger produzieren?",
-        a: "Eclipsai misst beide Risiken. Abfall kostet Zutaten, ein entgangener Verkauf kostet den Grossteil des Verkaufspreises. Wir schlagen kleine Änderungen vor und prüfen, was tatsächlich passiert ist, bevor der Standardplan geändert wird.",
+        a: "Eclipsai wägt beide Risiken ab. Ein entgangener Verkauf kann mehr kosten als die eingesparten Zutaten. Es schlägt eine kleinere Menge nur vor, wenn die Belege das stützen, und misst das Ergebnis danach gegen den Plan, den es ersetzt hat.",
       },
       {
         q: "Unser System empfiehlt bereits Mengen. Was ist anders?",
-        a: "Die meisten Systeme liefern eine Prognose oder eine Bestellempfehlung. Eclipsai erfasst zusätzlich, was das Team sieht, schlägt die Entscheidungen vor, die sich zu ändern lohnen, und misst, ob jede Änderung Geld gebracht oder gekostet hat.",
+        a: "Eclipsai behält den aktuellen Plan als Ausgangsbasis, ergänzt, was in den Daten fehlt, und zeigt nur dort eine andere Bestellung, wo die Belege sie stützen. Danach misst es das Ergebnis finanziell.",
       },
       {
         q: "Wie viel Arbeit hat das Team damit?",
-        a: "Sehr wenig. Eclipsai nutzt die Daten, die Sie bereits haben, und stellt kurze, gezielte Fragen nur dann, wenn ein wichtiges Signal fehlt, etwa ein Ausverkauf, ungewöhnliche Reste oder ein lokaler Anlass.",
+        a: "Eclipsai arbeitet mit den Verkaufs- und Produktionsdaten. Es stellt dem Team nur dann eine kurze Frage, wenn die Aufzeichnungen nicht erklären, was passiert ist, etwa bei einem Ausverkauf, ungewöhnlichen Resten oder einem lokalen Anlass.",
       },
       {
         q: "Was, wenn unsere Daten unordentlich sind?",
-        a: "Das ist normal. Wir gleichen ab, was verlässlich ist, benennen die Lücken und zeigen, was die Belege tragen, bevor wir eine Änderung empfehlen.",
+        a: "Wir gleichen die Aufzeichnungen ab, denen man trauen kann, und machen die Lücken sichtbar. Tragen die Daten keine Empfehlung, fragt Eclipsai nach Kontext oder lässt den Plan unverändert.",
       },
       {
         q: "Müssen wir alle Filialen auf einmal umstellen?",
-        a: "Nein. Wir beginnen mit kleinen, umkehrbaren Änderungen für bestimmte Produkte und Standorte. Eine Änderung wird erst ausgeweitet, wenn das Ergebnis dafür spricht.",
+        a: "Nein. Wir beginnen bei den Filial-Produkt-Kombinationen mit der stärksten Beleglage. Das Ergebnis dort nutzen wir, bevor wir dieselbe Regel anderswo anwenden.",
       },
       {
         q: "Wie rechnen Sie ab?",
-        a: "Eine monatliche Gebühr pro Standort. Der Umfang richtet sich nach der Anzahl der Filialen, Systeme und überwachten Entscheidungen.",
+        a: "Der Start ist kostenlos. Wenn Sie weitermachen, berechnen wir eine monatliche Gebühr pro Standort, je nach Filialen, Systemen und überwachten Entscheidungen.",
       },
     ],
   },
@@ -183,7 +181,7 @@ export const de = {
 
   meta: {
     title: "Eclipsai | Operative Intelligenz für Frischebetriebe",
-    description: "Eclipsai hilft wachsenden Frischwaren-Betrieben zu entscheiden, was morgen produziert wird, Abfall zu senken und jede Änderung in Geld zu messen.",
+    description: "Eclipsai unterstützt Frischebetriebe bei den täglichen Entscheidungen, die über den Gewinn bestimmen, beginnend bei der Produktion für morgen.",
     ogDescription: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
   },
 };

@@ -17,7 +17,7 @@ import { ImageResponse } from "next/og";
 import { OG_SIZE } from "./_og/card.jsx";
 
 export const runtime = "nodejs";
-export const alt = "Eclipsai — The profit brain for fresh food";
+export const alt = "Eclipsai. The profit brain for fresh food.";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 

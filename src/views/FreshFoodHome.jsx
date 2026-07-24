@@ -52,8 +52,8 @@ const dmMono = DM_Mono({
 
 const ASSETS = "/assets/fresh-food";
 
-// Every "Find the profit leak" CTA (nav, hero, offer card) opens the
-// discovery-call booking page. No email is published on the site.
+// Every "Start free" CTA (nav, hero, offer card) opens the discovery-call
+// booking page. No email is published on the site.
 const CALENDLY_URL = "https://calendly.com/chip-alexandru/discovery-call";
 
 // In-page anchors that are preserved when switching language (/#proof →
@@ -338,7 +338,6 @@ export function FreshFoodHome({ content }) {
             <div>
               <p className="eyebrow reveal">{c.problem.eyebrow}</p>
               <h2 className="reveal">{c.problem.h2}</h2>
-              <p className="lede reveal">{c.problem.lede}</p>
               <div className="steps reveal">
                 {c.problem.steps.map((step, i) => (
                   <div
@@ -380,8 +379,7 @@ export function FreshFoodHome({ content }) {
                 <p className="eyebrow">{c.product.whatChanges}</p>
                 <ul className="number-list">
                   {c.product.items.map((item) => (
-                    <li key={item.n}>
-                      <span>{item.n}</span>
+                    <li key={item.strong}>
                       <div>
                         <strong>{item.strong}</strong>
                         {item.text}
@@ -409,8 +407,7 @@ export function FreshFoodHome({ content }) {
             </div>
             <div className="evidence-ledger" aria-label={c.proof.ledgerLabel}>
               {c.proof.rows.map((row) => (
-                <article key={row.index} className="evidence-row">
-                  <span className="evidence-index">{row.index}</span>
+                <article key={row.h3} className="evidence-row">
                   <h3>
                     {row.h3}
                     {row.ratioLabel ? (
@@ -439,9 +436,9 @@ export function FreshFoodHome({ content }) {
             <div className="lesson reveal">
               <h3>{c.proof.lessonHeading}</h3>
               <div className="lesson-text">
-                {c.proof.lessonBefore}
-                <strong>{c.proof.lessonStrong}</strong>
-                {c.proof.lessonAfter}
+                {c.proof.lessonParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
             </div>
           </div>
@@ -452,14 +449,16 @@ export function FreshFoodHome({ content }) {
             <p className="eyebrow reveal">{c.loop.eyebrow}</p>
             <h2 className="reveal">{c.loop.h2}</h2>
             <p className="lede reveal">{c.loop.lede}</p>
-            <div className="loop-line reveal" aria-label={c.loop.listLabel}>
+            {/* Five unnumbered stages. The trailing .loop-return rule is a
+                restrained visual hint that Improve feeds back into Capture. */}
+            <div className="loop-line loop-cycle reveal" aria-label={c.loop.listLabel}>
               {c.loop.steps.map((step) => (
-                <div key={step.n} className="loop-step">
-                  <span>{step.n}</span>
+                <div key={step.b} className="loop-step">
                   <b>{step.b}</b>
                   <p>{step.p}</p>
                 </div>
               ))}
+              <span className="loop-return" aria-hidden="true" />
             </div>
             <div className="replay-artifact reveal">
               <div className="replay-head">
@@ -528,14 +527,12 @@ export function FreshFoodHome({ content }) {
                 </article>
               ))}
             </div>
-            <p className="loop-close-line conclusion">{c.vision.closing}</p>
           </div>
         </section>
 
         <section className="section offer" id="start">
           <div className="wrap offer-grid">
             <div>
-              <p className="eyebrow reveal">{c.offer.eyebrow}</p>
               <h2 className="reveal">{c.offer.h2}</h2>
               <p className="offer-copy reveal">{c.offer.copy}</p>
             </div>
@@ -546,7 +543,6 @@ export function FreshFoodHome({ content }) {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <p className="offer-reassurance">{c.offer.reassurance}</p>
               <p className="offer-audience">{c.offer.audience}</p>
               <a className="button" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                 {c.offer.cta}
