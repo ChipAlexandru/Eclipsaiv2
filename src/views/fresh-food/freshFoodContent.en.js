@@ -5,10 +5,8 @@
 // build rather than silently falling back to English).
 //
 // Evidence values (860,000 · 92% · 1 in 4 · €40–60K · €190K · 86% ·
-// 988/319/189/130 · 2024 to 2025) are fixed data; only the surrounding
-// language and ordinary number formatting localize. The replay day labels are
-// display labels — the sales/order data arrays live in FreshFoodHome.jsx and
-// are shared by every locale.
+// 2024 to 2025) are fixed data; only the surrounding language and ordinary
+// number formatting localize.
 
 export const en = {
   locale: "en",
@@ -20,7 +18,7 @@ export const en = {
     product: "How it works",
     proof: "Evidence",
     vision: "Beyond production",
-    cta: "Start free",
+    cta: "Book a call",
     chooseLanguage: "Choose language",
     availableLanguages: "Available languages",
   },
@@ -34,13 +32,13 @@ export const en = {
       "Monitors special orders through delivery and invoicing.",
       "Flags supplier price rises and prices that no longer cover costs.",
     ],
-    cta: "Start free",
+    cta: "Book a 20-minute call",
     audience: "For growing fresh-food operators with 2 to 20 locations.",
   },
 
   problem: {
     eyebrow: "What owners know and systems miss",
-    h2: "Tomorrow's plan is set before sales and shop feedback can change it.",
+    h2: "Tomorrow's production plan is set before today's sales and shop feedback can inform it.",
     steps: [
       { time: "18:45", state: "time-1845", h3: "Count what is left", p: "What cannot stay on the shelf goes into surprise bags or the bin. The count is rarely recorded." },
       { time: "19:00", state: "time-1900", h3: "Set tomorrow's order", p: "Tomorrow's order is set from averages, templates, special orders, and experience while the shop still needs cleaning." },
@@ -53,14 +51,14 @@ export const en = {
   product: {
     eyebrow: "The profit brain at work",
     h2: "It watches every shop, every day. It asks when the data is not enough.",
-    lede: "Eclipsai connects daily sales, production, deliveries, and what your team sees. When the records do not explain what happened, it asks the person who knows. It brings the few changes worth making into the weekly review and answers questions as they arise.",
+    lede: "Eclipsai connects sales, production, ordering, and invoicing systems with email, team chats, and relevant external data. When the data cannot explain what happened, it asks staff a targeted question. They can answer with text, photos, or voice notes.",
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
     items: [
-      { strong: "Captures what the records miss", text: "Leftovers, sell-outs, customer requests, and the context behind them." },
-      { strong: "Finds where the plan is losing profit", text: "Across shops, products, and days." },
-      { strong: "Recommends the next change", text: "Shows what to change, why, and what is at stake." },
-      { strong: "Proves the result", text: "Compares each change with the plan it replaced, in cash." },
+      { strong: "Finds the few changes worth making", text: "Across shops, products, and days, it weighs waste against missed sales." },
+      { strong: "Makes daily recommendations", text: "The owner sees the recommended quantity, reason, and expected profit impact." },
+      { strong: "Reviews the results each week", text: "The weekly review shows which changes improved profit and which should become the standing plan." },
+      { strong: "Implements proven decisions", text: "The owner approves each change initially. Once a decision type proves reliable, the product updates the production plan within owner-set limits and measures the profit improvement over the old plan." },
     ],
   },
 
@@ -75,7 +73,7 @@ export const en = {
       { h3: "pieces analysed", value: "860,000", copy: "Sixteen months of sales and production records. We matched 92% between the two." },
       { h3: "delivered pieces unsold", ratioLabel: "One in four delivered pieces went unsold", value: "1 in 4", copy: "The pattern concentrated in particular shops, products, and weekdays." },
       { h3: "annual opportunity", value: "€40–60K", copy: "Recurring production patterns no longer matched demand. The ingredient cost of all unsold pieces was €190K." },
-      { h3: "of reductions covered demand", value: "86%", copy: "The strongest historical rule reduced selected orders without running out." },
+      { h3: "suggested cuts with positive estimated net value", value: "86%", copy: "Ingredient savings exceeded the full margin of any sale the cut might have missed. The cuts were net positive in all nine months tested." },
     ],
     bridgeBefore: "Some waste protects sales. The ",
     bridgeValue: "€40–60K",
@@ -89,43 +87,10 @@ export const en = {
     ],
   },
 
-  loop: {
-    eyebrow: "What we do",
-    h2: "How better decisions get made.",
-    lede: "The same loop can improve profit across your shops.",
-    listLabel: "Decision loop",
-    steps: [
-      { b: "Capture", p: "Connects daily sales, production, deliveries, and what your team sees." },
-      { b: "Decide", p: "Identifies the few decisions worth changing and weighs waste against missed sales." },
-      { b: "Act", p: "Updates the order or carries out the approved next step, within limits set by the operator." },
-      { b: "Measure", p: "Checks the result against actual sales and costs, in cash." },
-      { b: "Improve", p: "Keeps changes that improve cash and corrects those that do not." },
-    ],
-  },
-
-  replay: {
-    title: "Proposed croissant orders for 7-13 July",
-    changeStrong: "130 fewer",
-    changeSpan: "units wasted",
-    dotKey: "1 dot = 5 units",
-    ariaTitle: "Croissant production decision replay",
-    ariaDesc: "Fourteen days of croissant sales shown in blue dots, waste under the current order shown in orange dots and a solid proposed order line. The proposal keeps 988 sales while reducing waste from 319 to 189 units.",
-    days: ["M 23", "T 24", "W 25", "T 26", "F 27", "S 28", "S 29", "M 30", "T 1", "W 2", "T 3", "F 4", "S 5", "S 6"],
-    legendSold: "Sold",
-    legendWaste: "Waste under current",
-    legendProposed: "Proposed order",
-    tableLabel: "Decision replay results",
-    thPlan: "Plan",
-    thSales: "Sales",
-    thWaste: "Waste",
-    rowCurrent: "Current",
-    rowProposed: "Proposed",
-  },
-
   vision: {
     eyebrow: "Beyond production",
     h2: "The next decisions to improve.",
-    intro: "Production comes first because the decision repeats every day and the result is visible quickly.",
+    intro: "Once connected to the company's systems and communication channels, Eclipsai can add the information needed for each new decision, implement the change, and measure the result.",
     pathLabel: "Eclipsai expansion path",
     steps: [
       { index: "Start", h3: "Production and waste", p: "Protect sales while cutting repeated, avoidable waste. Update production plans that no longer match demand." },
@@ -136,7 +101,7 @@ export const en = {
   },
 
   offer: {
-    h2: "Eclipsai helps you make the daily decisions that decide profit.",
+    h2: "Eclipsai makes the daily decisions that run a food business.",
     copy: "It connects sales, production, and what your team sees to find the few decisions worth acting on and prove the result in cash.",
     cardH3: "Start free",
     items: [
@@ -146,7 +111,7 @@ export const en = {
       "Live measurement against the plan you use today",
     ],
     audience: "For growing fresh-food operators with 2 to 20 locations.",
-    cta: "Start free",
+    cta: "Book a 20-minute call",
   },
 
   faq: {
@@ -159,7 +124,7 @@ export const en = {
       },
       {
         q: "Our system already recommends quantities. What is different?",
-        a: "Eclipsai keeps the current plan as the baseline, adds what the records miss, and shows only where the evidence supports a different order. Then it measures the result in cash.",
+        a: "Eclipsai keeps the current plan as the baseline, adds what the records miss, and shows only where the evidence supports a different order. Once approved, it can implement the change in the production system and measure the result in cash.",
       },
       {
         q: "How much work does the team have to do?",
@@ -175,7 +140,7 @@ export const en = {
       },
       {
         q: "How do you charge?",
-        a: "Starting is free. If you continue, we charge a monthly fee per location based on the shops, systems, and decisions monitored.",
+        a: "Starting is free. If you continue, we charge a monthly subscription based on the number of locations and decision areas monitored.",
       },
     ],
   },
@@ -187,7 +152,7 @@ export const en = {
 
   meta: {
     title: "Eclipsai | The profit brain for fresh food",
-    description: "Eclipsai helps fresh-food operators make the daily decisions that decide profit, starting with tomorrow's production.",
+    description: "Eclipsai makes the daily decisions that run a fresh-food business, starting with what to make tomorrow.",
     ogDescription: "Know what to make tomorrow. Waste less. Sell more.",
   },
 };

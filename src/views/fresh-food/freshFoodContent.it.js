@@ -14,7 +14,7 @@ export const it = {
     product: "Come funziona",
     proof: "Le prove",
     vision: "Oltre la produzione",
-    cta: "Inizia gratis",
+    cta: "Prenota una chiamata",
     chooseLanguage: "Scegli la lingua",
     availableLanguages: "Lingue disponibili",
   },
@@ -28,13 +28,13 @@ export const it = {
       "Segue gli ordini speciali fino a consegna e fatturazione.",
       "Segnala i rincari dei fornitori e i prezzi che non coprono più i costi.",
     ],
-    cta: "Inizia gratis",
+    cta: "Prenota una chiamata di 20 minuti",
     audience: "Per aziende del fresco in crescita, da 2 a 20 punti vendita.",
   },
 
   problem: {
     eyebrow: "Quello che i titolari sanno e i sistemi non vedono",
-    h2: "Il piano di domani si decide prima che vendite e segnalazioni dal punto vendita possano correggerlo.",
+    h2: "Il piano di produzione di domani viene definito prima che si possano considerare le vendite di oggi e le osservazioni del personale nei punti vendita.",
     steps: [
       { time: "18:45", state: "time-1845", h3: "Contare cosa resta", p: "Ciò che non può restare sullo scaffale finisce nei sacchetti sorpresa o nel bidone. Il conteggio quasi mai viene registrato." },
       { time: "19:00", state: "time-1900", h3: "Fissare l'ordine di domani", p: "L'ordine di domani nasce da medie, modelli, ordini speciali ed esperienza, mentre il negozio è ancora da pulire." },
@@ -47,14 +47,14 @@ export const it = {
   product: {
     eyebrow: "Intelligenza operativa al lavoro",
     h2: "Osserva ogni punto vendita, ogni giorno. Chiede quando i dati non bastano.",
-    lede: "Eclipsai collega vendite giornaliere, produzione, consegne e ciò che vede il vostro team. Quando i dati non spiegano cosa è successo, lo chiede a chi lo sa. Porta i pochi cambiamenti che contano nella revisione settimanale e risponde alle domande man mano che emergono.",
+    lede: "Eclipsai collega i sistemi di vendita, produzione, ordini e fatturazione con e-mail, chat di lavoro e dati esterni rilevanti. Quando i dati non spiegano cosa è successo, pone al personale una domanda mirata. Le risposte possono arrivare via testo, foto o messaggio vocale.",
     mediaLabel: "Esempio: Eclipsai segue una decisione di produzione in un canale di team già familiare",
     whatChanges: "Come lavora Eclipsai",
     items: [
-      { strong: "Raccoglie ciò che i dati non dicono", text: "Avanzi, esauriti, richieste dei clienti e il contesto che li spiega." },
-      { strong: "Individua dove il piano perde profitto", text: "Per punto vendita, prodotto e giorno." },
-      { strong: "Consiglia il prossimo cambiamento", text: "Mostra cosa cambiare, perché e cosa è in gioco." },
-      { strong: "Dimostra il risultato", text: "Confronta ogni cambiamento con il piano che ha sostituito, in termini economici." },
+      { strong: "Individua i pochi cambiamenti che vale la pena fare", text: "Per punto vendita, prodotto e giorno, soppesa gli sprechi rispetto alle vendite perse." },
+      { strong: "Formula raccomandazioni quotidiane", text: "Il titolare vede la quantità raccomandata, il motivo e l'impatto atteso sul profitto." },
+      { strong: "Rivede i risultati ogni settimana", text: "La revisione settimanale mostra quali cambiamenti hanno migliorato il profitto e quali dovrebbero entrare nel piano standard." },
+      { strong: "Applica le decisioni che hanno dimostrato di funzionare", text: "All'inizio il titolare approva ogni cambiamento. Quando un tipo di raccomandazione si dimostra affidabile, il prodotto aggiorna il piano di produzione entro i limiti stabiliti dal titolare e misura il miglioramento del profitto rispetto al vecchio piano." },
     ],
   },
 
@@ -69,7 +69,7 @@ export const it = {
       { h3: "unità analizzate", value: "860.000", copy: "Sedici mesi di dati di vendita e produzione. Ne abbiamo riconciliato il 92% tra i due sistemi." },
       { h3: "unità consegnate invendute", ratioLabel: "Una unità consegnata su quattro è rimasta invenduta", value: "1 su 4", copy: "Il fenomeno si concentrava su punti vendita, prodotti e giorni della settimana precisi." },
       { h3: "di opportunità annua", value: "40–60 mila euro", copy: "Schemi di produzione ricorrenti non corrispondevano più alla domanda. Il costo degli ingredienti di tutte le unità invendute era di €190K." },
-      { h3: "delle riduzioni ha coperto la domanda", value: "86%", copy: "La regola storica più solida riduceva ordini mirati senza far mancare il prodotto." },
+      { h3: "riduzioni proposte con valore netto stimato positivo", value: "86%", copy: "Il risparmio sugli ingredienti superava l'intero margine di ogni eventuale vendita persa. Le riduzioni hanno avuto un valore netto positivo in tutti i nove mesi testati." },
     ],
     bridgeBefore: "Una parte dello spreco protegge le vendite. L'opportunità da ",
     bridgeValue: "40–60 mila euro",
@@ -83,43 +83,10 @@ export const it = {
     ],
   },
 
-  loop: {
-    eyebrow: "Cosa facciamo",
-    h2: "Come nascono decisioni migliori.",
-    lede: "Lo stesso ciclo può migliorare il profitto in tutti i vostri punti vendita.",
-    listLabel: "Ciclo decisionale",
-    steps: [
-      { b: "Raccogliere", p: "Collega vendite giornaliere, produzione, consegne e ciò che vede il vostro team." },
-      { b: "Decidere", p: "Individua le poche decisioni che vale la pena cambiare e soppesa gli sprechi rispetto alle vendite perse." },
-      { b: "Agire", p: "Aggiorna l'ordine o esegue il passo approvato, entro i limiti definiti dall'azienda." },
-      { b: "Misurare", p: "Verifica il risultato su vendite e costi reali, in termini economici." },
-      { b: "Migliorare", p: "Mantiene i cambiamenti che migliorano il risultato e corregge gli altri." },
-    ],
-  },
-
-  replay: {
-    title: "Ordini di croissant proposti dal 7 al 13 luglio",
-    changeStrong: "130 in meno",
-    changeSpan: "unità sprecate",
-    dotKey: "1 punto = 5 unità",
-    ariaTitle: "Simulazione della decisione di produzione dei croissant",
-    ariaDesc: "Quattordici giorni di vendite di croissant in punti blu, gli scarti con l'ordine attuale in punti arancioni e una linea continua per l'ordine proposto. La proposta mantiene 988 vendite e riduce gli scarti da 319 a 189 unità.",
-    days: ["L 23", "M 24", "M 25", "G 26", "V 27", "S 28", "D 29", "L 30", "M 1", "M 2", "G 3", "V 4", "S 5", "D 6"],
-    legendSold: "Venduto",
-    legendWaste: "Scarti con il piano attuale",
-    legendProposed: "Ordine proposto",
-    tableLabel: "Risultati della simulazione decisionale",
-    thPlan: "Piano",
-    thSales: "Vendite",
-    thWaste: "Scarti",
-    rowCurrent: "Attuale",
-    rowProposed: "Proposto",
-  },
-
   vision: {
     eyebrow: "Oltre la produzione",
     h2: "Le prossime decisioni da migliorare.",
-    intro: "La produzione viene prima perché la decisione si ripete ogni giorno e il risultato si vede in fretta.",
+    intro: "Dopo il collegamento ai sistemi e ai canali di comunicazione dell'azienda, Eclipsai può aggiungere le informazioni necessarie a ogni nuova decisione, applicare il cambiamento e misurarne il risultato.",
     pathLabel: "Percorso di espansione di Eclipsai",
     steps: [
       { index: "Inizio", h3: "Produzione e sprechi", p: "Proteggere le vendite riducendo gli sprechi ripetuti ed evitabili. Correggere i piani di produzione che non corrispondono più alla domanda." },
@@ -130,7 +97,7 @@ export const it = {
   },
 
   offer: {
-    h2: "Eclipsai vi aiuta a prendere le decisioni quotidiane che determinano il profitto.",
+    h2: "Eclipsai prende le decisioni quotidiane che fanno funzionare un'attività alimentare.",
     copy: "Collega vendite, produzione e ciò che vede il vostro team per trovare le poche decisioni su cui vale la pena agire e dimostrarne il risultato economico.",
     cardH3: "Inizia gratis",
     items: [
@@ -140,7 +107,7 @@ export const it = {
       "Misurazione continua rispetto al piano che usate oggi",
     ],
     audience: "Per aziende del fresco in crescita, da 2 a 20 punti vendita.",
-    cta: "Inizia gratis",
+    cta: "Prenota una chiamata di 20 minuti",
   },
 
   faq: {
@@ -153,7 +120,7 @@ export const it = {
       },
       {
         q: "Il nostro sistema consiglia già le quantità. Cosa cambia?",
-        a: "Eclipsai mantiene il piano attuale come riferimento, aggiunge ciò che manca nei dati e propone un ordine diverso solo dove le prove lo sostengono. Poi ne misura il risultato economico.",
+        a: "Eclipsai mantiene il piano attuale come riferimento, aggiunge ciò che manca nei dati e propone un ordine diverso solo dove le prove lo sostengono. Una volta approvato, può applicare il cambiamento nel sistema di produzione e misurarne l'impatto economico.",
       },
       {
         q: "Quanto lavoro richiede al team?",
@@ -169,7 +136,7 @@ export const it = {
       },
       {
         q: "Come vi fate pagare?",
-        a: "Iniziare è gratis. Se proseguite, applichiamo un canone mensile per punto vendita, in base a negozi, sistemi e decisioni monitorate.",
+        a: "Iniziare è gratis. Se proseguite, applichiamo un abbonamento mensile basato sul numero di punti vendita e sulle aree decisionali monitorate.",
       },
     ],
   },
@@ -181,7 +148,7 @@ export const it = {
 
   meta: {
     title: "Eclipsai | Intelligenza operativa per il fresco",
-    description: "Eclipsai aiuta le aziende del fresco a prendere le decisioni quotidiane che determinano il profitto, a partire dalla produzione di domani.",
+    description: "Eclipsai prende le decisioni quotidiane che fanno funzionare un'attività alimentare, a partire da cosa produrre domani.",
     ogDescription: "Sapere cosa produrre domani. Meno sprechi. Più vendite.",
   },
 };

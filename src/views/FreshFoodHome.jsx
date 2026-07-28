@@ -8,8 +8,7 @@
 // "/fr", "/it", "/ro") pass a validated content dictionary (see
 // fresh-food/locales.js — a missing translation key fails the build). All
 // user-visible and accessibility-facing strings render from that dictionary;
-// the wrapper carries lang={content.locale}. Evidence numbers in the replay
-// chart live below as shared data arrays — locales translate labels only.
+// the wrapper carries lang={content.locale}.
 //
 // The language selector is the approved details/summary disclosure from the
 // mock: real links (work without JavaScript), locale names in their own
@@ -52,68 +51,13 @@ const dmMono = DM_Mono({
 
 const ASSETS = "/assets/fresh-food";
 
-// Every "Start free" CTA (nav, hero, offer card) opens the discovery-call
-// booking page. No email is published on the site.
+// Every CTA (nav, hero, offer card) opens the discovery-call booking page.
+// No email is published on the site.
 const CALENDLY_URL = "https://calendly.com/chip-alexandru/discovery-call";
 
 // In-page anchors that are preserved when switching language (/#proof →
 // /de#proof). The locale URL itself stays the source of truth.
 const SECTION_HASHES = new Set(["#top", "#problem", "#product", "#proof", "#vision", "#start"]);
-
-// ─── Replay chart (flagship artifact) ────────────────────────────────
-// Same data and geometry as the reference script, shared across locales.
-// Dots: 1 dot = 5 units; sold cobalt, waste-under-current persimmon, proposed
-// order line eclipse ink. Reconciliation (sum over days): sales 988;
-// max(0, current−sales) = 319; max(0, proposed−sales) = 189; delta 130 fewer.
-const SALES = [61, 74, 81, 63, 59, 70, 88, 62, 78, 72, 82, 79, 65, 54];
-const CURRENT = [85, 85, 97, 85, 125, 90, 85, 85, 85, 97, 85, 125, 90, 85];
-const PROPOSED = [68, 83, 84, 85, 100, 82, 85, 68, 83, 84, 85, 100, 82, 85];
-
-function ReplayChart({ replay }) {
-  const left = 58;
-  const right = 952;
-  const top = 16;
-  const bottom = 286;
-  const max = 130;
-  const x = (index) => left + index * ((right - left) / (replay.days.length - 1));
-  const y = (value) => bottom - (value / max) * (bottom - top);
-
-  const gridTicks = [0, 50, 100, 125];
-  const proposedPoints = PROPOSED.map((value, index) => `${x(index)},${y(value)}`).join(" ");
-
-  return (
-    <svg className="replay-chart" viewBox="0 0 980 340" role="img" aria-labelledby="replay-title replay-desc">
-      <title id="replay-title">{replay.ariaTitle}</title>
-      <desc id="replay-desc">{replay.ariaDesc}</desc>
-      {gridTicks.map((tick) => (
-        <line key={`grid-${tick}`} className="grid" x1={left} x2={right} y1={y(tick)} y2={y(tick)} />
-      ))}
-      {gridTicks.map((tick) => (
-        <text key={`tick-${tick}`} className="axis-label" x={left - 12} y={y(tick) + 4} textAnchor="end">
-          {tick}
-        </text>
-      ))}
-      {replay.days.map((day, index) => {
-        const soldDots = Math.round(SALES[index] / 5);
-        const wasteDots = Math.max(0, Math.round((CURRENT[index] - SALES[index]) / 5));
-        return (
-          <g key={`${day}-${index}`}>
-            {Array.from({ length: soldDots }, (_, dot) => (
-              <circle key={`s-${dot}`} className="sold" cx={x(index)} cy={y((dot + 0.5) * 5)} r="4.4" />
-            ))}
-            {Array.from({ length: wasteDots }, (_, dot) => (
-              <circle key={`w-${dot}`} className="waste" cx={x(index)} cy={y((soldDots + dot + 0.5) * 5)} r="4.4" />
-            ))}
-            <text className="day-label" x={x(index)} y={318} textAnchor="middle">
-              {day}
-            </text>
-          </g>
-        );
-      })}
-      <polyline className="proposed-line" points={proposedPoints} />
-    </svg>
-  );
-}
 
 // ─── Language selector ───────────────────────────────────────────────
 // Native <details> disclosure so language links work without JavaScript.
@@ -440,75 +384,6 @@ export function FreshFoodHome({ content }) {
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section loop-section">
-          <div className="wrap">
-            <p className="eyebrow reveal">{c.loop.eyebrow}</p>
-            <h2 className="reveal">{c.loop.h2}</h2>
-            <p className="lede reveal">{c.loop.lede}</p>
-            {/* Five unnumbered stages. The trailing .loop-return rule is a
-                restrained visual hint that Improve feeds back into Capture. */}
-            <div className="loop-line loop-cycle reveal" aria-label={c.loop.listLabel}>
-              {c.loop.steps.map((step) => (
-                <div key={step.b} className="loop-step">
-                  <b>{step.b}</b>
-                  <p>{step.p}</p>
-                </div>
-              ))}
-              <span className="loop-return" aria-hidden="true" />
-            </div>
-            <div className="replay-artifact reveal">
-              <div className="replay-head">
-                <div>
-                  <h3>{c.replay.title}</h3>
-                </div>
-                <div className="replay-change">
-                  <strong>{c.replay.changeStrong}</strong>
-                  <span>{c.replay.changeSpan}</span>
-                </div>
-              </div>
-              <div className="replay-plot-head">
-                <span>{c.replay.dotKey}</span>
-              </div>
-              <ReplayChart replay={c.replay} />
-              <div className="replay-legend" aria-hidden="true">
-                <span>
-                  <i className="legend-dot sold"></i>
-                  {c.replay.legendSold}
-                </span>
-                <span>
-                  <i className="legend-dot waste"></i>
-                  {c.replay.legendWaste}
-                </span>
-                <span>
-                  <i className="legend-line"></i>
-                  {c.replay.legendProposed}
-                </span>
-              </div>
-              <table className="replay-results" aria-label={c.replay.tableLabel}>
-                <thead>
-                  <tr>
-                    <th>{c.replay.thPlan}</th>
-                    <th>{c.replay.thSales}</th>
-                    <th>{c.replay.thWaste}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>{c.replay.rowCurrent}</th>
-                    <td>988</td>
-                    <td>319</td>
-                  </tr>
-                  <tr>
-                    <th>{c.replay.rowProposed}</th>
-                    <td>988</td>
-                    <td>189</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </section>

@@ -380,67 +380,6 @@
 .ffh .lesson-text { font-size: 19px; line-height: 1.65; }
 .ffh .lesson-text strong { color: var(--waste); font-weight: 600; }
 
-.ffh .loop-section { background: var(--paper); }
-.ffh .loop-line {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  margin-top: 65px;
-  border-top: 1px solid var(--ink);
-}
-.ffh .loop-step { position: relative; padding: 23px 14px 0 0; }
-.ffh .loop-step::before { content: ""; position: absolute; width: 8px; height: 8px; top: -5px; left: 0; border-radius: 50%; background: var(--ink); }
-.ffh .loop-step b { display: block; font: 500 18px var(--serif); }
-/* Cycle hint: a hairline return path under the row, from Improve back to
-   Capture. Restrained and decorative only; the stages carry the meaning. */
-.ffh .loop-cycle { position: relative; padding-bottom: 22px; }
-.ffh .loop-return {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  bottom: 6px;
-  height: 10px;
-  border: 1px dashed rgba(36,34,41,.32);
-  border-top: 0;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-.ffh .loop-return::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: -3px;
-  width: 7px;
-  height: 7px;
-  border-left: 1px solid rgba(36,34,41,.5);
-  border-top: 1px solid rgba(36,34,41,.5);
-  transform: rotate(45deg);
-}
-.ffh .loop-step p { margin: 11px 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
-.ffh .loop-close-line { margin-top: 45px; font: 400 34px/1.15 var(--serif); }
-.ffh .replay-artifact { margin-top: 70px; padding: 34px; border: 1px solid var(--line); background: rgba(239,238,231,.78); }
-.ffh .replay-head { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; }
-.ffh .replay-head h3 { max-width: 660px; margin: 0; font: 400 34px/1.08 var(--serif); letter-spacing: -.03em; }
-.ffh .replay-change { text-align: right; }
-.ffh .replay-change strong { display: block; font: 400 34px/1 var(--serif); }
-.ffh .replay-change span { display: block; margin-top: 6px; color: var(--muted); font: 500 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.ffh .replay-plot-head { display: flex; justify-content: flex-end; margin-top: 26px; color: var(--muted); font-size: 11px; }
-.ffh .replay-chart { display: block; width: 100%; height: auto; margin-top: 8px; overflow: visible; }
-.ffh .replay-chart .grid { stroke: var(--line); stroke-width: 1; }
-.ffh .replay-chart .axis-label, .ffh .replay-chart .day-label { fill: var(--muted); font: 400 10px var(--mono); }
-.ffh .replay-chart .sold { fill: var(--sold); }
-.ffh .replay-chart .waste { fill: var(--waste); }
-.ffh .replay-chart .proposed-line { fill: none; stroke: var(--ink); stroke-width: 3; }
-.ffh .replay-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 12px; color: var(--muted); font-size: 11px; }
-.ffh .replay-legend span { display: inline-flex; align-items: center; gap: 7px; }
-.ffh .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
-.ffh .legend-dot.sold { background: var(--sold); }
-.ffh .legend-dot.waste { background: var(--waste); }
-.ffh .legend-line { width: 18px; border-top: 2px solid var(--ink); }
-.ffh .replay-results { width: 100%; margin-top: 22px; border-collapse: collapse; font-size: 13px; }
-.ffh .replay-results th, .ffh .replay-results td { padding: 10px 12px; border-top: 1px solid var(--line); text-align: right; }
-.ffh .replay-results th:first-child { text-align: left; }
-.ffh .replay-results thead th { color: var(--muted); font: 500 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-
 .ffh .vision { background: var(--paper); color: var(--ink); }
 .ffh .vision .eyebrow { color: var(--ink); }
 .ffh .vision h2 { max-width: 1080px; }
@@ -501,8 +440,6 @@
   .ffh .hero-examples li + li { padding-left: 0; border-left: 0; }
   .ffh .product-stage { gap: 70px; }
   .ffh .product-copy { grid-row: 1; }
-  .ffh .loop-line { grid-template-columns: repeat(3, 1fr); row-gap: 40px; }
-  .ffh .vision .loop-close-line { margin-top: 32px; }
 }
 @media (max-width: 560px) {
   .ffh .nav-inner { height: 62px; padding: 0 18px; }
@@ -522,13 +459,6 @@
   .ffh .section h2 { font-size: 43px; }
   .ffh .step { grid-template-columns: 80px 1fr; }
   .ffh .phone { width: 100%; }
-  .ffh .replay-artifact { padding: 24px 18px; }
-  .ffh .replay-head { grid-template-columns: 1fr; gap: 20px; }
-  .ffh .replay-change { text-align: left; }
-  .ffh .replay-chart .axis-label, .ffh .replay-chart .day-label { font-size: 22px; }
-  .ffh .replay-chart circle { r: 7px; }
-  .ffh .loop-line { grid-template-columns: 1fr 1fr; }
-  .ffh .replay-artifact { margin-inline: -18px; padding: 28px 18px; }
   .ffh .offer-card { padding: 22px; }
   .ffh .footer-inner { grid-template-columns: 1fr; }
 }
@@ -582,9 +512,8 @@
 .ffh .product-stage { min-height: 0; }
 .ffh .product-video { border-color: rgba(239,238,231,.18); box-shadow: 0 28px 70px rgba(0,0,0,.38); }
 .ffh .number-list { margin-top: 28px; }
-.ffh .number-list span, .ffh .step time, .ffh .loop-step span, .ffh .replay-plot-head, .ffh .replay-results td,
-.ffh .replay-results th, .ffh .evidence-value, .ffh .vision-index { font-variant-numeric: tabular-nums; }
-.ffh .step h3, .ffh .loop-step b { font-family: var(--sans); }
+.ffh .number-list span, .ffh .step time, .ffh .evidence-value, .ffh .vision-index { font-variant-numeric: tabular-nums; }
+.ffh .step h3 { font-family: var(--sans); }
 
 .ffh .proof { background: var(--paper); }
 .ffh .proof-head { align-items: start; }
@@ -616,20 +545,6 @@
 .ffh .lesson-text p:last-child { margin-bottom: 0; }
 .ffh .conclusion { font: 400 clamp(25px, 3vw, 36px)/1.22 var(--serif); letter-spacing: -.025em; }
 
-.ffh .loop-section { background: var(--paper); }
-.ffh .loop-line { margin-top: 44px; }
-.ffh .replay-artifact { margin-top: 56px; background: rgba(255,255,255,.2); }
-.ffh .replay-head h3 { font: 500 28px/1.12 var(--sans); }
-.ffh .replay-change {
-  padding: 10px 13px;
-  border-radius: 2px;
-  background: var(--solar);
-  color: var(--night);
-}
-.ffh .replay-change strong { font: 500 23px/1 var(--mono); letter-spacing: -.04em; }
-.ffh .replay-change span { color: var(--night); }
-.ffh .loop-step::before { width: 1px; height: 10px; top: -1px; border-radius: 0; }
-
 .ffh .vision-path {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -650,8 +565,6 @@
 .ffh .vision-index { color: var(--muted); font: 500 10px var(--mono); }
 .ffh .vision-step h3 { margin: 28px 0 12px; font: 500 22px/1.15 var(--sans); letter-spacing: -.025em; }
 .ffh .vision-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
-.ffh .vision .loop-close-line { max-width: 800px; margin-top: 52px; }
-
 .ffh .offer { background: var(--night); color: var(--paper); }
 .ffh .offer h2 { color: var(--paper); }
 .ffh .offer-copy { color: var(--muted-dark); }
@@ -668,9 +581,6 @@
 @media (max-width: 900px) {
   .ffh .evidence-row { grid-template-columns: 1fr auto; gap: 16px; }
   .ffh .evidence-copy { grid-column: 1 / -1; }
-  /* The horizontal return path only reads on the single-row desktop grid. */
-  .ffh .loop-cycle { padding-bottom: 0; }
-  .ffh .loop-return { display: none; }
   .ffh .vision-path { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--ink); margin-left: 5px; }
   .ffh .vision-step { padding: 0 0 34px 28px; }
   .ffh .vision-step::before { top: 3px; left: -1px; width: 10px; height: 1px; }
@@ -686,7 +596,6 @@
   .ffh .evidence-value { grid-column: 1; font-size: 29px; }
   .ffh .evidence-copy { grid-column: 1; }
   .ffh .lesson { margin-top: 48px; padding-top: 36px; }
-  .ffh .loop-line { margin-top: 36px; }
   .ffh .vision-path { margin-top: 36px; }
   .ffh .offer-card { margin-top: 8px; }
 }

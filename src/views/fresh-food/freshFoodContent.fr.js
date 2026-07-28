@@ -14,7 +14,7 @@ export const fr = {
     product: "Comment ça marche",
     proof: "Preuves",
     vision: "Au-delà de la production",
-    cta: "Commencer gratuitement",
+    cta: "Réserver un appel",
     chooseLanguage: "Choisir la langue",
     availableLanguages: "Langues disponibles",
   },
@@ -28,13 +28,13 @@ export const fr = {
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
       "Signale les hausses de prix fournisseurs et les prix qui ne couvrent plus les coûts.",
     ],
-    cta: "Commencer gratuitement",
+    cta: "Réserver un appel de 20 min",
     audience: "Pour les exploitants du frais en croissance, de 2 à 20 points de vente.",
   },
 
   problem: {
     eyebrow: "Ce que les patrons savent et que les systèmes ne voient pas",
-    h2: "Le plan de demain est fixé avant que les ventes et les retours de la boutique puissent le corriger.",
+    h2: "Le plan de production de demain est fixé avant que les ventes du jour et les retours des équipes en magasin puissent être pris en compte.",
     steps: [
       { time: "18:45", state: "time-1845", h3: "Compter ce qui reste", p: "Ce qui ne peut pas rester en rayon part en paniers surprises ou à la poubelle. Le comptage est rarement enregistré." },
       { time: "19:00", state: "time-1900", h3: "Fixer la commande de demain", p: "La commande de demain se construit à partir de moyennes, de modèles, de commandes spéciales et de l'expérience, pendant que la boutique reste à nettoyer." },
@@ -47,14 +47,14 @@ export const fr = {
   product: {
     eyebrow: "L'intelligence opérationnelle au travail",
     h2: "Elle suit chaque boutique, chaque jour. Elle pose la question quand les données ne suffisent pas.",
-    lede: "Eclipsai relie les ventes quotidiennes, la production, les livraisons et ce que votre équipe observe. Quand les données n'expliquent pas ce qui s'est passé, elle interroge la personne qui sait. Elle rassemble les quelques changements qui comptent dans la revue hebdomadaire et répond aux questions au fil de l'eau.",
+    lede: "Eclipsai relie les systèmes de vente, de production, de commande et de facturation aux e-mails, aux messageries d'équipe et aux données externes pertinentes. Lorsque les données n'expliquent pas ce qui s'est passé, elle pose une question précise à l'équipe concernée. Les équipes peuvent répondre par texte, photo ou message vocal.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
     items: [
-      { strong: "Capte ce que les données ne disent pas", text: "Invendus, ruptures, demandes des clients et le contexte derrière." },
-      { strong: "Repère où le plan perd du profit", text: "Par boutique, par produit et par jour." },
-      { strong: "Recommande le prochain changement", text: "Montre quoi changer, pourquoi, et ce qui est en jeu." },
-      { strong: "Démontre le résultat", text: "Compare chaque changement au plan qu'il a remplacé, en termes économiques." },
+      { strong: "Repère les quelques changements qui en valent la peine", text: "Par boutique, produit et jour, elle met en balance les pertes et les ventes manquées." },
+      { strong: "Formule des recommandations quotidiennes", text: "Le responsable voit la quantité recommandée, la raison et l'impact attendu sur le profit." },
+      { strong: "Passe les résultats en revue chaque semaine", text: "La revue hebdomadaire montre quels changements ont amélioré le profit et lesquels doivent être intégrés au plan de référence." },
+      { strong: "Met en œuvre les décisions éprouvées", text: "Au départ, chaque changement doit être approuvé. Lorsqu'un type de recommandation s'est révélé fiable, le produit met à jour le plan de production dans les limites fixées par l'exploitant et mesure l'amélioration du profit par rapport à l'ancien plan." },
     ],
   },
 
@@ -69,7 +69,7 @@ export const fr = {
       { h3: "pièces analysées", value: "860 000", copy: "Seize mois de données de vente et de production. Nous en avons rapproché 92 % entre les deux." },
       { h3: "pièces livrées invendues", ratioLabel: "Une pièce livrée sur quatre est restée invendue", value: "1 sur 4", copy: "Le phénomène se concentrait sur certaines boutiques, certains produits et certains jours." },
       { h3: "d'opportunité annuelle", value: "€40–60K", copy: "Des schémas de production récurrents ne correspondaient plus à la demande. Le coût des ingrédients de toutes les pièces invendues atteignait €190K." },
-      { h3: "des baisses ont couvert la demande", value: "86 %", copy: "La règle historique la plus solide réduisait des commandes ciblées sans provoquer de rupture." },
+      { h3: "réductions proposées avec une valeur nette estimée positive", value: "86 %", copy: "Les économies d'ingrédients dépassaient la totalité de la marge de toute vente éventuellement perdue. Les réductions ont été positives en valeur nette sur chacun des neuf mois testés." },
     ],
     bridgeBefore: "Une part des pertes protège les ventes. L'opportunité de ",
     bridgeValue: "€40–60K",
@@ -83,43 +83,10 @@ export const fr = {
     ],
   },
 
-  loop: {
-    eyebrow: "Ce que nous faisons",
-    h2: "Comment naissent de meilleures décisions.",
-    lede: "La même boucle peut améliorer le profit dans toutes vos boutiques.",
-    listLabel: "Boucle de décision",
-    steps: [
-      { b: "Collecter", p: "Relie les ventes quotidiennes, la production, les livraisons et ce que votre équipe observe." },
-      { b: "Décider", p: "Identifie les quelques décisions qui valent la peine d'être changées et met en balance les pertes et les ventes manquées." },
-      { b: "Agir", p: "Met à jour la commande ou réalise l'étape approuvée, dans les limites fixées par l'exploitant." },
-      { b: "Mesurer", p: "Vérifie le résultat face aux ventes et aux coûts réels, en termes économiques." },
-      { b: "Améliorer", p: "Conserve les changements qui améliorent le résultat et corrige les autres." },
-    ],
-  },
-
-  replay: {
-    title: "Commandes de croissants proposées du 7 au 13 juillet",
-    changeStrong: "130 de moins",
-    changeSpan: "unités perdues",
-    dotKey: "1 point = 5 unités",
-    ariaTitle: "Rejeu de la décision de production de croissants",
-    ariaDesc: "Quatorze jours de ventes de croissants en points bleus, les pertes avec la commande actuelle en points orange et une ligne continue pour la commande proposée. La proposition conserve 988 ventes et réduit les pertes de 319 à 189 unités.",
-    days: ["L 23", "M 24", "M 25", "J 26", "V 27", "S 28", "D 29", "L 30", "M 1", "M 2", "J 3", "V 4", "S 5", "D 6"],
-    legendSold: "Vendu",
-    legendWaste: "Pertes avec le plan actuel",
-    legendProposed: "Commande proposée",
-    tableLabel: "Résultats du rejeu de décision",
-    thPlan: "Plan",
-    thSales: "Ventes",
-    thWaste: "Pertes",
-    rowCurrent: "Actuel",
-    rowProposed: "Proposé",
-  },
-
   vision: {
     eyebrow: "Au-delà de la production",
     h2: "Les prochaines décisions à améliorer.",
-    intro: "La production vient en premier parce que la décision se répète chaque jour et que le résultat se voit vite.",
+    intro: "Une fois Eclipsai reliée aux systèmes et aux canaux de communication de l'entreprise, elle peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
     pathLabel: "Parcours d'extension d'Eclipsai",
     steps: [
       { index: "Départ", h3: "Production et pertes", p: "Protéger les ventes tout en réduisant les pertes répétées et évitables. Corriger les plans de production qui ne correspondent plus à la demande." },
@@ -130,7 +97,7 @@ export const fr = {
   },
 
   offer: {
-    h2: "Eclipsai vous aide à prendre les décisions quotidiennes qui déterminent le profit.",
+    h2: "Eclipsai prend les décisions quotidiennes qui font fonctionner une entreprise alimentaire.",
     copy: "Elle relie les ventes, la production et ce que votre équipe observe pour trouver les quelques décisions qui méritent d'être prises et en démontrer le résultat économique.",
     cardH3: "Commencer gratuitement",
     items: [
@@ -140,7 +107,7 @@ export const fr = {
       "Une mesure continue face au plan que vous utilisez aujourd'hui",
     ],
     audience: "Pour les exploitants du frais en croissance, de 2 à 20 points de vente.",
-    cta: "Commencer gratuitement",
+    cta: "Réserver un appel de 20 min",
   },
 
   faq: {
@@ -153,7 +120,7 @@ export const fr = {
       },
       {
         q: "Notre système recommande déjà des quantités. Quelle est la différence ?",
-        a: "Eclipsai garde le plan actuel comme référence, ajoute ce qui manque aux données et ne propose une commande différente que là où les preuves le soutiennent. Elle en mesure ensuite le résultat économique.",
+        a: "Eclipsai garde le plan actuel comme référence, ajoute ce qui manque aux données et ne propose une commande différente que là où les preuves le soutiennent. Une fois approuvée, elle peut appliquer la modification dans le système de production et en mesurer l'impact économique.",
       },
       {
         q: "Quelle charge de travail pour l'équipe ?",
@@ -169,7 +136,7 @@ export const fr = {
       },
       {
         q: "Comment facturez-vous ?",
-        a: "Le démarrage est gratuit. Si vous continuez, nous facturons un abonnement mensuel par point de vente, selon les boutiques, les systèmes et les décisions suivies.",
+        a: "Le démarrage est gratuit. Si vous continuez, nous facturons un abonnement mensuel selon le nombre de points de vente et les domaines de décision suivis.",
       },
     ],
   },
@@ -181,7 +148,7 @@ export const fr = {
 
   meta: {
     title: "Eclipsai | L'intelligence opérationnelle des métiers du frais",
-    description: "Eclipsai aide les exploitants du frais à prendre les décisions quotidiennes qui déterminent le profit, en commençant par la production de demain.",
+    description: "Eclipsai prend les décisions quotidiennes qui font fonctionner une entreprise alimentaire, en commençant par ce qu'il faut produire demain.",
     ogDescription: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
   },
 };

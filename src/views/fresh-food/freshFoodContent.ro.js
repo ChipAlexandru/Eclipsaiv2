@@ -14,7 +14,7 @@ export const ro = {
     product: "Cum funcționează",
     proof: "Dovezi",
     vision: "Dincolo de producție",
-    cta: "Începeți gratuit",
+    cta: "Programați o discuție",
     chooseLanguage: "Alegeți limba",
     availableLanguages: "Limbi disponibile",
   },
@@ -28,13 +28,13 @@ export const ro = {
       "Urmărește comenzile speciale până la livrare și facturare.",
       "Semnalează scumpirile furnizorilor și prețurile care nu mai acoperă costurile.",
     ],
-    cta: "Începeți gratuit",
+    cta: "Programați o discuție de 20 de minute",
     audience: "Pentru afaceri cu produse proaspete în creștere, cu 2 până la 20 de locații.",
   },
 
   problem: {
     eyebrow: "Ce știu patronii și sistemele nu văd",
-    h2: "Planul de mâine se fixează înainte ca vânzările și semnalele din magazin să îl mai poată schimba.",
+    h2: "Planul de producție pentru mâine este stabilit înainte ca vânzările de astăzi și observațiile echipelor din magazine să poată fi luate în calcul.",
     steps: [
       { time: "18:45", state: "time-1845", h3: "Numărați ce a rămas", p: "Ce nu poate rămâne pe raft ajunge în pungi surpriză sau la gunoi. Numărătoarea este rareori înregistrată." },
       { time: "19:00", state: "time-1900", h3: "Stabiliți comanda de mâine", p: "Comanda de mâine se construiește din medii, șabloane, comenzi speciale și experiență, în timp ce magazinul încă trebuie curățat." },
@@ -47,14 +47,14 @@ export const ro = {
   product: {
     eyebrow: "Inteligența operațională la lucru",
     h2: "Urmărește fiecare magazin, în fiecare zi. Întreabă atunci când datele nu sunt de ajuns.",
-    lede: "Eclipsai conectează vânzările zilnice, producția, livrările și ce observă echipa dumneavoastră. Când datele nu explică ce s-a întâmplat, întreabă persoana care știe. Aduce puținele schimbări care contează în analiza săptămânală și răspunde la întrebări pe măsură ce apar.",
+    lede: "Eclipsai conectează sistemele de vânzări, producție, comenzi și facturare cu e-mailul, canalele de chat ale echipelor și datele externe relevante. Când datele nu explică ce s-a întâmplat, adresează personalului o întrebare punctuală. Echipele pot răspunde prin text, fotografii sau mesaje vocale.",
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
     whatChanges: "Cum lucrează Eclipsai",
     items: [
-      { strong: "Adună ce lipsește din date", text: "Resturi, stocuri epuizate, cereri ale clienților și contextul din spatele lor." },
-      { strong: "Găsește unde planul pierde profit", text: "Pe magazine, produse și zile." },
-      { strong: "Recomandă următoarea schimbare", text: "Arată ce trebuie schimbat, de ce și ce este în joc." },
-      { strong: "Dovedește rezultatul", text: "Compară fiecare schimbare cu planul pe care l-a înlocuit, ca impact financiar." },
+      { strong: "Găsește puținele schimbări care merită făcute", text: "Pe magazine, produse și zile, cântărește risipa față de vânzările ratate." },
+      { strong: "Formulează recomandări zilnice", text: "Patronul vede cantitatea recomandată, motivul și impactul estimat asupra profitului." },
+      { strong: "Analizează rezultatele săptămânal", text: "Analiza săptămânală arată ce schimbări au îmbunătățit profitul și care ar trebui să intre în planul standard." },
+      { strong: "Aplică deciziile care s-au dovedit fiabile", text: "La început, patronul aprobă fiecare schimbare. După ce un tip de recomandare se dovedește fiabil, produsul actualizează planul de producție în limitele stabilite de patron și măsoară îmbunătățirea profitului față de planul vechi." },
     ],
   },
 
@@ -69,7 +69,7 @@ export const ro = {
       { h3: "unități analizate", value: "860.000", copy: "Șaisprezece luni de date de vânzări și producție. Am corelat 92% între cele două." },
       { h3: "unități livrate nevândute", ratioLabel: "Una din patru unități livrate a rămas nevândută", value: "1 din 4", copy: "Tiparul se concentra pe anumite magazine, produse și zile ale săptămânii." },
       { h3: "oportunitate anuală", value: "€40–60K", copy: "Tipare de producție repetate nu mai corespundeau cererii. Costul ingredientelor pentru toate unitățile nevândute a fost de €190K." },
-      { h3: "dintre reduceri au acoperit cererea", value: "86%", copy: "Cea mai solidă regulă istorică a redus comenzi selectate fără ca produsul să se termine." },
+      { h3: "reduceri propuse cu valoare netă estimată pozitivă", value: "86%", copy: "Economiile la ingrediente au depășit întreaga marjă a oricărei vânzări care ar fi putut fi ratată. Reducerile au avut o valoare netă pozitivă în toate cele nouă luni testate." },
     ],
     bridgeBefore: "O parte din risipă protejează vânzările. Oportunitatea de ",
     bridgeValue: "€40–60K",
@@ -83,43 +83,10 @@ export const ro = {
     ],
   },
 
-  loop: {
-    eyebrow: "Ce facem",
-    h2: "Cum se iau decizii mai bune.",
-    lede: "Aceeași buclă poate îmbunătăți profitul în toate magazinele dumneavoastră.",
-    listLabel: "Bucla de decizie",
-    steps: [
-      { b: "Colectăm", p: "Conectăm vânzările zilnice, producția, livrările și ce observă echipa dumneavoastră." },
-      { b: "Decidem", p: "Identificăm puținele decizii care merită schimbate și cântărim risipa față de vânzările ratate." },
-      { b: "Acționăm", p: "Actualizăm comanda sau executăm pasul aprobat, în limitele stabilite de afacere." },
-      { b: "Măsurăm", p: "Verificăm rezultatul pe vânzările și costurile reale, ca impact financiar." },
-      { b: "Îmbunătățim", p: "Păstrăm schimbările care îmbunătățesc rezultatul și le corectăm pe celelalte." },
-    ],
-  },
-
-  replay: {
-    title: "Comenzi de croasanți propuse pentru 7-13 iulie",
-    changeStrong: "cu 130 mai puține",
-    changeSpan: "unități risipite",
-    dotKey: "1 punct = 5 unități",
-    ariaTitle: "Simularea deciziei de producție a croasanților",
-    ariaDesc: "Paisprezece zile de vânzări de croasanți în puncte albastre, risipa cu comanda actuală în puncte portocalii și o linie continuă pentru comanda propusă. Propunerea păstrează 988 de vânzări și reduce risipa de la 319 la 189 de unități.",
-    days: ["L 23", "M 24", "M 25", "J 26", "V 27", "S 28", "D 29", "L 30", "M 1", "M 2", "J 3", "V 4", "S 5", "D 6"],
-    legendSold: "Vândut",
-    legendWaste: "Risipă cu planul actual",
-    legendProposed: "Comanda propusă",
-    tableLabel: "Rezultatele simulării deciziei",
-    thPlan: "Plan",
-    thSales: "Vânzări",
-    thWaste: "Risipă",
-    rowCurrent: "Actual",
-    rowProposed: "Propus",
-  },
-
   vision: {
     eyebrow: "Dincolo de producție",
     h2: "Următoarele decizii de îmbunătățit.",
-    intro: "Producția vine prima pentru că decizia se repetă zilnic, iar rezultatul se vede repede.",
+    intro: "După conectarea la sistemele și canalele de comunicare ale companiei, Eclipsai poate adăuga informațiile necesare pentru fiecare decizie nouă, poate aplica schimbarea și poate măsura rezultatul.",
     pathLabel: "Traseul de extindere Eclipsai",
     steps: [
       { index: "Start", h3: "Producție și risipă", p: "Protejați vânzările reducând în același timp risipa repetată și evitabilă. Corectați planurile de producție care nu mai corespund cererii." },
@@ -130,7 +97,7 @@ export const ro = {
   },
 
   offer: {
-    h2: "Eclipsai vă ajută la deciziile zilnice care hotărăsc profitul.",
+    h2: "Eclipsai ia deciziile zilnice care fac să funcționeze o afacere alimentară.",
     copy: "Conectează vânzările, producția și ce observă echipa dumneavoastră ca să găsească puținele decizii care merită acțiune și să dovedească rezultatul ca impact financiar.",
     cardH3: "Începeți gratuit",
     items: [
@@ -140,7 +107,7 @@ export const ro = {
       "Măsurare continuă față de planul pe care îl folosiți azi",
     ],
     audience: "Pentru afaceri cu produse proaspete în creștere, cu 2 până la 20 de locații.",
-    cta: "Începeți gratuit",
+    cta: "Programați o discuție de 20 de minute",
   },
 
   faq: {
@@ -153,7 +120,7 @@ export const ro = {
       },
       {
         q: "Sistemul nostru recomandă deja cantități. Ce este diferit?",
-        a: "Eclipsai păstrează planul actual ca punct de referință, adaugă ce lipsește din date și propune o comandă diferită doar acolo unde dovezile o susțin. Apoi măsoară rezultatul ca impact financiar.",
+        a: "Eclipsai păstrează planul actual ca punct de referință, adaugă ce lipsește din date și propune o comandă diferită doar acolo unde dovezile o susțin. După aprobare, poate aplica schimbarea în sistemul de producție și îi poate măsura impactul financiar.",
       },
       {
         q: "Cât de multă muncă cere echipei?",
@@ -169,7 +136,7 @@ export const ro = {
       },
       {
         q: "Cum percepeți plata?",
-        a: "Începutul este gratuit. Dacă continuați, percepem un abonament lunar pe locație, în funcție de magazinele, sistemele și deciziile monitorizate.",
+        a: "Începutul este gratuit. Dacă continuați, percepem un abonament lunar în funcție de numărul de locații și de domeniile decizionale monitorizate.",
       },
     ],
   },
@@ -181,7 +148,7 @@ export const ro = {
 
   meta: {
     title: "Eclipsai | Inteligență operațională pentru produse proaspete",
-    description: "Eclipsai ajută afacerile cu produse proaspete la deciziile zilnice care hotărăsc profitul, începând cu producția de mâine.",
+    description: "Eclipsai ia deciziile zilnice care fac să funcționeze o afacere alimentară, începând cu ce trebuie produs mâine.",
     ogDescription: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
   },
 };
