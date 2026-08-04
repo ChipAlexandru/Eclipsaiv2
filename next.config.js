@@ -15,6 +15,10 @@ const nextConfig = {
     return {
       beforeFiles: [
         {
+          source: "/juliette",
+          destination: `${origin}/juliette`,
+        },
+        {
           source: "/juliette/:path*",
           destination: `${origin}/juliette/:path*`,
         },
