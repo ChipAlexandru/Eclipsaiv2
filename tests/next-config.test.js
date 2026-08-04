@@ -27,10 +27,16 @@ test("production proxies the complete Juliette path to Railway", async () => {
     JULIETTE_PORTAL_ORIGIN: "https://example-production.up.railway.app",
   }, async () => {
     assert.deepEqual(await nextConfig.rewrites(), {
-      beforeFiles: [{
-        source: "/juliette/:path*",
-        destination: "https://example-production.up.railway.app/juliette/:path*",
-      }],
+      beforeFiles: [
+        {
+          source: "/juliette",
+          destination: "https://example-production.up.railway.app/juliette",
+        },
+        {
+          source: "/juliette/:path*",
+          destination: "https://example-production.up.railway.app/juliette/:path*",
+        },
+      ],
       afterFiles: [],
       fallback: [],
     });
