@@ -35,11 +35,11 @@ export default function robots() {
   return {
     rules: [
       // Explicit allow for every AI crawler we want.
-      ...AI_ALLOWED.map((ua) => ({ userAgent: ua, allow: "/" })),
+      ...AI_ALLOWED.map((ua) => ({ userAgent: ua, allow: "/", disallow: "/juliette" })),
       // Block low-value scrapers.
       ...BLOCKED.map((ua) => ({ userAgent: ua, disallow: "/" })),
-      // Catch-all: allow everything else (regular search engines, etc.).
-      { userAgent: "*", allow: "/" },
+      // Catch-all: allow the public site but keep the private client portal out.
+      { userAgent: "*", allow: "/", disallow: "/juliette" },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
