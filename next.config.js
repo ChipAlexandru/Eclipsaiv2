@@ -9,7 +9,11 @@ const nextConfig = {
   async rewrites() {
     const origin = productionJuliettePortalOrigin();
     if (!origin) {
-      return { beforeFiles: [], afterFiles: [], fallback: [] };
+      return {
+        beforeFiles: [],
+        afterFiles: [hausammannDemoRewrite],
+        fallback: [],
+      };
     }
 
     return {
@@ -23,7 +27,7 @@ const nextConfig = {
           destination: `${origin}/juliette/:path*`,
         },
       ],
-      afterFiles: [],
+      afterFiles: [hausammannDemoRewrite],
       fallback: [],
     };
   },
@@ -46,6 +50,18 @@ const nextConfig = {
     }
     return [
       {
+        source: "/Hausammann-demo-1",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/Hausammann-demo-1/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
         source: "/juliette/:path*",
         headers: [
           { key: "Cache-Control", value: "private, no-store" },
@@ -54,6 +70,11 @@ const nextConfig = {
       },
     ];
   },
+};
+
+const hausammannDemoRewrite = {
+  source: "/Hausammann-demo-1",
+  destination: "/Hausammann-demo-1/index.html",
 };
 
 function productionJuliettePortalOrigin() {
