@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="An Eclipsai Profit Brain demonstration for Sprüngli: balance availability and waste, write tomorrow's production list, surface exceptions and answer operational questions.">
+  <title>Sprüngli × Eclipsai — Operative Intelligence</title>
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fbf8f1;
+      --cream-deep: #ece3d3;
+      --chocolate: #241812;
+      --chocolate-soft: #3a2a20;
+      --ink: #33251c;
+      --muted: #74624f;
+      --quiet: #9a8871;
+      --gold: #b9974c;
+      --gold-light: #e3c97e;
+      --cobalt: #54739e;
+      --persimmon: #c96b47;
+      --line: #ddd0b8;
+      --chassis-edge: max(34px, calc((100vw - 1172px) / 2));
+      --serif: "Didot", "Bodoni 72", "Bodoni MT", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-anchor: none; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 2px;
+      z-index: 70;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+
+    .page-header {
+      position: absolute;
+      top: 24px;
+      left: var(--chassis-edge);
+      right: var(--chassis-edge);
+      z-index: 6;
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) minmax(0, 850px) minmax(120px, 1fr);
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(246, 241, 231, .15);
+      color: var(--cream);
+    }
+
+    .page-header.light {
+      border-bottom-color: rgba(51, 37, 28, .14);
+      color: var(--ink);
+    }
+
+    .page-brand {
+      display: flex;
+      align-items: center;
+      height: 42px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .page-header-title {
+      overflow: hidden;
+      font-size: clamp(20px, 2vw, 28px);
+      line-height: 1.3;
+      letter-spacing: -.022em;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .page-header-tools {
+      position: relative;
+      justify-self: end;
+      line-height: 1;
+    }
+
+    .page-wordmark {
+      display: block;
+      width: clamp(96px, 10vw, 118px);
+      height: 40px;
+      background: url("assets/brand/eclipsai-wordmark-both-dark.svg") right center / contain no-repeat;
+    }
+
+    .page-header.light .page-wordmark {
+      background-image: url("assets/brand/eclipsai-wordmark-both-light.svg");
+    }
+
+    .site-language {
+      position: absolute;
+      top: calc(100% + 9px);
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(246, 241, 231, .52);
+      font-size: 10px;
+      letter-spacing: .12em;
+      line-height: 1;
+    }
+
+    .page-header.light .site-language { color: rgba(51, 37, 28, .42); }
+    .site-language button {
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+    .site-language button.active { color: var(--cream); }
+    .page-header.light .site-language button.active { color: var(--ink); }
+
+    .dots {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 60;
+      display: grid;
+      gap: 14px;
+      transition: opacity .35s ease;
+    }
+
+    .dots a {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--quiet);
+      opacity: .4;
+      transition: transform .3s ease, opacity .3s ease, background .3s ease;
+    }
+
+    .dots a.active {
+      transform: scale(1.55);
+      opacity: 1;
+      background: var(--gold);
+    }
+
+    .chapter-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 19px;
+      z-index: 90;
+      display: flex;
+      gap: 18px;
+      transform: translateX(-50%);
+    }
+
+    .chapter-nav button {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid rgba(51, 37, 28, .2);
+      border-radius: 50%;
+      color: var(--ink);
+      background: rgba(246, 241, 231, .94);
+      font: 20px/1 var(--sans);
+      cursor: pointer;
+      transition: opacity .25s ease, transform .25s ease, border-color .25s ease;
+    }
+
+    .chapter-nav button:hover { border-color: rgba(51, 37, 28, .52); }
+    .chapter-nav button:active { transform: scale(.96); }
+    .chapter-nav button.off { visibility: hidden; pointer-events: none; }
+
+    section {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 92px var(--chassis-edge) 72px;
+    }
+
+    @media (min-width: 901px) {
+      html { scroll-snap-type: y mandatory; }
+      section { scroll-snap-align: start; scroll-snap-stop: always; }
+    }
+
+    .inner {
+      width: min(1172px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .kicker {
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      font-size: 10.5px;
+      letter-spacing: 3.8px;
+      text-transform: uppercase;
+    }
+
+    .display {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      letter-spacing: .1px;
+      line-height: 1.04;
+    }
+
+    h1.display { font-size: clamp(44px, 5.3vw, 68px); }
+    h2.display { font-size: clamp(38px, 4.7vw, 62px); }
+
+    .lede {
+      max-width: 585px;
+      margin: 24px 0 0;
+      color: #c9bca9;
+      font-size: clamp(16px, 1.35vw, 19px);
+      line-height: 1.65;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .8s cubic-bezier(.2, .6, .2, 1), transform .8s cubic-bezier(.2, .6, .2, 1);
+    }
+
+    .reveal.d1 { transition-delay: .12s; }
+    .reveal.d2 { transition-delay: .24s; }
+    .reveal.d3 { transition-delay: .38s; }
+    section.in .reveal { opacity: 1; transform: none; }
+
+    /* Page 1 — the economic tension */
+    #decision {
+      color: var(--cream);
+      padding-top: 84px;
+      padding-bottom: 56px;
+      background:
+        radial-gradient(1000px 700px at 14% 22%, #433126 0%, transparent 66%),
+        var(--chocolate);
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: .93fr 1.07fr;
+      align-items: center;
+      gap: 6vw;
+    }
+
+    #decision h1.display {
+      font-size: clamp(34px, 3.55vw, 50px);
+      line-height: 1.08;
+    }
+
+    #decision .lede {
+      max-width: 540px;
+      margin-top: 22px;
+    }
+
+    .balance {
+      margin-top: 30px;
+      max-width: 590px;
+    }
+
+    .balance-line {
+      position: relative;
+      height: 2px;
+      margin: 0 8px 17px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold) 50%, var(--persimmon));
+    }
+
+    .balance-line::before,
+    .balance-line::after,
+    .balance-line span {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 5px rgba(246, 241, 231, .06);
+    }
+
+    .balance-line::before { left: 0; background: var(--cobalt); }
+    .balance-line::after { left: 100%; background: var(--persimmon); }
+    .balance-line span { left: 50%; background: var(--gold-light); width: 15px; height: 15px; }
+
+    .balance-labels {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr 1fr;
+      gap: 18px;
+      color: #a99b88;
+      font-size: 10px;
+      letter-spacing: 2.2px;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .balance-labels span:nth-child(2) { color: var(--gold-light); text-align: center; }
+    .balance-labels span:last-child { text-align: right; }
+
+    .field-gallery {
+      position: relative;
+      min-height: min(70vh, 680px);
+    }
+
+    .field-photo {
+      position: absolute;
+      overflow: hidden;
+      background: #1b130e;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .33);
+    }
+
+    .field-photo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .field-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(18, 12, 8, .72));
+      pointer-events: none;
+    }
+
+    .field-photo.late {
+      inset: 2% 0 4% 17%;
+    }
+
+    .field-photo.late img { object-position: 56% 48%; }
+
+    .field-photo.early {
+      left: 0;
+      bottom: 8%;
+      width: 42%;
+      height: 44%;
+      z-index: 2;
+      border: 7px solid var(--chocolate-soft);
+    }
+
+    .field-photo.early img { object-position: 56% 42%; }
+
+    .field-photo.late .capture {
+      left: auto;
+      right: 20px;
+      text-align: right;
+    }
+
+    .capture {
+      position: absolute;
+      left: 20px;
+      bottom: 17px;
+      z-index: 2;
+      color: #f4ead9;
+    }
+
+    .capture time {
+      display: block;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.2vw, 43px);
+      line-height: 1;
+    }
+
+    .capture small {
+      display: block;
+      margin-top: 6px;
+      color: #d4c5af;
+      font-size: 9px;
+      letter-spacing: 2.1px;
+      text-transform: uppercase;
+    }
+
+    .field-note {
+      position: absolute;
+      right: 8px;
+      top: -18px;
+      color: #93836e;
+      font-size: 9px;
+      letter-spacing: 2.3px;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Page 2 — the operating problem */
+    #systems {
+      align-items: center;
+      background:
+        radial-gradient(900px 520px at 88% 12%, rgba(185, 151, 76, .14), transparent 70%),
+        linear-gradient(180deg, var(--paper), var(--cream));
+      padding-top: 104px;
+      padding-bottom: 68px;
+    }
+
+    .systems-head {
+      max-width: 1050px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .systems-head .display { max-width: none; }
+
+    #systems h2.display { font-size: clamp(42px, 4.2vw, 58px); }
+
+    .systems-source-stage {
+      width: min(1060px, 100%);
+      margin: 36px auto 0;
+      padding: 10px 0 8px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .source-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 54px;
+    }
+
+    .source-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 5px;
+      padding: 14px 0 15px;
+      border-bottom: 1px solid rgba(221, 208, 184, .72);
+    }
+
+    .source-row:nth-last-child(-n + 2) { border-bottom: 0; }
+
+    .source-row b {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .source-row span {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .systems-statement {
+      max-width: 880px;
+      margin: 31px auto 0;
+      color: #8a6e33;
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.2vw, 31px);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .cue {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      z-index: 4;
+      color: var(--gold-light);
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .cue::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 27px;
+      margin: 8px auto 0;
+      background: linear-gradient(var(--gold-light), transparent);
+    }
+
+    /* Title — the restrained Hausammann opening */
+    #hero {
+      color: var(--cream);
+      text-align: center;
+      background:
+        radial-gradient(1050px 650px at 50% 18%, #49352a 0%, transparent 68%),
+        var(--chocolate);
+    }
+
+    #hero .inner { max-width: 930px; }
+    #hero h1 { font-size: clamp(52px, 6.8vw, 88px); }
+    #hero .hero-sub {
+      margin-top: 17px;
+      color: #d8cbb6;
+      font-family: var(--serif);
+      font-size: clamp(20px, 2.3vw, 29px);
+      line-height: 1.35;
+    }
+
+    #hero .profit-brain-title {
+      margin: 0 0 27px;
+      font-size: clamp(62px, 8.5vw, 112px);
+      line-height: .94;
+      letter-spacing: -.045em;
+    }
+
+    html[lang="de"] #hero .inner { max-width: 1120px; }
+    html[lang="de"] #hero .profit-brain-title { font-size: clamp(38px, 4.2vw, 54px); }
+
+    .profit-menu {
+      display: grid;
+      justify-content: center;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+      font-size: clamp(21px, 2.2vw, 31px);
+      line-height: 1.12;
+      font-weight: 620;
+    }
+
+    .profit-menu li { color: #9d8f7c; }
+    .profit-menu li:first-child { color: var(--gold-light); }
+
+    .foil {
+      color: transparent;
+      background: linear-gradient(100deg, #8a6e33 0%, #e3c97e 30%, #b9974c 52%, #f0dfa6 68%, #8a6e33 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .ticker {
+      position: relative;
+      height: 27px;
+      margin-top: 42px;
+      color: #cbbb9c;
+      font-size: 14px;
+    }
+
+    .ticker > span {
+      position: absolute;
+      left: 50%;
+      opacity: 0;
+      white-space: nowrap;
+      transform: translate(-50%, 7px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .ticker > span.on { opacity: 1; transform: translate(-50%, 0); }
+    .ticker .tick { margin-right: 8px; color: #8fbc7a; }
+
+    /* Shared product-scene structure */
+    .solution-split {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 6vw;
+      align-items: center;
+    }
+
+    .solution-copy .kicker { color: #8a6e33; }
+    .solution-copy .lede { color: var(--muted); }
+    .gold-rule {
+      width: 58px;
+      height: 1px;
+      margin: 23px 0;
+      background: linear-gradient(90deg, #8a6e33, var(--gold-light));
+    }
+
+    /* Production plan */
+    #plan { background: var(--cream); }
+
+    .receipt {
+      position: relative;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 24px 27px 20px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--paper);
+      box-shadow: 0 24px 50px rgba(46, 33, 19, .18);
+      transform: rotate(-1.1deg);
+    }
+
+    .receipt::before,
+    .receipt::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background:
+        linear-gradient(-45deg, transparent 33.33%, var(--paper) 33.33%, var(--paper) 66.66%, transparent 66.66%),
+        linear-gradient(45deg, transparent 33.33%, var(--paper) 33.33%, var(--paper) 66.66%, transparent 66.66%);
+      background-size: 14px 16px;
+    }
+
+    .receipt::before { top: -8px; transform: scaleY(-1); }
+    .receipt::after { bottom: -8px; }
+    .receipt-head { padding-bottom: 12px; margin-bottom: 10px; border-bottom: 1px dashed var(--line); text-align: center; }
+    .receipt-head .shop { font-family: var(--serif); font-size: 19px; }
+    .receipt-head .when { margin-top: 4px; color: var(--quiet); font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; }
+    .receipt-row { padding: 9px 0; border-bottom: 1px solid #eee5d6; }
+    .receipt-row:last-of-type { border-bottom: 0; }
+    .receipt-line { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; font-size: 14px; }
+    .receipt-qty { flex: 0 0 auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .receipt-qty .old { margin-right: 7px; color: var(--quiet); text-decoration: line-through; }
+    .receipt-qty .check { margin-left: 7px; color: #497d49; }
+    .receipt-why { margin-top: 3px; color: var(--muted); font-size: 11.5px; font-style: italic; line-height: 1.35; }
+    .receipt-foot { padding-top: 12px; color: var(--quiet); font-size: 9.5px; letter-spacing: 1.55px; text-align: center; text-transform: uppercase; }
+
+    /* Exception */
+    #exception { background: linear-gradient(var(--cream-deep), var(--cream)); }
+
+    .notification {
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 21px 22px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 20px 46px rgba(46, 33, 19, .14);
+    }
+
+    .notification-from { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
+    .notification-avatar {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-content: center;
+      border-radius: 50%;
+      color: white;
+      background: radial-gradient(circle at 35% 30%, #d9bc7a, #8c6c2e);
+      font-family: var(--serif);
+      font-size: 14px;
+    }
+
+    .notification-who { font-size: 12.5px; font-weight: 650; }
+    .notification-when { margin-left: auto; color: var(--quiet); font-size: 10.5px; }
+    .notification-message { font-size: 15px; line-height: 1.58; }
+    .notification-message b { color: #8a6e33; }
+    .notification-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .approve,
+    .why-button,
+    .question-chip { font: inherit; cursor: pointer; }
+    .approve {
+      flex: 1;
+      padding: 10px;
+      border: 0;
+      border-radius: 9px;
+      color: var(--cream);
+      background: var(--chocolate);
+      font-size: 13px;
+    }
+    .approve.done { background: #497d49; cursor: default; }
+    .why-button {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .exception-evidence { max-height: 0; overflow: hidden; transition: max-height .55s ease; }
+    .exception-evidence.open { max-height: 220px; margin-top: 14px; padding-top: 11px; border-top: 1px dashed var(--line); }
+    .exception-evidence table { width: 100%; border-collapse: collapse; }
+    .exception-evidence th { padding: 4px 5px; color: var(--quiet); font-size: 8.5px; letter-spacing: 1.2px; text-align: left; text-transform: uppercase; }
+    .exception-evidence td { padding: 5px; border-top: 1px solid #eee5d6; font-size: 11px; }
+    .exception-evidence td:not(:first-child) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .up { color: #497d49; }
+    .down { color: #a6532f; }
+
+    /* Measured result and questions */
+    #measure { background: radial-gradient(1100px 680px at 70% 30%, #f2e9d4 0%, var(--cream) 62%); }
+    #measure .inner { max-width: 880px; text-align: center; }
+    #measure .kicker { color: #8a6e33; }
+    #measure .gold-rule { margin: 23px auto 28px; }
+    .ask-wrap { max-width: 650px; margin: 0 auto; }
+    .ask-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 21px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      box-shadow: 0 16px 40px rgba(46, 33, 19, .12);
+      text-align: left;
+    }
+    .ask-plus { color: var(--quiet); font-size: 18px; }
+    .ask-question { flex: 1; font-size: 14.5px; }
+    .ask-go {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      flex: 0 0 31px;
+      place-content: center;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: #8a6e33;
+    }
+    .caret { display: inline-block; width: 1px; height: 16px; margin-left: 1px; background: var(--ink); vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .answer { margin-top: 25px; opacity: 0; transform: translateY(9px); transition: opacity .65s ease, transform .65s ease; }
+    .answer.show { opacity: 1; transform: none; }
+    .answer-numbers { display: flex; justify-content: center; gap: 7vw; margin-bottom: 12px; }
+    .answer-number { font-family: var(--serif); font-size: clamp(38px, 5vw, 60px); }
+    .answer-label { margin-top: 2px; color: var(--quiet); font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; }
+    .answer-quote { color: var(--muted); font-family: var(--serif); font-size: 16px; font-style: italic; line-height: 1.5; }
+    .question-chips { display: flex; justify-content: center; gap: 10px; margin-top: 26px; flex-wrap: wrap; visibility: hidden; }
+    .question-chip { padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--paper); font-size: 12px; }
+    .question-chip:hover { border-color: var(--gold); color: #8a6e33; }
+
+    /* Close */
+    #closing {
+      color: var(--cream);
+      text-align: center;
+      background:
+        radial-gradient(1100px 680px at 50% 82%, #49352a 0%, transparent 68%),
+        var(--chocolate);
+    }
+    #closing .inner { max-width: 1050px; }
+    .closing-big { font-family: var(--serif); font-size: clamp(67px, 10vw, 132px); line-height: .95; }
+    .closing-sub { margin-top: 6px; color: #d8cbb6; font-family: var(--serif); font-size: clamp(21px, 2.4vw, 31px); }
+    .closing-learn { margin-top: 23px; color: var(--gold-light); font-size: 10.5px; letter-spacing: 3px; text-transform: uppercase; }
+    .trust { display: flex; justify-content: center; gap: 5vw; margin-top: 48px; flex-wrap: wrap; }
+    .trust-item { max-width: 250px; color: #efe6d2; font-family: var(--serif); font-size: 20px; }
+    .trust-item small { display: block; margin-top: 7px; color: #a3937b; font-family: var(--sans); font-size: 11px; line-height: 1.5; }
+    .fine { max-width: 680px; margin: 50px auto 0; color: #8f7e68; font-size: 10px; line-height: 1.65; }
+
+    /* The Hausammann operating sequence, now part of the same vertical story */
+    .engine-chapter { min-height: 100vh; padding: 0; background: #efeee7; }
+    .engine-chapter iframe { display: block; width: 100vw; height: 100vh; border: 0; background: #efeee7; }
+    @media (max-width: 900px) {
+      section { padding: 92px 7vw 76px; }
+      .decision-grid,
+      .solution-split { grid-template-columns: 1fr; }
+      .field-gallery { min-height: 540px; margin-top: 28px; }
+      .receipt,
+      .notification { margin-top: 28px; }
+      .dots { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      h1.display { font-size: 43px; }
+      h2.display { font-size: 38px; }
+      .page-header { top: 16px; left: 22px; right: 22px; grid-template-columns: 1fr auto; padding-bottom: 16px; }
+      .page-header-title { display: none; }
+      .page-wordmark { width: 94px; height: 34px; }
+      .field-gallery { min-height: 460px; }
+      .field-photo.late { inset: 0 0 6% 9%; }
+      .field-photo.early { width: 48%; height: 42%; }
+      .source-list { grid-template-columns: 1fr; }
+      .source-row:nth-last-child(2) { border-bottom: 1px solid rgba(221, 208, 184, .72); }
+      #hero h1 { font-size: 52px; }
+      .ticker { font-size: 12px; }
+      .answer-numbers { gap: 28px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <nav class="dots" id="dots" aria-label="Presentation pages"></nav>
+  <nav class="chapter-nav" aria-label="Presentation navigation">
+    <button id="page-up" type="button" aria-label="Previous page">↑</button>
+    <button id="page-down" type="button" aria-label="Next page">↓</button>
+  </nav>
+
+  <section id="hero" class="dark">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite">SPRÜNGLI</a>
+      <span class="page-header-title" aria-hidden="true"></span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai website"></a>
+        <span class="site-language" aria-label="Language selector">
+          <button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button>
+        </span>
+      </span>
+    </header>
+    <div class="inner">
+      <h1 class="display profit-brain-title reveal d1" data-copy="heroTitle">The Profit Brain:</h1>
+      <ul class="profit-menu reveal d2">
+        <li data-copy="topicOrders">Automate Production Orders</li>
+        <li data-copy="topicProducts">New Products</li>
+        <li data-copy="topicPricing">Buying and Pricing</li>
+        <li data-copy="topicLabor">Labor and Operations</li>
+        <li data-copy="topicLocation">Next Location</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="decision" class="dark">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite">SPRÜNGLI</a>
+      <span class="page-header-title" data-copy="decisionKicker">The daily production decision</span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai website"></a>
+        <span class="site-language" aria-label="Language selector">
+          <button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button>
+        </span>
+      </span>
+    </header>
+    <div class="inner decision-grid">
+      <div>
+        <h1 class="display reveal d1" data-copy="decisionTitle">Production quantities must balance sales with waste.</h1>
+        <p class="lede reveal d2" data-copy="decisionBody">The right quantity changes by product, location and day.</p>
+
+        <div class="balance reveal d3" aria-label="Production quantity balances missed sales and unsold product">
+          <div class="balance-line"><span></span></div>
+          <div class="balance-labels">
+            <span data-copy="missedSales">Missed sales</span>
+            <span data-copy="bestQuantity">Best production quantity</span>
+            <span data-copy="unsoldProduct">Unsold product</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="field-gallery reveal d2" aria-label="Field observations in Zürich">
+        <span class="field-note" data-copy="fieldNote">Field observations · Zürich · August 2026</span>
+        <figure class="field-photo late">
+          <img src="assets/field-evidence/spruengli-2026-08-04-1603.jpg" alt="A broad Sprüngli fresh-food and bakery counter in Zürich">
+          <figcaption class="capture"><time datetime="2026-08-04T16:03:27+02:00">16:03</time><small data-copy="fieldLate">4 August · Zürich</small></figcaption>
+        </figure>
+        <figure class="field-photo early">
+          <img src="assets/field-evidence/spruengli-2026-08-03-1028.jpg" alt="A Sprüngli prepared-food counter in Zürich">
+          <figcaption class="capture"><time datetime="2026-08-03T10:28:50+02:00">10:28</time><small data-copy="fieldEarly">3 August · Zürich</small></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="systems">
+    <header class="page-header light">
+      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite">SPRÜNGLI</a>
+      <span class="page-header-title" data-copy="systemsKicker">Why this remains difficult</span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai website"></a>
+        <span class="site-language" aria-label="Language selector">
+          <button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button>
+        </span>
+      </span>
+    </header>
+    <div class="inner">
+      <header class="systems-head">
+        <h2 class="display reveal d1" data-copy="systemsTitle">The answer lives across systems.</h2>
+      </header>
+
+      <div class="systems-source-stage reveal d2">
+        <div class="source-list" aria-label="Operational source systems">
+          <div class="source-row"><b>POS</b><span data-copy="posDesc">What sold, where and when</span></div>
+          <div class="source-row"><b>ERP / SAP</b><span data-copy="erpDesc">Products, costs and commercial structure</span></div>
+          <div class="source-row"><b data-copy="planningLabel">Production planning</b><span data-copy="planningDesc">What was made and sent to each location</span></div>
+          <div class="source-row"><b data-copy="excelLabel">Excel &amp; recipes</b><span data-copy="excelDesc">Standing rules, yields and local adjustments</span></div>
+          <div class="source-row"><b data-copy="ordersLabel">Orders &amp; messages</b><span data-copy="ordersDesc">Special demand and employee knowledge</span></div>
+          <div class="source-row"><b data-copy="wasteLabel">Waste &amp; closing</b><span data-copy="wasteDesc">What remained at the end of the day</span></div>
+        </div>
+      </div>
+
+      <p class="systems-statement reveal d3" data-copy="systemsStatement">Eclipsai builds the Profit Brain for fresh-food businesses.</p>
+    </div>
+  </section>
+
+  <section id="source-data" class="engine-chapter" aria-label="Build the daily operating picture">
+    <iframe src="spruengli-engine-demo.html?chapter=0&amp;v=20260810-10" title="Build a daily picture of the Sprüngli business"></iframe>
+  </section>
+
+  <section id="production-orders" class="engine-chapter" aria-label="Recommend and implement production orders">
+    <iframe src="spruengli-engine-demo.html?chapter=1&amp;v=20260810-10" title="Recommend and implement Sprüngli production orders"></iframe>
+  </section>
+
+  <section id="profit-measurement" class="engine-chapter" aria-label="Measure the daily profit impact">
+    <iframe src="spruengli-engine-demo.html?chapter=2&amp;v=20260810-10" title="Measure the profit impact of Sprüngli production orders"></iframe>
+  </section>
+
+  <section id="production-outro" class="engine-chapter" aria-label="Better production orders and more profit">
+    <iframe src="spruengli-engine-demo.html?chapter=outro&amp;v=20260810-10" title="Better Sprüngli production orders and more profit"></iframe>
+  </section>
+
+  <script>
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+    const sections = [...document.querySelectorAll("section")];
+    const dots = document.getElementById("dots");
+    const progress = document.getElementById("progress");
+    const pageUp = document.getElementById("page-up");
+    const pageDown = document.getElementById("page-down");
+    const languageButtons = [...document.querySelectorAll("[data-lang]")];
+    const engineFrames = [...document.querySelectorAll(".engine-chapter iframe")];
+    let activeIndex = 0;
+    let currentLang = "de";
+
+    const copy = {
+      en: {
+        heroTitle: "The Profit Brain:",
+        topicOrders: "Automate Production Orders",
+        topicProducts: "New Products",
+        topicPricing: "Buying and Pricing",
+        topicLabor: "Labor and Operations",
+        topicLocation: "Next Location",
+        decisionKicker: "The daily production decision",
+        decisionTitle: "Production quantities must balance sales with waste.",
+        decisionBody: "The right quantity changes by product, location and day.",
+        missedSales: "Missed sales",
+        bestQuantity: "Best production quantity",
+        unsoldProduct: "Unsold product",
+        fieldNote: "Field observations · Zürich · August 2026",
+        fieldLate: "4 August · Zürich",
+        fieldEarly: "3 August · Zürich",
+        systemsKicker: "Why this remains difficult",
+        systemsTitle: "The answer lives across systems.",
+        posDesc: "What sold, where and when",
+        erpDesc: "Products, costs and commercial structure",
+        planningLabel: "Production planning",
+        planningDesc: "What was made and sent to each location",
+        excelLabel: "Excel &amp; recipes",
+        excelDesc: "Standing rules, yields and local adjustments",
+        ordersLabel: "Orders &amp; messages",
+        ordersDesc: "Special demand and employee knowledge",
+        wasteLabel: "Waste &amp; closing",
+        wasteDesc: "What remained at the end of the day",
+        systemsStatement: "Eclipsai builds the Profit Brain for fresh-food businesses.",
+        previous: "Previous page",
+        next: "Next page",
+        pages: "Presentation pages",
+        goTo: "Go to page"
+      },
+      de: {
+        heroTitle: "Operative Intelligenz für Frischbetriebe:",
+        topicOrders: "Produktionsaufträge automatisieren",
+        topicProducts: "Neue Produkte",
+        topicPricing: "Einkauf und Preise",
+        topicLabor: "Personal und Betrieb",
+        topicLocation: "Nächster Standort",
+        decisionKicker: "Die tägliche Produktionsentscheidung",
+        decisionTitle: "Produktionsmengen müssen Absatz und Retouren ins Gleichgewicht bringen.",
+        decisionBody: "Die richtige Menge variiert je Artikel, Filiale und Tag.",
+        missedSales: "Entgangene Verkäufe",
+        bestQuantity: "Optimale Produktionsmenge",
+        unsoldProduct: "Unverkaufte Ware",
+        fieldNote: "Beobachtungen vor Ort · Zürich · August 2026",
+        fieldLate: "4. August · Zürich",
+        fieldEarly: "3. August · Zürich",
+        systemsKicker: "Warum diese Entscheidung schwierig bleibt",
+        systemsTitle: "Die nötigen Daten sind auf mehrere Systeme verteilt.",
+        posDesc: "Was wann und wo verkauft wurde",
+        erpDesc: "Artikelstammdaten, Kosten und Margen",
+        planningLabel: "Produktionsplanung",
+        planningDesc: "Was für welche Filiale produziert und geliefert wurde",
+        excelLabel: "Excel &amp; Rezepturen",
+        excelDesc: "Planungsregeln, Rezepturen und lokale Anpassungen",
+        ordersLabel: "Bestellungen &amp; Filialmeldungen",
+        ordersDesc: "Sonderbestellungen und Wissen aus den Filialen",
+        wasteLabel: "Retouren &amp; Tagesabschluss",
+        wasteDesc: "Was am Tagesende retourniert oder abgeschrieben wurde",
+        systemsStatement: "Eclipsai baut operative Intelligenz für Frischbetriebe.",
+        previous: "Vorherige Seite",
+        next: "Nächste Seite",
+        pages: "Präsentationsseiten",
+        goTo: "Gehe zu Seite"
+      }
+    };
+
+    const goToPage = (index) => {
+      const nextIndex = Math.max(0, Math.min(sections.length - 1, index));
+      const target = sections[nextIndex];
+      history.replaceState(null, "", `#${target.id}`);
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const activateEngineSection = (section, direction = "forward") => {
+      const frame = section?.querySelector("iframe");
+      if (!frame) return;
+      if (frame.dataset.ready !== "true") {
+        section.dataset.pendingDirection = direction;
+        return;
+      }
+      delete section.dataset.pendingDirection;
+      frame.contentWindow?.postMessage({ type: "spruengli-activate-chapter", direction }, "*");
+    };
+
+    const deactivateEngineSection = (section) => {
+      section?.querySelector("iframe")?.contentWindow?.postMessage({ type: "spruengli-deactivate-chapter" }, "*");
+    };
+
+    const updateNavigation = () => {
+      pageUp.classList.toggle("off", activeIndex === 0);
+      pageDown.classList.toggle("off", activeIndex === sections.length - 1);
+    };
+
+    const applyLanguage = (lang, broadcast = true) => {
+      if (!copy[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-copy]").forEach((element) => {
+        const value = copy[lang][element.dataset.copy];
+        if (value != null) element.innerHTML = value;
+      });
+      languageButtons.forEach((button) => button.classList.toggle("active", button.dataset.lang === lang));
+      pageUp.setAttribute("aria-label", copy[lang].previous);
+      pageDown.setAttribute("aria-label", copy[lang].next);
+      dots.setAttribute("aria-label", copy[lang].pages);
+      [...dots.children].forEach((dot, index) => dot.setAttribute("aria-label", `${copy[lang].goTo} ${index + 1}`));
+      if (broadcast) engineFrames.forEach((frame) => frame.contentWindow?.postMessage({ type: "spruengli-set-language", lang }, "*"));
+    };
+
+    sections.forEach((section) => {
+      const link = document.createElement("a");
+      link.href = `#${section.id}`;
+      link.setAttribute("aria-label", `Go to page ${sections.indexOf(section) + 1}`);
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        goToPage(sections.indexOf(section));
+      });
+      dots.appendChild(link);
+    });
+
+    languageButtons.forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
+    document.querySelectorAll(".page-brand").forEach((brand) => brand.addEventListener("click", (event) => {
+      event.preventDefault();
+      goToPage(0);
+    }));
+    engineFrames.forEach((frame) => frame.addEventListener("load", () => {
+      frame.dataset.ready = "true";
+      frame.contentWindow?.postMessage({ type: "spruengli-set-language", lang: currentLang }, "*");
+      const section = frame.closest(".engine-chapter");
+      if (section?.dataset.pendingDirection) activateEngineSection(section, section.dataset.pendingDirection);
+    }));
+    addEventListener("message", (event) => {
+      if (event.data?.type === "spruengli-go-home") {
+        goToPage(0);
+        return;
+      }
+      if (event.data?.type !== "spruengli-language-changed" || !copy[event.data.lang] || event.data.lang === currentLang) return;
+      applyLanguage(event.data.lang);
+    });
+
+    addEventListener("pageshow", () => {
+      const target = location.hash && document.querySelector(location.hash);
+      if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: "auto", block: "start" }));
+    });
+
+    const dotLinks = [...dots.children];
+    let lastActivatedIndex = -1;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || entry.intersectionRatio < .55) return;
+        entry.target.classList.add("in");
+        const index = sections.indexOf(entry.target);
+        if (index === lastActivatedIndex) return;
+        const previousIndex = activeIndex;
+        if (lastActivatedIndex >= 0) deactivateEngineSection(sections[lastActivatedIndex]);
+        activeIndex = index;
+        lastActivatedIndex = index;
+        dotLinks.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === index));
+        updateNavigation();
+        activateEngineSection(entry.target, index < previousIndex ? "backward" : "forward");
+      });
+    }, { threshold: [.55] });
+
+    sections.forEach((section) => observer.observe(section));
+
+    const updateProgress = () => {
+      const available = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${available > 0 ? (scrollY / available) * 100 : 0}%`;
+    };
+
+    addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    pageUp.addEventListener("click", () => goToPage(activeIndex - 1));
+    pageDown.addEventListener("click", () => goToPage(activeIndex + 1));
+
+    addEventListener("keydown", (event) => {
+      if (!["ArrowDown", "PageDown", "ArrowUp", "PageUp"].includes(event.key)) return;
+      const direction = event.key.includes("Down") ? 1 : -1;
+      const next = Math.max(0, Math.min(sections.length - 1, activeIndex + direction));
+      if (next !== activeIndex) {
+        event.preventDefault();
+        goToPage(next);
+      }
+    });
+
+    applyLanguage("de", false);
+    updateNavigation();
+  </script>
+</body>
+</html>

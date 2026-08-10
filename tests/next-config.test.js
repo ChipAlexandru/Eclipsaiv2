@@ -41,10 +41,16 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "https://example-production.up.railway.app/juliette/:path*",
         },
       ],
-      afterFiles: [{
-        source: "/Hausammann-demo-1",
-        destination: "/Hausammann-demo-1/index.html",
-      }],
+      afterFiles: [
+        {
+          source: "/Hausammann-demo-1",
+          destination: "/Hausammann-demo-1/index.html",
+        },
+        {
+          source: "/Spruengli-demo-2",
+          destination: "/Spruengli-demo-2/index.html",
+        },
+      ],
       fallback: [],
     });
   });
@@ -61,10 +67,16 @@ test("preview and local builds serve the public demo without proxying production
           source: "/fresh-food-demo",
           destination: "/fresh-food-demo/index.html",
         }],
-        afterFiles: [{
-          source: "/Hausammann-demo-1",
-          destination: "/Hausammann-demo-1/index.html",
-        }],
+        afterFiles: [
+          {
+            source: "/Hausammann-demo-1",
+            destination: "/Hausammann-demo-1/index.html",
+          },
+          {
+            source: "/Spruengli-demo-2",
+            destination: "/Spruengli-demo-2/index.html",
+          },
+        ],
         fallback: [],
       });
     });
@@ -94,6 +106,14 @@ test("production portal responses are private and excluded from indexing", async
       },
       {
         source: "/Hausammann-demo-1/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/Spruengli-demo-2",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/Spruengli-demo-2/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
       {

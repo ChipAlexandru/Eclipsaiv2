@@ -18,7 +18,7 @@ const nextConfig = {
     if (!origin) {
       return {
         beforeFiles: publicPages,
-        afterFiles: [hausammannDemoRewrite],
+        afterFiles: [hausammannDemoRewrite, spruengliDemoRewrite],
         fallback: [],
       };
     }
@@ -35,7 +35,7 @@ const nextConfig = {
           destination: `${origin}/juliette/:path*`,
         },
       ],
-      afterFiles: [hausammannDemoRewrite],
+      afterFiles: [hausammannDemoRewrite, spruengliDemoRewrite],
       fallback: [],
     };
   },
@@ -70,6 +70,18 @@ const nextConfig = {
         ],
       },
       {
+        source: "/Spruengli-demo-2",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/Spruengli-demo-2/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
         source: "/juliette/:path*",
         headers: [
           { key: "Cache-Control", value: "private, no-store" },
@@ -83,6 +95,11 @@ const nextConfig = {
 const hausammannDemoRewrite = {
   source: "/Hausammann-demo-1",
   destination: "/Hausammann-demo-1/index.html",
+};
+
+const spruengliDemoRewrite = {
+  source: "/Spruengli-demo-2",
+  destination: "/Spruengli-demo-2/index.html",
 };
 
 function productionJuliettePortalOrigin() {
