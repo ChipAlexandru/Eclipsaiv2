@@ -285,6 +285,35 @@ td.dl{color:var(--moss)} td.dl.neg{color:var(--persimmon)}
 #p3 .pnav:active{transform:scale(.96)}
 #p3 .pnav svg{width:13px;height:13px;fill:var(--ink)}
 #p3 .pnav.off{visibility:hidden;pointer-events:none}
+
+/* vertical story navigation (desktop) */
+.story-progress,.story-dots,.story-rail{display:none}
+@media (min-width:1121px){
+  html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+  body{overflow-x:hidden}
+  .story-shell{position:relative;height:500svh}
+  .story-shell>#p3{position:sticky;top:0;z-index:1;height:100svh;min-height:100svh;overflow:hidden}
+  .story-rail{position:absolute;inset:0;z-index:0;display:grid;grid-template-rows:repeat(5,100svh);
+    pointer-events:none}
+  .story-stop{display:block;scroll-snap-align:start;scroll-snap-stop:always}
+  .story-progress{position:fixed;inset:0 auto auto 0;z-index:40;display:block;width:0;height:2px;
+    background:var(--solar);transition:width .12s linear}
+  .story-dots{position:fixed;right:16px;top:50%;z-index:25;display:grid;gap:0;
+    transform:translateY(-50%)}
+  .story-dot{position:relative;display:block;width:32px;height:32px;padding:0;border:0;
+    background:transparent;cursor:pointer}
+  .story-dot::before{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;
+    border-radius:50%;background:rgba(25,23,31,.25);transform:translate(-50%,-50%);
+    transition:transform .25s,background .25s,opacity .25s}
+  .story-dot:hover::before{background:rgba(25,23,31,.5)}
+  .story-dot.on::before{background:var(--solar);transform:translate(-50%,-50%) scale(1.5)}
+  .story-dot:focus-visible{outline:1px solid rgba(25,23,31,.52);outline-offset:-3px;border-radius:50%}
+  #p3 #prev svg,#p3 #next svg{transform:rotate(90deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  .story-progress,.story-dot::before{transition:none!important}
+}
 #demo3 .seg{width:26px;height:3px;background:rgba(25,23,31,.16);cursor:pointer;display:block;
   transition:background .25s}
 #demo3 .seg:hover{background:rgba(25,23,31,.34)}
@@ -849,6 +878,10 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
 </head>
 <body>
 
+<div class="story-progress" id="storyProgress" aria-hidden="true"></div>
+<nav class="story-dots" id="storyDots" aria-label="Demo chapters"></nav>
+<div class="story-shell" id="storyShell">
+
 <!-- ============================ 1 · RESULTS ============================ -->
 <section class="page on" id="p3">
   <div class="sheet wide">
@@ -1048,11 +1081,19 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
 </div>
     </div>
     <div class="demo-navrow">
-      <button class="pnav" id="prev" title="previous step"><svg viewBox="0 0 12 12"><path d="M8.4 .8 L3.2 6 L8.4 11.2 L9.6 10 L5.6 6 L9.6 2 Z"/></svg></button>
-      <button class="pnav" id="next" title="next step"><svg viewBox="0 0 12 12"><path d="M3.6 .8 L8.8 6 L3.6 11.2 L2.4 10 L6.4 6 L2.4 2 Z"/></svg></button>
+      <button class="pnav" id="prev" title="previous chapter"><svg viewBox="0 0 12 12"><path d="M8.4 .8 L3.2 6 L8.4 11.2 L9.6 10 L5.6 6 L9.6 2 Z"/></svg></button>
+      <button class="pnav" id="next" title="next chapter"><svg viewBox="0 0 12 12"><path d="M3.6 .8 L8.8 6 L3.6 11.2 L2.4 10 L6.4 6 L2.4 2 Z"/></svg></button>
     </div>
   </div>
 </section>
+  <div class="story-rail" id="storyRail" aria-hidden="true">
+    <span class="story-stop" data-story-index="0"></span>
+    <span class="story-stop" data-story-index="1"></span>
+    <span class="story-stop" data-story-index="2"></span>
+    <span class="story-stop" data-story-index="3"></span>
+    <span class="story-stop" data-story-index="4"></span>
+  </div>
+</div>
 
 <div class="more" id="more">
  <div class="morebox" id="morebox">
@@ -1150,6 +1191,8 @@ en:{
  profitPrefix:'The Profit Brain',
  profitRotations:['Automate Production Orders','New Products','Buying and Pricing','Labor and Operations','Next Location'],
  startDemo:'Start',
+ navChapters:'Demo chapters', navPrevious:'Previous chapter', navNext:'Next chapter',
+ navGoChapter:'Go to demo chapter',
  outroTitle:'Better production orders. More profit.',
  outroLine1:'Eclipsai finds the few production changes most likely to improve profit.',
  outroLine2:'We test, measure the result, and automate.',
@@ -1218,6 +1261,8 @@ de:{
  profitPrefix:'Operative Intelligenz für Frischbetriebe',
  profitRotations:['Produktionsaufträge automatisieren','Neue Produkte','Einkauf und Preise','Personal und Betrieb','Nächster Standort'],
  startDemo:'Start',
+ navChapters:'Demo-Kapitel', navPrevious:'Vorheriges Kapitel', navNext:'Nächstes Kapitel',
+ navGoChapter:'Zum Demo-Kapitel',
  outroTitle:'Bessere Produktionsaufträge. Mehr Gewinn.',
  outroLine1:'Eclipsai findet die wenigen Produktionsänderungen, die den Gewinn am wahrscheinlichsten verbessern.',
  outroLine2:'Wir testen, messen das Resultat und automatisieren.',
@@ -1379,10 +1424,11 @@ const G=id=>document.getElementById(id);
 let SPD=1;
 const wait=ms=>new Promise(r=>setTimeout(r,ms*SPD));
 const mobileLayout=()=>window.matchMedia('(max-width:760px)').matches;
+const reduceMotion=()=>window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 async function focusMobile(el,a,lead=0){
   if(!mobileLayout())return true;
   if(lead){await wait(lead);if(!a())return false;}
-  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'center'});
   await wait(650);return a();
 }
 const D=()=>window.D();
@@ -1735,14 +1781,14 @@ function onNext(){
   if(!window.DEMO_STARTED){startDemo();return;}
   if(window.DEMO_OUTRO)return;
   if(building)finish();
-  if(cur<N-1)enter(cur+1,'build');
+  if(cur<N-1)enter(cur+1,reduceMotion()?'done':'build');
   else showOutro();
 }
 function onPrev(){
   if(!window.DEMO_STARTED)return;
   if(window.DEMO_OUTRO){leaveOutro();return;}
   if(building)finish();
-  if(cur>0)enter(cur-1,'build');
+  if(cur>0)enter(cur-1,'done');
   else showIntro();
 }
 function showIntro(){
@@ -1752,32 +1798,112 @@ function showIntro(){
 }
 function startDemo(){
   window.DEMO_STARTED=true;window.DEMO_OUTRO=false;G('p3').classList.remove('show-outro');
-  G('p3').classList.add('started');setProfitTitlePage(false);enter(0,'build');
+  G('p3').classList.add('started');setProfitTitlePage(false);enter(0,reduceMotion()?'done':'build');
 }
 
 
 window.demoStop=()=>{ if(building) finish(); else {token++;} };
 
-G('prev').addEventListener('click',onPrev);
-G('next').addEventListener('click',onNext);
+const STORY_COUNT=N+2;
+const verticalStory=()=>window.matchMedia('(min-width:1121px)').matches;
+const storyStops=[...document.querySelectorAll('.story-stop')];
+const storyDots=G('storyDots');
+const storyProgress=G('storyProgress');
+const storyShell=G('storyShell');
+let storyIndex=0;
+
+function updateStoryChrome(){
+  if(!storyDots)return;
+  [...storyDots.children].forEach((dot,index)=>{
+    const active=index===storyIndex;
+    dot.classList.toggle('on',active);
+    if(active)dot.setAttribute('aria-current','step');else dot.removeAttribute('aria-current');
+  });
+}
+function updateStoryLabels(){
+  const d=D();
+  storyDots.setAttribute('aria-label',d.navChapters);
+  G('prev').title=d.navPrevious;G('prev').setAttribute('aria-label',d.navPrevious);
+  G('next').title=d.navNext;G('next').setAttribute('aria-label',d.navNext);
+  [...storyDots.children].forEach((dot,index)=>dot.setAttribute('aria-label',d.navGoChapter+' '+(index+1)));
+}
+function showStoryChapter(index){
+  index=Math.max(0,Math.min(STORY_COUNT-1,index));
+  const stateMatches=index===0?!window.DEMO_STARTED:
+    (index===STORY_COUNT-1?window.DEMO_OUTRO:
+      (window.DEMO_STARTED&&!window.DEMO_OUTRO&&cur===index-1));
+  if(index===storyIndex&&stateMatches)return;
+  const previousIndex=storyIndex;
+  storyIndex=index;updateStoryChrome();
+  if(index===0){showIntro();return;}
+  if(index===STORY_COUNT-1){showOutro();return;}
+  window.DEMO_STARTED=true;window.DEMO_OUTRO=false;
+  G('p3').classList.remove('show-outro');G('p3').classList.add('started');
+  setProfitTitlePage(false);enter(index-1,(reduceMotion()||index<previousIndex)?'done':'build');
+}
+function scrollToStoryChapter(index){
+  index=Math.max(0,Math.min(STORY_COUNT-1,index));
+  const stop=storyStops[index];
+  if(stop)stop.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'start'});
+}
+
+if(storyDots&&storyStops.length===STORY_COUNT){
+  storyStops.forEach((stop,index)=>{
+    const dot=document.createElement('button');
+    dot.className='story-dot'+(index===0?' on':'');
+    dot.type='button';
+    dot.addEventListener('click',()=>scrollToStoryChapter(index));storyDots.appendChild(dot);
+  });
+  updateStoryLabels();updateStoryChrome();
+  const storyObserver=new IntersectionObserver(entries=>{
+    if(!verticalStory())return;
+    entries.forEach(entry=>{
+      if(entry.isIntersecting&&entry.intersectionRatio>=.55){
+        showStoryChapter(Number(entry.target.dataset.storyIndex));
+      }
+    });
+  },{threshold:[.55]});
+  storyStops.forEach(stop=>storyObserver.observe(stop));
+  let storyFrame=0;
+  addEventListener('scroll',()=>{
+    if(!verticalStory()||storyFrame)return;
+    storyFrame=requestAnimationFrame(()=>{
+      storyFrame=0;
+      const max=Math.max(1,storyShell.offsetHeight-innerHeight);
+      const amount=Math.max(0,Math.min(1,(scrollY-storyShell.offsetTop)/max));
+      storyProgress.style.width=(amount*100)+'%';
+    });
+  },{passive:true});
+}
+
+G('prev').addEventListener('click',()=>verticalStory()?scrollToStoryChapter(storyIndex-1):onPrev());
+G('next').addEventListener('click',()=>verticalStory()?scrollToStoryChapter(storyIndex+1):onNext());
 const homeLogo=document.querySelector('#p3 .lock');
 if(homeLogo){
   homeLogo.setAttribute('role','button');homeLogo.setAttribute('tabindex','0');homeLogo.setAttribute('title','Home');
-  const goHome=showIntro;
+  const goHome=()=>verticalStory()?scrollToStoryChapter(0):showIntro();
   homeLogo.addEventListener('click',goHome);
   homeLogo.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goHome();}});
 }
 
 document.addEventListener('keydown',e=>{
-  if(document.querySelector('.more.on')) return;
-  if(e.key==='ArrowRight'){e.preventDefault();onNext();}
-  else if(e.key==='ArrowLeft'){e.preventDefault();onPrev();}
+  if(document.querySelector('.more.on')||document.querySelector('.artmodal.on')) return;
+  if(verticalStory()){
+    if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();scrollToStoryChapter(storyIndex+1);}
+    else if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();scrollToStoryChapter(storyIndex-1);}
+  }else{
+    if(e.key==='ArrowRight'){e.preventDefault();onNext();}
+    else if(e.key==='ArrowLeft'){e.preventDefault();onPrev();}
+  }
 });
 
 const cd=G('card'); if(cd) cd.addEventListener('click',()=>{ if(window.openMore) window.openMore(1); });
 G('artmodal').addEventListener('click',e=>{ if(e.target===G('artmodal')) closeArt(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeArt(); });
-window.demoSetLang=function(){ buildArtifacts(); if(window.DEMO_STARTED)enter(cur,'done'); else showIntro(); };
+window.demoSetLang=function(){
+  buildArtifacts();updateStoryLabels();
+  if(window.DEMO_STARTED)enter(cur,'done'); else showIntro();
+};
 showIntro();
 })();
 </script>
