@@ -874,6 +874,128 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
   border-bottom:1px solid var(--rule);background:none;cursor:pointer;font:inherit;
   font-size:11px;letter-spacing:.11em;color:var(--ink);margin:26px 30px 0 0}
 .moreclose:hover{border-bottom-color:var(--ink)}
+
+/* Mobile is a composed version of the same five-part story, not a scaled desktop canvas. */
+@media (max-width:760px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  #p3,#p3>.sheet,#p3 .bd.top,#demo3,#demo3 .sheet,#demo3 .desk,
+  #demo3 .colw,#demo3 .win,#demo3 .source-col,#demo3 .eclipsai-col{
+    width:100%;max-width:100%;min-width:0}
+
+  #p3>.sheet{padding:14px 16px calc(94px + env(safe-area-inset-bottom))}
+  #p3 .hd{align-items:start;row-gap:12px;padding-bottom:14px}
+  #p3 .lock{height:42px;max-height:42px;width:auto;max-width:104px}
+  #p3 .hdr3{display:grid;justify-items:end;gap:0;min-width:104px}
+  #p3 .emark{width:104px;height:36px}
+  #p3 .hdr3 .lang{position:static;margin-top:-1px}
+  #p3 .lang{gap:2px;font-size:10px}
+  #p3 .lang button{min-width:32px;height:32px;padding:0 6px}
+
+  #p3.started .hd .website-title{min-height:0;margin:0;padding-top:2px;
+    font-size:clamp(20px,5.5vw,23px);line-height:1.2}
+  #p3.started .hd .website-title.static .title-cycle{text-align:left}
+
+  #p3 .intro{min-height:calc(100svh - 92px);align-items:stretch;justify-content:flex-start;
+    padding:clamp(58px,12svh,96px) 12px calc(90px + env(safe-area-inset-bottom))}
+  #p3 .intro-title-slot{width:100%;transform:none}
+  #p3:not(.started) .website-title{font-size:clamp(25px,7.2vw,31px)!important;line-height:1.12}
+  #p3:not(.started) .website-title .title-rotator{gap:5px;padding-left:18px;
+    font-size:17px;line-height:1.24}
+  #p3:not(.started) .website-title .title-item{animation-duration:.34s;
+    animation-delay:calc(100ms + (var(--topic-index) * 220ms))}
+
+  #p3 .outro{min-height:calc(100svh - 92px);align-items:flex-start;justify-content:flex-start;
+    padding:clamp(58px,12svh,96px) 12px calc(90px + env(safe-area-inset-bottom))}
+  #p3 .outro-copy{width:100%;transform:none;--outro-size:clamp(19px,5.25vw,22px)}
+  #p3 .outro-lines{margin-top:22px;gap:10px}
+  #p3 .outro-foot{margin-top:14px}
+
+  #p3 .demo-navrow{bottom:calc(16px + env(safe-area-inset-bottom));gap:12px}
+  #p3 .pnav{width:48px;height:48px;background:rgba(239,238,231,.97)}
+  #p3 .pnav.off{display:none}
+
+  #p3.started .subttl{margin:10px 0 8px;font-size:16px}
+  #p3.started #demo3{padding:0}
+  #p3.started #demo3 .desk{gap:18px;margin:16px 0 72px}
+  #demo3 .colw{flex:0 1 auto}
+  #demo3 .bw{grid-template-columns:48px minmax(0,1fr);height:clamp(300px,40svh,340px)}
+  #demo3 .main{height:clamp(300px,40svh,340px);min-width:0}
+  #demo3 .ew{height:clamp(300px,40svh,340px);width:100%;max-width:100%}
+  #demo3 .link{height:54px;min-height:54px;gap:3px}
+  #demo3 .mobile-flow-arrow{height:29px;flex-basis:29px}
+  #demo3 .mobile-flow-arrow::before{height:19px}
+  #demo3 .mobile-flow-arrow::after{bottom:1px}
+  #p3[data-demo-step="2"] #demo3 .link{display:none}
+
+  #demo3 .source-vendors{gap:2px 9px;margin-top:8px;font-size:12.5px;line-height:1.3}
+  #demo3 .nv{padding:7px 0;font-size:8px}
+  #demo3 .nv svg{width:14px;height:14px}
+  #demo3 .ah{gap:8px;padding:11px 10px 0}
+  #demo3 .ah h1{font-size:15px}
+  #demo3 .tabs{justify-content:flex-end}
+  #demo3 #tab1{display:none}
+  #demo3 .tab{padding:5px 7px;font-size:11px}
+  #demo3 .sub{padding:8px 11px;font-size:10.5px;line-height:1.3}
+  #demo3 .bw table{font-size:11.5px}
+  #demo3 .bw th{padding:6px 9px}
+  #demo3 .bw td{height:29px;padding:5px 9px}
+  #demo3 .status{padding:7px 11px;font-size:10.5px}
+
+  #demo3 .eh{padding:12px 14px 11px}
+  #demo3 .eh .say{font-size:15px;line-height:1.25}
+  #demo3 .eh .n{width:62px;height:22px}
+  #demo3 .eb{padding:12px 13px 14px;min-width:0}
+  #demo3 .stream{font-size:9.5px;line-height:18px}
+  #demo3 .hubcore{width:104px;height:68px}
+  #demo3 .hubsrc{width:88px;height:76px}
+  #demo3 .source-label{font-size:9px}
+
+  #demo3 .chg{grid-template-columns:minmax(0,1fr) 76px 42px;gap:7px;
+    padding:5px 0;font-size:11px}
+  #demo3 #chgs .chg:nth-child(n+6){display:none}
+  #demo3 .checkoverlay{gap:4px;padding:7px 6px}
+  #demo3 .checkitem{width:calc(100% - 8px);font-size:11.5px;line-height:1.2;padding:5px 7px}
+  #demo3 .checkitem::after{font-size:14px}
+
+  #demo3 #e2 .eq{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);
+    gap:6px;padding-bottom:12px;margin-bottom:3px}
+  #demo3 #e2 .eqi{min-width:0}
+  #demo3 #e2 .eqv{font-size:25px}
+  #demo3 #e2 .eqo{font-size:15px;padding-top:3px}
+  #demo3 #e2 .eql{margin-top:6px;font-size:8.5px;line-height:1.28;overflow-wrap:anywhere}
+  #demo3 #e2 #ev .erow{grid-template-columns:minmax(0,1fr) 48px 58px;gap:7px;
+    padding:6px 0;font-size:11px}
+  #demo3 #e2 #ev .erow span{display:none}
+  #demo3 #e2 #ev .erow span:nth-child(3),
+  #demo3 #e2 #ev .erow span:nth-child(5),
+  #demo3 #e2 #ev .erow span:nth-child(9){display:block}
+  #demo3 #e2 #ev .erow span:nth-child(3){grid-column:1}
+  #demo3 #e2 #ev .erow span:nth-child(5){grid-column:2}
+  #demo3 #e2 #ev .erow span:nth-child(9){grid-column:3}
+  #demo3 #e2 #ev .erow.h{font-size:8.5px;letter-spacing:.02em}
+  #demo3 #e2 #ev .erow.tot{grid-template-columns:minmax(0,1fr) 58px}
+  #demo3 #e2 #ev .erow.tot span{display:none}
+  #demo3 #e2 #ev .erow.tot span:first-child,
+  #demo3 #e2 #ev .erow.tot span:last-child{display:block}
+  #demo3 #e2 #ev .erow.tot span:first-child{grid-column:1;white-space:normal}
+  #demo3 #e2 #ev .erow.tot span:last-child{grid-column:2;text-align:right}
+
+  #demo3 .cardw{zoom:1}
+  #demo3 .card{padding:18px 18px 16px}
+  #demo3 .ct{font-size:13px}
+  #demo3 .cd{font-size:9px}
+  #demo3 .ctitle{margin-top:15px;font-size:17px;line-height:1.3}
+  #demo3 .csub{margin-top:6px;font-size:10.5px}
+  #demo3 .creads{margin-top:14px}
+  #demo3 .cr{padding:11px 0}
+  #demo3 .ck{font-size:11.5px}
+  #demo3 .cv b{font-size:34px}
+  #demo3 .cv b.sm{font-size:23px}
+  #demo3 .cproj{margin-top:16px}
+
+  #demo3 .voiceover{left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom))}
+  #demo3 .voiceover span{font-size:14px;line-height:1.35}
+}
 </style>
 </head>
 <body>
@@ -1425,11 +1547,13 @@ let SPD=1;
 const wait=ms=>new Promise(r=>setTimeout(r,ms*SPD));
 const mobileLayout=()=>window.matchMedia('(max-width:760px)').matches;
 const reduceMotion=()=>window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+function resetMobileViewport(){
+  if(mobileLayout())window.scrollTo({top:0,left:0,behavior:'auto'});
+}
 async function focusMobile(el,a,lead=0){
   if(!mobileLayout())return true;
   if(lead){await wait(lead);if(!a())return false;}
-  el.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'center'});
-  await wait(650);return a();
+  return a();
 }
 const D=()=>window.D();
 const ORD=[0,3,4], N=ORD.length;
@@ -1749,7 +1873,7 @@ async function enter(i,mode){
   cur=i;
   reset();for(let k=0;k<i;k++)P[ORD[k]]();
   step(i);
-  if(mobileLayout())window.scrollTo({top:0,behavior:'auto'});
+  resetMobileViewport();
   if(mode!=='build'){P[ORD[i]]();showLastCaption(i);building=false;setReady();return;}
   building=true;setReady();
   await A[ORD[i]](a);if(!a())return;
@@ -1772,7 +1896,7 @@ function finish(){
 
 function showOutro(){
   token++;building=false;window.DEMO_OUTRO=true;
-  G('p3').classList.add('show-outro');G('voiceover').classList.remove('on');setReady();
+  G('p3').classList.add('show-outro');G('voiceover').classList.remove('on');resetMobileViewport();setReady();
 }
 function leaveOutro(){
   window.DEMO_OUTRO=false;G('p3').classList.remove('show-outro');enter(N-1,'done');
@@ -1794,7 +1918,7 @@ function onPrev(){
 function showIntro(){
   token++;building=false;window.DEMO_STARTED=false;window.DEMO_OUTRO=false;
   G('p3').classList.remove('started','show-outro');
-  reset();step(0);flow(null);G('wB').classList.remove('idle');setReady();
+  reset();step(0);flow(null);G('wB').classList.remove('idle');resetMobileViewport();setReady();
 }
 function startDemo(){
   window.DEMO_STARTED=true;window.DEMO_OUTRO=false;G('p3').classList.remove('show-outro');
