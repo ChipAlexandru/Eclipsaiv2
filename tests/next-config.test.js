@@ -29,6 +29,10 @@ test("production proxies the complete Juliette path to Railway", async () => {
     assert.deepEqual(await nextConfig.rewrites(), {
       beforeFiles: [
         {
+          source: "/fresh-food-demo",
+          destination: "/fresh-food-demo/index.html",
+        },
+        {
           source: "/juliette",
           destination: "https://example-production.up.railway.app/juliette",
         },
@@ -37,21 +41,30 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "https://example-production.up.railway.app/juliette/:path*",
         },
       ],
-      afterFiles: [],
+      afterFiles: [{
+        source: "/Hausammann-demo-1",
+        destination: "/Hausammann-demo-1/index.html",
+      }],
       fallback: [],
     });
   });
 });
 
-test("preview and local builds cannot proxy production client data", async () => {
+test("preview and local builds serve the public demo without proxying production client data", async () => {
   for (const vercelEnvironment of ["preview", "development", undefined]) {
     await withEnvironment({
       VERCEL_ENV: vercelEnvironment,
       JULIETTE_PORTAL_ORIGIN: "https://example-production.up.railway.app",
     }, async () => {
       assert.deepEqual(await nextConfig.rewrites(), {
-        beforeFiles: [],
-        afterFiles: [],
+        beforeFiles: [{
+          source: "/fresh-food-demo",
+          destination: "/fresh-food-demo/index.html",
+        }],
+        afterFiles: [{
+          source: "/Hausammann-demo-1",
+          destination: "/Hausammann-demo-1/index.html",
+        }],
         fallback: [],
       });
     });
@@ -74,13 +87,23 @@ test("production fails closed when the configured destination is unsafe", async 
 
 test("production portal responses are private and excluded from indexing", async () => {
   await withEnvironment({ VERCEL_ENV: "production" }, async () => {
-    assert.deepEqual(await nextConfig.headers(), [{
-      source: "/juliette/:path*",
-      headers: [
-        { key: "Cache-Control", value: "private, no-store" },
-        { key: "X-Robots-Tag", value: "noindex, nofollow" },
-      ],
-    }]);
+    assert.deepEqual(await nextConfig.headers(), [
+      {
+        source: "/Hausammann-demo-1",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/Hausammann-demo-1/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/juliette/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+    ]);
   });
 });
 
