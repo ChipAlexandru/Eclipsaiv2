@@ -8,12 +8,12 @@ const nextConfig = {
   // Preview and local builds deliberately cannot reach live client data.
   async rewrites() {
     const origin = productionJuliettePortalOrigin();
-    const publicPages = [freshFoodDemoRewrite, spruengliDemoRewrite];
+    const publicPages = [freshFoodDemoRewrite, spruengliDemoRewrite, hausammannDemoRewrite];
 
     if (!origin) {
       return {
         beforeFiles: publicPages,
-        afterFiles: [hausammannDemoRewrite],
+        afterFiles: [],
         fallback: [],
       };
     }
@@ -30,7 +30,7 @@ const nextConfig = {
           destination: `${origin}/juliette/:path*`,
         },
       ],
-      afterFiles: [hausammannDemoRewrite],
+      afterFiles: [],
       fallback: [],
     };
   },
