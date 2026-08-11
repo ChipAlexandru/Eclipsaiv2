@@ -6,7 +6,7 @@ The shared presentation shell and animation engine support three demo configurat
 - `/Hausammann-demo-1`
 - `/fresh-food-demo`
 
-Sprüngli is the first public rollout. `next.config.js` rewrites its public URL to `index.html` with the `spruengli` query parameter; the browser URL does not change. Hausammann and the generic demo remain on their existing public implementations until their rollout is enabled.
+Sprüngli, Hausammann and the generic bakery demo use the shared shell. `next.config.js` rewrites each public URL to `index.html` with its configuration query parameter; the browser URL does not change.
 
 ## Files
 

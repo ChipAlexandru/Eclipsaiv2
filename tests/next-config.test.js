@@ -30,7 +30,7 @@ test("production proxies the complete Juliette path to Railway", async () => {
       beforeFiles: [
         {
           source: "/fresh-food-demo",
-          destination: "/fresh-food-demo/index.html",
+          destination: "/demo-common/index.html?demo=generic",
         },
         {
           source: "/Spruengli-demo-2",
@@ -48,7 +48,7 @@ test("production proxies the complete Juliette path to Railway", async () => {
       afterFiles: [
         {
           source: "/Hausammann-demo-1",
-          destination: "/Hausammann-demo-1/index.html",
+          destination: "/demo-common/index.html?demo=hausammann",
         },
       ],
       fallback: [],
@@ -66,7 +66,7 @@ test("preview and local builds serve the public demo without proxying production
         beforeFiles: [
           {
             source: "/fresh-food-demo",
-            destination: "/fresh-food-demo/index.html",
+            destination: "/demo-common/index.html?demo=generic",
           },
           {
             source: "/Spruengli-demo-2",
@@ -76,7 +76,7 @@ test("preview and local builds serve the public demo without proxying production
         afterFiles: [
           {
             source: "/Hausammann-demo-1",
-            destination: "/Hausammann-demo-1/index.html",
+            destination: "/demo-common/index.html?demo=hausammann",
           },
         ],
         fallback: [],

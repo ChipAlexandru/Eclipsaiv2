@@ -137,6 +137,18 @@
       font-weight: 700;
       letter-spacing: .18em;
     }
+    .page-brand.has-client-logo {
+      display: flex;
+      width: 104px;
+      height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: 2px;
+      background: rgba(239, 238, 231, .96);
+      line-height: 0;
+    }
+    .page-brand.has-client-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .page-header-title {
       overflow: hidden;
       font-size: clamp(16px, 1.5vw, 21px);
@@ -267,6 +279,63 @@
     .balance-line span:first-child { color: var(--sold); }
     .balance-line span:nth-child(2) { color: var(--solar); }
     .balance-line span:last-child { color: var(--waste); }
+    .balance-cursor { display: none; }
+    #decision.balance-animated .balance-line > span::before { display: none; }
+    #decision.balance-animated .balance-line::before {
+      background: rgba(239, 238, 231, .34);
+    }
+    #decision.balance-animated .balance-line > span {
+      color: var(--paper);
+      opacity: .46;
+      transform: scale(1);
+      transform-origin: 50% 0;
+      will-change: opacity, transform;
+    }
+    #decision.balance-animated .balance-cursor {
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      display: block;
+      width: 11px;
+      height: 11px;
+      border: 2px solid var(--night);
+      border-radius: 50%;
+      background: var(--paper);
+      box-shadow: 0 0 0 3px rgba(239, 238, 231, .1), 0 0 14px rgba(239, 238, 231, .16);
+      transform: translate(-50%, -50%);
+      will-change: left;
+    }
+    #decision.balance-animated.balance-running .balance-cursor {
+      animation: find-balance 4.6s cubic-bezier(.45, 0, .2, 1) .35s both;
+    }
+    #decision.balance-animated.balance-running .balance-line > span:first-child {
+      animation: balance-label-left 4.6s ease .35s both;
+    }
+    #decision.balance-animated.balance-running .balance-line > span:nth-child(2) {
+      animation: balance-label-center 4.6s ease .35s both;
+    }
+    #decision.balance-animated.balance-running .balance-line > span:nth-child(3) {
+      animation: balance-label-right 4.6s ease .35s both;
+    }
+    @keyframes find-balance {
+      0%, 14% { left: 50%; }
+      34%, 44% { left: 16%; }
+      70%, 80% { left: 84%; }
+      100% { left: 50%; }
+    }
+    @keyframes balance-label-left {
+      0%, 27%, 52%, 100% { opacity: .46; transform: scale(1); }
+      34%, 44% { opacity: 1; transform: scale(1.1); }
+    }
+    @keyframes balance-label-center {
+      0%, 14% { opacity: 1; transform: scale(1.08); }
+      25%, 84% { opacity: .46; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.12); }
+    }
+    @keyframes balance-label-right {
+      0%, 63%, 90%, 100% { opacity: .46; transform: scale(1); }
+      70%, 80% { opacity: 1; transform: scale(1.1); }
+    }
 
     .field-gallery { position: relative; min-height: 510px; }
     .field-photo {
@@ -279,6 +348,7 @@
     .field-photo img { width: 100%; height: 100%; display: block; object-fit: cover; filter: saturate(.8) contrast(1.03); }
     .field-photo.late { inset: 0 0 5% 10%; }
     .field-photo.early { left: 0; bottom: 0; z-index: 2; width: 46%; height: 42%; }
+    .field-gallery.single .field-photo.late { inset: 0; }
     .field-caption {
       position: absolute;
       inset: auto 0 0;
@@ -437,6 +507,7 @@
       .page-header-title { display: none; }
       .page-wordmark { width: 96px; height: 32px; }
       .page-brand { font-size: 11px; }
+      .page-brand.has-client-logo { width: 82px; height: 38px; padding: 3px 6px; }
       #hero .display { font-size: clamp(42px, 13vw, 54px); }
       .profit-menu { font-size: 21px; }
       #decision .display { font-size: 45px; hyphens: auto; overflow-wrap: anywhere; }
@@ -456,6 +527,9 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
+      #decision.balance-animated.balance-running .balance-cursor { animation: none; left: 50%; }
+      #decision.balance-animated.balance-running .balance-line > span { animation: none; }
+      #decision.balance-animated.balance-running .balance-line > span:nth-child(2) { opacity: 1; transform: scale(1.12); }
     }
   </style>
 </head>
@@ -469,10 +543,10 @@
 
   <section id="hero" class="dark">
     <header class="page-header">
-      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite" data-copy="clientBrand">CLIENT</a>
+      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite" data-client-brand>CLIENT</a>
       <span class="page-header-title"></span>
       <span class="page-header-tools">
-        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai Website"></a>
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai-Website"></a>
         <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
       </span>
     </header>
@@ -490,7 +564,7 @@
 
   <section id="decision" class="dark">
     <header class="page-header">
-      <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a>
+      <a class="page-brand" href="#hero" data-client-brand>CLIENT</a>
       <span class="page-header-title" data-copy="decisionKicker">Die tägliche Produktionsentscheidung</span>
       <span class="page-header-tools">
         <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
@@ -505,17 +579,10 @@
           <span data-copy="missedSales">Entgangene Verkäufe</span>
           <span data-copy="bestQuantity">Optimale Produktionsmenge</span>
           <span data-copy="unsoldProduct">Unverkaufte Ware</span>
+          <i class="balance-cursor" aria-hidden="true"></i>
         </div>
       </div>
-      <div class="field-gallery reveal">
-        <figure class="field-photo late">
-          <img id="field-late-image" sizes="(max-width: 900px) 86vw, 45vw" loading="lazy" decoding="async" alt="">
-          <figcaption class="field-caption"><strong>16:03</strong><small data-copy="fieldLate">4. August · Zürich</small></figcaption>
-        </figure>
-        <figure class="field-photo early">
-          <img id="field-early-image" loading="lazy" decoding="async" alt="">
-          <figcaption class="field-caption"><strong>10:28</strong><small data-copy="fieldEarly">3. August · Zürich</small></figcaption>
-        </figure>
+      <div class="field-gallery reveal" id="field-gallery">
         <span class="field-note" data-copy="fieldNote">Beobachtungen vor Ort · Zürich · August 2026</span>
       </div>
     </div>
@@ -523,7 +590,7 @@
 
   <section id="systems">
     <header class="page-header">
-      <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a>
+      <a class="page-brand" href="#hero" data-client-brand>CLIENT</a>
       <span class="page-header-title" data-copy="systemsKicker">Warum diese Entscheidung schwierig bleibt</span>
       <span class="page-header-tools">
         <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
@@ -546,10 +613,10 @@
 
   <section id="source-data" class="engine-chapter" data-chapter="0">
     <div class="engine-loading">Eclipsai Demo wird geladen</div>
-    <iframe class="engine-desktop" title="Tägliches Gesamtbild erstellen"></iframe>
+    <iframe class="engine-desktop" title="Tägliches Gesamtbild erstellen" data-frame-copy="sourceFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
       <div class="mobile-copy">
@@ -568,10 +635,10 @@
 
   <section id="production-orders" class="engine-chapter" data-chapter="1">
     <div class="engine-loading">Eclipsai Demo wird geladen</div>
-    <iframe class="engine-desktop" title="Produktionsaufträge empfehlen und umsetzen"></iframe>
+    <iframe class="engine-desktop" title="Produktionsmengen empfehlen und umsetzen" data-frame-copy="orderFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
       <div class="mobile-copy"><h2 class="display" data-copy="mobileOrderTitle">Die Änderungen mit dem grössten erwarteten Gewinn umsetzen.</h2></div>
@@ -588,10 +655,10 @@
 
   <section id="profit-measurement" class="engine-chapter" data-chapter="2">
     <div class="engine-loading">Eclipsai Demo wird geladen</div>
-    <iframe class="engine-desktop" title="Gewinnbeitrag messen"></iframe>
+    <iframe class="engine-desktop" title="Mehrgewinn messen" data-frame-copy="profitFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="measurementTitle">Ergebnisse über alle Filialen auswerten</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="measurementTitle">Ergebnisse über alle Filialen auswerten</span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
       <div class="mobile-copy"><h2 class="display" data-copy="mobileProfitTitle">Den Gewinn messen und ausweisen.</h2></div>
@@ -605,10 +672,10 @@
 
   <section id="production-outro" class="engine-chapter dark" data-chapter="outro">
     <div class="engine-loading">Eclipsai Demo wird geladen</div>
-    <iframe class="engine-desktop" title="Bessere Produktionsmengen und mehr Gewinn"></iframe>
+    <iframe class="engine-desktop" title="Bessere Produktionsmengen und mehr Gewinn" data-frame-copy="outroFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title"></span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title"></span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
       <div class="mobile-copy"><h2 class="display" data-copy="outroTitle">Bessere Produktionsmengen. Mehr Gewinn.</h2></div>
@@ -631,6 +698,7 @@
 
     const demoConfig = window.ECLIPSAI_DEMO;
     const copy = demoConfig.copy;
+    document.getElementById("decision").classList.toggle("balance-animated", Boolean(demoConfig.features && demoConfig.features.balanceAnimation));
 
     document.title = demoConfig.title;
     document.querySelector('meta[name="description"]').content = demoConfig.description;
@@ -639,13 +707,29 @@
     document.querySelector('meta[property="og:description"]').content = demoConfig.ogDescription || demoConfig.description;
     document.querySelector('meta[property="og:url"]').content = "https://eclipsai.com" + demoConfig.route;
 
-    const lateImage = document.getElementById("field-late-image");
-    const earlyImage = document.getElementById("field-early-image");
-    lateImage.src = demoConfig.assets.fieldLate;
-    if (demoConfig.assets.fieldLateSmall && demoConfig.assets.fieldLateSmall !== demoConfig.assets.fieldLate) {
-      lateImage.srcset = demoConfig.assets.fieldLateSmall + " 720w, " + demoConfig.assets.fieldLate + " 1600w";
-    }
-    earlyImage.src = demoConfig.assets.fieldEarly;
+    const fieldGallery = document.getElementById("field-gallery");
+    const fieldEvidence = demoConfig.assets.fieldEvidence || [];
+    fieldGallery.classList.toggle("single", fieldEvidence.length === 1);
+    fieldEvidence.slice(0, 2).forEach((item, index) => {
+      const figure = document.createElement("figure");
+      figure.className = "field-photo " + (index === 0 ? "late" : "early");
+      const image = document.createElement("img");
+      image.src = item.src;
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.alt = "";
+      image.sizes = index === 0 ? "(max-width: 900px) 86vw, 45vw" : "(max-width: 900px) 48vw, 22vw";
+      if (item.small && item.small !== item.src) image.srcset = item.small + " 720w, " + item.src + " 1600w";
+      const caption = document.createElement("figcaption");
+      caption.className = "field-caption";
+      const time = document.createElement("strong");
+      time.textContent = item.time || "";
+      const note = document.createElement("small");
+      if (item.copyKey) note.dataset.copy = item.copyKey;
+      caption.append(time, note);
+      figure.append(image, caption);
+      fieldGallery.insertBefore(figure, fieldGallery.querySelector(".field-note"));
+    });
 
     const numberForDisplay = (value) => Number(value).toLocaleString("de-CH").replace(/'/g, "’");
     document.getElementById("mobile-order-rows").innerHTML = demoConfig.mobileOrders.map((row) =>
@@ -656,7 +740,7 @@
     document.getElementById("mobile-profit-gain").textContent = numberForDisplay(demoConfig.engineData.financials.gain) + " CHF";
     engineFrames.forEach((frame) => {
       const chapter = frame.closest(".engine-chapter").dataset.chapter;
-      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-common";
+      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-hausammann";
     });
 
     const goToPage = (index) => {
@@ -690,6 +774,23 @@
       document.querySelectorAll("[data-copy]").forEach((element) => {
         const value = copy[lang][element.dataset.copy];
         if (value != null) element.textContent = value;
+      });
+      document.querySelectorAll("[data-client-brand]").forEach((brand) => {
+        brand.setAttribute("aria-label", copy[lang].homeLink);
+        brand.classList.toggle("has-client-logo", Boolean(demoConfig.assets.clientLogo));
+        brand.replaceChildren();
+        if (demoConfig.assets.clientLogo) {
+          const logo = document.createElement("img");
+          logo.src = demoConfig.assets.clientLogo;
+          logo.alt = copy[lang].clientBrand;
+          brand.appendChild(logo);
+        } else {
+          brand.textContent = copy[lang].clientBrand;
+        }
+      });
+      document.querySelectorAll(".page-wordmark").forEach((wordmark) => wordmark.setAttribute("aria-label", copy[lang].eclipsaiWebsite));
+      engineFrames.forEach((frame) => {
+        if (frame.dataset.frameCopy) frame.title = copy[lang][frame.dataset.frameCopy];
       });
       document.querySelectorAll("[data-lang]").forEach((button) => button.classList.toggle("active", button.dataset.lang === lang));
       pageUp.setAttribute("aria-label", copy[lang].previous);
@@ -727,7 +828,10 @@
     let lastActive = -1;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+        if (!entry.isIntersecting) {
+          if (entry.target.id === "decision") entry.target.classList.remove("balance-running");
+          return;
+        }
         const index = sections.indexOf(entry.target);
         if (index < 0 || index === lastActive) return;
         const previous = activeIndex;
@@ -735,6 +839,11 @@
         activeIndex = index;
         lastActive = index;
         entry.target.classList.add("in");
+        if (entry.target.id === "decision" && entry.target.classList.contains("balance-animated")) {
+          entry.target.classList.remove("balance-running");
+          void entry.target.offsetWidth;
+          entry.target.classList.add("balance-running");
+        }
         dotLinks.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === index));
         pageUp.classList.toggle("off", index === 0);
         pageDown.classList.toggle("off", index === sections.length - 1);

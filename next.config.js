@@ -8,13 +8,7 @@ const nextConfig = {
   // Preview and local builds deliberately cannot reach live client data.
   async rewrites() {
     const origin = productionJuliettePortalOrigin();
-    const publicPages = [
-      {
-        source: "/fresh-food-demo",
-        destination: "/fresh-food-demo/index.html",
-      },
-      spruengliDemoRewrite,
-    ];
+    const publicPages = [freshFoodDemoRewrite, spruengliDemoRewrite];
 
     if (!origin) {
       return {
@@ -95,7 +89,12 @@ const nextConfig = {
 
 const hausammannDemoRewrite = {
   source: "/Hausammann-demo-1",
-  destination: "/Hausammann-demo-1/index.html",
+  destination: "/demo-common/index.html?demo=hausammann",
+};
+
+const freshFoodDemoRewrite = {
+  source: "/fresh-food-demo",
+  destination: "/demo-common/index.html?demo=generic",
 };
 
 const spruengliDemoRewrite = {
