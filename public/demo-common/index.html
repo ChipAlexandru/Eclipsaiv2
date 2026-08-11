@@ -374,6 +374,17 @@
       transform: rotate(-90deg) translateX(100%);
       transform-origin: right top;
     }
+    .field-gallery.stacked {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 14px;
+    }
+    .field-gallery.stacked .field-photo { position: relative; inset: auto; width: auto; height: auto; min-height: 0; }
+    .field-gallery.stacked .field-photo.late,
+    .field-gallery.stacked .field-photo.early { inset: auto; width: auto; height: auto; }
+    .field-gallery.stacked .field-caption,
+    .field-gallery.stacked .field-photo.late .field-caption { left: 0; width: 100%; padding: 38px 15px 13px; }
+    .field-gallery.stacked .field-caption strong { font-size: clamp(30px, 3vw, 42px); }
 
     #systems { background: var(--paper); }
     #systems .inner { width: min(1060px, 100%); }
@@ -521,6 +532,7 @@
       .field-photo.late { inset: 0 0 6% 7%; }
       .field-photo.early { width: 49%; height: 40%; }
       .field-note { display: none; }
+      .field-gallery.stacked { min-height: 560px; gap: 12px; }
       .balance-line span { overflow-wrap: anywhere; }
       .source-list { grid-template-columns: 1fr; margin-top: 34px; }
       .source-row { padding: 21px 0; }
@@ -607,14 +619,7 @@
     </header>
     <div class="inner reveal">
       <h2 class="display" data-copy="systemsTitle">Die nötigen Daten sind auf mehrere Systeme verteilt.</h2>
-      <div class="source-list">
-        <div class="source-row"><b>POS</b><span data-copy="posDesc">Was wann und wo verkauft wurde</span></div>
-        <div class="source-row"><b>ERP / SAP</b><span data-copy="erpDesc">Artikelstammdaten, Kosten und Margen</span></div>
-        <div class="source-row"><b data-copy="planningLabel">Produktionsplanung</b><span data-copy="planningDesc">Was für welche Filiale produziert und geliefert wurde</span></div>
-        <div class="source-row"><b data-copy="excelLabel">Excel &amp; Rezepturen</b><span data-copy="excelDesc">Planungsregeln, Rezepturen und lokale Anpassungen</span></div>
-        <div class="source-row"><b data-copy="ordersLabel">Bestellungen &amp; Filialmeldungen</b><span data-copy="ordersDesc">Sonderbestellungen und Wissen aus den Filialen</span></div>
-        <div class="source-row"><b data-copy="wasteLabel">Retouren &amp; Tagesabschluss</b><span data-copy="wasteDesc">Was am Tagesende retourniert oder abgeschrieben wurde</span></div>
-      </div>
+      <div class="source-list" id="system-source-list"></div>
       <p class="systems-statement" data-copy="systemsStatement">Eclipsai baut operative Intelligenz für Frischbetriebe.</p>
     </div>
   </section>
@@ -632,9 +637,7 @@
         <h2 class="display" data-copy="mobileSourceTitle">Alle relevanten Daten systemübergreifend zusammenführen.</h2>
       </div>
       <div class="mobile-artifact">
-        <div class="source-mobile-grid">
-          <span class="source-chip">POS &amp; ERP</span><span class="source-chip" data-copy="sourceProduction">Produktionsdaten</span><span class="source-chip" data-copy="sourcePlanning">Planungsdateien &amp; Rezepturen</span><span class="source-chip" data-copy="sourceStores">Filialfotos &amp; Filialmeldungen</span>
-        </div>
+        <div class="source-mobile-grid" id="mobile-source-list"></div>
         <div class="source-mobile-arrow"></div>
         <div class="source-mobile-output"><span data-copy="dailyPictureBody">Absatz. Produktion. Retouren. Kosten. Lokale Informationen.</span></div>
       </div>
@@ -672,7 +675,7 @@
       <div class="mobile-copy"><h2 class="display" data-copy="mobileProfitTitle">Den Gewinn messen und ausweisen.</h2></div>
       <div class="mobile-artifact">
         <div class="mobile-artifact-head"><span data-copy="period">1.–5. August · alle Filialen</span><i></i></div>
-        <div class="profit-equation"><div class="profit-term good"><b id="mobile-profit-saved">7’800</b><span data-copy="savedCost">eingesparte Warenkosten (CHF)</span></div><span class="profit-op">−</span><div class="profit-term risk"><b id="mobile-profit-lost">1’200</b><span data-copy="lostProfit">potenziell entgangener Gewinn (CHF)</span></div></div>
+        <div class="profit-equation"><div class="profit-term good"><b id="mobile-profit-saved">7’800</b><span data-copy="savedCost">eingesparte Warenkosten (CHF)</span></div><span class="profit-op" id="mobile-profit-operator">−</span><div class="profit-term risk" id="mobile-profit-secondary"><b id="mobile-profit-lost">1’200</b><span data-copy="lostProfit">potenziell entgangener Gewinn (CHF)</span></div></div>
         <div class="profit-result"><span data-copy="profitGain">Gewinnbeitrag</span><b id="mobile-profit-gain">6’600 CHF</b></div>
       </div>
     </div>
@@ -702,10 +705,10 @@
     const engineFrames = Array.from(document.querySelectorAll(".engine-desktop"));
     const desktopMedia = matchMedia("(min-width: 1121px)");
     let activeIndex = 0;
-    let currentLang = "de";
 
     const demoConfig = window.ECLIPSAI_DEMO;
     const copy = demoConfig.copy;
+    let currentLang = demoConfig.defaultLanguage || "de";
     document.getElementById("decision").classList.toggle("balance-animated", Boolean(demoConfig.features && demoConfig.features.balanceAnimation));
 
     document.title = demoConfig.title;
@@ -715,9 +718,31 @@
     document.querySelector('meta[property="og:description"]').content = demoConfig.ogDescription || demoConfig.description;
     document.querySelector('meta[property="og:url"]').content = "https://eclipsai.com" + demoConfig.route;
 
+    const addCopyElement = (parent, tagName, copyKey, className) => {
+      const element = document.createElement(tagName);
+      if (copyKey) element.dataset.copy = copyKey;
+      if (className) element.className = className;
+      parent.appendChild(element);
+      return element;
+    };
+
+    const systemSourceList = document.getElementById("system-source-list");
+    (demoConfig.systemSources || []).forEach((source) => {
+      const row = document.createElement("div");
+      row.className = "source-row";
+      addCopyElement(row, "b", source.labelKey);
+      addCopyElement(row, "span", source.descriptionKey);
+      systemSourceList.appendChild(row);
+    });
+
+    const mobileSourceList = document.getElementById("mobile-source-list");
+    (demoConfig.mobileSourceKeys || []).forEach((copyKey) => addCopyElement(mobileSourceList, "span", copyKey, "source-chip"));
+
     const fieldGallery = document.getElementById("field-gallery");
     const fieldEvidence = demoConfig.assets.fieldEvidence || [];
+    const stackedEvidence = Boolean(demoConfig.features && demoConfig.features.fieldEvidenceLayout === "stacked");
     fieldGallery.classList.toggle("single", fieldEvidence.length === 1);
+    fieldGallery.classList.toggle("stacked", stackedEvidence);
     fieldEvidence.slice(0, 2).forEach((item, index) => {
       const figure = document.createElement("figure");
       figure.className = "field-photo " + (index === 0 ? "late" : "early");
@@ -726,8 +751,9 @@
       image.loading = "lazy";
       image.decoding = "async";
       image.alt = "";
-      image.sizes = index === 0 ? "(max-width: 900px) 86vw, 45vw" : "(max-width: 900px) 48vw, 22vw";
-      if (item.small && item.small !== item.src) image.srcset = item.small + " 720w, " + item.src + " 1600w";
+      image.sizes = stackedEvidence || index === 0 ? "(max-width: 900px) 86vw, 45vw" : "(max-width: 900px) 48vw, 22vw";
+      if (item.position) image.style.objectPosition = item.position;
+      if (item.small && item.small !== item.src) image.srcset = item.small + " 720w, " + item.src + " " + (item.width || 1600) + "w";
       const caption = document.createElement("figcaption");
       caption.className = "field-caption";
       const time = document.createElement("strong");
@@ -746,9 +772,13 @@
     document.getElementById("mobile-profit-saved").textContent = numberForDisplay(demoConfig.engineData.financials.saved);
     document.getElementById("mobile-profit-lost").textContent = numberForDisplay(demoConfig.engineData.financials.lost);
     document.getElementById("mobile-profit-gain").textContent = numberForDisplay(demoConfig.engineData.financials.gain) + " CHF";
+    const secondaryProfitIsGain = demoConfig.features && demoConfig.features.secondaryProfitTerm === "gain";
+    document.getElementById("mobile-profit-operator").textContent = (demoConfig.features && demoConfig.features.profitOperator) || "−";
+    document.getElementById("mobile-profit-secondary").classList.toggle("good", secondaryProfitIsGain);
+    document.getElementById("mobile-profit-secondary").classList.toggle("risk", !secondaryProfitIsGain);
     engineFrames.forEach((frame) => {
       const chapter = frame.closest(".engine-chapter").dataset.chapter;
-      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-hausammann";
+      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-shared";
     });
 
     const goToPage = (index) => {
@@ -877,7 +907,7 @@
       if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: "auto", block: "start" }));
     });
     desktopMedia.addEventListener && desktopMedia.addEventListener("change", () => ensureFrame(sections[activeIndex], "forward"));
-    applyLanguage("de", false);
+    applyLanguage(currentLang, false);
     pageUp.classList.add("off");
     updateProgress();
   </script>

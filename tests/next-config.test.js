@@ -41,6 +41,14 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "/demo-common/index.html?demo=hausammann",
         },
         {
+          source: "/restaurant-demo-0-0",
+          destination: "/demo-common/index.html?demo=restaurant",
+        },
+        {
+          source: "/restaurant-profit-brain-demo",
+          destination: "/demo-common/index.html?demo=restaurant",
+        },
+        {
           source: "/juliette",
           destination: "https://example-production.up.railway.app/juliette",
         },
@@ -74,6 +82,14 @@ test("preview and local builds serve the public demo without proxying production
           {
             source: "/Hausammann-demo-1",
             destination: "/demo-common/index.html?demo=hausammann",
+          },
+          {
+            source: "/restaurant-demo-0-0",
+            destination: "/demo-common/index.html?demo=restaurant",
+          },
+          {
+            source: "/restaurant-profit-brain-demo",
+            destination: "/demo-common/index.html?demo=restaurant",
           },
         ],
         afterFiles: [],
