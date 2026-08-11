@@ -13,12 +13,13 @@ const nextConfig = {
         source: "/fresh-food-demo",
         destination: "/fresh-food-demo/index.html",
       },
+      spruengliDemoRewrite,
     ];
 
     if (!origin) {
       return {
         beforeFiles: publicPages,
-        afterFiles: [hausammannDemoRewrite, spruengliDemoRewrite],
+        afterFiles: [hausammannDemoRewrite],
         fallback: [],
       };
     }
@@ -35,7 +36,7 @@ const nextConfig = {
           destination: `${origin}/juliette/:path*`,
         },
       ],
-      afterFiles: [hausammannDemoRewrite, spruengliDemoRewrite],
+      afterFiles: [hausammannDemoRewrite],
       fallback: [],
     };
   },
