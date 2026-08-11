@@ -37,6 +37,10 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "/demo-common/index.html?demo=spruengli",
         },
         {
+          source: "/Hausammann-demo-1",
+          destination: "/demo-common/index.html?demo=hausammann",
+        },
+        {
           source: "/juliette",
           destination: "https://example-production.up.railway.app/juliette",
         },
@@ -45,12 +49,7 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "https://example-production.up.railway.app/juliette/:path*",
         },
       ],
-      afterFiles: [
-        {
-          source: "/Hausammann-demo-1",
-          destination: "/demo-common/index.html?demo=hausammann",
-        },
-      ],
+      afterFiles: [],
       fallback: [],
     });
   });
@@ -72,13 +71,12 @@ test("preview and local builds serve the public demo without proxying production
             source: "/Spruengli-demo-2",
             destination: "/demo-common/index.html?demo=spruengli",
           },
-        ],
-        afterFiles: [
           {
             source: "/Hausammann-demo-1",
             destination: "/demo-common/index.html?demo=hausammann",
           },
         ],
+        afterFiles: [],
         fallback: [],
       });
     });
