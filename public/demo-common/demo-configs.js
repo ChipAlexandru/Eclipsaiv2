@@ -10,17 +10,17 @@
       topicLabor: "Personal und Betrieb",
       topicLocation: "Nächster Standort",
       decisionKicker: "Die tägliche Produktionsentscheidung",
-      decisionTitle: "Produktions\u00admengen müssen Absatz und Retouren ins Gleichgewicht bringen.",
-      decisionBody: "Die richtige Menge variiert je Artikel, Filiale und Tag.",
+      decisionTitle: "Bei der Produktions\u00admenge gilt es, Absatz und Retouren auszubalancieren.",
+      decisionBody: "Die optimale Menge unterscheidet sich je Artikel, Filiale und Tag.",
       missedSales: "Entgangene Verkäufe",
       bestQuantity: "Optimale Produktionsmenge",
       unsoldProduct: "Unverkaufte Ware",
       systemsKicker: "Warum diese Entscheidung schwierig bleibt",
-      systemsTitle: "Die nötigen Daten sind auf mehrere Systeme verteilt.",
+      systemsTitle: "Die nötigen Daten liegen in verschiedenen Systemen.",
       posDesc: "Was wann und wo verkauft wurde",
       erpDesc: "Artikelstammdaten, Kosten und Margen",
       planningLabel: "Produktionsplanung",
-      planningDesc: "Was für welche Filiale produziert und geliefert wurde",
+      planningDesc: "Produktions- und Liefermengen je Filiale",
       excelLabel: "Excel & Rezepturen",
       excelDesc: "Planungsregeln, Rezepturen und lokale Anpassungen",
       ordersLabel: "Bestellungen & Filialmeldungen",
@@ -36,21 +36,27 @@
       sourcePlanning: "Planungsdateien & Rezepturen",
       sourceStores: "Filialfotos & Filialmeldungen",
       dailyPictureBody: "Absatz. Produktion. Retouren. Kosten. Lokale Informationen.",
-      mobileOrderTitle: "Die Änderungen mit dem grössten erwarteten Gewinn umsetzen.",
+      mobileOrderTitle: "Die Anpassungen mit dem grössten Gewinnpotenzial umsetzen.",
       mobileOrderHead: "Vorschlag für morgen",
       item: "Artikel",
       current: "Bisher",
       recommended: "Neu",
-      orderImplemented: "3 bestätigte Änderungen an das Produktionssystem übergeben",
+      orderImplemented: "3 bestätigte Mengenänderungen an das Produktionssystem übergeben",
       mobileProfitTitle: "Den Gewinn messen und ausweisen.",
       period: "1.–5. August · alle Filialen",
-      savedCost: "eingesparte Warenkosten (CHF)",
-      lostProfit: "potenziell entgangener Gewinn (CHF)",
-      profitGain: "Gewinnbeitrag",
+      savedCost: "vermiedene Warenkosten (CHF)",
+      lostProfit: "potenziell entgangener Deckungsbeitrag (CHF)",
+      profitGain: "Mehrgewinn",
       outroTitle: "Bessere Produktionsmengen. Mehr Gewinn.",
-      outroLine1: "Eclipsai erkennt die wenigen Produktionsänderungen, die den Gewinn voraussichtlich verbessern.",
-      outroLine2: "Wir testen, messen das Ergebnis und automatisieren.",
-      outroLine3: "Mit den bestehenden Systemen.",
+      outroLine1: "Eclipsai erkennt, welche Anpassungen bei den Produktionsmengen den Gewinn messbar steigern.",
+      outroLine2: "Wir testen die Vorschläge, messen die Wirkung und automatisieren die Umsetzung.",
+      outroLine3: "Mit Ihren bestehenden Systemen.",
+      homeLink: "Zur ersten Seite",
+      eclipsaiWebsite: "Eclipsai-Website",
+      sourceFrameTitle: "Tägliches Gesamtbild erstellen",
+      orderFrameTitle: "Produktionsmengen empfehlen und umsetzen",
+      profitFrameTitle: "Mehrgewinn messen",
+      outroFrameTitle: "Bessere Produktionsmengen und mehr Gewinn",
       previous: "Vorherige Seite",
       next: "Nächste Seite",
       pages: "Präsentationsseiten",
@@ -101,10 +107,16 @@
       savedCost: "product cost saved (CHF)",
       lostProfit: "potential lost profit (CHF)",
       profitGain: "Profit gain",
-      outroTitle: "Better production quantities. More profit.",
-      outroLine1: "Eclipsai identifies the few production changes most likely to improve profit.",
-      outroLine2: "We test, measure the result and automate.",
-      outroLine3: "Using the systems already in place.",
+      outroTitle: "Better production orders. More profit.",
+      outroLine1: "Eclipsai finds the few production changes most likely to improve profit.",
+      outroLine2: "We test, measure the result, and automate.",
+      outroLine3: "Using the systems you have.",
+      homeLink: "Go to the first page",
+      eclipsaiWebsite: "Eclipsai website",
+      sourceFrameTitle: "Build a daily picture of the business",
+      orderFrameTitle: "Recommend and implement production quantities",
+      profitFrameTitle: "Measure profit gain",
+      outroFrameTitle: "Better production quantities and more profit",
       previous: "Previous page",
       next: "Next page",
       pages: "Presentation pages",
@@ -129,11 +141,19 @@
     ["Birchermüesli Heidelbeer-Vanille", 1, "9.50"], ["Couscous-Salat", 2, "17.80"], ["Luxemburgerli", 12, "28.80"]
   ];
 
-  function bakeryData(primary, secondary) {
+  function bakeryData(primary, secondary, namedLocations) {
+    const locations = Object.assign({
+      guggach: primary,
+      uster: secondary,
+      embrach: primary,
+      uni88: secondary
+    }, namedLocations || {});
     return {
       now: { p: 330, w: 250 },
       end: { p: 10000, w: 7500 },
       financials: { saved: 345, lost: 15, gain: 330 },
+      sampleFinancials: { saved: 78, lost: 12, gain: 66 },
+      sampleUnits: { returnsAvoided: 29, salesRisk: 2 },
       primaryLocation: primary,
       items: bakeryItems,
       production: [
@@ -141,8 +161,8 @@
         ["Sauerteigbrot", primary, 24, null], ["Berliner", primary, 80, 69], ["Gipfeli", primary, 45, null],
         ["Butterbrezel", primary, 80, 69], ["Nussgipfel", primary, 40, null], ["Zopf 500g", secondary, 24, 21],
         ["Butterbrezel", secondary, 24, null], ["Sauerteigbrot", secondary, 60, 54],
-        ["Ruchbrot 1kg", primary, 30, 27], ["Gipfeli", secondary, 24, 21], ["Vollkornbrot", secondary, 18, null],
-        ["Apfeltasche", primary, 120, 104], ["Zopf 500g", primary, 45, 41]
+        ["Ruchbrot 1kg", locations.guggach, 30, 27], ["Gipfeli", locations.uster, 24, 21], ["Vollkornbrot", locations.uster, 18, null],
+        ["Apfeltasche", locations.embrach, 120, 104], ["Zopf 500g", locations.embrach, 45, 41]
       ],
       chf: { 3: 13, 5: 10, 7: 3, 9: 9, 10: 4, 11: 3, 13: 21, 14: 6 },
       snapshot: [
@@ -154,7 +174,7 @@
         ["05.08", primary, "Berliner", 80, 69, 62, 7, 0, 21],
         ["05.08", primary, "Apfeltasche", 120, 104, 73, 16, 0, 30],
         ["05.08", secondary, "Sauerteigbrot", 60, 54, 40, 6, 0, 27],
-        ["05.08", secondary, "Apfeltasche", 18, 16, 18, 0, 2, -12]
+        ["05.08", locations.uni88, "Apfeltasche", 18, 16, 18, 0, 2, -12]
       ]
     };
   }
@@ -165,6 +185,9 @@
       route: "/Spruengli-demo-2",
       title: "Sprüngli × Eclipsai — Operative Intelligenz",
       description: "Wie Eclipsai Produktionsaufträge für Sprüngli automatisieren und den Gewinnbeitrag messen kann.",
+      features: {
+        balanceAnimation: true
+      },
       copy: {
         de: Object.assign({}, sharedCopy.de, {
           clientBrand: "SPRÜNGLI",
@@ -180,9 +203,20 @@
         })
       },
       assets: {
-        fieldLate: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-1600.jpg",
-        fieldLateSmall: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-720.jpg",
-        fieldEarly: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-720.jpg",
+        fieldEvidence: [
+          {
+            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-1600.jpg",
+            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-720.jpg",
+            time: "16:03",
+            copyKey: "fieldLate"
+          },
+          {
+            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-1600.jpg",
+            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-720.jpg",
+            time: "10:28",
+            copyKey: "fieldEarly"
+          }
+        ],
         sources: [
           "/Spruengli-demo-2/assets/source-photos/pos-900.jpg",
           "/Spruengli-demo-2/assets/field-evidence/spruengli-product-display.jpg",
@@ -190,6 +224,10 @@
           "/Spruengli-demo-2/assets/field-evidence/spruengli-shelf-selection.jpg",
           "/Spruengli-demo-2/assets/source-photos/phone-message.jpg"
         ]
+      },
+      systemVendors: {
+        de: ["Produktionssysteme", "POS", "ERP"],
+        en: ["Production systems", "POS", "ERP"]
       },
       mobileOrders: [["Caesar Salad", 80, 69], ["Birchermüesli Classique", 120, 104], ["Planted Protein Bowl", 60, 54]],
       engineCopy: {
@@ -211,7 +249,10 @@
         }
       },
       engineData: {
-        now: { p: 6600, w: 2900 }, end: { p: 200000, w: 87000 }, financials: { saved: 7800, lost: 1200, gain: 6600 },
+        now: { p: 6600, w: 2900 }, end: { p: 200000, w: 87000 },
+        financials: { saved: 7800, lost: 1200, gain: 6600 },
+        sampleFinancials: { saved: 1560, lost: 240, gain: 1320 },
+        sampleUnits: { returnsAvoided: 580, salesRisk: 40 },
         primaryLocation: "Zürich 1", items: spruengliItems,
         production: [
           ["Birchermüesli Classique", "Zürich 1", 30, null], ["Hörnli-Salat VGN", "Zürich 1", 36, null],
@@ -242,26 +283,54 @@
       route: "/Hausammann-demo-1",
       title: "Hausammann × Eclipsai — Operative Intelligenz",
       description: "Wie Eclipsai Produktionsaufträge für Hausammann automatisieren und den Gewinnbeitrag messen kann.",
+      features: {
+        balanceAnimation: true
+      },
       copy: {
-        de: Object.assign({}, sharedCopy.de, { clientBrand: "HAUSAMMANN", fieldNote: "Beispiel aus dem Filialbetrieb", fieldLate: "Verkauf", fieldEarly: "Produktion" }),
-        en: Object.assign({}, sharedCopy.en, { clientBrand: "HAUSAMMANN", fieldNote: "Example from store operations", fieldLate: "Sales", fieldEarly: "Production" })
+        de: Object.assign({}, sharedCopy.de, {
+          clientBrand: "HAUSAMMANN",
+          fieldNote: "Beobachtungen vor Ort · 5. August 2026",
+          fieldLate: "5. August · Hausammann",
+          fieldEarly: "5. August · Hausammann"
+        }),
+        en: Object.assign({}, sharedCopy.en, {
+          clientBrand: "HAUSAMMANN",
+          fieldNote: "Field observations · 5 August 2026",
+          fieldLate: "5 August · Hausammann",
+          fieldEarly: "5 August · Hausammann"
+        })
       },
       assets: {
-        fieldLate: "/Hausammann-demo-1/assets/source-photos/shelf.jpg",
-        fieldLateSmall: "/Hausammann-demo-1/assets/source-photos/shelf.jpg",
-        fieldEarly: "/Hausammann-demo-1/assets/source-photos/baker-production.jpg",
+        clientLogo: "/Hausammann-demo-1/assets/brand/hausammann-logo.png",
+        fieldEvidence: [
+          {
+            src: "/Hausammann-demo-1/assets/field-evidence/hausammann-2026-08-05-1637-1600.jpg",
+            small: "/Hausammann-demo-1/assets/field-evidence/hausammann-2026-08-05-1637-720.jpg",
+            time: "16:37",
+            copyKey: "fieldLate"
+          }
+        ],
         sources: [
           "/Hausammann-demo-1/assets/source-photos/pos.jpg", "/Hausammann-demo-1/assets/source-photos/baker-production.jpg",
-          "/Hausammann-demo-1/assets/source-photos/computer.jpg", "/Hausammann-demo-1/assets/source-photos/shelf.jpg",
+          "/Hausammann-demo-1/assets/source-photos/computer.jpg", "/Hausammann-demo-1/assets/source-photos/hausammann-counter-900.jpg",
           "/Hausammann-demo-1/assets/source-photos/phone-message.jpg"
         ]
+      },
+      systemVendors: {
+        de: ["HS Soft", "Protecdata BackStar", "Mark.One", "Lightspeed", "TurboBack"],
+        en: ["HS Soft", "Protecdata BackStar", "Mark.One", "Lightspeed", "TurboBack"]
       },
       mobileOrders: [["Berliner", 80, 69], ["Apfeltasche", 120, 104], ["Sauerteigbrot", 60, 54]],
       engineCopy: {
         en: { demoBrand: "Hausammann", appSub1: "Fri 5 Aug 2026 · Thalwil, till 1", appSub2: "Thu 6 Aug 2026 · all shops", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Gipfeli Butter", "renamed, matched back to its own history", "matched", ""], ["Sandwich Schinken", "new, no history yet, left alone", "new", "n"], ["Tirggel", "not sold for 4 weeks, closed", "closed", "c"]] },
-        de: { demoBrand: "Hausammann", appSub1: "Fr 5. Aug 2026 · Thalwil, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Filialen", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Hochgerechnet auf den 31. Dezember, im bisher gemessenen Tempo.", evTot: "4 Artikeltage", match: [["Gipfeli Butter", "umbenannt, wieder korrekt zugeordnet", "zugeordnet", ""], ["Sandwich Schinken", "neu, noch keine Historie, unverändert", "neu", "n"], ["Tirggel", "seit 4 Wochen kein Verkauf, ausgelistet", "ausgelistet", "c"]] }
+        de: { demoBrand: "Hausammann", appSub1: "Fr 5. Aug 2026 · Thalwil, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Filialen", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Bis zum 31. Dezember hochgerechnet, basierend auf dem bisher gemessenen Effekt.", evTot: "4 Artikeltage", match: [["Gipfeli Butter", "umbenannt und wieder der bisherigen Artikelhistorie zugeordnet", "zugeordnet", ""], ["Sandwich Schinken", "neu, noch ohne Historie; unverändert übernommen", "neu", "n"], ["Tirggel", "seit vier Wochen ohne Absatz; ausgelistet", "ausgelistet", "c"]] }
       },
-      engineData: bakeryData("Thalwil", "Zollikon")
+      engineData: bakeryData("Thalwil", "Zollikon", {
+        guggach: "Guggach",
+        uster: "Uster",
+        embrach: "Embrach",
+        uni88: "Uni 88"
+      })
     },
     generic: {
       id: "generic",
@@ -270,24 +339,41 @@
       description: "See how Eclipsai turns fresh-food operating data into better production orders and measurable profit improvements.",
       ogTitle: "Fresh-food production demo | Eclipsai",
       ogDescription: "From sales, production, stock and costs to better production orders and measurable profit improvements.",
+      features: {
+        balanceAnimation: true
+      },
       copy: {
         de: Object.assign({}, sharedCopy.de, { clientBrand: "FRISCHBETRIEB", fieldNote: "Beispiel aus einem Frischbetrieb", fieldLate: "Verkauf", fieldEarly: "Produktion" }),
         en: Object.assign({}, sharedCopy.en, { clientBrand: "FRESH FOOD", fieldNote: "Example from a fresh-food business", fieldLate: "Sales", fieldEarly: "Production" })
       },
       assets: {
-        fieldLate: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
-        fieldLateSmall: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
-        fieldEarly: "/fresh-food-demo/assets/source-photos/baker-production.jpg",
+        fieldEvidence: [
+          {
+            src: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
+            small: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
+            time: "16:03",
+            copyKey: "fieldLate"
+          },
+          {
+            src: "/fresh-food-demo/assets/source-photos/baker-production.jpg",
+            time: "10:28",
+            copyKey: "fieldEarly"
+          }
+        ],
         sources: [
           "/fresh-food-demo/assets/source-photos/pos.jpg", "/fresh-food-demo/assets/source-photos/baker-production.jpg",
           "/fresh-food-demo/assets/source-photos/computer.jpg", "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
           "/fresh-food-demo/assets/source-photos/phone-message.jpg"
         ]
       },
+      systemVendors: {
+        de: ["Produktionssysteme", "POS", "ERP"],
+        en: ["Production systems", "POS", "ERP"]
+      },
       mobileOrders: [["Berliner", 80, 69], ["Apfeltasche", 120, 104], ["Sauerteigbrot", 60, 54]],
       engineCopy: {
         en: { demoBrand: "Fresh-food business", appSub1: "Fri 5 Aug 2026 · Zürich 1, till 1", appSub2: "Thu 6 Aug 2026 · all shops", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Gipfeli Butter", "renamed, matched back to its own history", "matched", ""], ["Sandwich Schinken", "new, no history yet, left alone", "new", "n"], ["Tirggel", "not sold for 4 weeks, closed", "closed", "c"]] },
-        de: { demoBrand: "Frischbetrieb", appSub1: "Fr 5. Aug 2026 · Zürich 1, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Filialen", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Hochgerechnet auf den 31. Dezember, im bisher gemessenen Tempo.", evTot: "4 Artikeltage", match: [["Gipfeli Butter", "umbenannt, wieder korrekt zugeordnet", "zugeordnet", ""], ["Sandwich Schinken", "neu, noch keine Historie, unverändert", "neu", "n"], ["Tirggel", "seit 4 Wochen kein Verkauf, ausgelistet", "ausgelistet", "c"]] }
+        de: { demoBrand: "Frischbetrieb", appSub1: "Fr 5. Aug 2026 · Zürich 1, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Filialen", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Bis zum 31. Dezember hochgerechnet, basierend auf dem bisher gemessenen Effekt.", evTot: "4 Artikeltage", match: [["Gipfeli Butter", "umbenannt und wieder der bisherigen Artikelhistorie zugeordnet", "zugeordnet", ""], ["Sandwich Schinken", "neu, noch ohne Historie; unverändert übernommen", "neu", "n"], ["Tirggel", "seit vier Wochen ohne Absatz; ausgelistet", "ausgelistet", "c"]] }
       },
       engineData: bakeryData("Zürich 1", "Zürich 2")
     }

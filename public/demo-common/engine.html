@@ -39,6 +39,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border:0!important;border-radius:0!important;font-family:Georgia,"Times New Roman",serif;
   font-size:13px;font-weight:600;letter-spacing:.18em;color:var(--ink);white-space:nowrap;
   text-decoration:none}
+.client-lock.has-client-logo{width:104px!important;height:46px!important;justify-content:center;
+  padding:4px 8px!important;border-radius:2px!important;background:rgba(239,238,231,.96)}
+.client-lock.has-client-logo img{display:block;width:100%;height:100%;object-fit:contain}
 body.fixed-chapter #p3 .demo-navrow{display:none!important}
 .emark{display:block;width:32px;height:32px;font-size:0;line-height:0;
   background:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9ImVjbGlwc2FpIG1hcmsiPjxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY5LjY1IDE4OC4wNCkgc2NhbGUoMS4zMiAtMS4zMikiIGQ9Ik0gMCAwIEEgMTQ2LjMgMTQ2LjMgMCAxIDAgMTcyLjUgLTE5NS41IEEgMTQ2LjMgMTQ2LjMgMCAwIDEgMCAwIFoiIGZpbGw9IiMyMTFkMTkiLz48L3N2Zz4K") center/contain no-repeat}
@@ -866,7 +869,7 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
 <!-- ============================ 1 · RESULTS ============================ -->
 <section class="page on" id="p3">
   <div class="sheet wide">
-    <header class="hd"><a class="lock client-lock" href="#" aria-label="Zur ersten Seite" data-t="demoBrand">CLIENT</a><div class="mainttl" data-t="headline">We improve profit: <b>automate production orders</b></div><span class="hdr3"><a class="emark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai website"></a><span class="lang" id="lang"><button data-l="de" class="on">DE</button><i>/</i><button data-l="en">EN</button></span></span></header>
+    <header class="hd"><a class="lock client-lock" href="#" aria-label="Zur ersten Seite" data-client-brand>CLIENT</a><div class="mainttl" data-t="headline">We improve profit: <b>automate production orders</b></div><span class="hdr3"><a class="emark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai-Website"></a><span class="lang" id="lang"><button data-l="de" class="on">DE</button><i>/</i><button data-l="en">EN</button></span></span></header>
     <div class="intro" id="intro">
       <div class="intro-title-slot" id="introTitleSlot">
       <div class="mainttl website-title" id="websiteTitle">
@@ -962,7 +965,7 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
         <div class="eh"><span class="say" id="ssay"></span><span class="n">eclipsai</span></div>
         <div class="eb">
           <div class="sc" id="e0"><div class="stream" id="stream"></div>
-            <div class="sourcehub" id="sourcehub" aria-label="Business sources flowing into Eclipsai">
+            <div class="sourcehub" id="sourcehub" aria-label="Geschäftsdaten fliessen in Eclipsai zusammen">
               <svg class="hubsvg" viewBox="0 0 500 400" preserveAspectRatio="none" aria-hidden="true">
                 <defs><marker id="hubarrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(239,238,231,.42)"/></marker></defs>
                 <path class="hubline" d="M132 56 H162 V172 H184" marker-end="url(#hubarrow)"/>
@@ -1033,7 +1036,7 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
           </div>
 
           <div class="sc" id="e4">
-            <div class="cardw"><div class="card" id="card" title="click to maximise">
+            <div class="cardw"><div class="card" id="card" title="Detailansicht öffnen">
               <div class="cardh"><span class="ct" data-t="demoBrand">CLIENT</span><span class="cd" data-t="date">5 AUGUST 2026</span></div>
               <div class="ctitle" data-t="headline">We improve profit: <b>automate production orders</b></div>
               <div class="csub" id="csub">Illustrative. 1 to 5 August 2026.</div>
@@ -1062,8 +1065,8 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
 </div>
     </div>
     <div class="demo-navrow">
-      <button class="pnav" id="prev" title="previous step"><svg viewBox="0 0 12 12"><path d="M8.4 .8 L3.2 6 L8.4 11.2 L9.6 10 L5.6 6 L9.6 2 Z"/></svg></button>
-      <button class="pnav" id="next" title="next step"><svg viewBox="0 0 12 12"><path d="M3.6 .8 L8.8 6 L3.6 11.2 L2.4 10 L6.4 6 L2.4 2 Z"/></svg></button>
+      <button class="pnav" id="prev" title="Vorheriger Schritt"><svg viewBox="0 0 12 12"><path d="M8.4 .8 L3.2 6 L8.4 11.2 L9.6 10 L5.6 6 L9.6 2 Z"/></svg></button>
+      <button class="pnav" id="next" title="Nächster Schritt"><svg viewBox="0 0 12 12"><path d="M3.6 .8 L8.8 6 L3.6 11.2 L2.4 10 L6.4 6 L2.4 2 Z"/></svg></button>
     </div>
   </div>
 </section>
@@ -1191,6 +1194,9 @@ en:{
  panelFinalReport:'Report network profit — daily and total',
  flowFirst:'Sales\nProduction\nReturns\nCosts',
  flowSecond:'New production\nquantities',
+ homeLink:'Go to the first page', eclipsaiWebsite:'Eclipsai website',
+ sourceFlow:'Business data flowing into Eclipsai', cardTitle:'Open detailed view',
+ previousStep:'Previous step', nextStep:'Next step',
  navHome:'Home', navTill:'Till', navProd:'Production', navAi:'AI',
  tabReceipts:'Receipts', tabItems:'Items', tabProd:'Production',
  appDaily:'Daily data', appProd:'Production',
@@ -1230,7 +1236,7 @@ en:{
 },
 de:{
  demoBrand:'Kunde',
- headline:'Mehr Gewinn durch <b>automatisierte Produktionsmengen</b>',
+ headline:'Mehr Gewinn durch <b>automatisierte Produktionsaufträge</b>',
  profitPrefix:'Operative Intelligenz für Frischbetriebe',
  profitRotations:['Produktionsaufträge automatisieren','Neue Produkte','Einkauf und Preise','Personal und Betrieb','Nächster Standort'],
  startDemo:'Start',
@@ -1241,24 +1247,27 @@ de:{
  date:'5. AUGUST 2026',
  say:['Tägliches Gesamtbild erstellen',
       'Produktionsmengen gezielt anpassen',
-      'Gewinnbeitrag täglich messen'],
+      'Mehrgewinn täglich messen'],
  voiceover:[
       ['Eclipsai verbindet Kassensysteme, Produktion und ERP mit Planungsdateien, Filialfotos und Meldungen.',
        'So entsteht täglich ein konsistentes Gesamtbild für die Analyse.'],
-      ['Täglich werden Absatz, Retouren, Bestände, Kosten und Filialmeldungen neu ausgewertet.',
-       'Daraus entstehen Mengenvorschläge für die nächsten Produktionstage.',
+      ['Täglich werten wir Absatz, Retouren, Bestände, Kosten und Filialmeldungen neu aus.',
+       'Daraus leiten wir Produktionsmengen für die nächsten Tage ab.',
        'Nach einer Testphase können bestätigte Mengen direkt ins Produktionssystem übernommen werden.'],
-      ['Über alle Filialen messen wir Absatz und Retouren und berechnen den Gewinnbeitrag jeder Anpassung.',
-       'Wir behalten, was funktioniert, und verwerfen, was nicht funktioniert.',
+      ['Über alle Filialen messen wir Absatz und Retouren und berechnen den Mehrgewinn jeder Anpassung.',
+       'Wir übernehmen wirksame Anpassungen und verwerfen unwirksame.',
        'So entsteht ein täglicher Lern- und Verbesserungszyklus.']],
  capLeft:'Produktionssysteme · POS · ERP',
  capRight:'Eclipsai',
  panelFirst:'Tägliches Gesamtbild erstellen',
  panelSecond:'Produktionsmengen empfehlen und umsetzen',
  panelFinalAnalysis:'Ergebnisse über alle Filialen auswerten',
- panelFinalReport:'Gewinn im Filialnetz — täglich und kumuliert',
+ panelFinalReport:'Mehrgewinn im Filialnetz — täglich und kumuliert',
  flowFirst:'Absatz\nProduktion\nRetouren\nKosten',
  flowSecond:'Neue Produktions-\nmengen',
+ homeLink:'Zur ersten Seite', eclipsaiWebsite:'Eclipsai-Website',
+ sourceFlow:'Geschäftsdaten fliessen in Eclipsai zusammen', cardTitle:'Detailansicht öffnen',
+ previousStep:'Vorheriger Schritt', nextStep:'Nächster Schritt',
  navHome:'Start', navTill:'Kasse', navProd:'Produktion', navAi:'KI',
  tabReceipts:'Bons', tabItems:'Artikel', tabProd:'Produktion',
  appDaily:'Tagesdaten', appProd:'Produktionsaufträge',
@@ -1273,10 +1282,10 @@ de:{
         ['Artikel B','neu, noch ohne Historie; unverändert übernommen','neu','n'],
         ['Artikel C','seit vier Wochen ohne Absatz; ausgeschlossen','ausgeschlossen','c']],
  snapTh:['Datum','Filiale','Artikel','Produziert','Verkauft','Retouren'],
- eqSaved:'eingesparte Warenkosten, geschätzt (CHF)',
- eqLost:'geschätzter entgangener Deckungsbeitrag bei Unterdeckung (CHF)',
+ eqSaved:'geschätzte vermiedene Warenkosten (CHF)',
+ eqLost:'potenziell entgangener Deckungsbeitrag bei zu knapper Produktion (CHF)',
  eqGain:'Mehrgewinn (CHF)',
- evTh:['Datum','Filiale','Artikel','Bisher','Neu','Absatz','Retouren ↓','Risiko','CHF'],
+ evTh:['Datum','Filiale','Artikel','Bisher','Neu','Absatz','Retouren ↓','Absatzrisiko','CHF'],
  evTot:'Filialnetz gesamt',
  cProfit:'Mehrgewinn', cWaste:'Vermiedene Retouren', cUnits:'Stück',
  cOfSales:'(<b>0,8&nbsp;%</b> des Umsatzes)', cRange:'(von <b>27&nbsp;%</b> auf <b>19&nbsp;%</b>)',
@@ -1291,20 +1300,32 @@ de:{
  checkWeather:'Wetter und lokale Veranstaltungen', checkNew:'Neue Produkte',
  checkSupplier:'Einstandspreise und Warenkosten', checkFeedback:'Rückmeldungen aus den Filialen', checkStock:'Bestände vom Vortag',
  cToday:'HEUTE', cDec:'31. DEZEMBER', cMax:'VERGRÖSSERN',
- pClose:'SCHLIESSEN', pProj:'AUFS JAHRESENDE HOCHRECHNEN', pBack:'ZURÜCK AUF HEUTE',
- pRec:'EMPFEHLUNGEN &#8594;', pRes:'&#8592; RESULTATE', pBackNav:'ZURÜCK',
+ pClose:'SCHLIESSEN', pProj:'BIS JAHRESENDE HOCHRECHNEN', pBack:'ZURÜCK ZU HEUTE',
+ pRec:'EMPFEHLUNGEN &#8594;', pRes:'&#8592; ERGEBNISSE', pBackNav:'ZURÜCK',
  p2Scope:'1.&#8211;5. AUGUST &#183; ALLE FILIALEN',
- p2Note:'Gesamtes Filialnetz. Der Mehrgewinn entspricht den eingesparten Warenkosten, abzüglich des geschätzten Deckungsbeitragsrisikos bei zu knapper Produktion.'
+ p2Note:'Gesamtes Filialnetz. Der Mehrgewinn entspricht den vermiedenen Warenkosten abzüglich des potenziell entgangenen Deckungsbeitrags bei zu knapper Produktion.'
 }};
 const demoConfig=window.ECLIPSAI_DEMO;
 const engineData=demoConfig.engineData;
 window.DICT={
-  en:Object.assign({},window.DICT.en,demoConfig.engineCopy.en),
-  de:Object.assign({},window.DICT.de,demoConfig.engineCopy.de)
+  en:Object.assign({},window.DICT.en,demoConfig.engineCopy.en,{
+    outroTitle:demoConfig.copy.en.outroTitle,
+    outroLine1:demoConfig.copy.en.outroLine1,
+    outroLine2:demoConfig.copy.en.outroLine2,
+    outroLine3:demoConfig.copy.en.outroLine3
+  }),
+  de:Object.assign({},window.DICT.de,demoConfig.engineCopy.de,{
+    outroTitle:demoConfig.copy.de.outroTitle,
+    outroLine1:demoConfig.copy.de.outroLine1,
+    outroLine2:demoConfig.copy.de.outroLine2,
+    outroLine3:demoConfig.copy.de.outroLine3
+  })
 };
 document.title=demoConfig.title;
 document.querySelectorAll('.source-photo').forEach((image,index)=>{image.src=demoConfig.assets.sources[index];});
 const engineFinancials=engineData.financials;
+const engineSampleFinancials=engineData.sampleFinancials||engineFinancials;
+const engineSampleUnits=engineData.sampleUnits||{returnsAvoided:0,salesRisk:0};
 [['detail-saved','saved'],['detail-lost','lost'],['detail-gain','gain']].forEach(([id,key])=>{
   const element=document.getElementById(id),value=engineFinancials[key];
   element.dataset.value=String(value);element.textContent=value.toLocaleString('en-US');
@@ -1346,6 +1367,27 @@ function applyLang(l){
   const d=window.D();
   document.querySelectorAll('[data-t]').forEach(e=>{
     const v=d[e.dataset.t]; if(v!=null) e.innerHTML=v;});
+  document.querySelectorAll('[data-client-brand]').forEach(brand=>{
+    brand.setAttribute('aria-label',d.homeLink);
+    brand.classList.toggle('has-client-logo',Boolean(demoConfig.assets.clientLogo));
+    brand.replaceChildren();
+    if(demoConfig.assets.clientLogo){
+      const logo=document.createElement('img');logo.src=demoConfig.assets.clientLogo;logo.alt=d.demoBrand;
+      brand.appendChild(logo);
+    }else brand.textContent=d.demoBrand;
+  });
+  document.querySelectorAll('.emark').forEach(mark=>mark.setAttribute('aria-label',d.eclipsaiWebsite));
+  const sourceHub=document.getElementById('sourcehub');if(sourceHub)sourceHub.setAttribute('aria-label',d.sourceFlow);
+  const detailCard=document.getElementById('card');if(detailCard)detailCard.setAttribute('title',d.cardTitle);
+  const previousStep=document.getElementById('prev');if(previousStep)previousStep.setAttribute('title',d.previousStep);
+  const nextStep=document.getElementById('next');if(nextStep)nextStep.setAttribute('title',d.nextStep);
+  const vendorLabels=demoConfig.systemVendors
+    ?(Array.isArray(demoConfig.systemVendors)?demoConfig.systemVendors:demoConfig.systemVendors[l])
+    :[d.systemProduction,d.systemPos,d.systemErp];
+  const vendorRow=document.getElementById('sourceVendors');
+  if(vendorRow&&vendorLabels){
+    vendorRow.replaceChildren(...vendorLabels.map(label=>{const span=document.createElement('span');span.textContent=label;return span;}));
+  }
   renderProfitTitle(true);
   document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
   if(window.demoSetLang) window.demoSetLang(l);
@@ -1506,8 +1548,8 @@ function buildArtifacts(){
     G('ev').appendChild(e);});
   {const t=document.createElement('div');t.className='erow tot';
    t.innerHTML='<span class="q">'+d.evTot+'</span>'+
-     '<span></span><span></span><span></span><span class="n g">580</span><span class="n l">40</span>'+
-     '<span class="n">+1320.00</span>';G('ev').appendChild(t);}
+     '<span></span><span></span><span></span><span class="n g">'+engineSampleUnits.returnsAvoided+'</span><span class="n l">'+engineSampleUnits.salesRisk+'</span>'+
+     '<span class="n">+'+Number(engineSampleFinancials.gain).toFixed(2)+'</span>';G('ev').appendChild(t);}
   spc=[...G('ev').querySelectorAll('.erow:not(.h)')];
 
   CUTS.forEach(i=>{const e=document.createElement('div');e.className='chg';
@@ -1631,7 +1673,7 @@ const P=[
       G('sourcehub').classList.add('in');
       G('sourcehub').querySelectorAll('.hubline,.hubsrc').forEach(e=>e.classList.add('in'));},
  ()=>{dtr.forEach(e=>e.className='mrow in');srows.forEach((e,i)=>e.className='srow in'+(SNAP[i][6]?' new':''));},
- ()=>{spc.forEach(e=>e.classList.add('in'));G('q1').textContent=window.fmtN(1560);G('q2').textContent=window.fmtN(240);G('q3').textContent=window.fmtN(1320);},
+ ()=>{spc.forEach(e=>e.classList.add('in'));G('q1').textContent=window.fmtN(engineSampleFinancials.saved);G('q2').textContent=window.fmtN(engineSampleFinancials.lost);G('q3').textContent=window.fmtN(engineSampleFinancials.gain);},
  ()=>{chgs.forEach(e=>e.className='chg in');
       let n=0;
       CUTS.forEach(i=>{const c=G('bc'+i);c.className='n cell done';c.textContent=B[i][3];
@@ -1688,7 +1730,7 @@ const A=[
      await wait(160);if(!a())return;} P[1]();},
  async a=>{const cnt=async(id,to)=>{let v=0;while(v<to){v=Math.min(to,v+Math.ceil((to-v)/4)+1);
      G(id).textContent=v;await wait(55);if(!a())return false;}return true;};
-   if(!await cnt('q1',1560))return; if(!await cnt('q2',240))return; if(!await cnt('q3',1320))return;
+   if(!await cnt('q1',engineSampleFinancials.saved))return; if(!await cnt('q2',engineSampleFinancials.lost))return; if(!await cnt('q3',engineSampleFinancials.gain))return;
    for(const e of spc){e.classList.add('in');await wait(220);if(!a())return;}P[2]();},
  async a=>{
    for(const change of chgs){
@@ -1795,7 +1837,6 @@ G('prev').addEventListener('click',onPrev);
 G('next').addEventListener('click',onNext);
 const homeLogo=document.querySelector('#p3 .lock');
 if(homeLogo){
-  homeLogo.setAttribute('title','Home');
   homeLogo.addEventListener('click',e=>{
     if(document.body.classList.contains('fixed-chapter')&&window.parent!==window){
       e.preventDefault();window.parent.postMessage({type:'eclipsai-demo-go-home'},'*');return;
