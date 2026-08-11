@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fresh-food Production Demo | Eclipsai</title>
+  <meta name="description" content="See how Eclipsai turns fresh-food operating data into better production orders and measurable profit improvements.">
+  <link rel="canonical" href="https://eclipsai.com/fresh-food-demo">
+  <meta property="og:title" content="Fresh-food production demo | Eclipsai">
+  <meta property="og:description" content="From sales, production, stock and costs to better production orders and measurable profit improvements.">
+  <meta property="og:url" content="https://eclipsai.com/fresh-food-demo">
+  <meta property="og:type" content="website">
+  <script src="/demo-common/demo-configs.js"></script>
+  <style>
+    :root {
+      --ink: #242229;
+      --paper: #efeee7;
+      --paper-2: #d8d5cc;
+      --night: #19171f;
+      --night-2: #242229;
+      --solar: #e9b84a;
+      --sold: #416faf;
+      --waste: #d66045;
+      --proven: #728663;
+      --line: rgba(36, 34, 41, .17);
+      --muted: #716d74;
+      --muted-dark: #aaa6ae;
+      --max: 1172px;
+      --edge: max(28px, calc((100vw - var(--max)) / 2));
+      --serif: "Newsreader", Georgia, serif;
+      --sans: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--paper); }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { color: inherit; font: inherit; }
+    button { border: 0; }
+    a { text-decoration: none; }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 80;
+      width: 0;
+      height: 2px;
+      background: var(--solar);
+      pointer-events: none;
+    }
+
+    .dots {
+      position: fixed;
+      top: 50%;
+      right: 25px;
+      z-index: 60;
+      display: grid;
+      gap: 12px;
+      transform: translateY(-50%);
+    }
+    .dots a {
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(113, 109, 116, .32);
+      transition: transform .2s, background .2s;
+    }
+    .dots a.active { background: var(--solar); transform: scale(1.45); }
+
+    .chapter-nav {
+      position: fixed;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 70;
+      display: flex;
+      gap: 10px;
+      transform: translateX(-50%);
+    }
+    .chapter-nav button {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(239, 238, 231, .94);
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(25, 23, 31, .08);
+      backdrop-filter: blur(8px);
+      transition: opacity .2s, transform .2s;
+    }
+    .chapter-nav button:active { transform: scale(.96); }
+    .chapter-nav button.off { visibility: hidden; pointer-events: none; }
+
+    section {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: 104px var(--edge) 82px;
+    }
+    @media (min-width: 901px) {
+      html { scroll-snap-type: y mandatory; }
+      section { scroll-snap-align: start; scroll-snap-stop: always; }
+    }
+    .inner { width: min(var(--max), 100%); margin: 0 auto; }
+    .dark { background: var(--night); color: var(--paper); }
+
+    .page-header {
+      position: absolute;
+      top: 22px;
+      left: var(--edge);
+      right: var(--edge);
+      z-index: 8;
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 2fr) 1fr;
+      align-items: center;
+      min-height: 64px;
+      gap: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .dark .page-header { border-bottom-color: rgba(239, 238, 231, .16); }
+    .page-brand {
+      justify-self: start;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .18em;
+    }
+    .page-header-title {
+      overflow: hidden;
+      font-size: clamp(16px, 1.5vw, 21px);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .page-header-tools { justify-self: end; display: grid; justify-items: end; }
+    .page-wordmark {
+      display: block;
+      width: 118px;
+      height: 38px;
+      background: url("/demo-common/assets/brand/eclipsai-wordmark-both-light.svg") right center / contain no-repeat;
+    }
+    .dark .page-wordmark { background-image: url("/demo-common/assets/brand/eclipsai-wordmark-both-dark.svg"); }
+    .site-language {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: -2px;
+      color: var(--muted);
+      font: 500 10px/1 var(--mono);
+      letter-spacing: .1em;
+    }
+    .dark .site-language { color: rgba(239, 238, 231, .5); }
+    .site-language button { padding: 0; background: none; color: inherit; cursor: pointer; }
+    .site-language button.active { color: currentColor; font-weight: 800; }
+    .dark .site-language button.active { color: var(--paper); }
+    section:not(.dark) .site-language button.active { color: var(--ink); }
+
+    .eyebrow {
+      margin: 0 0 20px;
+      color: var(--solar);
+      font: 500 11px/1.25 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1, h2, p { margin-top: 0; }
+    .display {
+      margin-bottom: 0;
+      font-family: var(--serif);
+      font-size: clamp(48px, 6vw, 78px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: .98;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 660px;
+      margin: 25px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.55;
+    }
+    .dark .lede { color: rgba(239, 238, 231, .72); }
+
+    #hero {
+      background:
+        radial-gradient(900px 650px at 82% 22%, rgba(65, 111, 175, .18), transparent 64%),
+        radial-gradient(720px 520px at 14% 86%, rgba(214, 96, 69, .1), transparent 70%),
+        var(--night);
+    }
+    #hero .inner { width: min(890px, 100%); text-align: center; }
+    #hero .display { font-size: clamp(48px, 5.4vw, 72px); }
+    .profit-menu {
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 0;
+      list-style: none;
+      color: rgba(239, 238, 231, .46);
+      font-size: clamp(20px, 2vw, 29px);
+      font-weight: 650;
+      line-height: 1.32;
+      text-align: left;
+    }
+    .profit-menu li:first-child { color: var(--solar); }
+
+    #decision {
+      background:
+        linear-gradient(100deg, rgba(25, 23, 31, .98) 0%, rgba(25, 23, 31, .94) 48%, rgba(25, 23, 31, .78) 100%),
+        var(--night);
+    }
+    .decision-grid {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      align-items: center;
+      gap: clamp(44px, 7vw, 100px);
+      min-width: 0;
+    }
+    .decision-grid > * { min-width: 0; }
+    #decision .display { font-size: clamp(46px, 5vw, 69px); }
+    .balance-line {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 42px;
+      padding-top: 18px;
+      font: 500 9px/1.35 var(--mono);
+      letter-spacing: .11em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .balance-line::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--sold), var(--solar), var(--waste));
+    }
+    .balance-line span { position: relative; color: rgba(239, 238, 231, .56); }
+    .balance-line span::before {
+      content: "";
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: currentColor;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px rgba(239, 238, 231, .05);
+    }
+    .balance-line span:first-child { color: var(--sold); }
+    .balance-line span:nth-child(2) { color: var(--solar); }
+    .balance-line span:last-child { color: var(--waste); }
+
+    .field-gallery { position: relative; min-height: 510px; }
+    .field-photo {
+      position: absolute;
+      overflow: hidden;
+      border: 1px solid rgba(239, 238, 231, .14);
+      background: var(--night-2);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, .34);
+    }
+    .field-photo img { width: 100%; height: 100%; display: block; object-fit: cover; filter: saturate(.8) contrast(1.03); }
+    .field-photo.late { inset: 0 0 5% 10%; }
+    .field-photo.early { left: 0; bottom: 0; z-index: 2; width: 46%; height: 42%; }
+    .field-caption {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 45px 16px 14px;
+      background: linear-gradient(transparent, rgba(25, 23, 31, .9));
+      color: var(--paper);
+    }
+    .field-photo.late .field-caption {
+      left: auto;
+      width: 50%;
+      box-sizing: border-box;
+    }
+    .field-caption strong { display: block; font: 400 clamp(34px, 4vw, 58px)/.9 var(--serif); }
+    .field-caption small { display: block; margin-top: 10px; font: 500 9px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .field-note {
+      position: absolute;
+      top: 0;
+      right: -28px;
+      color: rgba(239, 238, 231, .42);
+      font: 500 9px/1 var(--mono);
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      transform: rotate(-90deg) translateX(100%);
+      transform-origin: right top;
+    }
+
+    #systems { background: var(--paper); }
+    #systems .inner { width: min(1060px, 100%); }
+    #systems .display { max-width: 980px; margin: 0 auto; text-align: center; }
+    .source-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 54px;
+      margin-top: 46px;
+      border-top: 1px solid var(--line);
+    }
+    .source-row {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .source-row b { display: block; font: 700 11px/1.2 var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .source-row span { display: block; margin-top: 7px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .systems-statement {
+      margin: 36px 0 0;
+      color: var(--solar);
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.6vw, 34px);
+      text-align: center;
+    }
+
+    .engine-chapter { min-height: 100vh; min-height: 100svh; padding: 0; background: var(--paper); }
+    .engine-chapter.dark { background: var(--night); }
+    .engine-desktop { display: block; width: 100%; height: 100vh; height: 100svh; border: 0; background: var(--paper); }
+    .engine-loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+      color: var(--muted);
+      font: 500 11px/1.2 var(--mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .engine-chapter.loaded .engine-loading { display: none; }
+    .engine-chapter.dark .engine-loading { background: var(--night); color: var(--muted-dark); }
+    .mobile-chapter { display: none; }
+
+    .mobile-chapter-inner { width: 100%; }
+    .mobile-copy { padding: 0 22px; }
+    .mobile-copy .display { font-size: clamp(38px, 11vw, 52px); }
+    .mobile-copy .lede { font-size: 16px; }
+    .desktop-full-cue {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font: 600 10px/1.2 var(--mono);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .desktop-full-cue svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .mobile-artifact { margin: 30px 22px 0; border: 1px solid var(--line); background: #f8f7f2; }
+    .mobile-artifact-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      font: 600 10px/1.2 var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .mobile-artifact-head i { width: 7px; height: 7px; border-radius: 50%; background: var(--solar); }
+
+    .source-mobile-grid { display: grid; gap: 9px; padding: 15px; }
+    .source-chip { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid var(--line); background: white; font-size: 13px; }
+    .source-chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sold); }
+    .source-mobile-arrow { height: 30px; position: relative; }
+    .source-mobile-arrow::before { content: ""; position: absolute; top: 0; bottom: 5px; left: 50%; width: 1px; background: var(--ink); }
+    .source-mobile-arrow::after { content: "↓"; position: absolute; left: 50%; bottom: -5px; transform: translateX(-50%); }
+    .source-mobile-output { padding: 20px; background: var(--night); color: var(--paper); }
+    .source-mobile-output span { display: block; color: var(--paper); font: 400 22px/1.35 var(--sans); }
+
+    .order-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .order-table th, .order-table td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+    .order-table th { color: var(--muted); font: 500 9px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .order-table td:nth-child(n+2), .order-table th:nth-child(n+2) { text-align: right; }
+    .order-table strong { color: var(--proven); font-weight: 700; }
+    .order-note { display: flex; align-items: center; gap: 9px; padding: 13px 15px; color: var(--proven); font-size: 12px; }
+    .order-note::before { content: "✓"; }
+
+    .profit-equation { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; padding: 18px 15px; }
+    .profit-term { min-width: 0; }
+    .profit-term b { display: block; font: 400 clamp(30px, 9vw, 42px)/1 var(--serif); }
+    .profit-term span { display: block; margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+    .profit-term.good b { color: var(--proven); }
+    .profit-term.risk b { color: var(--waste); }
+    .profit-op { color: var(--muted); font-size: 22px; }
+    .profit-result { margin: 0 15px 15px; padding: 18px; background: var(--night); color: var(--paper); }
+    .profit-result span { display: block; color: var(--solar); font: 500 10px/1.2 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+    .profit-result b { display: block; margin-top: 8px; font: 400 48px/1 var(--serif); }
+    .profit-result small { display: block; margin-top: 7px; color: var(--muted-dark); }
+
+    #production-outro .mobile-copy .display { font-size: clamp(32px, 9.2vw, 40px); }
+    .closing-mobile { display: grid; gap: 22px; padding: 34px 22px 0; }
+    .closing-mobile-line { color: var(--paper); font-size: 21px; line-height: 1.42; }
+
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s, transform .6s; }
+    section.in .reveal { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      section { padding: 96px 7vw 78px; }
+      .decision-grid { grid-template-columns: 1fr; }
+      .field-gallery { min-height: 520px; margin-top: 10px; }
+      .dots { display: none; }
+    }
+
+    @media (max-width: 1120px) {
+      html { scroll-snap-type: none; }
+      section { overflow: visible; }
+      .engine-chapter { display: block; padding: 100px 0 84px; }
+      .engine-desktop, .engine-loading { display: none; }
+      .mobile-chapter { display: flex; width: 100%; flex-direction: column; }
+      .engine-chapter .page-header { display: grid; }
+      .chapter-nav button { width: 40px; height: 40px; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 560px) {
+      section { padding: 92px 22px 74px; }
+      .page-header { top: 15px; left: 22px; right: 22px; grid-template-columns: 1fr auto; min-height: 58px; gap: 14px; }
+      .page-header-title { display: none; }
+      .page-wordmark { width: 96px; height: 32px; }
+      .page-brand { font-size: 11px; }
+      #hero .display { font-size: clamp(42px, 13vw, 54px); }
+      .profit-menu { font-size: 21px; }
+      #decision .display { font-size: 45px; hyphens: auto; overflow-wrap: anywhere; }
+      .field-gallery { min-height: 455px; }
+      .field-photo.late { inset: 0 0 6% 7%; }
+      .field-photo.early { width: 49%; height: 40%; }
+      .field-note { display: none; }
+      .balance-line span { overflow-wrap: anywhere; }
+      #systems .display { font-size: 43px; }
+      .source-list { grid-template-columns: 1fr; margin-top: 34px; }
+      .systems-statement { margin-top: 30px; }
+      .engine-chapter { padding: 92px 0 74px; }
+      .profit-equation { grid-template-columns: 1fr; }
+      .profit-op { transform: rotate(90deg); justify-self: start; margin-left: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <nav class="dots" id="dots" aria-label="Präsentationsseiten"></nav>
+  <nav class="chapter-nav" aria-label="Präsentationsnavigation">
+    <button id="page-up" type="button" aria-label="Vorherige Seite">↑</button>
+    <button id="page-down" type="button" aria-label="Nächste Seite">↓</button>
+  </nav>
+
+  <section id="hero" class="dark">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" aria-label="Zur ersten Seite" data-copy="clientBrand">CLIENT</a>
+      <span class="page-header-title"></span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener" aria-label="Eclipsai Website"></a>
+        <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
+      </span>
+    </header>
+    <div class="inner reveal">
+      <h1 class="display" data-copy="heroTitle">Operative Intelligenz für Frischbetriebe:</h1>
+      <ul class="profit-menu">
+        <li data-copy="topicOrders">Produktionsaufträge automatisieren</li>
+        <li data-copy="topicProducts">Neue Produkte</li>
+        <li data-copy="topicPricing">Einkauf und Preise</li>
+        <li data-copy="topicLabor">Personal und Betrieb</li>
+        <li data-copy="topicLocation">Nächster Standort</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="decision" class="dark">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a>
+      <span class="page-header-title" data-copy="decisionKicker">Die tägliche Produktionsentscheidung</span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
+        <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
+      </span>
+    </header>
+    <div class="inner decision-grid">
+      <div class="reveal">
+        <h2 class="display" data-copy="decisionTitle">Produktions&shy;mengen müssen Absatz und Retouren ins Gleichgewicht bringen.</h2>
+        <p class="lede" data-copy="decisionBody">Die richtige Menge variiert je Artikel, Filiale und Tag.</p>
+        <div class="balance-line">
+          <span data-copy="missedSales">Entgangene Verkäufe</span>
+          <span data-copy="bestQuantity">Optimale Produktionsmenge</span>
+          <span data-copy="unsoldProduct">Unverkaufte Ware</span>
+        </div>
+      </div>
+      <div class="field-gallery reveal">
+        <figure class="field-photo late">
+          <img id="field-late-image" sizes="(max-width: 900px) 86vw, 45vw" loading="lazy" decoding="async" alt="">
+          <figcaption class="field-caption"><strong>16:03</strong><small data-copy="fieldLate">4. August · Zürich</small></figcaption>
+        </figure>
+        <figure class="field-photo early">
+          <img id="field-early-image" loading="lazy" decoding="async" alt="">
+          <figcaption class="field-caption"><strong>10:28</strong><small data-copy="fieldEarly">3. August · Zürich</small></figcaption>
+        </figure>
+        <span class="field-note" data-copy="fieldNote">Beobachtungen vor Ort · Zürich · August 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="systems">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a>
+      <span class="page-header-title" data-copy="systemsKicker">Warum diese Entscheidung schwierig bleibt</span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
+        <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
+      </span>
+    </header>
+    <div class="inner reveal">
+      <h2 class="display" data-copy="systemsTitle">Die nötigen Daten sind auf mehrere Systeme verteilt.</h2>
+      <div class="source-list">
+        <div class="source-row"><b>POS</b><span data-copy="posDesc">Was wann und wo verkauft wurde</span></div>
+        <div class="source-row"><b>ERP / SAP</b><span data-copy="erpDesc">Artikelstammdaten, Kosten und Margen</span></div>
+        <div class="source-row"><b data-copy="planningLabel">Produktionsplanung</b><span data-copy="planningDesc">Was für welche Filiale produziert und geliefert wurde</span></div>
+        <div class="source-row"><b data-copy="excelLabel">Excel &amp; Rezepturen</b><span data-copy="excelDesc">Planungsregeln, Rezepturen und lokale Anpassungen</span></div>
+        <div class="source-row"><b data-copy="ordersLabel">Bestellungen &amp; Filialmeldungen</b><span data-copy="ordersDesc">Sonderbestellungen und Wissen aus den Filialen</span></div>
+        <div class="source-row"><b data-copy="wasteLabel">Retouren &amp; Tagesabschluss</b><span data-copy="wasteDesc">Was am Tagesende retourniert oder abgeschrieben wurde</span></div>
+      </div>
+      <p class="systems-statement" data-copy="systemsStatement">Eclipsai baut operative Intelligenz für Frischbetriebe.</p>
+    </div>
+  </section>
+
+  <section id="source-data" class="engine-chapter" data-chapter="0">
+    <div class="engine-loading">Eclipsai Demo wird geladen</div>
+    <iframe class="engine-desktop" title="Tägliches Gesamtbild erstellen"></iframe>
+    <div class="mobile-chapter mobile-chapter-inner">
+      <header class="page-header">
+        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
+      </header>
+      <div class="mobile-copy">
+        <div class="desktop-full-cue"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2.5" y="2.5" width="13" height="9.5" rx=".75"></rect><path d="M1.5 15.5h15M7 12v3.5m4-3.5v3.5"></path></svg><span data-copy="desktopFullCue">Interaktive Vollversion auf Desktop</span></div>
+        <h2 class="display" data-copy="mobileSourceTitle">Alle relevanten Daten systemübergreifend zusammenführen.</h2>
+      </div>
+      <div class="mobile-artifact">
+        <div class="source-mobile-grid">
+          <span class="source-chip">POS &amp; ERP</span><span class="source-chip" data-copy="sourceProduction">Produktionsdaten</span><span class="source-chip" data-copy="sourcePlanning">Planungsdateien &amp; Rezepturen</span><span class="source-chip" data-copy="sourceStores">Filialfotos &amp; Filialmeldungen</span>
+        </div>
+        <div class="source-mobile-arrow"></div>
+        <div class="source-mobile-output"><span data-copy="dailyPictureBody">Absatz. Produktion. Retouren. Kosten. Lokale Informationen.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="production-orders" class="engine-chapter" data-chapter="1">
+    <div class="engine-loading">Eclipsai Demo wird geladen</div>
+    <iframe class="engine-desktop" title="Produktionsaufträge empfehlen und umsetzen"></iframe>
+    <div class="mobile-chapter mobile-chapter-inner">
+      <header class="page-header">
+        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
+      </header>
+      <div class="mobile-copy"><h2 class="display" data-copy="mobileOrderTitle">Die Änderungen mit dem grössten erwarteten Gewinn umsetzen.</h2></div>
+      <div class="mobile-artifact">
+        <div class="mobile-artifact-head"><span data-copy="mobileOrderHead">Vorschlag für morgen</span><i></i></div>
+        <table class="order-table">
+          <thead><tr><th data-copy="item">Artikel</th><th data-copy="current">Bisher</th><th data-copy="recommended">Neu</th></tr></thead>
+          <tbody id="mobile-order-rows"></tbody>
+        </table>
+        <div class="order-note" data-copy="orderImplemented">3 bestätigte Änderungen an das Produktionssystem übergeben</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profit-measurement" class="engine-chapter" data-chapter="2">
+    <div class="engine-loading">Eclipsai Demo wird geladen</div>
+    <iframe class="engine-desktop" title="Gewinnbeitrag messen"></iframe>
+    <div class="mobile-chapter mobile-chapter-inner">
+      <header class="page-header">
+        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title" data-copy="measurementTitle">Ergebnisse über alle Filialen auswerten</span>
+        <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
+      </header>
+      <div class="mobile-copy"><h2 class="display" data-copy="mobileProfitTitle">Den Gewinn messen und ausweisen.</h2></div>
+      <div class="mobile-artifact">
+        <div class="mobile-artifact-head"><span data-copy="period">1.–5. August · alle Filialen</span><i></i></div>
+        <div class="profit-equation"><div class="profit-term good"><b id="mobile-profit-saved">7’800</b><span data-copy="savedCost">eingesparte Warenkosten (CHF)</span></div><span class="profit-op">−</span><div class="profit-term risk"><b id="mobile-profit-lost">1’200</b><span data-copy="lostProfit">potenziell entgangener Gewinn (CHF)</span></div></div>
+        <div class="profit-result"><span data-copy="profitGain">Gewinnbeitrag</span><b id="mobile-profit-gain">6’600 CHF</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="production-outro" class="engine-chapter dark" data-chapter="outro">
+    <div class="engine-loading">Eclipsai Demo wird geladen</div>
+    <iframe class="engine-desktop" title="Bessere Produktionsmengen und mehr Gewinn"></iframe>
+    <div class="mobile-chapter mobile-chapter-inner">
+      <header class="page-header">
+        <a class="page-brand" href="#hero" data-copy="clientBrand">CLIENT</a><span class="page-header-title"></span>
+        <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
+      </header>
+      <div class="mobile-copy"><h2 class="display" data-copy="outroTitle">Bessere Produktionsmengen. Mehr Gewinn.</h2></div>
+      <div class="closing-mobile"><div class="closing-mobile-line" data-copy="outroLine1">Eclipsai erkennt die wenigen Produktionsänderungen, die den Gewinn voraussichtlich verbessern.</div><div class="closing-mobile-line" data-copy="outroLine2">Wir testen, messen das Ergebnis und automatisieren.</div><div class="closing-mobile-line" data-copy="outroLine3">Mit den bestehenden Systemen.</div></div>
+    </div>
+  </section>
+
+  <script>
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+    const sections = Array.from(document.querySelectorAll("section"));
+    const dots = document.getElementById("dots");
+    const progress = document.getElementById("progress");
+    const pageUp = document.getElementById("page-up");
+    const pageDown = document.getElementById("page-down");
+    const engineFrames = Array.from(document.querySelectorAll(".engine-desktop"));
+    const desktopMedia = matchMedia("(min-width: 1121px)");
+    let activeIndex = 0;
+    let currentLang = "de";
+
+    const demoConfig = window.ECLIPSAI_DEMO;
+    const copy = demoConfig.copy;
+
+    document.title = demoConfig.title;
+    document.querySelector('meta[name="description"]').content = demoConfig.description;
+    document.querySelector('link[rel="canonical"]').href = "https://eclipsai.com" + demoConfig.route;
+    document.querySelector('meta[property="og:title"]').content = demoConfig.ogTitle || demoConfig.title;
+    document.querySelector('meta[property="og:description"]').content = demoConfig.ogDescription || demoConfig.description;
+    document.querySelector('meta[property="og:url"]').content = "https://eclipsai.com" + demoConfig.route;
+
+    const lateImage = document.getElementById("field-late-image");
+    const earlyImage = document.getElementById("field-early-image");
+    lateImage.src = demoConfig.assets.fieldLate;
+    if (demoConfig.assets.fieldLateSmall && demoConfig.assets.fieldLateSmall !== demoConfig.assets.fieldLate) {
+      lateImage.srcset = demoConfig.assets.fieldLateSmall + " 720w, " + demoConfig.assets.fieldLate + " 1600w";
+    }
+    earlyImage.src = demoConfig.assets.fieldEarly;
+
+    const numberForDisplay = (value) => Number(value).toLocaleString("de-CH").replace(/'/g, "’");
+    document.getElementById("mobile-order-rows").innerHTML = demoConfig.mobileOrders.map((row) =>
+      "<tr><td>" + row[0] + "</td><td>" + row[1] + "</td><td><strong>" + row[2] + "</strong></td></tr>"
+    ).join("");
+    document.getElementById("mobile-profit-saved").textContent = numberForDisplay(demoConfig.engineData.financials.saved);
+    document.getElementById("mobile-profit-lost").textContent = numberForDisplay(demoConfig.engineData.financials.lost);
+    document.getElementById("mobile-profit-gain").textContent = numberForDisplay(demoConfig.engineData.financials.gain) + " CHF";
+    engineFrames.forEach((frame) => {
+      const chapter = frame.closest(".engine-chapter").dataset.chapter;
+      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-common";
+    });
+
+    const goToPage = (index) => {
+      const nextIndex = Math.max(0, Math.min(sections.length - 1, index));
+      const target = sections[nextIndex];
+      history.replaceState(null, "", "#" + target.id);
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const ensureFrame = (section, direction) => {
+      if (!desktopMedia.matches) return;
+      const frame = section && section.querySelector(".engine-desktop");
+      if (!frame) return;
+      section.dataset.pendingDirection = direction || "forward";
+      if (!frame.src) frame.src = frame.dataset.src;
+      if (frame.dataset.ready === "true") {
+        frame.contentWindow && frame.contentWindow.postMessage({ type: "eclipsai-demo-activate-chapter", direction: section.dataset.pendingDirection }, "*");
+        delete section.dataset.pendingDirection;
+      }
+    };
+
+    const deactivateFrame = (section) => {
+      const frame = section && section.querySelector(".engine-desktop");
+      if (frame && frame.dataset.ready === "true") frame.contentWindow && frame.contentWindow.postMessage({ type: "eclipsai-demo-deactivate-chapter" }, "*");
+    };
+
+    const applyLanguage = (lang, broadcast) => {
+      if (!copy[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-copy]").forEach((element) => {
+        const value = copy[lang][element.dataset.copy];
+        if (value != null) element.textContent = value;
+      });
+      document.querySelectorAll("[data-lang]").forEach((button) => button.classList.toggle("active", button.dataset.lang === lang));
+      pageUp.setAttribute("aria-label", copy[lang].previous);
+      pageDown.setAttribute("aria-label", copy[lang].next);
+      dots.setAttribute("aria-label", copy[lang].pages);
+      Array.from(dots.children).forEach((dot, index) => dot.setAttribute("aria-label", copy[lang].goTo + " " + (index + 1)));
+      if (broadcast !== false) engineFrames.forEach((frame) => frame.contentWindow && frame.contentWindow.postMessage({ type: "eclipsai-demo-set-language", lang }, "*"));
+    };
+
+    sections.forEach((section, index) => {
+      const link = document.createElement("a");
+      link.href = "#" + section.id;
+      link.setAttribute("aria-label", "Gehe zu Seite " + (index + 1));
+      link.addEventListener("click", (event) => { event.preventDefault(); goToPage(index); });
+      dots.appendChild(link);
+    });
+
+    document.querySelectorAll("[data-lang]").forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
+    document.querySelectorAll(".page-brand").forEach((brand) => brand.addEventListener("click", (event) => { event.preventDefault(); goToPage(0); }));
+    engineFrames.forEach((frame) => frame.addEventListener("load", () => {
+      frame.dataset.ready = "true";
+      const section = frame.closest(".engine-chapter");
+      section && section.classList.add("loaded");
+      frame.contentWindow && frame.contentWindow.postMessage({ type: "eclipsai-demo-set-language", lang: currentLang }, "*");
+      if (section && section.dataset.pendingDirection) ensureFrame(section, section.dataset.pendingDirection);
+    }));
+
+    addEventListener("message", (event) => {
+      if (event.data && event.data.type === "eclipsai-demo-go-home") { goToPage(0); return; }
+      if (!event.data || event.data.type !== "eclipsai-demo-language-changed" || !copy[event.data.lang] || event.data.lang === currentLang) return;
+      applyLanguage(event.data.lang);
+    });
+
+    const dotLinks = Array.from(dots.children);
+    let lastActive = -1;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const index = sections.indexOf(entry.target);
+        if (index < 0 || index === lastActive) return;
+        const previous = activeIndex;
+        if (lastActive >= 0) deactivateFrame(sections[lastActive]);
+        activeIndex = index;
+        lastActive = index;
+        entry.target.classList.add("in");
+        dotLinks.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === index));
+        pageUp.classList.toggle("off", index === 0);
+        pageDown.classList.toggle("off", index === sections.length - 1);
+        ensureFrame(entry.target, index < previous ? "backward" : "forward");
+      });
+    }, { rootMargin: "-43% 0px -43% 0px", threshold: 0 });
+    sections.forEach((section) => observer.observe(section));
+
+    const updateProgress = () => {
+      const available = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = (available > 0 ? (scrollY / available) * 100 : 0) + "%";
+    };
+    addEventListener("scroll", updateProgress, { passive: true });
+    pageUp.addEventListener("click", () => goToPage(activeIndex - 1));
+    pageDown.addEventListener("click", () => goToPage(activeIndex + 1));
+    addEventListener("keydown", (event) => {
+      if (!["ArrowDown", "PageDown", "ArrowUp", "PageUp"].includes(event.key)) return;
+      event.preventDefault();
+      goToPage(activeIndex + (event.key.includes("Down") ? 1 : -1));
+    });
+    addEventListener("pageshow", () => {
+      const target = location.hash && document.querySelector(location.hash);
+      if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: "auto", block: "start" }));
+    });
+    desktopMedia.addEventListener && desktopMedia.addEventListener("change", () => ensureFrame(sections[activeIndex], "forward"));
+    applyLanguage("de", false);
+    pageUp.classList.add("off");
+    updateProgress();
+  </script>
+</body>
+</html>

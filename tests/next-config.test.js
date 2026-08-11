@@ -48,7 +48,7 @@ test("production proxies the complete Juliette path to Railway", async () => {
         },
         {
           source: "/Spruengli-demo-2",
-          destination: "/Spruengli-demo-2/index.html",
+          destination: "/demo-common/index.html?demo=spruengli",
         },
       ],
       fallback: [],
@@ -74,7 +74,7 @@ test("preview and local builds serve the public demo without proxying production
           },
           {
             source: "/Spruengli-demo-2",
-            destination: "/Spruengli-demo-2/index.html",
+            destination: "/demo-common/index.html?demo=spruengli",
           },
         ],
         fallback: [],
