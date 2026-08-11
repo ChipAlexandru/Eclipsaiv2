@@ -1,12 +1,14 @@
 # Shared Eclipsai demo architecture
 
-The shared presentation shell and animation engine support three demo configurations:
+The shared presentation shell and animation engine support four demo configurations:
 
 - `/Spruengli-demo-2`
 - `/Hausammann-demo-1`
 - `/fresh-food-demo`
+- `/restaurant-demo-0-0` (primary restaurant demo)
+- `/restaurant-profit-brain-demo` (legacy alias)
 
-Sprüngli, Hausammann and the generic bakery demo use the shared shell. `next.config.js` rewrites each public URL to `index.html` with its configuration query parameter; the browser URL does not change.
+Sprüngli, Hausammann, the generic bakery demo and the restaurant demo use the shared shell. `next.config.js` rewrites each public URL to `index.html` with its configuration query parameter; the browser URL does not change.
 
 ## Files
 

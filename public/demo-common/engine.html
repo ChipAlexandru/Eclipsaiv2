@@ -1014,8 +1014,8 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
           <div class="sc" id="e2">
             <div class="eq">
               <div class="eqi"><span class="eqv gain" id="q1">0</span><span class="eql" data-t="eqSaved">estimated ingredient cost saved (CHF)</span></div>
-              <span class="eqo">&#8722;</span>
-              <div class="eqi"><span class="eqv loss" id="q2">0</span><span class="eql" data-t="eqLost">potential lost profit (CHF), conservative: any substitution is ignored</span></div>
+              <span class="eqo" data-profit-operator>&#8722;</span>
+              <div class="eqi"><span class="eqv loss" id="q2" data-secondary-profit-value>0</span><span class="eql" data-t="eqLost">potential lost profit (CHF), conservative: any substitution is ignored</span></div>
               <span class="eqo">=</span>
               <div class="eqi"><span class="eqv" id="q3">0</span><span class="eql" data-t="eqGain">profit gain (CHF)</span></div>
             </div>
@@ -1126,8 +1126,8 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
       <div class="calceq">
         <div><div class="calcv gain" id="detail-saved" data-value="0">0</div>
           <div class="calcl" data-t="eqSaved">estimated ingredient cost saved (CHF)</div></div>
-        <span class="calco">&#8722;</span>
-        <div><div class="calcv loss" id="detail-lost" data-value="0">0</div>
+        <span class="calco" data-profit-operator>&#8722;</span>
+        <div><div class="calcv loss" id="detail-lost" data-value="0" data-secondary-profit-value>0</div>
           <div class="calcl" data-t="eqLost">potential lost profit (CHF), conservative: any substitution is ignored</div></div>
         <span class="calco">=</span>
         <div><div class="calcv" id="detail-gain" data-value="0">0</div>
@@ -1202,6 +1202,7 @@ en:{
  appDaily:'Daily data', appProd:'Production',
  appSub1:'Fri 5 Aug 2026 &#183; Store 1, till 1',
  appSub2:'Thu 6 Aug 2026 &#183; all locations',
+ streamKeys:{receipt:'receipt',time:'time',location:'location',item:'item',quantity:'quantity',amount:'amount'},
  thTime:'Time', thReceipt:'Receipt', thItem:'Item', thQty:'Qty', thAmount:'Amount',
  thShop:'Shop', thStatus:'Status', thNote:'Note',
  tagOpen:'open', tagSet:'set',
@@ -1273,6 +1274,7 @@ de:{
  appDaily:'Tagesdaten', appProd:'Produktionsaufträge',
  appSub1:'Fr 5. Aug 2026 &#183; Filiale 1, Kasse 1',
  appSub2:'Do 6. Aug 2026 &#183; alle Filialen',
+ streamKeys:{receipt:'beleg',time:'zeit',location:'filiale',item:'artikel',quantity:'menge',amount:'betrag'},
  thTime:'Zeit', thReceipt:'Beleg', thItem:'Artikel', thQty:'Menge', thAmount:'Betrag',
  thShop:'Filiale', thStatus:'Status', thNote:'Hinweis',
  tagOpen:'offen', tagSet:'gesetzt',
@@ -1326,11 +1328,18 @@ document.querySelectorAll('.source-photo').forEach((image,index)=>{image.src=dem
 const engineFinancials=engineData.financials;
 const engineSampleFinancials=engineData.sampleFinancials||engineFinancials;
 const engineSampleUnits=engineData.sampleUnits||{returnsAvoided:0,salesRisk:0};
+const profitOperator=(demoConfig.features&&demoConfig.features.profitOperator)||'−';
+const secondaryProfitIsGain=Boolean(demoConfig.features&&demoConfig.features.secondaryProfitTerm==='gain');
+document.querySelectorAll('[data-profit-operator]').forEach(element=>{element.textContent=profitOperator;});
+document.querySelectorAll('[data-secondary-profit-value]').forEach(element=>{
+  element.classList.toggle('gain',secondaryProfitIsGain);
+  element.classList.toggle('loss',!secondaryProfitIsGain);
+});
 [['detail-saved','saved'],['detail-lost','lost'],['detail-gain','gain']].forEach(([id,key])=>{
   const element=document.getElementById(id),value=engineFinancials[key];
   element.dataset.value=String(value);element.textContent=value.toLocaleString('en-US');
 });
-window.LANG='de';
+window.LANG=demoConfig.defaultLanguage||'de';
 window.DEMO_STARTED=false;
 window.DEMO_OUTRO=false;
 window.D=()=>window.DICT[window.LANG];
@@ -1408,10 +1417,11 @@ function renderDetailRows(){
   const rows=engineData.detailRows||engineData.events;
   body.innerHTML=rows.map(row=>{
     const location=row[1]==='ALL'?window.D().allShops:row[1];
-    const avoided=row[6]||'·',risk=row[7]||'·',profit=Number(row[8]);
+    const avoided=row[6]||'·',secondary=row[7]||'·',profit=Number(row[8]);
+    const secondaryClass=secondaryProfitIsGain?(Number(row[7])<0?'loss':'gain'):'loss';
     return '<tr><td class="q">'+row[0]+'</td><td class="q">'+location+'</td><td>'+row[2]+'</td>'+
       '<td class="n">'+row[3]+'</td><td class="n">'+row[4]+'</td><td class="n">'+row[5]+'</td>'+
-      '<td class="n gain">'+avoided+'</td><td class="n loss">'+risk+'</td><td class="n '+(profit<0?'loss':'')+'">'+(profit>0?'+':'')+profit.toFixed(2)+'</td></tr>';
+      '<td class="n gain">'+avoided+'</td><td class="n '+secondaryClass+'">'+secondary+'</td><td class="n '+(profit<0?'loss':'')+'">'+(profit>0?'+':'')+profit.toFixed(2)+'</td></tr>';
   }).join('');
 }
 
@@ -1516,9 +1526,11 @@ function buildArtifacts(){
   G('ev').className=window.LANG;
   ['stream','match','snap','ev','chgs'].forEach(id=>G(id).innerHTML='');
 
-  BONS.forEach(r=>{const e=document.createElement('div');
-    e.textContent='{"beleg":"'+r[1]+'","zeit":"'+r[0]+'","filiale":"'+engineData.primaryLocation+'","artikel":"'+r[2]+
-      '","menge":'+r[3]+',"betrag":'+r[4]+'}';
+  BONS.forEach(r=>{const e=document.createElement('div'),keys=d.streamKeys;
+    const payload={};
+    payload[keys.receipt]=r[1];payload[keys.time]=r[0];payload[keys.location]=engineData.primaryLocation;
+    payload[keys.item]=r[2];payload[keys.quantity]=r[3];payload[keys.amount]=Number(r[4]);
+    e.textContent=JSON.stringify(payload);
     G('stream').appendChild(e);});
   fls=[...G('stream').children];
 
@@ -1541,14 +1553,16 @@ function buildArtifacts(){
    h.innerHTML=d.evTh.map((x,i)=>'<span'+(i>2?' class="n"':'')+'>'+x+'</span>').join('');
    G('ev').appendChild(h);}
   EV.forEach(r=>{const e=document.createElement('div');e.className='erow';
+    const secondaryClass=secondaryProfitIsGain?(r[7]<0?'l':'g'):'l';
     e.innerHTML='<span class="q">'+r[0]+'</span><span class="q">'+(r[1]==='ALL'?d.network:r[1])+'</span><span>'+r[2]+'</span>'+
      '<span class="n">'+r[3]+'</span><span class="n">'+r[4]+'</span><span class="n">'+r[5]+'</span>'+
-     '<span class="n g">'+(r[6]||dot)+'</span><span class="n l">'+(r[7]||dot)+'</span>'+
+     '<span class="n g">'+(r[6]||dot)+'</span><span class="n '+secondaryClass+'">'+(r[7]||dot)+'</span>'+
      '<span class="n'+(r[8]<0?' l':'')+'">'+(r[8]>0?'+':'')+r[8].toFixed(2)+'</span>';
     G('ev').appendChild(e);});
   {const t=document.createElement('div');t.className='erow tot';
+   const secondaryClass=secondaryProfitIsGain?'g':'l';
    t.innerHTML='<span class="q">'+d.evTot+'</span>'+
-     '<span></span><span></span><span></span><span class="n g">'+engineSampleUnits.returnsAvoided+'</span><span class="n l">'+engineSampleUnits.salesRisk+'</span>'+
+     '<span></span><span></span><span></span><span></span><span></span><span class="n g">'+engineSampleUnits.returnsAvoided+'</span><span class="n '+secondaryClass+'">'+engineSampleUnits.salesRisk+'</span>'+
      '<span class="n">+'+Number(engineSampleFinancials.gain).toFixed(2)+'</span>';G('ev').appendChild(t);}
   spc=[...G('ev').querySelectorAll('.erow:not(.h)')];
 

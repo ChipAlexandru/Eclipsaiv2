@@ -17,7 +17,9 @@
       unsoldProduct: "Unverkaufte Ware",
       systemsKicker: "Warum diese Entscheidung schwierig bleibt",
       systemsTitle: "Die nötigen Daten liegen in verschiedenen Systemen.",
+      posLabel: "POS",
       posDesc: "Was wann und wo verkauft wurde",
+      erpLabel: "ERP / SAP",
       erpDesc: "Artikelstammdaten, Kosten und Margen",
       planningLabel: "Produktionsplanung",
       planningDesc: "Produktions- und Liefermengen je Filiale",
@@ -32,6 +34,7 @@
       measurementTitle: "Ergebnisse über alle Filialen auswerten",
       desktopFullCue: "Interaktive Vollversion auf Desktop",
       mobileSourceTitle: "Alle relevanten Daten systemübergreifend zusammenführen.",
+      mobileSourceSystems: "POS & ERP",
       sourceProduction: "Produktionsdaten",
       sourcePlanning: "Planungsdateien & Rezepturen",
       sourceStores: "Filialfotos & Filialmeldungen",
@@ -77,7 +80,9 @@
       unsoldProduct: "Unsold product",
       systemsKicker: "Why this remains difficult",
       systemsTitle: "The required data is spread across systems.",
+      posLabel: "POS",
       posDesc: "What sold, where and when",
+      erpLabel: "ERP / SAP",
       erpDesc: "Products, costs and commercial structure",
       planningLabel: "Production planning",
       planningDesc: "What was made and sent to each location",
@@ -92,6 +97,7 @@
       measurementTitle: "Measure results across all locations",
       desktopFullCue: "Full interactive version on desktop",
       mobileSourceTitle: "Bring together all relevant data across systems.",
+      mobileSourceSystems: "POS & ERP",
       sourceProduction: "Production data",
       sourcePlanning: "Planning files & recipes",
       sourceStores: "Store photos & messages",
@@ -123,6 +129,17 @@
       goTo: "Go to page"
     }
   };
+
+  const defaultSystemSources = [
+    { labelKey: "posLabel", descriptionKey: "posDesc" },
+    { labelKey: "erpLabel", descriptionKey: "erpDesc" },
+    { labelKey: "planningLabel", descriptionKey: "planningDesc" },
+    { labelKey: "excelLabel", descriptionKey: "excelDesc" },
+    { labelKey: "ordersLabel", descriptionKey: "ordersDesc" },
+    { labelKey: "wasteLabel", descriptionKey: "wasteDesc" }
+  ];
+
+  const defaultMobileSourceKeys = ["mobileSourceSystems", "sourceProduction", "sourcePlanning", "sourceStores"];
 
   const bakeryItems = [
     ["Gipfeli", 2, "4.40"], ["Zopf 500g", 1, "6.80"], ["Butterbrezel", 3, "7.50"],
@@ -229,6 +246,8 @@
         de: ["Produktionssysteme", "POS", "ERP"],
         en: ["Production systems", "POS", "ERP"]
       },
+      systemSources: defaultSystemSources,
+      mobileSourceKeys: defaultMobileSourceKeys,
       mobileOrders: [["Caesar Salad", 80, 69], ["Birchermüesli Classique", 120, 104], ["Planted Protein Bowl", 60, 54]],
       engineCopy: {
         en: {
@@ -320,6 +339,8 @@
         de: ["HS Soft", "Protecdata BackStar", "Mark.One", "Lightspeed", "TurboBack"],
         en: ["HS Soft", "Protecdata BackStar", "Mark.One", "Lightspeed", "TurboBack"]
       },
+      systemSources: defaultSystemSources,
+      mobileSourceKeys: defaultMobileSourceKeys,
       mobileOrders: [["Berliner", 80, 69], ["Apfeltasche", 120, 104], ["Sauerteigbrot", 60, 54]],
       engineCopy: {
         en: { demoBrand: "Hausammann", appSub1: "Fri 5 Aug 2026 · Thalwil, till 1", appSub2: "Thu 6 Aug 2026 · all shops", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Gipfeli Butter", "renamed, matched back to its own history", "matched", ""], ["Sandwich Schinken", "new, no history yet, left alone", "new", "n"], ["Tirggel", "not sold for 4 weeks, closed", "closed", "c"]] },
@@ -331,6 +352,293 @@
         embrach: "Embrach",
         uni88: "Uni 88"
       })
+    },
+    restaurant: {
+      id: "restaurant",
+      route: "/restaurant-demo-0-0",
+      title: "The Profit Brain for Fresh Food | Eclipsai",
+      description: "See how Eclipsai improves restaurant profit by lowering food cost without losing sales.",
+      ogTitle: "The Profit Brain for Fresh Food | Eclipsai",
+      ogDescription: "From sales, recipes, purchases and counts to better order and prep decisions and measurable profit.",
+      defaultLanguage: "en",
+      features: {
+        balanceAnimation: true,
+        fieldEvidenceLayout: "overlap",
+        profitOperator: "+",
+        secondaryProfitTerm: "gain"
+      },
+      copy: {
+        en: Object.assign({}, sharedCopy.en, {
+          clientBrand: "FRESH FOOD",
+          heroTitle: "The Profit Brain for Fresh Food",
+          topicOrders: "Food Cost & Availability",
+          topicProducts: "Ordering & Prep",
+          topicPricing: "Menu & Pricing",
+          decisionKicker: "The daily ingredient decision",
+          decisionTitle: "Ingredient quantities must balance availability with waste.",
+          decisionBody: "Too much becomes waste. Too little makes menu items unavailable.",
+          missedSales: "Lost sales",
+          bestQuantity: "Best quantity",
+          unsoldProduct: "Waste and excess stock",
+          fieldNote: "Illustrative restaurant example",
+          fieldLate: "Grilled chicken unavailable",
+          fieldEarly: "8 prep portions remained",
+          systemsTitle: "The data already exists in four places.",
+          posLabel: "POS & delivery",
+          posDesc: "What sold, when, and which items became unavailable",
+          recipeLabel: "Recipes & menu",
+          recipeDesc: "What every sale should consume and contribute",
+          purchaseLabel: "Purchases & invoices",
+          purchaseDesc: "What was bought, from whom, and at what price",
+          countLabel: "Stock & prep counts",
+          countDesc: "What was available, prepared, left, or discarded",
+          systemsStatement: "Eclipsai turns these records into one daily picture of food cost and availability.",
+          automationTitle: "Improve food cost & availability",
+          measurementTitle: "Measure results for the restaurant",
+          mobileSourceTitle: "Build one daily picture of food cost and availability.",
+          dailyPictureBody: "Sales. Theoretical use. Actual use. Waste. Availability.",
+          mobileOrderTitle: "Make the few ordering and prep changes most likely to improve profit.",
+          mobileOrderHead: "Tomorrow's order & prep",
+          item: "Component",
+          orderImplemented: "2 confirmed changes sent to the order sheet and prep plan",
+          mobileProfitTitle: "Measure the profit created by each change.",
+          period: "1–5 August · Restaurant 1",
+          savedCost: "food-cost improvement (CHF)",
+          lostProfit: "contribution recovered from availability (CHF)",
+          outroTitle: "Lower food cost. Better availability. More profit.",
+          outroLine1: "Eclipsai finds the few ordering and prep changes most likely to improve profit.",
+          outroLine2: "We test, measure the result, and automate.",
+          outroLine3: "Using the systems you have.",
+          sourceFrameTitle: "Build a daily picture of the restaurant business",
+          orderFrameTitle: "Recommend and implement restaurant ordering and prep quantities",
+          profitFrameTitle: "Measure the profit impact of ordering and prep changes",
+          outroFrameTitle: "Lower food cost, better availability and more profit"
+        }),
+        de: Object.assign({}, sharedCopy.de, {
+          clientBrand: "FRESH FOOD",
+          topicOrders: "Warenkosten & Verfügbarkeit",
+          topicProducts: "Bestellung & Vorbereitung",
+          topicPricing: "Menü & Preise",
+          decisionKicker: "Die tägliche Zutatenentscheidung",
+          decisionTitle: "Zutatenmengen müssen Verfügbarkeit und Abfall ausbalancieren.",
+          decisionBody: "Zu viel wird zu Abfall. Zu wenig macht Gerichte unverfügbar.",
+          bestQuantity: "Beste Menge",
+          unsoldProduct: "Abfall und Überbestand",
+          fieldNote: "Illustratives Restaurantbeispiel",
+          fieldLate: "Grillhähnchen nicht verfügbar",
+          fieldEarly: "8 vorbereitete Portionen übrig",
+          systemsTitle: "Die Daten liegen bereits an vier Stellen.",
+          posLabel: "POS & Lieferplattformen",
+          posDesc: "Was verkauft wurde und welche Artikel nicht verfügbar waren",
+          recipeLabel: "Rezepturen & Menü",
+          recipeDesc: "Was jeder Verkauf verbrauchen und beitragen sollte",
+          purchaseLabel: "Einkauf & Rechnungen",
+          purchaseDesc: "Was bei wem und zu welchem Preis eingekauft wurde",
+          countLabel: "Bestand & Vorbereitung",
+          countDesc: "Was verfügbar, vorbereitet, übrig oder entsorgt war",
+          systemsStatement: "Eclipsai macht daraus täglich ein Gesamtbild von Warenkosten und Verfügbarkeit.",
+          automationTitle: "Warenkosten & Verfügbarkeit verbessern",
+          measurementTitle: "Ergebnisse für das Restaurant auswerten",
+          mobileSourceTitle: "Täglich ein Gesamtbild von Warenkosten und Verfügbarkeit erstellen.",
+          dailyPictureBody: "Absatz. Sollverbrauch. Istverbrauch. Abfall. Verfügbarkeit.",
+          mobileOrderTitle: "Die wenigen Bestell- und Vorbereitungsänderungen mit dem grössten Gewinnpotenzial umsetzen.",
+          mobileOrderHead: "Bestellung & Vorbereitung für morgen",
+          item: "Komponente",
+          orderImplemented: "2 bestätigte Änderungen ins Bestellblatt und in den Vorbereitungsplan übernommen",
+          mobileProfitTitle: "Den Mehrgewinn jeder Anpassung messen.",
+          period: "1.–5. August · Restaurant 1",
+          savedCost: "Verbesserung der Warenkosten (CHF)",
+          lostProfit: "zurückgewonnener Deckungsbeitrag aus Verfügbarkeit (CHF)",
+          outroTitle: "Tiefere Warenkosten. Bessere Verfügbarkeit. Mehr Gewinn.",
+          outroLine1: "Eclipsai erkennt die wenigen Bestell- und Vorbereitungsänderungen, die den Gewinn verbessern können.",
+          outroLine2: "Wir testen sie, messen den Effekt und automatisieren die Umsetzung.",
+          sourceFrameTitle: "Tägliches Gesamtbild des Restaurantbetriebs erstellen",
+          orderFrameTitle: "Bestell- und Vorbereitungsmengen empfehlen und umsetzen",
+          profitFrameTitle: "Mehrgewinn aus Bestell- und Vorbereitungsänderungen messen",
+          outroFrameTitle: "Tiefere Warenkosten, bessere Verfügbarkeit und mehr Gewinn"
+        })
+      },
+      assets: {
+        fieldEvidence: [
+          {
+            src: "/restaurant-profit-brain-demo/assets/source-photos/unavailable-plate-v2.jpg",
+            small: "/restaurant-profit-brain-demo/assets/source-photos/unavailable-plate-v2-720.jpg",
+            width: 880,
+            position: "center 66%",
+            time: "13:42",
+            copyKey: "fieldLate"
+          },
+          {
+            src: "/restaurant-profit-brain-demo/assets/source-photos/remaining-chicken-plate-v2.jpg",
+            small: "/restaurant-profit-brain-demo/assets/source-photos/remaining-chicken-plate-v2-720.jpg",
+            width: 880,
+            position: "center 66%",
+            time: "21:35",
+            copyKey: "fieldEarly"
+          }
+        ],
+        sources: [
+          "/restaurant-profit-brain-demo/assets/source-photos/pos.jpg",
+          "/restaurant-profit-brain-demo/assets/source-photos/recipes-menu.jpg",
+          "/restaurant-profit-brain-demo/assets/source-photos/purchases-invoice.jpg",
+          "/restaurant-profit-brain-demo/assets/source-photos/remaining-chicken-plate-v2.jpg",
+          "/restaurant-profit-brain-demo/assets/source-photos/phone-message.jpg"
+        ]
+      },
+      systemSources: [
+        { labelKey: "posLabel", descriptionKey: "posDesc" },
+        { labelKey: "recipeLabel", descriptionKey: "recipeDesc" },
+        { labelKey: "purchaseLabel", descriptionKey: "purchaseDesc" },
+        { labelKey: "countLabel", descriptionKey: "countDesc" }
+      ],
+      mobileSourceKeys: ["posLabel", "recipeLabel", "purchaseLabel", "countLabel"],
+      systemVendors: {
+        en: ["Order & prep plan", "POS", "Purchases"],
+        de: ["Bestell- & Vorbereitungsplan", "POS", "Einkauf"]
+      },
+      mobileOrders: [["Grilled chicken portions", 80, 70], ["Avocado portions", 36, 42]],
+      engineCopy: {
+        en: {
+          demoBrand: "FRESH FOOD",
+          headline: "We improve profit: <b>lower food cost without losing sales</b>",
+          profitPrefix: "The Profit Brain",
+          profitRotations: ["Food Cost & Availability", "Ordering & Prep", "Menu & Pricing", "Labor & Operations", "Next Location"],
+          say: ["Build a daily picture of the business", "Find ordering and prep changes worth making", "Analyse results and report profit"],
+          voiceover: [
+            ["We connect POS sales, recipes, supplier purchases, and stock and prep counts.", "Sales and recipes show what should have been used. Purchases and counts show what was actually used.", "This creates one daily picture of food cost, waste, and availability."],
+            ["Every day, we reassess sales, availability, stock, costs, and manager feedback.", "We propose the few ordering and prep quantity changes most likely to improve profit.", "After approval, confirmed quantities update the existing order sheet or prep plan."],
+            ["For the restaurant, we measure sales, use, closing stock, and availability.", "We calculate the profit effect of each change. We keep what works and stop what does not.", "This creates a daily learning and improvement loop."]
+          ],
+          capLeft: "POS · recipes · purchases · counts",
+          panelFirst: "Build a daily picture of the business",
+          panelSecond: "Propose and implement order & prep quantities",
+          panelFinalAnalysis: "Analyse results for the restaurant",
+          panelFinalReport: "Report restaurant profit — daily and total",
+          flowFirst: "Sales\nRecipes\nPurchases\nCounts",
+          flowSecond: "New order & prep\nquantities",
+          navTill: "POS", navProd: "Order & prep", tabProd: "Order & prep",
+          appProd: "Tomorrow's order & prep",
+          appSub1: "Fri 5 Aug 2026 · Restaurant 1, POS 1",
+          appSub2: "Thu 6 Aug 2026 · Restaurant 1",
+          thShop: "Restaurant",
+          countChanged: (n) => n + " of 64 order and prep quantities changed",
+          lkIn: ["SALES", "FOOD COST"], lkOut: "ORDER & PREP",
+          match: [["Chicken breast", "matched to five menu recipes", "matched", ""], ["Seasonal dressing", "new, no history yet, left unchanged", "new", "n"], ["Retired garnish", "no longer on the menu, excluded", "excluded", "c"]],
+          snapTh: ["Date", "Restaurant", "Component", "Prepared", "Used", "Left"],
+          eqSaved: "food-cost improvement (CHF)",
+          eqLost: "contribution recovered from availability (CHF)",
+          evTh: ["Date", "Restaurant", "Component", "Old", "New", "Used", "Waste ↓", "Availability ↑", "CHF"],
+          evTot: "Restaurant total",
+          cProfit: "Profit gain", cWaste: "Waste avoided", cUnits: "portions",
+          cOfSales: "(<b>0.7%</b> of sales)", cRange: "(<b>12%</b> to <b>10%</b>)",
+          cSub: "Illustrative. Restaurant 1, 1 to 5 August 2026.",
+          cSubProj: "Projected to 31 December, at the rate measured so far.",
+          systemProduction: "Order & prep plan", systemPos: "POS", systemErp: "Purchases",
+          allShops: "Restaurant 1", network: "Restaurant 1",
+          sourcePos: "POS & delivery", sourceProduction: "Recipes & menu", sourceAccounting: "Accounting",
+          sourceFiles: "Purchases & invoices", sourceEmails: "Emails", sourcePhotos: "Photos", sourceVoice: "Voice messages",
+          sourceShelf: "Stock & prep counts", sourceMessages: "Manager notes",
+          checkWaste: "Waste and unavailable items", checkHistory: "Daily and weekly sales patterns",
+          checkWeather: "Weather and local events", checkNew: "Menu changes and new items",
+          checkSupplier: "Supplier prices and recipe costs", checkFeedback: "Manager feedback", checkStock: "Closing stock and prep counts",
+          p2Scope: "1–5 AUGUST · RESTAURANT 1",
+          p2Note: "Restaurant total. Profit gain combines food-cost improvement with contribution recovered when better availability generated additional sales.",
+          streamKeys: { receipt: "receipt", time: "time", location: "restaurant", item: "item", quantity: "quantity", amount: "amount" }
+        },
+        de: {
+          demoBrand: "FRESH FOOD",
+          headline: "Mehr Gewinn durch <b>tiefere Warenkosten ohne Umsatzverlust</b>",
+          profitPrefix: "Operative Intelligenz für Frischbetriebe",
+          profitRotations: ["Warenkosten & Verfügbarkeit", "Bestellung & Vorbereitung", "Menü & Preise", "Personal & Betrieb", "Nächster Standort"],
+          say: ["Tägliches Gesamtbild erstellen", "Bestell- und Vorbereitungsmengen gezielt anpassen", "Gewinnbeitrag täglich messen"],
+          voiceover: [
+            ["Eclipsai verbindet POS-Verkäufe, Rezepturen, Einkäufe sowie Bestands- und Vorbereitungszählungen.", "Verkäufe und Rezepturen zeigen den Sollverbrauch. Einkäufe und Zählungen zeigen den Istverbrauch.", "So entsteht täglich ein Bild von Warenkosten, Abfall und Verfügbarkeit."],
+            ["Täglich werden Absatz, Verfügbarkeit, Bestand, Kosten und Betriebsfeedback neu ausgewertet.", "Daraus entstehen die wenigen Mengenänderungen, die den Gewinn am wahrscheinlichsten verbessern.", "Nach Freigabe werden die Mengen im bestehenden Bestellblatt oder Vorbereitungsplan aktualisiert."],
+            ["Für das Restaurant messen wir Absatz, Verbrauch, Schlussbestand und Verfügbarkeit.", "Wir berechnen den Gewinnbeitrag jeder Anpassung und behalten nur, was funktioniert.", "So entsteht ein täglicher Lern- und Verbesserungszyklus."]
+          ],
+          capLeft: "POS · Rezepturen · Einkauf · Zählungen",
+          panelFirst: "Tägliches Gesamtbild erstellen",
+          panelSecond: "Bestell- und Vorbereitungsmengen empfehlen und umsetzen",
+          panelFinalAnalysis: "Ergebnisse für das Restaurant auswerten",
+          panelFinalReport: "Restaurantgewinn — täglich und kumuliert",
+          flowFirst: "Absatz\nRezepturen\nEinkauf\nZählungen",
+          flowSecond: "Neue Bestell- und\nVorbereitungsmengen",
+          navTill: "POS", navProd: "Bestellung & Vorbereitung", tabProd: "Bestellung & Vorbereitung",
+          appProd: "Bestellung & Vorbereitung für morgen",
+          appSub1: "Fr 5. Aug 2026 · Restaurant 1, POS 1",
+          appSub2: "Do 6. Aug 2026 · Restaurant 1",
+          thShop: "Restaurant",
+          countChanged: (n) => n + " von 64 Bestell- und Vorbereitungsmengen angepasst",
+          lkIn: ["ABSATZ", "WARENKOSTEN"], lkOut: "BESTELLUNG & VORBEREITUNG",
+          match: [["Hähnchenbrust", "fünf Menürezepturen zugeordnet", "zugeordnet", ""], ["Saisonales Dressing", "neu, noch ohne Historie; unverändert", "neu", "n"], ["Ehemalige Garnitur", "nicht mehr auf der Karte; ausgeschlossen", "ausgeschlossen", "c"]],
+          snapTh: ["Datum", "Restaurant", "Komponente", "Vorbereitet", "Verbraucht", "Übrig"],
+          eqSaved: "Verbesserung der Warenkosten (CHF)",
+          eqLost: "zurückgewonnener Deckungsbeitrag aus Verfügbarkeit (CHF)",
+          evTh: ["Datum", "Restaurant", "Komponente", "Bisher", "Neu", "Verbraucht", "Abfall ↓", "Verfügbarkeit ↑", "CHF"],
+          evTot: "Restaurant gesamt",
+          cProfit: "Mehrgewinn", cWaste: "Vermiedener Abfall", cUnits: "Portionen",
+          cOfSales: "(<b>0,7&nbsp;%</b> des Umsatzes)", cRange: "(von <b>12&nbsp;%</b> auf <b>10&nbsp;%</b>)",
+          cSub: "Illustratives Beispiel. Restaurant 1, 1. bis 5. August 2026.",
+          cSubProj: "Auf den 31. Dezember hochgerechnet, basierend auf dem bisher gemessenen Effekt.",
+          systemProduction: "Bestell- und Vorbereitungsplan", systemPos: "POS", systemErp: "Einkauf",
+          allShops: "Restaurant 1", network: "Restaurant 1",
+          sourcePos: "POS & Lieferplattformen", sourceProduction: "Rezepturen & Menü", sourceAccounting: "Buchhaltung",
+          sourceFiles: "Einkauf & Rechnungen", sourceEmails: "E-Mails", sourcePhotos: "Fotos", sourceVoice: "Sprachnachrichten",
+          sourceShelf: "Bestand & Vorbereitung", sourceMessages: "Betriebsnotizen",
+          checkWaste: "Abfall und nicht verfügbare Artikel", checkHistory: "Tages- und Wochenmuster",
+          checkWeather: "Wetter und lokale Veranstaltungen", checkNew: "Menüänderungen und neue Artikel",
+          checkSupplier: "Lieferpreise und Rezeptkosten", checkFeedback: "Betriebsfeedback", checkStock: "Schlussbestand und Vorbereitungszählungen",
+          p2Scope: "1.–5. AUGUST · RESTAURANT 1",
+          p2Note: "Restaurant gesamt. Der Mehrgewinn kombiniert verbesserte Warenkosten mit zurückgewonnenem Deckungsbeitrag aus besserer Verfügbarkeit.",
+          streamKeys: { receipt: "beleg", time: "zeit", location: "restaurant", item: "artikel", quantity: "menge", amount: "betrag" }
+        }
+      },
+      engineData: {
+        now: { p: 330, w: 29 },
+        end: { p: 10000, w: 880 },
+        financials: { saved: 255, lost: 75, gain: 330 },
+        sampleFinancials: { saved: 51, lost: 15, gain: 66 },
+        sampleUnits: { returnsAvoided: 16, salesRisk: 3 },
+        primaryLocation: "Restaurant 1",
+        items: [
+          ["Chicken Caesar Salad", 1, "17.50"], ["Green Goddess Bowl", 1, "18.50"], ["Falafel Wrap", 2, "27.00"],
+          ["Avocado Chicken Bowl", 1, "19.50"], ["Espresso", 2, "9.00"], ["Tomato Soup", 1, "10.50"],
+          ["Miso Salmon Bowl", 1, "21.50"], ["Iced Tea", 2, "11.00"], ["Grilled Chicken Wrap", 1, "16.50"],
+          ["Roasted Vegetable Bowl", 1, "17.50"], ["Protein Salad", 1, "19.00"], ["Mediterranean Bowl", 1, "18.50"],
+          ["Hummus Side", 2, "9.80"], ["Fresh Juice", 2, "15.00"], ["Caprese Wrap", 1, "15.50"],
+          ["Avocado Toast", 1, "14.50"], ["Seasonal Salad", 2, "31.00"], ["Sparkling Water", 2, "9.00"]
+        ],
+        production: [
+          ["Grilled chicken portions", "Restaurant 1", 80, 70], ["Cooked grain portions", "Restaurant 1", 120, null],
+          ["Avocado portions", "Restaurant 1", 36, 42], ["Roasted vegetables", "Restaurant 1", 54, null],
+          ["Falafel mix portions", "Restaurant 1", 45, null], ["Herb dressing portions", "Restaurant 1", 72, null],
+          ["Tomato soup portions", "Restaurant 1", 40, null], ["Salmon portions", "Restaurant 1", 28, null],
+          ["Pickled cabbage portions", "Restaurant 1", 32, null], ["Hummus portions", "Restaurant 1", 48, null],
+          ["Fresh herb portions", "Restaurant 1", 30, null], ["Bread portions", "Restaurant 1", 42, null],
+          ["Juice prep portions", "Restaurant 1", 24, null], ["Cooked grain portions", "Restaurant 1", 104, null],
+          ["Seasonal dressing portions", "Restaurant 1", 26, null]
+        ],
+        chf: { 0: 18, 2: 24 },
+        snapshot: [
+          ["02.08", "Restaurant 1", "Grilled chicken", 80, 66, 14, 0],
+          ["03.08", "Restaurant 1", "Grilled chicken", 80, 71, 9, 0],
+          ["04.08", "Restaurant 1", "Grilled chicken", 80, 58, 22, 0],
+          ["05.08", "Restaurant 1", "Grilled chicken", 80, 62, 18, 1],
+          ["05.08", "Restaurant 1", "Avocado portions", 36, 36, 0, 1]
+        ],
+        events: [
+          ["05.08", "ALL", "Grilled chicken", 80, 70, 66, 4, 0, 21],
+          ["05.08", "ALL", "Cooked grain", 120, 108, 105, 12, 0, 30],
+          ["05.08", "ALL", "Avocado portions", 36, 42, 41, 0, 3, 27],
+          ["05.08", "ALL", "Grilled chicken", 18, 16, 18, 0, -2, -12]
+        ],
+        detailRows: [
+          ["01.–05.08", "ALL", "Grilled chicken portions", 400, 350, 330, 20, 0, 105],
+          ["01.–05.08", "ALL", "Cooked grain portions", 600, 540, 500, 40, 0, 150],
+          ["01.–05.08", "ALL", "Avocado portions", 300, 320, 318, 0, 8, 135],
+          ["01.–05.08", "ALL", "Grilled chicken portions", 90, 80, 90, 0, -2, -60]
+        ]
+      }
     },
     generic: {
       id: "generic",
@@ -370,6 +678,8 @@
         de: ["Produktionssysteme", "POS", "ERP"],
         en: ["Production systems", "POS", "ERP"]
       },
+      systemSources: defaultSystemSources,
+      mobileSourceKeys: defaultMobileSourceKeys,
       mobileOrders: [["Berliner", 80, 69], ["Apfeltasche", 120, 104], ["Sauerteigbrot", 60, 54]],
       engineCopy: {
         en: { demoBrand: "Fresh-food business", appSub1: "Fri 5 Aug 2026 · Zürich 1, till 1", appSub2: "Thu 6 Aug 2026 · all shops", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Gipfeli Butter", "renamed, matched back to its own history", "matched", ""], ["Sandwich Schinken", "new, no history yet, left alone", "new", "n"], ["Tirggel", "not sold for 4 weeks, closed", "closed", "c"]] },
@@ -384,6 +694,7 @@
     if (requested && configs[requested]) return requested;
     const path = location.pathname.toLowerCase();
     if (path.includes("hausammann")) return "hausammann";
+    if (path.includes("restaurant-demo") || path.includes("restaurant-profit-brain")) return "restaurant";
     if (path.includes("fresh-food")) return "generic";
     return "spruengli";
   }

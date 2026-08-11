@@ -18,22 +18,25 @@ function loadConfigs(search = "?demo=spruengli", pathname = "/Spruengli-demo-2")
 
 test("all public demos are configurations of the shared shell", () => {
   const runtime = loadConfigs();
-  assert.deepEqual(Object.keys(runtime.ECLIPSAI_DEMOS).sort(), ["generic", "hausammann", "spruengli"]);
+  assert.deepEqual(Object.keys(runtime.ECLIPSAI_DEMOS).sort(), ["generic", "hausammann", "restaurant", "spruengli"]);
 
   for (const [id, config] of Object.entries(runtime.ECLIPSAI_DEMOS)) {
     assert.equal(config.id, id);
     assert.ok(config.copy.de.clientBrand);
     assert.ok(config.copy.en.clientBrand);
-    assert.equal(config.mobileOrders.length, 3);
+    assert.ok(config.mobileOrders.length > 0);
     assert.equal(config.assets.sources.length, 5);
     assert.ok(config.assets.fieldEvidence.length >= 1 && config.assets.fieldEvidence.length <= 2);
+    assert.ok(config.systemSources.length >= 4);
+    assert.ok(config.mobileSourceKeys.length >= 4);
     assert.ok(config.engineData.items.length > 0);
     assert.ok(config.engineData.production.length > 0);
     assert.ok(config.engineData.financials.gain > 0);
-    assert.equal(
-      config.engineData.sampleFinancials.saved - config.engineData.sampleFinancials.lost,
-      config.engineData.sampleFinancials.gain
-    );
+    const operator = config.features.profitOperator || "−";
+    const expectedGain = operator === "+"
+      ? config.engineData.sampleFinancials.saved + config.engineData.sampleFinancials.lost
+      : config.engineData.sampleFinancials.saved - config.engineData.sampleFinancials.lost;
+    assert.equal(expectedGain, config.engineData.sampleFinancials.gain);
   }
 });
 
@@ -41,6 +44,8 @@ test("demo selection supports query parameters and public paths", () => {
   assert.equal(loadConfigs("?demo=hausammann").ECLIPSAI_DEMO_ID, "hausammann");
   assert.equal(loadConfigs("", "/fresh-food-demo").ECLIPSAI_DEMO_ID, "generic");
   assert.equal(loadConfigs("", "/Spruengli-demo-2").ECLIPSAI_DEMO_ID, "spruengli");
+  assert.equal(loadConfigs("", "/restaurant-demo-0-0").ECLIPSAI_DEMO_ID, "restaurant");
+  assert.equal(loadConfigs("", "/restaurant-profit-brain-demo").ECLIPSAI_DEMO_ID, "restaurant");
 });
 
 test("shared shell and engine use the neutral message protocol", () => {
@@ -68,7 +73,8 @@ test("field photos use configuration-driven timestamps without inventing observa
   assert.match(shell, /fieldEvidence\.slice\(0, 2\)/);
   assert.match(shell, /time\.textContent = item\.time/);
   assert.match(shell, /\.field-photo\.late \.field-caption\s*\{[^}]*width: 50%/s);
-  for (const config of Object.values(runtime.ECLIPSAI_DEMOS)) {
+  for (const id of ["spruengli", "hausammann", "generic"]) {
+    const config = runtime.ECLIPSAI_DEMOS[id];
     assert.equal(config.features.balanceAnimation, true);
   }
   assert.match(shell, /@keyframes find-balance/);
@@ -85,7 +91,8 @@ test("field photos use configuration-driven timestamps without inventing observa
 test("German copy uses natural fresh-food operating language consistently", () => {
   const runtime = loadConfigs();
   const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
-  for (const config of Object.values(runtime.ECLIPSAI_DEMOS)) {
+  for (const id of ["spruengli", "hausammann", "generic"]) {
+    const config = runtime.ECLIPSAI_DEMOS[id];
     assert.equal(config.copy.de.decisionTitle.replace(/\u00ad/g, ""), "Bei der Produktionsmenge gilt es, Absatz und Retouren auszubalancieren.");
     assert.equal(config.copy.de.systemsTitle, "Die nötigen Daten liegen in verschiedenen Systemen.");
     assert.equal(config.copy.de.savedCost, "vermiedene Warenkosten (CHF)");
@@ -95,6 +102,25 @@ test("German copy uses natural fresh-food operating language consistently", () =
   assert.match(engine, /geschätzte vermiedene Warenkosten/);
   assert.doesNotMatch(engine, /automatisierte Produktionsmengen/);
   assert.doesNotMatch(engine, /eingesparte Warenkosten, geschätzt/);
+});
+
+test("restaurant demo uses the shared shell with fresh-food identity and restaurant economics", () => {
+  const runtime = loadConfigs("?demo=restaurant");
+  const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
+  const restaurant = runtime.ECLIPSAI_DEMO;
+  assert.equal(restaurant.route, "/restaurant-demo-0-0");
+  assert.equal(restaurant.defaultLanguage, "en");
+  assert.equal(restaurant.copy.en.clientBrand, "FRESH FOOD");
+  assert.equal(restaurant.copy.en.heroTitle, "The Profit Brain for Fresh Food");
+  assert.equal(restaurant.features.fieldEvidenceLayout, "overlap");
+  assert.equal(restaurant.features.profitOperator, "+");
+  assert.equal(restaurant.features.secondaryProfitTerm, "gain");
+  assert.equal(restaurant.assets.fieldEvidence.length, 2);
+  assert.equal(restaurant.engineData.financials.saved + restaurant.engineData.financials.lost, restaurant.engineData.financials.gain);
+  assert.match(shell, /mobile-profit-operator/);
+  assert.match(engine, /data-profit-operator/);
+  assert.match(engine, /secondaryProfitIsGain/);
 });
 
 test("the final page has one shared copy source for desktop and mobile", () => {
