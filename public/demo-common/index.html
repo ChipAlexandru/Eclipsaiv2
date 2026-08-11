@@ -241,7 +241,7 @@
       min-width: 0;
     }
     .decision-grid > * { min-width: 0; }
-    #decision .display { font-size: clamp(46px, 5vw, 69px); }
+    #decision .display { font-size: clamp(32px, 3vw, 42px); }
     .balance-line {
       position: relative;
       display: grid;
@@ -377,20 +377,25 @@
 
     #systems { background: var(--paper); }
     #systems .inner { width: min(1060px, 100%); }
-    #systems .display { max-width: 980px; margin: 0 auto; text-align: center; }
+    #systems .display { max-width: 980px; margin: 0 auto; font-size: clamp(32px, 3vw, 42px); text-align: center; }
     .source-list {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 54px;
-      margin-top: 46px;
+      column-gap: clamp(54px, 7vw, 90px);
+      margin-top: 52px;
       border-top: 1px solid var(--line);
     }
     .source-row {
-      padding: 22px 0;
+      padding: 27px 0;
       border-bottom: 1px solid var(--line);
     }
-    .source-row b { display: block; font: 700 11px/1.2 var(--mono); letter-spacing: .11em; text-transform: uppercase; }
-    .source-row span { display: block; margin-top: 7px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .source-row b {
+      display: block;
+      font: 650 17px/1.3 var(--sans);
+      letter-spacing: -.01em;
+      text-transform: none;
+    }
+    .source-row span { display: block; margin-top: 9px; color: var(--muted); font-size: 16px; line-height: 1.5; }
     .systems-statement {
       margin: 36px 0 0;
       color: var(--solar);
@@ -420,7 +425,7 @@
 
     .mobile-chapter-inner { width: 100%; }
     .mobile-copy { padding: 0 22px; }
-    .mobile-copy .display { font-size: clamp(38px, 11vw, 52px); }
+    .mobile-copy .display { font-size: clamp(32px, 9.2vw, 40px); }
     .mobile-copy .lede { font-size: 16px; }
     .desktop-full-cue {
       display: flex;
@@ -493,6 +498,7 @@
     @media (max-width: 1120px) {
       html { scroll-snap-type: none; }
       section { overflow: visible; }
+      #decision .display, #systems .display, .mobile-copy .display { font-size: clamp(32px, 9.2vw, 40px); }
       .engine-chapter { display: block; padding: 100px 0 84px; }
       .engine-desktop, .engine-loading { display: none; }
       .mobile-chapter { display: flex; width: 100%; flex-direction: column; }
@@ -510,14 +516,16 @@
       .page-brand.has-client-logo { width: 82px; height: 38px; padding: 3px 6px; }
       #hero .display { font-size: clamp(42px, 13vw, 54px); }
       .profit-menu { font-size: 21px; }
-      #decision .display { font-size: 45px; hyphens: auto; overflow-wrap: anywhere; }
+      #decision .display { hyphens: auto; overflow-wrap: anywhere; }
       .field-gallery { min-height: 455px; }
       .field-photo.late { inset: 0 0 6% 7%; }
       .field-photo.early { width: 49%; height: 40%; }
       .field-note { display: none; }
       .balance-line span { overflow-wrap: anywhere; }
-      #systems .display { font-size: 43px; }
       .source-list { grid-template-columns: 1fr; margin-top: 34px; }
+      .source-row { padding: 21px 0; }
+      .source-row b { font-size: 16px; }
+      .source-row span { font-size: 15px; }
       .systems-statement { margin-top: 30px; }
       .engine-chapter { padding: 92px 0 74px; }
       .profit-equation { grid-template-columns: 1fr; }
