@@ -12,6 +12,8 @@ const nextConfig = {
       freshFoodDemoRewrite,
       spruengliDemoRewrite,
       hausammannDemoRewrite,
+      bakeryBakeryDemoRewrite,
+      steinerDemoRewrite,
       restaurantDemoRewrite,
       restaurantLegacyDemoRewrite,
     ];
@@ -83,6 +85,30 @@ const nextConfig = {
         ],
       },
       {
+        source: "/BakeryBakery-demo-1",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/BakeryBakery-demo-1/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/Steiner-Flughafebeck-demo-1",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/Steiner-Flughafebeck-demo-1/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
         source: "/juliette/:path*",
         headers: [
           { key: "Cache-Control", value: "private, no-store" },
@@ -106,6 +132,16 @@ const freshFoodDemoRewrite = {
 const spruengliDemoRewrite = {
   source: "/Spruengli-demo-2",
   destination: "/demo-common/index.html?demo=spruengli",
+};
+
+const bakeryBakeryDemoRewrite = {
+  source: "/BakeryBakery-demo-1",
+  destination: "/demo-common/index.html?demo=bakerybakery",
+};
+
+const steinerDemoRewrite = {
+  source: "/Steiner-Flughafebeck-demo-1",
+  destination: "/demo-common/index.html?demo=steiner",
 };
 
 const restaurantDemoRewrite = {
