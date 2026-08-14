@@ -158,13 +158,43 @@
     ["Birchermüesli Heidelbeer-Vanille", 1, "9.50"], ["Couscous-Salat", 2, "17.80"], ["Luxemburgerli", 12, "28.80"]
   ];
 
-  function bakeryData(primary, secondary, namedLocations) {
+  const bakeryBakeryItems = [
+    ["Zimtschnecke", 1, "5.90"], ["Schoggigipfeli", 2, "9.80"], ["Laugen-Gipfeli", 2, "8.80"],
+    ["Cremeschnitte", 1, "6.50"], ["Kaffee Crème", 2, "9.00"], ["Hausbrot", 1, "7.80"],
+    ["Mandelgipfel", 2, "9.80"], ["Zimtschnecke", 2, "11.80"], ["Sauerteigbrot", 1, "8.40"],
+    ["Sandwich Hummus", 1, "9.50"], ["Zopf vegan 500g", 1, "7.90"], ["Schoggigipfeli", 1, "4.90"],
+    ["Mehrkornbrot", 1, "7.60"], ["Cremeschnitte", 2, "13.00"], ["Laugen-Gipfeli", 3, "13.20"],
+    ["Mandelgipfel", 1, "4.90"], ["Sandwich Caprese", 2, "19.00"], ["Hausbrot", 2, "15.60"]
+  ];
+
+  const steinerItems = [
+    ["Buttergipfel", 2, "4.80"], ["Butterzopf 500g", 1, "7.20"], ["Laugenbrezel", 2, "6.40"],
+    ["Berliner", 2, "6.20"], ["Kaffee Crème", 2, "9.00"], ["Ruchbrot 500g", 1, "5.80"],
+    ["Apfeljalousie", 2, "8.40"], ["Buttergipfel", 1, "2.40"], ["Sauerteigbrot", 1, "8.20"],
+    ["Nussgipfel", 2, "8.20"], ["Butterzopf 500g", 2, "14.40"], ["Laugenbrezel", 1, "3.20"],
+    ["Dinkelvollkornbrot", 1, "7.40"], ["Berliner", 3, "9.30"], ["Buttergipfel", 4, "9.60"],
+    ["Apfeljalousie", 1, "4.20"], ["Sandwich Schinken", 2, "15.80"], ["Ruchbrot 500g", 2, "11.60"]
+  ];
+
+  function bakeryData(primary, secondary, namedLocations, productProfile) {
     const locations = Object.assign({
       guggach: primary,
       uster: secondary,
       embrach: primary,
       uni88: secondary
     }, namedLocations || {});
+    const products = Object.assign({
+      items: bakeryItems,
+      zopf: "Zopf 500g",
+      loaf: "Ruchbrot 1kg",
+      sourdough: "Sauerteigbrot",
+      focus: "Berliner",
+      croissant: "Gipfeli",
+      pretzel: "Butterbrezel",
+      nut: "Nussgipfel",
+      whole: "Vollkornbrot",
+      pastry: "Apfeltasche"
+    }, productProfile || {});
     return {
       now: { p: 330, w: 250 },
       end: { p: 10000, w: 7500 },
@@ -172,26 +202,26 @@
       sampleFinancials: { saved: 78, lost: 12, gain: 66 },
       sampleUnits: { returnsAvoided: 29, salesRisk: 2 },
       primaryLocation: primary,
-      items: bakeryItems,
+      items: products.items,
       production: [
-        ["Zopf 500g", primary, 30, null], ["Ruchbrot 1kg", primary, 36, null],
-        ["Sauerteigbrot", primary, 24, null], ["Berliner", primary, 80, 69], ["Gipfeli", primary, 45, null],
-        ["Butterbrezel", primary, 80, 69], ["Nussgipfel", primary, 40, null], ["Zopf 500g", secondary, 24, 21],
-        ["Butterbrezel", secondary, 24, null], ["Sauerteigbrot", secondary, 60, 54],
-        ["Ruchbrot 1kg", locations.guggach, 30, 27], ["Gipfeli", locations.uster, 24, 21], ["Vollkornbrot", locations.uster, 18, null],
-        ["Apfeltasche", locations.embrach, 120, 104], ["Zopf 500g", locations.embrach, 45, 41]
+        [products.zopf, primary, 30, null], [products.loaf, primary, 36, null],
+        [products.sourdough, primary, 24, null], [products.focus, primary, 80, 69], [products.croissant, primary, 45, null],
+        [products.pretzel, primary, 80, 69], [products.nut, primary, 40, null], [products.zopf, secondary, 24, 21],
+        [products.pretzel, secondary, 24, null], [products.sourdough, secondary, 60, 54],
+        [products.loaf, locations.guggach, 30, 27], [products.croissant, locations.uster, 24, 21], [products.whole, locations.uster, 18, null],
+        [products.pastry, locations.embrach, 120, 104], [products.zopf, locations.embrach, 45, 41]
       ],
       chf: { 3: 13, 5: 10, 7: 3, 9: 9, 10: 4, 11: 3, 13: 21, 14: 6 },
       snapshot: [
-        ["02.08", primary, "Berliner", 80, 66, 14, 0], ["03.08", primary, "Berliner", 80, 71, 9, 0],
-        ["04.08", primary, "Berliner", 80, 58, 22, 0], ["05.08", primary, "Berliner", 80, 62, 18, 1],
-        ["05.08", secondary, "Sauerteigbrot", 60, 40, 20, 1]
+        ["02.08", primary, products.focus, 80, 66, 14, 0], ["03.08", primary, products.focus, 80, 71, 9, 0],
+        ["04.08", primary, products.focus, 80, 58, 22, 0], ["05.08", primary, products.focus, 80, 62, 18, 1],
+        ["05.08", secondary, products.sourdough, 60, 40, 20, 1]
       ],
       events: [
-        ["05.08", primary, "Berliner", 80, 69, 62, 7, 0, 21],
-        ["05.08", primary, "Apfeltasche", 120, 104, 73, 16, 0, 30],
-        ["05.08", secondary, "Sauerteigbrot", 60, 54, 40, 6, 0, 27],
-        ["05.08", locations.uni88, "Apfeltasche", 18, 16, 18, 0, 2, -12]
+        ["05.08", primary, products.focus, 80, 69, 62, 7, 0, 21],
+        ["05.08", primary, products.pastry, 120, 104, 73, 16, 0, 30],
+        ["05.08", secondary, products.sourdough, 60, 54, 40, 6, 0, 27],
+        ["05.08", locations.uni88, products.pastry, 18, 16, 18, 0, 2, -12]
       ]
     };
   }
@@ -351,6 +381,196 @@
         uster: "Uster",
         embrach: "Embrach",
         uni88: "Uni 88"
+      })
+    },
+    bakerybakery: {
+      id: "bakerybakery",
+      route: "/BakeryBakery-demo-1",
+      title: "Bakery Bakery × Eclipsai — Operative Intelligenz",
+      description: "Wie Eclipsai Produktionsaufträge für Bakery Bakery automatisieren und den Gewinnbeitrag messen kann.",
+      features: {
+        balanceAnimation: true
+      },
+      copy: {
+        de: Object.assign({}, sharedCopy.de, {
+          clientBrand: "BAKERY BAKERY",
+          fieldNote: "Produktions- und Verkaufssituation",
+          fieldLate: "Verkauf",
+          fieldEarly: "Produktion",
+          posLabel: "Kassensystem / POS",
+          posDesc: "Was wann und an welchem Standort verkauft wurde",
+          erpLabel: "Artikel & Kosten",
+          erpDesc: "Sortiment, Verkaufspreise und Warenkosten",
+          planningLabel: "Produktionsplanung",
+          planningDesc: "Produktionsmengen und Verteilung je Standort",
+          excelLabel: "Rezepte & Produktionslisten",
+          excelDesc: "Rezepturen, Ausbeuten und Planungsregeln",
+          ordersLabel: "Bestellungen & Standortmeldungen",
+          ordersDesc: "Sonderbestellungen und lokales Wissen",
+          wasteLabel: "Retouren & Abschriften",
+          wasteDesc: "Was am Tagesende übrig blieb oder abgeschrieben wurde"
+        }),
+        en: Object.assign({}, sharedCopy.en, {
+          clientBrand: "BAKERY BAKERY",
+          fieldNote: "Production and sales context",
+          fieldLate: "Sales",
+          fieldEarly: "Production",
+          posLabel: "POS system",
+          posDesc: "What sold, when and at which location",
+          erpLabel: "Products & costs",
+          erpDesc: "Range, selling prices and product costs",
+          planningLabel: "Production planning",
+          planningDesc: "Production quantities and allocation by location",
+          excelLabel: "Recipes & production lists",
+          excelDesc: "Recipes, yields and planning rules",
+          ordersLabel: "Orders & location messages",
+          ordersDesc: "Special orders and local knowledge",
+          wasteLabel: "Returns & write-offs",
+          wasteDesc: "What remained or was written off at the end of the day"
+        })
+      },
+      assets: {
+        clientLogo: "/BakeryBakery-demo-1/assets/brand/bakery-bakery-logo.png",
+        fieldEvidence: [
+          {
+            src: "/BakeryBakery-demo-1/assets/field-evidence/opening-display.png",
+            time: "",
+            copyKey: "fieldLate"
+          },
+          {
+            src: "/BakeryBakery-demo-1/assets/field-evidence/opening-production.jpg",
+            time: "",
+            copyKey: "fieldEarly"
+          }
+        ],
+        sources: [
+          "/BakeryBakery-demo-1/assets/source-photos/pos.jpg", "/BakeryBakery-demo-1/assets/source-photos/baker-production.jpg",
+          "/BakeryBakery-demo-1/assets/source-photos/computer.jpg", "/BakeryBakery-demo-1/assets/source-photos/bakery-display-neutral.png",
+          "/BakeryBakery-demo-1/assets/source-photos/phone-message.jpg"
+        ]
+      },
+      systemVendors: {
+        de: ["Kassensystem", "Produktionslisten", "Bestellungen"],
+        en: ["POS", "Production lists", "Orders"]
+      },
+      systemSources: defaultSystemSources,
+      mobileSourceKeys: defaultMobileSourceKeys,
+      mobileOrders: [["Zimtschnecke", 80, 69], ["Cremeschnitte", 120, 104], ["Sauerteigbrot", 60, 54]],
+      engineCopy: {
+        en: { demoBrand: "Bakery Bakery", appSub1: "Fri 5 Aug 2026 · Zürich HB, till 1", appSub2: "Thu 6 Aug 2026 · all locations", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Chocolate croissant", "renamed, matched to Schoggigipfeli", "matched", ""], ["Sandwich Hummus", "new, no history yet, left unchanged", "new", "n"], ["Summer tart", "not sold for 4 weeks, excluded", "excluded", "c"]] },
+        de: { demoBrand: "Bakery Bakery", appSub1: "Fr 5. Aug 2026 · Zürich HB, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Standorte", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Bis zum 31. Dezember hochgerechnet, basierend auf dem bisher gemessenen Effekt.", evTot: "4 Artikeltage", match: [["Schokoladengipfel", "umbenannt und Schoggigipfeli zugeordnet", "zugeordnet", ""], ["Sandwich Hummus", "neu, noch ohne Historie; unverändert übernommen", "neu", "n"], ["Sommertarte", "seit vier Wochen ohne Absatz; ausgeschlossen", "ausgeschlossen", "c"]] }
+      },
+      engineData: bakeryData("Zürich HB", "Schaffhauserplatz", {
+        guggach: "ThreeOfive",
+        uster: "Bern Bahnhof",
+        embrach: "Basel Bahnhof",
+        uni88: "Winterthur Bahnhof"
+      }, {
+        items: bakeryBakeryItems,
+        zopf: "Zopf vegan 500g",
+        loaf: "Hausbrot",
+        sourdough: "Sauerteigbrot",
+        focus: "Zimtschnecke",
+        croissant: "Laugen-Gipfeli",
+        pretzel: "Schoggigipfeli",
+        nut: "Mandelgipfel",
+        whole: "Mehrkornbrot",
+        pastry: "Cremeschnitte"
+      })
+    },
+    steiner: {
+      id: "steiner",
+      route: "/Steiner-Flughafebeck-demo-1",
+      title: "Steiner Flughafebeck × Eclipsai — Operative Intelligenz",
+      description: "Wie Eclipsai Produktionsaufträge für Steiner Flughafebeck automatisieren und den Gewinnbeitrag messen kann.",
+      features: {
+        balanceAnimation: true
+      },
+      copy: {
+        de: Object.assign({}, sharedCopy.de, {
+          clientBrand: "STEINER FLUGHAFEBECK",
+          fieldNote: "Produktions- und Verkaufssituation",
+          fieldLate: "Verkauf",
+          fieldEarly: "Produktion",
+          posLabel: "Kassensystem / POS",
+          posDesc: "Was wann und in welcher Filiale verkauft wurde",
+          erpLabel: "Warenwirtschaft / ERP",
+          erpDesc: "Artikelstammdaten, Kosten, Preise und Filialstruktur",
+          planningLabel: "Produktions- & Tourenplanung",
+          planningDesc: "Produktionsmengen, Lieferungen und Verteilung je Filiale",
+          excelLabel: "Rezepte & Planungsdateien",
+          excelDesc: "Rezepturen, Ausbeuten und lokale Anpassungen",
+          ordersLabel: "Filialbestellungen & Meldungen",
+          ordersDesc: "Sonderbestellungen und Wissen aus den Filialen",
+          wasteLabel: "Retouren & Tagesabschluss",
+          wasteDesc: "Was am Tagesende retourniert oder abgeschrieben wurde"
+        }),
+        en: Object.assign({}, sharedCopy.en, {
+          clientBrand: "STEINER FLUGHAFEBECK",
+          fieldNote: "Production and sales context",
+          fieldLate: "Sales",
+          fieldEarly: "Production",
+          posLabel: "POS system",
+          posDesc: "What sold, when and in which shop",
+          erpLabel: "Merchandise system / ERP",
+          erpDesc: "Products, costs, prices and location structure",
+          planningLabel: "Production & route planning",
+          planningDesc: "Production quantities, deliveries and allocation by location",
+          excelLabel: "Recipes & planning files",
+          excelDesc: "Recipes, yields and local adjustments",
+          ordersLabel: "Shop orders & messages",
+          ordersDesc: "Special orders and knowledge from the shops",
+          wasteLabel: "Returns & closing",
+          wasteDesc: "What was returned or written off at the end of the day"
+        })
+      },
+      assets: {
+        clientLogo: "/Steiner-Flughafebeck-demo-1/assets/brand/steiner-flughafebeck-logo.svg",
+        fieldEvidence: [
+          {
+            src: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/opening-display.png",
+            time: "",
+            copyKey: "fieldLate"
+          },
+          {
+            src: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/opening-production.jpg",
+            time: "",
+            copyKey: "fieldEarly"
+          }
+        ],
+        sources: [
+          "/Steiner-Flughafebeck-demo-1/assets/source-photos/pos.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/baker-production.jpg",
+          "/Steiner-Flughafebeck-demo-1/assets/source-photos/computer.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/bakery-display-neutral.png",
+          "/Steiner-Flughafebeck-demo-1/assets/source-photos/phone-message.jpg"
+        ]
+      },
+      systemVendors: {
+        de: ["Kassensystem", "Warenwirtschaft", "Produktionsplanung"],
+        en: ["POS", "ERP", "Production planning"]
+      },
+      systemSources: defaultSystemSources,
+      mobileSourceKeys: defaultMobileSourceKeys,
+      mobileOrders: [["Berliner", 80, 69], ["Apfeljalousie", 120, 104], ["Sauerteigbrot", 60, 54]],
+      engineCopy: {
+        en: { demoBrand: "Steiner Flughafebeck", appSub1: "Fri 5 Aug 2026 · Sihlpost, till 1", appSub2: "Thu 6 Aug 2026 · all shops", cSub: "Illustrative. 1 to 5 August 2026.", cSubProj: "Projected to 31 December, at the rate measured so far.", evTot: "4 product-days", match: [["Butter croissant", "renamed, matched to Buttergipfel", "matched", ""], ["Sandwich Schinken", "new, no history yet, left unchanged", "new", "n"], ["Seasonal pastry", "not sold for 4 weeks, excluded", "excluded", "c"]] },
+        de: { demoBrand: "Steiner Flughafebeck", appSub1: "Fr 5. Aug 2026 · Sihlpost, Kasse 1", appSub2: "Do 6. Aug 2026 · alle Filialen", cSub: "Beispielrechnung. 1. bis 5. August 2026.", cSubProj: "Bis zum 31. Dezember hochgerechnet, basierend auf dem bisher gemessenen Effekt.", evTot: "4 Artikeltage", match: [["Buttercroissant", "umbenannt und Buttergipfel zugeordnet", "zugeordnet", ""], ["Sandwich Schinken", "neu, noch ohne Historie; unverändert übernommen", "neu", "n"], ["Saisongebäck", "seit vier Wochen ohne Absatz; ausgeschlossen", "ausgeschlossen", "c"]] }
+      },
+      engineData: bakeryData("Sihlpost", "Flughafen", {
+        guggach: "Wipkingen",
+        uster: "Oerlikon",
+        embrach: "Pfingstweidpark",
+        uni88: "Höngg Dorf"
+      }, {
+        items: steinerItems,
+        zopf: "Butterzopf 500g",
+        loaf: "Ruchbrot 500g",
+        sourdough: "Sauerteigbrot",
+        focus: "Berliner",
+        croissant: "Buttergipfel",
+        pretzel: "Laugenbrezel",
+        nut: "Nussgipfel",
+        whole: "Dinkelvollkornbrot",
+        pastry: "Apfeljalousie"
       })
     },
     restaurant: {
@@ -693,6 +913,8 @@
     const requested = new URLSearchParams(location.search).get("demo");
     if (requested && configs[requested]) return requested;
     const path = location.pathname.toLowerCase();
+    if (path.includes("bakerybakery")) return "bakerybakery";
+    if (path.includes("steiner-flughafebeck")) return "steiner";
     if (path.includes("hausammann")) return "hausammann";
     if (path.includes("restaurant-demo") || path.includes("restaurant-profit-brain")) return "restaurant";
     if (path.includes("fresh-food")) return "generic";

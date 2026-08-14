@@ -18,7 +18,10 @@ function loadConfigs(search = "?demo=spruengli", pathname = "/Spruengli-demo-2")
 
 test("all public demos are configurations of the shared shell", () => {
   const runtime = loadConfigs();
-  assert.deepEqual(Object.keys(runtime.ECLIPSAI_DEMOS).sort(), ["generic", "hausammann", "restaurant", "spruengli"]);
+  assert.deepEqual(
+    Object.keys(runtime.ECLIPSAI_DEMOS).sort(),
+    ["bakerybakery", "generic", "hausammann", "restaurant", "spruengli", "steiner"]
+  );
 
   for (const [id, config] of Object.entries(runtime.ECLIPSAI_DEMOS)) {
     assert.equal(config.id, id);
@@ -42,6 +45,9 @@ test("all public demos are configurations of the shared shell", () => {
 
 test("demo selection supports query parameters and public paths", () => {
   assert.equal(loadConfigs("?demo=hausammann").ECLIPSAI_DEMO_ID, "hausammann");
+  assert.equal(loadConfigs("?demo=bakerybakery").ECLIPSAI_DEMO_ID, "bakerybakery");
+  assert.equal(loadConfigs("", "/BakeryBakery-demo-1").ECLIPSAI_DEMO_ID, "bakerybakery");
+  assert.equal(loadConfigs("", "/Steiner-Flughafebeck-demo-1").ECLIPSAI_DEMO_ID, "steiner");
   assert.equal(loadConfigs("", "/fresh-food-demo").ECLIPSAI_DEMO_ID, "generic");
   assert.equal(loadConfigs("", "/Spruengli-demo-2").ECLIPSAI_DEMO_ID, "spruengli");
   assert.equal(loadConfigs("", "/restaurant-demo-0-0").ECLIPSAI_DEMO_ID, "restaurant");
@@ -73,8 +79,7 @@ test("field photos use configuration-driven timestamps without inventing observa
   assert.match(shell, /fieldEvidence\.slice\(0, 2\)/);
   assert.match(shell, /time\.textContent = item\.time/);
   assert.match(shell, /\.field-photo\.late \.field-caption\s*\{[^}]*width: 50%/s);
-  for (const id of ["spruengli", "hausammann", "generic"]) {
-    const config = runtime.ECLIPSAI_DEMOS[id];
+  for (const config of Object.values(runtime.ECLIPSAI_DEMOS)) {
     assert.equal(config.features.balanceAnimation, true);
   }
   assert.match(shell, /@keyframes find-balance/);
@@ -91,7 +96,7 @@ test("field photos use configuration-driven timestamps without inventing observa
 test("German copy uses natural fresh-food operating language consistently", () => {
   const runtime = loadConfigs();
   const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
-  for (const id of ["spruengli", "hausammann", "generic"]) {
+  for (const id of ["spruengli", "hausammann", "bakerybakery", "steiner", "generic"]) {
     const config = runtime.ECLIPSAI_DEMOS[id];
     assert.equal(config.copy.de.decisionTitle.replace(/\u00ad/g, ""), "Bei der Produktionsmenge gilt es, Absatz und Retouren auszubalancieren.");
     assert.equal(config.copy.de.systemsTitle, "Die nötigen Daten liegen in verschiedenen Systemen.");
@@ -102,6 +107,18 @@ test("German copy uses natural fresh-food operating language consistently", () =
   assert.match(engine, /geschätzte vermiedene Warenkosten/);
   assert.doesNotMatch(engine, /automatisierte Produktionsmengen/);
   assert.doesNotMatch(engine, /eingesparte Warenkosten, geschätzt/);
+});
+
+test("target bakery demos use their own brands and neutral local imagery", () => {
+  const runtime = loadConfigs();
+  for (const id of ["bakerybakery", "steiner"]) {
+    const config = runtime.ECLIPSAI_DEMOS[id];
+    assert.ok(config.assets.clientLogo.startsWith(config.route + "/assets/brand/"));
+    for (const asset of [...config.assets.fieldEvidence.map((item) => item.src), ...config.assets.sources]) {
+      assert.ok(asset.startsWith(config.route + "/assets/"));
+      assert.doesNotMatch(asset, /spruengli/i);
+    }
+  }
 });
 
 test("restaurant demo uses the shared shell with fresh-food identity and restaurant economics", () => {
@@ -129,6 +146,8 @@ test("the final page has one shared copy source for desktop and mobile", () => {
   for (const lang of ["de", "en"]) {
     const expected = runtime.ECLIPSAI_DEMOS.spruengli.copy[lang].outroTitle;
     assert.equal(runtime.ECLIPSAI_DEMOS.hausammann.copy[lang].outroTitle, expected);
+    assert.equal(runtime.ECLIPSAI_DEMOS.bakerybakery.copy[lang].outroTitle, expected);
+    assert.equal(runtime.ECLIPSAI_DEMOS.steiner.copy[lang].outroTitle, expected);
     assert.equal(runtime.ECLIPSAI_DEMOS.generic.copy[lang].outroTitle, expected);
   }
   assert.match(engine, /outroTitle:demoConfig\.copy\.en\.outroTitle/);

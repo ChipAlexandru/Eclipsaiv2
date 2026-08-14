@@ -41,6 +41,14 @@ test("production proxies the complete Juliette path to Railway", async () => {
           destination: "/demo-common/index.html?demo=hausammann",
         },
         {
+          source: "/BakeryBakery-demo-1",
+          destination: "/demo-common/index.html?demo=bakerybakery",
+        },
+        {
+          source: "/Steiner-Flughafebeck-demo-1",
+          destination: "/demo-common/index.html?demo=steiner",
+        },
+        {
           source: "/restaurant-demo-0-0",
           destination: "/demo-common/index.html?demo=restaurant",
         },
@@ -82,6 +90,14 @@ test("preview and local builds serve the public demo without proxying production
           {
             source: "/Hausammann-demo-1",
             destination: "/demo-common/index.html?demo=hausammann",
+          },
+          {
+            source: "/BakeryBakery-demo-1",
+            destination: "/demo-common/index.html?demo=bakerybakery",
+          },
+          {
+            source: "/Steiner-Flughafebeck-demo-1",
+            destination: "/demo-common/index.html?demo=steiner",
           },
           {
             source: "/restaurant-demo-0-0",
@@ -130,6 +146,22 @@ test("production portal responses are private and excluded from indexing", async
       },
       {
         source: "/Spruengli-demo-2/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/BakeryBakery-demo-1",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/BakeryBakery-demo-1/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/Steiner-Flughafebeck-demo-1",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/Steiner-Flughafebeck-demo-1/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
       {
