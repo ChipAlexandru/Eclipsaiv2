@@ -750,6 +750,7 @@ td.dl{color:var(--moss)} td.dl.neg{color:var(--persimmon)}
 .mainttl b{font-weight:600}
 #p3 .hd{grid-template-columns:minmax(120px,1fr) minmax(0,850px) minmax(120px,1fr);gap:20px}
 #p3 .hd > .mainttl[data-t="headline"]{display:none}
+#p3 .hdr3{grid-column:3}
 #p3 .hd .website-title{display:grid}
 #p3 .emark{width:clamp(96px,10vw,118px);height:40px;flex:0 0 auto;font-size:0!important;line-height:0;
   background-image:url("/demo-common/assets/brand/eclipsai-wordmark-both-light.svg");
@@ -770,6 +771,18 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
 .subttl{margin-top:40px;font-size:22px;font-weight:400;line-height:1.4;
   letter-spacing:-.014em;color:var(--ink);text-align:center;min-height:62px}
 #p3 .bd.top > .subttl{margin-top:18px}
+.chapter-title{
+  max-width:960px;
+  margin:18px auto 6px;
+  font-family:var(--grot);
+  font-size:clamp(24px,2.25vw,32px);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:-.025em;
+  text-align:center;
+  text-wrap:balance;
+  white-space:pre-line;
+}
 .subttl .vend{display:block;font-size:inherit;color:inherit;white-space:normal}
 .lang{display:flex;align-items:center;gap:7px;
   font-family:var(--mono);font-size:11px;letter-spacing:.11em;line-height:1}
@@ -889,6 +902,7 @@ html[lang="de"] #p3 .hd .website-title{font-size:24px}
       </div>
     </div>
     <div class="bd top">
+      <h1 class="chapter-title" id="chapterTitle"></h1>
       <div id="demo3">
 <div class="sheet">
 
@@ -1174,9 +1188,9 @@ en:{
  outroLine3:'Using the systems you have.',
  date:'5 AUGUST 2026',
 
- say:['Build a daily picture of the business',
-      'Find production changes worth making',
-      'Analyse results and report profit'],
+ say:['Connect to all systems and data',
+      'Estimate the right quantities\nand write them directly into the production system',
+      'Measure and report profit impact'],
  voiceover:[
       ['We connect POS, production and ERP data with planning files, store photos and messages.',
        'This creates one consistent daily picture for analysis.'],
@@ -1246,9 +1260,9 @@ de:{
  outroLine2:'Wir testen sie, messen den Effekt und automatisieren die Umsetzung.',
  outroLine3:'Mit Ihren bestehenden Systemen.',
  date:'5. AUGUST 2026',
- say:['Tägliches Gesamtbild erstellen',
-      'Produktionsmengen gezielt anpassen',
-      'Mehrgewinn täglich messen'],
+ say:['Alle Systeme und Datenquellen anbinden',
+      'Die richtigen Mengen ermitteln\nund direkt ins Produktionssystem schreiben',
+      'Mehrgewinn messen und ausweisen'],
  voiceover:[
       ['Eclipsai verbindet Kassensysteme, Produktion und ERP mit Planungsdateien, Filialfotos und Meldungen.',
        'So entsteht täglich ein konsistentes Gesamtbild für die Analyse.'],
@@ -1345,13 +1359,10 @@ window.DEMO_OUTRO=false;
 window.D=()=>window.DICT[window.LANG];
 window.fmtN=n=>window.LANG==='de'?n.toLocaleString('de-CH'):n.toLocaleString('en-US');
 const websiteTitleHome=document.getElementById('websiteTitle');
-const websiteHeader=document.querySelector('#p3 .hd');
-const websiteBrand=document.querySelector('#p3 .hdr3');
 const websiteIntroTitleSlot=document.getElementById('introTitleSlot');
 function placeWebsiteTitle(){
   if(!websiteTitleHome)return;
-  if(window.DEMO_STARTED&&websiteHeader&&websiteBrand)websiteHeader.insertBefore(websiteTitleHome,websiteBrand);
-  else if(websiteIntroTitleSlot)websiteIntroTitleSlot.appendChild(websiteTitleHome);
+  if(websiteIntroTitleSlot)websiteIntroTitleSlot.appendChild(websiteTitleHome);
 }
 function renderProfitTitle(){
   const d=window.D(),prefix=document.getElementById('titlePrefix'),rotator=document.getElementById('titleRotator');
@@ -1371,7 +1382,7 @@ function renderProfitTitle(){
 function setProfitTitlePage(){
   renderProfitTitle();
 }
-function applyLang(l){
+function applyLang(l,notifyParent=true){
   window.LANG=l; document.documentElement.lang=l;
   const d=window.D();
   document.querySelectorAll('[data-t]').forEach(e=>{
@@ -1402,13 +1413,13 @@ function applyLang(l){
   if(window.demoSetLang) window.demoSetLang(l);
   if(window.deckRelabel) window.deckRelabel();
   renderDetailRows();
-  if(window.parent!==window)window.parent.postMessage({type:'eclipsai-demo-language-changed',lang:l},'*');
+  if(notifyParent&&window.parent!==window)window.parent.postMessage({type:'eclipsai-demo-language-changed',lang:l},'*');
 }
 window.applyLang=applyLang;
 addEventListener('message',event=>{
   const message=event.data;
   if(message?.type==='eclipsai-demo-set-language'&&(message.lang==='en'||message.lang==='de')&&message.lang!==window.LANG){
-    window.applyLang(message.lang);
+    window.applyLang(message.lang,false);
   }
 });
 
@@ -1474,8 +1485,8 @@ G('pbtn').addEventListener('click',()=>{
 });
 
 /* ---------------- demo ---------------- */
-/* boot in German: static labels first, then the demo builds in that language */
-window.applyLang(window.LANG);
+/* Apply the configured default without overriding a parent presentation's selected language. */
+window.applyLang(window.LANG,false);
 
 (function(){
 const G=id=>document.getElementById(id);
@@ -1612,6 +1623,7 @@ function renderFinalLeft(){
 function step(i){
   cur=i;
   G('p3').dataset.demoStep=String(i);
+  G('chapterTitle').textContent=D().say[i];
   setProfitTitlePage(!window.DEMO_STARTED&&i===0);
   const o=ORD[i];
   G('voiceover').classList.remove('on');

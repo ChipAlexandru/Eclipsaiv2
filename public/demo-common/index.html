@@ -10,6 +10,11 @@
   <meta property="og:description" content="From sales, production, stock and costs to better production orders and measurable profit improvements.">
   <meta property="og:url" content="https://eclipsai.com/fresh-food-demo">
   <meta property="og:type" content="website">
+  <script>
+    if (location.protocol === "file:") {
+      location.replace("http://localhost:3000/fresh-food-demo" + location.hash);
+    }
+  </script>
   <script src="/demo-common/demo-configs.js"></script>
   <style>
     :root {
@@ -156,6 +161,7 @@
       letter-spacing: -.02em;
       text-align: center;
       text-overflow: ellipsis;
+      visibility: hidden;
       white-space: nowrap;
     }
     .page-header-tools { justify-self: end; display: grid; justify-items: end; }
@@ -374,6 +380,7 @@
       transform: rotate(-90deg) translateX(100%);
       transform-origin: right top;
     }
+    .field-note:empty { display: none; }
     .field-gallery.stacked {
       display: grid;
       grid-template-rows: 1fr 1fr;
@@ -386,33 +393,86 @@
     .field-gallery.stacked .field-photo.late .field-caption { left: 0; width: 100%; padding: 38px 15px 13px; }
     .field-gallery.stacked .field-caption strong { font-size: clamp(30px, 3vw, 42px); }
 
-    #systems { background: var(--paper); }
+    #systems {
+      background:
+        radial-gradient(760px 520px at 82% 18%, rgba(65, 111, 175, .16), transparent 68%),
+        radial-gradient(660px 460px at 12% 86%, rgba(233, 184, 74, .08), transparent 72%),
+        var(--night);
+    }
     #systems .inner { width: min(1060px, 100%); }
-    #systems .display { max-width: 980px; margin: 0 auto; font-size: clamp(32px, 3vw, 42px); text-align: center; }
+    #systems .display {
+      max-width: 920px;
+      font-size: clamp(30px, 2.9vw, 40px);
+      font-weight: 400;
+      line-height: 1.12;
+    }
     .source-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: clamp(54px, 7vw, 90px);
-      margin-top: 52px;
-      border-top: 1px solid var(--line);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: clamp(28px, 3.4vw, 48px);
+      row-gap: 4px;
+      margin-top: 34px;
     }
     .source-row {
-      padding: 27px 0;
-      border-bottom: 1px solid var(--line);
+      padding: 17px 0 15px;
+      border-top: 1px solid rgba(239, 238, 231, .18);
     }
     .source-row b {
       display: block;
-      font: 650 17px/1.3 var(--sans);
+      color: var(--paper);
+      font: 600 16px/1.3 var(--sans);
       letter-spacing: -.01em;
       text-transform: none;
     }
-    .source-row span { display: block; margin-top: 9px; color: var(--muted); font-size: 16px; line-height: 1.5; }
-    .systems-statement {
-      margin: 36px 0 0;
-      color: var(--solar);
-      font-family: var(--serif);
-      font-size: clamp(24px, 2.6vw, 34px);
-      text-align: center;
+    .source-row span { display: block; margin-top: 7px; color: var(--muted-dark); font-size: 15px; line-height: 1.45; }
+    .systems-writeback {
+      max-width: 860px;
+      margin: 24px 0 0;
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: clamp(17px, 1.45vw, 20px);
+      font-weight: 400;
+      letter-spacing: -.012em;
+      line-height: 1.45;
+    }
+
+    #method { background: #f8f7f2; }
+    #method .inner { width: min(980px, 100%); }
+    #method .display {
+      margin-bottom: clamp(28px, 4vh, 42px);
+      font-size: clamp(32px, 3vw, 42px);
+      line-height: 1.12;
+    }
+    .method-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .method-list li {
+      position: relative;
+      padding: clamp(16px, 2.2vh, 22px) 0 clamp(16px, 2.2vh, 22px) 28px;
+      border-top: 1px solid var(--line);
+    }
+    .method-list li::before {
+      content: "";
+      position: absolute;
+      top: clamp(24px, 3vh, 30px);
+      left: 2px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--solar);
+    }
+    .method-list p {
+      display: block;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(16px, 1.35vw, 19px);
+      font-weight: 400;
+      letter-spacing: -.012em;
+      line-height: 1.42;
     }
 
     .engine-chapter { min-height: 100vh; min-height: 100svh; padding: 0; background: var(--paper); }
@@ -436,7 +496,12 @@
 
     .mobile-chapter-inner { width: 100%; }
     .mobile-copy { padding: 0 22px; }
-    .mobile-copy .display { font-size: clamp(32px, 9.2vw, 40px); }
+    .mobile-copy .display {
+      font-size: clamp(32px, 9.2vw, 40px);
+      text-align: center;
+      text-wrap: balance;
+      white-space: pre-line;
+    }
     .mobile-copy .lede { font-size: 16px; }
     .desktop-full-cue {
       display: flex;
@@ -538,7 +603,8 @@
       .source-row { padding: 21px 0; }
       .source-row b { font-size: 16px; }
       .source-row span { font-size: 15px; }
-      .systems-statement { margin-top: 30px; }
+      #method { align-items: flex-start; }
+      .method-list p { font-size: 16px; }
       .engine-chapter { padding: 92px 0 74px; }
       .profit-equation { grid-template-columns: 1fr; }
       .profit-op { transform: rotate(90deg); justify-self: start; margin-left: 12px; }
@@ -585,7 +651,7 @@
   <section id="decision" class="dark">
     <header class="page-header">
       <a class="page-brand" href="#hero" data-client-brand>CLIENT</a>
-      <span class="page-header-title" data-copy="decisionKicker">Die tägliche Produktionsentscheidung</span>
+      <span class="page-header-title"></span>
       <span class="page-header-tools">
         <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
         <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
@@ -593,12 +659,12 @@
     </header>
     <div class="inner decision-grid">
       <div class="reveal">
-        <h2 class="display" data-copy="decisionTitle">Produktions&shy;mengen müssen Absatz und Retouren ins Gleichgewicht bringen.</h2>
-        <p class="lede" data-copy="decisionBody">Die richtige Menge variiert je Artikel, Filiale und Tag.</p>
+        <h2 class="display" data-copy="decisionTitle">Die tägliche Produktionsentscheidung</h2>
+        <p class="lede" data-copy="decisionBody">Produktionsmengen sollen Absatz maximieren und Retouren reduzieren, für jeden Artikel, jede Filiale und jeden Tag.</p>
         <div class="balance-line">
           <span data-copy="missedSales">Entgangene Verkäufe</span>
-          <span data-copy="bestQuantity">Optimale Produktionsmenge</span>
-          <span data-copy="unsoldProduct">Unverkaufte Ware</span>
+          <span data-copy="bestQuantity">Optimale Menge</span>
+          <span data-copy="unsoldProduct">Retouren</span>
           <i class="balance-cursor" aria-hidden="true"></i>
         </div>
       </div>
@@ -608,19 +674,39 @@
     </div>
   </section>
 
-  <section id="systems">
+  <section id="method">
     <header class="page-header">
       <a class="page-brand" href="#hero" data-client-brand>CLIENT</a>
-      <span class="page-header-title" data-copy="systemsKicker">Warum diese Entscheidung schwierig bleibt</span>
+      <span class="page-header-title"></span>
       <span class="page-header-tools">
         <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
         <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
       </span>
     </header>
     <div class="inner reveal">
-      <h2 class="display" data-copy="systemsTitle">Die nötigen Daten sind auf mehrere Systeme verteilt.</h2>
+      <h2 class="display" data-copy="methodTitle">Was wir tun</h2>
+      <ul class="method-list">
+        <li><p data-copy="methodStep1">Historische Ergebnisse auswerten und Gewinnpotenziale bei Absatz und Retouren nach Artikel, Filiale und Tag identifizieren.</p></li>
+        <li><p data-copy="methodStep2">Prognosemethoden testen, darunter Artikelhistorie, vergleichbare Wochentage, Saison, Wetter, Frequenz, Stockout-Signale, Nachfrageperzentile, statistische Prognosen und Machine Learning.</p></li>
+        <li><p data-copy="methodStep3">Mengenänderungen für den Folgetag vorschlagen und umsetzen, wenn sie den erwarteten Gewinn verbessern. Den tatsächlichen Mehrgewinn ausweisen und aus jeder Änderung lernen.</p></li>
+        <li><p data-copy="methodStep4">Laufend neue Methoden ergänzen, um Entscheidungen weiter zu verbessern und Retouren zu reduzieren, darunter Prognosen nach Konsumanlass und substituierbaren Artikelgruppen.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="systems" class="dark">
+    <header class="page-header">
+      <a class="page-brand" href="#hero" data-client-brand>CLIENT</a>
+      <span class="page-header-title"></span>
+      <span class="page-header-tools">
+        <a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a>
+        <span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span>
+      </span>
+    </header>
+    <div class="inner reveal">
+      <h2 class="display" data-copy="systemsTitle">Wir lesen täglich Daten aus allen Systemen.</h2>
       <div class="source-list" id="system-source-list"></div>
-      <p class="systems-statement" data-copy="systemsStatement">Eclipsai baut operative Intelligenz für Frischbetriebe.</p>
+      <p class="systems-writeback" data-copy="systemsWriteback">…und schreiben die daraus abgeleiteten Produktionsentscheidungen direkt in diese Systeme zurück.</p>
     </div>
   </section>
 
@@ -629,12 +715,12 @@
     <iframe class="engine-desktop" title="Tägliches Gesamtbild erstellen" data-frame-copy="sourceFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title"></span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
       <div class="mobile-copy">
         <div class="desktop-full-cue"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2.5" y="2.5" width="13" height="9.5" rx=".75"></rect><path d="M1.5 15.5h15M7 12v3.5m4-3.5v3.5"></path></svg><span data-copy="desktopFullCue">Interaktive Vollversion auf Desktop</span></div>
-        <h2 class="display" data-copy="mobileSourceTitle">Alle relevanten Daten systemübergreifend zusammenführen.</h2>
+        <h2 class="display" data-copy="mobileSourceTitle">Alle Systeme und Datenquellen anbinden</h2>
       </div>
       <div class="mobile-artifact">
         <div class="source-mobile-grid" id="mobile-source-list"></div>
@@ -649,10 +735,10 @@
     <iframe class="engine-desktop" title="Produktionsmengen empfehlen und umsetzen" data-frame-copy="orderFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="automationTitle">Produktionsaufträge automatisieren</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title"></span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
-      <div class="mobile-copy"><h2 class="display" data-copy="mobileOrderTitle">Die Änderungen mit dem grössten erwarteten Gewinn umsetzen.</h2></div>
+      <div class="mobile-copy"><h2 class="display" data-copy="mobileOrderTitle">Die richtigen Mengen ermitteln und direkt ins Produktionssystem schreiben</h2></div>
       <div class="mobile-artifact">
         <div class="mobile-artifact-head"><span data-copy="mobileOrderHead">Vorschlag für morgen</span><i></i></div>
         <table class="order-table">
@@ -669,10 +755,10 @@
     <iframe class="engine-desktop" title="Mehrgewinn messen" data-frame-copy="profitFrameTitle"></iframe>
     <div class="mobile-chapter mobile-chapter-inner">
       <header class="page-header">
-        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title" data-copy="measurementTitle">Ergebnisse über alle Filialen auswerten</span>
+        <a class="page-brand" href="#hero" data-client-brand>CLIENT</a><span class="page-header-title"></span>
         <span class="page-header-tools"><a class="page-wordmark" href="https://www.eclipsai.com/" target="_blank" rel="noopener"></a><span class="site-language"><button type="button" data-lang="de" class="active">DE</button><span>/</span><button type="button" data-lang="en">EN</button></span></span>
       </header>
-      <div class="mobile-copy"><h2 class="display" data-copy="mobileProfitTitle">Den Gewinn messen und ausweisen.</h2></div>
+      <div class="mobile-copy"><h2 class="display" data-copy="mobileProfitTitle">Mehrgewinn messen und ausweisen</h2></div>
       <div class="mobile-artifact">
         <div class="mobile-artifact-head"><span data-copy="period">1.–5. August · alle Filialen</span><i></i></div>
         <div class="profit-equation"><div class="profit-term good"><b id="mobile-profit-saved">7’800</b><span data-copy="savedCost">eingesparte Warenkosten (CHF)</span></div><span class="profit-op" id="mobile-profit-operator">−</span><div class="profit-term risk" id="mobile-profit-secondary"><b id="mobile-profit-lost">1’200</b><span data-copy="lostProfit">potenziell entgangener Gewinn (CHF)</span></div></div>
@@ -778,7 +864,7 @@
     document.getElementById("mobile-profit-secondary").classList.toggle("risk", !secondaryProfitIsGain);
     engineFrames.forEach((frame) => {
       const chapter = frame.closest(".engine-chapter").dataset.chapter;
-      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260811-shared";
+      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260816-title-layout-v11";
     });
 
     const goToPage = (index) => {

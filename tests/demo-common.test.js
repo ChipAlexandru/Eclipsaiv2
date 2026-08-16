@@ -57,6 +57,8 @@ test("demo selection supports query parameters and public paths", () => {
 test("shared shell and engine use the neutral message protocol", () => {
   const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
   const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
+  assert.match(shell, /location\.protocol === "file:"/);
+  assert.match(shell, /location\.replace\("http:\/\/localhost:3000\/fresh-food-demo" \+ location\.hash\)/);
   assert.match(shell, /demo-configs\.js/);
   assert.match(engine, /demo-configs\.js/);
   assert.doesNotMatch(shell, /spruengli-(?:activate|deactivate|set-language|language-changed|go-home)/);
@@ -65,12 +67,51 @@ test("shared shell and engine use the neutral message protocol", () => {
   assert.match(engine, /eclipsai-demo-activate-chapter/);
 });
 
+test("shared shell places What we do after the decision and keeps all header centers blank", () => {
+  const runtime = loadConfigs();
+  const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  assert.equal((shell.match(/<section\b/g) || []).length, 8);
+  assert.ok(shell.indexOf('id="decision"') < shell.indexOf('id="method"'));
+  assert.ok(shell.indexOf('id="method"') < shell.indexOf('id="systems"'));
+  assert.ok(shell.indexOf('id="systems"') < shell.indexOf('id="source-data"'));
+  assert.doesNotMatch(shell, /id="daily-operation"/);
+  assert.doesNotMatch(shell, /page-header-title" data-copy=/);
+  assert.match(shell, /\.page-header-title\s*\{[^}]*visibility: hidden;/s);
+  assert.match(shell, /<h2 class="display" data-copy="methodTitle">/);
+  for (const config of Object.values(runtime.ECLIPSAI_DEMOS)) {
+    for (const lang of ["de", "en"]) {
+      assert.ok(config.copy[lang].methodTitle);
+      assert.ok(config.copy[lang].systemsTitle);
+      assert.ok(config.copy[lang].systemsWriteback);
+      assert.equal(config.copy[lang].systemsImpact, undefined);
+      for (let step = 1; step <= 4; step += 1) {
+        assert.ok(config.copy[lang][`methodStep${step}`]);
+      }
+      assert.equal(config.copy[lang].methodStep5, undefined);
+    }
+  }
+  assert.equal(runtime.ECLIPSAI_DEMOS.generic.copy.de.fieldNote, "");
+  assert.equal(runtime.ECLIPSAI_DEMOS.generic.copy.en.fieldNote, "");
+  assert.match(shell, /\.field-note:empty \{ display: none; \}/);
+});
+
+test("engine boot and parent language updates do not overwrite the shell language", () => {
+  const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
+  assert.match(engine, /function applyLang\(l,notifyParent=true\)/);
+  assert.match(engine, /window\.applyLang\(message\.lang,false\)/);
+  assert.match(engine, /window\.applyLang\(window\.LANG,false\)/);
+  assert.match(engine, /if\(notifyParent&&window\.parent!==window\)/);
+  assert.match(engine, /id="chapterTitle"/);
+  assert.match(engine, /G\('chapterTitle'\)\.textContent=D\(\)\.say\[i\]/);
+  assert.doesNotMatch(engine, /websiteHeader\.insertBefore/);
+});
+
 test("field photos use configuration-driven timestamps without inventing observations", () => {
   const runtime = loadConfigs();
   const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
   assert.deepEqual(
     Array.from(runtime.ECLIPSAI_DEMOS.spruengli.assets.fieldEvidence, (item) => item.time),
-    ["16:03", "10:28"]
+    ["16:03", "6:28"]
   );
   assert.deepEqual(
     Array.from(runtime.ECLIPSAI_DEMOS.hausammann.assets.fieldEvidence, (item) => item.time),
@@ -98,8 +139,12 @@ test("German copy uses natural fresh-food operating language consistently", () =
   const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
   for (const id of ["spruengli", "hausammann", "bakerybakery", "steiner", "generic"]) {
     const config = runtime.ECLIPSAI_DEMOS[id];
-    assert.equal(config.copy.de.decisionTitle.replace(/\u00ad/g, ""), "Bei der Produktionsmenge gilt es, Absatz und Retouren auszubalancieren.");
-    assert.equal(config.copy.de.systemsTitle, "Die nötigen Daten liegen in verschiedenen Systemen.");
+    assert.equal(config.copy.de.decisionTitle, "Die tägliche Produktionsentscheidung");
+    assert.equal(config.copy.de.decisionBody, "Produktionsmengen sollen für jeden Artikel, jede Filiale und jeden Tag den Absatz maximieren und Retouren reduzieren.");
+    assert.equal(config.copy.de.systemsTitle, "Wir lesen täglich Daten aus allen Systemen.");
+    assert.equal(config.copy.de.systemsWriteback, "…und schreiben die daraus abgeleiteten Produktionsentscheidungen direkt in diese Systeme zurück.");
+    assert.match(config.copy.de.methodStep2, /Artikelhistorie.*Frequenz.*Nachfrageperzentile/);
+    assert.match(config.copy.de.methodStep3, /Folgetag.*Mehrgewinn/);
     assert.equal(config.copy.de.savedCost, "vermiedene Warenkosten (CHF)");
     assert.equal(config.copy.de.profitGain, "Mehrgewinn");
   }

@@ -14,7 +14,7 @@ Sprüngli, Hausammann, Bakery Bakery, Steiner Flughafebeck, the generic bakery d
 
 ## Files
 
-- `index.html` — responsive seven-page presentation shell, navigation and language synchronization.
+- `index.html` — responsive eight-page presentation shell, navigation and language synchronization.
 - `engine.html` — desktop animation and detailed profit views.
 - `demo-configs.js` — the only place for client copy, products, locations, figures and asset paths.
 - `assets/brand/` — shared Eclipsai brand assets.
