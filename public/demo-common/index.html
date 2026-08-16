@@ -38,7 +38,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: var(--paper); }
+    html { scroll-behavior: auto; background: var(--paper); }
     body {
       margin: 0;
       background: var(--paper);
@@ -54,10 +54,13 @@
       position: fixed;
       inset: 0 auto auto 0;
       z-index: 80;
-      width: 0;
+      width: 100%;
       height: 2px;
       background: var(--solar);
       pointer-events: none;
+      transform: scaleX(0);
+      transform-origin: left center;
+      will-change: transform;
     }
 
     .dots {
@@ -114,8 +117,8 @@
       padding: 104px var(--edge) 82px;
     }
     @media (min-width: 901px) {
-      html { scroll-snap-type: y mandatory; }
-      section { scroll-snap-align: start; scroll-snap-stop: always; }
+      html { scroll-snap-type: y proximity; }
+      section { scroll-snap-align: start; }
     }
     .inner { width: min(var(--max), 100%); margin: 0 auto; }
     .dark { background: var(--night); color: var(--paper); }
@@ -864,7 +867,7 @@
     document.getElementById("mobile-profit-secondary").classList.toggle("risk", !secondaryProfitIsGain);
     engineFrames.forEach((frame) => {
       const chapter = frame.closest(".engine-chapter").dataset.chapter;
-      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260816-title-layout-v11";
+      frame.dataset.src = "/demo-common/engine.html?demo=" + encodeURIComponent(demoConfig.id) + "&chapter=" + encodeURIComponent(chapter) + "&v=20260816-scroll-performance-v14";
     });
 
     const goToPage = (index) => {
@@ -976,11 +979,18 @@
     }, { rootMargin: "-43% 0px -43% 0px", threshold: 0 });
     sections.forEach((section) => observer.observe(section));
 
-    const updateProgress = () => {
+    let progressFrame = 0;
+    const renderProgress = () => {
+      progressFrame = 0;
       const available = document.documentElement.scrollHeight - innerHeight;
-      progress.style.width = (available > 0 ? (scrollY / available) * 100 : 0) + "%";
+      const ratio = available > 0 ? Math.max(0, Math.min(1, scrollY / available)) : 0;
+      progress.style.transform = "scaleX(" + ratio + ")";
+    };
+    const updateProgress = () => {
+      if (!progressFrame) progressFrame = requestAnimationFrame(renderProgress);
     };
     addEventListener("scroll", updateProgress, { passive: true });
+    addEventListener("resize", updateProgress, { passive: true });
     pageUp.addEventListener("click", () => goToPage(activeIndex - 1));
     pageDown.addEventListener("click", () => goToPage(activeIndex + 1));
     addEventListener("keydown", (event) => {

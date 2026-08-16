@@ -106,6 +106,20 @@ test("engine boot and parent language updates do not overwrite the shell languag
   assert.doesNotMatch(engine, /websiteHeader\.insertBefore/);
 });
 
+test("desktop scrolling remains responsive while inactive demo chapters are paused", () => {
+  const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const engine = fs.readFileSync(path.join(root, "engine.html"), "utf8");
+  assert.match(shell, /scroll-snap-type: y proximity/);
+  assert.doesNotMatch(shell, /scroll-snap-stop: always/);
+  assert.match(shell, /progress\.style\.transform = "scaleX\(" \+ ratio \+ "\)"/);
+  assert.match(shell, /if \(!progressFrame\) progressFrame = requestAnimationFrame\(renderProgress\)/);
+  assert.match(engine, /body\.demo-paused \*\{animation-play-state:paused!important\}/);
+  assert.match(engine, /function pauseDemo\(\)/);
+  assert.match(engine, /function resumeDemo\(\)/);
+  assert.match(engine, /stopClock\(\)/);
+  assert.match(engine, /resumeDemo\(\);/);
+});
+
 test("field photos use configuration-driven timestamps without inventing observations", () => {
   const runtime = loadConfigs();
   const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");

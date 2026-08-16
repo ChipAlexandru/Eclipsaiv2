@@ -20,6 +20,7 @@ html,body{background:var(--paper)}
 body{margin:0;color:var(--ink);font-family:var(--grot);font-size:14px;line-height:1.714;
   -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums lining-nums;
   font-feature-settings:"tnum" 1,"lnum" 1}
+body.demo-paused *{animation-play-state:paused!important}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .page{display:none;min-height:100svh}
@@ -1595,8 +1596,11 @@ function flow(dir){
 
 /* ---- clock ---- */
 let clock=[3,12,4];
-setInterval(()=>{clock[2]++;if(clock[2]>59){clock[2]=0;clock[1]++;}
-  },1000);
+let clockTimer=null;
+const tickClock=()=>{clock[2]++;if(clock[2]>59){clock[2]=0;clock[1]++;}};
+function startClock(){if(clockTimer===null)clockTimer=setInterval(tickClock,1000);}
+function stopClock(){if(clockTimer!==null){clearInterval(clockTimer);clockTimer=null;}}
+startClock();
 const hhmm=()=>String(clock[0]).padStart(2,'0')+':'+String(clock[1]).padStart(2,'0');
 
 let token=0,cur=0,building=false,fixedActivated=false;
@@ -1858,6 +1862,16 @@ function startDemo(){
 
 
 window.demoStop=()=>{ if(building) finish(); else {token++;} };
+function pauseDemo(){
+  if(building)finish();else token++;
+  stopClock();
+  clearInterval(panim);panim=null;
+  document.body.classList.add('demo-paused');
+}
+function resumeDemo(){
+  document.body.classList.remove('demo-paused');
+  startClock();
+}
 
 G('prev').addEventListener('click',onPrev);
 G('next').addEventListener('click',onNext);
@@ -1892,10 +1906,13 @@ const chapterValue=chapterParams.get('chapter');
 const fixedChapter=chapterParams.has('chapter')?Number(chapterValue):null;
 addEventListener('message',event=>{
   if(event.data?.type==='eclipsai-demo-deactivate-chapter'){
-    if(building)finish();
+    pauseDemo();
     return;
   }
-  if(event.data?.type!=='eclipsai-demo-activate-chapter'||!Number.isInteger(fixedChapter)||fixedChapter<0||fixedChapter>=N)return;
+  if(event.data?.type!=='eclipsai-demo-activate-chapter')return;
+  resumeDemo();
+  if(chapterValue==='outro'){showOutro();return;}
+  if(!Number.isInteger(fixedChapter)||fixedChapter<0||fixedChapter>=N)return;
   fixedActivated=true;
   const mode=reduceMotion()||event.data.direction==='backward'?'done':'build';
   enter(fixedChapter,mode);
