@@ -251,28 +251,28 @@
         de: Object.assign({}, sharedCopy.de, {
           clientBrand: "SPRÜNGLI",
           fieldNote: "Beobachtungen vor Ort · Zürich · August 2026",
-          fieldLate: "4. August · Zürich",
-          fieldEarly: "3. August · Zürich"
+          fieldLate: "Sortimentslücken",
+          fieldEarly: "Breiter Restbestand"
         }),
         en: Object.assign({}, sharedCopy.en, {
           clientBrand: "SPRÜNGLI",
           fieldNote: "Field observations · Zürich · August 2026",
-          fieldLate: "4 August · Zürich",
-          fieldEarly: "3 August · Zürich"
+          fieldLate: "Range gaps",
+          fieldEarly: "Broad remaining stock"
         })
       },
       assets: {
         fieldEvidence: [
           {
-            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-1600.jpg",
-            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-720.jpg",
-            time: "16:03",
+            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-11-1459-1600.jpg",
+            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-11-1459-720.jpg",
+            time: "14:59",
             copyKey: "fieldLate"
           },
           {
-            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-1600.jpg",
-            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-720.jpg",
-            time: "6:28",
+            src: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-1600.jpg",
+            small: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-720.jpg",
+            time: "16:03",
             copyKey: "fieldEarly"
           }
         ],
@@ -351,13 +351,13 @@
         de: Object.assign({}, sharedCopy.de, {
           clientBrand: "HAUSAMMANN",
           fieldNote: "Beobachtungen vor Ort · 5. August 2026",
-          fieldLate: "5. August · Hausammann",
+          fieldLate: "Breites Restangebot",
           fieldEarly: "5. August · Hausammann"
         }),
         en: Object.assign({}, sharedCopy.en, {
           clientBrand: "HAUSAMMANN",
           fieldNote: "Field observations · 5 August 2026",
-          fieldLate: "5 August · Hausammann",
+          fieldLate: "Broad remaining selection",
           fieldEarly: "5 August · Hausammann"
         })
       },
@@ -406,8 +406,8 @@
       copy: {
         de: Object.assign({}, sharedCopy.de, {
           clientBrand: "BAKERY BAKERY",
-          fieldNote: "Produktions- und Verkaufssituation",
-          fieldLate: "Verkauf",
+          fieldNote: "Beobachtung vor Ort · Zürich HB · 11. August 2026",
+          fieldLate: "Breites Sortiment am Nachmittag",
           fieldEarly: "Produktion",
           posLabel: "Kassensystem / POS",
           posDesc: "Was wann und an welchem Standort verkauft wurde",
@@ -424,8 +424,8 @@
         }),
         en: Object.assign({}, sharedCopy.en, {
           clientBrand: "BAKERY BAKERY",
-          fieldNote: "Production and sales context",
-          fieldLate: "Sales",
+          fieldNote: "Field observation · Zürich HB · 11 August 2026",
+          fieldLate: "Broad afternoon selection",
           fieldEarly: "Production",
           posLabel: "POS system",
           posDesc: "What sold, when and at which location",
@@ -445,19 +445,15 @@
         clientLogo: "/BakeryBakery-demo-1/assets/brand/bakery-bakery-logo.png",
         fieldEvidence: [
           {
-            src: "/BakeryBakery-demo-1/assets/field-evidence/opening-display.png",
-            time: "",
+            src: "/BakeryBakery-demo-1/assets/field-evidence/bakery-bakery-2026-08-11-1506-1600.jpg",
+            small: "/BakeryBakery-demo-1/assets/field-evidence/bakery-bakery-2026-08-11-1506-720.jpg",
+            time: "15:06",
             copyKey: "fieldLate"
-          },
-          {
-            src: "/BakeryBakery-demo-1/assets/field-evidence/opening-production.jpg",
-            time: "",
-            copyKey: "fieldEarly"
           }
         ],
         sources: [
           "/BakeryBakery-demo-1/assets/source-photos/pos.jpg", "/BakeryBakery-demo-1/assets/source-photos/baker-production.jpg",
-          "/BakeryBakery-demo-1/assets/source-photos/computer.jpg", "/BakeryBakery-demo-1/assets/source-photos/bakery-display-neutral.png",
+          "/BakeryBakery-demo-1/assets/source-photos/computer.jpg", "/BakeryBakery-demo-1/assets/source-photos/bakery-bakery-store-2026-08-11-1507-900.jpg",
           "/BakeryBakery-demo-1/assets/source-photos/phone-message.jpg"
         ]
       },
@@ -501,8 +497,8 @@
       copy: {
         de: Object.assign({}, sharedCopy.de, {
           clientBrand: "STEINER FLUGHAFEBECK",
-          fieldNote: "Produktions- und Verkaufssituation",
-          fieldLate: "Verkauf",
+          fieldNote: "Beobachtung vor Ort · Sihlpost · 11. August 2026",
+          fieldLate: "Sortimentslücken und Restbestand zugleich",
           fieldEarly: "Produktion",
           posLabel: "Kassensystem / POS",
           posDesc: "Was wann und in welcher Filiale verkauft wurde",
@@ -519,8 +515,8 @@
         }),
         en: Object.assign({}, sharedCopy.en, {
           clientBrand: "STEINER FLUGHAFEBECK",
-          fieldNote: "Production and sales context",
-          fieldLate: "Sales",
+          fieldNote: "Field observation · Sihlpost · 11 August 2026",
+          fieldLate: "Range gaps alongside remaining stock",
           fieldEarly: "Production",
           posLabel: "POS system",
           posDesc: "What sold, when and in which shop",
@@ -540,19 +536,15 @@
         clientLogo: "/Steiner-Flughafebeck-demo-1/assets/brand/steiner-flughafebeck-logo.svg",
         fieldEvidence: [
           {
-            src: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/opening-display.png",
-            time: "",
+            src: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/steiner-sihlpost-2026-08-11-1419-1600.jpg",
+            small: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/steiner-sihlpost-2026-08-11-1419-720.jpg",
+            time: "14:19",
             copyKey: "fieldLate"
-          },
-          {
-            src: "/Steiner-Flughafebeck-demo-1/assets/field-evidence/opening-production.jpg",
-            time: "",
-            copyKey: "fieldEarly"
           }
         ],
         sources: [
           "/Steiner-Flughafebeck-demo-1/assets/source-photos/pos.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/baker-production.jpg",
-          "/Steiner-Flughafebeck-demo-1/assets/source-photos/computer.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/bakery-display-neutral.png",
+          "/Steiner-Flughafebeck-demo-1/assets/source-photos/computer.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/steiner-sihlpost-store-2026-08-11-1419-900.jpg",
           "/Steiner-Flughafebeck-demo-1/assets/source-photos/phone-message.jpg"
         ]
       },

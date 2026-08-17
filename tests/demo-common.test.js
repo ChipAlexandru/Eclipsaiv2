@@ -125,11 +125,19 @@ test("field photos use configuration-driven timestamps without inventing observa
   const shell = fs.readFileSync(path.join(root, "index.html"), "utf8");
   assert.deepEqual(
     Array.from(runtime.ECLIPSAI_DEMOS.spruengli.assets.fieldEvidence, (item) => item.time),
-    ["16:03", "6:28"]
+    ["14:59", "16:03"]
   );
   assert.deepEqual(
     Array.from(runtime.ECLIPSAI_DEMOS.hausammann.assets.fieldEvidence, (item) => item.time),
     ["16:37"]
+  );
+  assert.deepEqual(
+    Array.from(runtime.ECLIPSAI_DEMOS.bakerybakery.assets.fieldEvidence, (item) => item.time),
+    ["15:06"]
+  );
+  assert.deepEqual(
+    Array.from(runtime.ECLIPSAI_DEMOS.steiner.assets.fieldEvidence, (item) => item.time),
+    ["14:19"]
   );
   assert.match(shell, /fieldEvidence\.slice\(0, 2\)/);
   assert.match(shell, /time\.textContent = item\.time/);
@@ -178,6 +186,10 @@ test("target bakery demos use their own brands and neutral local imagery", () =>
       assert.doesNotMatch(asset, /spruengli/i);
     }
   }
+  assert.match(runtime.ECLIPSAI_DEMOS.bakerybakery.assets.fieldEvidence[0].src, /bakery-bakery-2026-08-11-1506/);
+  assert.match(runtime.ECLIPSAI_DEMOS.bakerybakery.assets.sources[3], /bakery-bakery-store-2026-08-11-1507/);
+  assert.match(runtime.ECLIPSAI_DEMOS.steiner.assets.fieldEvidence[0].src, /steiner-sihlpost-2026-08-11-1419/);
+  assert.match(runtime.ECLIPSAI_DEMOS.steiner.assets.sources[3], /steiner-sihlpost-store-2026-08-11-1419/);
 });
 
 test("restaurant demo uses the shared shell with fresh-food identity and restaurant economics", () => {
