@@ -16,6 +16,11 @@
 import { useEffect, useRef } from "react";
 import { RETAIL_CSS, RETAIL_BODY, RETAIL_JS } from "./retail/retailContent.js";
 
+// The retail prototype is stored as a generated artifact. Normalize its
+// user-facing copy at the rendering boundary so the public site stays in US English.
+const RETAIL_BODY_EN_US = RETAIL_BODY.replaceAll("labour", "labor");
+const RETAIL_JS_EN_US = RETAIL_JS.replaceAll("labour", "labor");
+
 export function RetailHome() {
   const didInit = useRef(false);
 
@@ -34,7 +39,7 @@ export function RetailHome() {
     document.getElementById("retail-inline-script")?.remove();
     const script = document.createElement("script");
     script.id = "retail-inline-script";
-    script.textContent = "(function(){\n" + RETAIL_JS + "\n})();";
+    script.textContent = "(function(){\n" + RETAIL_JS_EN_US + "\n})();";
     document.body.appendChild(script);
 
     // Production adaptation for mobile: native muted autoplay is frequently
@@ -77,7 +82,7 @@ export function RetailHome() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: RETAIL_CSS }} />
-      <div dangerouslySetInnerHTML={{ __html: RETAIL_BODY }} />
+      <div dangerouslySetInnerHTML={{ __html: RETAIL_BODY_EN_US }} />
     </>
   );
 }

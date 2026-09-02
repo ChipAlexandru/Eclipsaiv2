@@ -22,7 +22,7 @@ export const de = {
   hero: {
     eyebrow: "Operative Intelligenz für Frischebetriebe.",
     h1: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
-    copy: "Eclipsai findet, wo Frischebetriebe Gewinn verlieren, setzt die Änderung um und belegt die finanzielle Wirkung. Es beginnt bei der Produktion und erweitert sich auf Bestellungen, Preise, Einkauf und Personal.",
+    copy: "Eclipsai verbindet Verkaufs-, Produktions- und Finanzsysteme. Es trifft Produktionsentscheidungen für jede Filiale, jeden Artikel und jeden Wochentag, schreibt freigegebene Änderungen in das Produktionssystem zurück und misst täglich ihre Wirkung auf Gewinn, Abfall und früh ausverkaufte Artikel.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
       "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",
@@ -30,6 +30,17 @@ export const de = {
     ],
     cta: "20-Minuten-Gespräch buchen",
     audience: "Für wachsende Frischebetriebe mit 2 bis 20 Standorten.",
+  },
+
+  live: {
+    ariaLabel: "Ergebnisse der letzten sieben abgeschlossenen Tage",
+    period: "Letzte sieben abgeschlossene Tage",
+    live: "LIVE",
+    snapshot: "LETZTER BESTÄTIGTER STAND",
+    linesChanged: "geänderte Positionen in Produktionsaufträgen",
+    profitImpact: "Gewinnwirkung im Verhältnis zum Umsatz",
+    wasteReduction: "geschätzte Abfallreduktion in Prozent des ursprünglichen Abfalls",
+    updated: "Aktualisiert",
   },
 
   problem: {
@@ -51,19 +62,23 @@ export const de = {
     mediaLabel: "Beispiel: Eclipsai begleitet eine Produktionsentscheidung über einen vertrauten Teamkanal",
     whatChanges: "So arbeitet Eclipsai",
     items: [
-      { strong: "Findet die wenigen Änderungen, die sich lohnen", text: "Über Filialen, Produkte und Tage hinweg wägt es Abfall gegen entgangene Verkäufe ab." },
-      { strong: "Gibt tägliche Empfehlungen", text: "Der Inhaber sieht die empfohlene Menge, die Begründung und die erwartete Gewinnwirkung." },
-      { strong: "Prüft die Ergebnisse jede Woche", text: "Die wöchentliche Auswertung zeigt, welche Änderungen den Gewinn verbessert haben und welche zum Standardplan werden sollten." },
-      { strong: "Setzt bewährte Entscheidungen um", text: "Zu Beginn gibt der Inhaber jede Änderung frei. Sobald sich eine Art von Empfehlung als zuverlässig erweist, aktualisiert das Produkt den Produktionsplan innerhalb der festgelegten Grenzen und misst die Gewinnverbesserung gegenüber dem alten Plan." },
+      { strong: "Daten aus allen Systemen lesen und analysieren", text: "Jede Filiale, jeder Artikel und jeder Wochentag hat ein eigenes Nachfragemuster. Eclipsai berücksichtigt vergleichbare Verkaufstage, den zeitlichen Verkaufsverlauf, wahrscheinliche Ausverkäufe, geschätzten Abfall, die Wirtschaftlichkeit des Artikels und betriebliche Vorgaben." },
+      { strong: "Wirtschaftlich sinnvolle Entscheidungen erkennen", text: "Für jede Position im Produktionsplan vergleicht Eclipsai die aktuelle Menge mit umsetzbaren Alternativen. Es wägt die Kosten unverkaufter Ware gegen die gefährdete Marge ab, wenn zu wenig produziert wird." },
+      { strong: "Umsetzen und nachverfolgen", text: "Freigegebene Entscheidungen werden in die Produktionssoftware geschrieben und bestätigt. Nach Ladenschluss misst Eclipsai die Wirkung auf Verkäufe, geschätzten Abfall, frühe Ausverkäufe und Gewinn. Das Ergebnis wird zum Beleg für die nächste Entscheidung." },
     ],
   },
 
+  demo: {
+    open: "Demo ansehen",
+    close: "Schliessen",
+  },
+
   proof: {
-    metadata: "Belege von einem Betrieb · 16 Monate",
+    metadata: "Unsere Wirkung",
     h2Before: "Wir haben bei einem Betrieb ein jährliches Gewinnpotenzial von ",
-    h2Value: "€40–60K",
+    h2Value: "CHF 40–60K",
     h2After: " gefunden.",
-    lede: "Ein Frischebetrieb mit mehreren Standorten gab uns sechzehn Monate an Aufzeichnungen. Wir verbanden Kassen- und Produktionsdaten und glichen ab, was geliefert und was verkauft wurde, über Filialen, Produkte und Tage hinweg.",
+    lede: "Wir arbeiten jetzt mit dem Betrieb daran, diese Änderungen in die tägliche Produktion zu übernehmen.",
     ledgerLabel: "Beleg-Journal eines Betriebs",
     rows: [
       { h3: "analysierte Stück", value: "860'000", copy: "Sechzehn Monate Verkaufs- und Produktionsdaten. 92 % liessen sich zwischen beiden zuordnen." },
@@ -85,7 +100,7 @@ export const de = {
 
   vision: {
     eyebrow: "Über die Produktion hinaus",
-    h2: "Die nächsten Entscheidungen, die besser werden.",
+    h2: "Die nächsten Entscheidungen.",
     intro: "Sobald Eclipsai mit den Systemen und Kommunikationskanälen des Betriebs verbunden ist, kann es die für jede neue Entscheidung benötigten Informationen ergänzen, die Änderung umsetzen und das Ergebnis messen.",
     pathLabel: "Ausbaupfad von Eclipsai",
     steps: [
@@ -115,28 +130,24 @@ export const de = {
     h2: "Was Inhaber vor dem Start wissen wollen.",
     items: [
       {
-        q: "Sind wir ausverkauft, wenn wir weniger produzieren?",
+        q: "Gefährden wir Verkäufe, wenn wir weniger produzieren?",
         a: "Eclipsai wägt beide Risiken ab. Ein entgangener Verkauf kann mehr kosten als die eingesparten Zutaten. Es schlägt eine kleinere Menge nur vor, wenn die Belege das stützen, und misst das Ergebnis danach gegen den Plan, den es ersetzt hat.",
       },
       {
-        q: "Unser System empfiehlt bereits Mengen. Was ist anders?",
-        a: "Eclipsai behält den aktuellen Plan als Ausgangsbasis, ergänzt, was in den Daten fehlt, und zeigt nur dort eine andere Bestellung, wo die Belege sie stützen. Nach der Freigabe kann es die Änderung im Produktionssystem umsetzen und die finanzielle Wirkung messen.",
+        q: "Wie unterscheidet sich Eclipsai von den Mengen, die unser System bereits empfiehlt?",
+        a: "Eclipsai prüft die aktuelle Menge gegen umsetzbare Alternativen und berücksichtigt den zeitlichen Verkaufsverlauf, wahrscheinliche Ausverkäufe, Abfall, die Wirtschaftlichkeit des Artikels und betriebliche Vorgaben. Freigegebene Änderungen werden in das Produktionssystem zurückgeschrieben und finanziell gemessen.",
+      },
+      {
+        q: "Müssen wir unsere bestehenden Systeme ersetzen?",
+        a: "Nein. Eclipsai arbeitet mit den bereits eingesetzten Systemen. Es liest und schreibt über APIs oder über Computersteuerung bei älteren Systemen.",
       },
       {
         q: "Wie viel Arbeit hat das Team damit?",
         a: "Eclipsai arbeitet mit den Verkaufs- und Produktionsdaten. Es stellt dem Team nur dann eine kurze Frage, wenn die Aufzeichnungen nicht erklären, was passiert ist, etwa bei einem Ausverkauf, ungewöhnlichen Resten oder einem lokalen Anlass.",
       },
       {
-        q: "Was, wenn unsere Daten unordentlich sind?",
-        a: "Wir gleichen die Aufzeichnungen ab, denen man trauen kann, und machen die Lücken sichtbar. Tragen die Daten keine Empfehlung, fragt Eclipsai nach Kontext oder lässt den Plan unverändert.",
-      },
-      {
-        q: "Müssen wir alle Filialen auf einmal umstellen?",
-        a: "Nein. Wir beginnen bei den Filial-Produkt-Kombinationen mit der stärksten Beleglage. Das Ergebnis dort nutzen wir, bevor wir dieselbe Regel anderswo anwenden.",
-      },
-      {
-        q: "Wie rechnen Sie ab?",
-        a: "Der Start ist kostenlos. Wenn Sie weitermachen, berechnen wir ein monatliches Abonnement nach Anzahl der Standorte und überwachten Entscheidungsbereiche.",
+        q: "Wie beginnen wir?",
+        a: "Wir beginnen mit den verlässlichen Aufzeichnungen und den Filial-Artikel-Kombinationen mit der stärksten Beleglage. Reichen die Daten nicht aus, fragt Eclipsai nach Kontext oder lässt die Menge unverändert. Sie müssen nicht alle Filialen auf einmal umstellen.",
       },
     ],
   },
@@ -148,7 +159,7 @@ export const de = {
 
   meta: {
     title: "Eclipsai | Operative Intelligenz für Frischebetriebe",
-    description: "Eclipsai trifft die täglichen Entscheidungen, die einen Lebensmittelbetrieb am Laufen halten, beginnend mit der Frage, was morgen produziert wird.",
+    description: "Eclipsai trifft und implementiert tägliche Produktionsentscheidungen für Frischebetriebe und misst ihre Wirkung auf Gewinn, Abfall und Verkäufe.",
     ogDescription: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
   },
 };
