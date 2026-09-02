@@ -744,7 +744,7 @@
           capLeft: "POS · recipes · purchases · counts",
           panelFirst: "Build a daily picture of the business",
           panelSecond: "Propose and implement order & prep quantities",
-          panelFinalAnalysis: "Analyse results for the restaurant",
+          panelFinalAnalysis: "Analyze results for the restaurant",
           panelFinalReport: "Report restaurant profit — daily and total",
           flowFirst: "Sales\nRecipes\nPurchases\nCounts",
           flowSecond: "New order & prep\nquantities",

@@ -22,7 +22,7 @@ export const fr = {
   hero: {
     eyebrow: "L'intelligence opérationnelle des métiers du frais.",
     h1: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
-    copy: "Eclipsai repère où les métiers du frais perdent du profit, applique le changement et en démontre l'impact économique. Cela commence par la production, puis s'étend aux commandes, aux prix, aux achats et au personnel.",
+    copy: "Eclipsai relie les systèmes de vente, de production et de gestion financière. Elle prend des décisions de production pour chaque boutique, chaque produit et chaque jour de la semaine, inscrit les changements approuvés dans le système de production et mesure chaque jour leur effet sur le profit, les pertes et les ruptures précoces.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
@@ -30,6 +30,17 @@ export const fr = {
     ],
     cta: "Réserver un appel de 20 min",
     audience: "Pour les exploitants du frais en croissance, de 2 à 20 points de vente.",
+  },
+
+  live: {
+    ariaLabel: "Résultats des sept derniers jours clôturés",
+    period: "Sept derniers jours clôturés",
+    live: "LIVE",
+    snapshot: "DERNIERS RÉSULTATS VÉRIFIÉS",
+    linesChanged: "lignes de commande de production modifiées",
+    profitImpact: "impact sur le profit en part du chiffre d'affaires",
+    wasteReduction: "réduction estimée des pertes en pourcentage des pertes initiales",
+    updated: "Actualisé le",
   },
 
   problem: {
@@ -51,19 +62,23 @@ export const fr = {
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
     items: [
-      { strong: "Repère les quelques changements qui en valent la peine", text: "Par boutique, produit et jour, elle met en balance les pertes et les ventes manquées." },
-      { strong: "Formule des recommandations quotidiennes", text: "Le responsable voit la quantité recommandée, la raison et l'impact attendu sur le profit." },
-      { strong: "Passe les résultats en revue chaque semaine", text: "La revue hebdomadaire montre quels changements ont amélioré le profit et lesquels doivent être intégrés au plan de référence." },
-      { strong: "Met en œuvre les décisions éprouvées", text: "Au départ, chaque changement doit être approuvé. Lorsqu'un type de recommandation s'est révélé fiable, le produit met à jour le plan de production dans les limites fixées par l'exploitant et mesure l'amélioration du profit par rapport à l'ancien plan." },
+      { strong: "Lire et analyser les données de tous les systèmes", text: "Chaque boutique, chaque produit et chaque jour de la semaine possède son propre profil de demande. Eclipsai tient compte des journées comparables, du rythme des ventes, des ruptures probables, des pertes estimées, de l'économie du produit et des contraintes opérationnelles." },
+      { strong: "Repérer les décisions qui ont un sens économique", text: "Pour chaque ligne de production, Eclipsai compare la quantité actuelle aux alternatives réalisables. Elle met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
+      { strong: "Mettre en œuvre et suivre", text: "Les décisions approuvées sont inscrites dans le logiciel de production et confirmées. Après la fermeture de chaque boutique, Eclipsai mesure l'effet sur les ventes, les pertes estimées, les ruptures précoces et le profit. Ce résultat devient une preuve pour la décision suivante." },
     ],
   },
 
+  demo: {
+    open: "Voir la démo",
+    close: "Fermer",
+  },
+
   proof: {
-    metadata: "Preuves d'un exploitant · 16 mois",
+    metadata: "Notre impact",
     h2Before: "Nous avons trouvé ",
-    h2Value: "€40–60K",
+    h2Value: "CHF 40–60K",
     h2After: " d'opportunité de profit annuel chez un exploitant.",
-    lede: "Un exploitant multi-sites du frais nous a confié seize mois de données. Nous avons relié sa caisse et sa production, puis rapproché ce qui a été livré de ce qui a été vendu, par boutique, par produit et par jour.",
+    lede: "Nous travaillons maintenant avec cet exploitant pour intégrer ces changements dans la production quotidienne.",
     ledgerLabel: "Registre de preuves d'un exploitant",
     rows: [
       { h3: "pièces analysées", value: "860 000", copy: "Seize mois de données de vente et de production. Nous en avons rapproché 92 % entre les deux." },
@@ -85,7 +100,7 @@ export const fr = {
 
   vision: {
     eyebrow: "Au-delà de la production",
-    h2: "Les prochaines décisions à améliorer.",
+    h2: "Les prochaines décisions.",
     intro: "Une fois Eclipsai reliée aux systèmes et aux canaux de communication de l'entreprise, elle peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
     pathLabel: "Parcours d'extension d'Eclipsai",
     steps: [
@@ -115,28 +130,24 @@ export const fr = {
     h2: "Ce que les patrons veulent savoir avant de commencer.",
     items: [
       {
-        q: "Produire moins va-t-il nous mettre en rupture ?",
+        q: "Produire moins va-t-il mettre nos ventes en danger ?",
         a: "Eclipsai met les deux risques en balance. Une vente manquée peut coûter plus cher que les ingrédients économisés. Elle ne propose de produire moins que lorsque les preuves le soutiennent, puis mesure le résultat face au plan qu'elle a remplacé.",
       },
       {
-        q: "Notre système recommande déjà des quantités. Quelle est la différence ?",
-        a: "Eclipsai garde le plan actuel comme référence, ajoute ce qui manque aux données et ne propose une commande différente que là où les preuves le soutiennent. Une fois approuvée, elle peut appliquer la modification dans le système de production et en mesurer l'impact économique.",
+        q: "En quoi Eclipsai diffère-t-elle des quantités déjà recommandées par notre système ?",
+        a: "Eclipsai teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et leur effet financier est mesuré.",
+      },
+      {
+        q: "Devons-nous remplacer nos systèmes actuels ?",
+        a: "Non. Eclipsai fonctionne avec les systèmes déjà en place. Elle lit et écrit les données par API ou par utilisation directe de l'ordinateur pour les systèmes plus anciens.",
       },
       {
         q: "Quelle charge de travail pour l'équipe ?",
         a: "Eclipsai travaille à partir des données de vente et de production. Elle ne pose une question courte que lorsque les données n'expliquent pas ce qui s'est passé : une rupture, des restes inhabituels ou un événement local.",
       },
       {
-        q: "Et si nos données sont en désordre ?",
-        a: "Nous rapprochons les données fiables et rendons les manques visibles. Si les données ne soutiennent pas une recommandation, Eclipsai demande du contexte ou laisse le plan inchangé.",
-      },
-      {
-        q: "Faut-il changer toutes les boutiques d'un coup ?",
-        a: "Non. Nous commençons par les couples boutique-produit où les preuves sont les plus solides. Nous nous appuyons sur ce résultat avant d'appliquer la même règle ailleurs.",
-      },
-      {
-        q: "Comment facturez-vous ?",
-        a: "Le démarrage est gratuit. Si vous continuez, nous facturons un abonnement mensuel selon le nombre de points de vente et les domaines de décision suivis.",
+        q: "Comment commençons-nous ?",
+        a: "Nous commençons par les données fiables et les combinaisons boutique-produit pour lesquelles les preuves sont les plus solides. Lorsque les données ne suffisent pas, Eclipsai demande du contexte ou laisse la quantité inchangée. Il n'est pas nécessaire de changer toutes les boutiques en même temps.",
       },
     ],
   },
@@ -148,7 +159,7 @@ export const fr = {
 
   meta: {
     title: "Eclipsai | L'intelligence opérationnelle des métiers du frais",
-    description: "Eclipsai prend les décisions quotidiennes qui font fonctionner une entreprise alimentaire, en commençant par ce qu'il faut produire demain.",
+    description: "Eclipsai prend et met en œuvre les décisions quotidiennes de production pour les métiers du frais, puis mesure leur effet sur le profit, les pertes et les ventes.",
     ogDescription: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
   },
 };

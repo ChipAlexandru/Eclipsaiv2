@@ -22,7 +22,7 @@ export const ro = {
   hero: {
     eyebrow: "Inteligență operațională pentru afacerile cu produse proaspete.",
     h1: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
-    copy: "Eclipsai găsește unde afacerile cu produse proaspete pierd profit, aplică schimbarea și îi dovedește impactul financiar. Începe cu producția, apoi se extinde la comenzi, prețuri, achiziții și personal.",
+    copy: "Eclipsai conectează sistemele de vânzări, producție și financiar-contabile. Ia decizii de producție pentru fiecare magazin, produs și zi a săptămânii, introduce schimbările aprobate în sistemul de producție și măsoară zilnic efectul lor asupra profitului, risipei și epuizării timpurii a stocului.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",
@@ -30,6 +30,17 @@ export const ro = {
     ],
     cta: "Programați o discuție de 20 de minute",
     audience: "Pentru afaceri cu produse proaspete în creștere, cu 2 până la 20 de locații.",
+  },
+
+  live: {
+    ariaLabel: "Rezultatele ultimelor șapte zile încheiate",
+    period: "Ultimele șapte zile încheiate",
+    live: "LIVE",
+    snapshot: "ULTIMELE REZULTATE VERIFICATE",
+    linesChanged: "linii modificate în comenzile de producție",
+    profitImpact: "impact asupra profitului ca procent din vânzări",
+    wasteReduction: "reducere estimată a risipei ca procent din risipa inițială",
+    updated: "Actualizat la",
   },
 
   problem: {
@@ -51,19 +62,23 @@ export const ro = {
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
     whatChanges: "Cum lucrează Eclipsai",
     items: [
-      { strong: "Găsește puținele schimbări care merită făcute", text: "Pe magazine, produse și zile, cântărește risipa față de vânzările ratate." },
-      { strong: "Formulează recomandări zilnice", text: "Patronul vede cantitatea recomandată, motivul și impactul estimat asupra profitului." },
-      { strong: "Analizează rezultatele săptămânal", text: "Analiza săptămânală arată ce schimbări au îmbunătățit profitul și care ar trebui să intre în planul standard." },
-      { strong: "Aplică deciziile care s-au dovedit fiabile", text: "La început, patronul aprobă fiecare schimbare. După ce un tip de recomandare se dovedește fiabil, produsul actualizează planul de producție în limitele stabilite de patron și măsoară îmbunătățirea profitului față de planul vechi." },
+      { strong: "Citim și analizăm datele din toate sistemele", text: "Fiecare magazin, produs și zi a săptămânii are propriul tipar de cerere. Eclipsai ia în calcul zile de vânzare comparabile, ritmul vânzărilor, epuizările probabile, risipa estimată, economia produsului și constrângerile operaționale." },
+      { strong: "Identificăm deciziile care au sens economic", text: "Pentru fiecare linie de producție, Eclipsai compară cantitatea actuală cu alternativele fezabile. Cântărește costul produselor nevândute față de marja pusă în pericol atunci când se produce prea puțin." },
+      { strong: "Implementăm și urmărim rezultatul", text: "Deciziile aprobate sunt introduse în software-ul de producție și confirmate. După închiderea fiecărui magazin, Eclipsai măsoară efectul asupra vânzărilor, risipei estimate, epuizărilor timpurii și profitului. Rezultatul devine dovadă pentru următoarea decizie." },
     ],
   },
 
+  demo: {
+    open: "Vedeți demonstrația",
+    close: "Închideți",
+  },
+
   proof: {
-    metadata: "Dovezi de la o singură afacere · 16 luni",
+    metadata: "Impactul nostru",
     h2Before: "Am găsit la o singură afacere o oportunitate de profit anual de ",
-    h2Value: "€40–60K",
+    h2Value: "CHF 40–60K",
     h2After: ".",
-    lede: "O afacere cu produse proaspete și mai multe locații ne-a pus la dispoziție șaisprezece luni de date. Am conectat casele de marcat și producția și am comparat ce a fost livrat cu ce s-a vândut, pe magazine, produse și zile.",
+    lede: "Lucrăm acum împreună cu această afacere pentru a introduce schimbările în producția zilnică.",
     ledgerLabel: "Registrul de dovezi al unei afaceri",
     rows: [
       { h3: "unități analizate", value: "860.000", copy: "Șaisprezece luni de date de vânzări și producție. Am corelat 92% între cele două." },
@@ -85,7 +100,7 @@ export const ro = {
 
   vision: {
     eyebrow: "Dincolo de producție",
-    h2: "Următoarele decizii de îmbunătățit.",
+    h2: "Următoarele decizii.",
     intro: "După conectarea la sistemele și canalele de comunicare ale companiei, Eclipsai poate adăuga informațiile necesare pentru fiecare decizie nouă, poate aplica schimbarea și poate măsura rezultatul.",
     pathLabel: "Traseul de extindere Eclipsai",
     steps: [
@@ -115,28 +130,24 @@ export const ro = {
     h2: "Ce vor să știe patronii înainte de a începe.",
     items: [
       {
-        q: "Dacă producem mai puțin, rămânem fără marfă?",
+        q: "Dacă producem mai puțin, punem vânzările în pericol?",
         a: "Eclipsai cântărește ambele riscuri. O vânzare ratată poate costa mai mult decât ingredientele economisite. Propune să produceți mai puțin doar când dovezile o susțin, apoi măsoară rezultatul față de planul pe care l-a înlocuit.",
       },
       {
-        q: "Sistemul nostru recomandă deja cantități. Ce este diferit?",
-        a: "Eclipsai păstrează planul actual ca punct de referință, adaugă ce lipsește din date și propune o comandă diferită doar acolo unde dovezile o susțin. După aprobare, poate aplica schimbarea în sistemul de producție și îi poate măsura impactul financiar.",
+        q: "Prin ce diferă Eclipsai de cantitățile deja recomandate de sistemul nostru?",
+        a: "Eclipsai testează cantitatea actuală față de alternativele fezabile folosind ritmul vânzărilor, epuizările probabile, risipa, economia produsului și constrângerile operaționale. Schimbările aprobate sunt introduse în sistemul de producție și măsurate financiar.",
+      },
+      {
+        q: "Trebuie să înlocuim sistemele existente?",
+        a: "Nu. Eclipsai lucrează cu sistemele deja utilizate. Citește și scrie date prin API-uri sau prin utilizarea directă a computerului pentru sistemele mai vechi.",
       },
       {
         q: "Cât de multă muncă cere echipei?",
         a: "Eclipsai lucrează cu datele de vânzări și producție. Pune echipei o întrebare scurtă doar când datele nu explică ce s-a întâmplat, cum ar fi un stoc epuizat, resturi neobișnuite sau un eveniment local.",
       },
       {
-        q: "Dar dacă datele noastre sunt dezordonate?",
-        a: "Corelăm datele în care se poate avea încredere și facem lipsurile vizibile. Dacă datele nu susțin o recomandare, Eclipsai cere context sau lasă planul neschimbat.",
-      },
-      {
-        q: "Trebuie să schimbăm toate magazinele deodată?",
-        a: "Nu. Începem cu combinațiile magazin-produs unde dovezile sunt cele mai solide. Folosim rezultatul de acolo înainte de a aplica aceeași regulă în altă parte.",
-      },
-      {
-        q: "Cum percepeți plata?",
-        a: "Începutul este gratuit. Dacă continuați, percepem un abonament lunar în funcție de numărul de locații și de domeniile decizionale monitorizate.",
+        q: "Cum începem?",
+        a: "Începem cu datele de încredere și combinațiile magazin-produs pentru care dovezile sunt cele mai solide. Când datele nu sunt suficiente, Eclipsai cere context sau lasă cantitatea neschimbată. Nu trebuie să schimbați toate magazinele deodată.",
       },
     ],
   },
@@ -148,7 +159,7 @@ export const ro = {
 
   meta: {
     title: "Eclipsai | Inteligență operațională pentru produse proaspete",
-    description: "Eclipsai ia deciziile zilnice care fac să funcționeze o afacere alimentară, începând cu ce trebuie produs mâine.",
+    description: "Eclipsai ia și implementează decizii zilnice de producție pentru afacerile cu produse proaspete, apoi le măsoară efectul asupra profitului, risipei și vânzărilor.",
     ogDescription: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
   },
 };

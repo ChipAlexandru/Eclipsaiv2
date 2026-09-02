@@ -26,7 +26,7 @@ export const en = {
   hero: {
     eyebrow: "The profit brain for fresh food.",
     h1: "Know what to make tomorrow. Waste less. Sell more.",
-    copy: "Eclipsai finds where fresh-food operations lose profit, makes the change, and proves the impact in cash. It starts with production, then extends to orders, pricing, buying, and labour.",
+    copy: "Eclipsai connects sales, production, and financial systems. It makes production decisions for every shop, product, and weekday, writes approved changes into the production system, and measures their daily effect on profit, waste, and early sellouts.",
     examples: [
       "Adjusts tomorrow's production orders.",
       "Monitors special orders through delivery and invoicing.",
@@ -34,6 +34,17 @@ export const en = {
     ],
     cta: "Book a 20-minute call",
     audience: "For growing fresh-food operators with 2 to 20 locations.",
+  },
+
+  live: {
+    ariaLabel: "Results for the last seven completed days",
+    period: "Last seven completed days",
+    live: "LIVE",
+    snapshot: "LATEST VERIFIED",
+    linesChanged: "production order lines changed",
+    profitImpact: "profit impact as share of sales",
+    wasteReduction: "estimated waste reduction as a percentage of initial waste",
+    updated: "Updated",
   },
 
   problem: {
@@ -55,22 +66,26 @@ export const en = {
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
     items: [
-      { strong: "Finds the few changes worth making", text: "Across shops, products, and days, it weighs waste against missed sales." },
-      { strong: "Makes daily recommendations", text: "The owner sees the recommended quantity, reason, and expected profit impact." },
-      { strong: "Reviews the results each week", text: "The weekly review shows which changes improved profit and which should become the standing plan." },
-      { strong: "Implements proven decisions", text: "The owner approves each change initially. Once a decision type proves reliable, the product updates the production plan within owner-set limits and measures the profit improvement over the old plan." },
+      { strong: "Read and analyze data from all systems", text: "Each shop, product, and weekday has its own demand pattern. Eclipsai considers comparable trading days, sales timing, likely sellouts, estimated waste, product economics, and operating constraints." },
+      { strong: "Identify the decisions that make economic sense", text: "For each production line, Eclipsai compares the current quantity with feasible alternatives. It weighs the cost of unsold product against the margin at risk when too little is made." },
+      { strong: "Implement and follow through", text: "Approved decisions are written into the production software and confirmed. After each shop closes, Eclipsai measures the effect on sales, estimated waste, early sellouts, and cash. The result becomes evidence for the next decision." },
     ],
   },
 
+  demo: {
+    open: "View demo",
+    close: "Close",
+  },
+
   proof: {
-    metadata: "Evidence from one operator · 16 months",
+    metadata: "Our impact",
     h2Before: "We found a ",
-    h2Value: "€40–60K",
-    h2After: " annual profit opportunity at one operator.",
-    lede: "A multi-site fresh-food operator gave us sixteen months of records. We connected its POS and production data and matched what was delivered with what sold across shops, products, and days.",
+    h2Value: "CHF 40–60K",
+    h2After: " annual profit opportunity with one operator.",
+    lede: "We are now working with the operator to put these changes into daily production.",
     ledgerLabel: "Evidence ledger from one operator",
     rows: [
-      { h3: "pieces analysed", value: "860,000", copy: "Sixteen months of sales and production records. We matched 92% between the two." },
+      { h3: "pieces analyzed", value: "860,000", copy: "Sixteen months of sales and production records. We matched 92% between the two." },
       { h3: "delivered pieces unsold", ratioLabel: "One in four delivered pieces went unsold", value: "1 in 4", copy: "The pattern concentrated in particular shops, products, and weekdays." },
       { h3: "annual opportunity", value: "€40–60K", copy: "Recurring production patterns no longer matched demand. The ingredient cost of all unsold pieces was €190K." },
       { h3: "suggested cuts with positive estimated net value", value: "86%", copy: "Ingredient savings exceeded the full margin of any sale the cut might have missed. The cuts were net positive in all nine months tested." },
@@ -89,13 +104,13 @@ export const en = {
 
   vision: {
     eyebrow: "Beyond production",
-    h2: "The next decisions to improve.",
+    h2: "The next decisions.",
     intro: "Once connected to the company's systems and communication channels, Eclipsai can add the information needed for each new decision, implement the change, and measure the result.",
     pathLabel: "Eclipsai expansion path",
     steps: [
       { index: "Start", h3: "Production and waste", p: "Protect sales while cutting repeated, avoidable waste. Update production plans that no longer match demand." },
       { index: "Next", h3: "Buying and pricing", p: "Flag supplier price rises and prices that no longer cover costs." },
-      { index: "Then", h3: "Labour and operations", p: "See when smaller batches save waste but add work, or when understaffing costs sales." },
+      { index: "Then", h3: "Labor and operations", p: "See when smaller batches save waste but add work, or when understaffing costs sales." },
       { index: "As you grow", h3: "The next location", p: "Use what works in your current shops to start the next one." },
     ],
   },
@@ -119,28 +134,24 @@ export const en = {
     h2: "What owners want to know before starting.",
     items: [
       {
-        q: "Will making less cause us to sell out?",
+        q: "Will making less put sales at risk?",
         a: "Eclipsai weighs both risks. A missed sale can cost more than the ingredients saved. It only suggests making less when the evidence supports it, then measures the result against the plan it replaced.",
       },
       {
-        q: "Our system already recommends quantities. What is different?",
-        a: "Eclipsai keeps the current plan as the baseline, adds what the records miss, and shows only where the evidence supports a different order. Once approved, it can implement the change in the production system and measure the result in cash.",
+        q: "How is Eclipsai different from the quantities our system already recommends?",
+        a: "Eclipsai tests the current quantity against feasible alternatives using sales timing, likely sellouts, waste, product economics, and operating constraints. Approved changes are written back into the production system and measured in cash.",
+      },
+      {
+        q: "Do we need to replace our existing systems?",
+        a: "No. Eclipsai works with the systems already in use. It reads from and writes back through APIs or computer use for older systems.",
       },
       {
         q: "How much work does the team have to do?",
         a: "Eclipsai works from sales and production records. It asks the team a short question only when the records cannot explain what happened, such as a sell-out, unusual leftovers, or a local event.",
       },
       {
-        q: "What if our data is messy?",
-        a: "We match the records that can be trusted and make the gaps visible. If the data cannot support a recommendation, Eclipsai asks for context or leaves the plan alone.",
-      },
-      {
-        q: "Do we have to change every shop at once?",
-        a: "No. We begin with the shop-product combinations where the evidence is strongest. We use the result there before applying the same rule elsewhere.",
-      },
-      {
-        q: "How do you charge?",
-        a: "Starting is free. If you continue, we charge a monthly subscription based on the number of locations and decision areas monitored.",
+        q: "How do we start?",
+        a: "We begin with the records that can be trusted and the shop-product combinations where the evidence is strongest. When the data is not sufficient, Eclipsai asks for context or leaves the quantity unchanged. You do not need to change every shop at once.",
       },
     ],
   },
@@ -152,7 +163,7 @@ export const en = {
 
   meta: {
     title: "Eclipsai | The profit brain for fresh food",
-    description: "Eclipsai makes the daily decisions that run a fresh-food business, starting with what to make tomorrow.",
+    description: "Eclipsai makes and implements daily production decisions for fresh-food operators, then measures their effect on profit, waste, and sales.",
     ogDescription: "Know what to make tomorrow. Waste less. Sell more.",
   },
 };
