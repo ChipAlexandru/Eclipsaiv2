@@ -61,7 +61,7 @@ export const en = {
 
   product: {
     eyebrow: "The profit brain at work",
-    h2: "It watches every shop, every day. It asks when the data is not enough.",
+    h2: "Watches every shop, every day. Asks when the data is not enough.",
     lede: "Eclipsai connects sales, production, ordering, and invoicing systems with email, team chats, and relevant external data. When the data cannot explain what happened, it asks staff a targeted question. They can answer with text, photos, or voice notes.",
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
@@ -131,7 +131,7 @@ export const en = {
 
   faq: {
     eyebrow: "Common questions",
-    h2: "What owners want to know before starting.",
+    h2: "What to know before starting.",
     items: [
       {
         q: "Will making less put sales at risk?",
