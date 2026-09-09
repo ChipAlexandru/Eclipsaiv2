@@ -8,19 +8,19 @@ const resultsPath = path.join(root, "public", "homepage-live-results.json");
 const componentPath = path.join(root, "src", "views", "homepage-demo", "HomepageDemo.jsx");
 const routePath = path.join(root, "app", "api", "homepage-live-results", "route.js");
 
-test("homepage live results contain the verified September 2 seven-day window", () => {
+test("homepage live results contain the verified September 9 seven-day window", () => {
   const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
 
   assert.equal(results.schema_version, "eclipsai-homepage-live-results-v1");
   assert.equal(results.status, "live");
   assert.deepEqual(results.period, {
     label: "Last seven completed days",
-    start_date: "2026-08-27",
-    end_date: "2026-09-02",
+    start_date: "2026-09-03",
+    end_date: "2026-09-09",
   });
-  assert.equal(results.production_lines_changed, 544);
-  assert.equal((results.profit_impact_share_of_sales * 100).toFixed(1), "0.9");
-  assert.equal((results.estimated_waste_reduction_share * 100).toFixed(1), "20.8");
+  assert.equal(results.production_lines_changed, 494);
+  assert.equal((results.profit_impact_share_of_sales * 100).toFixed(1), "0.5");
+  assert.equal((results.estimated_waste_reduction_share * 100).toFixed(1), "17.8");
 });
 
 test("homepage renders the live endpoint and retains the verified snapshot as fallback", () => {

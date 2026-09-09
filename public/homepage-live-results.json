@@ -3,12 +3,12 @@
   "status": "live",
   "period": {
     "label": "Last seven completed days",
-    "start_date": "2026-08-27",
-    "end_date": "2026-09-02"
+    "start_date": "2026-09-03",
+    "end_date": "2026-09-09"
   },
-  "production_lines_changed": 544,
-  "profit_impact_share_of_sales": 0.008553101158422574,
-  "estimated_waste_reduction_share": 0.20806687084218356,
-  "updated_at": "2026-09-02T22:15+02:00",
-  "updated_label": "2 September 2026 at 22:15 CEST"
+  "production_lines_changed": 494,
+  "profit_impact_share_of_sales": 0.004961651337053638,
+  "estimated_waste_reduction_share": 0.17785900291644707,
+  "updated_at": "2026-09-10T01:32+02:00",
+  "updated_label": "10 September 2026 at 01:32 CEST"
 }
