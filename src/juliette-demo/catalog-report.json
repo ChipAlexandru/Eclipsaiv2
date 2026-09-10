@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-10T14:54:24.853Z",
+  "extraction": {
+    "collectionPagesFetched": 11,
+    "pageUrls": [
+      {
+        "page": 1,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=1",
+        "productCount": 9
+      },
+      {
+        "page": 2,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=2",
+        "productCount": 9
+      },
+      {
+        "page": 3,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=3",
+        "productCount": 9
+      },
+      {
+        "page": 4,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=4",
+        "productCount": 9
+      },
+      {
+        "page": 5,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=5",
+        "productCount": 9
+      },
+      {
+        "page": 6,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=6",
+        "productCount": 9
+      },
+      {
+        "page": 7,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=7",
+        "productCount": 9
+      },
+      {
+        "page": 8,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=8",
+        "productCount": 9
+      },
+      {
+        "page": 9,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=9",
+        "productCount": 9
+      },
+      {
+        "page": 10,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=10",
+        "productCount": 9
+      },
+      {
+        "page": 11,
+        "url": "https://juliette-boulangerie.ch/collections/all?page=11",
+        "productCount": 1
+      }
+    ],
+    "listedProductCount": 91,
+    "feedProductCount": 91,
+    "mappedProductCount": 91,
+    "expectedGalleryImageCount": 94,
+    "downloadedGalleryImageCount": 94,
+    "imageWidthRequested": 1400
+  },
+  "reconciliation": {
+    "missingFromFeed": [],
+    "feedNotListed": [],
+    "duplicateIds": [],
+    "productsWithoutImages": []
+  },
+  "checks": {
+    "collectionAndFeedHandlesMatch": true,
+    "allListedProductsMapped": true,
+    "allGalleryImagesDownloaded": true,
+    "allProductIdsUnique": true,
+    "everyProductHasAnImage": true,
+    "noFailures": true
+  },
+  "failures": [],
+  "fetchedSources": [
+    {
+      "url": "https://juliette-boulangerie.ch/products.json?limit=250",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=1",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=2",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=3",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=4",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=5",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=6",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=7",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=8",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=9",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=10",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://juliette-boulangerie.ch/collections/all?page=11",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-amandes-scaled-1.jpg?v=1766153014&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Chausson-pommes-scaled-1.jpg?v=1766153013&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-abricots-scaled-1.jpg?v=1766153012&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/AbricotSesame1P.jpg?v=1777382358&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatAvocadoMozzarellaVegetarian.png?v=1782735478&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche-BB-scaled.jpg?v=1766153010&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Baguette-Hand-1-carre-scaled-1.jpg?v=1766153009&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/900ee4deedf7cf0d61dde027d082eb162468f702.png?v=1766153015&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-Myrtilles-scaled.jpg?v=1766153008&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche_parisienne.jpg?v=1770109364&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-scaled.jpg?v=1766153007&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/canneles_4pces_action_solidarite_DE_FR.png?v=1786626043&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichefromageVegetarien.png?v=1782737589&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Poulet-Spiessli-scaled.jpg?v=1766153000&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-chocolat-scaled-1.jpg?v=1766152998&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-au-chocolat-scaled-1-600x600.jpg?v=1768386778&width=1400",
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cookie-scaled.jpg?v=1766152995&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-1P-scaled.jpg?v=1766152992&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled.jpg?v=1766152991&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled_f75372be-983a-443b-9e78-f6d6c5a410b7.jpg?v=1766152990&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Ficelle-scaled.jpg?v=1766152989&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues.png?v=1786358866&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues_dee66d08-fc6d-4898-b20d-414ad5a84163.png?v=1786358905&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues1P.png?v=1786358967&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-individuel-scaled.jpg?v=1768390949&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled_db5bb110-5c34-42ac-af60-090bf5a9cf5b.jpg?v=1768380485&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled.jpg?v=1768380485&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebrot-Hand-1-carre-scaled-1.jpg?v=1766152988&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebroetchen-scaled-416x416-1.jpg?v=1766152984&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichFruchtebrutchenBrieVegetarian.png?v=1782737968&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_100_2026_9bc49509-a461-4240-848c-98b880114384.jpg?v=1774347071&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_150_2026_de0b6bdd-8be3-4e41-b444-71dcb3083c9c.jpg?v=1774347090&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_20_2026_ec1cc85e-919e-4e78-8eef-c7d72f31e66e.jpg?v=1774346928&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_40_2026_d2caa9ff-71ca-4a24-abe8-092289ba5c63.jpg?v=1774347130&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_50_2026_de8c57d5-72cd-4d75-9957-a82e46d9f98d.jpg?v=1774347167&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/GougeresVegetarien.png?v=1782738089&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Laugenbrotchen-mit-Schinken-scaled.jpg?v=1766152974&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/TomatenMozzarellaSpiessliVegetarien.png?v=1782738185&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichepoireauVegetarien.png?v=1782737492&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cake-citron-scaled.jpg?v=1766152966&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1.jpg?v=1766152966&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1_99108189-ab97-4667-9bba-9225fc723067.jpg?v=1766152965&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tartelette-citron-scaled-1.jpg?v=1766152965&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Quiche-lorraine-scaled.jpg?v=1766152963&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-6P-1-scaled.jpg?v=1766152963&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-scaled-1-600x600.jpg?v=1768386299&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Milchbrotchen-mit-Thunfisch-scaled.jpg?v=1766152962&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/mini_patisserie.jpg?v=1770103578&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Nordisches-Brot-scaled.jpg?v=1766152960&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Lachs-cottage-scaled.jpg?v=1766152959&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-chocolat-scaled.jpg?v=1766152958&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassion1P.jpg?v=1777381046&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassionfruit6Pslice.jpg?v=1777381586&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlova_Passion_6P.jpg?v=1777381634&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Laugenbroetchen-scaled-1.jpg?v=1766152957&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-raisins-scaled-1.jpg?v=1766152957&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-individuelle-scaled-1.jpg?v=1768390940&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1_f1217ee3-a619-4cff-889c-b3d36a8d8fd8.jpg?v=1768390942&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1.jpg?v=1768390941&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-framboise-scaled.jpg?v=1766152956&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-framboise.jpg?v=1770293408&width=1400",
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled_4c75934e-8fac-4e47-8057-b00d4c99d9bf.jpg?v=1768390948&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled.jpg?v=1768390948&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-chocolat-individuel-scaled-1.jpg?v=1766152952&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1.jpg?v=1766152952&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1_33ccb426-32a1-4637-97d7-a44c7436fb06.jpg?v=1766152951&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Roggensauerteigbrot-scaled-1.jpg?v=1766152951&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SaladeNormandeVegetarian.png?v=1782735241&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Nordischebrot-Lachs-scaled.jpg?v=1766152949&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichMozzarellaPestoVegetarien.png?v=1782737775&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SanwichBrieVegetarian.png?v=1782737855&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Poulet-scaled-2.jpg?v=1766152948&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Parisien-scaled-1.jpg?v=1766152947&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Jambon-Fromage-scaled-1-1.jpg?v=1766152946&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Saucisson-scaled-1.jpg?v=1766152945&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sauerteig-Bauernbrot-scaled-1.jpg?v=1766152944&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Dinkelbrot_2026.png?v=1788939301&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatDinkelVegan.png?v=1782736804&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Poulet-1-scaled-1.jpg?v=1766152942&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1.jpg?v=1766152942&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1_72d08943-ff8d-45ae-a673-6da63e5b740d.jpg?v=1766152941&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Suisse-scaled-1.jpg?v=1766152940&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Plateau-Charcuterie-scaled.jpg?v=1766152937&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Kase-Plattevegetarian.png?v=1782739151&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo-individuel-scaled.jpg?v=1766152935&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled.jpg?v=1766152934&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled_84614faf-655b-4129-bbff-4d99214341c4.jpg?v=1766152933&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Thunfish-Burger-scaled.jpg?v=1766152932&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Koerner-Baguette-Hand-carre-scaled-1.jpg?v=1766152931&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    },
+    {
+      "url": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichezucchettiVegetarian.png?v=1782737168&width=1400",
+      "status": 200,
+      "contentType": "image/webp"
+    }
+  ]
+}
