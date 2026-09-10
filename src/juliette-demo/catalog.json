@@ -1,0 +1,3790 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-10T14:54:24.853Z",
+  "source": {
+    "storefront": "https://juliette-boulangerie.ch",
+    "collectionUrl": "https://juliette-boulangerie.ch/collections/all",
+    "productsFeedUrl": "https://juliette-boulangerie.ch/products.json?limit=250",
+    "currency": "CHF",
+    "note": "Public online catalogue data only. Online availability is not physical Erlenbach stock."
+  },
+  "products": [
+    {
+      "id": "15356465217884",
+      "handle": "croissant-aux-amandes-1",
+      "name": "Croissant aux Amandes",
+      "description": "Croissant aux Amandes: Ein luftiges, gut aufgegangenes Croissant, gefüllt mit einer leichten, hausgemachten Mandelteig (enthält Rum). Das Croissant in seiner ganzen Eleganz für Mandelliebhaber.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:30+01:00",
+      "createdAt": "2025-12-19T15:03:30+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/croissant-aux-amandes-1",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283659338076",
+          "title": "Default Title",
+          "sku": "163",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342724444",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Croissant aux Amandes",
+          "localPath": "/juliette-demo/products/15356465217884-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-amandes-scaled-1.jpg?v=1766153014",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-amandes-scaled-1.jpg?v=1766153014&width=1400",
+          "downloadedBytes": 77902
+        }
+      ]
+    },
+    {
+      "id": "15356465152348",
+      "handle": "chausson-aux-pommes-1",
+      "name": "Chausson aux Pommes",
+      "description": "Chausson aux Pommes: Die Ursprünge dieser saftigen französischen Viennoiserie gehen auf das 16. Jahrhundert zurück. Er ist auch heute noch sehr in Mode und ein Favorit unter den Liebhabern von Äpfeln.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:29+01:00",
+      "createdAt": "2025-12-19T15:03:29+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/chausson-aux-pommes-1",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283659207004",
+          "title": "Default Title",
+          "sku": "169",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342691676",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Chausson aux Pommes",
+          "localPath": "/juliette-demo/products/15356465152348-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Chausson-pommes-scaled-1.jpg?v=1766153013",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Chausson-pommes-scaled-1.jpg?v=1766153013&width=1400",
+          "downloadedBytes": 44400
+        }
+      ]
+    },
+    {
+      "id": "15356465119580",
+      "handle": "croissant-aux-abricots",
+      "name": "Croissant aux Abricots",
+      "description": "Croissant aux Abricots: Wenn du Aprikosen magst, wirst unser Aprikosen-Croissant lieben. Diese Viennoiserie besticht durch ihre Farbe und erfreut den Gaumen mit unserem hausgemachten Aprikosenkompott. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:28+01:00",
+      "createdAt": "2025-12-19T15:03:28+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/croissant-aux-abricots",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283659141468",
+          "title": "Default Title",
+          "sku": "160",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342593372",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Croissant aux Abricots",
+          "localPath": "/juliette-demo/products/15356465119580-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-abricots-scaled-1.jpg?v=1766153012",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-abricots-scaled-1.jpg?v=1766153012&width=1400",
+          "downloadedBytes": 52212
+        }
+      ]
+    },
+    {
+      "id": "15559767490908",
+      "handle": "aprikose-sesam",
+      "name": "Aprikose Sesam",
+      "description": "Aprikose Sesam: Ein raffiniertes Dessert mit überraschenden Aromen, das einen feinen Sesam-Biskuit, eine cremige Sesam-Mousse, fruchtiges Aprikosen-Coulis und luftige Vanille-Chantilly vereint. Veredelt mit einer glänzenden Spiegelglasur und einem Hauch Sesam entsteht ein einzigartiges und elegantes Geschmackserlebnis. \nMit glutenfreien Zutaten gebacken, ist diese handgemachte Pâtisserie ideal für Liebhaber moderner und besonderer Desserts. Erhältlich als Einzelportion sowie als Torte für 4 oder 8 Personen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-05-11T13:26:41+02:00",
+      "createdAt": "2026-04-28T15:18:41+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/aprikose-sesam",
+      "priceCurrency": "CHF",
+      "priceChf": 9,
+      "variants": [
+        {
+          "id": "57480729166172",
+          "title": "Default Title",
+          "sku": "546",
+          "availableOnline": true,
+          "priceChf": 9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "81368681185628",
+          "position": 1,
+          "width": 4385,
+          "height": 4385,
+          "alt": "Aprikose Sesam",
+          "localPath": "/juliette-demo/products/15559767490908-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/AbricotSesame1P.jpg?v=1777382358",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/AbricotSesame1P.jpg?v=1777382358&width=1400",
+          "downloadedBytes": 47602
+        }
+      ]
+    },
+    {
+      "id": "15559788298588",
+      "handle": "aprikose-sesam-acht-personen",
+      "name": "Aprikose Sesam (8 Personen)",
+      "description": "Aprikose Sesam: Ein raffiniertes Dessert mit überraschenden Aromen, das einen feinen Sesam-Biskuit, eine cremige Sesam-Mousse, fruchtiges Aprikosen-Coulis und luftige Vanille-Chantilly vereint. Veredelt mit einer glänzenden Spiegelglasur und einem Hauch Sesam entsteht ein einzigartiges und elegantes Geschmackserlebnis. \nMit glutenfreien Zutaten gebacken, ist diese handgemachte Pâtisserie ideal für Liebhaber moderner und besonderer Desserts. Erhältlich als Einzelportion sowie als Torte für 4 oder 8 Personen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-05-11T13:26:49+02:00",
+      "createdAt": "2026-04-28T15:21:58+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/aprikose-sesam-acht-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "57480785199452",
+          "title": "Default Title",
+          "sku": "545",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "81368716018012",
+          "position": 1,
+          "width": 4579,
+          "height": 4579,
+          "alt": "Aprikose Sesam (8 Personen)",
+          "localPath": "/juliette-demo/products/15559788298588-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473&width=1400",
+          "downloadedBytes": 91130
+        },
+        {
+          "id": "81368722145628",
+          "position": 2,
+          "width": 4614,
+          "height": 4614,
+          "alt": "Aprikose Sesam (8 Personen)",
+          "localPath": "/juliette-demo/products/15559788298588-02.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487&width=1400",
+          "downloadedBytes": 128434
+        }
+      ]
+    },
+    {
+      "id": "15559778795868",
+      "handle": "aprikose-sesam-vier-personen",
+      "name": "Aprikose Sesam (4 Personen)",
+      "description": "Aprikose Sesam: Ein raffiniertes Dessert mit überraschenden Aromen, das einen feinen Sesam-Biskuit, eine cremige Sesam-Mousse, fruchtiges Aprikosen-Coulis und luftige Vanille-Chantilly vereint. Veredelt mit einer glänzenden Spiegelglasur und einem Hauch Sesam entsteht ein einzigartiges und elegantes Geschmackserlebnis. \nMit glutenfreien Zutaten gebacken, ist diese handgemachte Pâtisserie ideal für Liebhaber moderner und besonderer Desserts. Erhältlich als Einzelportion sowie als Torte für 4 oder 8 Personen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-05-11T13:26:45+02:00",
+      "createdAt": "2026-04-28T15:20:32+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/aprikose-sesam-vier-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 36,
+      "variants": [
+        {
+          "id": "57480752693596",
+          "title": "Default Title",
+          "sku": "544",
+          "availableOnline": true,
+          "priceChf": 36,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "81368716018012",
+          "position": 1,
+          "width": 4579,
+          "height": 4579,
+          "alt": "Aprikose Sesam (4 Personen)",
+          "localPath": "/juliette-demo/products/15559778795868-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricotsesameslice.jpg?v=1777382473&width=1400",
+          "downloadedBytes": 91130
+        },
+        {
+          "id": "81368722145628",
+          "position": 2,
+          "width": 4614,
+          "height": 4614,
+          "alt": "Aprikose Sesam (4 Personen)",
+          "localPath": "/juliette-demo/products/15559778795868-02.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Abricot_sesame.jpg?v=1777382487&width=1400",
+          "downloadedBytes": 128434
+        }
+      ]
+    },
+    {
+      "id": "15356465086812",
+      "handle": "avocado-mozzarella-salat",
+      "name": "Avocado-Mozzarella-Salat",
+      "description": "Avocado-Mozzarella-Salat: ein stets frischer und schmackhafter Salat, garniert mit Tomaten, Mais, Mozzarella und Avocado auf einem Bett aus Eichblattsalat. \nErhältlich mit unseren hausgemachten Balsamico- oder Rahmsenfsaucen. \nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:27+01:00",
+      "createdAt": "2025-12-19T15:03:27+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/avocado-mozzarella-salat",
+      "priceCurrency": "CHF",
+      "priceChf": 11.9,
+      "variants": [
+        {
+          "id": "56283659075932",
+          "title": "Default Title",
+          "sku": "352",
+          "availableOnline": true,
+          "priceChf": 11.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210053718364",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Avocado-Mozzarella-Salat",
+          "localPath": "/juliette-demo/products/15356465086812-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatAvocadoMozzarellaVegetarian.png?v=1782735478",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatAvocadoMozzarellaVegetarian.png?v=1782735478&width=1400",
+          "downloadedBytes": 81798
+        }
+      ]
+    },
+    {
+      "id": "15356464988508",
+      "handle": "baby-brioche",
+      "name": "Baby Brioche",
+      "description": "Baby Brioche: Mit seiner weichen, knusprigen Textur ist es ein Muss beim Frühstück, um den Tag gut zu beginnen.\nZutaten: Weizenmehl 100%, Wasser, Zucker, Milch, Eier, Salz.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:26+01:00",
+      "createdAt": "2025-12-19T15:03:26+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/baby-brioche",
+      "priceCurrency": "CHF",
+      "priceChf": 3.5,
+      "variants": [
+        {
+          "id": "56283658944860",
+          "title": "Default Title",
+          "sku": "157",
+          "availableOnline": true,
+          "priceChf": 3.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342462300",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Baby Brioche",
+          "localPath": "/juliette-demo/products/15356464988508-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche-BB-scaled.jpg?v=1766153010",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche-BB-scaled.jpg?v=1766153010&width=1400",
+          "downloadedBytes": 50314
+        }
+      ]
+    },
+    {
+      "id": "15356464955740",
+      "handle": "baguette-de-tradition-francaise-2",
+      "name": "Baguette de tradition française (℮ 260g)",
+      "description": "Juliettes “Baguette de tradition française” (vegan): mit französischem Weizenmehl 100%, Hefe, Sauerteig.\n℮ 260g \nAls Symbol der französischen Gastronomie in der ganzen Welt wurde das Baguette in 2022 in die Unesco-Liste des immateriellen Kulturerbes der Menschheit aufgenommen.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:25+01:00",
+      "createdAt": "2025-12-19T15:03:25+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/baguette-de-tradition-francaise-2",
+      "priceCurrency": "CHF",
+      "priceChf": 5.5,
+      "variants": [
+        {
+          "id": "56283658846556",
+          "title": "Default Title",
+          "sku": "141",
+          "availableOnline": true,
+          "priceChf": 5.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342429532",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Baguette de tradition française (℮ 260g)",
+          "localPath": "/juliette-demo/products/15356464955740-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Baguette-Hand-1-carre-scaled-1.jpg?v=1766153009",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Baguette-Hand-1-carre-scaled-1.jpg?v=1766153009&width=1400",
+          "downloadedBytes": 92046
+        }
+      ]
+    },
+    {
+      "id": "15356465250652",
+      "handle": "banana-and-pecan-cake",
+      "name": "Bananen-Pekannuss-Cake",
+      "description": "Bananen-Pekannuss-Cake: ein köstlicher Bananencake, angereichert mit einem weichen Pekannuss-Dacquoise. Eine einzigartige Geschmackskombination.\nDieser Cake ist saftig und lecker und kann immer wieder genossen werden.\n℮ 450g \nVegetarisch.\n*Gerne informieren wir Sie auf Anfrage über Zutaten und Allergene.",
+      "productType": "einfach",
+      "tags": [],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:31+01:00",
+      "createdAt": "2025-12-19T15:03:31+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/banana-and-pecan-cake",
+      "priceCurrency": "CHF",
+      "priceChf": 22,
+      "variants": [
+        {
+          "id": "56283659469148",
+          "title": "Default Title",
+          "sku": "28",
+          "availableOnline": true,
+          "priceChf": 22,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342757212",
+          "position": 1,
+          "width": 600,
+          "height": 600,
+          "alt": "Bananen-Pekannuss-Cake",
+          "localPath": "/juliette-demo/products/15356465250652-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/900ee4deedf7cf0d61dde027d082eb162468f702.png?v=1766153015",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/900ee4deedf7cf0d61dde027d082eb162468f702.png?v=1766153015&width=1400",
+          "downloadedBytes": 22784
+        }
+      ]
+    },
+    {
+      "id": "15356464890204",
+      "handle": "blueberry-eclair",
+      "name": "Blaubeer-Eclair",
+      "description": "Blaubeer-Eclair: Als Ikone der französischen Patisserie verführt das Eclair mit seinem luftigen Brandteig, seiner grosszügigen Füllung aus cremiger Vanillecreme und seiner zarten Glasur. Eine perfekte Balance zwischen Tradition, Genuss und Eleganz.\nJuliette’s „Éclair à la Myrtille“ ist ein goldbraunes Brandteiggebäck mit einer leichten Blaubeercreme, überzogen mit einer leuchtend violetten Glasur – es verbindet Authentizität mit der Frische von Früchten.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:24+01:00",
+      "createdAt": "2025-12-19T15:03:24+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/blueberry-eclair",
+      "priceCurrency": "CHF",
+      "priceChf": 7.2,
+      "variants": [
+        {
+          "id": "56283658715484",
+          "title": "Default Title",
+          "sku": "22",
+          "availableOnline": true,
+          "priceChf": 7.2,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342298460",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Blaubeer-Eclair",
+          "localPath": "/juliette-demo/products/15356464890204-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-Myrtilles-scaled.jpg?v=1766153008",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-Myrtilles-scaled.jpg?v=1766153008&width=1400",
+          "downloadedBytes": 51212
+        }
+      ]
+    },
+    {
+      "id": "15356464857436",
+      "handle": "brioche-parisienne",
+      "name": "Brioche parisienne (℮ 440g)",
+      "description": "Brioche Parisienne: weich, goldbraun und voller Geschmack. Unsere traditionelle Brioche Parisienne wird nach dem authentischen französischen Rezept hergestellt. Ihre luftige, lockere Konsistenz, ihr reichhaltiger Buttergeschmack und ihre schöne goldbraune Kruste machen sie zu einem Muss für ein perfektes Gourmet-Frühstück oder einen süss-salzigen Aperitif. Diese Gourmet-Brioche zelebriert die wahre Handwerkskunst der französischen Bäckerei.\nWeizenmehl 100%, Wasser, Zucker, Milch, Eier, Salz.\n℮ 440g \nEin wichtiger Bestandteil bei der Herstellung unserer Brote und Backwaren ist das von Juliette ausgewählte Mehl, das von der Mühle Foricher mit Sitz in Frankreich geliefert wird.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:23+01:00",
+      "createdAt": "2025-12-19T15:03:23+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/brioche-parisienne",
+      "priceCurrency": "CHF",
+      "priceChf": 9.5,
+      "variants": [
+        {
+          "id": "56283658649948",
+          "title": "Default Title",
+          "sku": "145",
+          "availableOnline": true,
+          "priceChf": 9.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80117271658844",
+          "position": 1,
+          "width": 4124,
+          "height": 4124,
+          "alt": "Brioche parisienne (℮ 440g)",
+          "localPath": "/juliette-demo/products/15356464857436-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche_parisienne.jpg?v=1770109364",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Brioche_parisienne.jpg?v=1770109364&width=1400",
+          "downloadedBytes": 81196
+        }
+      ]
+    },
+    {
+      "id": "15356464824668",
+      "handle": "butter-croissant",
+      "name": "Croissant au Beurre",
+      "description": "Juliette’s Buttercroissant: Ein traditionelles französisches Croissant mit Buttergeschmack. Seine Textur ist aussen krümelig und knusprig und innen weich.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:22+01:00",
+      "createdAt": "2025-12-19T15:03:22+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/butter-croissant",
+      "priceCurrency": "CHF",
+      "priceChf": 3.5,
+      "variants": [
+        {
+          "id": "56283658551644",
+          "title": "Default Title",
+          "sku": "159",
+          "availableOnline": true,
+          "priceChf": 3.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429342167388",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Croissant au Beurre",
+          "localPath": "/juliette-demo/products/15356464824668-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-scaled.jpg?v=1766153007",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-scaled.jpg?v=1766153007&width=1400",
+          "downloadedBytes": 67650
+        }
+      ]
+    },
+    {
+      "id": "15619129737564",
+      "handle": "canneles-4-pces",
+      "name": "Cannelés (4 Stück)",
+      "description": "Cannelés , die typischen Gebäckstücke aus dem Südwesten Frankreichs, begeistern durch ihre dünne, karamellisierte Kruste und ihren weichen, auf der Zunge zergehenden Kern, der zart mit Vanille und Rum aromatisiert ist.\nVor mehreren Jahrhunderten in Bordeaux entstanden, haben sie sich zu einer der bekanntesten Spezialitäten der Region entwickelt. Unsere Cannelés werden sorgfältig nach traditioneller Art zubereitet und sind eine Hommage an dieses kulinarische Know-how, das über Generationen hinweg weitergegeben wird.\nGemäss dem authentischen Rezept wird der Teig mit einem Hauch Rum verfeinert. Dieser entfaltet während des Backens sein volles Aroma, während der Alkohol auf natürliche Weise verdunstet: Das fertige Produkt enthält somit keinen Alkohol mehr.\nSOLIDARITÄTSAKTION: Nach den schweren Bränden, die zu Beginn des Sommers die französische Region Gironde heimgesucht haben, werden 50 Prozent des Erlöses aus dem Verkauf von Cannelés zwischen dem 12. August 2026 und dem 30. September 2026 an das Französische Rote Kreuz gespendet, um Familien zu helfen, die bei dieser Tragödie alles verloren haben. \nVielen Dank, dass du diese Initiative gemeinsam mit uns unterstützt. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-06-08T13:42:06+02:00",
+      "createdAt": "2026-06-08T13:16:43+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/canneles-4-pces",
+      "priceCurrency": "CHF",
+      "priceChf": 12,
+      "variants": [
+        {
+          "id": "57822363517276",
+          "title": "Default Title",
+          "sku": "556",
+          "availableOnline": true,
+          "priceChf": 12,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "83264037224796",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Cannelés (4 Stück)",
+          "localPath": "/juliette-demo/products/15619129737564-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/canneles_4pces_action_solidarite_DE_FR.png?v=1786626043",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/canneles_4pces_action_solidarite_DE_FR.png?v=1786626043&width=1400",
+          "downloadedBytes": 118496
+        }
+      ]
+    },
+    {
+      "id": "15356464759132",
+      "handle": "quiche-mit-kaese",
+      "name": "Quiche mit Käse",
+      "description": "Quiche mit Käse: herzhafte, salzige Torte aus verquirlten Eiern, Milch und Comté-Käse.\nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:21+01:00",
+      "createdAt": "2025-12-19T15:03:22+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/quiche-mit-kaese",
+      "priceCurrency": "CHF",
+      "priceChf": 7.5,
+      "variants": [
+        {
+          "id": "56283658453340",
+          "title": "Default Title",
+          "sku": "219",
+          "availableOnline": true,
+          "priceChf": 7.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210368880988",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Quiche mit Käse",
+          "localPath": "/juliette-demo/products/15356464759132-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichefromageVegetarien.png?v=1782737589",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichefromageVegetarien.png?v=1782737589&width=1400",
+          "downloadedBytes": 70868
+        }
+      ]
+    },
+    {
+      "id": "15356464464220",
+      "handle": "chicken-skewers",
+      "name": "Poulet-Spiessli (20 Stück)",
+      "description": "Poulet-Spiessli: köstliche gebratene Poulet- und Ananasspiessli. Jeder Bissen ist mit unserer hausgemachten Currysauce gewürzt, die mild und leicht scharf ist.\nEin originelles Fingerfood-Erlebnis, perfekt für einen Aperitif, ein Buffet oder einen Gourmet-Snack.\nEine gelungene Kombination, mit der du deine Gäste beeindrucken oder dich einfach selbst verwöhnen kannst!\n20 Stück (CHF 4.50/St.)\nFür eine personalisierte Menge kontaktiere uns per E-Mail unter order@juliette-boulangerie.ch \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:15+01:00",
+      "createdAt": "2025-12-19T15:03:16+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/chicken-skewers",
+      "priceCurrency": "CHF",
+      "priceChf": 90,
+      "variants": [
+        {
+          "id": "56283657830748",
+          "title": "Default Title",
+          "sku": "524",
+          "availableOnline": true,
+          "priceChf": 90,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429341839708",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Poulet-Spiessli (20 Stück)",
+          "localPath": "/juliette-demo/products/15356464464220-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Poulet-Spiessli-scaled.jpg?v=1766153000",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Poulet-Spiessli-scaled.jpg?v=1766153000&width=1400",
+          "downloadedBytes": 88870
+        }
+      ]
+    },
+    {
+      "id": "15356464431452",
+      "handle": "chocolate-eclair",
+      "name": "Schokoladen-Eclair",
+      "description": "Schokoladen-Eclair: Als Ikone der französischen Patisserie verführt das Eclair mit seinem luftigen Brandteig, seiner grosszügigen Füllung und seiner zarten Glasur. Eine perfekte Balance zwischen Tradition, Genuss und Eleganz. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:14+01:00",
+      "createdAt": "2025-12-19T15:03:14+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/chocolate-eclair",
+      "priceCurrency": "CHF",
+      "priceChf": 7.5,
+      "variants": [
+        {
+          "id": "56283657732444",
+          "title": "Default Title",
+          "sku": "21",
+          "availableOnline": true,
+          "priceChf": 7.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429341348188",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Schokoladen-Eclair",
+          "localPath": "/juliette-demo/products/15356464431452-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-chocolat-scaled-1.jpg?v=1766152998",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Eclair-chocolat-scaled-1.jpg?v=1766152998&width=1400",
+          "downloadedBytes": 52014
+        }
+      ]
+    },
+    {
+      "id": "15385175228764",
+      "handle": "chocolate-nugget-roll",
+      "name": "Milchbrötchen mit Schokolade",
+      "description": "Milchbrörchen mit Schokolade: der süsse und leckere Snack für den kleinen Hunger oder den Energieschub.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-01-14T11:34:56+01:00",
+      "createdAt": "2026-01-14T11:34:55+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/chocolate-nugget-roll",
+      "priceCurrency": "CHF",
+      "priceChf": 3.2,
+      "variants": [
+        {
+          "id": "56462594179420",
+          "title": "Default Title",
+          "sku": "154",
+          "availableOnline": true,
+          "priceChf": 3.2,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79756695601500",
+          "position": 1,
+          "width": 600,
+          "height": 600,
+          "alt": "Milchbrötchen mit Schokolade",
+          "localPath": "/juliette-demo/products/15385175228764-01.jpg",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-au-chocolat-scaled-1-600x600.jpg?v=1768386778",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-au-chocolat-scaled-1-600x600.jpg?v=1768386778&width=1400",
+          "downloadedBytes": 23341
+        }
+      ]
+    },
+    {
+      "id": "15356464300380",
+      "handle": "cookie",
+      "name": "Cookie",
+      "description": "Cookie: der perfekte Snack für unterwegs, hergestellt mit Butter, braunem Zucker, weissem Zucker, Eiern, Fleur de Sel, Mehl, Schokoladenstückchen, Pekannüssen und Erdnüssen.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:11+01:00",
+      "createdAt": "2025-12-19T15:03:11+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/cookie",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283657371996",
+          "title": "Default Title",
+          "sku": "30",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429341086044",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Cookie",
+          "localPath": "/juliette-demo/products/15356464300380-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cookie-scaled.jpg?v=1766152995",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cookie-scaled.jpg?v=1766152995&width=1400",
+          "downloadedBytes": 46524
+        }
+      ]
+    },
+    {
+      "id": "15356464136540",
+      "handle": "espresso-pecan",
+      "name": "Espresso Pecan",
+      "description": "Espresso Pecan: Diese Kreation von Juliette ist eine perfekte Mischung aus Intensität und Geschmeidigkeit und kombiniert das tiefe Aroma von Kaffee mit der Reichhaltigkeit von Pekannüssen. Weiche Löffelbiskuits, cremige Kaffee-Ganache, luftige Mousse und knusprige Pekannuss-Streusel vereinen sich zu einem eleganten Geschmackserlebnis voller Textur.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:08+01:00",
+      "createdAt": "2025-12-19T15:03:08+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/espresso-pecan",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56283657044316",
+          "title": "Default Title",
+          "sku": "13",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340725596",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Espresso Pecan",
+          "localPath": "/juliette-demo/products/15356464136540-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-1P-scaled.jpg?v=1766152992",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-1P-scaled.jpg?v=1766152992&width=1400",
+          "downloadedBytes": 46744
+        }
+      ]
+    },
+    {
+      "id": "15356464103772",
+      "handle": "espresso-pecan-serves-eight",
+      "name": "Espresso Pécan (8 Personen)",
+      "description": "Espresso Pecan (8 Personen): Diese Kreation von Juliette ist eine perfekte Mischung aus Intensität und Geschmeidigkeit und verbindet das tiefe Aroma von Kaffee mit der Reichhaltigkeit von Pekannüssen. Weiche Löffelbiskuits, cremige Kaffee-Ganache, luftige Mousse und knusprige Pekannuss-Streusel vereinen sich zu einem eleganten Geschmackserlebnis voller Textur. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:07+01:00",
+      "createdAt": "2025-12-19T15:03:07+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/espresso-pecan-serves-eight",
+      "priceCurrency": "CHF",
+      "priceChf": 69,
+      "variants": [
+        {
+          "id": "56283656978780",
+          "title": "Default Title",
+          "sku": "15",
+          "availableOnline": true,
+          "priceChf": 69,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340692828",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Espresso Pécan (8 Personen)",
+          "localPath": "/juliette-demo/products/15356464103772-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled.jpg?v=1766152991",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled.jpg?v=1766152991&width=1400",
+          "downloadedBytes": 76752
+        }
+      ]
+    },
+    {
+      "id": "15356464071004",
+      "handle": "espresso-pecan-serves-four",
+      "name": "Espresso Pecan (serves four)",
+      "description": "Espresso Pécan (4 Personen): Diese Kreation von Juliette vereint die intensiven Aromen von Kaffee mit der Reichhaltigkeit von Pekannüssen und bietet eine perfekte Mischung aus Intensität und Cremigkeit. Weiche Löffelbiskuits, cremige Kaffee-Ganache, luftige Mousse und knusprige Pekannuss-Streusel sorgen gemeinsam für ein elegantes Geschmackserlebnis voller Textur. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:07+01:00",
+      "createdAt": "2025-12-19T15:03:07+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/espresso-pecan-serves-four",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "variants": [
+        {
+          "id": "56283656880476",
+          "title": "Default Title",
+          "sku": "14",
+          "availableOnline": true,
+          "priceChf": 38,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340528988",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Espresso Pecan (serves four)",
+          "localPath": "/juliette-demo/products/15356464071004-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled_f75372be-983a-443b-9e78-f6d6c5a410b7.jpg?v=1766152990",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Espresso-Pecan-Slice-scaled_f75372be-983a-443b-9e78-f6d6c5a410b7.jpg?v=1766152990&width=1400",
+          "downloadedBytes": 76752
+        }
+      ]
+    },
+    {
+      "id": "15356463972700",
+      "handle": "ficelle-bacon-and-cheese",
+      "name": "Ficelle Speck und Käse",
+      "description": "Ficelle mit Speck und Käse: Baguettebrot mit Speck und Käse.\nDer perfekte Apero-Stick für unterwegs oder zum Teilen.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir Sie auf Anfrage über Zutaten und Allergene.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:05+01:00",
+      "createdAt": "2025-12-19T15:03:05+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/ficelle-bacon-and-cheese",
+      "priceCurrency": "CHF",
+      "priceChf": 5.7,
+      "variants": [
+        {
+          "id": "56283656716636",
+          "title": "Default Title",
+          "sku": "140",
+          "availableOnline": true,
+          "priceChf": 5.7,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340397916",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Ficelle Speck und Käse",
+          "localPath": "/juliette-demo/products/15356463972700-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Ficelle-scaled.jpg?v=1766152989",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Ficelle-scaled.jpg?v=1766152989&width=1400",
+          "downloadedBytes": 71398
+        }
+      ]
+    },
+    {
+      "id": "15384932417884",
+      "handle": "fig-tart-serves-eight",
+      "name": "Feigen-Tarte (8 Personen)",
+      "description": "Feigen-Tarte: Entdecke unsere delikate saisonale Tarte. Ein knuspriger süsser Teig, Mandelcreme mit Thymian, ein Hauch Himbeerkonfit und Schlagrahm mit Frischkäse. All dies wird durch wunderschöne frische Feigen ergänzt, die für eine perfekte Harmonie der Aromen sorgen.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette Boulangerie",
+      "publishedAt": "2026-08-10T13:00:58+02:00",
+      "createdAt": "2026-01-14T09:48:04+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fig-tart-serves-eight",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "56461896188252",
+          "title": "Default Title",
+          "sku": "378",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "83180632801628",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Feigen-Tarte (8 Personen)",
+          "localPath": "/juliette-demo/products/15384932417884-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues.png?v=1786358866",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues.png?v=1786358866&width=1400",
+          "downloadedBytes": 172236
+        }
+      ]
+    },
+    {
+      "id": "15384932385116",
+      "handle": "fig-tart-serves-four",
+      "name": "Feigen-Tarte (4 personen)",
+      "description": "Feigen-Tarte: Entdecke unsere delikate saisonale Tarte. Ein knuspriger süsser Teig, Mandelcreme mit Thymian, ein Hauch Himbeerkonfit und Schlagrahm mit Frischkäse. All dies wird durch wunderschöne frische Feigen ergänzt, die für eine perfekte Harmonie der Aromen sorgen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": null,
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d’amour",
+      "publishedAt": "2026-08-10T13:01:00+02:00",
+      "createdAt": "2026-01-14T09:48:03+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fig-tart-serves-four",
+      "priceCurrency": "CHF",
+      "priceChf": 36,
+      "variants": [
+        {
+          "id": "56461896155484",
+          "title": "Default Title",
+          "sku": "377",
+          "availableOnline": true,
+          "priceChf": 36,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "83180643942748",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Feigen-Tarte (4 personen)",
+          "localPath": "/juliette-demo/products/15384932385116-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues_dee66d08-fc6d-4898-b20d-414ad5a84163.png?v=1786358905",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues_dee66d08-fc6d-4898-b20d-414ad5a84163.png?v=1786358905&width=1400",
+          "downloadedBytes": 172236
+        }
+      ]
+    },
+    {
+      "id": "15739668496732",
+      "handle": "feigen-tartelette",
+      "name": "Feigen-Tartelette",
+      "description": "Feigen-Tartelette: Ein raffiniertes, saisonales Tartelette aus knusprigem, buttrigem Bisquit, einer zart gebackenen Mandelcreme mit Thymiam, ein Hauch Himbeerkonfit und Schlagrahm mit Frischkäse. All dies wird durch wunderschöne frische Feigen ergänzt,. Dieses delikate Dessert bietet die perfekte Balance aus Süsse, Frische und fruchtigem Geschmack.\nDiese handgemachte Pâtisserie setzt auf saisonale Zutaten für ein raffiniertes und genussvolles Dessert. Erhältlich als Einzelportion sowie als Torte für 4 oder 8 Personen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-08-10T12:58:02+02:00",
+      "createdAt": "2026-08-10T12:49:04+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/feigen-tartelette",
+      "priceCurrency": "CHF",
+      "priceChf": 9,
+      "variants": [
+        {
+          "id": "58606337524060",
+          "title": "Default Title",
+          "sku": "573",
+          "availableOnline": true,
+          "priceChf": 9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "83180665667932",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Feigen-Tartelette",
+          "localPath": "/juliette-demo/products/15739668496732-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues1P.png?v=1786358967",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Figues1P.png?v=1786358967&width=1400",
+          "downloadedBytes": 104220
+        }
+      ]
+    },
+    {
+      "id": "15385216549212",
+      "handle": "fraisier",
+      "name": "Fraisier",
+      "description": "Fraisier: Ein saisonales Dessert mit einer Mousseline-Creme und frischen Erdbeeren auf einem köstlichen “Cuillère”-Biskuit.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:06:28+02:00",
+      "createdAt": "2026-01-14T12:42:26+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fraisier",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56462943682908",
+          "title": "Default Title",
+          "sku": "48",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757219299676",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Fraisier",
+          "localPath": "/juliette-demo/products/15385216549212-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-individuel-scaled.jpg?v=1768390949",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-individuel-scaled.jpg?v=1768390949&width=1400",
+          "downloadedBytes": 103276
+        }
+      ]
+    },
+    {
+      "id": "15384932319580",
+      "handle": "fraisier-serves-eight",
+      "name": "Fraisier (8 Personen)",
+      "description": "Fraisier: Ein französisches Dessert in seiner schönsten Form: Der Fraisier zelebriert die frische Erdbeere zur Zeit ihrer vollen Reife. Elegant und zeitlos vereint diese ikonische Pâtisserie luftigen Biskuit mit einer seidigen Mousseline-Creme, die zugleich reichhaltig und wunderbar leicht ist. \nGrosszügig gefüllt mit frischen saisonalen Erdbeeren entfaltet jede Scheibe die perfekte Balance zwischen cremiger Süsse und der lebendigen Frische reifer Früchte. Raffiniert, strahlend und unwiderstehlich gourmandig — unser Fraisier ist eine Hommage an die Erdbeere, wenn sie von ihrer schönsten Seite erstrahlt. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette Boulangerie",
+      "publishedAt": "2026-05-01T08:06:48+02:00",
+      "createdAt": "2026-01-14T09:48:02+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fraisier-serves-eight",
+      "priceCurrency": "CHF",
+      "priceChf": 69,
+      "variants": [
+        {
+          "id": "56461896057180",
+          "title": "Default Title",
+          "sku": "50",
+          "availableOnline": true,
+          "priceChf": 69,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79755368464732",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Fraisier (8 Personen)",
+          "localPath": "/juliette-demo/products/15384932319580-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled_db5bb110-5c34-42ac-af60-090bf5a9cf5b.jpg?v=1768380485",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled_db5bb110-5c34-42ac-af60-090bf5a9cf5b.jpg?v=1768380485&width=1400",
+          "downloadedBytes": 114766
+        }
+      ]
+    },
+    {
+      "id": "15384932286812",
+      "handle": "fraisier-serves-four",
+      "name": "Fraisier (4 Personen)",
+      "description": "Fraisier: Ein französisches Dessert in seiner schönsten Form: Der Fraisier zelebriert die frische Erdbeere zur Zeit ihrer vollen Reife. Elegant und zeitlos vereint diese ikonische Pâtisserie luftigen Biskuit mit einer seidigen Mousseline-Creme, die zugleich reichhaltig und wunderbar leicht ist. \nGrosszügig gefüllt mit frischen saisonalen Erdbeeren entfaltet jede Scheibe die perfekte Balance zwischen cremiger Süsse und der lebendigen Frische reifer Früchte. Raffiniert, strahlend und unwiderstehlich gourmandig — unser Fraisier ist eine Hommage an die Erdbeere, wenn sie von ihrer schönsten Seite erstrahlt. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette Boulangerie",
+      "publishedAt": "2026-05-01T08:06:42+02:00",
+      "createdAt": "2026-01-14T09:48:02+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fraisier-serves-four",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "variants": [
+        {
+          "id": "56461896024412",
+          "title": "Default Title",
+          "sku": "49",
+          "availableOnline": true,
+          "priceChf": 38,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79755368300892",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Fraisier (4 Personen)",
+          "localPath": "/juliette-demo/products/15384932286812-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled.jpg?v=1768380485",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fraisier-scaled.jpg?v=1768380485&width=1400",
+          "downloadedBytes": 114766
+        }
+      ]
+    },
+    {
+      "id": "15356463907164",
+      "handle": "fruechtebrot",
+      "name": "Früchtebrot (℮ 280g)",
+      "description": "Früchtebrot mit Aprikosen, Cranberries, Rosinen und Nüssen.\n℮ 280g \nVegan\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:04+01:00",
+      "createdAt": "2025-12-19T15:03:04+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fruechtebrot",
+      "priceCurrency": "CHF",
+      "priceChf": 7.2,
+      "variants": [
+        {
+          "id": "56283656618332",
+          "title": "Default Title",
+          "sku": "149",
+          "availableOnline": true,
+          "priceChf": 7.2,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340365148",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Früchtebrot (℮ 280g)",
+          "localPath": "/juliette-demo/products/15356463907164-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebrot-Hand-1-carre-scaled-1.jpg?v=1766152988",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebrot-Hand-1-carre-scaled-1.jpg?v=1766152988&width=1400",
+          "downloadedBytes": 113376
+        }
+      ]
+    },
+    {
+      "id": "15356463743324",
+      "handle": "fruit-roll-with-apricots-cranberries-raisins-and-nuts",
+      "name": "Früchtebrötchen (℮ 70g)",
+      "description": "Früchtebrötchen mit Aprikosen, Cranberries, Rosinen und Nüssen.\n℮ 70g \nVegan\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:01+01:00",
+      "createdAt": "2025-12-19T15:03:01+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fruit-roll-with-apricots-cranberries-raisins-and-nuts",
+      "priceCurrency": "CHF",
+      "priceChf": 3.2,
+      "variants": [
+        {
+          "id": "56283656454492",
+          "title": "Default Title",
+          "sku": "137",
+          "availableOnline": true,
+          "priceChf": 3.2,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429340168540",
+          "position": 1,
+          "width": 416,
+          "height": 416,
+          "alt": "Früchtebrötchen (℮ 70g)",
+          "localPath": "/juliette-demo/products/15356463743324-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebroetchen-scaled-416x416-1.jpg?v=1766152984",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Fruechtebroetchen-scaled-416x416-1.jpg?v=1766152984&width=1400",
+          "downloadedBytes": 10132
+        }
+      ]
+    },
+    {
+      "id": "15356463710556",
+      "handle": "fruechtebroetchen-mit-brie-kaese-1",
+      "name": "Früchtebrötchen mit Brie-Käse",
+      "description": "Früchtebrötchen mit Brie-Käse: Früchtebrötchen (mit Aprikosen, Cranberries, Rosinen und Nüssen) mit Brie-Käse.\nVegetarisch\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:03:00+01:00",
+      "createdAt": "2025-12-19T15:03:00+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/fruechtebroetchen-mit-brie-kaese-1",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "variants": [
+        {
+          "id": "56283656421724",
+          "title": "Default Title",
+          "sku": "299",
+          "availableOnline": true,
+          "priceChf": 6.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210407547228",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Früchtebrötchen mit Brie-Käse",
+          "localPath": "/juliette-demo/products/15356463710556-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichFruchtebrutchenBrieVegetarian.png?v=1782737968",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichFruchtebrutchenBrieVegetarian.png?v=1782737968&width=1400",
+          "downloadedBytes": 79448
+        }
+      ]
+    },
+    {
+      "id": "15356463645020",
+      "handle": "gift-voucher-100",
+      "name": "Gutschein im Wert von CHF 100",
+      "description": "Geschenkgutschein – Verschenke himmlische Genüsse und lass deine Lieben die französischen Köstlichkeiten von „Juliette - pain d'amour” entdecken. \nEinlösbar in unseren Filialen in Zürich, Erlenbach und Thalwil.\nNicht einlösbar in unserem Online-Shop. \nWenn du deinen Gutschein per Post erhalten möchtest , ist dies kostenlos. Wähle nicht die Option „Lieferung”, sondern die Option „Abholung” aus, wähle dann einen Tag und einen Ort für die Abholung aus, und schreibe in die Kommentare “bitte per Post”.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:59+01:00",
+      "createdAt": "2025-12-19T15:02:59+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gift-voucher-100",
+      "priceCurrency": "CHF",
+      "priceChf": 100,
+      "variants": [
+        {
+          "id": "56283656356188",
+          "title": "Default Title",
+          "sku": "531",
+          "availableOnline": true,
+          "priceChf": 100,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80843565007196",
+          "position": 1,
+          "width": 2417,
+          "height": 2417,
+          "alt": "Gutschein im Wert von CHF 100",
+          "localPath": "/juliette-demo/products/15356463645020-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_100_2026_9bc49509-a461-4240-848c-98b880114384.jpg?v=1774347071",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_100_2026_9bc49509-a461-4240-848c-98b880114384.jpg?v=1774347071&width=1400",
+          "downloadedBytes": 64828
+        }
+      ]
+    },
+    {
+      "id": "15356463579484",
+      "handle": "gift-voucher-worth-chf-150",
+      "name": "Gutschein im Wert von CHF 150",
+      "description": "Geschenkgutschein – Verschenke himmlische Genüsse und lass deine Lieben die französischen Köstlichkeiten von „Juliette - pain d'amour” entdecken. \nEinlösbar in unseren Filialen in Zürich, Erlenbach und Thalwil.\nNicht einlösbar in unserem Online-Shop. \nWenn du deinen Gutschein per Post erhalten möchtest , ist dies kostenlos. Wähle nicht die Option „Lieferung”, sondern die Option „Abholung” aus, wähle dann einen Tag und einen Ort für die Abholung aus, und schreibe in die Kommentare “bitte per Post”.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:58+01:00",
+      "createdAt": "2025-12-19T15:02:58+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gift-voucher-worth-chf-150",
+      "priceCurrency": "CHF",
+      "priceChf": 150,
+      "variants": [
+        {
+          "id": "56283656290652",
+          "title": "Default Title",
+          "sku": "554",
+          "availableOnline": true,
+          "priceChf": 150,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80843574706524",
+          "position": 1,
+          "width": 2417,
+          "height": 2417,
+          "alt": "Gutschein im Wert von CHF 150",
+          "localPath": "/juliette-demo/products/15356463579484-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_150_2026_de0b6bdd-8be3-4e41-b444-71dcb3083c9c.jpg?v=1774347090",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_150_2026_de0b6bdd-8be3-4e41-b444-71dcb3083c9c.jpg?v=1774347090&width=1400",
+          "downloadedBytes": 64790
+        }
+      ]
+    },
+    {
+      "id": "15356463481180",
+      "handle": "gift-voucher-worth-chf-20",
+      "name": "Gutschein im Wert von CHF 20",
+      "description": "Geschenkgutschein – Verschenke himmlische Genüsse und lass deine Lieben die französischen Köstlichkeiten von „Juliette - pain d'amour” entdecken. \nEinlösbar in unseren Filialen in Zürich, Erlenbach und Thalwil.\nNicht einlösbar in unserem Online-Shop. \nWenn du deinen Gutschein per Post erhalten möchtest , ist dies kostenlos. Wähle nicht die Option „Lieferung”, sondern die Option „Abholung” aus, wähle dann einen Tag und einen Ort für die Abholung aus, und schreibe in die Kommentare “bitte per Post”.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:57+01:00",
+      "createdAt": "2025-12-19T15:02:57+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gift-voucher-worth-chf-20",
+      "priceCurrency": "CHF",
+      "priceChf": 20,
+      "variants": [
+        {
+          "id": "56283656192348",
+          "title": "Default Title",
+          "sku": "528",
+          "availableOnline": true,
+          "priceChf": 20,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80843516510556",
+          "position": 1,
+          "width": 2417,
+          "height": 2417,
+          "alt": "Gutschein im Wert von CHF 20",
+          "localPath": "/juliette-demo/products/15356463481180-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_20_2026_ec1cc85e-919e-4e78-8eef-c7d72f31e66e.jpg?v=1774346928",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_20_2026_ec1cc85e-919e-4e78-8eef-c7d72f31e66e.jpg?v=1774346928&width=1400",
+          "downloadedBytes": 64542
+        }
+      ]
+    },
+    {
+      "id": "15356463415644",
+      "handle": "gift-voucher-worth-chf-40",
+      "name": "Gutschein im Wert von CHF 40",
+      "description": "Geschenkgutschein – Verschenke himmlische Genüsse und lass deine Lieben die französischen Köstlichkeiten von „Juliette - pain d'amour” entdecken. \nEinlösbar in unseren Filialen in Zürich, Erlenbach und Thalwil.\nNicht einlösbar in unserem Online-Shop. \nWenn du deinen Gutschein per Post erhalten möchtest , ist dies kostenlos. Wähle nicht die Option „Lieferung”, sondern die Option „Abholung” aus, wähle dann einen Tag und einen Ort für die Abholung aus, und schreibe in die Kommentare “bitte per Post”.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:56+01:00",
+      "createdAt": "2025-12-19T15:02:56+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gift-voucher-worth-chf-40",
+      "priceCurrency": "CHF",
+      "priceChf": 40,
+      "variants": [
+        {
+          "id": "56283656126812",
+          "title": "Default Title",
+          "sku": "529",
+          "availableOnline": true,
+          "priceChf": 40,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80843591614812",
+          "position": 1,
+          "width": 2417,
+          "height": 2417,
+          "alt": "Gutschein im Wert von CHF 40",
+          "localPath": "/juliette-demo/products/15356463415644-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_40_2026_d2caa9ff-71ca-4a24-abe8-092289ba5c63.jpg?v=1774347130",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_40_2026_d2caa9ff-71ca-4a24-abe8-092289ba5c63.jpg?v=1774347130&width=1400",
+          "downloadedBytes": 64322
+        }
+      ]
+    },
+    {
+      "id": "15356463382876",
+      "handle": "gift-voucher-50",
+      "name": "Gutschein im Wert von CHF 50.",
+      "description": "Geschenkgutschein – Verschenke himmlische Genüsse und lass deine Lieben die französischen Köstlichkeiten von „Juliette - pain d'amour” entdecken. \nEinlösbar in unseren Filialen in Zürich, Erlenbach und Thalwil.\nNicht einlösbar in unserem Online-Shop. \nWenn du deinen Gutschein per Post erhalten möchtest , ist dies kostenlos. Wähle nicht die Option „Lieferung”, sondern die Option „Abholung” aus, wähle dann einen Tag und einen Ort für die Abholung aus, und schreibe in die Kommentare “bitte per Post”.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:55+01:00",
+      "createdAt": "2025-12-19T15:02:55+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gift-voucher-50",
+      "priceCurrency": "CHF",
+      "priceChf": 50,
+      "variants": [
+        {
+          "id": "56283656094044",
+          "title": "Default Title",
+          "sku": "530",
+          "availableOnline": true,
+          "priceChf": 50,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80843613339996",
+          "position": 1,
+          "width": 2417,
+          "height": 2417,
+          "alt": "Gutschein im Wert von CHF 50.",
+          "localPath": "/juliette-demo/products/15356463382876-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_50_2026_de8c57d5-72cd-4d75-9957-a82e46d9f98d.jpg?v=1774347167",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Gutschein_50_2026_de8c57d5-72cd-4d75-9957-a82e46d9f98d.jpg?v=1774347167&width=1400",
+          "downloadedBytes": 64630
+        }
+      ]
+    },
+    {
+      "id": "15356463350108",
+      "handle": "gougeres",
+      "name": "Gougères (20 Stück)",
+      "description": "Gougères (französische Käsekugeln) : Lass dich von unseren leichten und schmackhaften hausgemachten Gougères verführen, die aus einem Brandteig mit Comté-Käse hergestellt werden. Beim Backen schmilzt der Käse und wird goldbraun, wodurch sie eine luftige Konsistenz und einen zart-fruchtigen, käsigen Geschmack erhalten.\nDie Eleganz des Käses in einer Aperitif-Version.\n20 Stück (CHF 3.00/St.)\nFür eine personalisierte Menge kontaktiere uns per E-Mail unter order@juliette-boulangerie.ch \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:54+01:00",
+      "createdAt": "2025-12-19T15:02:54+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/gougeres",
+      "priceCurrency": "CHF",
+      "priceChf": 60,
+      "variants": [
+        {
+          "id": "56283655995740",
+          "title": "Default Title",
+          "sku": "525",
+          "availableOnline": true,
+          "priceChf": 60,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210422817116",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Gougères (20 Stück)",
+          "localPath": "/juliette-demo/products/15356463350108-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/GougeresVegetarien.png?v=1782738089",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/GougeresVegetarien.png?v=1782738089&width=1400",
+          "downloadedBytes": 81732
+        }
+      ]
+    },
+    {
+      "id": "15356463153500",
+      "handle": "schinken-laugenbrotchen",
+      "name": "Schinken-Laugenbrötchen",
+      "description": "Schinken-Laugenbrötchen: Laugenbrötchen mit Schinken und Butter.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:50+01:00",
+      "createdAt": "2025-12-19T15:02:50+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/schinken-laugenbrotchen",
+      "priceCurrency": "CHF",
+      "priceChf": 5.5,
+      "variants": [
+        {
+          "id": "56283655799132",
+          "title": "Default Title",
+          "sku": "302",
+          "availableOnline": true,
+          "priceChf": 5.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429337776476",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Schinken-Laugenbrötchen",
+          "localPath": "/juliette-demo/products/15356463153500-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Laugenbrotchen-mit-Schinken-scaled.jpg?v=1766152974",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Laugenbrotchen-mit-Schinken-scaled.jpg?v=1766152974&width=1400",
+          "downloadedBytes": 67700
+        }
+      ]
+    },
+    {
+      "id": "15356463120732",
+      "handle": "italian-skewers",
+      "name": "Italienische Spiessli (20 Stk.)",
+      "description": "Italienische Spiessli: Sie bestehen aus zartschmelzenden Mini-Mozzarella-Kugeln, saftigen Kirschtomaten und frischen Basilikumblättern, die von Hand zu einem ebenso schönen wie köstlichen Bissen zusammengestellt werden.\nFrische, Farbe und Geschmack in einem Bissen!\n20 Stück (CHF 3.50/St.)\nFür eine personalisierte Menge kontaktiere uns per E-Mail unter order@juliette-boulangerie.ch \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:50+01:00",
+      "createdAt": "2025-12-19T15:02:50+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/italian-skewers",
+      "priceCurrency": "CHF",
+      "priceChf": 70,
+      "variants": [
+        {
+          "id": "56283655766364",
+          "title": "Default Title",
+          "sku": "526",
+          "availableOnline": true,
+          "priceChf": 70,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210433958236",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Italienische Spiessli (20 Stk.)",
+          "localPath": "/juliette-demo/products/15356463120732-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/TomatenMozzarellaSpiessliVegetarien.png?v=1782738185",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/TomatenMozzarellaSpiessliVegetarien.png?v=1782738185&width=1400",
+          "downloadedBytes": 68590
+        }
+      ]
+    },
+    {
+      "id": "15356462727516",
+      "handle": "quiche-mit-lauch",
+      "name": "Quiche mit Lauch",
+      "description": "Quiche mit Lauch: herzaftige, salzige Torte aus verquirlten Eiern, Milch und Lauch.\nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:44+01:00",
+      "createdAt": "2025-12-19T15:02:44+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/quiche-mit-lauch",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "variants": [
+        {
+          "id": "56283653013852",
+          "title": "Default Title",
+          "sku": "218",
+          "availableOnline": true,
+          "priceChf": 6.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210357346652",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Quiche mit Lauch",
+          "localPath": "/juliette-demo/products/15356462727516-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichepoireauVegetarien.png?v=1782737492",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichepoireauVegetarien.png?v=1782737492&width=1400",
+          "downloadedBytes": 48934
+        }
+      ]
+    },
+    {
+      "id": "15356462694748",
+      "handle": "lemon-cake",
+      "name": "Cake au Citron",
+      "description": "Cake au Citron: saftig und spritzig, mit frischer Zitronenschale, französischem Mehl und Butter zubereitet. \nJeder Bissen strotzt vor erfrischendem Zitronengeschmack, der durch eine weiche, zartschmelzende Textur ausgeglichen wird. Perfekt für Zitronenliebhaber! \n℮ 450g \nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:43+01:00",
+      "createdAt": "2025-12-19T15:02:43+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/lemon-cake",
+      "priceCurrency": "CHF",
+      "priceChf": 20,
+      "variants": [
+        {
+          "id": "56283652981084",
+          "title": "Default Title",
+          "sku": "29",
+          "availableOnline": true,
+          "priceChf": 20,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429334270300",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Cake au Citron",
+          "localPath": "/juliette-demo/products/15356462694748-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cake-citron-scaled.jpg?v=1766152966",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Cake-citron-scaled.jpg?v=1766152966&width=1400",
+          "downloadedBytes": 76004
+        }
+      ]
+    },
+    {
+      "id": "15356462661980",
+      "handle": "tarte-au-citron-meringuee-acht-personen",
+      "name": "Tarte au Citron meringuée (8 Personen)",
+      "description": "Tarte au Citron meringuée: Ganz französisch in ihrer Eleganz zelebriert unsere Zitronen-Meringue-Tarte die Frische und Feinheit der Zitrone. Auf einem feinen, knusprigen Pâte sucrée-Boden entfaltet sich eine samtige Zitronencreme, die eine perfekte Balance zwischen lebendiger Säure und raffinierter Süsse bietet. \nVeredelt wird die Tarte durch eine grosszügige Dekoration aus hausgemachter schweizer und italienischer Meringue, beide von unseren Patissiers sorgfältig hergestellt. Leicht, luftig und sanft flambiert verleihen sie jedem Bissen Textur, Raffinesse und eine poetische Leichtigkeit. Ein strahlendes Dessert, in dem die Frische der Zitrusfrucht auf die Eleganz französischer Pâtisserie trifft.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:42+01:00",
+      "createdAt": "2025-12-19T15:02:42+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/tarte-au-citron-meringuee-acht-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "56283652948316",
+          "title": "Default Title",
+          "sku": "25",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429334237532",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Tarte au Citron meringuée (8 Personen)",
+          "localPath": "/juliette-demo/products/15356462661980-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1.jpg?v=1766152966",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1.jpg?v=1766152966&width=1400",
+          "downloadedBytes": 74898
+        }
+      ]
+    },
+    {
+      "id": "15356462596444",
+      "handle": "tarte-au-citron-meringuee-vier-personen",
+      "name": "Tarte au Citron meringuée (4 Personen)",
+      "description": "Tarte au Citron meringuée: Ganz französisch in ihrer Eleganz zelebriert unsere Zitronen-Meringue-Tarte die Frische und Feinheit der Zitrone. Auf einem feinen, knusprigen Pâte sucrée-Boden entfaltet sich eine samtige Zitronencreme, die eine perfekte Balance zwischen lebendiger Säure und raffinierter Süsse bietet. \nVeredelt wird die Tarte durch eine grosszügige Dekoration aus hausgemachter schweizer und italienischer Meringue, beide von unseren Patissiers sorgfältig hergestellt. Leicht, luftig und sanft flambiert verleihen sie jedem Bissen Textur, Raffinesse und eine poetische Leichtigkeit. Ein strahlendes Dessert, in dem die Frische der Zitrusfrucht auf die Eleganz französischer Pâtisserie trifft.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:41+01:00",
+      "createdAt": "2025-12-19T15:02:41+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/tarte-au-citron-meringuee-vier-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 36,
+      "variants": [
+        {
+          "id": "56283652882780",
+          "title": "Default Title",
+          "sku": "24",
+          "availableOnline": true,
+          "priceChf": 36,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429333811548",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Tarte au Citron meringuée (4 Personen)",
+          "localPath": "/juliette-demo/products/15356462596444-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1_99108189-ab97-4667-9bba-9225fc723067.jpg?v=1766152965",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-citron-scaled-1_99108189-ab97-4667-9bba-9225fc723067.jpg?v=1766152965&width=1400",
+          "downloadedBytes": 74898
+        }
+      ]
+    },
+    {
+      "id": "15356462530908",
+      "handle": "tartelette-au-citron-meringuee-1",
+      "name": "Tartelette au Citron meringuée",
+      "description": "Tartelette au Citron meringuée: Französisch par excellence, ein exquisiter Kuchen, der die Frische und Feinheit von Zitronen bietet.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:40+01:00",
+      "createdAt": "2025-12-19T15:02:41+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/tartelette-au-citron-meringuee-1",
+      "priceCurrency": "CHF",
+      "priceChf": 9,
+      "variants": [
+        {
+          "id": "56283652817244",
+          "title": "Default Title",
+          "sku": "23",
+          "availableOnline": true,
+          "priceChf": 9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429333778780",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Tartelette au Citron meringuée",
+          "localPath": "/juliette-demo/products/15356462530908-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tartelette-citron-scaled-1.jpg?v=1766152965",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tartelette-citron-scaled-1.jpg?v=1766152965&width=1400",
+          "downloadedBytes": 42572
+        }
+      ]
+    },
+    {
+      "id": "15356462498140",
+      "handle": "quiche-lorraine",
+      "name": "Quiche Lorraine",
+      "description": "Quiche Lorraine: herzhafte, salzige Torte aus geschlagenen Eiern, Milch und Speck. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:40+01:00",
+      "createdAt": "2025-12-19T15:02:40+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/quiche-lorraine",
+      "priceCurrency": "CHF",
+      "priceChf": 8,
+      "variants": [
+        {
+          "id": "56283652784476",
+          "title": "Default Title",
+          "sku": "217",
+          "availableOnline": true,
+          "priceChf": 8,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429333123420",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Quiche Lorraine",
+          "localPath": "/juliette-demo/products/15356462498140-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Quiche-lorraine-scaled.jpg?v=1766152963",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Quiche-lorraine-scaled.jpg?v=1766152963&width=1400",
+          "downloadedBytes": 42276
+        }
+      ]
+    },
+    {
+      "id": "15356462465372",
+      "handle": "macaron-framboises-serves-six",
+      "name": "Macaron Framboises (6 Personen)",
+      "description": "Macaron Framboises: Eleganz und Genuss. Verliebe dich in unseren Macaron Framboises: eine weiche Macaronbasis mit zarter Himbeermousse, garniert mit einer leichten Vanillecreme und frischen Himbeeren.\nEin Klassiker der französischen Patisserie, perfekt für besondere Anlässe oder als Geschenk für puren Genuss. Ein raffiniertes, 100% hausgemachtes Dessert.\nMit glutenfreien Zutaten\nFür 6 Personen.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:39+01:00",
+      "createdAt": "2025-12-19T15:02:39+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/macaron-framboises-serves-six",
+      "priceCurrency": "CHF",
+      "priceChf": 49,
+      "variants": [
+        {
+          "id": "56283652751708",
+          "title": "Default Title",
+          "sku": "20",
+          "availableOnline": true,
+          "priceChf": 49,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429333057884",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Macaron Framboises (6 Personen)",
+          "localPath": "/juliette-demo/products/15356462465372-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-6P-1-scaled.jpg?v=1766152963",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-6P-1-scaled.jpg?v=1766152963&width=1400",
+          "downloadedBytes": 80730
+        }
+      ]
+    },
+    {
+      "id": "15385170411868",
+      "handle": "milk-bun",
+      "name": "Milchbrötchen",
+      "description": "Milchbrötchen: die perfekte leichte Viennoiserie für den Vormittags- oder Nachmittagssnack. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-01-14T11:26:28+01:00",
+      "createdAt": "2026-01-14T11:26:27+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/milk-bun",
+      "priceCurrency": "CHF",
+      "priceChf": 2.8,
+      "variants": [
+        {
+          "id": "56462560067932",
+          "title": "Default Title",
+          "sku": "158",
+          "availableOnline": true,
+          "priceChf": 2.8,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79756668469596",
+          "position": 1,
+          "width": 600,
+          "height": 600,
+          "alt": "Milchbrötchen",
+          "localPath": "/juliette-demo/products/15385170411868-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-scaled-1-600x600.jpg?v=1768386299",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-lait-scaled-1-600x600.jpg?v=1768386299&width=1400",
+          "downloadedBytes": 20308
+        }
+      ]
+    },
+    {
+      "id": "15356462432604",
+      "handle": "sandwich-milchbrotchen-mit-thunfisch",
+      "name": "Milchbrötchen mit Thunfisch",
+      "description": "Milchbrötchen mit Thunfisch \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:38+01:00",
+      "createdAt": "2025-12-19T15:02:38+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-milchbrotchen-mit-thunfisch",
+      "priceCurrency": "CHF",
+      "priceChf": 7.5,
+      "variants": [
+        {
+          "id": "56283652718940",
+          "title": "Default Title",
+          "sku": "300",
+          "availableOnline": true,
+          "priceChf": 7.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429332435292",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Milchbrötchen mit Thunfisch",
+          "localPath": "/juliette-demo/products/15356462432604-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Milchbrotchen-mit-Thunfisch-scaled.jpg?v=1766152962",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Milchbrotchen-mit-Thunfisch-scaled.jpg?v=1766152962&width=1400",
+          "downloadedBytes": 94712
+        }
+      ]
+    },
+    {
+      "id": "15356462367068",
+      "handle": "mini-patisseries",
+      "name": "Mini patisseries (30 Stück)",
+      "description": "Mini-Pâtisseries: Eine Auswahl von 30 kleinen, delikaten Patisserien, die deinen Gaumen und den deiner Gäste verwöhnen werden. Lass dich von einer „Überraschungsauswahl” an Geschmacksrichtungen verführen, darunter Schokoladen-Chou, Kaffee-Chou, Zitronentörtchen, Tarte Tatin, Himbeertörtchen, Birnentörtchen, Kaffee und Pekannuss oder andere, für einen süssen, eleganten Fingerfood-Moment zum Teilen.\nLass dich von der Auswahl unserer Chefin Pâtissière verzaubern.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:37+01:00",
+      "createdAt": "2025-12-19T15:02:37+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/mini-patisseries",
+      "priceCurrency": "CHF",
+      "priceChf": 105,
+      "variants": [
+        {
+          "id": "56283652653404",
+          "title": "Default Title",
+          "sku": "249",
+          "availableOnline": true,
+          "priceChf": 105,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80116921172316",
+          "position": 1,
+          "width": 5028,
+          "height": 5027,
+          "alt": "Mini patisseries (30 Stück)",
+          "localPath": "/juliette-demo/products/15356462367068-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/mini_patisserie.jpg?v=1770103578",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/mini_patisserie.jpg?v=1770103578&width=1400",
+          "downloadedBytes": 85972
+        }
+      ]
+    },
+    {
+      "id": "15356462334300",
+      "handle": "nordischesbrot",
+      "name": "Nordischesbrot (℮ 550g)",
+      "description": "Juliette’s Nordischesbrot (vegan): Dunkles Brot mit geröstetem Gerstenmalz, Haferflocken, Sesamsamen, Leinsamen und Sonnenblumenkernen.\nMehl: Weizenvollkornmehl (40%), Roggenmehl (30%), Weizenmehl (30%).\n℮ 550g \nVegan\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:36+01:00",
+      "createdAt": "2025-12-19T15:02:36+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/nordischesbrot",
+      "priceCurrency": "CHF",
+      "priceChf": 8.5,
+      "variants": [
+        {
+          "id": "56283652620636",
+          "title": "Default Title",
+          "sku": "148",
+          "availableOnline": true,
+          "priceChf": 8.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331747164",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Nordischesbrot (℮ 550g)",
+          "localPath": "/juliette-demo/products/15356462334300-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Nordisches-Brot-scaled.jpg?v=1766152960",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Nordisches-Brot-scaled.jpg?v=1766152960&width=1400",
+          "downloadedBytes": 95782
+        }
+      ]
+    },
+    {
+      "id": "15356462268764",
+      "handle": "norwegian-salad",
+      "name": "Norwegischer Salat",
+      "description": "Norwegischer Salat: mit hochwertigem Räucherlachs, Kartoffeln, Tomaten, Dill und Hüttenkäse auf einem Bett aus Eichenblattsalat. \nErhältlich mit unseren hausgemachten Balsamico- oder Rahmsenfsaucen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:35+01:00",
+      "createdAt": "2025-12-19T15:02:35+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/norwegian-salad",
+      "priceCurrency": "CHF",
+      "priceChf": 13.5,
+      "variants": [
+        {
+          "id": "56283652555100",
+          "title": "Default Title",
+          "sku": "220",
+          "availableOnline": true,
+          "priceChf": 13.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331321180",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Norwegischer Salat",
+          "localPath": "/juliette-demo/products/15356462268764-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Lachs-cottage-scaled.jpg?v=1766152959",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Lachs-cottage-scaled.jpg?v=1766152959&width=1400",
+          "downloadedBytes": 93734
+        }
+      ]
+    },
+    {
+      "id": "15356462235996",
+      "handle": "pain-au-chocolat-3",
+      "name": "Pain au Chocolat",
+      "description": "Das Pain au Chocolat, der “Bruder” des Croissants, ist ein köstliches Gebäck, das von den Franzosen und Millionen von Menschen auf der ganzen Welt geschätzt wird.\nNach dem traditionellen Rezept werden Blätterteig, Butter und Schokolade verwendet.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\nVegetarisch\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:34+01:00",
+      "createdAt": "2025-12-19T15:02:34+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/pain-au-chocolat-3",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283652522332",
+          "title": "Default Title",
+          "sku": "168",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331288412",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Pain au Chocolat",
+          "localPath": "/juliette-demo/products/15356462235996-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-chocolat-scaled.jpg?v=1766152958",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-au-chocolat-scaled.jpg?v=1766152958&width=1400",
+          "downloadedBytes": 88326
+        }
+      ]
+    },
+    {
+      "id": "15559636255068",
+      "handle": "passionsfrucht-pavlova",
+      "name": "Passionsfrucht-Pavlova",
+      "description": "Passionsfrucht-Pavlova: Eine leichte und raffinierte Pavlova aus knusprigem Schweizer Meringue mit zart schmelzendem Kern, gefüllt mit intensivem Passionsfrucht-Crémeux, fruchtigem Passionsfrucht-Coulis und luftiger Vanille-Chantilly. Dieses handgemachte Dessert überzeugt durch die perfekte Balance zwischen Süsse und exotischer Frische. \nMit glutenfreien Zutaten gebacken, ist diese elegante Pâtisserie ideal als leichter Nachtisch oder für besondere Anlässe. \nAuch als Torte für 6 Personen erhältlich. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-05-01T07:53:22+02:00",
+      "createdAt": "2026-04-28T14:54:39+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/passionsfrucht-pavlova",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "57480374255964",
+          "title": "Default Title",
+          "sku": "542",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "81368201494876",
+          "position": 1,
+          "width": 4566,
+          "height": 4566,
+          "alt": "Passionsfrucht-Pavlova",
+          "localPath": "/juliette-demo/products/15559636255068-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassion1P.jpg?v=1777381046",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassion1P.jpg?v=1777381046&width=1400",
+          "downloadedBytes": 41122
+        }
+      ]
+    },
+    {
+      "id": "15559692517724",
+      "handle": "passionsfrucht-pavlova-6-personen",
+      "name": "Passionsfrucht-Pavlova (6 Personen)",
+      "description": "Passionsfrucht-Pavlova: Eine leichte und raffinierte Pavlova aus knusprigem Schweizer Meringue mit zart schmelzendem Kern, gefüllt mit intensivem Passionsfrucht-Crémeux, fruchtigem Passionsfrucht-Coulis und luftiger Vanille-Chantilly. Dieses handgemachte Dessert überzeugt durch die perfekte Balance zwischen Süsse und exotischer Frische. \nMit glutenfreien Zutaten gebacken, ist diese elegante Pâtisserie ideal als leichter Nachtisch oder für besondere Anlässe. \nAuch als individuelles Dessert erhältlich. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene.",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-05-01T07:53:32+02:00",
+      "createdAt": "2026-04-28T15:04:23+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/passionsfrucht-pavlova-6-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 52,
+      "variants": [
+        {
+          "id": "57480553365852",
+          "title": "Default Title",
+          "sku": "365",
+          "availableOnline": true,
+          "priceChf": 52,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "81368414814556",
+          "position": 1,
+          "width": 4622,
+          "height": 4622,
+          "alt": "Passionsfrucht-Pavlova (6 Personen)",
+          "localPath": "/juliette-demo/products/15559692517724-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassionfruit6Pslice.jpg?v=1777381586",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlovapassionfruit6Pslice.jpg?v=1777381586&width=1400",
+          "downloadedBytes": 102984
+        },
+        {
+          "id": "81368436146524",
+          "position": 2,
+          "width": 4738,
+          "height": 4738,
+          "alt": "Passionsfrucht-Pavlova (6 Personen)",
+          "localPath": "/juliette-demo/products/15559692517724-02.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlova_Passion_6P.jpg?v=1777381634",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pavlova_Passion_6P.jpg?v=1777381634&width=1400",
+          "downloadedBytes": 135574
+        }
+      ]
+    },
+    {
+      "id": "15356462203228",
+      "handle": "pretzel-roll",
+      "name": "Laugenbrötchen (℮ 70g)",
+      "description": "Laugenbrötchen: mit Weizenmehl, Butter, Salz, Wasser.\n℮ 70g \nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir Sie auf Anfrage über Zutaten und Allergene.",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:33+01:00",
+      "createdAt": "2025-12-19T15:02:34+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/pretzel-roll",
+      "priceCurrency": "CHF",
+      "priceChf": 2.7,
+      "variants": [
+        {
+          "id": "56283652489564",
+          "title": "Default Title",
+          "sku": "139",
+          "availableOnline": true,
+          "priceChf": 2.7,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331222876",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Laugenbrötchen (℮ 70g)",
+          "localPath": "/juliette-demo/products/15356462203228-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Laugenbroetchen-scaled-1.jpg?v=1766152957",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Laugenbroetchen-scaled-1.jpg?v=1766152957&width=1400",
+          "downloadedBytes": 39378
+        }
+      ]
+    },
+    {
+      "id": "15356462137692",
+      "handle": "pain-aux-raisins",
+      "name": "Pain aux Raisins",
+      "description": "Pain aux Raisins: eine leckere Viennoiserie für den Tag.\nEs enthält Rosinen, die in einer Mischung aus Wasser und Rum eingeweicht und mit einer Vanille-Creme vermischt werden.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:33+01:00",
+      "createdAt": "2025-12-19T15:02:33+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/pain-aux-raisins",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283652424028",
+          "title": "Default Title",
+          "sku": "166",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331190108",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Pain aux Raisins",
+          "localPath": "/juliette-demo/products/15356462137692-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-raisins-scaled-1.jpg?v=1766152957",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Pain-raisins-scaled-1.jpg?v=1766152957&width=1400",
+          "downloadedBytes": 81416
+        }
+      ]
+    },
+    {
+      "id": "15385215304028",
+      "handle": "charlotte-aux-framboises",
+      "name": "Charlotte aux Framboises",
+      "description": "Charlotte aux Framboises (mit Himbeeren): Die Charlotte wurde nach einer englischen Königin benannt und ist ein unverzichtbares Dessert der französischen Pâtisserie, das Juliette mit einer Himbeer- und Brombeermousse sowie einer Einlage aus Vanillecreme und Himbeeren anbietet. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:06:01+02:00",
+      "createdAt": "2026-01-14T12:42:17+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/charlotte-aux-framboises",
+      "priceCurrency": "CHF",
+      "priceChf": 9,
+      "variants": [
+        {
+          "id": "56462941946204",
+          "title": "Default Title",
+          "sku": "42",
+          "availableOnline": true,
+          "priceChf": 9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757217759580",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Charlotte aux Framboises",
+          "localPath": "/juliette-demo/products/15385215304028-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-individuelle-scaled-1.jpg?v=1768390940",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-individuelle-scaled-1.jpg?v=1768390940&width=1400",
+          "downloadedBytes": 58166
+        }
+      ]
+    },
+    {
+      "id": "15385215467868",
+      "handle": "charlotte-aux-framboises-acht-personen",
+      "name": "Charlotte aux Framboises (8 Personen)",
+      "description": "Charlotte aux Framboises (mit Himbeeren): Benannt nach einer englischen Königin und als zeitloser Klassiker der französischen Pâtisserie bekannt, verkörpert die Charlotte Eleganz und Raffinesse. Juliette interpretiert dieses ikonische Dessert mit einer feinen Mousse aus Himbeeren und Brombeeren neu, die Frische, Fruchtigkeit und Leichtigkeit harmonisch vereint.\nIm Herzen verbirgt sich ein zartschmelzender Kern aus Himbeeren und Crème pâtissière, der jeder Gabel Cremigkeit und Intensität verleiht. Diese Charlotte entfaltet ein raffiniertes Spiel aus beerigen Aromen, sanfter Süsse und seidigen Texturen — ein ebenso elegantes wie unwiderstehlich gourmandiges Dessert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:06:20+02:00",
+      "createdAt": "2026-01-14T12:42:18+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/charlotte-aux-framboises-acht-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "56462942208348",
+          "title": "Default Title",
+          "sku": "553",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757217956188",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Charlotte aux Framboises (8 Personen)",
+          "localPath": "/juliette-demo/products/15385215467868-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1_f1217ee3-a619-4cff-889c-b3d36a8d8fd8.jpg?v=1768390942",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1_f1217ee3-a619-4cff-889c-b3d36a8d8fd8.jpg?v=1768390942&width=1400",
+          "downloadedBytes": 140566
+        }
+      ]
+    },
+    {
+      "id": "15385215369564",
+      "handle": "charlotte-aux-framboises-vier-personen",
+      "name": "Charlotte aux Framboises (4 Personen)",
+      "description": "Charlotte aux Framboises (mit Himbeeren): Benannt nach einer englischen Königin und als zeitloser Klassiker der französischen Pâtisserie bekannt, verkörpert die Charlotte Eleganz und Raffinesse. Juliette interpretiert dieses ikonische Dessert mit einer feinen Mousse aus Himbeeren und Brombeeren neu, die Frische, Fruchtigkeit und Leichtigkeit harmonisch vereint.\nIm Herzen verbirgt sich ein zartschmelzender Kern aus Himbeeren und Crème pâtissière, der jeder Gabel Cremigkeit und Intensität verleiht. Diese Charlotte entfaltet ein raffiniertes Spiel aus beerigen Aromen, sanfter Süsse und seidigen Texturen — ein ebenso elegantes wie unwiderstehlich gourmandiges Dessert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:06:00+02:00",
+      "createdAt": "2026-01-14T12:42:18+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/charlotte-aux-framboises-vier-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 36,
+      "variants": [
+        {
+          "id": "56462942044508",
+          "title": "Default Title",
+          "sku": "552",
+          "availableOnline": true,
+          "priceChf": 36,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757217825116",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Charlotte aux Framboises (4 Personen)",
+          "localPath": "/juliette-demo/products/15385215369564-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1.jpg?v=1768390941",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Charlotte-framboises-scaled-1.jpg?v=1768390941&width=1400",
+          "downloadedBytes": 140566
+        }
+      ]
+    },
+    {
+      "id": "15356462072156",
+      "handle": "raspberry-croissant",
+      "name": "Croissant aux Framboises",
+      "description": "Croissant aux Framboises: Es ist zu Juliettes “Signatur-Croissant” geworden. Diese Viennoiserie besticht durch ihre Farbe und erfreut den Gaumen mit ihrem hausgemachten Himbeerkompott.\nVegetarisch.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:32+01:00",
+      "createdAt": "2025-12-19T15:02:32+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/raspberry-croissant",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "variants": [
+        {
+          "id": "56283652358492",
+          "title": "Default Title",
+          "sku": "161",
+          "availableOnline": true,
+          "priceChf": 4.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429331157340",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Croissant aux Framboises",
+          "localPath": "/juliette-demo/products/15356462072156-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-framboise-scaled.jpg?v=1766152956",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Croissant-framboise-scaled.jpg?v=1766152956&width=1400",
+          "downloadedBytes": 83732
+        }
+      ]
+    },
+    {
+      "id": "15424661651804",
+      "handle": "himbeeren-macaron",
+      "name": "Macaron Framboise",
+      "description": "Macaron Framboise: eine weiche Macaron-Basis mit zarter Himbeermousse, garniert mit einer leichten Vanillecreme und frischen Himbeeren. Ein Klassiker der französischen Patisserie, ein zu 100 % hausgemachtes Dessert.\nMit glutenfreien Zutaten\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d’amour",
+      "publishedAt": "2026-05-01T07:52:19+02:00",
+      "createdAt": "2026-02-05T13:13:07+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/himbeeren-macaron",
+      "priceCurrency": "CHF",
+      "priceChf": 9,
+      "variants": [
+        {
+          "id": "56654607417692",
+          "title": "Default Title",
+          "sku": "19",
+          "availableOnline": true,
+          "priceChf": 9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "80157302194524",
+          "position": 1,
+          "width": 600,
+          "height": 600,
+          "alt": "Macaron Framboise",
+          "localPath": "/juliette-demo/products/15424661651804-01.jpg",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-framboise.jpg?v=1770293408",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Macaron-framboise.jpg?v=1770293408&width=1400",
+          "downloadedBytes": 28072
+        }
+      ]
+    },
+    {
+      "id": "15385216483676",
+      "handle": "red-fruit-tart-serves-eight",
+      "name": "Tarte aux fruits rouges (8 Personen)",
+      "description": "Tarte aux Fruits rouges (8 Personen): Eine wahre Hommage an die Saison: Unsere Tarte aux Fruits rouges begeistert mit leuchtenden Farben und unvergleichlicher Frische. Auf einem feinen, knusprigen Pâte sucrée -Boden ruht eine elegante Vanille-Crème pâtissière, die jeder Gabel eine cremige Raffinesse verleiht. \nGrosszügig belegt mit frischen roten Beeren — Himbeeren, Erdbeeren, Brombeeren und Heidelbeeren — entfaltet diese Tarte eine Explosion aus fruchtigen Aromen, zarten Texturen und sommerlicher Leichtigkeit. Ein strahlendes, genussvolles Dessert, das die Intensität frischer Beeren mit der Eleganz französischer Pâtisserie vereint.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:06:55+02:00",
+      "createdAt": "2026-01-14T12:42:25+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/red-fruit-tart-serves-eight",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "56462943519068",
+          "title": "Default Title",
+          "sku": "288",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757219266908",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Tarte aux fruits rouges (8 Personen)",
+          "localPath": "/juliette-demo/products/15385216483676-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled_4c75934e-8fac-4e47-8057-b00d4c99d9bf.jpg?v=1768390948",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled_4c75934e-8fac-4e47-8057-b00d4c99d9bf.jpg?v=1768390948&width=1400",
+          "downloadedBytes": 176916
+        }
+      ]
+    },
+    {
+      "id": "15385216352604",
+      "handle": "red-fruit-tart-serves-four",
+      "name": "Tarte aux Fruits rouges (4 Personen)",
+      "description": "Tarte aux Fruits rouges (4 Personen): Eine wahre Hommage an die Saison: Unsere Tarte aux Fruits rouges begeistert mit leuchtenden Farben und unvergleichlicher Frische. Auf einem feinen, knusprigen Pâte sucrée -Boden ruht eine elegante Vanille-Crème pâtissière, die jeder Gabel eine cremige Raffinesse verleiht. \nGrosszügig belegt mit frischen roten Beeren — Himbeeren, Erdbeeren, Brombeeren und Heidelbeeren — entfaltet diese Tarte eine Explosion aus fruchtigen Aromen, zarten Texturen und sommerlicher Leichtigkeit. Ein strahlendes, genussvolles Dessert, das die Intensität frischer Beeren mit der Eleganz französischer Pâtisserie vereint.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": " Juliette - pain d’amour ",
+      "publishedAt": "2026-05-01T08:07:02+02:00",
+      "createdAt": "2026-01-14T12:42:25+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/red-fruit-tart-serves-four",
+      "priceCurrency": "CHF",
+      "priceChf": 36,
+      "variants": [
+        {
+          "id": "56462943387996",
+          "title": "Default Title",
+          "sku": "287",
+          "availableOnline": true,
+          "priceChf": 36,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79757219004764",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Tarte aux Fruits rouges (4 Personen)",
+          "localPath": "/juliette-demo/products/15385216352604-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled.jpg?v=1768390948",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tarte-fruits-rouges-scaled.jpg?v=1768390948&width=1400",
+          "downloadedBytes": 176916
+        }
+      ]
+    },
+    {
+      "id": "15356461908316",
+      "handle": "royal-au-chocolat-3",
+      "name": "Royal au Chocolat",
+      "description": "Royal au Chocolat: ein klassisches französisches Dessert, das den Genuss von Schokolade in verschiedenen Formen kombiniert, mit einer Haselnuss-Dacquoise, einem Haselnuss-Praliné-Crunch und einer Milchschokoladen-Mousse.\nUmhüllt von einer dunklen Schokoladen-Ganache ist er der ultimative Luxus für echte Schokoladenliebhaber.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:28+01:00",
+      "createdAt": "2025-12-19T15:02:29+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/royal-au-chocolat-3",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56283652194652",
+          "title": "Default Title",
+          "sku": "1",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330862428",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Royal au Chocolat",
+          "localPath": "/juliette-demo/products/15356461908316-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-chocolat-individuel-scaled-1.jpg?v=1766152952",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-chocolat-individuel-scaled-1.jpg?v=1766152952&width=1400",
+          "downloadedBytes": 59862
+        }
+      ]
+    },
+    {
+      "id": "15356461875548",
+      "handle": "royal-au-chocolat-acht-personen",
+      "name": "Royal au Chocolat (8 Personen)",
+      "description": "Royal au chocolat: ein klassisches französisches Dessert, das den Genuss von Schokolade in verschiedenen Formen kombiniert, mit einer Haselnuss-Dacquoise, einem Haselnuss-Praliné-Crunch und einer Milchschokoladen-Mousse.\nUmhüllt von einer dunklen Schokoladen-Ganache ist er der ultimative Luxus für echte Schokoladenliebhaber.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "simple",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:28+01:00",
+      "createdAt": "2025-12-19T15:02:28+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/royal-au-chocolat-acht-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 69,
+      "variants": [
+        {
+          "id": "56283652161884",
+          "title": "Default Title",
+          "sku": "3",
+          "availableOnline": true,
+          "priceChf": 69,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330764124",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Royal au Chocolat (8 Personen)",
+          "localPath": "/juliette-demo/products/15356461875548-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1.jpg?v=1766152952",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1.jpg?v=1766152952&width=1400",
+          "downloadedBytes": 67076
+        }
+      ]
+    },
+    {
+      "id": "15356461810012",
+      "handle": "royal-au-chocolat-vier-personen",
+      "name": "Royal au Chocolat (4 Personen)",
+      "description": "Royal au chocolat: ein klassisches französisches Dessert, das den Genuss von Schokolade in verschiedenen Formen kombiniert, mit einer Haselnuss-Dacquoise, einem Haselnuss-Praliné-Crunch und einer Milchschokoladen-Mousse.\nUmhüllt von einer dunklen Schokoladen-Ganache ist er der ultimative Luxus für echte Schokoladenliebhaber.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:27+01:00",
+      "createdAt": "2025-12-19T15:02:27+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/royal-au-chocolat-vier-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "variants": [
+        {
+          "id": "56283652096348",
+          "title": "Default Title",
+          "sku": "2",
+          "availableOnline": true,
+          "priceChf": 38,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330698588",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Royal au Chocolat (4 Personen)",
+          "localPath": "/juliette-demo/products/15356461810012-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1_33ccb426-32a1-4637-97d7-a44c7436fb06.jpg?v=1766152951",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Royal-Chocolat-scaled-1_33ccb426-32a1-4637-97d7-a44c7436fb06.jpg?v=1766152951&width=1400",
+          "downloadedBytes": 67076
+        }
+      ]
+    },
+    {
+      "id": "15356461777244",
+      "handle": "roggensauerteigbrot-750g",
+      "name": "Roggensauerteigbrot (℮ 750g)",
+      "description": "Roggensauerteigbrot: Dieses Brot wird als Spezialbrot bezeichnet, weil es hauptsächlich aus Roggenmehl hergestellt wird.\nZutaten: Roggenmehl 100%, Salz, Wasser, Sauerteig 75%, Hefe 0,2%.\n℮ 750g \nVegan\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:26+01:00",
+      "createdAt": "2025-12-19T15:02:26+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/roggensauerteigbrot-750g",
+      "priceCurrency": "CHF",
+      "priceChf": 11,
+      "variants": [
+        {
+          "id": "56283652063580",
+          "title": "Default Title",
+          "sku": "143",
+          "availableOnline": true,
+          "priceChf": 11,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330633052",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Roggensauerteigbrot (℮ 750g)",
+          "localPath": "/juliette-demo/products/15356461777244-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Roggensauerteigbrot-scaled-1.jpg?v=1766152951",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Roggensauerteigbrot-scaled-1.jpg?v=1766152951&width=1400",
+          "downloadedBytes": 144028
+        }
+      ]
+    },
+    {
+      "id": "15648698073436",
+      "handle": "salade-normande-de",
+      "name": "Salade Normande",
+      "description": "Salade Normande: Ein frischer und herzhafter vegetarischer Salat, inspiriert von den authentischen Aromen der Normandie und von Juliette auf ihre ganz eigene Art interpretiert.\nTäglich frisch zubereitet mit knackigem Eichblattsalat , Rucola , frischen Trauben , Birnen , cremigem Brie und knusprigen Walnüssen bietet er eine perfekte Balance aus Süsse, Frische und Charakter. Dieser Gourmet-Salat eignet sich ideal für ein leichtes Mittagessen, eine Mahlzeit im Büro oder einen gesunden und feinen Zvieri.\nWie alle Kreationen von Juliette wird auch unser Salat aus sorgfältig ausgewählten Zutaten zubereitet und noch am selben Tag fertiggestellt, um optimale Frische zu gewährleisten.\nErhältlich mit unseren hausgemachten Balsamico- oder Rahmsenfsaucen. \nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-06-29T14:16:04+02:00",
+      "createdAt": "2026-06-29T08:35:16+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/salade-normande-de",
+      "priceCurrency": "CHF",
+      "priceChf": 11.9,
+      "variants": [
+        {
+          "id": "58156090818908",
+          "title": "Default Title",
+          "sku": "559",
+          "availableOnline": true,
+          "priceChf": 11.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210023309660",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Salade Normande",
+          "localPath": "/juliette-demo/products/15648698073436-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SaladeNormandeVegetarian.png?v=1782735241",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SaladeNormandeVegetarian.png?v=1782735241&width=1400",
+          "downloadedBytes": 108620
+        }
+      ]
+    },
+    {
+      "id": "15356461744476",
+      "handle": "lachs-sandwich",
+      "name": "Lachs-Sandwich",
+      "description": "Lachs-Sandwich: Nordisches Brot mit Lachs, Kapern und Meerrettich.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:25+01:00",
+      "createdAt": "2025-12-19T15:02:25+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/lachs-sandwich",
+      "priceCurrency": "CHF",
+      "priceChf": 8.5,
+      "variants": [
+        {
+          "id": "56283651998044",
+          "title": "Default Title",
+          "sku": "304",
+          "availableOnline": true,
+          "priceChf": 8.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330501980",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Lachs-Sandwich",
+          "localPath": "/juliette-demo/products/15356461744476-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Nordischebrot-Lachs-scaled.jpg?v=1766152949",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Nordischebrot-Lachs-scaled.jpg?v=1766152949&width=1400",
+          "downloadedBytes": 88146
+        }
+      ]
+    },
+    {
+      "id": "15510238396764",
+      "handle": "sandwich-mit-mozzarella-und-pesto",
+      "name": "Sandwich mit Mozzarella und Pesto",
+      "description": "Sandwich mit Mozzarella, Pesto und Tomate: Ein zeitloser Klassiker, mit Einfachheit und Sorgfalt zubereitet.\nUnser Sandwich mit Mozzarella, Pesto und Tomate vereint frische, aromatische Zutaten zu einem leichten und doch sättigenden Genuss.\n“À la Française” in einem Baguette-Brot.\nVegetarisch\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-03-26T11:16:53+01:00",
+      "createdAt": "2026-03-26T11:10:44+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-mit-mozzarella-und-pesto",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "57181748560220",
+          "title": "Default Title",
+          "sku": "535",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210388967772",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Sandwich mit Mozzarella und Pesto",
+          "localPath": "/juliette-demo/products/15510238396764-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichMozzarellaPestoVegetarien.png?v=1782737775",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SandwichMozzarellaPestoVegetarien.png?v=1782737775&width=1400",
+          "downloadedBytes": 84020
+        }
+      ]
+    },
+    {
+      "id": "15356461678940",
+      "handle": "sandwich-mit-brie-kaese-und-birnen",
+      "name": "Sandwich mit Brie-Käse und Birnen",
+      "description": "Sandwich mit Brie-Käse und Birnen : eine frische und überraschende Mischung von Aromen: Brie-Käse, Birnen, Honig und Walnüsse.\n\"À la Française\", in einem Baguette-Brot.\nVegetarisch\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:24+01:00",
+      "createdAt": "2025-12-19T15:02:24+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-mit-brie-kaese-und-birnen",
+      "priceCurrency": "CHF",
+      "priceChf": 11.9,
+      "variants": [
+        {
+          "id": "56283651932508",
+          "title": "Default Title",
+          "sku": "228",
+          "availableOnline": true,
+          "priceChf": 11.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210395554140",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Sandwich mit Brie-Käse und Birnen",
+          "localPath": "/juliette-demo/products/15356461678940-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SanwichBrieVegetarian.png?v=1782737855",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SanwichBrieVegetarian.png?v=1782737855&width=1400",
+          "downloadedBytes": 88082
+        }
+      ]
+    },
+    {
+      "id": "15356461580636",
+      "handle": "sandwich-mit-poulet-und-mayonnaise",
+      "name": "Sandwich mit Poulet und Mayonnaise",
+      "description": "Sandwich mit Poulet und Mayonnaise: für die Hungrigen, mit Poulet, Mayonnaise, Tomaten und Salat.\n“À la Française” in einem Baguette-Brot.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:23+01:00",
+      "createdAt": "2025-12-19T15:02:23+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-mit-poulet-und-mayonnaise",
+      "priceCurrency": "CHF",
+      "priceChf": 11.9,
+      "variants": [
+        {
+          "id": "56283651834204",
+          "title": "Default Title",
+          "sku": "229",
+          "availableOnline": true,
+          "priceChf": 11.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330436444",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Sandwich mit Poulet und Mayonnaise",
+          "localPath": "/juliette-demo/products/15356461580636-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Poulet-scaled-2.jpg?v=1766152948",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Poulet-scaled-2.jpg?v=1766152948&width=1400",
+          "downloadedBytes": 92184
+        }
+      ]
+    },
+    {
+      "id": "15356461515100",
+      "handle": "sandwich-mit-schinken",
+      "name": "Sandwich mit Schinken",
+      "description": "Sandwich mit Schinken: das traditionelle “Parisien” mit Butter, Schinken und Essiggurken.\n“À la Française” in einem Baguette-Brot.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:23+01:00",
+      "createdAt": "2025-12-19T15:02:23+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-mit-schinken",
+      "priceCurrency": "CHF",
+      "priceChf": 8.9,
+      "variants": [
+        {
+          "id": "56283651768668",
+          "title": "Default Title",
+          "sku": "227",
+          "availableOnline": true,
+          "priceChf": 8.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330370908",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Sandwich mit Schinken",
+          "localPath": "/juliette-demo/products/15356461515100-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Parisien-scaled-1.jpg?v=1766152947",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Parisien-scaled-1.jpg?v=1766152947&width=1400",
+          "downloadedBytes": 89572
+        }
+      ]
+    },
+    {
+      "id": "15356461482332",
+      "handle": "sandwich-mit-schinken-und-kaese",
+      "name": "Sandwich mit Schinken und Käse",
+      "description": "Sandwich mit Schinken und Käse: der “Immer-gut-Klassiker”: mit Schinken und Comté-Käse.\n“À la Française” in einem Baguette-Brot.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:22+01:00",
+      "createdAt": "2025-12-19T15:02:22+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-mit-schinken-und-kaese",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56283651735900",
+          "title": "Default Title",
+          "sku": "226",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330305372",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Sandwich mit Schinken und Käse",
+          "localPath": "/juliette-demo/products/15356461482332-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Jambon-Fromage-scaled-1-1.jpg?v=1766152946",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Jambon-Fromage-scaled-1-1.jpg?v=1766152946&width=1400",
+          "downloadedBytes": 81976
+        }
+      ]
+    },
+    {
+      "id": "15356461449564",
+      "handle": "sandwich-saucisson",
+      "name": "Sandwich Saucisson",
+      "description": "Sandwich Saucisson: ein Klassiker, der nicht fehlen darf: mit Salami und Essiggurken.\n“À la Française” in einem Baguette-Brot.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:21+01:00",
+      "createdAt": "2025-12-19T15:02:21+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sandwich-saucisson",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56283651703132",
+          "title": "Default Title",
+          "sku": "230",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330239836",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Sandwich Saucisson",
+          "localPath": "/juliette-demo/products/15356461449564-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Saucisson-scaled-1.jpg?v=1766152945",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sandwich-Saucisson-scaled-1.jpg?v=1766152945&width=1400",
+          "downloadedBytes": 92344
+        }
+      ]
+    },
+    {
+      "id": "15356461416796",
+      "handle": "sauerteig-bauernbrot",
+      "name": "Sauerteig-Bauernbrot (℮ 550g)",
+      "description": "Sauerteig-Bauernbrot: gebacken mit Roggenmehl 10%, Vollkornhalbweizenmehl 90%, hausgemachtem Sauerteig (hart) 30%.\n℮ 550g \nVegan\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:20+01:00",
+      "createdAt": "2025-12-19T15:02:20+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/sauerteig-bauernbrot",
+      "priceCurrency": "CHF",
+      "priceChf": 8.9,
+      "variants": [
+        {
+          "id": "56283651670364",
+          "title": "Default Title",
+          "sku": "152",
+          "availableOnline": true,
+          "priceChf": 8.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330207068",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Sauerteig-Bauernbrot (℮ 550g)",
+          "localPath": "/juliette-demo/products/15356461416796-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sauerteig-Bauernbrot-scaled-1.jpg?v=1766152944",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Sauerteig-Bauernbrot-scaled-1.jpg?v=1766152944&width=1400",
+          "downloadedBytes": 136178
+        }
+      ]
+    },
+    {
+      "id": "15806715461980",
+      "handle": "dinkelbrot",
+      "name": "Dinkelbrot (℮ 380g)",
+      "description": "Juliette’s Dinkelbrot (vegan): Unser handwerklich hergestelltes Dinkelbrot verbindet Dinkelmehl mit steingemahlenem Weizenmehl und überzeugt mit einem aromatischen Geschmack und feinen, natürlich nussigen Getreidenoten. Die weiche Krume und die schön gebackene Kruste machen es zu einem vielseitigen Brot für jeden Tag – perfekt zum Frühstück oder als Begleiter zu Salaten, Käse und herzhaften Gerichten.\nVon Hand in unserer Bäckerei in Zürich hergestellt, ist es die ideale Wahl für alle, die authentisches, geschmackvolles Brot aus sorgfältig ausgewählten Mehlsorten schätzen.\n℮ 380g \nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2026-09-09T09:40:32+02:00",
+      "createdAt": "2026-09-07T09:11:05+02:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/dinkelbrot",
+      "priceCurrency": "CHF",
+      "priceChf": 6.9,
+      "variants": [
+        {
+          "id": "59041740030300",
+          "title": "Default Title",
+          "sku": "575",
+          "availableOnline": true,
+          "priceChf": 6.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "84171032363356",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Dinkelbrot (℮ 380g)",
+          "localPath": "/juliette-demo/products/15806715461980-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Dinkelbrot_2026.png?v=1788939301",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Dinkelbrot_2026.png?v=1788939301&width=1400",
+          "downloadedBytes": 143306
+        }
+      ]
+    },
+    {
+      "id": "15356461384028",
+      "handle": "dinkelsalat",
+      "name": "Dinkelsalat",
+      "description": "Dinkelsalat: ein sehr gesunder und veganer Salat, garniert mit Chicorée, Avocado, Karotten, Granatapfel, Rosinen, Oliven, Pfefferminze, Tomaten.\nVegan.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:19+01:00",
+      "createdAt": "2025-12-19T15:02:19+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/dinkelsalat",
+      "priceCurrency": "CHF",
+      "priceChf": 11.9,
+      "variants": [
+        {
+          "id": "56283651604828",
+          "title": "Default Title",
+          "sku": "380",
+          "availableOnline": true,
+          "priceChf": 11.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210239971676",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Dinkelsalat",
+          "localPath": "/juliette-demo/products/15356461384028-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatDinkelVegan.png?v=1782736804",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/SalatDinkelVegan.png?v=1782736804&width=1400",
+          "downloadedBytes": 87154
+        }
+      ]
+    },
+    {
+      "id": "15356461318492",
+      "handle": "poulet-salat",
+      "name": "Poulet-Salat",
+      "description": "Poulet-Salat: eine Harmonie der Aromen von leicht gewürztem “Tex-Mex”-Poulet, Kartoffeln, Tomaten und Rosinen, alles auf einem Bett aus Eichenblattsalat. \nErhältlich mit unseren hausgemachten Balsamico- oder Rahmsenfsaucen. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:19+01:00",
+      "createdAt": "2025-12-19T15:02:19+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/poulet-salat",
+      "priceCurrency": "CHF",
+      "priceChf": 13.5,
+      "variants": [
+        {
+          "id": "56283651539292",
+          "title": "Default Title",
+          "sku": "222",
+          "availableOnline": true,
+          "priceChf": 13.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429330010460",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Poulet-Salat",
+          "localPath": "/juliette-demo/products/15356461318492-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Poulet-1-scaled-1.jpg?v=1766152942",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Salat-Poulet-1-scaled-1.jpg?v=1766152942&width=1400",
+          "downloadedBytes": 82252
+        }
+      ]
+    },
+    {
+      "id": "15356461285724",
+      "handle": "saint-honore-acht-personen",
+      "name": "Saint-Honoré (8 Personen)",
+      "description": "St. Honoré: Juliette’s Saint-Honoré ist wahrscheinlich eine der traditionellsten französischen Backkreationen und nimmt dich mit auf eine Reise durch die süssen Aromen Frankreichs.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:18+01:00",
+      "createdAt": "2025-12-19T15:02:18+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/saint-honore-acht-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 69,
+      "variants": [
+        {
+          "id": "56283651506524",
+          "title": "Default Title",
+          "sku": "60",
+          "availableOnline": true,
+          "priceChf": 69,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429329912156",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Saint-Honoré (8 Personen)",
+          "localPath": "/juliette-demo/products/15356461285724-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1.jpg?v=1766152942",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1.jpg?v=1766152942&width=1400",
+          "downloadedBytes": 88612
+        }
+      ]
+    },
+    {
+      "id": "15356461252956",
+      "handle": "st-honore-vier-personen",
+      "name": "Saint-Honoré (4 Personen)",
+      "description": "St. Honoré: Juliette’s Saint-Honoré ist wahrscheinlich eine der traditionellsten französischen Backkreationen und nimmt dich mit auf eine Reise durch die süssen Aromen Frankreichs. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:16+01:00",
+      "createdAt": "2025-12-19T15:02:17+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/st-honore-vier-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "variants": [
+        {
+          "id": "56283651473756",
+          "title": "Default Title",
+          "sku": "59",
+          "availableOnline": true,
+          "priceChf": 38,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429329650012",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Saint-Honoré (4 Personen)",
+          "localPath": "/juliette-demo/products/15356461252956-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1_72d08943-ff8d-45ae-a673-6da63e5b740d.jpg?v=1766152941",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Saint-Honore-scaled-1_72d08943-ff8d-45ae-a673-6da63e5b740d.jpg?v=1766152941&width=1400",
+          "downloadedBytes": 88612
+        }
+      ]
+    },
+    {
+      "id": "15356461187420",
+      "handle": "suisse",
+      "name": "Suisse",
+      "description": "Das “Suisse” ist ein Gebäck aus gefaltetem Blätterteig mit Vanillecrème und Schokoladensplittern, überzogen mit einer dünnen Schicht Puderzucker.\nWissenswertes: Trotz seines Namens ist dieses Gebäck keine Schweizer Spezialität.\nVegetarisch\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:16+01:00",
+      "createdAt": "2025-12-19T15:02:16+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/suisse",
+      "priceCurrency": "CHF",
+      "priceChf": 5,
+      "variants": [
+        {
+          "id": "56283651408220",
+          "title": "Default Title",
+          "sku": "171",
+          "availableOnline": true,
+          "priceChf": 5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429329617244",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Suisse",
+          "localPath": "/juliette-demo/products/15356461187420-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Suisse-scaled-1.jpg?v=1766152940",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Suisse-scaled-1.jpg?v=1766152940&width=1400",
+          "downloadedBytes": 67310
+        }
+      ]
+    },
+    {
+      "id": "15356460990812",
+      "handle": "die-charcuterie-platte",
+      "name": "Die Charcuterieplatte",
+      "description": "Die Wurst- und Käseplatte ist die perfekte Möglichkeit, um einen Moment mit deinen Kollegen, Freunden oder deiner Familie zu teilen.\nFür acht Personen, eine Mischung aus verschiedenen Wurstsorten. Frisch zubereitet von unserem Team. Genussfertig.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:12+01:00",
+      "createdAt": "2025-12-19T15:02:13+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/die-charcuterie-platte",
+      "priceCurrency": "CHF",
+      "priceChf": 72,
+      "variants": [
+        {
+          "id": "56283651211612",
+          "title": "Default Title",
+          "sku": "269",
+          "availableOnline": true,
+          "priceChf": 72,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429329224028",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Die Charcuterieplatte",
+          "localPath": "/juliette-demo/products/15356460990812-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Plateau-Charcuterie-scaled.jpg?v=1766152937",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Plateau-Charcuterie-scaled.jpg?v=1766152937&width=1400",
+          "downloadedBytes": 170836
+        }
+      ]
+    },
+    {
+      "id": "15356460958044",
+      "handle": "die-kase-platte",
+      "name": "Die Käseplatte",
+      "description": "Die Käseplatte ist die perfekte Möglichkeit, um einen Moment mit deinen Kollegen, Freunden oder deiner Familie zu teilen.\nFür acht Personen, eine Mischung aus drei Käsesorten: Brie, Comté und Ziegenkäse. Frisch zubereitet von unserem Team. Genussfertig.\nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:12+01:00",
+      "createdAt": "2025-12-19T15:02:12+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/die-kase-platte",
+      "priceCurrency": "CHF",
+      "priceChf": 64,
+      "variants": [
+        {
+          "id": "56283651178844",
+          "title": "Default Title",
+          "sku": "268",
+          "availableOnline": true,
+          "priceChf": 64,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210589475164",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Die Käseplatte",
+          "localPath": "/juliette-demo/products/15356460958044-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Kase-Plattevegetarian.png?v=1782739151",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Kase-Plattevegetarian.png?v=1782739151&width=1400",
+          "downloadedBytes": 140272
+        }
+      ]
+    },
+    {
+      "id": "15356460925276",
+      "handle": "le-tokyo-1",
+      "name": "Le Tokyo",
+      "description": "Le Tokyo: Eine Kreation von Juliette, die dich mit den Aromen von Yuzu nach Asien reisen lässt, mit Himbeercoulis auf Zitronenbiskuit.8 \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:11+01:00",
+      "createdAt": "2025-12-19T15:02:11+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/le-tokyo-1",
+      "priceCurrency": "CHF",
+      "priceChf": 9.9,
+      "variants": [
+        {
+          "id": "56283651146076",
+          "title": "Default Title",
+          "sku": "4",
+          "availableOnline": true,
+          "priceChf": 9.9,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429329027420",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Le Tokyo",
+          "localPath": "/juliette-demo/products/15356460925276-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo-individuel-scaled.jpg?v=1766152935",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo-individuel-scaled.jpg?v=1766152935&width=1400",
+          "downloadedBytes": 50938
+        }
+      ]
+    },
+    {
+      "id": "15356460859740",
+      "handle": "the-tokyo-serves-eight",
+      "name": "Le Tokyo (8 Personen)",
+      "description": "Le Tokyo: Eine Kreation von Juliette, die dich mit den Aromen von Yuzu nach Asien reisen lässt, mit Himbeercoulis auf Zitronenbiskuit. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:10+01:00",
+      "createdAt": "2025-12-19T15:02:10+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/the-tokyo-serves-eight",
+      "priceCurrency": "CHF",
+      "priceChf": 69,
+      "variants": [
+        {
+          "id": "56283650982236",
+          "title": "Default Title",
+          "sku": "6",
+          "availableOnline": true,
+          "priceChf": 69,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429328994652",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Le Tokyo (8 Personen)",
+          "localPath": "/juliette-demo/products/15356460859740-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled.jpg?v=1766152934",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled.jpg?v=1766152934&width=1400",
+          "downloadedBytes": 48738
+        }
+      ]
+    },
+    {
+      "id": "15356460826972",
+      "handle": "le-tokyo-4-personen",
+      "name": "Le Tokyo (4 Personen)",
+      "description": "Le Tokyo: Eine Kreation von Juliette, die dich mit den Aromen von Yuzu nach Asien reisen lässt, mit Himbeercoulis auf Zitronenbiskuit. \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "customize-text",
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:09+01:00",
+      "createdAt": "2025-12-19T15:02:09+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/le-tokyo-4-personen",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "variants": [
+        {
+          "id": "56283650949468",
+          "title": "Default Title",
+          "sku": "5",
+          "availableOnline": true,
+          "priceChf": 38,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429328896348",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Le Tokyo (4 Personen)",
+          "localPath": "/juliette-demo/products/15356460826972-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled_84614faf-655b-4129-bbff-4d99214341c4.jpg?v=1766152933",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Tokyo_Gross-scaled_84614faf-655b-4129-bbff-4d99214341c4.jpg?v=1766152933&width=1400",
+          "downloadedBytes": 48738
+        }
+      ]
+    },
+    {
+      "id": "15356460761436",
+      "handle": "tuna-burgers",
+      "name": "Thunfisch-Burger (20 Stück)",
+      "description": "Thunfisch-Burger: Lass dich von unseren Mini-Thunfisch-Burgern überraschen: ein weiches Milchbrötchen, ein Thunfisch-Belag mit Mayonnaise. Ein frischer, schmackhafter Happen mit Charakter!\nPerfekt für einen eleganten Aperitif oder ein kaltes Buffet. Diese kleinen Burger haben alles, was ein grosser Burger braucht!\n20 Stück (CHF 4.00/St.)\nFür eine personalisierte Menge kontaktiere uns per E-Mail unter order@juliette-boulangerie.ch \n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:08+01:00",
+      "createdAt": "2025-12-19T15:02:08+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/tuna-burgers",
+      "priceCurrency": "CHF",
+      "priceChf": 80,
+      "variants": [
+        {
+          "id": "56283650883932",
+          "title": "Default Title",
+          "sku": "527",
+          "availableOnline": true,
+          "priceChf": 80,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429328798044",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Thunfisch-Burger (20 Stück)",
+          "localPath": "/juliette-demo/products/15356460761436-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Thunfish-Burger-scaled.jpg?v=1766152932",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Thunfish-Burger-scaled.jpg?v=1766152932&width=1400",
+          "downloadedBytes": 91704
+        }
+      ]
+    },
+    {
+      "id": "15356460663132",
+      "handle": "koernerbaguette",
+      "name": "Körnerbaguette (℮ 260g)",
+      "description": "Körnerbaguette: mit flüssigem Sauerteig 25% und Vollkornmehl 100%.\n℮ 260g \nVegan\nAls Symbol der französischen Gastronomie in der ganzen Welt wurde das Baguette in 2022 in die Unesco-Liste des immateriellen Kulturerbes der Menschheit aufgenommen.\nDas von Juliette ausgewählte Mehl, eine wichtige Zutat für die Herstellung unserer Brote und Viennoiseiren, wird von den Mühlen Foricher mit Hauptsitz in Frankreich geliefert.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:07+01:00",
+      "createdAt": "2025-12-19T15:02:07+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/koernerbaguette",
+      "priceCurrency": "CHF",
+      "priceChf": 6,
+      "variants": [
+        {
+          "id": "56283650785628",
+          "title": "Default Title",
+          "sku": "142",
+          "availableOnline": true,
+          "priceChf": 6,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "79429328732508",
+          "position": 1,
+          "width": 2560,
+          "height": 2560,
+          "alt": "Körnerbaguette (℮ 260g)",
+          "localPath": "/juliette-demo/products/15356460663132-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Koerner-Baguette-Hand-carre-scaled-1.jpg?v=1766152931",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/Koerner-Baguette-Hand-carre-scaled-1.jpg?v=1766152931&width=1400",
+          "downloadedBytes": 112838
+        }
+      ]
+    },
+    {
+      "id": "15356460532060",
+      "handle": "quiche-mit-zucchetti-und-ziegenkaese",
+      "name": "Quiche mit Zucchetti und Ziegenkäse",
+      "description": "Quiche mit Zucchetti und Ziegenkäse: herzhafte, salzige Torte aus verquirlten Eiern und Milch, Zucchetti und Ziegenkäse.\nVegetarisch.\n*Gerne informieren wir dich auf Anfrage über Inhaltsstoffe und Allergene",
+      "productType": "einfach",
+      "tags": [
+        "en_en"
+      ],
+      "vendor": "Juliette - pain d'amour",
+      "publishedAt": "2025-12-19T15:02:04+01:00",
+      "createdAt": "2025-12-19T15:02:04+01:00",
+      "updatedAt": "2026-09-10T16:54:25+02:00",
+      "sourceUrl": "https://juliette-boulangerie.ch/products/quiche-mit-zucchetti-und-ziegenkaese",
+      "priceCurrency": "CHF",
+      "priceChf": 7.5,
+      "variants": [
+        {
+          "id": "56283650654556",
+          "title": "Default Title",
+          "sku": "216",
+          "availableOnline": true,
+          "priceChf": 7.5,
+          "compareAtPriceChf": null,
+          "grams": 0
+        }
+      ],
+      "images": [
+        {
+          "id": "82210285977948",
+          "position": 1,
+          "width": 1254,
+          "height": 1254,
+          "alt": "Quiche mit Zucchetti und Ziegenkäse",
+          "localPath": "/juliette-demo/products/15356460532060-01.webp",
+          "sourceUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichezucchettiVegetarian.png?v=1782737168",
+          "requestUrl": "https://cdn.shopify.com/s/files/1/0980/7622/9980/files/QuichezucchettiVegetarian.png?v=1782737168&width=1400",
+          "downloadedBytes": 72632
+        }
+      ]
+    }
+  ]
+}
