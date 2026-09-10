@@ -28,6 +28,7 @@ import {
 import styles from "./julietteVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 4500;
+const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
 
 function formatChf(value) {
   return new Intl.NumberFormat("de-CH", {
@@ -60,6 +61,7 @@ export function JulietteVoiceShop({ catalog }) {
   const [imageFailures, setImageFailures] = useState(() => new Set());
 
   const sessionRef = useRef(null);
+  const voiceTimeoutRef = useRef(null);
   const mountedRef = useRef(true);
   const presentationSequenceRef = useRef(0);
   const visibleIdsRef = useRef(visibleIds);
@@ -259,14 +261,26 @@ export function JulietteVoiceShop({ catalog }) {
     return [getShoppingState, searchProducts, showProducts, updateBasket, preparePickup];
   }, [createPickupSimulation, mutateBasket, presentProducts, products, stateSnapshot]);
 
-  const disconnectVoice = useCallback(() => {
+  const clearVoiceTimeout = useCallback(() => {
+    if (voiceTimeoutRef.current !== null) {
+      window.clearTimeout(voiceTimeoutRef.current);
+      voiceTimeoutRef.current = null;
+    }
+  }, []);
+
+  const closeVoiceSession = useCallback((message) => {
+    clearVoiceTimeout();
     if (sessionRef.current) sessionRef.current.close();
     sessionRef.current = null;
     setVoiceStatus("idle");
     setIsMuted(false);
-    setVoiceMessage("Voice conversation ended. Tap to start again.");
+    setVoiceMessage(message);
     setApprovalRequest(null);
-  }, []);
+  }, [clearVoiceTimeout]);
+
+  const disconnectVoice = useCallback(() => {
+    closeVoiceSession("Voice conversation ended. Tap to start again.");
+  }, [closeVoiceSession]);
 
   const startVoice = useCallback(async () => {
     if (sessionRef.current) {
@@ -379,10 +393,16 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         session.close();
         return;
       }
+      clearVoiceTimeout();
+      voiceTimeoutRef.current = window.setTimeout(() => {
+        if (!mountedRef.current) return;
+        closeVoiceSession("Five-minute demo ended. Tap to start again.");
+      }, VOICE_DEMO_DURATION_MS);
       setVoiceStatus("listening");
       setVoiceMessage("Listening — speak naturally.");
       session.sendMessage("Greet the shopper in one short sentence, then ask what they would like today.");
     } catch (error) {
+      clearVoiceTimeout();
       if (sessionRef.current) sessionRef.current.close();
       sessionRef.current = null;
       const denied = error?.name === "NotAllowedError" || /microphone|permission/i.test(error?.message || "");
@@ -391,15 +411,16 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         ? "Microphone access was not granted. Allow it in your browser and try again."
         : (error instanceof Error ? error.message : "Voice service is unavailable."));
     }
-  }, [buildTools, isMuted, stateSnapshot]);
+  }, [buildTools, clearVoiceTimeout, closeVoiceSession, isMuted, stateSnapshot]);
 
   useEffect(() => {
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
+      clearVoiceTimeout();
       if (sessionRef.current) sessionRef.current.close();
     };
-  }, []);
+  }, [clearVoiceTimeout]);
 
   const runTouchSearch = useCallback(async (event) => {
     event.preventDefault();
@@ -469,7 +490,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
           </button>
           <div className={styles.voiceCopy}>
             <strong>{voiceStatus === "idle" ? "Start voice shopping" : voiceMessage}</strong>
-            <span>{voiceStatus === "idle" ? "English · allow microphone access" : "OpenAI Realtime · WebRTC"}</span>
+            <span>{voiceStatus === "idle" ? "English · five-minute demo · allow microphone access" : "OpenAI Realtime · WebRTC"}</span>
           </div>
           {sessionRef.current && (
             <button className={styles.endVoice} type="button" onClick={disconnectVoice}>End</button>
