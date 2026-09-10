@@ -66,6 +66,8 @@ test("Realtime credentials remain server-side and pickup stays explicitly simula
   assert.match(clientSource, /needsApproval:\s*true/);
   assert.match(clientSource, /No real transaction is possible/);
   assert.match(clientSource, /do not claim photos are visible/i);
+  assert.match(clientSource, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
+  assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*Five-minute demo ended/);
   assert.match(tokenRoute, /process\.env\.OPENAI_API_KEY/);
   assert.match(tokenRoute, /realtime\/client_secrets/);
   assert.match(tokenRoute, /Cache-Control/);
