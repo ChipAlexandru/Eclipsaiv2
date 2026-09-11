@@ -86,10 +86,21 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(token, /MAX_STARTS = 5/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
   assert.doesNotMatch(token, /process\.env\.OPENAI_API_KEY/);
+  assert.match(token, /process\.env\.AVOLTA_OPENAI_REALTIME_MODEL/);
   assert.doesNotMatch(token, /console\.log\([^)]*AVOLTA_OPENAI_API_KEY/);
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
   assert.match(robots, /\/avolta-demo/);
+});
+
+test("Avolta Realtime model configuration reuses the proven mini model and fails closed", async () => {
+  const config = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
+  assert.equal(config.resolveAvoltaRealtimeModel(), "gpt-realtime-2.1-mini");
+  assert.equal(config.resolveAvoltaRealtimeModel("gpt-realtime-2.1-mini"), "gpt-realtime-2.1-mini");
+  assert.equal(config.resolveAvoltaRealtimeModel("gpt-realtime-2.1"), "gpt-realtime-2.1");
+  assert.throws(() => config.resolveAvoltaRealtimeModel("gpt-realtime"), /Unsupported/);
+  assert.equal(config.isAllowedAvoltaRealtimeModel("gpt-realtime-2.1"), true);
+  assert.equal(config.isAllowedAvoltaRealtimeModel("gpt-realtime"), false);
 });
 
 test("Avolta paths contain no Juliette or bakery-specific copy", () => {

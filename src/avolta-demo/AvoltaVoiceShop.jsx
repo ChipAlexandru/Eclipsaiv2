@@ -7,6 +7,7 @@ import {
   basketSummary, changeQuantity, compactProduct, departureEligibility, initialDemoProducts,
   reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot, transcriptFromHistory,
 } from "./shopping.mjs";
+import { isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 4500;
@@ -206,6 +207,7 @@ export function AvoltaVoiceShop({ catalog }) {
       const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" } });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok || !payload.value) throw new Error(payload.error || "Voice service is unavailable.");
+      if (!isAllowedAvoltaRealtimeModel(payload.model)) throw new Error("Voice model configuration is unavailable.");
       const agent = new RealtimeAgent({ name: "Zürich Duty Free voice shopping concept", voice: "marin", tools: buildTools(tool, z), instructions: `You are a concise, warm English voice shopping companion for Zürich Duty Free, presented as an Avolta concept.
 
 Open-ended discovery comes first. Help travelers browse the captured selection, change direction, compare, shortlist, and build a departure-pickup reservation only when they choose. Gifting is one intent, never the default. Ask brief clarifying questions only when useful.
@@ -220,7 +222,7 @@ Rules:
 - Keep the concept-reservation distinction discreet during browsing and accurate at confirmation.
 
 Initial interface state: ${safe(stateSnapshot())}` });
-      const session = new RealtimeSession(agent, { model: payload.model || "gpt-realtime", transport: "webrtc", tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
+      const session = new RealtimeSession(agent, { model: payload.model, transport: "webrtc", tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
       session.on("history_updated", (history) => mountedRef.current && setTranscript(transcriptFromHistory(history)));
       session.on("audio_start", () => { if (mountedRef.current) { setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); } });
       session.on("audio_stopped", () => { if (mountedRef.current) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });

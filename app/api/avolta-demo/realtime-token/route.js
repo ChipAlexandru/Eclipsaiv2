@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { hasAccess } from "../../../../src/avolta-demo/auth.mjs";
+import { resolveAvoltaRealtimeModel } from "../../../../src/avolta-demo/realtimeConfig.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,8 +41,14 @@ export async function POST() {
   if (!allowStart(clientKey)) return noStoreJson({ error: "Voice session limit reached. Try again later." }, { status: 429 });
 
   const apiKey = process.env.AVOLTA_OPENAI_API_KEY;
-  const model = process.env.OPENAI_REALTIME_MODEL || "gpt-realtime";
   if (!apiKey) return noStoreJson({ error: "Voice service is not configured for this deployment." }, { status: 503 });
+
+  let model;
+  try {
+    model = resolveAvoltaRealtimeModel(process.env.AVOLTA_OPENAI_REALTIME_MODEL);
+  } catch {
+    return noStoreJson({ error: "Voice model configuration is invalid for this deployment." }, { status: 503 });
+  }
 
   try {
     const upstream = await fetch(OPENAI_CLIENT_SECRETS_URL, {
