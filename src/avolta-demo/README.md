@@ -1,6 +1,6 @@
 # Zürich Duty Free voice-shopping concept
 
-An isolated Avolta feature fork for open-ended, voice-and-touch discovery and a quick airport-pickup concept reservation. It has no runtime dependency on the legacy demo feature.
+An isolated Avolta feature fork for open-ended, voice-and-touch discovery and a quick airport-pickup concept reservation. The journey-aware build uses 205 source-backed product listings and today's official Zürich Airport departure and checkpoint context. It has no runtime dependency on the legacy demo feature.
 
 ## Run locally
 
@@ -23,7 +23,7 @@ The visual palette is derived from current public Avolta presentation and web ma
 
 ## Catalog basis
 
-`catalog.json` contains 45 curated public product records across fragrance, beauty and makeup, spirits, Swiss chocolate and Swiss gifts. Each record retains the product URL, original image URL, local image, capture timestamp, CHF price, variant and public-listing basis. Tobacco is excluded. Run `node scripts/extract-avolta-catalog.mjs` from the repository root to regenerate the catalog and local images from the recorded source snapshot.
+`catalog.json` contains 205 public product records across fragrance, beauty and skincare, spirits, Swiss chocolate and Swiss gifts. Each record retains the product URL, original image URL, local image, capture timestamp, CHF price, variant and public-listing basis. Tobacco is excluded. Run `node scripts/extract-avolta-catalog.mjs` from the repository root to regenerate the catalog and local images from the recorded source snapshot.
 
 Prices, offer labels and online listing status are captured public data. They are not live physical-store inventory. The UI identifies the set as a curated captured selection rather than the full store assortment.
 
@@ -36,6 +36,7 @@ Prices, offer labels and online listing status are captured public data. They ar
 - Voice sessions end after five minutes.
 - Page metadata, response behavior and `robots.txt` keep the route out of indexing; it is absent from the sitemap.
 - Reservations are local concept summaries only. No payment, stock hold, store submission, notification or live system mutation occurs.
-- Shortlists and the most recent reservation summary persist locally. Audio, transcript and travel context do not.
+- The live public readings use the shared Next.js/Vercel Data Cache with a 180-second refresh target and expire at Europe/Zurich midnight. Browser responses are private and uncached; source failures do not block shopping.
+- Shortlists persist locally. Any stored reservation summary expires at Europe/Zurich midnight; audio, transcript and personal journey context are not placed in the shared cache.
 
 The in-memory session limiter is a defense-in-depth demo control, not a globally consistent distributed rate limiter. A production deployment should use a shared rate-limit store or identity-aware access proxy.
