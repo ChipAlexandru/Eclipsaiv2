@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 const OPENAI_CLIENT_SECRETS_URL = "https://api.openai.com/v1/realtime/client_secrets";
 const WINDOW_MS = 15 * 60 * 1000;
-const MAX_STARTS = 5;
+const MAX_STARTS = 12;
 const attempts = new Map();
 
 function noStoreJson(body, init = {}) {

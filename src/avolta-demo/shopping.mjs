@@ -99,7 +99,7 @@ export function shoppingStateSnapshot({ visibleIds, selectedId, shortlist, baske
     selectedProduct: selectedId ? compactProduct(productsById.get(selectedId)) : null,
     shortlist: Object.keys(shortlist).map((id) => compactProduct(productsById.get(id))).filter(Boolean),
     basket: basketSummary(basket, productsById), travel,
-    catalogBasis: "205 public Zürich Duty Free listings captured 2026-09-11; not live physical-store stock.",
+    catalogBasis: `${productsById.size} public Zürich Duty Free listings captured 2026-09-11; not live physical-store stock.`,
   };
 }
 

@@ -96,7 +96,7 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /find_today_flight/);
   assert.match(client, /assess_journey/);
   assert.match(token, /hasAccess\(cookieStore\)/);
-  assert.match(token, /MAX_STARTS = 5/);
+  assert.match(token, /MAX_STARTS = 12/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
   assert.doesNotMatch(token, /process\.env\.OPENAI_API_KEY/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_REALTIME_MODEL/);
@@ -104,6 +104,22 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
   assert.match(robots, /\/avolta-demo/);
+});
+
+test("Avolta shopper UX is product-led, complete and keeps operational context off-screen", () => {
+  const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
+  assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
+  assert.match(client, /browse all \{products\.length\}/);
+  assert.match(client, /showFullCollection/);
+  assert.match(client, /products\.filter\(\(product\) => product\.productType === category\)/);
+  assert.match(client, /currentViewportIds/);
+  assert.match(client, /const viewportIds = ids\.slice\(0, 4\)/);
+  assert.match(client, /IMAGE_WAIT_MS = 1800/);
+  assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
+  assert.doesNotMatch(client, /session\.on\("history_updated"/);
+  assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
+  assert.match(client, /setActivePanel\("detail"\)/);
+  assert.match(client, /setActivePanel\("basket"\)/);
 });
 
 test("today flight matching handles codeshares, ambiguity and missing gate without invention", async () => {
