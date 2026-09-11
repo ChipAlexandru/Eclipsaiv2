@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-09-11T17:30:00+02:00",
+  "source": {
+    "storefront": "https://zurich.shopdutyfree.com/de/48/",
+    "banner": "Zürich Duty Free",
+    "location": "Zurich Airport",
+    "currency": "CHF",
+    "locale": "de-CH",
+    "captureTimezone": "Europe/Zurich",
+    "note": "Curated demo selection captured from the official public Reserve & Collect storefront. Listed online availability is not live physical-store stock."
+  },
+  "extraction": {
+    "capturedProductCount": 45,
+    "downloadedImageCount": 45,
+    "categories": {
+      "Fragrance": 10,
+      "Beauty & makeup": 10,
+      "Spirits": 10,
+      "Swiss chocolate": 10,
+      "Swiss gifts": 5
+    }
+  },
+  "checks": {
+    "uniqueStableIds": true,
+    "allRequiredFields": true,
+    "allOfficialProductUrls": true,
+    "allOfficialSourceImages": true,
+    "allImagesDownloaded": true,
+    "noTobacco": true,
+    "currencyIsChf": true,
+    "minimumFourCategories": true
+  },
+  "failures": [],
+  "omissions": [
+    "Tobacco excluded by product scope.",
+    "Catalog is a curated demo selection, not the full storefront assortment.",
+    "Public online listing status is not treated as live store inventory."
+  ]
+}

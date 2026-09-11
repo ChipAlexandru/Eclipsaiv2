@@ -1,0 +1,39 @@
+# Zürich Duty Free voice-shopping concept
+
+An isolated Avolta feature fork for open-ended, voice-and-touch discovery and a quick airport-pickup concept reservation. It has no runtime dependency on the legacy demo feature.
+
+## Run locally
+
+```bash
+AVOLTA_DEMO_PASSCODE='choose-a-passcode' OPENAI_API_KEY='server-only-key' npm run dev
+```
+
+Open `http://localhost:3000/avolta-demo`. Touch browsing works without the OpenAI key; voice requires it.
+
+## Public sources captured 2026-09-11
+
+- Storefront and product pages: `https://zurich.shopdutyfree.com/de/48/`
+- Departure-shop context: `https://zurich.shopdutyfree.com/de/pickup-points` — the official site describes the main duty-free store after security and its current pickup facilities.
+- Reserve & Collect overview: `https://www.flughafen-zuerich.ch/en/passengers/shopping-and-enjoy/shops/duty-free`
+- Avolta visual-identity reference: `https://www.avoltaworld.com/system/files/2025-08/250626%20Avolta_CMD%2025_FINAL.pdf` and `https://www.avoltaworld.com/`.
+
+This concept is not a copy of the current Reserve & Collect service. It proposes quick pickup during the traveler’s current airport journey, so it does not inherit the public service’s advance-booking window. The demo requires an upcoming departure but does not promise an exact preparation or walking time.
+
+The visual palette is derived from current public Avolta presentation and web material (deep violet, pale lavender, coral and lime). It is not asserted to be a reproduction of confidential brand guidelines.
+
+## Catalog basis
+
+`catalog.json` contains 45 curated public product records across fragrance, beauty and makeup, spirits, Swiss chocolate and Swiss gifts. Each record retains the product URL, original image URL, local image, capture timestamp, CHF price, variant and public-listing basis. Tobacco is excluded. Run `node scripts/extract-avolta-catalog.mjs` from the repository root to regenerate the catalog and local images from the recorded source snapshot.
+
+Prices, offer labels and online listing status are captured public data. They are not live physical-store inventory. The UI identifies the set as a curated captured selection rather than the full store assortment.
+
+## Security and product boundaries
+
+- `AVOLTA_DEMO_PASSCODE` is checked server-side and represented by an HttpOnly, same-site access cookie.
+- The Realtime token endpoint requires the same access cookie, returns only a short-lived client secret and applies a per-instance session-start limit.
+- Voice sessions end after five minutes.
+- Page metadata, response behavior and `robots.txt` keep the route out of indexing; it is absent from the sitemap.
+- Reservations are local concept summaries only. No payment, stock hold, store submission, notification or live system mutation occurs.
+- Shortlists and the most recent reservation summary persist locally. Audio, transcript and travel context do not.
+
+The in-memory session limiter is a defense-in-depth demo control, not a globally consistent distributed rate limiter. A production deployment should use a shared rate-limit store or identity-aware access proxy.
