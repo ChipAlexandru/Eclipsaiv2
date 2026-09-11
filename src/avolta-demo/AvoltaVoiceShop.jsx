@@ -2,25 +2,34 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Check, Clock3, Heart, MapPin, Mic, MicOff, Minus, Plane, Plus, Search, ShoppingBag, Sparkles, X } from "lucide-react";
+import { AlertTriangle, Check, Clock3, Heart, MapPin, Mic, MicOff, Minus, Plane, Plus, RefreshCw, Search, ShoppingBag, Sparkles, X } from "lucide-react";
 import {
   basketSummary, changeQuantity, compactProduct, departureEligibility, initialDemoProducts,
   reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot, transcriptFromHistory,
 } from "./shopping.mjs";
 import { isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
+import { assessJourney, nextZurichMidnight } from "./liveContext.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 4500;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
-const STORAGE_KEY = "avolta-zrh-voice-shop-v1";
-const DEFAULT_TRAVEL = { stage: "On the way", minutesAvailable: "", departureDateTime: "", gate: "", destination: "" };
-const PROMPTS = ["What can I explore?", "Fragrances under CHF 100", "Show Swiss chocolate", "I have 20 minutes airside"];
+const STORAGE_KEY = "avolta-zrh-voice-shop-v2";
+const DEFAULT_TRAVEL = { stage: "on_the_way", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
 
 function formatMoney(value, currency = "CHF") {
   return new Intl.NumberFormat("en-CH", { style: "currency", currency, minimumFractionDigits: 2 }).format(value);
 }
 
 function safe(value) { return JSON.stringify(value); }
+
+function dateTimeInputValue(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value).slice(0, 16);
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Zurich", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+    .formatToParts(date).filter(({ type }) => type !== "literal").reduce((result, part) => ({ ...result, [part.type]: part.value }), {});
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+}
 
 export function AvoltaVoiceShop({ catalog }) {
   const products = catalog.products;
@@ -46,6 +55,10 @@ export function AvoltaVoiceShop({ catalog }) {
   const [reservationError, setReservationError] = useState("");
   const [imageFailures, setImageFailures] = useState(() => new Set());
   const [storageReady, setStorageReady] = useState(false);
+  const [journeyContext, setJourneyContext] = useState(null);
+  const [flightMatches, setFlightMatches] = useState([]);
+  const [journeyLoading, setJourneyLoading] = useState(false);
+  const [journeyError, setJourneyError] = useState("");
 
   const sessionRef = useRef(null);
   const voiceTimeoutRef = useRef(null);
@@ -60,6 +73,8 @@ export function AvoltaVoiceShop({ catalog }) {
   const reviewRef = useRef(review);
   const reservationRef = useRef(reservation);
   const imageFailuresRef = useRef(new Set());
+  const journeyContextRef = useRef(null);
+  const flightMatchesRef = useRef([]);
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
@@ -70,13 +85,13 @@ export function AvoltaVoiceShop({ catalog }) {
     try {
       const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if (stored?.shortlist) { shortlistRef.current = stored.shortlist; setShortlist(stored.shortlist); }
-      if (stored?.reservation) { reservationRef.current = stored.reservation; setReservation(stored.reservation); }
+      if (stored?.reservation && new Date(stored.travelExpiresAt).getTime() > Date.now()) { reservationRef.current = stored.reservation; setReservation(stored.reservation); }
     } catch { /* Keep a clean local demo state. */ }
     setStorageReady(true);
   }, []);
 
   useEffect(() => {
-    if (storageReady) localStorage.setItem(STORAGE_KEY, JSON.stringify({ shortlist, reservation }));
+    if (storageReady) localStorage.setItem(STORAGE_KEY, JSON.stringify({ shortlist, reservation, travelExpiresAt: nextZurichMidnight().toISOString() }));
   }, [reservation, shortlist, storageReady]);
 
   const stateSnapshot = useCallback(() => shoppingStateSnapshot({
@@ -150,6 +165,37 @@ export function AvoltaVoiceShop({ catalog }) {
     return next;
   }, [invalidateReview, sendInterfaceState]);
 
+  const selectFlight = useCallback((flight, source = "touch") => {
+    if (!flight) return null;
+    updateTravel({ selectedFlight: flight, destination: flight.destination || "", gate: flight.gate || "", departureDateTime: flight.scheduledDeparture || "" }, source);
+    return flight;
+  }, [updateTravel]);
+
+  const refreshJourney = useCallback(async (query = "") => {
+    setJourneyLoading(true); setJourneyError("");
+    try {
+      const response = await fetch("/api/avolta-demo/journey-context", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query }) });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || "Live airport context is unavailable.");
+      journeyContextRef.current = payload; setJourneyContext(payload);
+      const matches = payload.flightSearch?.matches || [];
+      flightMatchesRef.current = matches; setFlightMatches(matches);
+      if (matches.length === 1) selectFlight(matches[0], "touch");
+      else if (query) updateTravel({ selectedFlight: null, destination: "", gate: "", departureDateTime: "" }, "touch");
+      return payload;
+    } catch (error) {
+      setJourneyError(error.message || "Live airport context is unavailable.");
+      return { error: error.message || "Live airport context is unavailable." };
+    } finally { setJourneyLoading(false); }
+  }, [selectFlight, updateTravel]);
+
+  useEffect(() => { refreshJourney(); }, [refreshJourney]);
+
+  const journeyAssessment = useMemo(() => assessJourney({
+    stage: travel.stage, flight: travel.selectedFlight, arrivalEstimate: travel.arrivalEstimate,
+    minutesAvailable: travel.minutesAvailable, needsCheckin: travel.needsCheckin, queues: journeyContext?.queues,
+  }), [journeyContext, travel]);
+
   const setComparisonState = useCallback((ids, source = "touch") => {
     const next = [...new Set(ids)].filter((id) => validProductIds.has(id)).slice(0, 2);
     comparisonRef.current = next; setComparison(next);
@@ -173,7 +219,7 @@ export function AvoltaVoiceShop({ catalog }) {
     if (!reviewRef.current || reviewRef.current.fingerprint !== fingerprint) return { ok: false, error: "The draft changed. Review it again before confirming." };
     if (reservationRef.current?.fingerprint === fingerprint) return { ok: true, duplicatePrevented: true, reservation: reservationRef.current };
     const result = { ...reviewRef.current, reference: `ZRH-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
-      confirmedAt: new Date().toISOString(), conceptReservation: true, submittedExternally: false };
+      confirmedAt: new Date().toISOString(), expiresAt: nextZurichMidnight().toISOString(), conceptReservation: true, submittedExternally: false };
     reservationRef.current = result; setReservation(result); setApprovalRequest(null);
     return { ok: true, reservation: result };
   }, []);
@@ -182,18 +228,21 @@ export function AvoltaVoiceShop({ catalog }) {
     const getState = tool({ name: "get_shopping_state", description: "Read current visible, selected, comparison, shortlist, basket and travel state. Always call before resolving relative phrases such as this one or the second one.", parameters: z.object({}), execute: async () => safe({ ...stateSnapshot(), comparison: comparisonRef.current.map((id) => compactProduct(productsById.get(id))) }) });
     const search = tool({ name: "search_and_show_products", description: "Search and display items from the captured Zürich Duty Free selection. Use expressed needs, categories, brands or budgets. A small result limit is selected from travel time.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => {
       const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current));
-      if (!matches.length) return safe({ found: false, query, limitation: "No matching item exists in the captured 45-product demo selection." });
+      if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the captured ${products.length}-product demo selection.` });
       return safe({ found: true, query, ...(await presentProducts(matches.map((p) => p.id), matches[0].id)) });
     } });
     const show = tool({ name: "show_products", description: "Display known products by stable ID.", parameters: z.object({ product_ids: z.array(z.string()).min(1).max(12), focus_product_id: z.string().nullable().default(null) }), execute: async ({ product_ids, focus_product_id }) => safe(await presentProducts(product_ids, focus_product_id)) });
     const compare = tool({ name: "compare_products", description: "Compare exactly two known product IDs and synchronize the interface comparison. Read shopping state first for relative references.", parameters: z.object({ product_ids: z.array(z.string()).length(2) }), execute: async ({ product_ids }) => safe({ comparison: setComparisonState(product_ids, "voice") }) });
     const keep = tool({ name: "update_shortlist", description: "Add or remove one known item from the persistent shortlist.", parameters: z.object({ product_id: z.string(), keep: z.boolean() }), execute: async ({ product_id, keep: shouldKeep }) => safe({ shortlist: mutateShortlist(product_id, shouldKeep, "voice") }) });
     const basketTool = tool({ name: "update_reservation_basket", description: "Add, remove or set quantity for one known product in the reservation basket.", parameters: z.object({ product_id: z.string(), quantity: z.number().int().min(0).max(12), mode: z.enum(["add", "remove", "set"]) }), execute: async ({ product_id, quantity, mode }) => { try { return safe({ ok: true, basket: mutateBasket(product_id, quantity, mode, "voice") }); } catch (error) { return safe({ ok: false, error: error.message }); } } });
-    const travelTool = tool({ name: "update_travel_context", description: "Update relevant journey context. Do not infer walking time or boarding safety.", parameters: z.object({ stage: z.enum(["On the way", "At the airport", "Airside"]).optional(), minutes_available: z.string().optional(), departure_date_time: z.string().optional(), gate: z.string().optional(), destination: z.string().optional() }), execute: async (args) => safe({ travel: updateTravel({ ...(args.stage ? { stage: args.stage } : {}), ...(args.minutes_available !== undefined ? { minutesAvailable: args.minutes_available } : {}), ...(args.departure_date_time !== undefined ? { departureDateTime: args.departure_date_time } : {}), ...(args.gate !== undefined ? { gate: args.gate } : {}), ...(args.destination !== undefined ? { destination: args.destination } : {}) }, "voice") }) });
+    const travelTool = tool({ name: "update_travel_context", description: "Update traveler-provided journey context. Ask one necessary question at a time; never infer stage, location or boarding safety.", parameters: z.object({ stage: z.enum(["on_the_way", "before_security", "airside", "near_gate"]).optional(), minutes_available: z.string().optional(), departure_date_time: z.string().optional(), arrival_estimate: z.string().optional(), needs_checkin: z.boolean().optional(), gate: z.string().optional(), destination: z.string().optional() }), execute: async (args) => safe({ travel: updateTravel({ ...(args.stage ? { stage: args.stage } : {}), ...(args.minutes_available !== undefined ? { minutesAvailable: args.minutes_available } : {}), ...(args.departure_date_time !== undefined ? { departureDateTime: args.departure_date_time } : {}), ...(args.arrival_estimate !== undefined ? { arrivalEstimate: args.arrival_estimate } : {}), ...(args.needs_checkin !== undefined ? { needsCheckin: args.needs_checkin } : {}), ...(args.gate !== undefined ? { gate: args.gate } : {}), ...(args.destination !== undefined ? { destination: args.destination } : {}) }, "voice") }) });
+    const findFlight = tool({ name: "find_today_flight", description: "Find today's Zurich departure by exact flight number, codeshare, destination code or destination name. Never select an ambiguous result.", parameters: z.object({ query: z.string().min(1).max(80) }), execute: async ({ query }) => safe(await refreshJourney(query)) });
+    const chooseFlight = tool({ name: "select_today_flight", description: "Select one flight from the most recent flight search by its exact stable id.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const flight = flightMatchesRef.current.find((item) => item.id === flight_id); return safe(flight ? { selected: selectFlight(flight, "voice") } : { error: "That flight was not in the latest search results." }); } });
+    const assess = tool({ name: "assess_journey", description: "Return the deterministic journey recommendation using selected flight, stage, traveler arrival estimate and fresh airport queues. Use this before context-sensitive shopping advice.", parameters: z.object({}), execute: async () => { const refreshed = await refreshJourney(travelRef.current.flightQuery || ""); if (refreshed.error) return safe(refreshed); return safe(assessJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable, needsCheckin: travelRef.current.needsCheckin, queues: journeyContextRef.current?.queues })); } });
     const reviewTool = tool({ name: "review_departure_reservation", description: "Validate and prepare the current basket and travel details for quick departure-pickup review. This does not confirm anything.", parameters: z.object({}), execute: async () => safe(prepareReview()) });
     const confirmTool = tool({ name: "confirm_departure_reservation", description: "Confirm the already reviewed concept reservation. Requires explicit shopper approval and never submits to the store.", parameters: z.object({}), needsApproval: true, execute: async () => safe(createReservation()) });
-    return [getState, search, show, compare, keep, basketTool, travelTool, reviewTool, confirmTool];
-  }, [createReservation, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, setComparisonState, stateSnapshot, updateTravel]);
+    return [getState, search, show, compare, keep, basketTool, travelTool, findFlight, chooseFlight, assess, reviewTool, confirmTool];
+  }, [createReservation, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, refreshJourney, selectFlight, setComparisonState, stateSnapshot, updateTravel]);
 
   const clearVoiceTimeout = useCallback(() => { if (voiceTimeoutRef.current !== null) { window.clearTimeout(voiceTimeoutRef.current); voiceTimeoutRef.current = null; } }, []);
   const closeVoiceSession = useCallback((message) => { clearVoiceTimeout(); sessionRef.current?.close(); sessionRef.current = null; setVoiceStatus("idle"); setIsMuted(false); setVoiceMessage(message); setApprovalRequest(null); }, [clearVoiceTimeout]);
@@ -210,14 +259,16 @@ export function AvoltaVoiceShop({ catalog }) {
       if (!isAllowedAvoltaRealtimeModel(payload.model)) throw new Error("Voice model configuration is unavailable.");
       const agent = new RealtimeAgent({ name: "Zürich Duty Free voice shopping concept", voice: "marin", tools: buildTools(tool, z), instructions: `You are a concise, warm English voice shopping companion for Zürich Duty Free, presented as an Avolta concept.
 
-Open-ended discovery comes first. Help travelers browse the captured selection, change direction, compare, shortlist, and build a departure-pickup reservation only when they choose. Gifting is one intent, never the default. Ask brief clarifying questions only when useful.
+Open-ended discovery comes first. Briefly explain that you can match today's flight, account for the traveler's actual stage and live airport queues, then help them discover and choose. Invite their destination or flight naturally, but let them skip straight to browsing. Gifting is one intent, never the default.
 
 Rules:
-- The selection contains 45 public products captured on 2026-09-11. It is not the full assortment and public listing status is not live store stock.
+- The selection contains ${products.length} public products captured on 2026-09-11. It is not the full assortment and public listing status is not live store stock.
 - Use search_and_show_products for needs or options. Never claim images are visible until the tool confirms display.
 - Call get_shopping_state before resolving “this,” “that,” ordinals, touch selections, or basket changes.
 - Never invent products, attributes, offers, exclusivity, prices, walking time, gates, stock or pickup eligibility. Offer a supported alternative when data is missing.
-- Travel context is optional during browsing. Use it proportionately: less time means fewer focused results. Do not promise the traveler can reach a shop or gate safely.
+- For today's flight, use find_today_flight and explicitly resolve ambiguous destinations or codeshares with the traveler. A flight never proves passenger location. Missing gate or boarding time is normal; never invent either.
+- Use assess_journey before context-sensitive advice. Treat stale/unavailable readings and missing facts as unknown, never zero. A later estimated departure does not create shopping time.
+- Ordinary replies are one or two short sentences. Give one concrete, source-backed reason, at most two choices, then ask one useful question or listen. Remember rejections and never read card text aloud.
 - This concept proposes quick pickup during the traveler’s current journey; it does not inherit the current public Reserve & Collect advance-booking rules. A reservation requires products, an upcoming departure, review_departure_reservation, an explicit affirmative confirmation, then confirm_departure_reservation. Never invent an exact ready time or imply a store submission, stock hold, payment or notification.
 - Keep the concept-reservation distinction discreet during browsing and accurate at confirmation.
 
@@ -232,7 +283,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       sessionRef.current = session; await session.connect({ apiKey: payload.value });
       clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => closeVoiceSession("Five-minute voice session ended. Start again anytime."), VOICE_DEMO_DURATION_MS);
       setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally.");
-      session.sendMessage("Welcome the traveler in one short sentence and invite them to explore without assuming a category or gift need.");
+      session.sendMessage("In one short sentence, explain that you can use today's flight and journey stage to help uncover something worth picking up, then ask for the destination or flight while making clear they can simply browse.");
     } catch (error) {
       sessionRef.current?.close(); sessionRef.current = null; setVoiceStatus("error");
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Touch browsing is still available." : (error.message || "Voice service is unavailable."));
@@ -257,7 +308,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const openTouchReview = () => { const result = prepareReview(); if (!result.ok) setReservationError(result.error); else setApprovalRequest({ type: "touch" }); };
   const confirmApproval = async () => { const pending = approvalRequest; if (pending?.type === "voice") await sessionRef.current?.approve(pending.request.approvalItem); else createReservation(); };
   const rejectApproval = async () => { const pending = approvalRequest; setApprovalRequest(null); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
-  const resetDemo = () => { shortlistRef.current = {}; basketRef.current = {}; reviewRef.current = null; reservationRef.current = null; setShortlist({}); setBasket({}); setReview(null); setReservation(null); setApprovalRequest(null); setTravel(DEFAULT_TRAVEL); travelRef.current = DEFAULT_TRAVEL; localStorage.removeItem(STORAGE_KEY); };
+  const resetDemo = () => { shortlistRef.current = {}; basketRef.current = {}; reviewRef.current = null; reservationRef.current = null; flightMatchesRef.current = []; setShortlist({}); setBasket({}); setReview(null); setReservation(null); setApprovalRequest(null); setFlightMatches([]); setTravel(DEFAULT_TRAVEL); travelRef.current = DEFAULT_TRAVEL; localStorage.removeItem(STORAGE_KEY); };
 
   return (
     <main className={styles.page}>
@@ -270,8 +321,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         <div className={styles.heroCopy}>
           <p className={styles.kicker}><Sparkles size={15} /> Explore before you fly</p>
           <h1>Your airport shop,<br /><em>in conversation.</em></h1>
-          <p>Browse a curated Zürich Duty Free selection, compare what catches your eye, and arrange a quick airport pickup.</p>
-          <div className={styles.promptRow}>{PROMPTS.map((prompt) => <button key={prompt} type="button" onClick={() => runSearch(prompt.replace("What can I explore?", ""))}>{prompt}</button>)}</div>
+          <p>Tell me today’s flight—or simply what has caught your interest. I’ll help you explore 205 Zürich Duty Free finds around the journey you actually have.</p>
         </div>
         <div className={styles.voiceCard} data-status={voiceStatus}>
           <button className={styles.micButton} type="button" onClick={startVoice} disabled={voiceStatus === "connecting"} aria-label={sessionRef.current ? (isMuted ? "Unmute microphone" : "Mute microphone") : "Start voice shopping"}>{isMuted ? <MicOff /> : <Mic />}<span /></button>
@@ -282,10 +332,23 @@ Initial interface state: ${safe(stateSnapshot())}` });
       </section>
 
       <section className={styles.travelBar} aria-label="Travel context">
-        <div><Plane size={18} /><label>Journey<select value={travel.stage} onChange={(e) => updateTravel({ stage: e.target.value })}><option>On the way</option><option>At the airport</option><option>Airside</option></select></label></div>
-        <div><Clock3 size={18} /><label>Time to explore<input inputMode="numeric" value={travel.minutesAvailable} onChange={(e) => updateTravel({ minutesAvailable: e.target.value })} placeholder="Minutes" /></label></div>
-        <div><MapPin size={18} /><label>Gate<input value={travel.gate} onChange={(e) => updateTravel({ gate: e.target.value })} placeholder="Optional" /></label></div>
-        <div><label>Destination<input value={travel.destination} onChange={(e) => updateTravel({ destination: e.target.value })} placeholder="Optional" /></label></div>
+        <div><Plane size={18} /><label>Where are you now?<select value={travel.stage} onChange={(e) => updateTravel({ stage: e.target.value })}><option value="on_the_way">On the way</option><option value="before_security">Before security</option><option value="airside">Airside</option><option value="near_gate">At / near the gate</option></select></label></div>
+        <div className={styles.flightField}><Search size={18} /><label>Today’s flight or destination<input value={travel.flightQuery} onChange={(e) => updateTravel({ flightQuery: e.target.value })} placeholder="e.g. LX 64 or Miami" /></label><button type="button" onClick={() => refreshJourney(travel.flightQuery)} disabled={journeyLoading}>{journeyLoading ? "Checking…" : "Match"}</button></div>
+        {(travel.stage === "on_the_way" || travel.stage === "before_security") ? <div><Clock3 size={18} /><label>{travel.stage === "on_the_way" ? "Airport arrival estimate" : "Time to explore"}<input type={travel.stage === "on_the_way" ? "datetime-local" : "number"} value={travel.stage === "on_the_way" ? dateTimeInputValue(travel.arrivalEstimate) : travel.minutesAvailable} onChange={(e) => updateTravel(travel.stage === "on_the_way" ? { arrivalEstimate: e.target.value } : { minutesAvailable: e.target.value })} placeholder="Your estimate" /></label></div> : <div><Clock3 size={18} /><label>Time you can spare<input inputMode="numeric" value={travel.minutesAvailable} onChange={(e) => updateTravel({ minutesAvailable: e.target.value })} placeholder="Minutes, if known" /></label></div>}
+        {(travel.stage === "on_the_way" || travel.stage === "before_security") ? <div><label>Checked baggage?<select value={travel.needsCheckin ? "yes" : "no"} onChange={(e) => updateTravel({ needsCheckin: e.target.value === "yes" })}><option value="no">No / already checked</option><option value="yes">Yes, check-in needed</option></select></label></div> : <div><MapPin size={18} /><label>Gate<input value={travel.gate} onChange={(e) => updateTravel({ gate: e.target.value })} placeholder="If known" /></label></div>}
+      </section>
+
+      <section className={styles.journeyPanel} aria-live="polite">
+        <div className={styles.journeyLead}><div><p className={styles.kicker}>Today at Zürich Airport</p><h2>{travel.selectedFlight ? `${travel.selectedFlight.flightNumber} · ${travel.selectedFlight.destination}` : "Match your departure when useful"}</h2></div><button type="button" onClick={() => refreshJourney(travel.flightQuery)} disabled={journeyLoading}><RefreshCw size={15} /> Refresh</button></div>
+        {journeyError && <p className={styles.journeyError}><AlertTriangle size={15} /> {journeyError} Shopping remains available.</p>}
+        {flightMatches.length > 1 && !travel.selectedFlight && <div className={styles.flightMatches}><span>Please choose the exact departure:</span>{flightMatches.slice(0, 6).map((flight) => <button type="button" key={flight.id} onClick={() => selectFlight(flight)}><strong>{flight.flightNumber}</strong> {flight.destination} · {flight.scheduledDeparture ? new Date(flight.scheduledDeparture).toLocaleTimeString("en-CH", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Zurich" }) : "time unavailable"}</button>)}</div>}
+        <div className={styles.journeyFacts}>
+          <span data-status={journeyContext?.sourceStatus || "unavailable"}>Flights {journeyContext?.sourceStatus || "loading"}{journeyContext?.fetchedAt ? ` · ${new Date(journeyContext.fetchedAt).toLocaleTimeString("en-CH", { hour: "2-digit", minute: "2-digit" })}` : ""}</span>
+          <span data-status={journeyContext?.queues?.security?.status || "unavailable"}>Security {journeyContext?.queues?.security?.value != null ? `${journeyContext.queues.security.value} min` : "unavailable"}</span>
+          {travel.selectedFlight?.gate && <span>Gate {travel.selectedFlight.gate}</span>}
+          {travel.selectedFlight?.statusText && <span>{travel.selectedFlight.statusText}</span>}
+        </div>
+        <div className={styles.assessment} data-outcome={journeyAssessment.outcome}><strong>{!travel.selectedFlight && journeyAssessment.availableShoppingMinutes == null ? "Journey not assessed" : journeyAssessment.outcome === "explore" ? "Explore" : journeyAssessment.outcome === "quick_pickup" ? "Keep it focused" : "Prioritize the gate"}</strong><p>{!travel.selectedFlight && journeyAssessment.availableShoppingMinutes == null ? "Match today’s flight when you want journey-aware advice—or keep exploring without it." : <>{journeyAssessment.recommendation}{journeyAssessment.availableShoppingMinutes != null ? ` About ${journeyAssessment.availableShoppingMinutes} conservative shopping minutes remain.` : ""}</>}</p>{journeyAssessment.missing.length > 0 && <small>Still unknown: {journeyAssessment.missing.join(", ")}.</small>}</div>
       </section>
 
       <div className={styles.layout}>
@@ -309,7 +372,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
           <div className={styles.basketBlock} id="reservation"><div className={styles.panelTitle}><div><p className={styles.kicker}>Quick pickup</p><h2>{basketDetails.itemCount || "No"} {basketDetails.itemCount === 1 ? "item" : "items"}</h2></div><ShoppingBag /></div>
             {reservation && <div className={styles.reservationResult}><span><Check size={16} /> Reservation summary</span><strong>{reservation.reference}</strong><p>{reservation.pickupLocation}</p>{reservation.summary?.items?.map((item) => <p className={styles.reservedItem} key={item.productId}>{item.quantity} × {item.brand} {item.name} · {formatMoney(item.lineTotal)}</p>)}<small>Concept reservation · not sent to the store</small></div>}
             {!basketDetails.itemCount ? <p className={styles.empty}>Add products when you are ready. Browsing and shortlisting never force a reservation.</p> : <div className={styles.basketItems}>{basketDetails.items.map((item) => <div className={styles.basketItem} key={item.productId}><div><strong>{item.brand} {item.name}</strong><small>{item.variant} · {formatMoney(item.unitPrice)}</small></div><div><b>{formatMoney(item.lineTotal)}</b><div className={styles.stepper}><button type="button" onClick={() => mutateBasket(item.productId, 1, "remove")}><Minus size={13} /></button><span>{item.quantity}</span><button type="button" onClick={() => mutateBasket(item.productId, 1, "add")}><Plus size={13} /></button></div></div></div>)}</div>}
-            <label className={styles.departureField}>Departure date & time<input type="datetime-local" value={travel.departureDateTime} onChange={(e) => updateTravel({ departureDateTime: e.target.value })} /></label>
+            <label className={styles.departureField}>Departure date & time<input type="datetime-local" value={dateTimeInputValue(travel.departureDateTime)} onChange={(e) => updateTravel({ departureDateTime: e.target.value })} /></label>
             {reservationError && <p className={styles.error}>{reservationError}</p>}
             <div className={styles.total}><span>Captured-price total</span><strong>{formatMoney(basketDetails.total)}</strong></div>
             <button className={styles.reviewButton} type="button" disabled={!basketDetails.itemCount} onClick={openTouchReview}>Review reservation</button>

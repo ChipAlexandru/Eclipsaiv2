@@ -1,4 +1,4 @@
-export const INITIAL_CATEGORY_ORDER = ["Fragrance", "Beauty & makeup", "Spirits", "Swiss chocolate", "Swiss gifts"];
+export const INITIAL_CATEGORY_ORDER = ["Fragrance", "Beauty & skincare", "Spirits", "Swiss chocolate", "Swiss gifts"];
 
 export function normalizeSearchText(value) {
   return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -9,6 +9,7 @@ function aliasesFor(product) {
   const type = product.productType;
   if (type === "Fragrance") return "perfume scent eau de parfum eau de toilette fragrance beauty";
   if (type === "Beauty & makeup") return "beauty makeup cosmetics lip palette skincare travel set";
+  if (type === "Beauty & skincare") return "beauty skincare skin care face body cream serum travel set";
   if (type === "Spirits") return "spirits alcohol liquor gin vodka rum kirsch swiss drinks";
   if (type === "Swiss chocolate") return "swiss chocolate confectionery sweet snack local gift";
   if (type === "Swiss gifts") return "swiss local souvenir gift matterhorn cow";
@@ -98,7 +99,7 @@ export function shoppingStateSnapshot({ visibleIds, selectedId, shortlist, baske
     selectedProduct: selectedId ? compactProduct(productsById.get(selectedId)) : null,
     shortlist: Object.keys(shortlist).map((id) => compactProduct(productsById.get(id))).filter(Boolean),
     basket: basketSummary(basket, productsById), travel,
-    catalogBasis: "Curated public Zürich Duty Free selection captured 2026-09-11; not live physical-store stock.",
+    catalogBasis: "205 public Zürich Duty Free listings captured 2026-09-11; not live physical-store stock.",
   };
 }
 

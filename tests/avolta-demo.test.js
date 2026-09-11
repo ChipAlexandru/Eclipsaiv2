@@ -13,12 +13,15 @@ test("curated Zürich Duty Free catalog is source-backed and image-complete", ()
   assert.equal(catalog.source.currency, "CHF");
   assert.match(catalog.source.storefront, /^https:\/\/zurich\.shopdutyfree\.com\/de\/48/);
   assert.match(catalog.source.note, /not live physical-store stock/i);
-  assert.equal(catalog.products.length, 45);
+  assert.equal(catalog.products.length, 205);
   assert.deepEqual(report.failures, []);
   assert.ok(Object.values(report.checks).every(Boolean));
   assert.deepEqual(report.extraction.categories, {
-    "Fragrance": 10, "Beauty & makeup": 10, "Spirits": 10, "Swiss chocolate": 10, "Swiss gifts": 5,
+    "Fragrance": 50, "Beauty & skincare": 50, "Spirits": 50, "Swiss chocolate": 50, "Swiss gifts": 5,
   });
+  assert.equal(report.coverage.before.productCount, 45);
+  assert.equal(report.coverage.after.productCount, 205);
+  assert.ok(report.coverage.after.brandCount >= 50);
 
   const ids = new Set();
   for (const product of catalog.products) {
@@ -82,6 +85,10 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /confirm_departure_reservation/);
   assert.match(client, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
   assert.match(client, /submittedExternally:\s*false/);
+  assert.doesNotMatch(client, /Fragrances under CHF 100/);
+  assert.doesNotMatch(client, /promptRow/);
+  assert.match(client, /find_today_flight/);
+  assert.match(client, /assess_journey/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 5/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
@@ -91,6 +98,43 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
   assert.match(robots, /\/avolta-demo/);
+});
+
+test("today flight matching handles codeshares, ambiguity and missing gate without invention", async () => {
+  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
+  const fetchedAt = new Date("2026-09-11T10:00:00Z");
+  const flights = live.normalizeFlights([
+    { id: 1, flightType: "D", SDT: "2026-09-11", STD: "2026-09-11T12:00:00Z", FLC: "LX", FLN: "64", codeShare: "UA 9720", PDS: "MIA", cityEn: "Miami", EBT: "2026-09-11T11:20:00Z", GAT: "E52", isSchengen: false, statusCode: 0 },
+    { id: 2, flightType: "D", SDT: "2026-09-11", STD: "2026-09-11T13:00:00Z", FLC: "LX", FLN: "66", PDS: "MIA", cityEn: "Miami", statusCode: 0 },
+    { id: 3, flightType: "D", SDT: "2026-09-12", STD: "2026-09-12T12:00:00Z", FLC: "LX", FLN: "67", cityEn: "Miami" },
+  ], { fetchedAt, serviceDate: "2026-09-11" });
+  assert.equal(flights.length, 2);
+  assert.equal(live.matchFlights(flights, "UA 9720").matches[0].flightNumber, "LX64");
+  assert.equal(live.matchFlights(flights, "Miami").ambiguous, true);
+  assert.equal(live.matchFlights(flights, "LX66").matches[0].gate, null);
+});
+
+test("journey context expires at Zurich midnight across DST and distinguishes stale data", async () => {
+  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
+  assert.equal(live.nextZurichMidnight(new Date("2026-03-28T12:00:00Z")).toISOString(), "2026-03-28T23:00:00.000Z");
+  assert.equal(live.nextZurichMidnight(new Date("2026-03-29T12:00:00Z")).toISOString(), "2026-03-29T22:00:00.000Z");
+  assert.equal(live.nextZurichMidnight(new Date("2026-10-25T12:00:00Z")).toISOString(), "2026-10-25T23:00:00.000Z");
+  assert.equal(live.freshnessStatus("2026-09-11T10:00:00Z", new Date("2026-09-11T10:05:00Z")), "live");
+  assert.equal(live.freshnessStatus("2026-09-11T10:00:00Z", new Date("2026-09-11T10:07:00Z")), "stale");
+  assert.equal(live.freshnessStatus("2026-09-10T21:59:00Z", new Date("2026-09-11T10:00:00Z")), "unavailable");
+});
+
+test("deterministic journey assessment covers explore, quick pickup and gate priority without adding delay", async () => {
+  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
+  const now = new Date("2026-09-11T10:00:00Z");
+  const queues = live.normalizeQueues({ security: { maxWaitingTime: "4" }, checkin: { checkin: [{ economy: "1-3" }] }, passport: { passportControl: [{ waitingTime: "1-3" }] } }, { fetchedAt: now });
+  const baseFlight = { flightNumber: "LX64", scheduledDeparture: "2026-09-11T13:00:00Z", estimatedDeparture: "2026-09-11T15:00:00Z", boardingTime: "2026-09-11T12:20:00Z", gate: "E52", isSchengen: false };
+  assert.equal(live.assessJourney({ stage: "airside", flight: baseFlight, queues }, now).outcome, "explore");
+  assert.equal(live.assessJourney({ stage: "on_the_way", flight: baseFlight, arrivalEstimate: "2026-09-11T11:00:00Z", needsCheckin: true, queues }, now).outcome, "quick_pickup");
+  assert.equal(live.assessJourney({ stage: "near_gate", flight: { ...baseFlight, boardingTime: "2026-09-11T10:12:00Z" }, queues }, now).outcome, "prioritize_gate");
+  const delayed = live.assessJourney({ stage: "airside", flight: { ...baseFlight, boardingTime: null }, minutesAvailable: 10, queues }, now);
+  assert.equal(delayed.outcome, "prioritize_gate");
+  assert.match(delayed.method, /later estimated departure never adds shopping time/i);
 });
 
 test("Avolta Realtime model configuration reuses the proven mini model and fails closed", async () => {

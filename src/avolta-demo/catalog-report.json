@@ -10,14 +10,60 @@
     "note": "Curated demo selection captured from the official public Reserve & Collect storefront. Listed online availability is not live physical-store stock."
   },
   "extraction": {
-    "capturedProductCount": 45,
-    "downloadedImageCount": 45,
+    "capturedProductCount": 205,
+    "downloadedImageCount": 205,
     "categories": {
-      "Fragrance": 10,
-      "Beauty & makeup": 10,
-      "Spirits": 10,
-      "Swiss chocolate": 10,
+      "Fragrance": 50,
+      "Beauty & skincare": 50,
+      "Spirits": 50,
+      "Swiss chocolate": 50,
       "Swiss gifts": 5
+    }
+  },
+  "coverage": {
+    "before": {
+      "productCount": 45,
+      "brandCount": 30,
+      "categories": {
+        "Fragrance": 10,
+        "Beauty & makeup": 10,
+        "Spirits": 10,
+        "Swiss chocolate": 10,
+        "Swiss gifts": 5
+      }
+    },
+    "after": {
+      "productCount": 205,
+      "brandCount": 70,
+      "categories": {
+        "Fragrance": 50,
+        "Beauty & skincare": 50,
+        "Spirits": 50,
+        "Swiss chocolate": 50,
+        "Swiss gifts": 5
+      },
+      "priceRangeChf": {
+        "Fragrance": {
+          "min": 18.95,
+          "max": 387
+        },
+        "Beauty & skincare": {
+          "min": 14.95,
+          "max": 1850.5
+        },
+        "Spirits": {
+          "min": 8,
+          "max": 217.5
+        },
+        "Swiss chocolate": {
+          "min": 2.8,
+          "max": 48.5
+        },
+        "Swiss gifts": {
+          "min": 16.9,
+          "max": 79.9
+        }
+      }
     }
   },
   "checks": {
@@ -33,7 +79,8 @@
   "failures": [],
   "omissions": [
     "Tobacco excluded by product scope.",
-    "Catalog is a curated demo selection, not the full storefront assortment.",
-    "Public online listing status is not treated as live store inventory."
+    "Catalog is a captured 205-item demo selection, not the full storefront assortment.",
+    "Public online listing status is not treated as live store inventory.",
+    "Category cards did not consistently expose scent-family, flavor or style attributes; none were inferred."
   ]
 }
