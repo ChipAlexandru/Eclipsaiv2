@@ -1,0 +1,2061 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-11T17:30:00+02:00",
+  "source": {
+    "storefront": "https://zurich.shopdutyfree.com/de/48/",
+    "banner": "Zürich Duty Free",
+    "location": "Zurich Airport",
+    "currency": "CHF",
+    "locale": "de-CH",
+    "captureTimezone": "Europe/Zurich",
+    "note": "Curated demo selection captured from the official public Reserve & Collect storefront. Listed online availability is not live physical-store stock."
+  },
+  "products": [
+    {
+      "id": "creed-aventus-50ml",
+      "handle": "creed-aventus-100ml-eau-de-parfum",
+      "name": "Aventus 50ml",
+      "description": "Aventus 50ml by Creed, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Creed",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Creed",
+      "variant": "50ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/creed-aventus-100ml-eau-de-parfum#50ml",
+      "priceCurrency": "CHF",
+      "priceChf": 192.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "creed-aventus-50ml-default",
+          "title": "50ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 192.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "creed-aventus-50ml-01",
+          "position": 1,
+          "alt": "Creed Aventus 50ml",
+          "localPath": "/avolta-demo/products/creed-aventus-50ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_1000,w_1000/v1747304148/4903687/4903687_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_1000,w_1000/v1747304148/4903687/4903687_1_en_GB.png",
+          "downloadedBytes": 116208
+        }
+      ]
+    },
+    {
+      "id": "chloe-love-story-75ml",
+      "handle": "chloe-love-story-50ml-eau-de-parfum",
+      "name": "Love Story 75ml",
+      "description": "Love Story 75ml by Chloé, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Chloé",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty",
+        "55% off"
+      ],
+      "vendor": "Chloé",
+      "variant": "75ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/chloe-love-story-50ml-eau-de-parfum#75ml",
+      "priceCurrency": "CHF",
+      "priceChf": 54.95,
+      "compareAtPriceChf": 125.5,
+      "promotionEvidence": "55% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "chloe-love-story-75ml-default",
+          "title": "75ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 54.95,
+          "compareAtPriceChf": 125.5
+        }
+      ],
+      "images": [
+        {
+          "id": "chloe-love-story-75ml-01",
+          "position": 1,
+          "alt": "Chloé Love Story 75ml",
+          "localPath": "/avolta-demo/products/chloe-love-story-75ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1712066726/2363726/2363726_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1712066726/2363726/2363726_1_en_GB.png",
+          "downloadedBytes": 9792
+        }
+      ]
+    },
+    {
+      "id": "amouage-guidance-46-100ml",
+      "handle": "amouage-guidance-46-100ml-pure-parfum",
+      "name": "Guidance 46 100ml",
+      "description": "Guidance 46 100ml by Amouage, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Amouage",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Amouage",
+      "variant": "100ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/amouage-guidance-46-100ml-pure-parfum",
+      "priceCurrency": "CHF",
+      "priceChf": 373,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "amouage-guidance-46-100ml-default",
+          "title": "100ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 373,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "amouage-guidance-46-100ml-01",
+          "position": 1,
+          "alt": "Amouage Guidance 46 100ml",
+          "localPath": "/avolta-demo/products/amouage-guidance-46-100ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1746541258/6542717/6542717_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1746541258/6542717/6542717_1_en_GB.png",
+          "downloadedBytes": 39520
+        }
+      ]
+    },
+    {
+      "id": "lancome-la-vie-est-belle-15ml",
+      "handle": "lancome-la-vie-est-belle-50ml-eau-de-parfum",
+      "name": "La Vie Est Belle 15ml",
+      "description": "La Vie Est Belle 15ml by Lancôme, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Lancôme",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Lancôme",
+      "variant": "15ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/lancome-la-vie-est-belle-50ml-eau-de-parfum#15ml",
+      "priceCurrency": "CHF",
+      "priceChf": 41.95,
+      "compareAtPriceChf": 89.95,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "lancome-la-vie-est-belle-15ml-default",
+          "title": "15ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 41.95,
+          "compareAtPriceChf": 89.95
+        }
+      ],
+      "images": [
+        {
+          "id": "lancome-la-vie-est-belle-15ml-01",
+          "position": 1,
+          "alt": "Lancôme La Vie Est Belle 15ml",
+          "localPath": "/avolta-demo/products/lancome-la-vie-est-belle-15ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1585744412/040/003/001/3825953/3825953_1_default_default.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1585744412/040/003/001/3825953/3825953_1_default_default.jpg",
+          "downloadedBytes": 7374
+        }
+      ]
+    },
+    {
+      "id": "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml",
+      "handle": "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-70ml-eau-de-parfum",
+      "name": "Baccarat Rouge 540 Extrait de Parfum 35ml",
+      "description": "Baccarat Rouge 540 Extrait de Parfum 35ml by Maison Francis Kurkdjian, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Maison Francis Kurkdjian",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Maison Francis Kurkdjian",
+      "variant": "35ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-70ml-eau-de-parfum#35ml",
+      "priceCurrency": "CHF",
+      "priceChf": 185.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml-default",
+          "title": "35ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 185.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml-01",
+          "position": 1,
+          "alt": "Maison Francis Kurkdjian Baccarat Rouge 540 Extrait de Parfum 35ml",
+          "localPath": "/avolta-demo/products/maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1771258318/5530024/5530024_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1771258318/5530024/5530024_1_en_GB.png",
+          "downloadedBytes": 55358
+        }
+      ]
+    },
+    {
+      "id": "parfums-de-marly-delina-exclusif-parfum-30ml",
+      "handle": "parfums-de-marly-delina-exclusif-parfum-75ml-eau-de-parfum",
+      "name": "Delina Exclusif Parfum 30ml",
+      "description": "Delina Exclusif Parfum 30ml by Parfums de Marly, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Parfums de Marly",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Parfums de Marly",
+      "variant": "30ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/parfums-de-marly-delina-exclusif-parfum-75ml-eau-de-parfum#30ml",
+      "priceCurrency": "CHF",
+      "priceChf": 158.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "parfums-de-marly-delina-exclusif-parfum-30ml-default",
+          "title": "30ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 158.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "parfums-de-marly-delina-exclusif-parfum-30ml-01",
+          "position": 1,
+          "alt": "Parfums de Marly Delina Exclusif Parfum 30ml",
+          "localPath": "/avolta-demo/products/parfums-de-marly-delina-exclusif-parfum-30ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1753689606/6528878/6528878_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1753689606/6528878/6528878_1_en_GB.jpg",
+          "downloadedBytes": 6462
+        }
+      ]
+    },
+    {
+      "id": "prada-paradoxe-50ml",
+      "handle": "prada-paradoxe-90ml-eau-de-parfum",
+      "name": "Paradoxe 50ml",
+      "description": "Paradoxe 50ml by Prada, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Prada",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty"
+      ],
+      "vendor": "Prada",
+      "variant": "50ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/prada-paradoxe-90ml-eau-de-parfum#50ml",
+      "priceCurrency": "CHF",
+      "priceChf": 96.95,
+      "compareAtPriceChf": 115,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "prada-paradoxe-50ml-default",
+          "title": "50ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 96.95,
+          "compareAtPriceChf": 115
+        }
+      ],
+      "images": [
+        {
+          "id": "prada-paradoxe-50ml-01",
+          "position": 1,
+          "alt": "Prada Paradoxe 50ml",
+          "localPath": "/avolta-demo/products/prada-paradoxe-50ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1742983587/5250863/5250863_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1742983587/5250863/5250863_1_en_GB.jpg",
+          "downloadedBytes": 5612
+        }
+      ]
+    },
+    {
+      "id": "calvin-klein-ck-free-for-men-100ml",
+      "handle": "calvin-klein-ck-free-for-men-50ml-eau-de-toilette",
+      "name": "CK Free for Men 100ml",
+      "description": "CK Free for Men 100ml by Calvin Klein, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Calvin Klein",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty",
+        "70% off"
+      ],
+      "vendor": "Calvin Klein",
+      "variant": "100ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/calvin-klein-ck-free-for-men-50ml-eau-de-toilette#100ml",
+      "priceCurrency": "CHF",
+      "priceChf": 19.95,
+      "compareAtPriceChf": 68.5,
+      "promotionEvidence": "70% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "calvin-klein-ck-free-for-men-100ml-default",
+          "title": "100ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 19.95,
+          "compareAtPriceChf": 68.5
+        }
+      ],
+      "images": [
+        {
+          "id": "calvin-klein-ck-free-for-men-100ml-01",
+          "position": 1,
+          "alt": "Calvin Klein CK Free for Men 100ml",
+          "localPath": "/avolta-demo/products/calvin-klein-ck-free-for-men-100ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1747304226/2042208/2042208_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1747304226/2042208/2042208_1_en_GB.jpg",
+          "downloadedBytes": 10966
+        }
+      ]
+    },
+    {
+      "id": "lancome-idole-100ml",
+      "handle": "lancome-idole-100ml-eau-de-parfum",
+      "name": "Idôle 100ml",
+      "description": "Idôle 100ml by Lancôme, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Lancôme",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty",
+        "Club Avolta price"
+      ],
+      "vendor": "Lancôme",
+      "variant": "100ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/lancome-idole-100ml-eau-de-parfum#100ml",
+      "priceCurrency": "CHF",
+      "priceChf": 79.95,
+      "compareAtPriceChf": 89.95,
+      "promotionEvidence": "Club Avolta price",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "lancome-idole-100ml-default",
+          "title": "100ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 79.95,
+          "compareAtPriceChf": 89.95
+        }
+      ],
+      "images": [
+        {
+          "id": "lancome-idole-100ml-01",
+          "position": 1,
+          "alt": "Lancôme Idôle 100ml",
+          "localPath": "/avolta-demo/products/lancome-idole-100ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1753719795/4529785/4529785_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1753719795/4529785/4529785_1_en_GB.png",
+          "downloadedBytes": 60676
+        }
+      ]
+    },
+    {
+      "id": "hugo-boss-boss-bottled-100ml",
+      "handle": "hugo-boss-boss-bottled-100ml-eau-de-toilette",
+      "name": "Boss Bottled 100ml",
+      "description": "Boss Bottled 100ml by Hugo Boss, captured in the official Zürich Duty Free fragrance selection.",
+      "productType": "Fragrance",
+      "tags": [
+        "Hugo Boss",
+        "fragrance",
+        "perfume",
+        "scent",
+        "beauty",
+        "30% offer shown"
+      ],
+      "vendor": "Hugo Boss",
+      "variant": "100ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/hugo-boss-boss-bottled-100ml-eau-de-toilette#100ml",
+      "priceCurrency": "CHF",
+      "priceChf": 69.95,
+      "compareAtPriceChf": 73.95,
+      "promotionEvidence": "30% offer shown",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "hugo-boss-boss-bottled-100ml-default",
+          "title": "100ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 69.95,
+          "compareAtPriceChf": 73.95
+        }
+      ],
+      "images": [
+        {
+          "id": "hugo-boss-boss-bottled-100ml-01",
+          "position": 1,
+          "alt": "Hugo Boss Boss Bottled 100ml",
+          "localPath": "/avolta-demo/products/hugo-boss-boss-bottled-100ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1756137605/1001400/1001400_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1756137605/1001400/1001400_1_en_GB.jpg",
+          "downloadedBytes": 6648
+        }
+      ]
+    },
+    {
+      "id": "dior-addict-lip-glow-duo-2x3-2g",
+      "handle": "dior-addict-lip-glow-2x32g",
+      "name": "Addict Lip Glow Duo 2x3.2g",
+      "description": "Addict Lip Glow Duo 2x3.2g by Dior, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Dior",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "Travel exclusive"
+      ],
+      "vendor": "Dior",
+      "variant": "2x3.2g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/dior-addict-lip-glow-2x32g",
+      "priceCurrency": "CHF",
+      "priceChf": 65.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "Travel exclusive",
+      "travelExclusive": true,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "dior-addict-lip-glow-duo-2x3-2g-default",
+          "title": "2x3.2g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 65.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "dior-addict-lip-glow-duo-2x3-2g-01",
+          "position": 1,
+          "alt": "Dior Addict Lip Glow Duo 2x3.2g",
+          "localPath": "/avolta-demo/products/dior-addict-lip-glow-duo-2x3-2g.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1736510479/6725559/6725559_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1736510479/6725559/6725559_1_en_GB.png",
+          "downloadedBytes": 137594
+        }
+      ]
+    },
+    {
+      "id": "clarins-lip-perfector-duo-05-06-2x12ml",
+      "handle": "clarins-lip-perfector-duo-05-06-2x12ml",
+      "name": "Lip Perfector Duo 05 & 06 2x12ml",
+      "description": "Lip Perfector Duo 05 & 06 2x12ml by Clarins, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Clarins",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "15% off"
+      ],
+      "vendor": "Clarins",
+      "variant": "2x12ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/clarins-lip-perfector-duo-05-06-2x12ml",
+      "priceCurrency": "CHF",
+      "priceChf": 29.95,
+      "compareAtPriceChf": 36.95,
+      "promotionEvidence": "15% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "clarins-lip-perfector-duo-05-06-2x12ml-default",
+          "title": "2x12ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 29.95,
+          "compareAtPriceChf": 36.95
+        }
+      ],
+      "images": [
+        {
+          "id": "clarins-lip-perfector-duo-05-06-2x12ml-01",
+          "position": 1,
+          "alt": "Clarins Lip Perfector Duo 05 & 06 2x12ml",
+          "localPath": "/avolta-demo/products/clarins-lip-perfector-duo-05-06-2x12ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1729858132/6542034/6542034_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1729858132/6542034/6542034_1_en_GB.jpg",
+          "downloadedBytes": 26688
+        }
+      ]
+    },
+    {
+      "id": "clarins-lip-perfector-duo-01-02-2x12ml",
+      "handle": "clarins-lip-perfector-duo-01-02-2x12ml",
+      "name": "Lip Perfector Duo 01 & 02 2x12ml",
+      "description": "Lip Perfector Duo 01 & 02 2x12ml by Clarins, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Clarins",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "15% off"
+      ],
+      "vendor": "Clarins",
+      "variant": "2x12ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/clarins-lip-perfector-duo-01-02-2x12ml",
+      "priceCurrency": "CHF",
+      "priceChf": 29.95,
+      "compareAtPriceChf": 36.95,
+      "promotionEvidence": "15% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "clarins-lip-perfector-duo-01-02-2x12ml-default",
+          "title": "2x12ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 29.95,
+          "compareAtPriceChf": 36.95
+        }
+      ],
+      "images": [
+        {
+          "id": "clarins-lip-perfector-duo-01-02-2x12ml-01",
+          "position": 1,
+          "alt": "Clarins Lip Perfector Duo 01 & 02 2x12ml",
+          "localPath": "/avolta-demo/products/clarins-lip-perfector-duo-01-02-2x12ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1729857705/6542033/6542033_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1729857705/6542033/6542033_1_en_GB.jpg",
+          "downloadedBytes": 26590
+        }
+      ]
+    },
+    {
+      "id": "charlotte-tilbury-airbrush-setting-spray-100ml",
+      "handle": "charlotte-tilbury-airbrush-setting-spray-100ml",
+      "name": "Airbrush Setting Spray 100ml",
+      "description": "Airbrush Setting Spray 100ml by Charlotte Tilbury, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Charlotte Tilbury",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette"
+      ],
+      "vendor": "Charlotte Tilbury",
+      "variant": "100ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/charlotte-tilbury-airbrush-setting-spray-100ml",
+      "priceCurrency": "CHF",
+      "priceChf": 41.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "charlotte-tilbury-airbrush-setting-spray-100ml-default",
+          "title": "100ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 41.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "charlotte-tilbury-airbrush-setting-spray-100ml-01",
+          "position": 1,
+          "alt": "Charlotte Tilbury Airbrush Setting Spray 100ml",
+          "localPath": "/avolta-demo/products/charlotte-tilbury-airbrush-setting-spray-100ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1694624486/5168296/5168296_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1694624486/5168296/5168296_1_en_GB.jpg",
+          "downloadedBytes": 11202
+        }
+      ]
+    },
+    {
+      "id": "lancome-all-eye-need-set",
+      "handle": "lancome-all-eye-need-set-2ml-5ml-30ml-114g",
+      "name": "All Eye Need Set",
+      "description": "All Eye Need Set by Lancôme, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Lancôme",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "Travel set · 15% off"
+      ],
+      "vendor": "Lancôme",
+      "variant": "2ml + 5ml + 30ml + 1.14g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/lancome-all-eye-need-set-2ml-5ml-30ml-114g",
+      "priceCurrency": "CHF",
+      "priceChf": 19.95,
+      "compareAtPriceChf": 24.5,
+      "promotionEvidence": "Travel set · 15% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "lancome-all-eye-need-set-default",
+          "title": "2ml + 5ml + 30ml + 1.14g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 19.95,
+          "compareAtPriceChf": 24.5
+        }
+      ],
+      "images": [
+        {
+          "id": "lancome-all-eye-need-set-01",
+          "position": 1,
+          "alt": "Lancôme All Eye Need Set",
+          "localPath": "/avolta-demo/products/lancome-all-eye-need-set.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1718013860/6341544/6341544_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1718013860/6341544/6341544_1_en_GB.jpg",
+          "downloadedBytes": 7330
+        }
+      ]
+    },
+    {
+      "id": "clarins-lip-perfector-duo-01-08-2x12ml",
+      "handle": "clarins-lip-perfector-duo-01-08-2x12ml",
+      "name": "Lip Perfector Duo 01 & 08 2x12ml",
+      "description": "Lip Perfector Duo 01 & 08 2x12ml by Clarins, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Clarins",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "15% off"
+      ],
+      "vendor": "Clarins",
+      "variant": "2x12ml",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/clarins-lip-perfector-duo-01-08-2x12ml",
+      "priceCurrency": "CHF",
+      "priceChf": 29.95,
+      "compareAtPriceChf": 36.95,
+      "promotionEvidence": "15% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "clarins-lip-perfector-duo-01-08-2x12ml-default",
+          "title": "2x12ml",
+          "availableOnlineAtCapture": true,
+          "priceChf": 29.95,
+          "compareAtPriceChf": 36.95
+        }
+      ],
+      "images": [
+        {
+          "id": "clarins-lip-perfector-duo-01-08-2x12ml-01",
+          "position": 1,
+          "alt": "Clarins Lip Perfector Duo 01 & 08 2x12ml",
+          "localPath": "/avolta-demo/products/clarins-lip-perfector-duo-01-08-2x12ml.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1729858149/6542035/6542035_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1729858149/6542035/6542035_1_en_GB.jpg",
+          "downloadedBytes": 29156
+        }
+      ]
+    },
+    {
+      "id": "lancome-l-absolu-palette-new-harmony",
+      "handle": "lancome-labsolu-palette-new-harmony-2-pcs",
+      "name": "L'Absolu Palette New Harmony",
+      "description": "L'Absolu Palette New Harmony by Lancôme, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Lancôme",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette"
+      ],
+      "vendor": "Lancôme",
+      "variant": "2 pcs",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/lancome-labsolu-palette-new-harmony-2-pcs",
+      "priceCurrency": "CHF",
+      "priceChf": 106.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "lancome-l-absolu-palette-new-harmony-default",
+          "title": "2 pcs",
+          "availableOnlineAtCapture": true,
+          "priceChf": 106.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "lancome-l-absolu-palette-new-harmony-01",
+          "position": 1,
+          "alt": "Lancôme L'Absolu Palette New Harmony",
+          "localPath": "/avolta-demo/products/lancome-l-absolu-palette-new-harmony.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1649945717/4996147/4996147_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1649945717/4996147/4996147_1_en_GB.jpg",
+          "downloadedBytes": 9796
+        }
+      ]
+    },
+    {
+      "id": "dior-backstage-glow-maximizer-palette",
+      "handle": "dior-backstage-glow-maximizer-palette-multiuse-highlighter-and-blush-palette-dedadb001-universal-glow-10g",
+      "name": "Backstage Glow Maximizer Palette",
+      "description": "Backstage Glow Maximizer Palette by Dior, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Dior",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette"
+      ],
+      "vendor": "Dior",
+      "variant": "10g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/dior-backstage-glow-maximizer-palette-multiuse-highlighter-and-blush-palette-dedadb001-universal-glow-10g",
+      "priceCurrency": "CHF",
+      "priceChf": 46.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "dior-backstage-glow-maximizer-palette-default",
+          "title": "10g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 46.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "dior-backstage-glow-maximizer-palette-01",
+          "position": 1,
+          "alt": "Dior Backstage Glow Maximizer Palette",
+          "localPath": "/avolta-demo/products/dior-backstage-glow-maximizer-palette.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1756682229/6902193/6902193_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1756682229/6902193/6902193_1_en_GB.png",
+          "downloadedBytes": 191562
+        }
+      ]
+    },
+    {
+      "id": "kylie-cosmetics-matte-lip-kit",
+      "handle": "kylie-cosmetics-matte-lip-kit-b44065102-extraordinary-325g-1g",
+      "name": "Matte Lip Kit",
+      "description": "Matte Lip Kit by Kylie Cosmetics, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Kylie Cosmetics",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "New"
+      ],
+      "vendor": "Kylie Cosmetics",
+      "variant": "3.25g + 1g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/kylie-cosmetics-matte-lip-kit-b44065102-extraordinary-325g-1g",
+      "priceCurrency": "CHF",
+      "priceChf": 29.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "New",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "kylie-cosmetics-matte-lip-kit-default",
+          "title": "3.25g + 1g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 29.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "kylie-cosmetics-matte-lip-kit-01",
+          "position": 1,
+          "alt": "Kylie Cosmetics Matte Lip Kit",
+          "localPath": "/avolta-demo/products/kylie-cosmetics-matte-lip-kit.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1637087689/5070011/5070011_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1637087689/5070011/5070011_1_en_GB.jpg",
+          "downloadedBytes": 11366
+        }
+      ]
+    },
+    {
+      "id": "dior-addict-lip-glow-max-duo-set",
+      "handle": "dior-addict-lip-glow-max-duo-set-6ml-32g",
+      "name": "Addict Lip Glow Max Duo Set",
+      "description": "Addict Lip Glow Max Duo Set by Dior, captured in the official Zürich Duty Free beauty & makeup selection.",
+      "productType": "Beauty & makeup",
+      "tags": [
+        "Dior",
+        "beauty",
+        "makeup",
+        "cosmetics",
+        "lip",
+        "palette",
+        "Travel exclusive"
+      ],
+      "vendor": "Dior",
+      "variant": "6ml + 3.2g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/dior-addict-lip-glow-max-duo-set-6ml-32g",
+      "priceCurrency": "CHF",
+      "priceChf": 65.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "Travel exclusive",
+      "travelExclusive": true,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "dior-addict-lip-glow-max-duo-set-default",
+          "title": "6ml + 3.2g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 65.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "dior-addict-lip-glow-max-duo-set-01",
+          "position": 1,
+          "alt": "Dior Addict Lip Glow Max Duo Set",
+          "localPath": "/avolta-demo/products/dior-addict-lip-glow-max-duo-set.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1733335952/6725560/6725560_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1733335952/6725560/6725560_1_en_GB.jpg",
+          "downloadedBytes": 11176
+        }
+      ]
+    },
+    {
+      "id": "studer-swiss-gold-gin",
+      "handle": "studer-swiss-gold-gin-70cl",
+      "name": "Swiss Gold Gin",
+      "description": "Swiss Gold Gin by Studer, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Studer",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "Swiss selection"
+      ],
+      "vendor": "Studer",
+      "variant": "70cl",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/studer-swiss-gold-gin-70cl",
+      "priceCurrency": "CHF",
+      "priceChf": 52.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "Swiss selection",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "studer-swiss-gold-gin-default",
+          "title": "70cl",
+          "availableOnlineAtCapture": true,
+          "priceChf": 52.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "studer-swiss-gold-gin-01",
+          "position": 1,
+          "alt": "Studer Swiss Gold Gin",
+          "localPath": "/avolta-demo/products/studer-swiss-gold-gin.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1681459241/6008862/6008862_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1681459241/6008862/6008862_1_en_GB.jpg",
+          "downloadedBytes": 13490
+        }
+      ]
+    },
+    {
+      "id": "absolut-original-vodka-sweden",
+      "handle": "absolut-original-vodka-sweden-1l-1000224p1134283",
+      "name": "Original Vodka Sweden",
+      "description": "Original Vodka Sweden by Absolut, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Absolut",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "20% off"
+      ],
+      "vendor": "Absolut",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/absolut-original-vodka-sweden-1l-1000224p1134283",
+      "priceCurrency": "CHF",
+      "priceChf": 8,
+      "compareAtPriceChf": 10,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "absolut-original-vodka-sweden-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 8,
+          "compareAtPriceChf": 10
+        }
+      ],
+      "images": [
+        {
+          "id": "absolut-original-vodka-sweden-01",
+          "position": 1,
+          "alt": "Absolut Original Vodka Sweden",
+          "localPath": "/avolta-demo/products/absolut-original-vodka-sweden.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1709719255/1000224/1000224_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1709719255/1000224/1000224_1_en_GB.jpg",
+          "downloadedBytes": 11386
+        }
+      ]
+    },
+    {
+      "id": "grey-goose-vodka",
+      "handle": "grey-goose-vodka-1l-1040885p1136988",
+      "name": "Vodka",
+      "description": "Vodka by Grey Goose, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Grey Goose",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "20% off"
+      ],
+      "vendor": "Grey Goose",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/grey-goose-vodka-1l-1040885p1136988",
+      "priceCurrency": "CHF",
+      "priceChf": 15,
+      "compareAtPriceChf": 18.75,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "grey-goose-vodka-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 15,
+          "compareAtPriceChf": 18.75
+        }
+      ],
+      "images": [
+        {
+          "id": "grey-goose-vodka-01",
+          "position": 1,
+          "alt": "Grey Goose Vodka",
+          "localPath": "/avolta-demo/products/grey-goose-vodka.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1737043296/1040885/1040885_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1737043296/1040885/1040885_1_en_GB.png",
+          "downloadedBytes": 42588
+        }
+      ]
+    },
+    {
+      "id": "belvedere-vodka",
+      "handle": "belvedere-vodka-1l",
+      "name": "Vodka",
+      "description": "Vodka by Belvedere, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Belvedere",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur"
+      ],
+      "vendor": "Belvedere",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/belvedere-vodka-1l",
+      "priceCurrency": "CHF",
+      "priceChf": 39.6,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "belvedere-vodka-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 39.6,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "belvedere-vodka-01",
+          "position": 1,
+          "alt": "Belvedere Vodka",
+          "localPath": "/avolta-demo/products/belvedere-vodka.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1764074462/1040910/1040910_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1764074462/1040910/1040910_1_en_GB.jpg",
+          "downloadedBytes": 8706
+        }
+      ]
+    },
+    {
+      "id": "bombay-sapphire-dry-gin",
+      "handle": "bombay-sapphire-dry-gin-1l-6510773p1214063",
+      "name": "Dry Gin",
+      "description": "Dry Gin by Bombay Sapphire, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Bombay Sapphire",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "30% off"
+      ],
+      "vendor": "Bombay Sapphire",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/bombay-sapphire-dry-gin-1l-6510773p1214063",
+      "priceCurrency": "CHF",
+      "priceChf": 21,
+      "compareAtPriceChf": 30,
+      "promotionEvidence": "30% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "bombay-sapphire-dry-gin-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 21,
+          "compareAtPriceChf": 30
+        }
+      ],
+      "images": [
+        {
+          "id": "bombay-sapphire-dry-gin-01",
+          "position": 1,
+          "alt": "Bombay Sapphire Dry Gin",
+          "localPath": "/avolta-demo/products/bombay-sapphire-dry-gin.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1715788867/6510773/6510773_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1715788867/6510773/6510773_1_en_GB.jpg",
+          "downloadedBytes": 9644
+        }
+      ]
+    },
+    {
+      "id": "studer-swiss-gold-vieille-prune",
+      "handle": "studer-swiss-gold-vieille-prune-70cl",
+      "name": "Swiss Gold Vieille Prune",
+      "description": "Swiss Gold Vieille Prune by Studer, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Studer",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "Swiss selection"
+      ],
+      "vendor": "Studer",
+      "variant": "70cl",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/studer-swiss-gold-vieille-prune-70cl",
+      "priceCurrency": "CHF",
+      "priceChf": 67.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "Swiss selection",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "studer-swiss-gold-vieille-prune-default",
+          "title": "70cl",
+          "availableOnlineAtCapture": true,
+          "priceChf": 67.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "studer-swiss-gold-vieille-prune-01",
+          "position": 1,
+          "alt": "Studer Swiss Gold Vieille Prune",
+          "localPath": "/avolta-demo/products/studer-swiss-gold-vieille-prune.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1716567108/6010069/6010069_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1716567108/6010069/6010069_1_en_GB.jpg",
+          "downloadedBytes": 29366
+        }
+      ]
+    },
+    {
+      "id": "gin-mare-capri-mediterranean-gin",
+      "handle": "gin-mare-capri-mediterranean-gin-1l",
+      "name": "Capri Mediterranean Gin",
+      "description": "Capri Mediterranean Gin by Gin Mare, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Gin Mare",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur"
+      ],
+      "vendor": "Gin Mare",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/gin-mare-capri-mediterranean-gin-1l",
+      "priceCurrency": "CHF",
+      "priceChf": 34.4,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "gin-mare-capri-mediterranean-gin-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 34.4,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "gin-mare-capri-mediterranean-gin-01",
+          "position": 1,
+          "alt": "Gin Mare Capri Mediterranean Gin",
+          "localPath": "/avolta-demo/products/gin-mare-capri-mediterranean-gin.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1707307431/3507042/3507042_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1707307431/3507042/3507042_1_en_GB.jpg",
+          "downloadedBytes": 14160
+        }
+      ]
+    },
+    {
+      "id": "zacapa-no-23-rum",
+      "handle": "zacapa-no23-1l",
+      "name": "No. 23 Rum",
+      "description": "No. 23 Rum by Zacapa, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Zacapa",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur"
+      ],
+      "vendor": "Zacapa",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/zacapa-no23-1l",
+      "priceCurrency": "CHF",
+      "priceChf": 55.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "zacapa-no-23-rum-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 55.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "zacapa-no-23-rum-01",
+          "position": 1,
+          "alt": "Zacapa No. 23 Rum",
+          "localPath": "/avolta-demo/products/zacapa-no-23-rum.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1650464061/1974792/1974792_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1650464061/1974792/1974792_1_en_GB.jpg",
+          "downloadedBytes": 21046
+        }
+      ]
+    },
+    {
+      "id": "etter-edelweiss-zuger-kirsch",
+      "handle": "etter-edelweiss-zuger-kirsch-35cl",
+      "name": "Edelweiss Zuger Kirsch",
+      "description": "Edelweiss Zuger Kirsch by Etter, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Etter",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "Swiss selection"
+      ],
+      "vendor": "Etter",
+      "variant": "35cl",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/etter-edelweiss-zuger-kirsch-35cl",
+      "priceCurrency": "CHF",
+      "priceChf": 29.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "Swiss selection",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "etter-edelweiss-zuger-kirsch-default",
+          "title": "35cl",
+          "availableOnlineAtCapture": true,
+          "priceChf": 29.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "etter-edelweiss-zuger-kirsch-01",
+          "position": 1,
+          "alt": "Etter Edelweiss Zuger Kirsch",
+          "localPath": "/avolta-demo/products/etter-edelweiss-zuger-kirsch.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1711022749/1000290/1000290_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1711022749/1000290/1000290_1_en_GB.png",
+          "downloadedBytes": 8850
+        }
+      ]
+    },
+    {
+      "id": "diplomatico-reserva-exclusiva-rum",
+      "handle": "diplomatico-reserva-exclusive-1l",
+      "name": "Reserva Exclusiva Rum",
+      "description": "Reserva Exclusiva Rum by Diplomático, captured in the official Zürich Duty Free spirits selection.",
+      "productType": "Spirits",
+      "tags": [
+        "Diplomático",
+        "spirits",
+        "alcohol",
+        "gin",
+        "vodka",
+        "rum",
+        "liqueur",
+        "20% off"
+      ],
+      "vendor": "Diplomático",
+      "variant": "1l",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/diplomatico-reserva-exclusive-1l",
+      "priceCurrency": "CHF",
+      "priceChf": 41.52,
+      "compareAtPriceChf": 51.9,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "diplomatico-reserva-exclusiva-rum-default",
+          "title": "1l",
+          "availableOnlineAtCapture": true,
+          "priceChf": 41.52,
+          "compareAtPriceChf": 51.9
+        }
+      ],
+      "images": [
+        {
+          "id": "diplomatico-reserva-exclusiva-rum-01",
+          "position": 1,
+          "alt": "Diplomático Reserva Exclusiva Rum",
+          "localPath": "/avolta-demo/products/diplomatico-reserva-exclusiva-rum.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1731513698/6479884/6479884_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1731513698/6479884/6479884_1_en_GB.jpg",
+          "downloadedBytes": 18122
+        }
+      ]
+    },
+    {
+      "id": "villars-assorted-mini-milk-chocolates",
+      "handle": "villars-assorted-mini-chocolates-milk-500g",
+      "name": "Assorted Mini Milk Chocolates",
+      "description": "Assorted Mini Milk Chocolates by Villars, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Villars",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet",
+        "20% off"
+      ],
+      "vendor": "Villars",
+      "variant": "500g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/villars-assorted-mini-chocolates-milk-500g",
+      "priceCurrency": "CHF",
+      "priceChf": 23.16,
+      "compareAtPriceChf": 28.95,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "villars-assorted-mini-milk-chocolates-default",
+          "title": "500g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 23.16,
+          "compareAtPriceChf": 28.95
+        }
+      ],
+      "images": [
+        {
+          "id": "villars-assorted-mini-milk-chocolates-01",
+          "position": 1,
+          "alt": "Villars Assorted Mini Milk Chocolates",
+          "localPath": "/avolta-demo/products/villars-assorted-mini-milk-chocolates.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1643198440/1811939/1811939_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1643198440/1811939/1811939_1_en_GB.jpg",
+          "downloadedBytes": 11768
+        }
+      ]
+    },
+    {
+      "id": "munz-swiss-view-napolitains",
+      "handle": "munz-swiss-view-napolitains-140g",
+      "name": "Swiss View Napolitains",
+      "description": "Swiss View Napolitains by Munz, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Munz",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet",
+        "20% off"
+      ],
+      "vendor": "Munz",
+      "variant": "140g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/munz-swiss-view-napolitains-140g",
+      "priceCurrency": "CHF",
+      "priceChf": 16.76,
+      "compareAtPriceChf": 20.95,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "munz-swiss-view-napolitains-default",
+          "title": "140g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 16.76,
+          "compareAtPriceChf": 20.95
+        }
+      ],
+      "images": [
+        {
+          "id": "munz-swiss-view-napolitains-01",
+          "position": 1,
+          "alt": "Munz Swiss View Napolitains",
+          "localPath": "/avolta-demo/products/munz-swiss-view-napolitains.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1711641456/2102143/2102143_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1711641456/2102143/2102143_1_en_GB.jpg",
+          "downloadedBytes": 32630
+        }
+      ]
+    },
+    {
+      "id": "munz-swiss-views",
+      "handle": "munz-swiss-views-300g",
+      "name": "Swiss Views",
+      "description": "Swiss Views by Munz, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Munz",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet"
+      ],
+      "vendor": "Munz",
+      "variant": "300g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/munz-swiss-views-300g",
+      "priceCurrency": "CHF",
+      "priceChf": 10.36,
+      "compareAtPriceChf": 12.95,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "munz-swiss-views-default",
+          "title": "300g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 10.36,
+          "compareAtPriceChf": 12.95
+        }
+      ],
+      "images": [
+        {
+          "id": "munz-swiss-views-01",
+          "position": 1,
+          "alt": "Munz Swiss Views",
+          "localPath": "/avolta-demo/products/munz-swiss-views.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1711641445/1973098/1973098_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1711641445/1973098/1973098_1_en_GB.jpg",
+          "downloadedBytes": 32058
+        }
+      ]
+    },
+    {
+      "id": "swissdream-swiss-box",
+      "handle": "swissdream-swiss-box-80g",
+      "name": "Swiss Box",
+      "description": "Swiss Box by SwissDream, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "SwissDream",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet"
+      ],
+      "vendor": "SwissDream",
+      "variant": "80g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/swissdream-swiss-box-80g",
+      "priceCurrency": "CHF",
+      "priceChf": 13.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "swissdream-swiss-box-default",
+          "title": "80g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 13.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "swissdream-swiss-box-01",
+          "position": 1,
+          "alt": "SwissDream Swiss Box",
+          "localPath": "/avolta-demo/products/swissdream-swiss-box.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1710856973/2233315/2233315_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1710856973/2233315/2233315_1_en_GB.jpg",
+          "downloadedBytes": 16280
+        }
+      ]
+    },
+    {
+      "id": "villars-swiss-milk-chocolate-with-hazelnuts",
+      "handle": "villars-swiss-milk-chocolate-with-hazelnuts-300g",
+      "name": "Swiss Milk Chocolate with Hazelnuts",
+      "description": "Swiss Milk Chocolate with Hazelnuts by Villars, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Villars",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet",
+        "20% off"
+      ],
+      "vendor": "Villars",
+      "variant": "300g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/villars-swiss-milk-chocolate-with-hazelnuts-300g",
+      "priceCurrency": "CHF",
+      "priceChf": 11.6,
+      "compareAtPriceChf": 14.5,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "villars-swiss-milk-chocolate-with-hazelnuts-default",
+          "title": "300g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 11.6,
+          "compareAtPriceChf": 14.5
+        }
+      ],
+      "images": [
+        {
+          "id": "villars-swiss-milk-chocolate-with-hazelnuts-01",
+          "position": 1,
+          "alt": "Villars Swiss Milk Chocolate with Hazelnuts",
+          "localPath": "/avolta-demo/products/villars-swiss-milk-chocolate-with-hazelnuts.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1643198464/2988356/2988356_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1643198464/2988356/2988356_1_en_GB.jpg",
+          "downloadedBytes": 11384
+        }
+      ]
+    },
+    {
+      "id": "villars-swiss-milk-chocolate",
+      "handle": "villars-swiss-milk-chocolate-300g",
+      "name": "Swiss Milk Chocolate",
+      "description": "Swiss Milk Chocolate by Villars, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Villars",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet",
+        "20% off"
+      ],
+      "vendor": "Villars",
+      "variant": "300g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/villars-swiss-milk-chocolate-300g",
+      "priceCurrency": "CHF",
+      "priceChf": 11.6,
+      "compareAtPriceChf": 14.5,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "villars-swiss-milk-chocolate-default",
+          "title": "300g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 11.6,
+          "compareAtPriceChf": 14.5
+        }
+      ],
+      "images": [
+        {
+          "id": "villars-swiss-milk-chocolate-01",
+          "position": 1,
+          "alt": "Villars Swiss Milk Chocolate",
+          "localPath": "/avolta-demo/products/villars-swiss-milk-chocolate.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1643198453/2528123/2528123_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1643198453/2528123/2528123_1_en_GB.jpg",
+          "downloadedBytes": 10480
+        }
+      ]
+    },
+    {
+      "id": "victorinox-chocolate-knife-giftpack",
+      "handle": "victorinox-chocolate-knife-acetate-giftpack-140g",
+      "name": "Chocolate Knife Giftpack",
+      "description": "Chocolate Knife Giftpack by Victorinox, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Victorinox",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet"
+      ],
+      "vendor": "Victorinox",
+      "variant": "140g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/victorinox-chocolate-knife-acetate-giftpack-140g",
+      "priceCurrency": "CHF",
+      "priceChf": 13.5,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "victorinox-chocolate-knife-giftpack-default",
+          "title": "140g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 13.5,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "victorinox-chocolate-knife-giftpack-01",
+          "position": 1,
+          "alt": "Victorinox Chocolate Knife Giftpack",
+          "localPath": "/avolta-demo/products/victorinox-chocolate-knife-giftpack.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1541433753/030/001/001/7610307030100/7610307030100_1_default_default.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1541433753/030/001/001/7610307030100/7610307030100_1_default_default.jpg",
+          "downloadedBytes": 31144
+        }
+      ]
+    },
+    {
+      "id": "favarger-la-boite-zurich-edition",
+      "handle": "favarger-la-boite-zurich-edition-240g",
+      "name": "La Boîte Zurich Edition",
+      "description": "La Boîte Zurich Edition by Favarger, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Favarger",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet",
+        "20% off"
+      ],
+      "vendor": "Favarger",
+      "variant": "240g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/favarger-la-boite-zurich-edition-240g",
+      "priceCurrency": "CHF",
+      "priceChf": 21.2,
+      "compareAtPriceChf": 26.5,
+      "promotionEvidence": "20% off",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "favarger-la-boite-zurich-edition-default",
+          "title": "240g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 21.2,
+          "compareAtPriceChf": 26.5
+        }
+      ],
+      "images": [
+        {
+          "id": "favarger-la-boite-zurich-edition-01",
+          "position": 1,
+          "alt": "Favarger La Boîte Zurich Edition",
+          "localPath": "/avolta-demo/products/favarger-la-boite-zurich-edition.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1712059691/2643387/2643387_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1712059691/2643387/2643387_1_en_GB.png",
+          "downloadedBytes": 10502
+        }
+      ]
+    },
+    {
+      "id": "favarger-milk-chocolate-bar",
+      "handle": "favarger-tablette-chocolat-lait-300g",
+      "name": "Milk Chocolate Bar",
+      "description": "Milk Chocolate Bar by Favarger, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Favarger",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet"
+      ],
+      "vendor": "Favarger",
+      "variant": "300g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/favarger-tablette-chocolat-lait-300g",
+      "priceCurrency": "CHF",
+      "priceChf": 15.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "favarger-milk-chocolate-bar-default",
+          "title": "300g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 15.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "favarger-milk-chocolate-bar-01",
+          "position": 1,
+          "alt": "Favarger Milk Chocolate Bar",
+          "localPath": "/avolta-demo/products/favarger-milk-chocolate-bar.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1711641483/2345449/2345449_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1711641483/2345449/2345449_1_en_GB.jpg",
+          "downloadedBytes": 9980
+        }
+      ]
+    },
+    {
+      "id": "ragusa-ragusa-milk-gift-pack",
+      "handle": "ragusa-ragusa-milk-gift-pack-400g",
+      "name": "Ragusa Milk Gift Pack",
+      "description": "Ragusa Milk Gift Pack by Ragusa, captured in the official Zürich Duty Free swiss chocolate selection.",
+      "productType": "Swiss chocolate",
+      "tags": [
+        "Ragusa",
+        "chocolate",
+        "confectionery",
+        "snack",
+        "Swiss",
+        "sweet"
+      ],
+      "vendor": "Ragusa",
+      "variant": "400g",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/ragusa-ragusa-milk-gift-pack-400g",
+      "priceCurrency": "CHF",
+      "priceChf": 19.95,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "ragusa-ragusa-milk-gift-pack-default",
+          "title": "400g",
+          "availableOnlineAtCapture": true,
+          "priceChf": 19.95,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "ragusa-ragusa-milk-gift-pack-01",
+          "position": 1,
+          "alt": "Ragusa Ragusa Milk Gift Pack",
+          "localPath": "/avolta-demo/products/ragusa-ragusa-milk-gift-pack.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1504696133/030/090/001/1951156/1951156_1_default_default.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1504696133/030/090/001/1951156/1951156_1_default_default.jpg",
+          "downloadedBytes": 12178
+        }
+      ]
+    },
+    {
+      "id": "alpinte-on-the-rocks-matterhorn",
+      "handle": "alpinte-on-the-rocks-matterhorn",
+      "name": "On the Rocks Matterhorn",
+      "description": "On the Rocks Matterhorn by Alpinte, captured in the official Zürich Duty Free swiss gifts selection.",
+      "productType": "Swiss gifts",
+      "tags": [
+        "Alpinte",
+        "Swiss",
+        "local",
+        "souvenir",
+        "gift",
+        "New"
+      ],
+      "vendor": "Alpinte",
+      "variant": "As listed",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/alpinte-on-the-rocks-matterhorn",
+      "priceCurrency": "CHF",
+      "priceChf": 27.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "New",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "alpinte-on-the-rocks-matterhorn-default",
+          "title": "As listed",
+          "availableOnlineAtCapture": true,
+          "priceChf": 27.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "alpinte-on-the-rocks-matterhorn-01",
+          "position": 1,
+          "alt": "Alpinte On the Rocks Matterhorn",
+          "localPath": "/avolta-demo/products/alpinte-on-the-rocks-matterhorn.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1741874760/6369914/6369914_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1741874760/6369914/6369914_1_en_GB.png",
+          "downloadedBytes": 29104
+        }
+      ]
+    },
+    {
+      "id": "alpinte-half-pinte-matterhorn",
+      "handle": "alpinte-halfpinte-matterhorn",
+      "name": "Half-Pinte Matterhorn",
+      "description": "Half-Pinte Matterhorn by Alpinte, captured in the official Zürich Duty Free swiss gifts selection.",
+      "productType": "Swiss gifts",
+      "tags": [
+        "Alpinte",
+        "Swiss",
+        "local",
+        "souvenir",
+        "gift"
+      ],
+      "vendor": "Alpinte",
+      "variant": "As listed",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/alpinte-halfpinte-matterhorn",
+      "priceCurrency": "CHF",
+      "priceChf": 28.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "alpinte-half-pinte-matterhorn-default",
+          "title": "As listed",
+          "availableOnlineAtCapture": true,
+          "priceChf": 28.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "alpinte-half-pinte-matterhorn-01",
+          "position": 1,
+          "alt": "Alpinte Half-Pinte Matterhorn",
+          "localPath": "/avolta-demo/products/alpinte-half-pinte-matterhorn.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1741874751/6369915/6369915_1_en_GB.png",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1741874751/6369915/6369915_1_en_GB.png",
+          "downloadedBytes": 31768
+        }
+      ]
+    },
+    {
+      "id": "alpinte-panorama-shots",
+      "handle": "alpinte-panorama-shots-6x",
+      "name": "Panorama Shots",
+      "description": "Panorama Shots by Alpinte, captured in the official Zürich Duty Free swiss gifts selection.",
+      "productType": "Swiss gifts",
+      "tags": [
+        "Alpinte",
+        "Swiss",
+        "local",
+        "souvenir",
+        "gift"
+      ],
+      "vendor": "Alpinte",
+      "variant": "Set of 6",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/alpinte-panorama-shots-6x",
+      "priceCurrency": "CHF",
+      "priceChf": 79.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": null,
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "alpinte-panorama-shots-default",
+          "title": "Set of 6",
+          "availableOnlineAtCapture": true,
+          "priceChf": 79.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "alpinte-panorama-shots-01",
+          "position": 1,
+          "alt": "Alpinte Panorama Shots",
+          "localPath": "/avolta-demo/products/alpinte-panorama-shots.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1741874769/6486995/6486995_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1741874769/6486995/6486995_1_en_GB.jpg",
+          "downloadedBytes": 17580
+        }
+      ]
+    },
+    {
+      "id": "mawico-winter-cow-plush-keychain",
+      "handle": "mawico-winter-cow-plush-keychain",
+      "name": "Winter Cow Plush Keychain",
+      "description": "Winter Cow Plush Keychain by Mawico, captured in the official Zürich Duty Free swiss gifts selection.",
+      "productType": "Swiss gifts",
+      "tags": [
+        "Mawico",
+        "Swiss",
+        "local",
+        "souvenir",
+        "gift",
+        "New"
+      ],
+      "vendor": "Mawico",
+      "variant": "As listed",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/mawico-winter-cow-plush-keychain",
+      "priceCurrency": "CHF",
+      "priceChf": 16.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "New",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "mawico-winter-cow-plush-keychain-default",
+          "title": "As listed",
+          "availableOnlineAtCapture": true,
+          "priceChf": 16.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "mawico-winter-cow-plush-keychain-01",
+          "position": 1,
+          "alt": "Mawico Winter Cow Plush Keychain",
+          "localPath": "/avolta-demo/products/mawico-winter-cow-plush-keychain.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1748520011/1891781/1891781_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1748520011/1891781/1891781_1_en_GB.jpg",
+          "downloadedBytes": 9104
+        }
+      ]
+    },
+    {
+      "id": "mawico-sitting-trio-cow-plush",
+      "handle": "mawico-sitting-trio-cow-plush-28cm-1891783p1192631",
+      "name": "Sitting Trio Cow Plush",
+      "description": "Sitting Trio Cow Plush by Mawico, captured in the official Zürich Duty Free swiss gifts selection.",
+      "productType": "Swiss gifts",
+      "tags": [
+        "Mawico",
+        "Swiss",
+        "local",
+        "souvenir",
+        "gift",
+        "New"
+      ],
+      "vendor": "Mawico",
+      "variant": "28cm",
+      "sourceUrl": "https://zurich.shopdutyfree.com/de/48/mawico-sitting-trio-cow-plush-28cm-1891783p1192631",
+      "priceCurrency": "CHF",
+      "priceChf": 24.9,
+      "compareAtPriceChf": null,
+      "promotionEvidence": "New",
+      "travelExclusive": false,
+      "capturedAt": "2026-09-11T17:30:00+02:00",
+      "availabilityBasis": "Listed on the official Zürich Duty Free Reserve & Collect storefront when captured; not live physical-store inventory.",
+      "variants": [
+        {
+          "id": "mawico-sitting-trio-cow-plush-default",
+          "title": "28cm",
+          "availableOnlineAtCapture": true,
+          "priceChf": 24.9,
+          "compareAtPriceChf": null
+        }
+      ],
+      "images": [
+        {
+          "id": "mawico-sitting-trio-cow-plush-01",
+          "position": 1,
+          "alt": "Mawico Sitting Trio Cow Plush",
+          "localPath": "/avolta-demo/products/mawico-sitting-trio-cow-plush.webp",
+          "sourceUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_auto,h_542,w_542/v1748520016/1891783/1891783_1_en_GB.jpg",
+          "requestUrl": "https://images.shopdutyfree.com/image/upload/c_pad,f_webp,h_542,w_542/v1748520016/1891783/1891783_1_en_GB.jpg",
+          "downloadedBytes": 13454
+        }
+      ]
+    }
+  ]
+}
