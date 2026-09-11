@@ -283,7 +283,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       sessionRef.current = session; await session.connect({ apiKey: payload.value });
       clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => closeVoiceSession("Five-minute voice session ended. Start again anytime."), VOICE_DEMO_DURATION_MS);
       setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally.");
-      session.sendMessage("In one short sentence, explain that you can use today's flight and journey stage to help uncover something worth picking up, then ask for the destination or flight while making clear they can simply browse.");
+      session.sendMessage("[[opening-instruction]] In one short sentence, explain that you can use today's flight and journey stage to help uncover something worth picking up, then ask for the destination or flight while making clear they can simply browse.");
     } catch (error) {
       sessionRef.current?.close(); sessionRef.current = null; setVoiceStatus("error");
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Touch browsing is still available." : (error.message || "Voice service is unavailable."));

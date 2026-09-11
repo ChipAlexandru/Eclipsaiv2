@@ -128,5 +128,5 @@ export function reservationFingerprint(basket, travel) {
 export function transcriptFromHistory(history) {
   return history.filter((item) => item.type === "message" && ["user", "assistant"].includes(item.role))
     .flatMap((item) => item.content.map((content) => { const text = content.text || content.transcript;
-      return text ? { id: item.itemId, role: item.role, text } : null; })).filter(Boolean).slice(-6);
+      return text && !text.startsWith("[[opening-instruction]]") ? { id: item.itemId, role: item.role, text } : null; })).filter(Boolean).slice(-6);
 }

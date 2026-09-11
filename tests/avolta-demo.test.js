@@ -69,6 +69,12 @@ test("shopping helpers support exploration, context depth, basket totals and res
   const a = shopping.reservationFingerprint(two, { departureDateTime: future, gate: "A", destination: "Paris" });
   const b = shopping.reservationFingerprint(three, { departureDateTime: future, gate: "A", destination: "Paris" });
   assert.notEqual(a, b);
+
+  const transcript = shopping.transcriptFromHistory([
+    { type: "message", role: "user", itemId: "hidden", content: [{ text: "[[opening-instruction]] internal" }] },
+    { type: "message", role: "assistant", itemId: "welcome", content: [{ transcript: "Where are you flying today?" }] },
+  ]);
+  assert.deepEqual(transcript, [{ id: "welcome", role: "assistant", text: "Where are you flying today?" }]);
 });
 
 test("Avolta feature is isolated, protected and keeps reservation confirmation explicit", () => {
