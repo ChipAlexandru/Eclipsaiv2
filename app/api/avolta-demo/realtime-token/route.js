@@ -39,7 +39,7 @@ export async function POST() {
   const clientKey = `${cookieStore.get("avolta_demo_access")?.value}:${requestHeaders.get("x-forwarded-for") || "local"}`;
   if (!allowStart(clientKey)) return noStoreJson({ error: "Voice session limit reached. Try again later." }, { status: 429 });
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.AVOLTA_OPENAI_API_KEY;
   const model = process.env.OPENAI_REALTIME_MODEL || "gpt-realtime";
   if (!apiKey) return noStoreJson({ error: "Voice service is not configured for this deployment." }, { status: 503 });
 

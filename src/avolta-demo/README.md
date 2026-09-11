@@ -5,7 +5,7 @@ An isolated Avolta feature fork for open-ended, voice-and-touch discovery and a 
 ## Run locally
 
 ```bash
-AVOLTA_DEMO_PASSCODE='choose-a-passcode' OPENAI_API_KEY='server-only-key' npm run dev
+AVOLTA_DEMO_PASSCODE='choose-a-passcode' AVOLTA_OPENAI_API_KEY='server-only-key' npm run dev
 ```
 
 Open `http://localhost:3000/avolta-demo`. Touch browsing works without the OpenAI key; voice requires it.
@@ -30,6 +30,7 @@ Prices, offer labels and online listing status are captured public data. They ar
 ## Security and product boundaries
 
 - `AVOLTA_DEMO_PASSCODE` is checked server-side and represented by an HttpOnly, same-site access cookie.
+- `AVOLTA_OPENAI_API_KEY` is Avolta-specific and is read only by the server-side Realtime token route; it does not replace the key used by other demos.
 - The Realtime token endpoint requires the same access cookie, returns only a short-lived client secret and applies a per-instance session-start limit.
 - Voice sessions end after five minutes.
 - Page metadata, response behavior and `robots.txt` keep the route out of indexing; it is absent from the sitemap.

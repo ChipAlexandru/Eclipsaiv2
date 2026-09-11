@@ -84,8 +84,9 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /submittedExternally:\s*false/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 5/);
-  assert.match(token, /process\.env\.OPENAI_API_KEY/);
-  assert.doesNotMatch(token, /console\.log\([^)]*OPENAI_API_KEY/);
+  assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
+  assert.doesNotMatch(token, /process\.env\.OPENAI_API_KEY/);
+  assert.doesNotMatch(token, /console\.log\([^)]*AVOLTA_OPENAI_API_KEY/);
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
   assert.match(robots, /\/avolta-demo/);
