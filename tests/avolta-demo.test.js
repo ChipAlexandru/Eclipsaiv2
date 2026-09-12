@@ -151,7 +151,8 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(client, /setFlightContextStatus\(journeyContextRef\.current \? "fallback" : "error"\)/);
   assert.match(client, />Loading departures…<|>Departures unavailable</);
   assert.doesNotMatch(client, />No more departures</);
-  assert.match(page, /initialContext: \{ scheduleEnded: false, departureCount: initialContext\.departureCount, illustrativeFlights: initialContext\.illustrativeFlights \}/);
+  assert.match(page, /initialContext: \{ scheduleEnded: false, departureCount: capturedFlights\.length, illustrativeFlights: initialFlights \}/);
+  assert.doesNotMatch(page, /liveContextServer/);
   assert.match(client, /setInterval\([^,]+, 5000\)/);
   assert.match(client, /voiceStatus !== "idle" \|\| travel\.selectedFlight \|\| pendingFlight/);
   assert.match(css, /@keyframes departureSwap/);

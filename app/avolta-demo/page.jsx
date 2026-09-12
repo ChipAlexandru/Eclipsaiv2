@@ -3,9 +3,10 @@ import catalog from "../../src/avolta-demo/catalog.json";
 import flightDay from "../../src/avolta-demo/flight-day.fixture.json";
 import { accessConfigured, hasAccess } from "../../src/avolta-demo/auth.mjs";
 import { AvoltaVoiceShop } from "../../src/avolta-demo/AvoltaVoiceShop.jsx";
-import { mapZurichTimeOfDayToFixture } from "../../src/avolta-demo/flightReplay.mjs";
-import { getReplayJourneyContext } from "../../src/avolta-demo/liveContextServer.mjs";
+import { illustrativeFlights, mapZurichTimeOfDayToFixture, normalizeFixtureFlights } from "../../src/avolta-demo/flightReplay.mjs";
 import styles from "../../src/avolta-demo/avoltaVoiceShop.module.css";
+
+const capturedFlights = normalizeFixtureFlights(flightDay);
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -18,8 +19,8 @@ export const viewport = { themeColor: "#28133d" };
 export default async function AvoltaDemoPage({ searchParams }) {
   const cookieStore = await cookies();
   if (hasAccess(cookieStore)) {
-    const initialContext = getReplayJourneyContext(mapZurichTimeOfDayToFixture(new Date(), flightDay.provenance.serviceDate));
-    return <AvoltaVoiceShop catalog={catalog} flightDay={{ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.provenance.serviceDate, initialContext: { scheduleEnded: false, departureCount: initialContext.departureCount, illustrativeFlights: initialContext.illustrativeFlights } }} />;
+    const initialFlights = illustrativeFlights(capturedFlights, mapZurichTimeOfDayToFixture(new Date(), flightDay.provenance.serviceDate), 4);
+    return <AvoltaVoiceShop catalog={catalog} flightDay={{ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.provenance.serviceDate, initialContext: { scheduleEnded: false, departureCount: capturedFlights.length, illustrativeFlights: initialFlights } }} />;
   }
   const params = await searchParams;
   const configured = accessConfigured();
