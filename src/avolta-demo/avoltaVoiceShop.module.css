@@ -45,9 +45,36 @@
 .brand strong { font-size: .86rem; letter-spacing: .09em; white-space: nowrap; }
 .brand small { color: #d6cbe0; font-size: .62rem; }
 .location { display: flex; align-items: center; gap: .35rem; color: #fff; }
+.location > div { display: flex; flex-direction: column; align-items: flex-end; gap: .08rem; }
 .location strong { font-size: 1.15rem; letter-spacing: -.025em; }
+.location small { color: #d6cbe0; font-size: .58rem; letter-spacing: .025em; }
 
 .productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 1rem 1.5rem 2rem; }
+.contextRail { margin-bottom: .85rem; display: grid; grid-template-columns: 1fr; gap: .65rem; }
+.contextRail[data-has-order="true"] { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+.flightCard, .orderCard { min-width: 0; padding: .72rem .85rem; border: 1px solid var(--line); border-radius: .82rem; background: #fff; box-shadow: 0 .25rem 1rem rgba(40,19,61,.06); }
+.flightCard[data-flight-state="illustrative"] { background: linear-gradient(115deg, #fff, #f8f4fc); }
+.flightCard[data-flight-state="pending"] { border-color: rgba(241,90,58,.55); }
+.flightCard[data-flight-state="confirmed"] { border-color: rgba(72,35,107,.3); }
+.contextTopline, .contextDetails, .pairedCountdown { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
+.contextTopline span { color: var(--coral); font-size: .58rem; font-weight: 850; text-transform: uppercase; letter-spacing: .065em; }
+.contextTopline b { overflow: hidden; color: var(--muted); font-size: .58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.flightMain, .orderMain { margin-top: .35rem; display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+.flightMain strong, .orderMain strong { color: var(--violet-deep); font-size: 1.06rem; letter-spacing: -.025em; white-space: nowrap; }
+.flightMain strong i { color: var(--coral); font-style: normal; }
+.flightMain span, .orderMain span { overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.contextDetails { margin-top: .28rem; color: var(--muted); font-size: .62rem; }
+.contextDetails strong { color: var(--violet); font-size: .66rem; }
+.journeyTrack, .progressTrack { margin-top: .58rem; padding-top: .5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .32rem; overflow: hidden; }
+.journeyTrack span { flex: 1 1 auto; padding: .25rem .3rem; border-radius: 999px; color: #827889; background: #f3eff5; font-size: .52rem; text-align: center; white-space: nowrap; }
+.journeyTrack span[data-active="true"] { color: #fff; background: var(--violet); font-weight: 800; }
+.progressTrack span { min-width: 0; flex: 1 1 0; display: flex; align-items: center; gap: .2rem; color: #867d8a; font-size: .5rem; white-space: nowrap; }
+.progressTrack i { width: .38rem; height: .38rem; flex: 0 0 auto; border: 1px solid #b9afbd; border-radius: 50%; }
+.progressTrack span[data-complete="true"] { color: var(--violet); font-weight: 800; }
+.progressTrack span[data-complete="true"] i { border-color: var(--coral); background: var(--coral); }
+.pairedCountdown { margin-top: .52rem; padding-top: .5rem; border-top: 1px solid var(--line); color: var(--violet); font-size: .65rem; }
+.pairedCountdown strong { color: var(--coral); }
+.scheduleEnded { margin: .48rem 0 0; color: #8a4d28; font-size: .58rem; line-height: 1.35; }
 .resultsContext { min-height: 2.6rem; margin-bottom: .65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .resultsContext span { color: var(--muted); font-size: .8rem; font-weight: 750; }
 .resultsContext button { border: 0; color: var(--violet); background: transparent; font-size: .8rem; font-weight: 800; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
@@ -156,8 +183,6 @@
 .reviewItems small { margin-top: .2rem; color: var(--muted); }
 .conceptNote { padding: .75rem; border-radius: .7rem; color: #675c6d; background: #f4f1f5; font-size: .68rem; line-height: 1.45; }
 .reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
-.resetButton { display: block; margin: .2rem auto 0; padding: .5rem; border: 0; color: var(--muted); background: transparent; font-size: .62rem; text-decoration: underline; cursor: pointer; }
-
 @media (max-width: 1100px) {
   .productGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
@@ -172,7 +197,12 @@
   .brand small { font-size: .55rem; }
   .location { gap: .25rem; }
   .location strong { font-size: 1rem; }
+  .location small { font-size: .5rem; }
   .productSurface { padding: .62rem .55rem 1.5rem; }
+  .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
+  .flightCard, .orderCard { padding: .62rem .68rem; }
+  .flightMain strong, .orderMain strong { font-size: .92rem; }
+  .journeyTrack span, .progressTrack span { font-size: .46rem; }
   .resultsContext { min-height: 2.3rem; padding: 0 .15rem; margin-bottom: .4rem; }
   .productGrid { scroll-margin-top: 5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .58rem; }
   .productText { padding: .55rem .58rem 1.8rem; }
@@ -207,6 +237,7 @@
   .brand strong { font-size: .62rem; }
   .brand small { font-size: .49rem; }
   .location strong { font-size: .86rem; }
+  .location small { font-size: .44rem; }
   .location svg { display: none; }
   .productSurface { padding-inline: .4rem; }
   .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem; }

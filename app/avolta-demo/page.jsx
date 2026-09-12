@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import catalog from "../../src/avolta-demo/catalog.json";
+import flightDay from "../../src/avolta-demo/flight-day.fixture.json";
 import { accessConfigured, hasAccess } from "../../src/avolta-demo/auth.mjs";
 import { AvoltaVoiceShop } from "../../src/avolta-demo/AvoltaVoiceShop.jsx";
 import styles from "../../src/avolta-demo/avoltaVoiceShop.module.css";
@@ -14,7 +15,7 @@ export const viewport = { themeColor: "#28133d" };
 
 export default async function AvoltaDemoPage({ searchParams }) {
   const cookieStore = await cookies();
-  if (hasAccess(cookieStore)) return <AvoltaVoiceShop catalog={catalog} />;
+  if (hasAccess(cookieStore)) return <AvoltaVoiceShop catalog={catalog} flightDay={{ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.provenance.serviceDate }} />;
   const params = await searchParams;
   const configured = accessConfigured();
   return (

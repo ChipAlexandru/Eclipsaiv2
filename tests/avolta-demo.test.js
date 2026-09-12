@@ -87,13 +87,17 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   for (const source of [client, page, token, access]) assert.doesNotMatch(source, /src\/juliette-demo|app\/juliette-demo/);
   assert.doesNotMatch(client, /process\.env\.OPENAI_API_KEY/);
   assert.match(client, /needsApproval:\s*true/);
-  assert.match(client, /review_departure_reservation/);
-  assert.match(client, /confirm_departure_reservation/);
+  assert.match(client, /review_demo_order/);
+  assert.match(client, /confirm_demo_order/);
   assert.match(client, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
   assert.match(client, /submittedExternally:\s*false/);
   assert.doesNotMatch(client, /Fragrances under CHF 100/);
   assert.doesNotMatch(client, /promptRow/);
-  assert.match(client, /find_today_flight/);
+  assert.match(client, /find_replay_flight/);
+  assert.match(client, /propose_replay_flight/);
+  assert.match(client, /confirm_replay_flight/);
+  assert.match(client, /candidate\?\.id === flight_id/);
+  assert.match(client, /travel\.selectedFlight \|\| pendingFlight \|\| flightLookupActive/);
   assert.match(client, /assess_journey/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
@@ -131,6 +135,12 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
   assert.doesNotMatch(client, /Terminal 1/);
   assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
+  assert.match(client, /Awaiting flight confirmation · illustrative/);
+  assert.match(client, /Demo day ·/);
+  assert.match(client, /data-has-order=\{Boolean\(order\)\}/);
+  assert.doesNotMatch(client, />Reset demo</);
+  assert.match(client, /!session \|\| session\.transport\.status !== "connected" \|\| isMuted \|\| voiceStatus !== "listening"/);
+  assert.match(client, /announcedOrderStatesRef/);
   assert.match(client, /const selectProduct = useCallback\(\(productId\) => \{[^}]*setSelectedId\(productId\)/);
   assert.doesNotMatch(client, /const selectProduct = useCallback\(\(productId\) => \{[^}]*setActivePanel/);
   assert.match(client, /setActivePanel\("detail"\)/);
@@ -150,41 +160,73 @@ test("Avolta voice output uses an attached audio element and records playback ev
   assert.match(client, /data-audio-playback=/);
 });
 
-test("today flight matching handles codeshares, ambiguity and missing gate without invention", async () => {
-  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
-  const fetchedAt = new Date("2026-09-11T10:00:00Z");
-  const flights = live.normalizeFlights([
-    { id: 1, flightType: "D", SDT: "2026-09-11", STD: "2026-09-11T12:00:00Z", FLC: "LX", FLN: "64", codeShare: "UA 9720", PDS: "MIA", cityEn: "Miami", EBT: "2026-09-11T11:20:00Z", GAT: "E52", isSchengen: false, statusCode: 0 },
-    { id: 2, flightType: "D", SDT: "2026-09-11", STD: "2026-09-11T13:00:00Z", FLC: "LX", FLN: "66", PDS: "MIA", cityEn: "Miami", statusCode: 0 },
-    { id: 3, flightType: "D", SDT: "2026-09-12", STD: "2026-09-12T12:00:00Z", FLC: "LX", FLN: "67", cityEn: "Miami" },
-  ], { fetchedAt, serviceDate: "2026-09-11" });
-  assert.equal(flights.length, 2);
-  assert.equal(live.matchFlights(flights, "UA 9720").matches[0].flightNumber, "LX64");
-  assert.equal(live.matchFlights(flights, "Miami").ambiguous, true);
-  assert.equal(live.matchFlights(flights, "LX66").matches[0].gate, null);
+test("captured flight fixture is complete, immutable and never fetched at runtime", async () => {
+  const fixture = JSON.parse(fs.readFileSync(path.join(feature, "flight-day.fixture.json"), "utf8"));
+  const server = fs.readFileSync(path.join(feature, "liveContextServer.mjs"), "utf8");
+  const route = fs.readFileSync(path.join(root, "app", "api", "avolta-demo", "journey-context", "route.js"), "utf8");
+  assert.equal(fixture.fixtureVersion, "zrh-departures-2026-09-12-v1");
+  assert.equal(fixture.provenance.serviceDate, "2026-09-12");
+  assert.equal(fixture.provenance.timeZone, "Europe/Zurich");
+  assert.equal(fixture.flights.length, 393);
+  assert.deepEqual(fixture.provenance.fieldCoverage, { scheduledDeparture: 393, estimatedDeparture: 206, actualDeparture: 342, boardingTime: 328, gate: 328, codeshare: 225 });
+  assert.doesNotMatch(`${server}\n${route}`, /fetch\(|unstable_cache|revalidate/);
+  const context = await import(pathToFileURL(path.join(feature, "liveContextServer.mjs")));
+  assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).departureCount, 393);
+  assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).sources.runtimeNetwork, false);
 });
 
-test("journey context expires at Zurich midnight across DST and distinguishes stale data", async () => {
-  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
-  assert.equal(live.nextZurichMidnight(new Date("2026-03-28T12:00:00Z")).toISOString(), "2026-03-28T23:00:00.000Z");
-  assert.equal(live.nextZurichMidnight(new Date("2026-03-29T12:00:00Z")).toISOString(), "2026-03-29T22:00:00.000Z");
-  assert.equal(live.nextZurichMidnight(new Date("2026-10-25T12:00:00Z")).toISOString(), "2026-10-25T23:00:00.000Z");
-  assert.equal(live.freshnessStatus("2026-09-11T10:00:00Z", new Date("2026-09-11T10:05:00Z")), "live");
-  assert.equal(live.freshnessStatus("2026-09-11T10:00:00Z", new Date("2026-09-11T10:07:00Z")), "stale");
-  assert.equal(live.freshnessStatus("2026-09-10T21:59:00Z", new Date("2026-09-11T10:00:00Z")), "unavailable");
+test("one Zurich replay clock maps morning and evening, survives refresh, observes DST and advances past midnight", async () => {
+  const replay = await import(pathToFileURL(path.join(feature, "flightReplay.mjs")));
+  assert.equal(replay.mapZurichTimeOfDayToFixture(new Date("2026-07-01T06:15:30Z"), "2026-09-12").toISOString(), "2026-09-12T06:15:30.000Z");
+  assert.equal(replay.mapZurichTimeOfDayToFixture(new Date("2026-12-01T19:45:00Z"), "2026-09-12").toISOString(), "2026-09-12T18:45:00.000Z");
+  assert.equal(replay.nextZurichMidnight(new Date("2026-03-28T12:00:00Z")).toISOString(), "2026-03-28T23:00:00.000Z");
+  assert.equal(replay.nextZurichMidnight(new Date("2026-03-29T12:00:00Z")).toISOString(), "2026-03-29T22:00:00.000Z");
+  assert.equal(replay.nextZurichMidnight(new Date("2026-10-25T12:00:00Z")).toISOString(), "2026-10-25T23:00:00.000Z");
+  const anchor = replay.createReplayAnchor({ fixtureVersion: "v1", serviceDate: "2026-09-12", realNow: new Date("2030-01-01T10:00:00Z"), explicitTime: "23:59:00" });
+  const restored = replay.createReplayAnchor({ fixtureVersion: "v1", serviceDate: "2026-09-12", realNow: new Date("2030-01-01T10:01:00Z"), storedAnchor: anchor });
+  assert.strictEqual(restored, anchor);
+  assert.equal(replay.replayNow(anchor, new Date("2030-01-01T10:00:30Z")).toISOString(), "2026-09-12T21:59:30.000Z");
+  assert.equal(replay.replayClockState(anchor, new Date("2030-01-01T10:02:00Z")).scheduleEnded, true);
 });
 
-test("deterministic journey assessment covers explore, quick pickup and gate priority without adding delay", async () => {
-  const live = await import(pathToFileURL(path.join(feature, "liveContext.mjs")));
-  const now = new Date("2026-09-11T10:00:00Z");
-  const queues = live.normalizeQueues({ security: { maxWaitingTime: "4" }, checkin: { checkin: [{ economy: "1-3" }] }, passport: { passportControl: [{ waitingTime: "1-3" }] } }, { fetchedAt: now });
-  const baseFlight = { flightNumber: "LX64", scheduledDeparture: "2026-09-11T13:00:00Z", estimatedDeparture: "2026-09-11T15:00:00Z", boardingTime: "2026-09-11T12:20:00Z", gate: "E52", isSchengen: false };
-  assert.equal(live.assessJourney({ stage: "airside", flight: baseFlight, queues }, now).outcome, "explore");
-  assert.equal(live.assessJourney({ stage: "on_the_way", flight: baseFlight, arrivalEstimate: "2026-09-11T11:00:00Z", needsCheckin: true, queues }, now).outcome, "quick_pickup");
-  assert.equal(live.assessJourney({ stage: "near_gate", flight: { ...baseFlight, boardingTime: "2026-09-11T10:12:00Z" }, queues }, now).outcome, "prioritize_gate");
-  const delayed = live.assessJourney({ stage: "airside", flight: { ...baseFlight, boardingTime: null }, minutesAvailable: 10, queues }, now);
-  assert.equal(delayed.outcome, "prioritize_gate");
-  assert.match(delayed.method, /later estimated departure never adds shopping time/i);
+test("flight replay matches codeshares and ambiguity while keeping source observations separate", async () => {
+  const replay = await import(pathToFileURL(path.join(feature, "flightReplay.mjs")));
+  const fixture = JSON.parse(fs.readFileSync(path.join(feature, "flight-day.fixture.json"), "utf8"));
+  const flights = replay.normalizeFixtureFlights(fixture);
+  assert.equal(replay.matchFlights(flights, "LX 8402").matches[0].flightNumber, "WK402");
+  assert.equal(replay.matchFlights(flights, "London").ambiguous, true);
+  const previews = replay.illustrativeFlights(flights, new Date("2026-09-12T06:00:00Z"), 4);
+  assert.ok(previews.every((flight) => !flight.boardingTime || new Date(flight.boardingTime).getTime() >= new Date("2026-09-12T06:20:00Z").getTime()));
+  const missing = { ...flights[0], boardingTime: null, gate: null };
+  assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).known, false);
+  assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).label, "Boarding time unavailable");
+  const capturedDeparted = { ...flights[0], scheduledDeparture: "2026-09-12T12:00:00Z", boardingTime: "2026-09-12T11:30:00Z", capturedObservation: { statusText: "Departed", actualDeparture: "2026-09-12T12:04:00Z" } };
+  assert.equal(replay.replayFlightStatus(capturedDeparted, new Date("2026-09-12T08:00:00Z")).label, "Scheduled");
+  const cancelled = { ...capturedDeparted, simulationEvents: [{ type: "cancelled", at: "2026-09-12T07:00:00Z" }] };
+  assert.equal(replay.replayFlightStatus(cancelled, new Date("2026-09-12T08:00:00Z")).isCancelled, true);
+  assert.equal(replay.boardingCountdown(capturedDeparted, new Date("2026-09-12T13:00:00Z")).seconds, 0);
+});
+
+test("journey and simulated order paths share the replay clock and announce meaningful changes once", async () => {
+  const replay = await import(pathToFileURL(path.join(feature, "flightReplay.mjs")));
+  const flight = { id: "f", flightNumber: "LX1", destination: "London", scheduledDeparture: "2026-09-12T13:00:00Z", boardingTime: "2026-09-12T12:20:00Z", gate: "E52" };
+  const now = new Date("2026-09-12T11:00:00Z");
+  assert.equal(replay.assessReplayJourney({ stage: "past_security", flight }, now).outcome, "explore");
+  assert.equal(replay.normalizeJourneyStage("near_gate"), "at_gate");
+  assert.equal(replay.normalizeJourneyStage("at_airport"), "at_airport");
+  assert.equal(replay.recommendFulfillment({ stage: "at_gate", flight, demoNow: now }).method, "gate_delivery");
+  assert.equal(replay.recommendFulfillment({ stage: "past_security", flight, demoNow: now }).method, "collection");
+  assert.equal(replay.recommendFulfillment({ stage: "at_gate", flight: { ...flight, boardingTime: "2026-09-12T11:08:00Z" }, demoNow: now }).method, "none");
+  const delivery = { confirmedAtDemo: now.toISOString(), fulfillment: { method: "gate_delivery" } };
+  assert.equal(replay.orderProgress(delivery, new Date("2026-09-12T11:02:00Z")).state, "Ready");
+  assert.equal(replay.orderProgress(delivery, new Date("2026-09-12T11:06:00Z")).state, "Arriving");
+  assert.equal(replay.orderProgress(delivery, new Date("2026-09-12T11:08:00Z")).state, "Delivered");
+  const collection = { confirmedAtDemo: now.toISOString(), fulfillment: { method: "collection" } };
+  assert.equal(replay.orderProgress(collection, new Date("2026-09-12T11:04:00Z")).state, "Ready for pickup");
+  assert.equal(replay.orderProgress({ ...collection, collectedAtDemo: "2026-09-12T11:05:00Z" }, new Date("2026-09-12T11:05:00Z")).state, "Collected");
+  assert.equal(replay.nextMeaningfulOrderAnnouncement("Preparing", "Ready", []), "Ready");
+  assert.equal(replay.nextMeaningfulOrderAnnouncement("Preparing", "Ready", ["Ready"]), null);
+  assert.equal(replay.nextMeaningfulOrderAnnouncement("Ready", "On the way", []), null);
 });
 
 test("Avolta Realtime model configuration reuses the proven mini model and fails closed", async () => {
