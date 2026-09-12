@@ -199,6 +199,9 @@ test("captured flight fixture is complete, immutable and never fetched at runtim
   assert.equal(fixture.flights.length, 393);
   assert.deepEqual(fixture.provenance.fieldCoverage, { scheduledDeparture: 393, estimatedDeparture: 206, actualDeparture: 342, boardingTime: 328, gate: 328, codeshare: 225 });
   assert.doesNotMatch(`${server}\n${route}`, /fetch\(|unstable_cache|revalidate/);
+  assert.doesNotMatch(route, /liveContextServer|createRequire/);
+  assert.match(route, /const capturedFlights = normalizeFixtureFlights\(flightDay\)/);
+  assert.match(route, /matchFlights\(context\.flights/);
   const context = await import(pathToFileURL(path.join(feature, "liveContextServer.mjs")));
   assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).departureCount, 393);
   assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).sources.runtimeNetwork, false);
