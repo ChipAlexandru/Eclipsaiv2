@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
 import { isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
-import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow } from "./flightReplay.mjs";
+import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -49,7 +49,8 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [storageReady, setStorageReady] = useState(false);
   const [clockReady, setClockReady] = useState(false);
   const [demoNow, setDemoNow] = useState(() => new Date(`${flightDay.serviceDate}T12:00:00Z`));
-  const [flightContext, setFlightContext] = useState(null);
+  const [flightContext, setFlightContext] = useState(() => flightDay.initialContext || null);
+  const [flightContextStatus, setFlightContextStatus] = useState(() => flightDay.initialContext ? "ready" : "loading");
   const [pendingFlight, setPendingFlight] = useState(null);
   const [flightLookupActive, setFlightLookupActive] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(0);
@@ -73,7 +74,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const demoNowRef = useRef(demoNow);
   const clockAnchorRef = useRef(null);
   const imageFailuresRef = useRef(new Set());
-  const journeyContextRef = useRef(null);
+  const journeyContextRef = useRef(flightDay.initialContext || null);
   const flightMatchesRef = useRef([]);
   const pendingFlightRef = useRef(null);
   const announcedOrderStatesRef = useRef([]);
@@ -87,7 +88,9 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const explicitTime = process.env.NODE_ENV !== "production" ? new URLSearchParams(window.location.search).get("demoTime") : null;
     try {
       const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
-      const anchor = createReplayAnchor({ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.serviceDate, realNow: new Date(), storedAnchor: stored?.clockAnchor, explicitTime });
+      const realNow = new Date();
+      let anchor = createReplayAnchor({ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.serviceDate, realNow, storedAnchor: stored?.clockAnchor, explicitTime });
+      if (shouldRebasePassiveReplay(anchor, realNow, stored)) anchor = createReplayAnchor({ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.serviceDate, realNow, explicitTime });
       clockAnchorRef.current = anchor;
       const replayedNow = replayNow(anchor, new Date()); demoNowRef.current = replayedNow; setDemoNow(replayedNow);
       if (stored?.shortlist) { shortlistRef.current = stored.shortlist; setShortlist(stored.shortlist); }
@@ -182,13 +185,26 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const confirmFlight = useCallback((flight, source = "voice") => { if (!flight) return null; pendingFlightRef.current = null; setPendingFlight(null); setFlightLookupActive(false); updateTravel({ selectedFlight: flight, destination: flight.destination || "", gate: flight.gate || "", departureDateTime: flight.scheduledDeparture || "" }, source); return flight; }, [updateTravel]);
   const clearConfirmedFlight = useCallback(() => { pendingFlightRef.current = null; setPendingFlight(null); setFlightLookupActive(false); updateTravel({ selectedFlight: null, destination: "", gate: "", departureDateTime: "" }, "voice"); return { cleared: true }; }, [updateTravel]);
   const refreshJourney = useCallback(async (query = "") => {
-    try {
-      const response = await fetch("/api/avolta-demo/journey-context", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, demoNow: demoNowRef.current.toISOString() }) });
-      const payload = await response.json().catch(() => ({})); if (!response.ok) throw new Error(payload.error || "Flight information is unavailable.");
-      journeyContextRef.current = payload; const matches = payload.flightSearch?.matches || []; flightMatchesRef.current = matches;
-      setFlightContext(payload); if (query) { setFlightLookupActive(true); if (matches.length === 1) proposeFlight(matches[0]); }
-      return payload;
-    } catch (error) { return { error: error.message || "Flight information is unavailable." }; }
+    if (!query && !journeyContextRef.current) setFlightContextStatus("loading");
+    let lastError = new Error("Flight information is unavailable.");
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      if (attempt) await new Promise((resolve) => window.setTimeout(resolve, attempt === 1 ? 500 : 1500));
+      try {
+        const response = await fetch("/api/avolta-demo/journey-context", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, demoNow: demoNowRef.current.toISOString() }) });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) { const error = new Error(payload.error || "Flight information is unavailable."); error.status = response.status; throw error; }
+        if (!Array.isArray(payload.illustrativeFlights)) throw new Error("Flight information is unavailable.");
+        journeyContextRef.current = payload; const matches = payload.flightSearch?.matches || []; flightMatchesRef.current = matches;
+        setFlightContext(payload); if (!query) setFlightContextStatus("ready");
+        if (query) { setFlightLookupActive(true); if (matches.length === 1) proposeFlight(matches[0]); }
+        return payload;
+      } catch (error) {
+        lastError = error;
+        if (error.status && error.status < 500) break;
+      }
+    }
+    if (!query) setFlightContextStatus(journeyContextRef.current ? "fallback" : "error");
+    return { error: lastError.message || "Flight information is unavailable." };
   }, [proposeFlight]);
   useEffect(() => { if (clockReady) refreshJourney(); }, [clockReady, refreshJourney]);
   useEffect(() => {
@@ -395,12 +411,12 @@ Initial interface state: ${safe(stateSnapshot())}` });
 
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
         <div className={styles.contextRail} data-has-order={Boolean(order)}>
-          <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"}>
+          <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"} data-flight-context-status={flightContextStatus}>
             {!confirmedFlight ? <div className={styles.departureTopline}><span>Departures</span>{pendingFlight && <b>Your flight?</b>}</div> : (actionableFlightStatus || !order) && <div className={styles.departureTopline} data-personal="true">{actionableFlightStatus && <span>{actionableFlightStatus}</span>}{!order && <strong>{displayedBoarding.label}</strong>}</div>}
             {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
               <div className={styles.departureHead}><span>Time</span><span>Destination</span><span>Flight</span><span>Gate</span></div>
               <div className={styles.departureRow}><time>{formatClock(displayedFlight.scheduledDeparture)}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate || "—"}</b></div>
-            </div> : <div className={styles.noDepartures}>No more departures</div>}
+            </div> : scheduleEnded ? <div className={styles.noDepartures}>Departures complete</div> : flightContextStatus === "loading" ? <div className={styles.noDepartures}>Loading departures…</div> : <div className={styles.noDepartures}><span>Departures unavailable</span><button type="button" onClick={() => refreshJourney()}>Retry</button></div>}
             {confirmedFlight && travel.stage !== "unknown" && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
           </article>
           {order && orderState && <article className={styles.orderCard}>

@@ -73,7 +73,8 @@
 .departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .78rem; font-weight: 780; letter-spacing: .025em; white-space: nowrap; }
 .departureRow strong { overflow: hidden; color: var(--lime); font-size: .9rem; letter-spacing: .035em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .departureRow b { color: var(--coral); text-align: right; }
-.noDepartures { min-height: 3.4rem; display: flex; align-items: center; color: #d7cfda; font-size: .78rem; }
+.noDepartures { min-height: 3.4rem; display: flex; align-items: center; gap: .7rem; color: #d7cfda; font-size: .78rem; }
+.noDepartures button { padding: 0; border: 0; color: var(--lime); background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
 @keyframes departureSwap { from { opacity: 0; transform: translateY(-.38rem); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .journeyTrack, .progressTrack { margin-top: .58rem; padding-top: .5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .32rem; overflow: hidden; }
 .flightCard .journeyTrack { border-top-color: rgba(255,255,255,.13); }

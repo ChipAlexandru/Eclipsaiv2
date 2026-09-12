@@ -85,6 +85,11 @@ export function replayClockState(anchor, realNow = new Date()) {
   return { now: now.toISOString(), replayDate, scheduleEnded: replayDate !== anchor.serviceDate };
 }
 
+export function shouldRebasePassiveReplay(anchor, realNow = new Date(), persistedState = {}) {
+  if (!anchor || persistedState?.travel?.selectedFlight || persistedState?.order) return false;
+  return replayClockState(anchor, realNow).scheduleEnded;
+}
+
 function parseCodeshares(value) {
   if (Array.isArray(value)) return value.flatMap(parseCodeshares);
   return String(value || "").split(/[,;/|]+/).map((item) => item.trim()).filter(Boolean);
