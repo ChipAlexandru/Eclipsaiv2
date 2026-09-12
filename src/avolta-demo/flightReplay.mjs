@@ -260,10 +260,12 @@ export function orderProgress(order, demoNow) {
 
 export function formatRemaining(totalSeconds) {
   const seconds = Math.max(0, Math.floor(Number(totalSeconds) || 0));
-  if (seconds < 60) return `${seconds}s`;
-  const minutes = Math.floor(seconds / 60);
-  const remainder = seconds % 60;
-  return remainder ? `${minutes}m ${String(remainder).padStart(2, "0")}s` : `${minutes}m`;
+  if (seconds < 60) return "<1 min";
+  const totalMinutes = Math.ceil(seconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (!hours) return `${minutes} min`;
+  return minutes ? `${hours}h ${minutes}m` : `${hours}h`;
 }
 
 export function pairedCountdowns(flight, order, demoNow) {

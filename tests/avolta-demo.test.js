@@ -152,6 +152,11 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(css, /@keyframes departureSwap/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.doesNotMatch(renderedClient, /Awaiting flight confirmation|Demo day ·|Avolta concept|Simulated gate delivery|Simulated collection|Review demo order|Demo order review|Confirm demo order|Estimated demo time|simulated fulfillment/);
+  assert.doesNotMatch(renderedClient, /<span data-active=\{travel\.stage === "unknown"\}>Unknown<\/span>/);
+  assert.match(client, /travel\.stage !== "unknown"/);
+  assert.match(client, /data-current=\{index === orderState\.stateIndex\}/);
+  assert.doesNotMatch(renderedClient, /product\.promotionEvidence && <i>/);
+  assert.match(renderedClient, /selectedProduct\.promotionEvidence && <em>/);
   assert.doesNotMatch(page, /concept|preview|Enter the experience|AVOLTA_DEMO_PASSCODE/i);
   assert.match(client, /data-has-order=\{Boolean\(order\)\}/);
   assert.doesNotMatch(client, />Reset demo</);
@@ -222,6 +227,9 @@ test("flight replay matches codeshares and ambiguity while keeping source observ
   const cancelled = { ...capturedDeparted, simulationEvents: [{ type: "cancelled", at: "2026-09-12T07:00:00Z" }] };
   assert.equal(replay.replayFlightStatus(cancelled, new Date("2026-09-12T08:00:00Z")).isCancelled, true);
   assert.equal(replay.boardingCountdown(capturedDeparted, new Date("2026-09-12T13:00:00Z")).seconds, 0);
+  assert.equal(replay.formatRemaining(29), "<1 min");
+  assert.equal(replay.formatRemaining(60), "1 min");
+  assert.equal(replay.formatRemaining(6898), "1h 55m");
 });
 
 test("journey and simulated order paths share the replay clock and announce meaningful changes once", async () => {
