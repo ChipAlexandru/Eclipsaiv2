@@ -64,7 +64,7 @@
 .departureTopline { display: flex; align-items: center; justify-content: space-between; gap: .75rem; color: #fff; }
 .departureTopline span { color: var(--lime); font-size: .59rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
 .departureTopline b { padding: .16rem .38rem; border-radius: .25rem; color: var(--violet-deep); background: var(--coral); font-size: .53rem; letter-spacing: .06em; text-transform: uppercase; }
-.departureTopline strong { margin-left: auto; color: var(--lime); font-size: .66rem; }
+.departureTopline strong { margin-left: auto; color: var(--lime); font-size: .66rem; white-space: nowrap; }
 .departureTopline[data-personal="true"] span { color: var(--coral); letter-spacing: .06em; }
 .departureBoard { margin-top: .48rem; animation: departureSwap .36s cubic-bezier(.2,.7,.2,1) both; }
 .departureHead, .departureRow { display: grid; grid-template-columns: 4.2rem minmax(8rem, 1fr) 5.4rem 3.2rem; align-items: center; column-gap: .72rem; }
