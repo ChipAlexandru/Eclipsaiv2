@@ -105,7 +105,8 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.match(clientStyles, /font-family: "Juliette Roboto"/);
   assert.match(clientStyles, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
   assert.match(clientStyles, /\.productCard \{[\s\S]*position: relative;[\s\S]*aspect-ratio: 1 \/ 1/);
-  assert.match(clientStyles, /\.imageWrap img \{ object-fit: contain; \}/);
+  assert.match(clientStyles, /\.imageWrap img \{[\s\S]*object-fit: cover;[\s\S]*transform: scale/);
+  assert.match(clientStyles, /\.imageWrap\[data-frame="preserve"\] img \{ object-fit: contain; transform: none; \}/);
   assert.match(clientStyles, /\.productCard\[data-selected="true"\] \.imageWrap/);
   assert.match(clientStyles, /\.productText \{[\s\S]*position: absolute;[\s\S]*text-shadow:/);
   assert.match(clientStyles, /\.cardAction \{[\s\S]*position: absolute;/);

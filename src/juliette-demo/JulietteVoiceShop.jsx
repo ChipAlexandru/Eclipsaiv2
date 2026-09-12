@@ -26,6 +26,16 @@ import styles from "./julietteVoiceShop.module.css";
 const IMAGE_WAIT_MS = 4500;
 const VOICE_SESSION_DURATION_MS = 5 * 60 * 1000;
 
+function imageFrameFor(productName) {
+  if (productName.startsWith("Gutschein im Wert")) return "preserve";
+  if (/baguette/i.test(productName)) return "tall";
+  if (/Salat|Salade/.test(productName)) return "bowl";
+  if (/Sandwich|Ficelle|brötchen mit (?:Thunfisch|Brie)|Schinken-Laugenbrötchen/i.test(productName)) return "wide";
+  if (/Spiessli|Gougères|Mini patisseries|platte|Burger \(20 Stück\)/i.test(productName)) return "grouped";
+  if (/\((?:4|6|8) [Pp]ersonen\)|serves four/.test(productName)) return "whole";
+  return "close";
+}
+
 function formatChf(value) {
   return new Intl.NumberFormat("de-CH", {
     style: "currency",
@@ -611,7 +621,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                   aria-label={`Select ${product.name} for voice reference`}
                   aria-pressed={selectedId === product.id}
                 >
-                  <div className={styles.imageWrap}>
+                  <div className={styles.imageWrap} data-frame={imageFrameFor(product.name)}>
                     {!imageFailed && image ? (
                       <Image
                         data-product-image={product.id}
@@ -638,7 +648,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                 <div className={styles.cardAction}>
                   {quantity === 0 ? (
                     <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.name} to basket`}>
-                      <Plus size={18} aria-hidden="true" />
+                      <Plus size={32} strokeWidth={2.6} aria-hidden="true" />
                     </button>
                   ) : (
                     <div className={styles.stepper} aria-label={`${product.name} quantity`}>
