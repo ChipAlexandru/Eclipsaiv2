@@ -104,9 +104,12 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.match(clientStyles, /--blue: #002fa1/);
   assert.match(clientStyles, /font-family: "Juliette Roboto"/);
   assert.match(clientStyles, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
-  assert.match(clientStyles, /\.productCard \{[\s\S]*display: flex;[\s\S]*flex-direction: column/);
+  assert.match(clientStyles, /\.productCard \{[\s\S]*position: relative;[\s\S]*aspect-ratio: 1 \/ 1/);
   assert.match(clientStyles, /\.imageWrap img \{ object-fit: contain; \}/);
   assert.match(clientStyles, /\.productCard\[data-selected="true"\] \.imageWrap/);
+  assert.match(clientStyles, /\.productText \{[\s\S]*position: absolute;[\s\S]*text-shadow:/);
+  assert.match(clientStyles, /\.cardAction \{[\s\S]*position: absolute;/);
+  assert.doesNotMatch(clientStyles, /\.productText \{[^}]*min-height:/);
   assert.doesNotMatch(clientStyles, /\.productCard \{[^}]*border:/);
   assert.doesNotMatch(clientStyles, /--wine|--cream|#f5f0e8|#f2e5e8|#73233d|#451326/i);
   assert.doesNotMatch(clientStyles, /\.pulse\b|\.demoTruth\b/);

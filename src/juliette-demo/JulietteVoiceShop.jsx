@@ -629,13 +629,13 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                     ) : (
                       <span className={styles.imageFallback}>Photo unavailable</span>
                     )}
-                  </div>
-                  <div className={styles.productText}>
-                    <h2>{product.name}</h2>
+                    <div className={styles.productText}>
+                      <h2>{product.name}</h2>
+                      <strong className={styles.productPrice}>{formatChf(product.priceChf)}</strong>
+                    </div>
                   </div>
                 </button>
                 <div className={styles.cardAction}>
-                  <strong className={styles.productPrice}>{formatChf(product.priceChf)}</strong>
                   {quantity === 0 ? (
                     <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.name} to basket`}>
                       <Plus size={16} aria-hidden="true" /> Add
