@@ -82,7 +82,7 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.doesNotMatch(clientSource, /What would you like today\?|Demo ·|Demo only|Five-minute demo|mobile demo|This is a demonstration|simulated pickup/i);
   assert.doesNotMatch(pageSource, /title:\s*[^\n]*demo|description:\s*[^\n]*simulat/i);
   assert.match(clientSource, /VOICE_SESSION_DURATION_MS = 5 \* 60 \* 1000/);
-  assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*closeVoiceSession\("Talk to Juliette"\)/);
+  assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*closeVoiceSession\("Talk to Order"\)/);
   assert.match(clientSource, /session\.on\("audio_start"[\s\S]*setVoiceStatus\("speaking"\)/);
   assert.match(clientSource, /session\.on\("audio_stopped"[\s\S]*setVoiceStatus\(session\.muted \? "muted" : "listening"\)/);
   assert.match(clientSource, /className=\{styles\.voiceBars\}[\s\S]*className=\{styles\.connectingIndicator\}/);

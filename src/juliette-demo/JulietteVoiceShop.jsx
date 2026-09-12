@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Captions,
   Check,
-  MapPin,
   MicOff,
   Minus,
   Plus,
@@ -58,7 +57,7 @@ export function JulietteVoiceShop({ catalog }) {
   const [basketOpen, setBasketOpen] = useState(false);
   const [captionsOpen, setCaptionsOpen] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("idle");
-  const [voiceMessage, setVoiceMessage] = useState("Talk to Juliette");
+  const [voiceMessage, setVoiceMessage] = useState("Talk to Order");
   const [isMuted, setIsMuted] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [pickupSimulation, setPickupSimulation] = useState(null);
@@ -309,7 +308,7 @@ export function JulietteVoiceShop({ catalog }) {
   }, [clearVoiceTimeout]);
 
   const disconnectVoice = useCallback(() => {
-    closeVoiceSession("Talk to Juliette");
+    closeVoiceSession("Talk to Order");
   }, [closeVoiceSession]);
 
   const startVoice = useCallback(async () => {
@@ -426,7 +425,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       clearVoiceTimeout();
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!mountedRef.current) return;
-        closeVoiceSession("Talk to Juliette");
+        closeVoiceSession("Talk to Order");
       }, VOICE_SESSION_DURATION_MS);
       setVoiceStatus("listening");
       setVoiceMessage("Listening");
@@ -539,7 +538,6 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
           </h1>
         </div>
         <div className={styles.location} aria-label="Pickup location: Erlenbach">
-          <span><MapPin size={12} aria-hidden="true" /> Pickup at</span>
           <strong>Erlenbach</strong>
         </div>
       </header>
@@ -629,7 +627,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
             onClick={startVoice}
             aria-label={sessionRef.current
               ? (isMuted ? "Unmute microphone" : "Mute microphone")
-              : (voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : "Talk to Juliette")}
+              : (voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : "Talk to Order")}
             aria-describedby={voiceStatus === "error" || voiceStatus === "unsupported" ? "voice-error" : undefined}
             disabled={voiceStatus === "connecting"}
           >
