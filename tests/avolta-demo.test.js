@@ -108,13 +108,24 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
 
 test("Avolta shopper UX is simple, product-led, complete and keeps operational context off-screen", () => {
   const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
+  const css = fs.readFileSync(path.join(feature, "avoltaVoiceShop.module.css"), "utf8");
+  const provenance = fs.readFileSync(path.join(root, "docs", "avolta-design-reference.md"), "utf8");
   assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
-  assert.match(client, /See all \{products\.length\}/);
+  assert.match(client, />All products</);
+  assert.match(client, /"Talk to Order"/);
   assert.match(client, /showFullCollection/);
-  assert.match(client, /products\.filter\(\(product\) => product\.productType === category\)/);
   assert.match(client, /currentViewportIds/);
   assert.match(client, /const viewportIds = ids\.slice\(0, 4\)/);
   assert.match(client, /IMAGE_WAIT_MS = 1800/);
+  assert.match(client, /className=\{styles\.productSurface\}/);
+  assert.match(client, /className=\{styles\.controlDock\}/);
+  assert.match(client, /hasBasket && <button className=\{styles\.basketTrigger\}/);
+  assert.doesNotMatch(client, /className=\{styles\.(?:shopIntro|catalogueTop|categories|bagButton)\}/);
+  assert.doesNotMatch(client, />205 products<|Zürich Airport selection|>What would you like to pick up\?</);
+  assert.match(css, /grid-template-columns:\s*repeat\(5,/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+  assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
   assert.doesNotMatch(client, /session\.on\("history_updated"/);
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
