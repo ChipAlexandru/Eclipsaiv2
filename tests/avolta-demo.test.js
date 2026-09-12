@@ -147,6 +147,11 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(client, />Departures</);
   assert.match(client, />Your flight\?</);
   assert.match(client, /data-flight-state=\{flightDisplayState\}/);
+  assert.match(client, /data-flight-context-status=\{flightContextStatus\}/);
+  assert.match(client, /setFlightContextStatus\(journeyContextRef\.current \? "fallback" : "error"\)/);
+  assert.match(client, />Loading departures…<|>Departures unavailable</);
+  assert.doesNotMatch(client, />No more departures</);
+  assert.match(page, /initialContext: \{ scheduleEnded: false, departureCount: initialContext\.departureCount, illustrativeFlights: initialContext\.illustrativeFlights \}/);
   assert.match(client, /setInterval\([^,]+, 5000\)/);
   assert.match(client, /voiceStatus !== "idle" \|\| travel\.selectedFlight \|\| pendingFlight/);
   assert.match(css, /@keyframes departureSwap/);
@@ -210,6 +215,9 @@ test("one Zurich replay clock maps morning and evening, survives refresh, observ
   assert.strictEqual(restored, anchor);
   assert.equal(replay.replayNow(anchor, new Date("2030-01-01T10:00:30Z")).toISOString(), "2026-09-12T21:59:30.000Z");
   assert.equal(replay.replayClockState(anchor, new Date("2030-01-01T10:02:00Z")).scheduleEnded, true);
+  assert.equal(replay.shouldRebasePassiveReplay(anchor, new Date("2030-01-01T10:02:00Z")), true);
+  assert.equal(replay.shouldRebasePassiveReplay(anchor, new Date("2030-01-01T10:02:00Z"), { travel: { selectedFlight: { id: "confirmed" } } }), false);
+  assert.equal(replay.shouldRebasePassiveReplay(anchor, new Date("2030-01-01T10:02:00Z"), { order: { reference: "ZRH-1" } }), false);
 });
 
 test("flight replay matches codeshares and ambiguity while keeping source observations separate", async () => {
