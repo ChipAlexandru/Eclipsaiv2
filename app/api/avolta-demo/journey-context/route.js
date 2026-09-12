@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { hasAccess } from "../../../../src/avolta-demo/auth.mjs";
-import { matchFlights } from "../../../../src/avolta-demo/liveContext.mjs";
-import { getTodayJourneyContext } from "../../../../src/avolta-demo/liveContextServer.mjs";
+import { matchFlights } from "../../../../src/avolta-demo/flightReplay.mjs";
+import { getReplayJourneyContext } from "../../../../src/avolta-demo/liveContextServer.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,22 +17,25 @@ function json(body, init = {}) {
 export async function POST(request) {
   if (!hasAccess(await cookies())) return json({ error: "Passcode access is required." }, { status: 401 });
   try {
-    const { query = "" } = await request.json().catch(() => ({}));
-    const context = await getTodayJourneyContext();
+    const { query = "", demoNow = "" } = await request.json().catch(() => ({}));
+    const parsedDemoNow = demoNow && !Number.isNaN(new Date(demoNow).getTime()) ? new Date(demoNow) : new Date("2026-09-12T12:00:00Z");
+    const context = getReplayJourneyContext(parsedDemoNow);
     const flightSearch = query ? matchFlights(context.flights, String(query).slice(0, 80)) : null;
     return json({
+      fixtureVersion: context.fixtureVersion,
       serviceDate: context.serviceDate,
-      fetchedAt: context.fetchedAt,
-      expiresAt: context.expiresAt,
+      capturedAt: context.capturedAt,
+      timeZone: context.timeZone,
       sourceStatus: context.sourceStatus,
-      queues: context.queues,
-      failures: context.failures,
+      scheduleEnded: context.scheduleEnded,
       sources: context.sources,
-      departureCount: context.flights.length,
+      departureCount: context.departureCount,
+      illustrativeFlights: context.illustrativeFlights,
+      replayScenario: context.replayScenario,
       flightSearch,
     });
   } catch (error) {
     console.error("Avolta journey context retrieval failed", { message: error instanceof Error ? error.message : "Unknown error" });
-    return json({ error: "Live airport context is temporarily unavailable; shopping remains available." }, { status: 502 });
+    return json({ error: "The captured demo day could not be loaded; shopping remains available." }, { status: 502 });
   }
 }

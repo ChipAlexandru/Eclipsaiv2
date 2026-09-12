@@ -1,6 +1,6 @@
 # Zürich Duty Free voice-shopping concept
 
-An isolated Avolta feature fork for open-ended, voice-and-touch discovery and a quick airport-pickup concept reservation. The journey-aware build uses 205 source-backed product listings and today's official Zürich Airport departure and checkpoint context. It has no runtime dependency on the legacy demo feature.
+An isolated Avolta feature for open-ended, voice-and-touch discovery around a captured Zürich flight day. The companion uses 205 source-backed product listings, explicit flight confirmation, traveler-provided journey context and simulated same-journey fulfillment. It has no runtime dependency on the legacy demo feature or on airport data services.
 
 ## Run locally
 
@@ -36,7 +36,7 @@ Prices, offer labels and online listing status are captured public data. They ar
 - Voice sessions end after five minutes.
 - Page metadata, response behavior and `robots.txt` keep the route out of indexing; it is absent from the sitemap.
 - Reservations are local concept summaries only. No payment, stock hold, store submission, notification or live system mutation occurs.
-- The live public readings use the shared Next.js/Vercel Data Cache with a 180-second refresh target and expire at Europe/Zurich midnight. Browser responses are private and uncached; source failures do not block shopping.
-- Shortlists persist locally. Any stored reservation summary expires at Europe/Zurich midnight; audio, transcript and personal journey context are not placed in the shared cache.
+- Flight context comes from the immutable `zrh-departures-2026-09-12-v1` fixture. Production makes no airport, queue or traffic request; one session clock replays the captured day and persists only in the current browser tab.
+- Shortlist, journey, flight and demo-order state persist only in the current tab's session storage. Audio is not retained and no transcript UI is built.
 
 The in-memory session limiter is a defense-in-depth demo control, not a globally consistent distributed rate limiter. A production deployment should use a shared rate-limit store or identity-aware access proxy.
