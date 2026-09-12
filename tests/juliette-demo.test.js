@@ -58,9 +58,10 @@ test("shopping helpers support touch-relative selection and bounded basket chang
   assert.throws(() => shopping.changeBasket({}, "invented-product", 1, "add", validIds), /Unknown product/);
 });
 
-test("Realtime credentials remain server-side and the quiet shopping surface keeps one simulated pickup confirmation", () => {
+test("Realtime credentials remain server-side and the full-catalogue surface keeps one pickup-preview confirmation", () => {
   const clientSource = fs.readFileSync(path.join(root, "src", "juliette-demo", "JulietteVoiceShop.jsx"), "utf8");
   const stockAdapter = fs.readFileSync(path.join(root, "src", "juliette-demo", "stockAdapter.mjs"), "utf8");
+  const pageSource = fs.readFileSync(path.join(root, "app", "juliette-demo", "page.jsx"), "utf8");
   const tokenRoute = fs.readFileSync(path.join(root, "app", "api", "juliette-demo", "realtime-token", "route.js"), "utf8");
 
   assert.doesNotMatch(clientSource, /process\.env\.OPENAI_API_KEY/);
@@ -70,11 +71,15 @@ test("Realtime credentials remain server-side and the quiet shopping surface kee
   assert.doesNotMatch(`${clientSource}\n${stockAdapter}`, /JUL-DEMO|Tomorrow, 10:30/);
   assert.match(clientSource, /No real transaction is possible/);
   assert.match(clientSource, /belowFoldProductIds/);
-  assert.match(clientSource, /initialDemoProducts\(products\)\.slice\(0, 6\)/);
+  assert.match(clientSource, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
+  assert.match(clientSource, /showAllProducts[\s\S]*products\.map\(\(product\) => product\.id\)/);
+  assert.doesNotMatch(clientSource, /validProductIds\.has\(id\)\)\.slice/);
+  assert.match(clientSource, />All products</);
   assert.doesNotMatch(clientSource, /OpenAI Realtime|WebRTC|Demo:\s*\{/);
-  assert.doesNotMatch(clientSource, /What would you like today\?/);
-  assert.match(clientSource, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
-  assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*Five-minute demo ended/);
+  assert.doesNotMatch(clientSource, /What would you like today\?|Demo ·|Demo only|Five-minute demo|mobile demo|This is a demonstration|simulated pickup/i);
+  assert.doesNotMatch(pageSource, /title:\s*[^\n]*demo|description:\s*[^\n]*simulat/i);
+  assert.match(clientSource, /VOICE_SESSION_DURATION_MS = 5 \* 60 \* 1000/);
+  assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*Five-minute session ended/);
   assert.match(tokenRoute, /process\.env\.OPENAI_API_KEY/);
   assert.match(tokenRoute, /realtime\/client_secrets/);
   assert.match(tokenRoute, /Cache-Control/);

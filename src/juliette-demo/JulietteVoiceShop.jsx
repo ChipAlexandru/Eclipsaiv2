@@ -18,7 +18,6 @@ import {
   basketSummary,
   changeBasket,
   compactProduct,
-  initialDemoProducts,
   searchCatalog,
   shoppingStateSnapshot,
   transcriptFromHistory,
@@ -26,7 +25,7 @@ import {
 import styles from "./julietteVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 4500;
-const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
+const VOICE_SESSION_DURATION_MS = 5 * 60 * 1000;
 
 function formatChf(value) {
   return new Intl.NumberFormat("de-CH", {
@@ -44,9 +43,8 @@ export function JulietteVoiceShop({ catalog }) {
   const products = catalog.products;
   const productsById = useMemo(() => new Map(products.map((product) => [product.id, product])), [products]);
   const validProductIds = useMemo(() => new Set(productsById.keys()), [productsById]);
-  const initialProducts = useMemo(() => initialDemoProducts(products).slice(0, 6), [products]);
 
-  const [visibleIds, setVisibleIds] = useState(() => initialProducts.map((product) => product.id));
+  const [visibleIds, setVisibleIds] = useState(() => products.map((product) => product.id));
   const [selectedId, setSelectedId] = useState(null);
   const [basket, setBasket] = useState({});
   const [searchValue, setSearchValue] = useState("");
@@ -81,8 +79,8 @@ export function JulietteVoiceShop({ catalog }) {
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
-  const isInitialSelection = visibleIds.length === initialProducts.length
-    && visibleIds.every((id, index) => id === initialProducts[index]?.id);
+  const isFullCatalogue = visibleIds.length === products.length
+    && visibleIds.every((id, index) => id === products[index]?.id);
 
   const stateSnapshot = useCallback(() => shoppingStateSnapshot({
     visibleIds: visibleIdsRef.current,
@@ -147,7 +145,7 @@ export function JulietteVoiceShop({ catalog }) {
   }, []);
 
   const presentProducts = useCallback(async (requestedIds, focusId = null) => {
-    const ids = [...new Set(requestedIds)].filter((id) => validProductIds.has(id)).slice(0, 20);
+    const ids = [...new Set(requestedIds)].filter((id) => validProductIds.has(id));
     if (ids.length === 0) return { displayed: false, error: "No valid product IDs were provided." };
 
     const sequence = presentationSequenceRef.current + 1;
@@ -267,7 +265,7 @@ export function JulietteVoiceShop({ catalog }) {
 
     const preparePickup = realtimeTool({
       name: "prepare_simulated_pickup",
-      description: "Open the shared basket review for a simulated Juliette Erlenbach pickup. This never creates an order, payment, reservation, or store message. The shopper must use the single touch confirmation in that review.",
+      description: "Open the shared basket review for a Juliette Erlenbach pickup preview. This never creates an order, payment, reservation, or store message. The shopper must use the single touch confirmation in that review.",
       parameters: zod.object({
         location: zod.literal("Juliette Erlenbach"),
       }),
@@ -345,12 +343,12 @@ export function JulietteVoiceShop({ catalog }) {
       const agent = new RealtimeAgent({
         name: "Juliette voice shopper",
         voice: "marin",
-        instructions: `You are Juliette's concise English voice shopping assistant for a mobile demo.
+        instructions: `You are Juliette's concise English voice shopping assistant.
 
-Keep speech warm, natural, brief, and easy to interrupt. Help the shopper discover products, see photos, change quantities, and prepare a simulated pickup at Juliette Erlenbach.
+Keep speech warm, natural, brief, and easy to interrupt. Help the shopper discover products, see photos, change quantities, and prepare a pickup preview at Juliette Erlenbach.
 
 Critical rules:
-- This is a demonstration. Stock numbers are labelled sample data and are not live physical-store inventory.
+- Availability is not live physical-store inventory. When availability matters, say it must be confirmed with Juliette.
 - Never say an order, reservation, payment, pickup, or store message is real. No real transaction is possible here.
 - Use search_and_show_products whenever the shopper expresses a product need or asks for options. Describe as visible only the products returned in displayedProducts; below-fold products are not currently visible.
 - Call get_shopping_state before interpreting words such as 'this one', 'that', or 'two of this one'. The touch-selected product is authoritative.
@@ -422,8 +420,8 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       clearVoiceTimeout();
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!mountedRef.current) return;
-        closeVoiceSession("Five-minute demo ended. Talk again.");
-      }, VOICE_DEMO_DURATION_MS);
+        closeVoiceSession("Five-minute session ended. Talk again.");
+      }, VOICE_SESSION_DURATION_MS);
       setVoiceStatus("listening");
       setVoiceMessage("Listening");
       session.sendMessage("Greet the shopper in one short sentence, then ask what they would like today.");
@@ -462,16 +460,16 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     queueMicrotask(() => sendInterfaceState("a catalogue search by touch"));
   }, [presentProducts, products, searchValue, sendInterfaceState]);
 
-  const resetProducts = useCallback(async () => {
+  const showAllProducts = useCallback(async () => {
     setSearchValue("");
     setSearchStatus("");
     setSearchOpen(false);
     selectedIdRef.current = null;
     setSelectedId(null);
-    await presentProducts(initialProducts.map((product) => product.id));
+    await presentProducts(products.map((product) => product.id));
     requestAnimationFrame(() => searchButtonRef.current?.focus());
-    queueMicrotask(() => sendInterfaceState("the sample selection was restored"));
-  }, [initialProducts, presentProducts, sendInterfaceState]);
+    queueMicrotask(() => sendInterfaceState("the full catalogue was restored"));
+  }, [presentProducts, products, sendInterfaceState]);
 
   const openBasket = useCallback(() => setBasketOpen(true), []);
   const closeBasket = useCallback(() => setBasketOpen(false), []);
@@ -482,7 +480,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
 
   const confirmPickup = useCallback(() => {
     const result = createPickupSimulation();
-    if (result) queueMicrotask(() => sendInterfaceState("the shopper confirmed a simulated pickup preview; no order was placed"));
+    if (result) queueMicrotask(() => sendInterfaceState("the shopper confirmed a pickup preview; no order was placed"));
   }, [createPickupSimulation, sendInterfaceState]);
 
   useEffect(() => {
@@ -577,10 +575,10 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       )}
 
       <section className={styles.productSurface} aria-label="Juliette products">
-        {!isInitialSelection && (
+        {!isFullCatalogue && (
           <div className={styles.resultsContext}>
             <span>Search results</span>
-            <button type="button" onClick={resetProducts}>Back to today’s selection</button>
+            <button type="button" onClick={showAllProducts}>All products</button>
           </div>
         )}
 
@@ -646,7 +644,6 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       </section>
 
       <section className={styles.controlDock} data-status={voiceStatus} aria-label="Shopping controls">
-        <p className={styles.demoTruth}>Demo · sample availability · no real orders</p>
         <div className={styles.dockRow}>
           <button
             ref={voiceButtonRef}
@@ -739,7 +736,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                 <Check size={18} aria-hidden="true" />
                 <div>
                   <strong>Pickup preview · Erlenbach</strong>
-                  <span>Demo only — no order placed</span>
+                  <span>No order placed</span>
                 </div>
               </div>
             )}
@@ -774,7 +771,6 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                       <Check size={18} aria-hidden="true" /> Confirm pickup preview
                     </button>
                   )}
-                  <p>Demo only. No order, reservation, payment, or store message will be created.</p>
                 </div>
               </>
             )}
