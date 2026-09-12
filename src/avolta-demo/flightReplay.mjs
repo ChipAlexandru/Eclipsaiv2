@@ -145,8 +145,13 @@ export function matchFlights(flights, rawQuery) {
 
 export function illustrativeFlights(flights, demoNow, limit = 4) {
   const nowMs = new Date(demoNow).getTime();
-  const complete = flights.filter((flight) => flight.scheduledDeparture && flight.destination && flight.flightNumber && /^[A-Z]{3}$/.test(flight.destinationCode || ""));
-  const future = complete.filter((flight) => new Date(flight.boardingTime || flight.scheduledDeparture).getTime() >= nowMs + 20 * 60_000);
+  const complete = flights.filter((flight) => {
+    if (!flight.scheduledDeparture || !flight.destination || !flight.flightNumber || !/^[A-Z]{3}$/.test(flight.destinationCode || "")) return false;
+    const departureMs = new Date(flight.scheduledDeparture).getTime();
+    const boardingMs = flight.boardingTime ? new Date(flight.boardingTime).getTime() : null;
+    return boardingMs == null || boardingMs <= departureMs;
+  });
+  const future = complete.filter((flight) => new Date(flight.scheduledDeparture).getTime() >= nowMs + 20 * 60_000);
   const source = future.length >= limit ? future : complete;
   if (!source.length) return [];
   const step = Math.max(1, Math.floor(source.length / limit));
@@ -213,7 +218,7 @@ export function assessReplayJourney({ stage, flight, arrivalEstimate, minutesAva
   return {
     outcome,
     availableShoppingMinutes: availableMinutes == null ? null : Math.max(0, availableMinutes),
-    recommendation: outcome === "explore" ? "There is room for a focused browse in this demo scenario." : outcome === "quick_pickup" ? "Keep the choice focused and use the convenient demo fulfillment." : "Prioritize the flight path; do not promise the order will fit.",
+    recommendation: outcome === "explore" ? "There is room for a focused browse before boarding." : outcome === "quick_pickup" ? "Keep the choice focused and use the recommended fulfillment option." : "Prioritize the flight path; do not promise the order will fit.",
     known: { stage: normalizedStage, flightNumber: flight?.flightNumber || null, gate: flight?.gate || null, arrivalEstimate: arrivalEstimate || null, arrivalEstimateBasis: arrivalEstimate ? "traveler-provided" : null },
     missing,
     clockBasis: "single session replay clock",
@@ -226,12 +231,12 @@ export function recommendFulfillment({ stage, flight, demoNow }) {
   const boarding = boardingCountdown(flight, demoNow);
   const minutes = boarding.known ? boarding.seconds / 60 : null;
   if (location === "at_gate" && flight?.gate && minutes != null && minutes >= 12) {
-    return { method: "gate_delivery", destination: `Gate ${flight.gate}`, etaMinutes: 8, basis: "simulated demo scenario", reason: "You are already at a confirmed gate and the demo window supports delivery." };
+    return { method: "gate_delivery", destination: `Gate ${flight.gate}`, etaMinutes: 8, basis: "simulated demo scenario", reason: "You are already at your confirmed gate and there is enough time for delivery." };
   }
   if (minutes != null && minutes < 10) {
     return { method: "none", destination: null, etaMinutes: null, basis: "simulated demo scenario", reason: "The boarding window is too tight to recommend fulfillment confidently." };
   }
-  return { method: "collection", destination: "Zürich Duty Free · departure shop", etaMinutes: 4, basis: "simulated demo scenario", reason: location === "on_the_way" || location === "at_airport" ? "Collection fits naturally on the way through the airport." : "Collection is the conservative demo option for this journey." };
+  return { method: "collection", destination: "Zürich Duty Free · departure shop", etaMinutes: 4, basis: "simulated demo scenario", reason: location === "on_the_way" || location === "at_airport" ? "Collection fits naturally on the way through the airport." : "Collection is the most reliable option for this journey." };
 }
 
 export function orderProgress(order, demoNow) {
@@ -244,7 +249,7 @@ export function orderProgress(order, demoNow) {
     ];
     const current = [...steps].reverse().find(([, at]) => elapsedMinutes >= at) || steps[0];
     const targetSeconds = Math.max(0, Math.ceil((8 - elapsedMinutes) * 60));
-    return { path: steps.map(([label]) => label), state: current[0], stateIndex: steps.indexOf(current), targetLabel: targetSeconds === 0 ? "Delivered" : `Demo arrival in ${formatRemaining(targetSeconds)}`, targetSeconds, terminal: current[0] === "Delivered" };
+    return { path: steps.map(([label]) => label), state: current[0], stateIndex: steps.indexOf(current), targetLabel: targetSeconds === 0 ? "Delivered" : `Arrives in ${formatRemaining(targetSeconds)}`, targetSeconds, terminal: current[0] === "Delivered" };
   }
   const collected = order.collectedAtDemo && new Date(order.collectedAtDemo).getTime() <= new Date(demoNow).getTime();
   const ready = elapsedMinutes >= 4;

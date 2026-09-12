@@ -53,28 +53,43 @@
 .contextRail { margin-bottom: .85rem; display: grid; grid-template-columns: 1fr; gap: .65rem; }
 .contextRail[data-has-order="true"] { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
 .flightCard, .orderCard { min-width: 0; padding: .72rem .85rem; border: 1px solid var(--line); border-radius: .82rem; background: #fff; box-shadow: 0 .25rem 1rem rgba(40,19,61,.06); }
-.flightCard[data-flight-state="illustrative"] { background: linear-gradient(115deg, #fff, #f8f4fc); }
-.flightCard[data-flight-state="pending"] { border-color: rgba(241,90,58,.55); }
+.flightCard { min-height: 7rem; overflow: hidden; background: #21172a; transform-origin: center top; transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease; }
+.flightCard[data-flight-state="idle"] { border-color: rgba(72,35,107,.22); }
+.flightCard[data-flight-state="focused"] { border-color: rgba(217,240,92,.65); box-shadow: 0 .45rem 1.4rem rgba(40,19,61,.16); transform: scale(1.006); }
+.flightCard[data-flight-state="candidate"] { border-color: rgba(241,90,58,.75); box-shadow: 0 .45rem 1.4rem rgba(40,19,61,.14); transform: scale(1.006); }
 .flightCard[data-flight-state="confirmed"] { border-color: rgba(72,35,107,.3); }
 .contextTopline, .contextDetails, .pairedCountdown { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
 .contextTopline span { color: var(--coral); font-size: .58rem; font-weight: 850; text-transform: uppercase; letter-spacing: .065em; }
 .contextTopline b { overflow: hidden; color: var(--muted); font-size: .58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-.flightMain, .orderMain { margin-top: .35rem; display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
-.flightMain strong, .orderMain strong { color: var(--violet-deep); font-size: 1.06rem; letter-spacing: -.025em; white-space: nowrap; }
-.flightMain strong i { color: var(--coral); font-style: normal; }
-.flightMain span, .orderMain span { overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
-.contextDetails { margin-top: .28rem; color: var(--muted); font-size: .62rem; }
-.contextDetails strong { color: var(--violet); font-size: .66rem; }
+.orderMain { margin-top: .35rem; display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+.orderMain strong { color: var(--violet-deep); font-size: 1.06rem; letter-spacing: -.025em; white-space: nowrap; }
+.orderMain span { overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.departureTopline { display: flex; align-items: center; justify-content: space-between; gap: .75rem; color: #fff; }
+.departureTopline span { color: var(--lime); font-size: .59rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.departureTopline b { padding: .16rem .38rem; border-radius: .25rem; color: var(--violet-deep); background: var(--coral); font-size: .53rem; letter-spacing: .06em; text-transform: uppercase; }
+.flightCard[data-flight-state="confirmed"] .departureTopline b { color: var(--lavender); background: transparent; }
+.departureBoard { margin-top: .48rem; animation: departureSwap .36s cubic-bezier(.2,.7,.2,1) both; }
+.departureHead, .departureRow { display: grid; grid-template-columns: 4.2rem minmax(8rem, 1fr) 5.4rem 3.2rem; align-items: center; column-gap: .72rem; }
+.departureHead { padding: 0 .1rem .2rem; color: #94899c; font-size: .47rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.departureRow { min-height: 2.75rem; padding: .42rem .5rem; border-radius: .32rem; color: #fff; background: linear-gradient(180deg, #342a3b, #2a2131); box-shadow: inset 0 1px rgba(255,255,255,.08), inset 0 -1px rgba(0,0,0,.32); font-variant-numeric: tabular-nums; }
+.departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .78rem; font-weight: 780; letter-spacing: .025em; white-space: nowrap; }
+.departureRow strong { overflow: hidden; color: var(--lime); font-size: .9rem; letter-spacing: .035em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.departureRow b { color: var(--coral); text-align: right; }
+.flightCard .contextDetails { margin-top: .42rem; color: #bcb3c2; font-size: .6rem; }
+.flightCard .contextDetails strong { color: var(--lime); font-size: .64rem; }
+.noDepartures { min-height: 3.4rem; display: flex; align-items: center; color: #d7cfda; font-size: .78rem; }
+@keyframes departureSwap { from { opacity: 0; transform: translateY(-.38rem); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .journeyTrack, .progressTrack { margin-top: .58rem; padding-top: .5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .32rem; overflow: hidden; }
+.flightCard .journeyTrack { border-top-color: rgba(255,255,255,.13); }
 .journeyTrack span { flex: 1 1 auto; padding: .25rem .3rem; border-radius: 999px; color: #827889; background: #f3eff5; font-size: .52rem; text-align: center; white-space: nowrap; }
-.journeyTrack span[data-active="true"] { color: #fff; background: var(--violet); font-weight: 800; }
+.flightCard .journeyTrack span { color: #b9aebf; background: rgba(255,255,255,.08); }
+.journeyTrack span[data-active="true"] { color: var(--violet-deep); background: var(--lime); font-weight: 800; }
 .progressTrack span { min-width: 0; flex: 1 1 0; display: flex; align-items: center; gap: .2rem; color: #867d8a; font-size: .5rem; white-space: nowrap; }
 .progressTrack i { width: .38rem; height: .38rem; flex: 0 0 auto; border: 1px solid #b9afbd; border-radius: 50%; }
 .progressTrack span[data-complete="true"] { color: var(--violet); font-weight: 800; }
 .progressTrack span[data-complete="true"] i { border-color: var(--coral); background: var(--coral); }
 .pairedCountdown { margin-top: .52rem; padding-top: .5rem; border-top: 1px solid var(--line); color: var(--violet); font-size: .65rem; }
 .pairedCountdown strong { color: var(--coral); }
-.scheduleEnded { margin: .48rem 0 0; color: #8a4d28; font-size: .58rem; line-height: 1.35; }
 .resultsContext { min-height: 2.6rem; margin-bottom: .65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .resultsContext span { color: var(--muted); font-size: .8rem; font-weight: 750; }
 .resultsContext button { border: 0; color: var(--violet); background: transparent; font-size: .8rem; font-weight: 800; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
@@ -181,7 +196,6 @@
 .reviewItems p { display: flex; justify-content: space-between; gap: 1rem; margin: 0; padding: .65rem 0; border-top: 1px solid var(--line); font-size: .72rem; }
 .reviewItems span { display: flex; flex-direction: column; }
 .reviewItems small { margin-top: .2rem; color: var(--muted); }
-.conceptNote { padding: .75rem; border-radius: .7rem; color: #675c6d; background: #f4f1f5; font-size: .68rem; line-height: 1.45; }
 .reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
 @media (max-width: 1100px) {
   .productGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -201,7 +215,10 @@
   .productSurface { padding: .62rem .55rem 1.5rem; }
   .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
   .flightCard, .orderCard { padding: .62rem .68rem; }
-  .flightMain strong, .orderMain strong { font-size: .92rem; }
+  .orderMain strong { font-size: .92rem; }
+  .departureHead, .departureRow { grid-template-columns: 3.35rem minmax(6rem, 1fr) 4.4rem 2.4rem; column-gap: .42rem; }
+  .departureRow time, .departureRow span, .departureRow b { font-size: .68rem; }
+  .departureRow strong { font-size: .76rem; }
   .journeyTrack span, .progressTrack span { font-size: .46rem; }
   .resultsContext { min-height: 2.3rem; padding: 0 .15rem; margin-bottom: .4rem; }
   .productGrid { scroll-margin-top: 5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .58rem; }
@@ -240,6 +257,11 @@
   .location small { font-size: .44rem; }
   .location svg { display: none; }
   .productSurface { padding-inline: .4rem; }
+  .flightCard { padding-inline: .52rem; }
+  .departureHead, .departureRow { grid-template-columns: 2.85rem minmax(4.8rem, 1fr) 3.65rem 2rem; column-gap: .28rem; }
+  .departureHead { font-size: .4rem; }
+  .departureRow time, .departureRow span, .departureRow b { font-size: .58rem; }
+  .departureRow strong { font-size: .64rem; }
   .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem; }
   .productText { padding: .48rem .48rem 1.6rem; }
   .productText h2 { font-size: .69rem; }
@@ -251,4 +273,8 @@
   .voiceAction { width: 10.8rem; gap: .48rem; padding: 0 .62rem; }
   .voiceLabel strong { font-size: .78rem; }
   .basketTrigger strong { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flightCard { transition: none; }
+  .departureBoard { animation: none; }
 }
