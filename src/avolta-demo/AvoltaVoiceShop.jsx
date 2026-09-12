@@ -383,7 +383,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
   const flightDisplayState = confirmedFlight ? "confirmed" : pendingFlight ? "candidate" : voiceStatus !== "idle" ? "focused" : "idle";
   const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "—"}` : (displayedFlight.destination || displayedFlight.destinationCode || "—")) : "—";
-  const actionableFlightStatus = displayedFlightStatus.label === "Scheduled" ? null : displayedFlightStatus.label;
+  const actionableFlightStatus = ["Scheduled", "Boarding window approaching"].includes(displayedFlightStatus.label) ? null : displayedFlightStatus.label;
 
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>

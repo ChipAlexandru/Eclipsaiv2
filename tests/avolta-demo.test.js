@@ -154,6 +154,8 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.doesNotMatch(renderedClient, /Awaiting flight confirmation|Demo day ·|Avolta concept|Simulated gate delivery|Simulated collection|Review demo order|Demo order review|Confirm demo order|Estimated demo time|simulated fulfillment/);
   assert.doesNotMatch(renderedClient, /<span data-active=\{travel\.stage === "unknown"\}>Unknown<\/span>/);
   assert.match(client, /travel\.stage !== "unknown"/);
+  assert.match(client, /\["Scheduled", "Boarding window approaching"\]\.includes\(displayedFlightStatus\.label\)/);
+  assert.match(css, /\.departureTopline strong \{[^}]*white-space:\s*nowrap/);
   assert.match(client, /data-current=\{index === orderState\.stateIndex\}/);
   assert.doesNotMatch(renderedClient, /product\.promotionEvidence && <i>/);
   assert.match(renderedClient, /selectedProduct\.promotionEvidence && <em>/);
