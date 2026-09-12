@@ -106,10 +106,10 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(robots, /\/avolta-demo/);
 });
 
-test("Avolta shopper UX is product-led, complete and keeps operational context off-screen", () => {
+test("Avolta shopper UX is simple, product-led, complete and keeps operational context off-screen", () => {
   const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
   assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
-  assert.match(client, /browse all \{products\.length\}/);
+  assert.match(client, /See all \{products\.length\}/);
   assert.match(client, /showFullCollection/);
   assert.match(client, /products\.filter\(\(product\) => product\.productType === category\)/);
   assert.match(client, /currentViewportIds/);
@@ -118,8 +118,25 @@ test("Avolta shopper UX is product-led, complete and keeps operational context o
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
   assert.doesNotMatch(client, /session\.on\("history_updated"/);
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
+  assert.doesNotMatch(client, /Terminal 1/);
+  assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
+  assert.match(client, /const selectProduct = useCallback\(\(productId\) => \{[^}]*setSelectedId\(productId\)/);
+  assert.doesNotMatch(client, /const selectProduct = useCallback\(\(productId\) => \{[^}]*setActivePanel/);
   assert.match(client, /setActivePanel\("detail"\)/);
   assert.match(client, /setActivePanel\("basket"\)/);
+});
+
+test("Avolta voice output uses an attached audio element and records playback evidence", () => {
+  const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
+  assert.match(client, /<audio ref=\{audioOutputRef\}/);
+  assert.match(client, /new OpenAIRealtimeWebRTC\(\{ audioElement/);
+  assert.match(client, /peerConnection\.addEventListener\("track"/);
+  assert.match(client, /await audio\.play\(\)/);
+  assert.match(client, /entry\.type === "inbound-rtp" && entry\.kind === "audio"/);
+  assert.match(client, /data-audio-track=/);
+  assert.match(client, /data-audio-bytes=/);
+  assert.match(client, /data-audio-energy=/);
+  assert.match(client, /data-audio-playback=/);
 });
 
 test("today flight matching handles codeshares, ambiguity and missing gate without invention", async () => {
