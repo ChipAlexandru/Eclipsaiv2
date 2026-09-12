@@ -3,16 +3,15 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  ArrowLeft,
+  Captions,
   Check,
-  ChevronDown,
+  MapPin,
   Mic,
   MicOff,
   Minus,
   Plus,
   Search,
   ShoppingBag,
-  Sparkles,
   X,
 } from "lucide-react";
 import {
@@ -20,7 +19,6 @@ import {
   changeBasket,
   compactProduct,
   initialDemoProducts,
-  sampleStockFor,
   searchCatalog,
   shoppingStateSnapshot,
   transcriptFromHistory,
@@ -46,17 +44,20 @@ export function JulietteVoiceShop({ catalog }) {
   const products = catalog.products;
   const productsById = useMemo(() => new Map(products.map((product) => [product.id, product])), [products]);
   const validProductIds = useMemo(() => new Set(productsById.keys()), [productsById]);
-  const initialProducts = useMemo(() => initialDemoProducts(products), [products]);
+  const initialProducts = useMemo(() => initialDemoProducts(products).slice(0, 6), [products]);
 
   const [visibleIds, setVisibleIds] = useState(() => initialProducts.map((product) => product.id));
-  const [selectedId, setSelectedId] = useState(() => initialProducts[0]?.id || null);
+  const [selectedId, setSelectedId] = useState(null);
   const [basket, setBasket] = useState({});
   const [searchValue, setSearchValue] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchStatus, setSearchStatus] = useState("");
+  const [basketOpen, setBasketOpen] = useState(false);
+  const [captionsOpen, setCaptionsOpen] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("idle");
-  const [voiceMessage, setVoiceMessage] = useState("Tap to start a natural voice conversation.");
+  const [voiceMessage, setVoiceMessage] = useState("Talk to Juliette");
   const [isMuted, setIsMuted] = useState(false);
   const [transcript, setTranscript] = useState([]);
-  const [approvalRequest, setApprovalRequest] = useState(null);
   const [pickupSimulation, setPickupSimulation] = useState(null);
   const [imageFailures, setImageFailures] = useState(() => new Set());
 
@@ -64,14 +65,24 @@ export function JulietteVoiceShop({ catalog }) {
   const voiceTimeoutRef = useRef(null);
   const mountedRef = useRef(true);
   const presentationSequenceRef = useRef(0);
+  const productGridRef = useRef(null);
+  const searchButtonRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const voiceButtonRef = useRef(null);
+  const captionsButtonRef = useRef(null);
+  const drawerRef = useRef(null);
+  const drawerCloseRef = useRef(null);
+  const pickupResultRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const visibleIdsRef = useRef(visibleIds);
   const selectedIdRef = useRef(selectedId);
   const basketRef = useRef(basket);
   const imageFailuresRef = useRef(new Set());
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
-  const selectedProduct = selectedId ? productsById.get(selectedId) : null;
   const basketDetails = basketSummary(basket, productsById);
+  const isInitialSelection = visibleIds.length === initialProducts.length
+    && visibleIds.every((id, index) => id === initialProducts[index]?.id);
 
   const stateSnapshot = useCallback(() => shoppingStateSnapshot({
     visibleIds: visibleIdsRef.current,
@@ -97,31 +108,42 @@ export function JulietteVoiceShop({ catalog }) {
     const deadline = performance.now() + IMAGE_WAIT_MS;
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
+    const viewportIds = ids.filter((id) => {
+      const image = document.querySelector(`[data-product-image="${CSS.escape(id)}"]`);
+      const card = image?.closest("article");
+      if (!card) return false;
+      const rect = card.getBoundingClientRect();
+      return rect.bottom > 0
+        && rect.top < window.innerHeight - 96
+        && rect.right > 0
+        && rect.left < window.innerWidth;
+    });
+
     while (performance.now() < deadline) {
       if (presentationSequenceRef.current !== sequence) {
-        return { stale: true, displayedIds: [], failedIds: [] };
+        return { stale: true, displayedIds: [], failedIds: [], viewportIds: [] };
       }
       const displayedIds = [];
       const failedIds = [];
-      for (const id of ids) {
+      for (const id of viewportIds) {
         const image = document.querySelector(`[data-product-image="${CSS.escape(id)}"]`);
         if (image?.complete && image.naturalWidth > 0) displayedIds.push(id);
         else if (image?.dataset.failed === "true" || imageFailuresRef.current.has(id)) failedIds.push(id);
       }
-      if (displayedIds.length + failedIds.length === ids.length) {
-        return { stale: false, displayedIds, failedIds };
+      if (displayedIds.length + failedIds.length === viewportIds.length) {
+        return { stale: false, displayedIds, failedIds, viewportIds };
       }
       await new Promise((resolve) => setTimeout(resolve, 80));
     }
 
     const displayedIds = [];
     const failedIds = [];
-    for (const id of ids) {
+    for (const id of viewportIds) {
       const image = document.querySelector(`[data-product-image="${CSS.escape(id)}"]`);
       if (image?.complete && image.naturalWidth > 0) displayedIds.push(id);
       else failedIds.push(id);
     }
-    return { stale: false, displayedIds, failedIds, timedOut: true };
+    return { stale: false, displayedIds, failedIds, viewportIds, timedOut: true };
   }, []);
 
   const presentProducts = useCallback(async (requestedIds, focusId = null) => {
@@ -132,9 +154,12 @@ export function JulietteVoiceShop({ catalog }) {
     presentationSequenceRef.current = sequence;
     visibleIdsRef.current = ids;
     setVisibleIds(ids);
-    const nextSelectedId = focusId && ids.includes(focusId) ? focusId : ids[0];
+    const nextSelectedId = focusId && ids.includes(focusId)
+      ? focusId
+      : (selectedIdRef.current && ids.includes(selectedIdRef.current) ? selectedIdRef.current : null);
     selectedIdRef.current = nextSelectedId;
     setSelectedId(nextSelectedId);
+    productGridRef.current?.scrollIntoView({ block: "start" });
 
     const result = await waitForDisplayedImages(ids, sequence);
     if (result.stale) {
@@ -142,16 +167,18 @@ export function JulietteVoiceShop({ catalog }) {
     }
 
     const displayedProducts = result.displayedIds.map((id) => compactProduct(productsById.get(id)));
-    const allDisplayed = result.displayedIds.length === ids.length;
+    const visibleImagesReady = result.viewportIds.length > 0
+      && result.displayedIds.length === result.viewportIds.length;
     return {
-      displayed: allDisplayed,
+      displayed: visibleImagesReady,
       displayedProducts,
       selectedProduct: compactProduct(productsById.get(selectedIdRef.current)),
       failedImageProductIds: result.failedIds,
+      belowFoldProductIds: ids.filter((id) => !result.viewportIds.includes(id)),
       timedOut: Boolean(result.timedOut),
-      message: allDisplayed
-        ? "All requested product images are now displayed in the interface."
-        : "Some requested images did not become ready. Only the products in displayedProducts are visibly displayed; do not say all images are ready.",
+      message: visibleImagesReady
+        ? "The product photos in displayedProducts are loaded in the shopper's current viewport. Products in belowFoldProductIds are below the fold and must not be described as currently visible."
+        : "Only products in displayedProducts are both loaded and in the shopper's current viewport. Do not describe other requested products as currently visible.",
     };
   }, [productsById, validProductIds, waitForDisplayedImages]);
 
@@ -175,9 +202,7 @@ export function JulietteVoiceShop({ catalog }) {
     const summary = basketSummary(basketRef.current, productsById);
     if (summary.itemCount === 0) return null;
     const result = {
-      reference: `JUL-DEMO-${String(Date.now()).slice(-4)}`,
       location: "Juliette Erlenbach",
-      pickupWindow: "Tomorrow, 10:30–11:00",
       ...summary,
       simulated: true,
     };
@@ -242,24 +267,25 @@ export function JulietteVoiceShop({ catalog }) {
 
     const preparePickup = realtimeTool({
       name: "prepare_simulated_pickup",
-      description: "Prepare a clearly labelled simulated pickup result for Juliette Erlenbach. This never creates an order, payment, reservation, or store message. Call only after summarizing the basket and asking the shopper to confirm.",
+      description: "Open the shared basket review for a simulated Juliette Erlenbach pickup. This never creates an order, payment, reservation, or store message. The shopper must use the single touch confirmation in that review.",
       parameters: zod.object({
         location: zod.literal("Juliette Erlenbach"),
       }),
-      needsApproval: true,
       execute: async () => {
-        const result = createPickupSimulation();
-        if (!result) return safeToolResult({ ok: false, error: "The basket is empty." });
+        const summary = basketSummary(basketRef.current, productsById);
+        if (summary.itemCount === 0) return safeToolResult({ ok: false, error: "The basket is empty." });
+        setBasketOpen(true);
         return safeToolResult({
           ok: true,
-          ...result,
-          message: "Simulation complete. No order was created or sent to Juliette.",
+          basket: summary,
+          awaitingTouchConfirmation: true,
+          message: "The basket review is open. The shopper must tap Confirm pickup preview. No order has been placed.",
         });
       },
     });
 
     return [getShoppingState, searchProducts, showProducts, updateBasket, preparePickup];
-  }, [createPickupSimulation, mutateBasket, presentProducts, products, stateSnapshot]);
+  }, [mutateBasket, presentProducts, products, productsById, stateSnapshot]);
 
   const clearVoiceTimeout = useCallback(() => {
     if (voiceTimeoutRef.current !== null) {
@@ -275,11 +301,11 @@ export function JulietteVoiceShop({ catalog }) {
     setVoiceStatus("idle");
     setIsMuted(false);
     setVoiceMessage(message);
-    setApprovalRequest(null);
+    setCaptionsOpen(false);
   }, [clearVoiceTimeout]);
 
   const disconnectVoice = useCallback(() => {
-    closeVoiceSession("Voice conversation ended. Tap to start again.");
+    closeVoiceSession("Talk to Juliette");
   }, [closeVoiceSession]);
 
   const startVoice = useCallback(async () => {
@@ -288,7 +314,7 @@ export function JulietteVoiceShop({ catalog }) {
       sessionRef.current.mute(nextMuted);
       setIsMuted(nextMuted);
       setVoiceStatus(nextMuted ? "muted" : "listening");
-      setVoiceMessage(nextMuted ? "Microphone muted." : "Listening — speak naturally.");
+      setVoiceMessage(nextMuted ? "Muted" : "Listening");
       return;
     }
 
@@ -299,7 +325,7 @@ export function JulietteVoiceShop({ catalog }) {
     }
 
     setVoiceStatus("connecting");
-    setVoiceMessage("Connecting securely…");
+    setVoiceMessage("Connecting…");
 
     try {
       const [{ RealtimeAgent, RealtimeSession, tool: realtimeTool }, { z }] = await Promise.all([
@@ -326,11 +352,11 @@ Keep speech warm, natural, brief, and easy to interrupt. Help the shopper discov
 Critical rules:
 - This is a demonstration. Stock numbers are labelled sample data and are not live physical-store inventory.
 - Never say an order, reservation, payment, pickup, or store message is real. No real transaction is possible here.
-- Use search_and_show_products whenever the shopper expresses a product need or asks for options. Do not claim photos are visible until its result says they are displayed.
+- Use search_and_show_products whenever the shopper expresses a product need or asks for options. Describe as visible only the products returned in displayedProducts; below-fold products are not currently visible.
 - Call get_shopping_state before interpreting words such as 'this one', 'that', or 'two of this one'. The touch-selected product is authoritative.
 - Use only stable IDs returned by tools. Never invent products, prices, stock, ingredients, dietary suitability, or allergen facts.
 - Do not make allergen assurances. Tell the shopper to confirm ingredients and allergens with Juliette.
-- Before prepare_simulated_pickup, summarize the basket and explicitly ask for confirmation. The interface will require a final touch confirmation too.
+- When the shopper asks to review pickup, summarize the basket and call prepare_simulated_pickup. It opens the same basket review used by touch. Do not say the pickup is confirmed; the shopper must use its single touch confirmation.
 - When a tool says a newer selection made its result stale, use the newer state and do not describe the stale products.
 
 Initial interface state: ${JSON.stringify(initialSummary)}`,
@@ -365,26 +391,26 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       session.on("audio_start", () => {
         if (!mountedRef.current) return;
         setVoiceStatus("speaking");
-        setVoiceMessage("Juliette is speaking — interrupt anytime.");
+        setVoiceMessage("Speaking");
       });
       session.on("audio_stopped", () => {
         if (!mountedRef.current) return;
         setVoiceStatus(session.muted ? "muted" : "listening");
-        setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally.");
+        setVoiceMessage(session.muted ? "Muted" : "Listening");
       });
       session.on("audio_interrupted", () => {
         if (!mountedRef.current) return;
         setVoiceStatus(session.muted ? "muted" : "listening");
-        setVoiceMessage("Listening — go ahead.");
-      });
-      session.on("tool_approval_requested", (_context, _agent, request) => {
-        if (mountedRef.current) setApprovalRequest({ type: "voice", request });
+        setVoiceMessage("Listening");
       });
       session.on("error", () => {
         console.error("Realtime session error");
         if (!mountedRef.current) return;
+        clearVoiceTimeout();
+        if (sessionRef.current === session) sessionRef.current = null;
+        session.close();
         setVoiceStatus("error");
-        setVoiceMessage("The voice connection had a problem. End it and try again.");
+        setVoiceMessage("Voice connection failed. Try again.");
       });
 
       sessionRef.current = session;
@@ -396,10 +422,10 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       clearVoiceTimeout();
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!mountedRef.current) return;
-        closeVoiceSession("Five-minute demo ended. Tap to start again.");
+        closeVoiceSession("Five-minute demo ended. Talk again.");
       }, VOICE_DEMO_DURATION_MS);
       setVoiceStatus("listening");
-      setVoiceMessage("Listening — speak naturally.");
+      setVoiceMessage("Listening");
       session.sendMessage("Greet the shopper in one short sentence, then ask what they would like today.");
     } catch (error) {
       clearVoiceTimeout();
@@ -424,83 +450,264 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
 
   const runTouchSearch = useCallback(async (event) => {
     event.preventDefault();
-    const matches = searchCatalog(products, searchValue, 12);
-    if (matches.length === 0) return;
-    await presentProducts(matches.map((product) => product.id), matches[0].id);
+    const matches = searchCatalog(products, searchValue, 8);
+    if (matches.length === 0) {
+      setSearchStatus("No matching products.");
+      return;
+    }
+    selectedIdRef.current = null;
+    setSelectedId(null);
+    setSearchStatus("Results updated.");
+    await presentProducts(matches.map((product) => product.id));
     queueMicrotask(() => sendInterfaceState("a catalogue search by touch"));
   }, [presentProducts, products, searchValue, sendInterfaceState]);
 
   const resetProducts = useCallback(async () => {
     setSearchValue("");
-    await presentProducts(initialProducts.map((product) => product.id), initialProducts[0]?.id);
+    setSearchStatus("");
+    setSearchOpen(false);
+    selectedIdRef.current = null;
+    setSelectedId(null);
+    await presentProducts(initialProducts.map((product) => product.id));
+    requestAnimationFrame(() => searchButtonRef.current?.focus());
     queueMicrotask(() => sendInterfaceState("the sample selection was restored"));
   }, [initialProducts, presentProducts, sendInterfaceState]);
 
-  const confirmPickup = useCallback(async () => {
-    const pending = approvalRequest;
-    setApprovalRequest(null);
-    if (pending?.type === "voice") {
-      await sessionRef.current?.approve(pending.request.approvalItem);
-    } else {
-      createPickupSimulation();
-    }
-  }, [approvalRequest, createPickupSimulation]);
+  const openBasket = useCallback(() => setBasketOpen(true), []);
+  const closeBasket = useCallback(() => setBasketOpen(false), []);
+  const closeCaptions = useCallback(() => {
+    setCaptionsOpen(false);
+    requestAnimationFrame(() => captionsButtonRef.current?.focus());
+  }, []);
 
-  const rejectPickup = useCallback(async () => {
-    const pending = approvalRequest;
-    setApprovalRequest(null);
-    if (pending?.type === "voice") {
-      await sessionRef.current?.reject(pending.request.approvalItem, {
-        message: "The shopper did not confirm the simulated pickup.",
-      });
-    }
-  }, [approvalRequest]);
+  const confirmPickup = useCallback(() => {
+    const result = createPickupSimulation();
+    if (result) queueMicrotask(() => sendInterfaceState("the shopper confirmed a simulated pickup preview; no order was placed"));
+  }, [createPickupSimulation, sendInterfaceState]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    requestAnimationFrame(() => searchInputRef.current?.focus());
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (!basketOpen) return undefined;
+    previousFocusRef.current = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => drawerCloseRef.current?.focus());
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeBasket();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = [...(drawerRef.current?.querySelectorAll(
+        'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ) || [])];
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (previousFocusRef.current?.isConnected) previousFocusRef.current.focus();
+      else voiceButtonRef.current?.focus();
+    };
+  }, [basketOpen, closeBasket]);
+
+  useEffect(() => {
+    if (!captionsOpen) return undefined;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") closeCaptions();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [captionsOpen, closeCaptions]);
+
+  useEffect(() => {
+    if (basketOpen && pickupSimulation) requestAnimationFrame(() => pickupResultRef.current?.focus());
+  }, [basketOpen, pickupSimulation]);
 
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <a className={styles.backLink} href="/" aria-label="Back to Eclipsai home">
-          <ArrowLeft size={17} aria-hidden="true" />
-          Eclipsai
-        </a>
-        <div className={styles.wordmark}>juliette</div>
-        <span className={styles.demoLabel}>Voice demo</span>
+        <div className={styles.brand}>
+          <h1 className={styles.wordmark}>juliette</h1>
+          <span className={styles.location}><MapPin size={14} aria-hidden="true" /> Erlenbach</span>
+        </div>
+        <button
+          ref={searchButtonRef}
+          className={styles.searchToggle}
+          type="button"
+          aria-expanded={searchOpen}
+          aria-controls="juliette-search"
+          onClick={() => setSearchOpen((open) => !open)}
+        >
+          {searchOpen ? <X size={18} aria-hidden="true" /> : <Search size={18} aria-hidden="true" />}
+          <span>{searchOpen ? "Close" : "Search"}</span>
+        </button>
       </header>
 
-      <section className={styles.intro} aria-labelledby="shop-title">
-        <div>
-          <div className={styles.stockBadge}>
-            <Sparkles size={14} aria-hidden="true" />
-            Sample Erlenbach stock · not live
-          </div>
-          <h1 id="shop-title">What would you like today?</h1>
-          <p>Talk naturally, tap a product, or build the basket yourself.</p>
-        </div>
+      {searchOpen && (
+        <form id="juliette-search" className={styles.searchTray} onSubmit={runTouchSearch} role="search">
+          <Search size={18} aria-hidden="true" />
+          <input
+            ref={searchInputRef}
+            value={searchValue}
+            onChange={(event) => { setSearchValue(event.target.value); setSearchStatus(""); }}
+            placeholder="Search the Juliette catalogue"
+            aria-label="Search Juliette catalogue"
+          />
+          <button type="submit" disabled={!searchValue.trim()}>Search</button>
+          <span className={styles.visuallyHidden} aria-live="polite">{searchStatus}</span>
+        </form>
+      )}
 
-        <div className={styles.voicePanel} data-status={voiceStatus}>
+      <section className={styles.productSurface} aria-label="Juliette products">
+        {!isInitialSelection && (
+          <div className={styles.resultsContext}>
+            <span>Search results</span>
+            <button type="button" onClick={resetProducts}>Back to today’s selection</button>
+          </div>
+        )}
+
+        <div ref={productGridRef} className={styles.productGrid}>
+          {visibleProducts.map((product, index) => {
+            const quantity = basket[product.id] || 0;
+            const image = product.images[0];
+            const imageFailed = imageFailures.has(product.id);
+            return (
+              <article
+                className={styles.productCard}
+                data-selected={selectedId === product.id}
+                key={product.id}
+              >
+                <button
+                  className={styles.productSelect}
+                  type="button"
+                  onClick={() => selectProduct(product.id)}
+                  aria-label={`Select ${product.name} for voice reference`}
+                  aria-pressed={selectedId === product.id}
+                >
+                  <div className={styles.imageWrap}>
+                    {!imageFailed && image ? (
+                      <Image
+                        data-product-image={product.id}
+                        src={image.localPath}
+                        alt={image.alt || product.name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1000px) 33vw, 360px"
+                        priority={index < 4}
+                        onError={(event) => {
+                          event.currentTarget.dataset.failed = "true";
+                          imageFailuresRef.current.add(product.id);
+                          setImageFailures((current) => new Set(current).add(product.id));
+                        }}
+                      />
+                    ) : (
+                      <span className={styles.imageFallback}>Photo unavailable</span>
+                    )}
+                  </div>
+                  <div className={styles.productText}>
+                    <h2>{product.name}</h2>
+                    <strong>{formatChf(product.priceChf)}</strong>
+                  </div>
+                </button>
+                <div className={styles.cardAction}>
+                  {quantity === 0 ? (
+                    <button type="button" onClick={() => mutateBasket(product.id, 1, "add")}>
+                      <Plus size={16} aria-hidden="true" /> Add
+                    </button>
+                  ) : (
+                    <div className={styles.stepper} aria-label={`${product.name} quantity`}>
+                      <button type="button" onClick={() => mutateBasket(product.id, 1, "remove")} aria-label={`Remove one ${product.name}`}><Minus size={16} aria-hidden="true" /></button>
+                      <span>{quantity}</span>
+                      <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add one ${product.name}`}><Plus size={16} aria-hidden="true" /></button>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.controlDock} data-status={voiceStatus} aria-label="Shopping controls">
+        <p className={styles.demoTruth}>Demo · sample availability · no real orders</p>
+        <div className={styles.dockRow}>
           <button
-            className={styles.micButton}
+            ref={voiceButtonRef}
+            className={styles.voiceAction}
             type="button"
             onClick={startVoice}
-            aria-label={sessionRef.current ? (isMuted ? "Unmute microphone" : "Mute microphone") : "Start voice shopping"}
+            aria-label={sessionRef.current
+              ? (isMuted ? "Unmute microphone" : "Mute microphone")
+              : (voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : "Talk to Juliette")}
+            aria-describedby={voiceStatus === "error" || voiceStatus === "unsupported" ? "voice-error" : undefined}
             disabled={voiceStatus === "connecting"}
           >
-            {isMuted ? <MicOff aria-hidden="true" /> : <Mic aria-hidden="true" />}
-            <span className={styles.pulse} aria-hidden="true" />
+            <span className={styles.voiceIcon} aria-hidden="true">
+              {isMuted ? <MicOff /> : <Mic />}
+              <span className={styles.pulse} />
+            </span>
+            <span className={styles.voiceLabel}>
+              <strong>{voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : voiceMessage}</strong>
+              {(voiceStatus === "error" || voiceStatus === "unsupported") && <small id="voice-error">{voiceMessage}</small>}
+            </span>
           </button>
-          <div className={styles.voiceCopy}>
-            <strong>{voiceStatus === "idle" ? "Start voice shopping" : voiceMessage}</strong>
-            <span>{voiceStatus === "idle" ? "English · five-minute demo · allow microphone access" : "OpenAI Realtime · WebRTC"}</span>
-          </div>
+
+          {transcript.length > 0 && (
+            <button
+              ref={captionsButtonRef}
+              className={styles.iconAction}
+              type="button"
+              aria-label={captionsOpen ? "Close captions" : "Open captions"}
+              aria-expanded={captionsOpen}
+              onClick={() => setCaptionsOpen((open) => !open)}
+            >
+              <Captions aria-hidden="true" />
+            </button>
+          )}
+
+          {basketDetails.itemCount > 0 && (
+            <button
+              className={styles.basketTrigger}
+              type="button"
+              onClick={openBasket}
+              aria-label={`Basket, ${basketDetails.itemCount} ${basketDetails.itemCount === 1 ? "item" : "items"}, ${formatChf(basketDetails.totalChf)}`}
+            >
+              <ShoppingBag size={18} aria-hidden="true" />
+              <span>{basketDetails.itemCount}</span>
+              <strong>{formatChf(basketDetails.totalChf)}</strong>
+            </button>
+          )}
+
           {sessionRef.current && (
             <button className={styles.endVoice} type="button" onClick={disconnectVoice}>End</button>
           )}
         </div>
 
-        {transcript.length > 0 && (
-          <div className={styles.transcript} aria-live="polite">
+        {captionsOpen && transcript.length > 0 && (
+          <div className={styles.captions} role="region" aria-label="Live captions" aria-live="polite">
+            <div className={styles.captionsHeader}>
+              <strong>Captions</strong>
+              <button type="button" onClick={closeCaptions} aria-label="Close captions"><X size={16} /></button>
+            </div>
             {transcript.slice(-2).map((item) => (
-              <p key={`${item.id}-${item.role}`} data-role={item.role}>
+              <p key={`${item.id}-${item.role}`}>
                 <span>{item.role === "assistant" ? "Juliette" : "You"}</span>
                 {item.text}
               </p>
@@ -509,176 +716,68 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         )}
       </section>
 
-      <div className={styles.workspace}>
-        <section className={styles.catalogue} aria-labelledby="selection-title">
-          <div className={styles.catalogueHeader}>
-            <div>
-              <p className={styles.eyebrow}>Today’s sample selection</p>
-              <h2 id="selection-title">{visibleProducts.length} products</h2>
-            </div>
-            <form className={styles.searchForm} onSubmit={runTouchSearch} role="search">
-              <Search size={17} aria-hidden="true" />
-              <input
-                value={searchValue}
-                onChange={(event) => setSearchValue(event.target.value)}
-                placeholder={`Search all ${products.length} products`}
-                aria-label="Search Juliette catalogue"
-              />
-              {searchValue && (
-                <button type="button" onClick={resetProducts} aria-label="Clear search"><X size={16} /></button>
-              )}
-            </form>
-          </div>
+      {basketOpen && (
+        <div className={styles.drawerBackdrop} onMouseDown={closeBasket}>
+          <section
+            ref={drawerRef}
+            className={styles.basketDrawer}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="basket-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <header className={styles.drawerHeader}>
+              <div>
+                <span>Juliette Erlenbach</span>
+                <h2 id="basket-title">Your basket</h2>
+              </div>
+              <button ref={drawerCloseRef} type="button" onClick={closeBasket} aria-label="Close basket"><X aria-hidden="true" /></button>
+            </header>
 
-          <div className={styles.productGrid}>
-            {visibleProducts.map((product) => {
-              const quantity = basket[product.id] || 0;
-              const image = product.images[0];
-              const imageFailed = imageFailures.has(product.id);
-              return (
-                <article
-                  className={styles.productCard}
-                  data-selected={selectedId === product.id}
-                  key={product.id}
-                >
-                  <button
-                    className={styles.productSelect}
-                    type="button"
-                    onClick={() => selectProduct(product.id)}
-                    aria-label={`Select ${product.name} for voice reference`}
-                    aria-pressed={selectedId === product.id}
-                  >
-                    <div className={styles.imageWrap}>
-                      {!imageFailed && image ? (
-                        <Image
-                          data-product-image={product.id}
-                          src={image.localPath}
-                          alt={image.alt || product.name}
-                          fill
-                          sizes="(max-width: 700px) 50vw, (max-width: 1100px) 33vw, 260px"
-                          priority={initialProducts.slice(0, 4).some((initial) => initial.id === product.id)}
-                          onError={(event) => {
-                            event.currentTarget.dataset.failed = "true";
-                            imageFailuresRef.current.add(product.id);
-                            setImageFailures((current) => new Set(current).add(product.id));
-                          }}
-                        />
-                      ) : (
-                        <span className={styles.imageFallback}>Photo unavailable</span>
-                      )}
-                      {selectedId === product.id && <span className={styles.selectedPill}>This one</span>}
-                    </div>
-                    <div className={styles.productText}>
-                      <h3>{product.name}</h3>
-                      <div>
-                        <strong>{formatChf(product.priceChf)}</strong>
-                        <span>Demo: {sampleStockFor(product.id)} left</span>
-                      </div>
-                    </div>
-                  </button>
-                  <div className={styles.cardAction}>
-                    {quantity === 0 ? (
-                      <button type="button" onClick={(event) => { event.stopPropagation(); mutateBasket(product.id, 1, "add"); }}>
-                        <Plus size={16} aria-hidden="true" /> Add
-                      </button>
-                    ) : (
-                      <div className={styles.stepper} aria-label={`${product.name} quantity`}>
-                        <button type="button" onClick={(event) => { event.stopPropagation(); mutateBasket(product.id, 1, "remove"); }} aria-label={`Remove one ${product.name}`}><Minus size={15} /></button>
-                        <span>{quantity}</span>
-                        <button type="button" onClick={(event) => { event.stopPropagation(); mutateBasket(product.id, 1, "add"); }} aria-label={`Add one ${product.name}`}><Plus size={15} /></button>
-                      </div>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          {visibleProducts.length !== initialProducts.length && (
-            <button className={styles.resetButton} type="button" onClick={resetProducts}>
-              See today’s sample selection
-            </button>
-          )}
-        </section>
-
-        <aside className={styles.basket} id="basket" aria-labelledby="basket-title">
-          <div className={styles.basketTitle}>
-            <div>
-              <p className={styles.eyebrow}>Your basket</p>
-              <h2 id="basket-title">{basketDetails.itemCount || "No"} {basketDetails.itemCount === 1 ? "item" : "items"}</h2>
-            </div>
-            <ShoppingBag aria-hidden="true" />
-          </div>
-
-          {pickupSimulation && (
-            <div className={styles.simulationResult} role="status">
-              <span><Check size={16} aria-hidden="true" /> Pickup preview ready</span>
-              <strong>{pickupSimulation.pickupWindow}</strong>
-              <p>Juliette Erlenbach · {pickupSimulation.reference}</p>
-              <small>Simulation only — nothing was ordered, reserved, paid, or sent.</small>
-            </div>
-          )}
-
-          {basketDetails.items.length === 0 ? (
-            <div className={styles.emptyBasket}>
-              <p>Tap Add, or say “two of this one” after selecting a product.</p>
-              {selectedProduct && <span>Selected: {selectedProduct.name}</span>}
-            </div>
-          ) : (
-            <div className={styles.basketItems}>
-              {basketDetails.items.map((item) => (
-                <div className={styles.basketItem} key={item.productId}>
-                  <div>
-                    <strong>{item.name}</strong>
-                    <span>{formatChf(item.unitPriceChf)} each</span>
-                  </div>
-                  <div className={styles.basketItemRight}>
-                    <strong>{formatChf(item.lineTotalChf)}</strong>
-                    <div className={styles.miniStepper}>
-                      <button type="button" onClick={() => mutateBasket(item.productId, 1, "remove")} aria-label={`Remove one ${item.name}`}><Minus size={14} /></button>
-                      <span>{item.quantity}</span>
-                      <button type="button" onClick={() => mutateBasket(item.productId, 1, "add")} aria-label={`Add one ${item.name}`}><Plus size={14} /></button>
-                    </div>
-                  </div>
+            {pickupSimulation && (
+              <div ref={pickupResultRef} className={styles.pickupResult} role="status" tabIndex={-1}>
+                <Check size={18} aria-hidden="true" />
+                <div>
+                  <strong>Pickup preview · Erlenbach</strong>
+                  <span>Demo only — no order placed</span>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            )}
 
-          <div className={styles.basketFooter}>
-            <div><span>Sample total</span><strong>{formatChf(basketDetails.totalChf)}</strong></div>
-            <button
-              type="button"
-              disabled={basketDetails.itemCount === 0}
-              onClick={() => setApprovalRequest({ type: "touch" })}
-            >
-              Preview Erlenbach pickup
-              <ChevronDown size={17} aria-hidden="true" />
-            </button>
-            <p>No checkout or payment in this demo.</p>
-          </div>
-        </aside>
-      </div>
+            {basketDetails.items.length === 0 ? (
+              <p className={styles.drawerEmpty}>Your basket is empty.</p>
+            ) : (
+              <>
+                <div className={styles.basketItems}>
+                  {basketDetails.items.map((item) => (
+                    <div className={styles.basketItem} key={item.productId}>
+                      <div>
+                        <strong>{item.name}</strong>
+                        <span>{formatChf(item.unitPriceChf)} each</span>
+                      </div>
+                      <div className={styles.basketItemRight}>
+                        <strong>{formatChf(item.lineTotalChf)}</strong>
+                        <div className={styles.miniStepper} aria-label={`${item.name} quantity in basket`}>
+                          <button type="button" onClick={() => mutateBasket(item.productId, 1, "remove")} aria-label={`Remove one ${item.name}`}><Minus size={15} aria-hidden="true" /></button>
+                          <span>{item.quantity}</span>
+                          <button type="button" onClick={() => mutateBasket(item.productId, 1, "add")} aria-label={`Add one ${item.name}`}><Plus size={15} aria-hidden="true" /></button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-      <div className={styles.mobileBasketBar} data-visible={basketDetails.itemCount > 0}>
-        <div><ShoppingBag size={18} aria-hidden="true" /><span>{basketDetails.itemCount} {basketDetails.itemCount === 1 ? "item" : "items"}</span><strong>{formatChf(basketDetails.totalChf)}</strong></div>
-        <a href="#basket">Review</a>
-      </div>
-
-      {approvalRequest && (
-        <div className={styles.modalBackdrop} role="presentation">
-          <section className={styles.confirmModal} role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-            <div className={styles.confirmIcon}><ShoppingBag aria-hidden="true" /></div>
-            <p className={styles.eyebrow}>Final confirmation</p>
-            <h2 id="confirm-title">Preview this pickup?</h2>
-            <p>{basketDetails.itemCount} {basketDetails.itemCount === 1 ? "item" : "items"} · {formatChf(basketDetails.totalChf)} · Juliette Erlenbach</p>
-            <div className={styles.simulationNotice}>
-              This only creates a simulated result on this screen. No real order, reservation, payment, or store message will be made.
-            </div>
-            <div className={styles.modalActions}>
-              <button type="button" onClick={rejectPickup}>Not now</button>
-              <button type="button" onClick={confirmPickup}><Check size={17} /> Confirm simulation</button>
-            </div>
+                <div className={styles.drawerFooter}>
+                  <div className={styles.total}><span>Total</span><strong>{formatChf(basketDetails.totalChf)}</strong></div>
+                  {!pickupSimulation && (
+                    <button className={styles.confirmPickup} type="button" onClick={confirmPickup}>
+                      <Check size={18} aria-hidden="true" /> Confirm pickup preview
+                    </button>
+                  )}
+                  <p>Demo only. No order, reservation, payment, or store message will be created.</p>
+                </div>
+              </>
+            )}
           </section>
         </div>
       )}
