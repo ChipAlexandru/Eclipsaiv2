@@ -388,8 +388,8 @@ Initial interface state: ${safe(stateSnapshot())}` });
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>
       <audio ref={audioOutputRef} className={styles.audioOutput} autoPlay playsInline preload="auto" data-avolta-audio-output data-playback={playbackState} />
       <header className={styles.header}>
-        <div className={styles.brand}><span className={styles.brandMark}>A</span><div><strong>ZÜRICH DUTY FREE</strong><small>Avolta</small></div></div>
-        <div className={styles.location}><MapPin size={15} aria-hidden="true" /><div><strong>Zürich Airport</strong></div></div>
+        <div className={styles.brand}><span className={styles.brandMark}>A</span><div><strong>ZÜRICH DUTY FREE</strong></div></div>
+        <div className={styles.location}><div><strong>Zürich Airport</strong></div></div>
       </header>
 
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
@@ -400,12 +400,11 @@ Initial interface state: ${safe(stateSnapshot())}` });
               <div className={styles.departureHead}><span>Time</span><span>Destination</span><span>Flight</span><span>Gate</span></div>
               <div className={styles.departureRow}><time>{formatClock(displayedFlight.scheduledDeparture)}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate || "—"}</b></div>
             </div> : <div className={styles.noDepartures}>No more departures</div>}
-            {confirmedFlight && <div className={styles.contextDetails}><span>{displayedFlightStatus.label}</span><strong>{displayedBoarding.label}</strong></div>}
+            {confirmedFlight && !order && <div className={styles.contextDetails}><strong>{displayedBoarding.label}</strong></div>}
             {confirmedFlight && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}><span data-active={travel.stage === "unknown"}>Unknown</span>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
           </article>
           {order && orderState && <article className={styles.orderCard}>
-            <div className={styles.contextTopline}><span>{order.fulfillment.method === "gate_delivery" ? "Gate delivery" : "Collection"}</span><b>{order.reference}</b></div>
-            <div className={styles.orderMain}><strong>{orderState.state}</strong><span>{order.fulfillment.destination}</span></div>
+            <div className={styles.contextTopline}><span>{order.fulfillment.method === "gate_delivery" ? "Gate delivery" : "Collection"}</span><b>{order.fulfillment.destination}</b></div>
             <div className={styles.progressTrack}>{orderState.path.map((step, index) => <span key={step} data-complete={index <= orderState.stateIndex}><i />{step}</span>)}</div>
             {countdowns && <div className={styles.pairedCountdown}><span>{countdowns.boarding.label}</span><strong>{countdowns.order.targetLabel}</strong></div>}
           </article>}

@@ -61,9 +61,6 @@
 .contextTopline, .contextDetails, .pairedCountdown { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
 .contextTopline span { color: var(--coral); font-size: .58rem; font-weight: 850; text-transform: uppercase; letter-spacing: .065em; }
 .contextTopline b { overflow: hidden; color: var(--muted); font-size: .58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-.orderMain { margin-top: .35rem; display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
-.orderMain strong { color: var(--violet-deep); font-size: 1.06rem; letter-spacing: -.025em; white-space: nowrap; }
-.orderMain span { overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
 .departureTopline { display: flex; align-items: center; justify-content: space-between; gap: .75rem; color: #fff; }
 .departureTopline span { color: var(--lime); font-size: .59rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
 .departureTopline b { padding: .16rem .38rem; border-radius: .25rem; color: var(--violet-deep); background: var(--coral); font-size: .53rem; letter-spacing: .06em; text-transform: uppercase; }
@@ -75,7 +72,7 @@
 .departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .78rem; font-weight: 780; letter-spacing: .025em; white-space: nowrap; }
 .departureRow strong { overflow: hidden; color: var(--lime); font-size: .9rem; letter-spacing: .035em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .departureRow b { color: var(--coral); text-align: right; }
-.flightCard .contextDetails { margin-top: .42rem; color: #bcb3c2; font-size: .6rem; }
+.flightCard .contextDetails { margin-top: .42rem; justify-content: flex-end; color: #bcb3c2; font-size: .6rem; }
 .flightCard .contextDetails strong { color: var(--lime); font-size: .64rem; }
 .noDepartures { min-height: 3.4rem; display: flex; align-items: center; color: #d7cfda; font-size: .78rem; }
 @keyframes departureSwap { from { opacity: 0; transform: translateY(-.38rem); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
@@ -215,7 +212,6 @@
   .productSurface { padding: .62rem .55rem 1.5rem; }
   .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
   .flightCard, .orderCard { padding: .62rem .68rem; }
-  .orderMain strong { font-size: .92rem; }
   .departureHead, .departureRow { grid-template-columns: 3.35rem minmax(6rem, 1fr) 4.4rem 2.4rem; column-gap: .42rem; }
   .departureRow time, .departureRow span, .departureRow b { font-size: .68rem; }
   .departureRow strong { font-size: .76rem; }
