@@ -6,7 +6,6 @@ import {
   Captions,
   Check,
   MapPin,
-  Mic,
   MicOff,
   Minus,
   Plus,
@@ -79,6 +78,9 @@ export function JulietteVoiceShop({ catalog }) {
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
+  const hasVoiceSession = Boolean(sessionRef.current);
+  const hasCaptions = transcript.length > 0;
+  const hasBasket = basketDetails.itemCount > 0;
   const isFullCatalogue = visibleIds.length === products.length
     && visibleIds.every((id, index) => id === products[index]?.id);
 
@@ -420,7 +422,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       clearVoiceTimeout();
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!mountedRef.current) return;
-        closeVoiceSession("Five-minute session ended. Talk again.");
+        closeVoiceSession("Talk to Juliette");
       }, VOICE_SESSION_DURATION_MS);
       setVoiceStatus("listening");
       setVoiceMessage("Listening");
@@ -643,7 +645,15 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         </div>
       </section>
 
-      <section className={styles.controlDock} data-status={voiceStatus} aria-label="Shopping controls">
+      <section
+        className={styles.controlDock}
+        data-status={voiceStatus}
+        data-has-session={hasVoiceSession}
+        data-has-captions={hasCaptions}
+        data-has-basket={hasBasket}
+        data-search-open={searchOpen}
+        aria-label="Shopping controls"
+      >
         <div className={styles.dockRow}>
           <button
             ref={voiceButtonRef}
@@ -656,17 +666,27 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
             aria-describedby={voiceStatus === "error" || voiceStatus === "unsupported" ? "voice-error" : undefined}
             disabled={voiceStatus === "connecting"}
           >
-            <span className={styles.voiceIcon} aria-hidden="true">
-              {isMuted ? <MicOff /> : <Mic />}
-              <span className={styles.pulse} />
+            <span className={styles.voiceGlyph} aria-hidden="true">
+              {isMuted ? (
+                <MicOff className={styles.mutedGlyph} />
+              ) : (
+                <span className={styles.voiceBars}>
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+              )}
             </span>
             <span className={styles.voiceLabel}>
               <strong>{voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : voiceMessage}</strong>
-              {(voiceStatus === "error" || voiceStatus === "unsupported") && <small id="voice-error">{voiceMessage}</small>}
             </span>
+            {voiceStatus === "connecting" && <span className={styles.connectingIndicator} aria-hidden="true" />}
+            {hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} aria-hidden="true" />}
           </button>
 
-          {transcript.length > 0 && (
+          {hasCaptions && (
             <button
               ref={captionsButtonRef}
               className={styles.iconAction}
@@ -679,7 +699,13 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
             </button>
           )}
 
-          {basketDetails.itemCount > 0 && (
+          {hasVoiceSession && (
+            <button className={styles.endVoice} type="button" onClick={disconnectVoice} aria-label="End voice session">
+              <X aria-hidden="true" />
+            </button>
+          )}
+
+          {hasBasket && (
             <button
               className={styles.basketTrigger}
               type="button"
@@ -691,11 +717,13 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
               <strong>{formatChf(basketDetails.totalChf)}</strong>
             </button>
           )}
-
-          {sessionRef.current && (
-            <button className={styles.endVoice} type="button" onClick={disconnectVoice}>End</button>
-          )}
         </div>
+
+        {(voiceStatus === "error" || voiceStatus === "unsupported") ? (
+          <p className={styles.voiceNotice} id="voice-error" role="status" aria-live="polite">{voiceMessage}</p>
+        ) : (
+          <span className={styles.visuallyHidden} role="status" aria-live="polite">{voiceMessage}</span>
+        )}
 
         {captionsOpen && transcript.length > 0 && (
           <div className={styles.captions} role="region" aria-label="Live captions" aria-live="polite">
