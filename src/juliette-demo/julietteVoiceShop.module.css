@@ -132,7 +132,18 @@
 
 .productSelect { position: absolute; inset: 0; width: 100%; display: block; padding: 0; overflow: hidden; border: 0; border-radius: inherit; background: transparent; color: white; text-align: left; cursor: pointer; }
 .imageWrap { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--blue-dark); border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(0, 27, 102, 0.12); transition: box-shadow 150ms ease; }
-.imageWrap img { object-fit: contain; }
+.imageWrap img {
+  object-fit: cover;
+  transform: scale(1.32);
+  transform-origin: 58% 38%;
+  transition: transform 180ms ease;
+}
+.imageWrap[data-frame="whole"] img { transform: scale(1.2); transform-origin: 56% 40%; }
+.imageWrap[data-frame="wide"] img { transform: scale(1.18); transform-origin: 56% 40%; }
+.imageWrap[data-frame="grouped"] img { transform: scale(1.16); transform-origin: 55% 40%; }
+.imageWrap[data-frame="bowl"] img { transform: scale(1.14); transform-origin: 54% 40%; }
+.imageWrap[data-frame="tall"] img { transform: scale(1.06); transform-origin: 52% 48%; }
+.imageWrap[data-frame="preserve"] img { object-fit: contain; transform: none; }
 .imageWrap::before { content: ""; position: absolute; z-index: 1; inset: 0 0 auto; height: 54%; pointer-events: none; background: linear-gradient(180deg, rgba(0, 18, 68, 0.82) 0%, rgba(0, 27, 102, 0.48) 58%, transparent 100%); }
 .imageWrap::after { content: ""; position: absolute; z-index: 1; right: 0; bottom: 0; width: 78%; height: 38%; pointer-events: none; background: linear-gradient(145deg, transparent 18%, rgba(0, 18, 68, 0.56) 100%); }
 .productCard:hover .imageWrap { box-shadow: inset 0 0 0 1px rgba(0, 47, 161, 0.38); }
@@ -153,16 +164,15 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.74);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--blue);
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: white;
   cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 700;
-  box-shadow: 0 0.35rem 1rem rgba(0, 18, 68, 0.22);
-  backdrop-filter: blur(10px);
+  filter: drop-shadow(0 0.12rem 0.2rem rgba(0, 18, 68, 0.86));
 }
+.cardAction > button:hover { transform: scale(1.08); }
+.cardAction > button:focus-visible { outline: 2px solid white; outline-offset: 1px; }
 
 .stepper, .miniStepper { display: grid; align-items: center; text-align: center; }
 .stepper { width: 7.5rem; grid-template-columns: 2.75rem 1fr 2.75rem; min-height: 2.75rem; border: 1px solid rgba(255, 255, 255, 0.74); border-radius: 999px; background: rgba(255, 255, 255, 0.96); color: var(--blue); box-shadow: 0 0.35rem 1rem rgba(0, 18, 68, 0.22); backdrop-filter: blur(10px); }
