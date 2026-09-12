@@ -61,6 +61,8 @@ test("shopping helpers support touch-relative selection and bounded basket chang
 test("Realtime credentials remain server-side and the full-catalogue surface keeps one pickup-preview confirmation", () => {
   const clientSource = fs.readFileSync(path.join(root, "src", "juliette-demo", "JulietteVoiceShop.jsx"), "utf8");
   const clientStyles = fs.readFileSync(path.join(root, "src", "juliette-demo", "julietteVoiceShop.module.css"), "utf8");
+  const brandRoot = path.join(root, "public", "juliette-demo", "brand");
+  const logoSource = fs.readFileSync(path.join(brandRoot, "juliette-pain-damour.svg"), "utf8");
   const stockAdapter = fs.readFileSync(path.join(root, "src", "juliette-demo", "stockAdapter.mjs"), "utf8");
   const pageSource = fs.readFileSync(path.join(root, "app", "juliette-demo", "page.jsx"), "utf8");
   const tokenRoute = fs.readFileSync(path.join(root, "app", "api", "juliette-demo", "realtime-token", "route.js"), "utf8");
@@ -86,12 +88,24 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.match(clientSource, /className=\{styles\.voiceBars\}[\s\S]*className=\{styles\.connectingIndicator\}/);
   assert.match(clientSource, /aria-label="End voice session"/);
   assert.match(clientSource, /role="status" aria-live="polite"/);
+  assert.match(clientSource, /juliette-pain-damour\.svg/);
+  assert.match(clientSource, /className=\{styles\.productPrice\}[\s\S]*aria-label=\{`Add \$\{product\.name\} to basket`\}/);
+  assert.match(logoSource, /viewBox="0 0 176 78"/);
+  assert.doesNotMatch(logoSource, /<script|foreignObject|(?:xlink:)?href=/i);
+  for (const fontName of ["roboto-regular.woff2", "roboto-bold.woff2", "vultura-regular.woff2"]) {
+    assert.ok(fs.statSync(path.join(brandRoot, fontName)).size > 10_000);
+  }
   assert.match(clientStyles, /\.controlDock \{[\s\S]*width: max-content;[\s\S]*\.voiceAction \{[\s\S]*border-radius: 999px;/);
   assert.match(clientStyles, /data-status="speaking"[\s\S]*voiceBarSpeak/);
   assert.match(clientStyles, /data-has-session="true"\]\[data-has-basket="true"\][\s\S]*grid-template-columns/);
   assert.match(clientStyles, /env\(safe-area-inset-bottom\)/);
   assert.match(clientStyles, /prefers-reduced-motion: reduce[\s\S]*animation: none !important/);
   assert.match(clientStyles, /searchTray input:focus[\s\S]*pointer-events: none/);
+  assert.match(clientStyles, /--blue: #002fa1/);
+  assert.match(clientStyles, /font-family: "Juliette Roboto"/);
+  assert.match(clientStyles, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+  assert.match(clientStyles, /\.productCard \{[\s\S]*border-radius: 0\.65rem;[\s\S]*box-shadow: none/);
+  assert.doesNotMatch(clientStyles, /--wine|--cream|#f5f0e8|#f2e5e8|#73233d|#451326/i);
   assert.doesNotMatch(clientStyles, /\.pulse\b|\.demoTruth\b/);
   assert.match(tokenRoute, /process\.env\.OPENAI_API_KEY/);
   assert.match(tokenRoute, /realtime\/client_secrets/);

@@ -545,7 +545,16 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     <main className={styles.page}>
       <header className={styles.header}>
         <div className={styles.brand}>
-          <h1 className={styles.wordmark}>juliette</h1>
+          <h1 className={styles.brandMark}>
+            <Image
+              className={styles.brandLogo}
+              src="/juliette-demo/brand/juliette-pain-damour.svg"
+              alt="Juliette – pain d’amour"
+              width={176}
+              height={78}
+              priority
+            />
+          </h1>
           <span className={styles.location}><MapPin size={14} aria-hidden="true" /> Erlenbach</span>
         </div>
         <button
@@ -609,7 +618,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                         src={image.localPath}
                         alt={image.alt || product.name}
                         fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1000px) 33vw, 360px"
+                        sizes="(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 300px"
                         priority={index < 4}
                         onError={(event) => {
                           event.currentTarget.dataset.failed = "true";
@@ -623,12 +632,12 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                   </div>
                   <div className={styles.productText}>
                     <h2>{product.name}</h2>
-                    <strong>{formatChf(product.priceChf)}</strong>
                   </div>
                 </button>
                 <div className={styles.cardAction}>
+                  <strong className={styles.productPrice}>{formatChf(product.priceChf)}</strong>
                   {quantity === 0 ? (
-                    <button type="button" onClick={() => mutateBasket(product.id, 1, "add")}>
+                    <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.name} to basket`}>
                       <Plus size={16} aria-hidden="true" /> Add
                     </button>
                   ) : (
