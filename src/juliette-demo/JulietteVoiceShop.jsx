@@ -638,7 +638,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                 <div className={styles.cardAction}>
                   {quantity === 0 ? (
                     <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.name} to basket`}>
-                      <Plus size={16} aria-hidden="true" /> Add
+                      <Plus size={18} aria-hidden="true" />
                     </button>
                   ) : (
                     <div className={styles.stepper} aria-label={`${product.name} quantity`}>
