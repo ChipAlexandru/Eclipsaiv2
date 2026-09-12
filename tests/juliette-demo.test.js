@@ -103,8 +103,11 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.match(clientStyles, /searchTray input:focus[\s\S]*pointer-events: none/);
   assert.match(clientStyles, /--blue: #002fa1/);
   assert.match(clientStyles, /font-family: "Juliette Roboto"/);
-  assert.match(clientStyles, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
-  assert.match(clientStyles, /\.productCard \{[\s\S]*border-radius: 0\.65rem;[\s\S]*box-shadow: none/);
+  assert.match(clientStyles, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+  assert.match(clientStyles, /\.productCard \{[\s\S]*display: flex;[\s\S]*flex-direction: column/);
+  assert.match(clientStyles, /\.imageWrap img \{ object-fit: contain; \}/);
+  assert.match(clientStyles, /\.productCard\[data-selected="true"\] \.imageWrap/);
+  assert.doesNotMatch(clientStyles, /\.productCard \{[^}]*border:/);
   assert.doesNotMatch(clientStyles, /--wine|--cream|#f5f0e8|#f2e5e8|#73233d|#451326/i);
   assert.doesNotMatch(clientStyles, /\.pulse\b|\.demoTruth\b/);
   assert.match(tokenRoute, /process\.env\.OPENAI_API_KEY/);

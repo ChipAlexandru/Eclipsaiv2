@@ -618,8 +618,8 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
                         src={image.localPath}
                         alt={image.alt || product.name}
                         fill
-                        sizes="(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 300px"
-                        priority={index < 4}
+                        sizes="(max-width: 760px) 50vw, (max-width: 860px) 33vw, (max-width: 1100px) 25vw, 240px"
+                        priority={index < 5}
                         onError={(event) => {
                           event.currentTarget.dataset.failed = "true";
                           imageFailuresRef.current.add(product.id);
