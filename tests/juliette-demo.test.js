@@ -100,7 +100,6 @@ test("Realtime credentials remain server-side and the full-catalogue surface kee
   assert.match(clientStyles, /data-has-session="true"\]\[data-has-basket="true"\][\s\S]*grid-template-columns/);
   assert.match(clientStyles, /env\(safe-area-inset-bottom\)/);
   assert.match(clientStyles, /prefers-reduced-motion: reduce[\s\S]*animation: none !important/);
-  assert.match(clientStyles, /searchTray input:focus[\s\S]*pointer-events: none/);
   assert.match(clientStyles, /--blue: #002fa1/);
   assert.match(clientStyles, /font-family: "Juliette Roboto"/);
   assert.match(clientStyles, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);

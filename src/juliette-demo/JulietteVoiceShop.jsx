@@ -9,7 +9,6 @@ import {
   MicOff,
   Minus,
   Plus,
-  Search,
   ShoppingBag,
   X,
 } from "lucide-react";
@@ -56,9 +55,6 @@ export function JulietteVoiceShop({ catalog }) {
   const [visibleIds, setVisibleIds] = useState(() => products.map((product) => product.id));
   const [selectedId, setSelectedId] = useState(null);
   const [basket, setBasket] = useState({});
-  const [searchValue, setSearchValue] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchStatus, setSearchStatus] = useState("");
   const [basketOpen, setBasketOpen] = useState(false);
   const [captionsOpen, setCaptionsOpen] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("idle");
@@ -73,8 +69,6 @@ export function JulietteVoiceShop({ catalog }) {
   const mountedRef = useRef(true);
   const presentationSequenceRef = useRef(0);
   const productGridRef = useRef(null);
-  const searchButtonRef = useRef(null);
-  const searchInputRef = useRef(null);
   const voiceButtonRef = useRef(null);
   const captionsButtonRef = useRef(null);
   const drawerRef = useRef(null);
@@ -458,28 +452,11 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     };
   }, [clearVoiceTimeout]);
 
-  const runTouchSearch = useCallback(async (event) => {
-    event.preventDefault();
-    const matches = searchCatalog(products, searchValue, 8);
-    if (matches.length === 0) {
-      setSearchStatus("No matching products.");
-      return;
-    }
-    selectedIdRef.current = null;
-    setSelectedId(null);
-    setSearchStatus("Results updated.");
-    await presentProducts(matches.map((product) => product.id));
-    queueMicrotask(() => sendInterfaceState("a catalogue search by touch"));
-  }, [presentProducts, products, searchValue, sendInterfaceState]);
-
   const showAllProducts = useCallback(async () => {
-    setSearchValue("");
-    setSearchStatus("");
-    setSearchOpen(false);
     selectedIdRef.current = null;
     setSelectedId(null);
     await presentProducts(products.map((product) => product.id));
-    requestAnimationFrame(() => searchButtonRef.current?.focus());
+    requestAnimationFrame(() => voiceButtonRef.current?.focus());
     queueMicrotask(() => sendInterfaceState("the full catalogue was restored"));
   }, [presentProducts, products, sendInterfaceState]);
 
@@ -494,11 +471,6 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     const result = createPickupSimulation();
     if (result) queueMicrotask(() => sendInterfaceState("the shopper confirmed a pickup preview; no order was placed"));
   }, [createPickupSimulation, sendInterfaceState]);
-
-  useEffect(() => {
-    if (!searchOpen) return;
-    requestAnimationFrame(() => searchInputRef.current?.focus());
-  }, [searchOpen]);
 
   useEffect(() => {
     if (!basketOpen) return undefined;
@@ -565,35 +537,12 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
               priority
             />
           </h1>
-          <span className={styles.location}><MapPin size={14} aria-hidden="true" /> Erlenbach</span>
         </div>
-        <button
-          ref={searchButtonRef}
-          className={styles.searchToggle}
-          type="button"
-          aria-expanded={searchOpen}
-          aria-controls="juliette-search"
-          onClick={() => setSearchOpen((open) => !open)}
-        >
-          {searchOpen ? <X size={18} aria-hidden="true" /> : <Search size={18} aria-hidden="true" />}
-          <span>{searchOpen ? "Close" : "Search"}</span>
-        </button>
+        <div className={styles.location} aria-label="Pickup location: Erlenbach">
+          <span><MapPin size={12} aria-hidden="true" /> Pickup at</span>
+          <strong>Erlenbach</strong>
+        </div>
       </header>
-
-      {searchOpen && (
-        <form id="juliette-search" className={styles.searchTray} onSubmit={runTouchSearch} role="search">
-          <Search size={18} aria-hidden="true" />
-          <input
-            ref={searchInputRef}
-            value={searchValue}
-            onChange={(event) => { setSearchValue(event.target.value); setSearchStatus(""); }}
-            placeholder="Search the Juliette catalogue"
-            aria-label="Search Juliette catalogue"
-          />
-          <button type="submit" disabled={!searchValue.trim()}>Search</button>
-          <span className={styles.visuallyHidden} aria-live="polite">{searchStatus}</span>
-        </form>
-      )}
 
       <section className={styles.productSurface} aria-label="Juliette products">
         {!isFullCatalogue && (
@@ -670,7 +619,6 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         data-has-session={hasVoiceSession}
         data-has-captions={hasCaptions}
         data-has-basket={hasBasket}
-        data-search-open={searchOpen}
         aria-label="Shopping controls"
       >
         <div className={styles.dockRow}>

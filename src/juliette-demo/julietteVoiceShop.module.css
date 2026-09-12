@@ -57,7 +57,7 @@
   backdrop-filter: blur(14px);
 }
 
-.brand { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.brand { display: flex; align-items: center; min-width: 0; }
 
 .brandMark {
   margin: 0;
@@ -65,55 +65,9 @@
 }
 
 .brandLogo { display: block; width: 9.25rem; height: auto; }
-.location { display: inline-flex; align-items: center; gap: 0.35rem; color: rgba(255, 255, 255, 0.9); font-size: 0.94rem; font-weight: 700; }
-.location svg { width: 1rem; height: 1rem; }
-
-.searchToggle {
-  min-height: 2.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-.searchToggle:hover { background: rgba(255, 255, 255, 0.16); }
-
-.searchTray {
-  width: min(42rem, calc(100% - 3rem));
-  min-height: 3.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  margin: 0.75rem auto 0;
-  padding: 0.45rem 0.5rem 0.45rem 0.9rem;
-  color: var(--muted);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 0.65rem;
-  box-shadow: 0 0.55rem 1.5rem rgba(0, 30, 100, 0.09);
-}
-
-.searchTray input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 1rem; }
-
-.searchTray > button {
-  min-height: 2.3rem;
-  padding: 0 0.9rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(--blue);
-  color: white;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.searchTray > button:disabled { opacity: 0.42; cursor: not-allowed; }
+.location { display: flex; flex-direction: column; align-items: flex-end; color: white; line-height: 1; }
+.location span { display: inline-flex; align-items: center; gap: 0.28rem; margin-bottom: 0.28rem; color: rgba(255, 255, 255, 0.72); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.location strong { font-size: 1.42rem; font-weight: 700; letter-spacing: -0.025em; }
 
 .productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 1rem 1.5rem 2rem; }
 
@@ -323,12 +277,8 @@
   .page { padding-bottom: calc(9rem + env(safe-area-inset-bottom)); }
   .header { min-height: 4.5rem; padding: 0.35rem 0.75rem; }
   .brandLogo { width: 7.9rem; }
-  .location { font-size: 0.82rem; }
-  .searchToggle { width: 2.75rem; min-height: 2.75rem; justify-content: center; padding: 0; }
-  .searchToggle span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
-  .searchTray { width: calc(100% - 1.25rem); min-height: 3rem; margin-top: 0.5rem; padding-left: 0.7rem; }
-  .searchTray input { font-size: 0.92rem; }
-  .searchTray > button { padding: 0 0.7rem; }
+  .location span { margin-bottom: 0.22rem; font-size: 0.62rem; }
+  .location strong { font-size: 1.15rem; }
   .productSurface { padding: 0.65rem 0.55rem 1.5rem; }
   .resultsContext { min-height: 2.35rem; padding: 0 0.2rem; margin-bottom: 0.45rem; }
   .productGrid { scroll-margin-top: 5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
@@ -341,13 +291,11 @@
   .voiceLabel strong { font-size: 0.88rem; }
   .iconAction, .endVoice { width: 2.875rem; min-height: 2.875rem; }
   .basketTrigger { min-height: 2.875rem; padding: 0 0.68rem; }
-  .page:has(.searchTray input:focus) .controlDock { opacity: 0; pointer-events: none; transform: translate(-50%, 0.5rem); }
   .drawerBackdrop { align-items: flex-end; }
   .basketDrawer { width: 100%; height: auto; max-height: 84vh; border-radius: 0.9rem 0.9rem 0 0; box-shadow: 0 -1rem 3rem rgba(0, 30, 100, 0.2); }
 }
 
 @media (max-width: 390px) {
-  .brand { gap: 0.58rem; }
   .dockRow { gap: 0.4rem; }
   .voiceAction { width: 11.5rem; }
 }
@@ -367,8 +315,8 @@
 
 @media (max-width: 340px) {
   .brandLogo { width: 7.15rem; }
-  .location { font-size: 0.78rem; }
-  .location svg { display: none; }
+  .location span { font-size: 0.58rem; letter-spacing: 0.06em; }
+  .location strong { font-size: 1.05rem; }
   .productGrid { grid-template-columns: 1fr; gap: 0.75rem; }
   .productText { padding: 0.82rem 0.82rem 2.2rem; }
   .productText h2 { max-width: 84%; font-size: 1.05rem; }
