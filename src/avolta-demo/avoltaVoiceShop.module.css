@@ -8,9 +8,9 @@
   --ink: #211a24;
   --muted: #716a75;
   --paper: #fffefd;
-  --line: rgba(72, 35, 107, .14);
+  --line: rgba(72, 35, 107, .15);
   min-height: 100vh;
-  padding-bottom: 3rem;
+  padding-bottom: 2.5rem;
   color: var(--ink);
   background: #f7f5f8;
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
@@ -18,6 +18,7 @@
 .page * { box-sizing: border-box; }
 .page button, .page input { font: inherit; }
 .page button, .page a { -webkit-tap-highlight-color: transparent; }
+.audioOutput { position: fixed; width: 1px; height: 1px; left: 0; bottom: 0; opacity: .001; pointer-events: none; }
 
 .accessPage { min-height: 100vh; padding: 1rem; display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 80% 10%, #f15a3a 0 15%, transparent 42%), radial-gradient(circle at 20% 90%, #d9f05c 0 12%, transparent 38%), #48236b; font-family: var(--font-inter), Inter, system-ui, sans-serif; }
 .accessCard { width: min(28rem, 100%); padding: clamp(1.5rem, 5vw, 2.5rem); border: 1px solid rgba(255,255,255,.3); border-radius: 1.6rem; background: rgba(36,17,55,.82); backdrop-filter: blur(18px); box-shadow: 0 2rem 6rem rgba(28,10,43,.35); }
@@ -36,69 +37,68 @@
 .accessCard form button { min-height: 3.1rem; margin-top: .55rem; border: 0; border-radius: .75rem; color: #28133d; background: #d9f05c; font-weight: 850; cursor: pointer; }
 .accessError { padding: .9rem; border-radius: .75rem; color: #ffcfc5; background: rgba(241,90,58,.18); font-size: .78rem; line-height: 1.5; }
 
-.header { min-height: 4.4rem; padding: .8rem clamp(1rem, 3vw, 2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; background: var(--violet-deep); }
-.brand { display: flex; align-items: center; gap: .75rem; }
-.brandMark { width: 2.35rem; height: 2.35rem; border-radius: 50% 50% 44% 56% / 58% 42% 58% 42%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lavender); font-size: 1.1rem; font-weight: 900; transform: rotate(-8deg); }
-.brand > div { display: flex; flex-direction: column; gap: .12rem; }
-.brand strong { font-size: .83rem; letter-spacing: .1em; }
-.brand small { color: #d6cbe0; font-size: .63rem; }
-.headerActions { display: flex; gap: .35rem; }
-.headerActions button { position: relative; min-height: 2.5rem; padding: 0 .7rem; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; display: flex; align-items: center; gap: .35rem; color: #fff; background: rgba(255,255,255,.07); font-size: .68rem; font-weight: 760; cursor: pointer; }
-.headerActions b { min-width: 1.1rem; height: 1.1rem; padding: 0 .25rem; border-radius: 999px; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); font-size: .58rem; }
+.header { min-height: 4.25rem; padding: .7rem clamp(1rem, 4vw, 3rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; background: var(--violet-deep); }
+.brand { display: flex; align-items: center; gap: .72rem; min-width: 0; }
+.brandMark { flex: 0 0 auto; width: 2.3rem; height: 2.3rem; border-radius: 50% 50% 44% 56% / 58% 42% 58% 42%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lavender); font-weight: 900; transform: rotate(-8deg); }
+.brand > div { min-width: 0; display: flex; flex-direction: column; gap: .1rem; }
+.brand strong { font-size: .82rem; letter-spacing: .09em; white-space: nowrap; }
+.brand small { display: flex; align-items: center; gap: .25rem; color: #d6cbe0; font-size: .65rem; }
+.bagButton { position: relative; min-height: 2.55rem; padding: 0 .72rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; display: flex; align-items: center; gap: .38rem; color: #fff; background: rgba(255,255,255,.08); font-size: .7rem; font-weight: 780; cursor: pointer; }
+.bagButton b { min-width: 1.15rem; height: 1.15rem; padding: 0 .24rem; border-radius: 999px; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); font-size: .58rem; }
 
-.intro { padding: clamp(2.2rem, 5vw, 4.5rem) clamp(1rem, 6vw, 6rem) 2.6rem; color: #fff; background: radial-gradient(circle at 90% -40%, var(--coral) 0 30%, transparent 31%), var(--violet); }
-.kicker { display: flex; align-items: center; gap: .4rem; margin: 0 0 .5rem; color: var(--violet); text-transform: uppercase; letter-spacing: .11em; font-size: .65rem; font-weight: 850; }
-.intro .kicker { color: var(--lime); }
-.intro h1 { max-width: 52rem; margin: 0; font-size: clamp(2.25rem, 5vw, 4.7rem); line-height: .96; letter-spacing: -.06em; }
-.intro > p:last-child { max-width: 42rem; margin: 1rem 0 0; color: #e9e1ee; font-size: clamp(.9rem, 1.8vw, 1.06rem); line-height: 1.5; }
+.shopIntro { max-width: 92rem; margin: 0 auto; padding: clamp(1.15rem, 3vw, 2rem) clamp(1rem, 4vw, 3rem) .9rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(22rem, 31rem); align-items: center; gap: clamp(1rem, 4vw, 3rem); }
+.shopIntro h1 { max-width: 38rem; margin: 0; color: var(--violet-deep); font-size: clamp(2rem, 4vw, 3.65rem); line-height: .98; letter-spacing: -.055em; }
+.shopIntro > div:first-child > p { margin: .55rem 0 0; color: var(--muted); font-size: .86rem; }
+.voiceCard { min-height: 4.2rem; padding: .5rem .65rem .5rem .5rem; display: flex; align-items: center; gap: .7rem; border-radius: 1rem; color: #fff; background: var(--violet); box-shadow: 0 .8rem 2rem rgba(40,19,61,.16); }
+.micButton { position: relative; flex: 0 0 auto; width: 3.15rem; height: 3.15rem; border: 0; border-radius: 50%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); cursor: pointer; }
+.micButton:disabled { opacity: .72; }
+.micButton > span { position: absolute; inset: -.24rem; border: 1px solid var(--lime); border-radius: 50%; opacity: 0; }
+.voiceCard[data-status="listening"] .micButton > span, .voiceCard[data-status="speaking"] .micButton > span { animation: pulse 1.6s infinite; }
+@keyframes pulse { from { transform: scale(.9); opacity: .65; } to { transform: scale(1.23); opacity: 0; } }
+.voiceCopy { min-width: 0; display: flex; flex: 1; flex-direction: column; gap: .18rem; }
+.voiceCopy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .8rem; }
+.voiceCopy small { color: #d8cce0; font-size: .62rem; }
+.soundButton { min-height: 2.25rem; padding: 0 .68rem; border: 0; border-radius: 999px; color: var(--violet-deep); background: var(--lime); font-size: .65rem; font-weight: 850; cursor: pointer; }
+.endVoice { border: 0; color: #fff; background: transparent; font-size: .68rem; text-decoration: underline; cursor: pointer; }
 
-.voiceDock { position: sticky; z-index: 20; top: .65rem; width: min(35rem, calc(100% - 2rem)); margin: -1.4rem auto 1.6rem; }
-.voiceCard { min-height: 4.35rem; padding: .5rem .8rem .5rem .55rem; display: flex; align-items: center; gap: .75rem; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; color: #fff; background: rgba(40,19,61,.95); backdrop-filter: blur(16px); box-shadow: 0 .9rem 2.5rem rgba(27,9,40,.22); }
-.micButton { position: relative; flex: 0 0 auto; width: 3.2rem; height: 3.2rem; border: 0; border-radius: 50%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); cursor: pointer; }
-.micButton > span { position: absolute; inset: -.26rem; border: 1px solid var(--lime); border-radius: 50%; opacity: 0; }
-.voiceDock[data-status="listening"] .micButton > span, .voiceDock[data-status="speaking"] .micButton > span { animation: pulse 1.6s infinite; }
-@keyframes pulse { 0% { transform: scale(.9); opacity: .65; } 100% { transform: scale(1.22); opacity: 0; } }
-.voiceCard > div { min-width: 0; display: flex; flex-direction: column; gap: .2rem; }
-.voiceCard strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .82rem; }
-.voiceCard small { color: #cfc0d8; font-size: .62rem; }
-.endVoice { margin-left: auto; border: 0; color: #fff; background: transparent; font-size: .7rem; text-decoration: underline; cursor: pointer; }
-
-.catalogue { max-width: 92rem; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 3rem) 2rem; scroll-margin-top: 5.7rem; }
+.catalogue { max-width: 92rem; margin: 0 auto; padding: .75rem clamp(1rem, 4vw, 3rem) 2rem; }
 .catalogueTop { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
-.catalogueTop h2 { margin: 0; color: var(--violet-deep); font-size: clamp(1.7rem, 3vw, 2.55rem); letter-spacing: -.045em; }
-.allProducts { min-height: 2.6rem; padding: 0 .9rem; border: 1px solid var(--violet); border-radius: 999px; color: var(--violet); background: transparent; font-size: .72rem; font-weight: 800; cursor: pointer; }
-.categories { display: flex; gap: .45rem; overflow-x: auto; padding: 1.15rem 0 1.25rem; scrollbar-width: none; }
-.categories button { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; padding: .56rem .78rem; color: var(--violet); background: var(--paper); font-size: .7rem; font-weight: 750; cursor: pointer; }
-.categories button span { margin-left: .35rem; opacity: .58; }
+.catalogueTop small, .eyebrow { color: var(--coral); font-size: .63rem; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+.catalogueTop h2 { margin: .2rem 0 0; color: var(--violet-deep); font-size: clamp(1.45rem, 2.5vw, 2rem); letter-spacing: -.04em; }
+.allProducts { min-height: 2.4rem; padding: 0 .8rem; border: 1px solid var(--violet); border-radius: 999px; color: var(--violet); background: transparent; font-size: .68rem; font-weight: 800; cursor: pointer; }
+.categories { display: flex; gap: .42rem; overflow-x: auto; padding: .8rem 0 1rem; scrollbar-width: none; }
+.categories button { flex: 0 0 auto; padding: .5rem .72rem; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); background: var(--paper); font-size: .68rem; font-weight: 750; cursor: pointer; }
+.categories button span { margin-left: .32rem; opacity: .58; }
 .categories button[data-active="true"] { color: #fff; background: var(--violet); }
-.productGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.productCard { min-width: 0; overflow: hidden; border: 1px solid transparent; border-radius: 1rem; background: var(--paper); box-shadow: 0 .25rem 1rem rgba(39,21,48,.055); transition: transform .18s, border-color .18s; }
+.productGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem; }
+.productCard { min-width: 0; overflow: hidden; border: 1px solid transparent; border-radius: 1rem; background: var(--paper); box-shadow: 0 .25rem 1rem rgba(39,21,48,.06); transition: transform .18s, border-color .18s, box-shadow .18s; }
 .productCard:hover { transform: translateY(-2px); }
-.productCard[data-selected="true"] { border-color: var(--coral); }
+.productCard[data-selected="true"] { border-color: var(--coral); box-shadow: 0 .35rem 1.25rem rgba(241,90,58,.14); }
 .productMain { width: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
-.imageWrap { position: relative; aspect-ratio: 1 / 1; display: grid; place-items: center; overflow: hidden; background: #f2eef5; }
+.imageWrap { position: relative; aspect-ratio: 1 / .88; overflow: hidden; background: #f2eef5; }
 .imageWrap img { object-fit: contain; padding: .65rem; mix-blend-mode: multiply; }
-.imageWrap > span { color: var(--muted); font-size: .7rem; }
-.imageWrap i { position: absolute; left: .5rem; top: .5rem; max-width: calc(100% - 1rem); padding: .3rem .45rem; border-radius: .4rem; color: var(--violet-deep); background: var(--lime); font-style: normal; font-size: .56rem; font-weight: 850; }
-.productCopy { min-height: 8.6rem; padding: .78rem .82rem .65rem; }
-.productCopy > small { color: var(--coral); font-size: .61rem; font-weight: 850; text-transform: uppercase; letter-spacing: .07em; }
-.productCopy h3 { min-height: 2.4rem; margin: .35rem 0 .2rem; font-size: .86rem; line-height: 1.35; }
-.productCopy p { margin: 0; color: var(--muted); font-size: .65rem; }
-.productCopy > div { margin-top: .65rem; display: flex; align-items: baseline; gap: .45rem; }
-.productCopy strong { color: var(--violet-deep); font-size: .95rem; }
-.productCopy del { color: var(--muted); font-size: .67rem; }
-.cardActions { min-height: 2.7rem; padding: .2rem .55rem .55rem; display: flex; align-items: center; gap: .32rem; }
-.cardActions > button { min-width: 2.15rem; min-height: 2.15rem; padding: 0 .48rem; border: 1px solid var(--line); border-radius: .62rem; display: grid; place-items: center; color: var(--violet); background: transparent; font-size: .65rem; font-weight: 760; cursor: pointer; }
-.cardActions > button[data-active="true"] { color: var(--coral); background: #fff1ed; }
-.cardActions .addButton { margin-left: auto; display: flex; grid-auto-flow: column; align-items: center; gap: .22rem; border-color: var(--violet); color: #fff; background: var(--violet); }
-.stepper { margin-left: auto; display: grid; grid-template-columns: 1.8rem 1.35rem 1.8rem; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); text-align: center; font-size: .72rem; }
-.stepper button { min-height: 2rem; border: 0; display: grid; place-items: center; color: inherit; background: transparent; cursor: pointer; }
-.catalogueNote { margin: 1.6rem 0 0; color: var(--muted); font-size: .62rem; text-align: center; }
+.imageWrap > span { height: 100%; display: grid; place-items: center; color: var(--muted); font-size: .68rem; }
+.imageWrap i, .imageWrap em { position: absolute; top: .48rem; padding: .3rem .46rem; border-radius: .42rem; font-size: .56rem; font-weight: 850; font-style: normal; }
+.imageWrap i { left: .48rem; max-width: calc(100% - .96rem); color: var(--violet-deep); background: var(--lime); }
+.imageWrap em { right: .48rem; color: #fff; background: var(--coral); }
+.productCopy { min-height: 7.65rem; padding: .72rem .78rem .5rem; }
+.productCopy > small { color: var(--coral); font-size: .59rem; font-weight: 850; text-transform: uppercase; letter-spacing: .06em; }
+.productCopy h3 { min-height: 2.2rem; margin: .3rem 0 .15rem; font-size: .82rem; line-height: 1.33; }
+.productCopy p { margin: 0; color: var(--muted); font-size: .63rem; }
+.productCopy > div { margin-top: .55rem; display: flex; align-items: baseline; gap: .42rem; }
+.productCopy strong { color: var(--violet-deep); font-size: .91rem; }
+.productCopy del { color: var(--muted); font-size: .65rem; }
+.cardAction { min-height: 2.65rem; padding: .2rem .5rem .5rem; display: flex; align-items: center; gap: .35rem; }
+.detailsButton { padding: .3rem .2rem; border: 0; color: var(--violet); background: transparent; font-size: .65rem; font-weight: 780; text-decoration: underline; cursor: pointer; }
+.addButton { min-height: 2.15rem; margin-left: auto; padding: 0 .68rem; border: 0; border-radius: .62rem; display: flex; align-items: center; gap: .24rem; color: #fff; background: var(--violet); font-size: .65rem; font-weight: 800; cursor: pointer; }
+.stepper, .miniStepper { margin-left: auto; display: grid; grid-template-columns: 1.8rem 1.3rem 1.8rem; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); text-align: center; font-size: .7rem; }
+.stepper button, .miniStepper button { min-height: 2rem; border: 0; display: grid; place-items: center; color: inherit; background: transparent; cursor: pointer; }
+.catalogueNote { margin: 1.4rem 0 0; color: var(--muted); font-size: .6rem; text-align: center; }
 
 .sheetBackdrop { position: fixed; inset: 0; z-index: 40; display: flex; justify-content: flex-end; background: rgba(29,13,39,.48); backdrop-filter: blur(3px); }
 .sheet { position: relative; width: min(31rem, 100%); height: 100%; overflow-y: auto; padding: 2rem 1.4rem; background: var(--paper); box-shadow: -1.5rem 0 4rem rgba(20,8,30,.2); }
 .sheetClose { position: absolute; right: 1rem; top: 1rem; width: 2.5rem; height: 2.5rem; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; color: var(--violet); background: #fff; cursor: pointer; }
-.sheet h2 { max-width: 24rem; margin: 0; padding-right: 2rem; color: var(--violet-deep); font-size: 2rem; line-height: 1.05; letter-spacing: -.04em; }
+.sheet h2 { max-width: 24rem; margin: .35rem 0 0; padding-right: 2rem; color: var(--violet-deep); font-size: 2rem; line-height: 1.05; letter-spacing: -.04em; }
 .sheetBrand { margin: .45rem 0 1rem; color: var(--coral); font-size: .68rem; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
 .detailImage { position: relative; width: 100%; aspect-ratio: 1; margin-top: 1rem; border-radius: 1rem; overflow: hidden; background: #f2eef5; }
 .detailImage img, .compareImage img { object-fit: contain; padding: .75rem; mix-blend-mode: multiply; }
@@ -107,9 +107,10 @@
 .detailPrice del { color: var(--muted); font-size: .8rem; }
 .detailPrice span { width: 100%; color: var(--muted); font-size: .72rem; }
 .detailDescription { color: #554c58; font-size: .8rem; line-height: 1.55; }
-.sheetActions { margin-top: 1rem; display: grid; grid-template-columns: 1fr 1.4fr; gap: .55rem; }
-.sheetActions button { min-height: 3rem; border: 1px solid var(--line); border-radius: .75rem; display: flex; align-items: center; justify-content: center; gap: .35rem; color: var(--violet); background: transparent; font-weight: 800; cursor: pointer; }
-.sheetActions button:last-child { border-color: var(--violet); color: #fff; background: var(--violet); }
+.secondaryActions, .reviewActions { margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+.secondaryActions button, .reviewActions button { min-height: 2.8rem; border: 1px solid var(--line); border-radius: .72rem; display: flex; align-items: center; justify-content: center; gap: .35rem; color: var(--violet); background: transparent; font-weight: 800; cursor: pointer; }
+.secondaryActions button[data-active="true"] { color: var(--coral); background: #fff1ed; }
+.primarySheetAction, .reviewButton { width: 100%; min-height: 3rem; margin-top: .6rem; border: 0; border-radius: .75rem; display: flex; align-items: center; justify-content: center; gap: .35rem; color: #fff; background: var(--coral); font-weight: 850; cursor: pointer; }
 .detailSource { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .65rem; }
 .empty { padding: 1rem 0 .2rem; color: var(--muted); font-size: .8rem; line-height: 1.55; }
 .sheetList { margin-top: 1rem; display: flex; flex-direction: column; }
@@ -134,22 +135,17 @@
 .basketItem small { color: var(--muted); font-size: .61rem; }
 .departureField { display: flex; flex-direction: column; gap: .4rem; margin: 1rem 0; color: var(--muted); font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
 .departureField input { min-height: 2.7rem; padding: 0 .7rem; border: 1px solid var(--line); border-radius: .65rem; color: var(--ink); background: #fff; font-size: .75rem; text-transform: none; }
+.flightReuse { margin: -.35rem 0 .9rem; color: var(--violet); font-size: .7rem; line-height: 1.4; }
 .total { padding: .8rem 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
 .total span { color: var(--muted); font-size: .72rem; }
 .total strong { color: var(--violet-deep); font-size: 1.2rem; }
-.reviewButton { width: 100%; min-height: 3rem; border: 0; border-radius: .75rem; color: #fff; background: var(--coral); font-weight: 850; cursor: pointer; }
 .discreet { margin: .65rem 0 0; color: var(--muted); font-size: .58rem; text-align: center; }
 .error { margin: -.25rem 0 .75rem; padding: .65rem; border-radius: .6rem; color: #8f2d1f; background: #fff0eb; font-size: .7rem; line-height: 1.4; }
 .reservationResult { margin: 1rem 0; padding: .85rem; border-radius: .8rem; color: #263e1a; background: #eef6da; }
 .reservationResult span { display: flex; align-items: center; gap: .3rem; font-size: .65rem; font-weight: 850; text-transform: uppercase; }
 .reservationResult strong { display: block; margin: .5rem 0 .2rem; }
 .reservationResult p, .reservationResult small { display: block; margin: .1rem 0; font-size: .64rem; }
-.reservationResult .reservedItem { margin-top: .38rem; color: var(--violet); font-weight: 700; }
-
-.modalBackdrop { position: fixed; inset: 0; z-index: 60; padding: 1rem; display: grid; place-items: center; background: rgba(29,13,39,.7); backdrop-filter: blur(5px); }
-.modal { width: min(31rem, 100%); max-height: calc(100vh - 2rem); overflow-y: auto; padding: 1.5rem; border-radius: 1.3rem; background: var(--paper); box-shadow: 0 2rem 6rem rgba(0,0,0,.3); }
-.modal h2 { margin: 0 0 1rem; color: var(--violet-deep); font-size: 2rem; letter-spacing: -.04em; }
-.pickup { padding: .85rem; display: flex; gap: .65rem; border-radius: .75rem; color: var(--violet); background: var(--lavender-soft); }
+.pickup { margin-top: 1rem; padding: .85rem; display: flex; gap: .65rem; border-radius: .75rem; color: var(--violet); background: var(--lavender-soft); }
 .pickup > div { display: flex; flex-direction: column; gap: .25rem; }
 .pickup strong { font-size: .8rem; }
 .pickup span { color: var(--muted); font-size: .67rem; }
@@ -158,37 +154,41 @@
 .reviewItems span { display: flex; flex-direction: column; }
 .reviewItems small { margin-top: .2rem; color: var(--muted); }
 .conceptNote { padding: .75rem; border-radius: .7rem; color: #675c6d; background: #f4f1f5; font-size: .68rem; line-height: 1.45; }
-.modalActions { display: grid; grid-template-columns: 1fr 1.25fr; gap: .6rem; }
-.modalActions button { min-height: 3rem; border-radius: .75rem; font-weight: 800; cursor: pointer; }
-.modalActions button:first-child { border: 1px solid var(--line); color: var(--violet); background: transparent; }
-.modalActions button:last-child { border: 0; display: flex; align-items: center; justify-content: center; gap: .35rem; color: #fff; background: var(--coral); }
-.resetButton { display: block; margin: 1rem auto 0; padding: .5rem; border: 0; color: var(--muted); background: transparent; font-size: .62rem; text-decoration: underline; cursor: pointer; }
+.reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
+.resetButton { display: block; margin: .2rem auto 0; padding: .5rem; border: 0; color: var(--muted); background: transparent; font-size: .62rem; text-decoration: underline; cursor: pointer; }
 
 @media (max-width: 1000px) {
+  .shopIntro { grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem); }
   .productGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .header { min-height: 4rem; padding: .7rem .8rem; }
-  .brand small, .headerActions button span { display: none; }
-  .headerActions button { min-width: 2.5rem; padding: 0 .55rem; justify-content: center; }
-  .intro { padding: 2.3rem 1rem 2.35rem; background: radial-gradient(circle at 115% -50%, var(--coral) 0 34%, transparent 35%), var(--violet); }
-  .intro h1 { max-width: 22rem; }
-  .voiceDock { top: .5rem; margin-bottom: .7rem; }
-  .catalogue { padding: 1rem .8rem 2rem; scroll-margin-top: 5.3rem; }
-  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .62rem; }
-  .productCopy { min-height: 8rem; padding: .68rem; }
-  .productCopy h3 { font-size: .77rem; }
-  .cardActions { padding-inline: .4rem; }
-  .sheet { padding: 1.5rem 1rem; }
+  .header { min-height: 3.8rem; padding: .58rem .72rem; }
+  .brandMark { width: 2.1rem; height: 2.1rem; }
+  .brand strong { font-size: .7rem; }
+  .brand small { font-size: .58rem; }
+  .bagButton span { display: none; }
+  .bagButton { min-width: 2.45rem; padding: 0 .5rem; justify-content: center; }
+  .shopIntro { padding: .95rem .75rem .5rem; display: block; }
+  .shopIntro h1 { max-width: 21rem; font-size: clamp(1.8rem, 9vw, 2.5rem); }
+  .shopIntro > div:first-child > p { margin-top: .38rem; font-size: .76rem; }
+  .voiceCard { position: sticky; z-index: 20; top: .45rem; min-height: 3.75rem; margin-top: .75rem; padding: .38rem .55rem .38rem .4rem; border-radius: .9rem; }
+  .micButton { width: 2.95rem; height: 2.95rem; }
+  .voiceCopy strong { font-size: .74rem; }
+  .voiceCopy small { font-size: .58rem; }
+  .catalogue { padding: .55rem .7rem 1.5rem; }
+  .categories { padding: .65rem 0 .8rem; }
+  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+  .imageWrap { aspect-ratio: 1 / .88; }
+  .productCopy { min-height: 7.25rem; padding: .62rem; }
+  .productCopy h3 { font-size: .75rem; }
+  .cardAction { padding-inline: .4rem; }
+  .sheetBackdrop { align-items: flex-end; }
+  .sheet { width: 100%; height: min(88vh, 48rem); padding: 1.5rem 1rem; border-radius: 1.2rem 1.2rem 0 0; box-shadow: 0 -1rem 3rem rgba(20,8,30,.2); }
 }
 @media (max-width: 390px) {
-  .brand strong { font-size: .7rem; }
-  .headerActions { gap: .2rem; }
-  .headerActions button { min-width: 2.25rem; min-height: 2.25rem; }
-  .voiceCard { min-height: 4rem; }
-  .micButton { width: 2.9rem; height: 2.9rem; }
-  .productGrid { gap: .45rem; }
-  .productCopy { min-height: 7.8rem; padding: .58rem; }
-  .cardActions .addButton { font-size: 0; }
-  .cardActions .addButton svg { margin: 0; }
+  .brand small { max-width: 13rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .voiceCopy strong { font-size: .69rem; }
+  .soundButton { padding-inline: .5rem; }
+  .productGrid { gap: .42rem; }
+  .productCopy { min-height: 7.05rem; padding: .54rem; }
 }
