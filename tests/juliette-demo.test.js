@@ -58,14 +58,21 @@ test("shopping helpers support touch-relative selection and bounded basket chang
   assert.throws(() => shopping.changeBasket({}, "invented-product", 1, "add", validIds), /Unknown product/);
 });
 
-test("Realtime credentials remain server-side and pickup stays explicitly simulated", () => {
+test("Realtime credentials remain server-side and the quiet shopping surface keeps one simulated pickup confirmation", () => {
   const clientSource = fs.readFileSync(path.join(root, "src", "juliette-demo", "JulietteVoiceShop.jsx"), "utf8");
+  const stockAdapter = fs.readFileSync(path.join(root, "src", "juliette-demo", "stockAdapter.mjs"), "utf8");
   const tokenRoute = fs.readFileSync(path.join(root, "app", "api", "juliette-demo", "realtime-token", "route.js"), "utf8");
 
   assert.doesNotMatch(clientSource, /process\.env\.OPENAI_API_KEY/);
-  assert.match(clientSource, /needsApproval:\s*true/);
+  assert.doesNotMatch(clientSource, /needsApproval:\s*true/);
+  assert.match(clientSource, /awaitingTouchConfirmation:\s*true/);
+  assert.match(clientSource, /Confirm pickup preview/);
+  assert.doesNotMatch(`${clientSource}\n${stockAdapter}`, /JUL-DEMO|Tomorrow, 10:30/);
   assert.match(clientSource, /No real transaction is possible/);
-  assert.match(clientSource, /do not claim photos are visible/i);
+  assert.match(clientSource, /belowFoldProductIds/);
+  assert.match(clientSource, /initialDemoProducts\(products\)\.slice\(0, 6\)/);
+  assert.doesNotMatch(clientSource, /OpenAI Realtime|WebRTC|Demo:\s*\{/);
+  assert.doesNotMatch(clientSource, /What would you like today\?/);
   assert.match(clientSource, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
   assert.match(clientSource, /window\.setTimeout\(\(\) => \{[\s\S]*Five-minute demo ended/);
   assert.match(tokenRoute, /process\.env\.OPENAI_API_KEY/);

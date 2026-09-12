@@ -23,7 +23,6 @@ export const demoStockAdapter = {
       accepted: Object.keys(basket).length > 0,
       simulated: true,
       location: "Juliette Erlenbach",
-      pickupWindow: "Tomorrow, 10:30–11:00",
     };
   },
 };
