@@ -10,9 +10,10 @@
   --paper: #fffefd;
   --line: rgba(72, 35, 107, .15);
   min-height: 100vh;
-  padding-bottom: 2.5rem;
+  padding-bottom: 8.5rem;
+  overflow-x: clip;
   color: var(--ink);
-  background: #f7f5f8;
+  background: var(--paper);
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
 }
 .page * { box-sizing: border-box; }
@@ -37,63 +38,62 @@
 .accessCard form button { min-height: 3.1rem; margin-top: .55rem; border: 0; border-radius: .75rem; color: #28133d; background: #d9f05c; font-weight: 850; cursor: pointer; }
 .accessError { padding: .9rem; border-radius: .75rem; color: #ffcfc5; background: rgba(241,90,58,.18); font-size: .78rem; line-height: 1.5; }
 
-.header { min-height: 4.25rem; padding: .7rem clamp(1rem, 4vw, 3rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; background: var(--violet-deep); }
+.header { position: sticky; top: 0; z-index: 20; min-height: 5.25rem; padding: .45rem max(1.5rem, calc((100vw - 78rem) / 2 + 1.5rem)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; background: rgba(40,19,61,.98); border-bottom: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(14px); }
 .brand { display: flex; align-items: center; gap: .72rem; min-width: 0; }
-.brandMark { flex: 0 0 auto; width: 2.3rem; height: 2.3rem; border-radius: 50% 50% 44% 56% / 58% 42% 58% 42%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lavender); font-weight: 900; transform: rotate(-8deg); }
+.brandMark { flex: 0 0 auto; width: 2.65rem; height: 2.65rem; border-radius: 50% 50% 44% 56% / 58% 42% 58% 42%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lavender); font-weight: 900; transform: rotate(-8deg); }
 .brand > div { min-width: 0; display: flex; flex-direction: column; gap: .1rem; }
-.brand strong { font-size: .82rem; letter-spacing: .09em; white-space: nowrap; }
-.brand small { display: flex; align-items: center; gap: .25rem; color: #d6cbe0; font-size: .65rem; }
-.bagButton { position: relative; min-height: 2.55rem; padding: 0 .72rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; display: flex; align-items: center; gap: .38rem; color: #fff; background: rgba(255,255,255,.08); font-size: .7rem; font-weight: 780; cursor: pointer; }
-.bagButton b { min-width: 1.15rem; height: 1.15rem; padding: 0 .24rem; border-radius: 999px; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); font-size: .58rem; }
+.brand strong { font-size: .86rem; letter-spacing: .09em; white-space: nowrap; }
+.brand small { color: #d6cbe0; font-size: .62rem; }
+.location { display: flex; align-items: center; gap: .35rem; color: #fff; }
+.location strong { font-size: 1.15rem; letter-spacing: -.025em; }
 
-.shopIntro { max-width: 92rem; margin: 0 auto; padding: clamp(1.15rem, 3vw, 2rem) clamp(1rem, 4vw, 3rem) .9rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(22rem, 31rem); align-items: center; gap: clamp(1rem, 4vw, 3rem); }
-.shopIntro h1 { max-width: 38rem; margin: 0; color: var(--violet-deep); font-size: clamp(2rem, 4vw, 3.65rem); line-height: .98; letter-spacing: -.055em; }
-.shopIntro > div:first-child > p { margin: .55rem 0 0; color: var(--muted); font-size: .86rem; }
-.voiceCard { min-height: 4.2rem; padding: .5rem .65rem .5rem .5rem; display: flex; align-items: center; gap: .7rem; border-radius: 1rem; color: #fff; background: var(--violet); box-shadow: 0 .8rem 2rem rgba(40,19,61,.16); }
-.micButton { position: relative; flex: 0 0 auto; width: 3.15rem; height: 3.15rem; border: 0; border-radius: 50%; display: grid; place-items: center; color: var(--violet-deep); background: var(--lime); cursor: pointer; }
-.micButton:disabled { opacity: .72; }
-.micButton > span { position: absolute; inset: -.24rem; border: 1px solid var(--lime); border-radius: 50%; opacity: 0; }
-.voiceCard[data-status="listening"] .micButton > span, .voiceCard[data-status="speaking"] .micButton > span { animation: pulse 1.6s infinite; }
-@keyframes pulse { from { transform: scale(.9); opacity: .65; } to { transform: scale(1.23); opacity: 0; } }
-.voiceCopy { min-width: 0; display: flex; flex: 1; flex-direction: column; gap: .18rem; }
-.voiceCopy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .8rem; }
-.voiceCopy small { color: #d8cce0; font-size: .62rem; }
-.soundButton { min-height: 2.25rem; padding: 0 .68rem; border: 0; border-radius: 999px; color: var(--violet-deep); background: var(--lime); font-size: .65rem; font-weight: 850; cursor: pointer; }
-.endVoice { border: 0; color: #fff; background: transparent; font-size: .68rem; text-decoration: underline; cursor: pointer; }
+.productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 1rem 1.5rem 2rem; }
+.resultsContext { min-height: 2.6rem; margin-bottom: .65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.resultsContext span { color: var(--muted); font-size: .8rem; font-weight: 750; }
+.resultsContext button { border: 0; color: var(--violet); background: transparent; font-size: .8rem; font-weight: 800; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
+.productGrid { scroll-margin-top: 5.85rem; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.1rem .9rem; }
+.productCard { position: relative; aspect-ratio: 1 / 1; min-width: 0; border-radius: .68rem; }
+.productSelect { position: absolute; inset: 0; width: 100%; padding: 0; overflow: hidden; border: 0; border-radius: inherit; color: #fff; background: transparent; text-align: left; cursor: pointer; }
+.imageWrap { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; background: linear-gradient(145deg, #f1ebfa 0%, #ddd1ef 100%); box-shadow: inset 0 0 0 1px rgba(72,35,107,.12); transition: box-shadow .16s ease, transform .16s ease; }
+.imageWrap img { object-fit: contain; padding: 2.9rem .65rem .55rem; mix-blend-mode: multiply; transform: scale(.98); }
+.imageWrap::before { content: ""; position: absolute; z-index: 1; inset: 0 0 auto; height: 55%; pointer-events: none; background: linear-gradient(180deg, rgba(40,19,61,.88) 0%, rgba(72,35,107,.55) 56%, transparent 100%); }
+.imageWrap::after { content: ""; position: absolute; z-index: 1; right: 0; bottom: 0; width: 72%; height: 35%; pointer-events: none; background: linear-gradient(145deg, transparent 18%, rgba(40,19,61,.45) 100%); }
+.productCard:hover .imageWrap { transform: translateY(-2px); }
+.productCard[data-selected="true"] .imageWrap { box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--coral); }
+.imageFallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--violet); font-size: .72rem; }
+.productText { position: absolute; z-index: 2; inset: 0 0 auto; padding: .64rem .68rem 2rem; pointer-events: none; text-shadow: 0 1px 7px rgba(28,10,43,.65); }
+.productText small { display: block; margin-bottom: .16rem; color: var(--lime); font-size: .52rem; font-weight: 850; text-transform: uppercase; letter-spacing: .055em; }
+.productText h2 { max-width: 92%; min-height: 0; margin: 0; display: -webkit-box; overflow: hidden; font-size: .88rem; font-weight: 760; line-height: 1.13; letter-spacing: -.015em; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.productText span { display: block; margin-top: .2rem; overflow: hidden; color: rgba(255,255,255,.82); font-size: .55rem; text-overflow: ellipsis; white-space: nowrap; }
+.productText strong { display: block; margin-top: .27rem; color: #fff; font-size: 1.08rem; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.imageWrap > i { position: absolute; z-index: 3; left: .58rem; bottom: .58rem; max-width: calc(100% - 4rem); padding: .28rem .42rem; overflow: hidden; border-radius: .35rem; color: var(--violet-deep); background: var(--lime); font-size: .5rem; font-weight: 850; font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
+.cardAction { position: absolute; z-index: 4; right: .55rem; bottom: .55rem; }
+.cardAction > button { width: 2.65rem; height: 2.65rem; padding: 0; border: 0; display: grid; place-items: center; color: #fff; background: transparent; filter: drop-shadow(0 .12rem .22rem rgba(40,19,61,.88)); cursor: pointer; }
+.stepper, .miniStepper { display: grid; align-items: center; text-align: center; }
+.stepper { width: 7rem; min-height: 2.6rem; grid-template-columns: 2.5rem 1fr 2.5rem; border: 1px solid rgba(255,255,255,.76); border-radius: 999px; color: var(--violet); background: rgba(255,255,255,.96); box-shadow: 0 .35rem 1rem rgba(40,19,61,.2); backdrop-filter: blur(10px); }
+.stepper button, .miniStepper button { min-height: 2.15rem; border: 0; display: grid; place-items: center; color: inherit; background: transparent; cursor: pointer; }
+.stepper span { color: var(--violet-deep); font-size: .82rem; font-weight: 800; }
 
-.catalogue { max-width: 92rem; margin: 0 auto; padding: .75rem clamp(1rem, 4vw, 3rem) 2rem; }
-.catalogueTop { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
-.catalogueTop small, .eyebrow { color: var(--coral); font-size: .63rem; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
-.catalogueTop h2 { margin: .2rem 0 0; color: var(--violet-deep); font-size: clamp(1.45rem, 2.5vw, 2rem); letter-spacing: -.04em; }
-.allProducts { min-height: 2.4rem; padding: 0 .8rem; border: 1px solid var(--violet); border-radius: 999px; color: var(--violet); background: transparent; font-size: .68rem; font-weight: 800; cursor: pointer; }
-.categories { display: flex; gap: .42rem; overflow-x: auto; padding: .8rem 0 1rem; scrollbar-width: none; }
-.categories button { flex: 0 0 auto; padding: .5rem .72rem; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); background: var(--paper); font-size: .68rem; font-weight: 750; cursor: pointer; }
-.categories button span { margin-left: .32rem; opacity: .58; }
-.categories button[data-active="true"] { color: #fff; background: var(--violet); }
-.productGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem; }
-.productCard { min-width: 0; overflow: hidden; border: 1px solid transparent; border-radius: 1rem; background: var(--paper); box-shadow: 0 .25rem 1rem rgba(39,21,48,.06); transition: transform .18s, border-color .18s, box-shadow .18s; }
-.productCard:hover { transform: translateY(-2px); }
-.productCard[data-selected="true"] { border-color: var(--coral); box-shadow: 0 .35rem 1.25rem rgba(241,90,58,.14); }
-.productMain { width: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
-.imageWrap { position: relative; aspect-ratio: 1 / .88; overflow: hidden; background: #f2eef5; }
-.imageWrap img { object-fit: contain; padding: .65rem; mix-blend-mode: multiply; }
-.imageWrap > span { height: 100%; display: grid; place-items: center; color: var(--muted); font-size: .68rem; }
-.imageWrap i, .imageWrap em { position: absolute; top: .48rem; padding: .3rem .46rem; border-radius: .42rem; font-size: .56rem; font-weight: 850; font-style: normal; }
-.imageWrap i { left: .48rem; max-width: calc(100% - .96rem); color: var(--violet-deep); background: var(--lime); }
-.imageWrap em { right: .48rem; color: #fff; background: var(--coral); }
-.productCopy { min-height: 7.65rem; padding: .72rem .78rem .5rem; }
-.productCopy > small { color: var(--coral); font-size: .59rem; font-weight: 850; text-transform: uppercase; letter-spacing: .06em; }
-.productCopy h3 { min-height: 2.2rem; margin: .3rem 0 .15rem; font-size: .82rem; line-height: 1.33; }
-.productCopy p { margin: 0; color: var(--muted); font-size: .63rem; }
-.productCopy > div { margin-top: .55rem; display: flex; align-items: baseline; gap: .42rem; }
-.productCopy strong { color: var(--violet-deep); font-size: .91rem; }
-.productCopy del { color: var(--muted); font-size: .65rem; }
-.cardAction { min-height: 2.65rem; padding: .2rem .5rem .5rem; display: flex; align-items: center; gap: .35rem; }
-.detailsButton { padding: .3rem .2rem; border: 0; color: var(--violet); background: transparent; font-size: .65rem; font-weight: 780; text-decoration: underline; cursor: pointer; }
-.addButton { min-height: 2.15rem; margin-left: auto; padding: 0 .68rem; border: 0; border-radius: .62rem; display: flex; align-items: center; gap: .24rem; color: #fff; background: var(--violet); font-size: .65rem; font-weight: 800; cursor: pointer; }
-.stepper, .miniStepper { margin-left: auto; display: grid; grid-template-columns: 1.8rem 1.3rem 1.8rem; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); text-align: center; font-size: .7rem; }
-.stepper button, .miniStepper button { min-height: 2rem; border: 0; display: grid; place-items: center; color: inherit; background: transparent; cursor: pointer; }
-.catalogueNote { margin: 1.4rem 0 0; color: var(--muted); font-size: .6rem; text-align: center; }
+.controlDock { position: fixed; z-index: 45; left: 50%; bottom: calc(.9rem + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 1rem); transform: translateX(-50%); color: #fff; }
+.dockRow { display: flex; align-items: center; justify-content: center; gap: .5rem; min-width: 0; }
+.voiceAction { width: 15rem; min-height: 3.6rem; padding: 0 1rem; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; display: flex; align-items: center; gap: .7rem; color: #fff; background: linear-gradient(135deg, rgba(72,35,107,.99), rgba(40,19,61,.99)); box-shadow: 0 .75rem 1.9rem rgba(40,19,61,.24), inset 0 1px rgba(255,255,255,.1); backdrop-filter: blur(16px); cursor: pointer; }
+.voiceAction:disabled { cursor: wait; }
+.voiceGlyph { width: 1.7rem; height: 1.7rem; flex: 0 0 auto; display: grid; place-items: center; }
+.voiceGlyph svg { width: 1.2rem; height: 1.2rem; }
+.voiceLabel { min-width: 0; flex: 1; text-align: left; }
+.voiceLabel strong { display: block; overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
+.connectingIndicator { width: 1rem; height: 1rem; border: 2px solid rgba(255,255,255,.24); border-top-color: #fff; border-radius: 50%; animation: spin .85s linear infinite; }
+.readyIndicator { width: .45rem; height: .45rem; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 .18rem rgba(217,240,92,.16); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.soundButton, .endVoice { flex: 0 0 auto; min-height: 3rem; border-radius: 999px; font-weight: 800; box-shadow: 0 .55rem 1.5rem rgba(40,19,61,.18); cursor: pointer; }
+.soundButton { padding: 0 .75rem; border: 0; color: var(--violet-deep); background: var(--lime); font-size: .67rem; }
+.endVoice { width: 3rem; padding: 0; border: 1px solid rgba(255,255,255,.2); display: grid; place-items: center; color: #fff; background: rgba(72,35,107,.98); }
+.basketTrigger { min-height: 3rem; padding: 0 .78rem; border: 1px solid rgba(72,35,107,.22); border-radius: 999px; display: flex; align-items: center; gap: .38rem; color: var(--violet-deep); background: rgba(255,255,255,.98); box-shadow: 0 .55rem 1.5rem rgba(40,19,61,.16); font-size: .75rem; cursor: pointer; }
+.basketTrigger span { min-width: 1.22rem; height: 1.22rem; display: grid; place-items: center; border-radius: 999px; background: var(--lavender-soft); }
+.basketTrigger strong { white-space: nowrap; }
+.voiceNotice { position: absolute; left: 50%; bottom: calc(100% + .55rem); width: max-content; max-width: min(22rem, calc(100vw - 1rem)); transform: translateX(-50%); margin: 0; padding: .62rem .82rem; border: 1px solid rgba(255,255,255,.22); border-radius: .7rem; color: #fff; background: rgba(40,19,61,.98); box-shadow: 0 .75rem 2rem rgba(40,19,61,.22); font-size: .76rem; text-align: center; }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.eyebrow { color: var(--coral); font-size: .63rem; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
 
 .sheetBackdrop { position: fixed; inset: 0; z-index: 40; display: flex; justify-content: flex-end; background: rgba(29,13,39,.48); backdrop-filter: blur(3px); }
 .sheet { position: relative; width: min(31rem, 100%); height: 100%; overflow-y: auto; padding: 2rem 1.4rem; background: var(--paper); box-shadow: -1.5rem 0 4rem rgba(20,8,30,.2); }
@@ -133,6 +133,7 @@
 .basketItem > div:last-child { align-items: flex-end; }
 .basketItem strong, .basketItem b { font-size: .72rem; line-height: 1.35; }
 .basketItem small { color: var(--muted); font-size: .61rem; }
+.miniStepper { grid-template-columns: 1.8rem 1.3rem 1.8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--violet); }
 .departureField { display: flex; flex-direction: column; gap: .4rem; margin: 1rem 0; color: var(--muted); font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
 .departureField input { min-height: 2.7rem; padding: 0 .7rem; border: 1px solid var(--line); border-radius: .65rem; color: var(--ink); background: #fff; font-size: .75rem; text-transform: none; }
 .flightReuse { margin: -.35rem 0 .9rem; color: var(--violet); font-size: .7rem; line-height: 1.4; }
@@ -157,38 +158,66 @@
 .reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
 .resetButton { display: block; margin: .2rem auto 0; padding: .5rem; border: 0; color: var(--muted); background: transparent; font-size: .62rem; text-decoration: underline; cursor: pointer; }
 
-@media (max-width: 1000px) {
-  .shopIntro { grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem); }
+@media (max-width: 1100px) {
+  .productGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
   .productGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-@media (max-width: 700px) {
-  .header { min-height: 3.8rem; padding: .58rem .72rem; }
-  .brandMark { width: 2.1rem; height: 2.1rem; }
+@media (max-width: 760px) {
+  .page { padding-bottom: calc(8.75rem + env(safe-area-inset-bottom)); }
+  .header { min-height: 4.5rem; padding: .35rem .75rem; }
+  .brandMark { width: 2.2rem; height: 2.2rem; }
   .brand strong { font-size: .7rem; }
-  .brand small { font-size: .58rem; }
-  .bagButton span { display: none; }
-  .bagButton { min-width: 2.45rem; padding: 0 .5rem; justify-content: center; }
-  .shopIntro { padding: .95rem .75rem .5rem; display: block; }
-  .shopIntro h1 { max-width: 21rem; font-size: clamp(1.8rem, 9vw, 2.5rem); }
-  .shopIntro > div:first-child > p { margin-top: .38rem; font-size: .76rem; }
-  .voiceCard { position: sticky; z-index: 20; top: .45rem; min-height: 3.75rem; margin-top: .75rem; padding: .38rem .55rem .38rem .4rem; border-radius: .9rem; }
-  .micButton { width: 2.95rem; height: 2.95rem; }
-  .voiceCopy strong { font-size: .74rem; }
-  .voiceCopy small { font-size: .58rem; }
-  .catalogue { padding: .55rem .7rem 1.5rem; }
-  .categories { padding: .65rem 0 .8rem; }
-  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
-  .imageWrap { aspect-ratio: 1 / .88; }
-  .productCopy { min-height: 7.25rem; padding: .62rem; }
-  .productCopy h3 { font-size: .75rem; }
-  .cardAction { padding-inline: .4rem; }
+  .brand small { font-size: .55rem; }
+  .location { gap: .25rem; }
+  .location strong { font-size: 1rem; }
+  .productSurface { padding: .62rem .55rem 1.5rem; }
+  .resultsContext { min-height: 2.3rem; padding: 0 .15rem; margin-bottom: .4rem; }
+  .productGrid { scroll-margin-top: 5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .58rem; }
+  .productText { padding: .55rem .58rem 1.8rem; }
+  .productText small { font-size: .47rem; }
+  .productText h2 { font-size: .78rem; }
+  .productText span { font-size: .5rem; }
+  .productText strong { font-size: .98rem; }
+  .imageWrap img { padding: 2.65rem .42rem .38rem; }
+  .imageWrap > i { left: .46rem; bottom: .46rem; max-width: calc(100% - 3.4rem); font-size: .44rem; }
+  .cardAction { right: .44rem; bottom: .42rem; }
+  .cardAction > button { width: 2.4rem; height: 2.4rem; }
+  .stepper { width: 6.4rem; min-height: 2.4rem; grid-template-columns: 2.25rem 1fr 2.25rem; }
+  .controlDock { bottom: calc(.55rem + env(safe-area-inset-bottom)); }
+  .voiceAction { width: 12.5rem; min-height: 3.4rem; padding: 0 .85rem; }
+  .voiceLabel strong { font-size: .84rem; }
+  .endVoice, .basketTrigger { min-height: 2.85rem; }
+  .endVoice { width: 2.85rem; }
+  .basketTrigger { padding: 0 .66rem; }
   .sheetBackdrop { align-items: flex-end; }
   .sheet { width: 100%; height: min(88vh, 48rem); padding: 1.5rem 1rem; border-radius: 1.2rem 1.2rem 0 0; box-shadow: 0 -1rem 3rem rgba(20,8,30,.2); }
 }
-@media (max-width: 390px) {
-  .brand small { max-width: 13rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .voiceCopy strong { font-size: .69rem; }
-  .soundButton { padding-inline: .5rem; }
-  .productGrid { gap: .42rem; }
-  .productCopy { min-height: 7.05rem; padding: .54rem; }
+@media (max-width: 420px) {
+  .controlDock[data-has-session="true"][data-has-basket="true"] .dockRow { width: min(20rem, calc(100vw - 1rem)); display: grid; grid-template-columns: 1fr auto; gap: .42rem; }
+  .controlDock[data-has-session="true"][data-has-basket="true"] .voiceAction { width: 12.5rem; grid-column: 1 / -1; justify-self: center; }
+  .controlDock[data-has-session="true"][data-has-basket="true"] .basketTrigger { grid-column: 1; justify-self: end; }
+  .controlDock[data-has-session="true"][data-has-basket="true"] .endVoice { grid-column: 2; }
+}
+@media (max-width: 340px) {
+  .header { padding-inline: .52rem; }
+  .brand { gap: .48rem; }
+  .brandMark { width: 2rem; height: 2rem; }
+  .brand strong { font-size: .62rem; }
+  .brand small { font-size: .49rem; }
+  .location strong { font-size: .86rem; }
+  .location svg { display: none; }
+  .productSurface { padding-inline: .4rem; }
+  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem; }
+  .productText { padding: .48rem .48rem 1.6rem; }
+  .productText h2 { font-size: .69rem; }
+  .productText strong { font-size: .88rem; }
+  .imageWrap img { padding: 2.4rem .28rem .28rem; }
+  .imageWrap > i { display: none; }
+  .cardAction > button { width: 2.15rem; height: 2.15rem; }
+  .stepper { width: 5.7rem; min-height: 2.15rem; grid-template-columns: 2rem 1fr 2rem; }
+  .voiceAction { width: 10.8rem; gap: .48rem; padding: 0 .62rem; }
+  .voiceLabel strong { font-size: .78rem; }
+  .basketTrigger strong { display: none; }
 }
