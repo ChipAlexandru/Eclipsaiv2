@@ -126,7 +126,7 @@ export function shoppingStateSnapshot({ visibleIds, selectedId, basket }, produc
     visibleProducts: visibleIds.map((id) => productsById.get(id)).filter(Boolean).map(compactProduct),
     selectedProduct: selectedId ? compactProduct(productsById.get(selectedId)) : null,
     basket: basketSummary(basket, productsById),
-    stockBasis: "Clearly labelled sample Erlenbach stock for demonstration only; not live store inventory.",
+    stockBasis: "Availability is illustrative and not live store inventory; confirm with Juliette.",
   };
 }
 
