@@ -10,13 +10,16 @@ import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
-const STORAGE_KEY = "avolta-zrh-flight-day-v1";
+const STORAGE_KEY = "avolta-zrh-flight-day-v2";
+const FIRST_VOICE_OPENING = "Welcome the traveler to Avolta now. In warm, natural language, say you can help them make the most of their journey by finding something they will love and arranging the easiest supported way to get it whether they are on the way or already at the airport, then ask where they are flying today. This opening may use up to three short sentences. Do not mention the demo day, replay, simulation, data, tools or setup.";
+const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, and ask one context-aware question only if it is useful.";
 const DEFAULT_TRAVEL = { stage: "unknown", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
 
 function formatMoney(value, currency = "CHF") { return new Intl.NumberFormat("en-CH", { style: "currency", currency, minimumFractionDigits: 2 }).format(value); }
 function safe(value) { return JSON.stringify(value); }
-function demoDayLabel(value) { return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Zurich" }).format(new Date(`${value}T12:00:00Z`)); }
 function formatClock(value) { return value ? new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Europe/Zurich" }).format(new Date(value)) : "Time unavailable"; }
+function customerFlight(flight) { return flight ? { id: flight.id, flightNumber: flight.flightNumber, codeshares: flight.codeshares, destinationCode: flight.destinationCode, destination: flight.destination, scheduledDeparture: flight.scheduledDeparture, estimatedDeparture: flight.estimatedDeparture, boardingTime: flight.boardingTime, gate: flight.gate } : null; }
+function customerFulfillment(fulfillment) { return fulfillment ? { method: fulfillment.method, destination: fulfillment.destination, etaMinutes: fulfillment.etaMinutes, reason: fulfillment.reason } : null; }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
   const products = catalog.products;
@@ -75,6 +78,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const pendingFlightRef = useRef(null);
   const announcedOrderStatesRef = useRef([]);
   const previousOrderStateRef = useRef(null);
+  const voiceWelcomedRef = useRef(false);
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
@@ -92,6 +96,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       if (stored?.reservation) { reservationRef.current = stored.reservation; setReservation(stored.reservation); }
       if (stored?.order) { orderRef.current = stored.order; setOrder(stored.order); }
       if (Array.isArray(stored?.announcedOrderStates)) announcedOrderStatesRef.current = stored.announcedOrderStates;
+      voiceWelcomedRef.current = Boolean(stored?.voiceWelcomed);
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, clockAnchor: anchor }));
     } catch {
       const anchor = createReplayAnchor({ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.serviceDate, realNow: new Date(), explicitTime });
@@ -109,7 +114,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, [clockReady]);
   useEffect(() => {
     if (!storageReady || !clockAnchorRef.current) return;
-    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ clockAnchor: clockAnchorRef.current, shortlist, basket, travel, reservation, order, announcedOrderStates: announcedOrderStatesRef.current })); } catch { /* In-memory state remains available when browser storage is blocked. */ }
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ clockAnchor: clockAnchorRef.current, shortlist, basket, travel, reservation, order, announcedOrderStates: announcedOrderStatesRef.current, voiceWelcomed: voiceWelcomedRef.current })); } catch { /* In-memory state remains available when browser storage is blocked. */ }
   }, [basket, order, reservation, shortlist, storageReady, travel]);
 
   const currentViewportIds = useCallback(() => {
@@ -148,7 +153,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const presentProducts = useCallback(async (requestedIds, focusId = null) => {
     const ids = [...new Set(requestedIds)].filter((id) => validProductIds.has(id)).slice(0, 20);
-    if (!ids.length) return { displayed: false, error: "No products from the captured selection matched." };
+    if (!ids.length) return { displayed: false, error: "No products from the available selection matched." };
     const sequence = ++presentationSequenceRef.current;
     visibleIdsRef.current = ids; setVisibleIds(ids); setFocusedView(true); setActiveCategory("All");
     const nextSelected = focusId && ids.includes(focusId) ? focusId : ids[0]; selectedIdRef.current = nextSelected; setSelectedId(nextSelected);
@@ -179,24 +184,25 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const refreshJourney = useCallback(async (query = "") => {
     try {
       const response = await fetch("/api/avolta-demo/journey-context", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, demoNow: demoNowRef.current.toISOString() }) });
-      const payload = await response.json().catch(() => ({})); if (!response.ok) throw new Error(payload.error || "The captured demo day is unavailable.");
+      const payload = await response.json().catch(() => ({})); if (!response.ok) throw new Error(payload.error || "Flight information is unavailable.");
       journeyContextRef.current = payload; const matches = payload.flightSearch?.matches || []; flightMatchesRef.current = matches;
       setFlightContext(payload); if (query) { setFlightLookupActive(true); if (matches.length === 1) proposeFlight(matches[0]); }
       return payload;
-    } catch (error) { return { error: error.message || "The captured demo day is unavailable." }; }
+    } catch (error) { return { error: error.message || "Flight information is unavailable." }; }
   }, [proposeFlight]);
   useEffect(() => { if (clockReady) refreshJourney(); }, [clockReady, refreshJourney]);
   useEffect(() => {
-    if (travel.selectedFlight || pendingFlight || flightLookupActive || !flightContext?.illustrativeFlights?.length) return undefined;
+    if (voiceStatus !== "idle" || travel.selectedFlight || pendingFlight || flightLookupActive || !flightContext?.illustrativeFlights?.length) return undefined;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const timer = window.setInterval(() => setPreviewIndex((index) => (index + 1) % flightContext.illustrativeFlights.length), 7000);
+    const timer = window.setInterval(() => setPreviewIndex((index) => (index + 1) % flightContext.illustrativeFlights.length), 5000);
     return () => window.clearInterval(timer);
-  }, [flightContext, flightLookupActive, pendingFlight, travel.selectedFlight]);
+  }, [flightContext, flightLookupActive, pendingFlight, travel.selectedFlight, voiceStatus]);
   useEffect(() => {
     if (process.env.NODE_ENV === "production" || !flightContext?.illustrativeFlights?.length) return;
     const acceptanceState = new URLSearchParams(window.location.search).get("demoState");
-    if (acceptanceState !== "confirmed" && acceptanceState !== "order") return;
+    if (!["candidate", "confirmed", "order"].includes(acceptanceState)) return;
     const flight = flightContext.illustrativeFlights.find((item) => item.gate && item.boardingTime && new Date(item.boardingTime).getTime() - demoNowRef.current.getTime() >= 20 * 60_000) || flightContext.illustrativeFlights[0];
+    if (acceptanceState === "candidate") { proposeFlight(flight); return; }
     confirmFlight(flight, "acceptance");
     updateTravel({ stage: "at_gate" }, "acceptance");
     if (acceptanceState !== "order") return;
@@ -204,7 +210,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const nextBasket = { [product.id]: 1 }; basketRef.current = nextBasket; setBasket(nextBasket);
     const summary = basketSummary(nextBasket, productsById);
     const fulfillment = recommendFulfillment({ stage: "at_gate", flight, demoNow: demoNowRef.current });
-    const result = { fingerprint: "acceptance-only", summary, travel: { ...travelRef.current, stage: "at_gate", selectedFlight: flight }, fulfillment, pickupLocation: fulfillment.destination, serviceConcept: "Simulated same-journey fulfillment", reviewedAtDemo: demoNowRef.current.toISOString(), reference: "ZRH-DEMO-120926", confirmedAt: new Date().toISOString(), confirmedAtDemo: new Date(demoNowRef.current.getTime() - 90_000).toISOString(), conceptReservation: true, fulfillmentSimulated: true, submittedExternally: false };
+    const result = { fingerprint: "acceptance-only", summary, travel: { ...travelRef.current, stage: "at_gate", selectedFlight: flight }, fulfillment, pickupLocation: fulfillment.destination, serviceConcept: "Simulated same-journey fulfillment", reviewedAtDemo: demoNowRef.current.toISOString(), reference: "ZRH-120926", confirmedAt: new Date().toISOString(), confirmedAtDemo: new Date(demoNowRef.current.getTime() - 90_000).toISOString(), conceptReservation: true, fulfillmentSimulated: true, submittedExternally: false };
     reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result);
   }, [confirmFlight, flightContext, products, productsById, updateTravel]);
   const setComparisonState = useCallback((ids, source = "touch") => {
@@ -214,7 +220,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const prepareReview = useCallback(() => {
     const summary = basketSummary(basketRef.current, productsById); const flight = travelRef.current.selectedFlight;
     if (!summary.itemCount) return { ok: false, error: "Add at least one product to your bag." };
-    if (!flight) return { ok: false, error: "Confirm your flight before reviewing the demo order." };
+    if (!flight) return { ok: false, error: "Confirm your flight before reviewing the order." };
     const eligibility = departureEligibility(flight.scheduledDeparture, demoNowRef.current);
     if (!eligibility.eligible) return { ok: false, error: eligibility.reason };
     const fulfillment = recommendFulfillment({ stage: travelRef.current.stage, flight, demoNow: demoNowRef.current });
@@ -227,15 +233,15 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const flight = travelRef.current.selectedFlight; const fulfillment = recommendFulfillment({ stage: travelRef.current.stage, flight, demoNow: demoNowRef.current });
     const fingerprint = `${reservationFingerprint(basketRef.current, travelRef.current)}:${flight?.id || "none"}:${fulfillment.method}:${fulfillment.destination}`;
     if (!reviewRef.current || reviewRef.current.fingerprint !== fingerprint) return { ok: false, error: "The bag changed. Review it again before confirming." };
-    if (reservationRef.current?.fingerprint === fingerprint) return { ok: true, duplicatePrevented: true, reservation: reservationRef.current };
+    if (reservationRef.current?.fingerprint === fingerprint) return { ok: true, duplicatePrevented: true, order: { reference: reservationRef.current.reference, fulfillment: customerFulfillment(reservationRef.current.fulfillment), progress: orderProgress(reservationRef.current, demoNowRef.current) } };
     const result = { ...reviewRef.current, reference: `ZRH-${flightDay.serviceDate.slice(0, 4)}-${String(Date.now()).slice(-6)}`, confirmedAt: new Date().toISOString(), confirmedAtDemo: demoNowRef.current.toISOString(), conceptReservation: true, fulfillmentSimulated: true, submittedExternally: false };
-    reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result); previousOrderStateRef.current = "Preparing"; setApprovalRequest(null); setActivePanel("basket"); return { ok: true, reservation: result, order: { reference: result.reference, fulfillment: result.fulfillment, progress: orderProgress(result, demoNowRef.current) } };
+    reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result); previousOrderStateRef.current = "Preparing"; setApprovalRequest(null); setActivePanel("basket"); return { ok: true, order: { reference: result.reference, fulfillment: customerFulfillment(result.fulfillment), progress: orderProgress(result, demoNowRef.current) } };
   }, [flightDay.serviceDate]);
   const showProductDetails = useCallback((productId) => { if (!validProductIds.has(productId)) return null; selectedIdRef.current = productId; setSelectedId(productId); setActivePanel("detail"); return compactProduct(productsById.get(productId)); }, [productsById, validProductIds]);
   const markCollectionCollected = useCallback(() => {
     const current = orderRef.current;
     if (!current || current.fulfillment?.method !== "collection") return { ok: false, error: "There is no collection order." };
-    if (orderProgress(current, demoNowRef.current)?.state !== "Ready for pickup") return { ok: false, error: "The demo order is not ready for pickup yet." };
+    if (orderProgress(current, demoNowRef.current)?.state !== "Ready for pickup") return { ok: false, error: "The order is not ready for pickup yet." };
     const next = { ...current, collectedAtDemo: demoNowRef.current.toISOString() };
     orderRef.current = next; reservationRef.current = next; setOrder(next); setReservation(next);
     return { ok: true, progress: orderProgress(next, demoNowRef.current) };
@@ -243,7 +249,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
 
   const buildTools = useCallback((tool, z) => {
     const getState = tool({ name: "get_shopping_state", description: "Read products in the viewport, touch-selected product, comparison, shortlist, bag and travel state. Always call before relative phrases. Touch selection is authoritative; ordinals refer to viewport order.", parameters: z.object({}), execute: async () => safe({ ...stateSnapshot(), comparison: comparisonRef.current.map((id) => compactProduct(productsById.get(id))) }) });
-    const search = tool({ name: "search_and_show_products", description: "Search and display a small relevant recommendation. Ordinary shopping never requires flight or queue data.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => { const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current)); if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the captured ${products.length}-product selection.` }); return safe({ found: true, query, ...(await presentProducts(matches.map((product) => product.id), matches[0].id)) }); } });
+    const search = tool({ name: "search_and_show_products", description: "Search and display a small relevant recommendation. Ordinary shopping never requires flight or queue data.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => { const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current)); if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the available ${products.length}-product selection.` }); return safe({ found: true, query, ...(await presentProducts(matches.map((product) => product.id), matches[0].id)) }); } });
     const show = tool({ name: "show_products", description: "Display known products by stable ID.", parameters: z.object({ product_ids: z.array(z.string()).min(1).max(12), focus_product_id: z.string().nullable().default(null) }), execute: async ({ product_ids, focus_product_id }) => safe(await presentProducts(product_ids, focus_product_id)) });
     const details = tool({ name: "show_product_details", description: "Open secondary details for one known product only when the shopper asks.", parameters: z.object({ product_id: z.string() }), execute: async ({ product_id }) => safe({ product: showProductDetails(product_id) || null }) });
     const compare = tool({ name: "compare_products", description: "Compare exactly two known products and open the secondary comparison sheet.", parameters: z.object({ product_ids: z.array(z.string()).length(2) }), execute: async ({ product_ids }) => { const result = setComparisonState(product_ids, "voice"); setActivePanel("compare"); return safe({ comparison: result }); } });
@@ -251,14 +257,14 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const showSaved = tool({ name: "show_saved_products", description: "Open the secondary saved-products sheet when asked.", parameters: z.object({}), execute: async () => { setActivePanel("saved"); return safe({ shortlist: Object.keys(shortlistRef.current).map((id) => compactProduct(productsById.get(id))).filter(Boolean) }); } });
     const basketTool = tool({ name: "update_demo_order_bag", description: "Add, remove or set quantity for one known product in the demo order bag.", parameters: z.object({ product_id: z.string(), quantity: z.number().int().min(0).max(12), mode: z.enum(["add", "remove", "set"]) }), execute: async ({ product_id, quantity, mode }) => { try { return safe({ ok: true, basket: mutateBasket(product_id, quantity, mode, "voice") }); } catch (error) { return safe({ ok: false, error: error.message }); } } });
     const travelTool = tool({ name: "update_travel_context", description: "Record only traveler-provided location or timing context. Never infer location from flight or time; corrections may move backward.", parameters: z.object({ stage: z.enum(["unknown", "on_the_way", "at_airport", "past_security", "at_gate"]).optional(), minutes_available: z.string().optional(), arrival_estimate: z.string().optional(), needs_checkin: z.boolean().optional() }), execute: async (args) => safe({ travel: updateTravel({ ...(args.stage ? { stage: args.stage } : {}), ...(args.minutes_available !== undefined ? { minutesAvailable: args.minutes_available } : {}), ...(args.arrival_estimate !== undefined ? { arrivalEstimate: args.arrival_estimate } : {}), ...(args.needs_checkin !== undefined ? { needsCheckin: args.needs_checkin } : {}) }, "voice") }) });
-    const findFlight = tool({ name: "find_replay_flight", description: "Search the captured Zürich demo day by flight number, codeshare or destination. Results are proposals only; never lock a flight without explicit confirmation.", parameters: z.object({ query: z.string().min(1).max(80) }), execute: async ({ query }) => safe(await refreshJourney(query)) });
-    const proposeFlightTool = tool({ name: "propose_replay_flight", description: "Put one exact result on screen for verbal confirmation. This does not confirm or lock it.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const flight = flightMatchesRef.current.find((item) => item.id === flight_id); return safe(flight ? { proposed: proposeFlight(flight), requiresExplicitConfirmation: true } : { error: "That flight was not in the latest results." }); } });
-    const confirmFlightTool = tool({ name: "confirm_replay_flight", description: "Lock the proposed flight only after the traveler explicitly agrees to the exact flight number, destination and time.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const candidate = pendingFlightRef.current; return safe(candidate?.id === flight_id ? { confirmed: confirmFlight(candidate, "voice") } : { error: "Propose that exact flight and obtain explicit confirmation first." }); } });
+    const findFlight = tool({ name: "find_replay_flight", description: "Search the available Zürich departures by flight number, codeshare or destination. Results are proposals only; never lock a flight without explicit confirmation.", parameters: z.object({ query: z.string().min(1).max(80) }), execute: async ({ query }) => { const context = await refreshJourney(query); if (context.error) return safe(context); return safe({ query, matches: (context.flightSearch?.matches || []).map(customerFlight), ambiguous: Boolean(context.flightSearch?.ambiguous), scheduleEnded: context.scheduleEnded }); } });
+    const proposeFlightTool = tool({ name: "propose_replay_flight", description: "Put one exact result on screen for verbal confirmation. This does not confirm or lock it.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const flight = flightMatchesRef.current.find((item) => item.id === flight_id); return safe(flight ? { proposed: customerFlight(proposeFlight(flight)), requiresExplicitConfirmation: true } : { error: "That flight was not in the latest results." }); } });
+    const confirmFlightTool = tool({ name: "confirm_replay_flight", description: "Lock the proposed flight only after the traveler explicitly agrees to the exact flight number, destination and time.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const candidate = pendingFlightRef.current; return safe(candidate?.id === flight_id ? { confirmed: customerFlight(confirmFlight(candidate, "voice")) } : { error: "Propose that exact flight and obtain explicit confirmation first." }); } });
     const correctFlightTool = tool({ name: "correct_confirmed_flight", description: "Clear the confirmed flight when the traveler says it is wrong or wants to correct it; then search and reconfirm.", parameters: z.object({}), execute: async () => safe(clearConfirmedFlight()) });
-    const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared replay clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => safe(assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current)) });
-    const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one simulated fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu.", parameters: z.object({}), execute: async () => safe(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current })) });
-    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise simulated order review. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) setActivePanel("review"); return safe(result); } });
-    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the reviewed simulated order only after explicit traveler approval. Creates no payment, stock hold, store message or dispatch.", parameters: z.object({}), needsApproval: true, execute: async () => safe(createReservation()) });
+    const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
+    const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
+    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) setActivePanel("review"); return safe(result.ok ? { ok: true, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
+    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the reviewed order only after explicit traveler approval. Internally creates no payment, stock hold, store message or dispatch.", parameters: z.object({}), needsApproval: true, execute: async () => safe(createReservation()) });
     const collectTool = tool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
     return [getState, search, show, details, compare, keep, showSaved, basketTool, travelTool, findFlight, proposeFlightTool, confirmFlightTool, correctFlightTool, assess, fulfillmentTool, reviewTool, confirmTool, collectTool];
   }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel]);
@@ -297,7 +303,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     announcedOrderStatesRef.current = [...announcedOrderStatesRef.current, announcement];
     const session = sessionRef.current;
     if (!session || session.transport.status !== "connected" || isMuted || voiceStatus !== "listening") return;
-    try { session.transport.sendMessage(`[One-time demo order update. Say one short sentence, then listen.] The simulated order is now ${announcement}.`, {}, { triggerResponse: true }); } catch { /* The visible tracker remains authoritative. */ }
+    try { session.transport.sendMessage(`[One-time order update. Say one short sentence, then listen.] The order is now ${announcement}.`, {}, { triggerResponse: true }); } catch { /* The visible tracker remains authoritative. */ }
   }, [demoNow, isMuted, order, voiceStatus]);
 
   const startVoice = useCallback(async () => {
@@ -316,9 +322,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       } });
       const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z), instructions: `You are Avolta's warm, concise and confident English voice shopping concierge for Zürich Duty Free at Zürich Airport.
 
-This is one captured airport day replayed on a shared demo clock; all fulfillment is simulated. Briefly establish that, then ask where the traveler is flying. Browse remains open and product-first, and gifting is only one possible intent.
+This experience uses one captured airport day on a shared internal clock, and fulfillment has no real-world side effects. Keep that context internal during ordinary shopping and answer truthfully if asked. Browse remains open and product-first, and gifting is only one possible intent.
 
 Rules:
+- On the first connection, welcome the traveler to Avolta, offer a concise and inviting picture of how you can help along their journey, then naturally ask about their flight. Never open with replay, simulation or technical setup, and never reduce the welcome to a bare flight-intake question. The opening may use up to three short sentences.
+- On a resumed connection, continue from current state without replaying the welcome. If the traveler volunteers flight, location or timing, acknowledge and use it rather than asking again. Do not require a questionnaire before shopping.
 - The selection contains ${products.length} public products captured on 2026-09-11. It is not the full assortment and public listing status is not live store stock.
 - Use search_and_show_products for needs or options. Never claim images are visible until the tool confirms the on-screen recommendation images. The full ${products.length}-product catalog remains independently browsable.
 - Call get_shopping_state before resolving “this,” “that,” ordinals, touch selections or bag changes. Touch selection is authoritative; otherwise use current viewport order.
@@ -326,12 +334,12 @@ Rules:
 - Never invent products, attributes, offers, exclusivity, prices, walking time, gates, stock, pickup eligibility or delivery services.
 - A flight result's capturedObservation is end-of-day provenance only, never a status history. Use the shared demo clock and structured replay status; do not announce captured “Departed” text as an earlier-morning fact.
 - Identify the flight in one or two clarifying questions: flight number when supplied, otherwise destination and approximate time. Search with find_replay_flight, resolve codeshares or ambiguity, use propose_replay_flight, state the exact flight number, destination and departure time, then wait for explicit assent before confirm_replay_flight.
-- Ask present location naturally and record only what the traveler says with update_travel_context. Flight and time never prove location. Corrections may move the journey backward. Missing gate or boarding time stays unknown.
+- Ask present location naturally when it is useful and record only what the traveler says with update_travel_context. Reuse volunteered context instead of repeating the question. Flight and time never prove location. Corrections may move the journey backward. Missing gate or boarding time stays unknown.
 - Use assess_journey only for timing advice. Do not treat a delayed departure as shopping time without boarding evidence, and never guarantee a connection or boarding outcome.
-- Move into shopping with one light question about need, recipient or taste. Give one concrete reason and at most two choices, show them immediately, then ask one useful question or listen. Avoid generic budget scripts and long lists.
-- Use recommend_demo_fulfillment to recommend one supported simulated method, not a menu. Gate delivery is allowed only when that tool returns it.
-- An order requires products, a confirmed flight, review_demo_order, a concise spoken review of items, quantity, total, destination and demo ETA, explicit affirmative approval, then confirm_demo_order. Never imply payment, real stock hold, store message, dispatch or notification.
-- Ordinary replies are one or two short sentences. Do not narrate tools, read countdowns constantly or replay missed progress updates.
+- If the traveler asks for a product before flight or location is known, answer that request and show suitable products first. Then gather only the travel context that becomes useful for timing or fulfillment. Otherwise move into shopping with one light question about need, recipient or taste. Give one concrete reason and at most two choices, show them immediately, then ask one useful question or listen. Avoid generic budget scripts and long lists.
+- Use recommend_demo_fulfillment to recommend one supported method, not a menu. Connect it briefly to the traveler's situation: browsing with ample time, collection along the route, gate delivery only when the tool supports it, or the gate first when time is too tight. Do not volunteer implementation labels, invent walking time or promise infeasible delivery.
+- An order requires products, a confirmed flight, review_demo_order, a concise spoken review of items, quantity, total, destination and arrival or ready time, explicit affirmative approval, then confirm_demo_order. Never imply payment, real stock hold, store message, dispatch or notification, but do not volunteer a technical disclaimer unless asked.
+- Ordinary replies after the opening are one or two short sentences. Do not narrate tools, read countdowns constantly or replay missed progress updates.
 
 Initial interface state: ${safe(stateSnapshot())}` });
       const session = new RealtimeSession(agent, { model: payload.model, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
@@ -342,7 +350,13 @@ Initial interface state: ${safe(stateSnapshot())}` });
       session.on("error", () => { if (mountedRef.current) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
       sessionRef.current = session; await session.connect({ apiKey: payload.value }); await ensureAudioPlayback(); collectAudioEvidence();
       clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => closeVoiceSession("Five-minute voice session ended. Start again anytime."), VOICE_DEMO_DURATION_MS);
-      setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally."); session.sendMessage("In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment, then ask where the traveler is flying.");
+      const startupInstruction = voiceWelcomedRef.current ? RESUMED_VOICE_OPENING : FIRST_VOICE_OPENING;
+      voiceWelcomedRef.current = true;
+      try {
+        const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") || {};
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, voiceWelcomed: true }));
+      } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
+      setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally."); session.sendMessage(startupInstruction);
     } catch (error) {
       clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null; setVoiceStatus("error");
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : (error.message || "Voice service is unavailable."));
@@ -355,7 +369,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const openTouchReview = () => { const result = prepareReview(); if (!result.ok) setReservationError(result.error); else { setApprovalRequest({ type: "touch" }); setActivePanel("review"); } };
   const confirmApproval = async () => { const pending = approvalRequest; if (pending?.type === "voice") await sessionRef.current?.approve(pending.request.approvalItem); else createReservation(); };
   const rejectApproval = async () => { const pending = approvalRequest; setApprovalRequest(null); setActivePanel("basket"); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
-  const panelLabel = activePanel === "detail" ? "Product details" : activePanel === "saved" ? "Saved products" : activePanel === "compare" ? "Product comparison" : activePanel === "review" ? "Demo order review" : "Order bag";
+  const panelLabel = activePanel === "detail" ? "Product details" : activePanel === "saved" ? "Saved products" : activePanel === "compare" ? "Product comparison" : activePanel === "review" ? "Order review" : "Order bag";
   const reviewFlight = review?.travel?.selectedFlight;
   const hasVoiceSession = Boolean(sessionRef.current);
   const hasBasket = basketDetails.itemCount > 0;
@@ -367,25 +381,30 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const orderState = orderProgress(order, demoNow);
   const countdowns = confirmedFlight && order ? pairedCountdowns(confirmedFlight, order, demoNow) : null;
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
+  const flightDisplayState = confirmedFlight ? "confirmed" : pendingFlight ? "candidate" : voiceStatus !== "idle" ? "focused" : "idle";
+  const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "—"}` : (displayedFlight.destination || displayedFlight.destinationCode || "—")) : "—";
 
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>
       <audio ref={audioOutputRef} className={styles.audioOutput} autoPlay playsInline preload="auto" data-avolta-audio-output data-playback={playbackState} />
       <header className={styles.header}>
-        <div className={styles.brand}><span className={styles.brandMark}>A</span><div><strong>ZÜRICH DUTY FREE</strong><small>Avolta concept</small></div></div>
-        <div className={styles.location}><MapPin size={15} aria-hidden="true" /><div><strong>Zürich Airport</strong><small>Demo day · {demoDayLabel(flightDay.serviceDate)}</small></div></div>
+        <div className={styles.brand}><span className={styles.brandMark}>A</span><div><strong>ZÜRICH DUTY FREE</strong><small>Avolta</small></div></div>
+        <div className={styles.location}><MapPin size={15} aria-hidden="true" /><div><strong>Zürich Airport</strong></div></div>
       </header>
 
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
         <div className={styles.contextRail} data-has-order={Boolean(order)}>
-          <article className={styles.flightCard} data-flight-state={confirmedFlight ? "confirmed" : pendingFlight ? "pending" : "illustrative"}>
-            <div className={styles.contextTopline}><span>{confirmedFlight ? "Confirmed flight" : pendingFlight ? "Please confirm this flight" : "Awaiting flight confirmation · illustrative"}</span><b>{displayedFlightStatus.label}</b></div>
-            {displayedFlight ? <><div className={styles.flightMain}><strong>ZRH <i>→</i> {displayedFlight.destinationCode || displayedFlight.destination || "Destination"}</strong><span>{displayedFlight.flightNumber || "Flight unavailable"} · {formatClock(displayedFlight.scheduledDeparture)}</span></div><div className={styles.contextDetails}><span>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate not assigned"}</span><strong>{displayedBoarding.label}</strong></div></> : <><div className={styles.flightMain}><strong>ZRH → Your destination</strong><span>Tell the concierge where you are flying</span></div><div className={styles.contextDetails}><span>Gate unknown</span><strong>Boarding time unavailable</strong></div></>}
+          <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"}>
+            <div className={styles.departureTopline}><span>Departures</span>{pendingFlight && <b>Your flight?</b>}{confirmedFlight && <b>{displayedFlightStatus.label}</b>}</div>
+            {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
+              <div className={styles.departureHead}><span>Time</span><span>Destination</span><span>Flight</span><span>Gate</span></div>
+              <div className={styles.departureRow}><time>{formatClock(displayedFlight.scheduledDeparture)}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate || "—"}</b></div>
+            </div> : <div className={styles.noDepartures}>No more departures</div>}
+            {confirmedFlight && <div className={styles.contextDetails}><span>{displayedFlightStatus.label}</span><strong>{displayedBoarding.label}</strong></div>}
             {confirmedFlight && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}><span data-active={travel.stage === "unknown"}>Unknown</span>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
-            {scheduleEnded && <p className={styles.scheduleEnded}>The captured departure schedule has ended; the demo clock continues without rewinding.</p>}
           </article>
           {order && orderState && <article className={styles.orderCard}>
-            <div className={styles.contextTopline}><span>{order.fulfillment.method === "gate_delivery" ? "Simulated gate delivery" : "Simulated collection"}</span><b>{order.reference}</b></div>
+            <div className={styles.contextTopline}><span>{order.fulfillment.method === "gate_delivery" ? "Gate delivery" : "Collection"}</span><b>{order.reference}</b></div>
             <div className={styles.orderMain}><strong>{orderState.state}</strong><span>{order.fulfillment.destination}</span></div>
             <div className={styles.progressTrack}>{orderState.path.map((step, index) => <span key={step} data-complete={index <= orderState.stateIndex}><i />{step}</span>)}</div>
             {countdowns && <div className={styles.pairedCountdown}><span>{countdowns.boarding.label}</span><strong>{countdowns.order.targetLabel}</strong></div>}
@@ -407,11 +426,11 @@ Initial interface state: ${safe(stateSnapshot())}` });
       </section>
 
       {activePanel && <div className={styles.sheetBackdrop} onMouseDown={() => setActivePanel(null)}><section className={styles.sheet} role="dialog" aria-modal="true" aria-label={panelLabel} onMouseDown={(event) => event.stopPropagation()}><button className={styles.sheetClose} type="button" onClick={() => setActivePanel(null)} aria-label="Close"><X size={20} /></button>
-        {activePanel === "detail" && selectedProduct && <><p className={styles.eyebrow}>Product details</p><h2>{selectedProduct.name}</h2><p className={styles.sheetBrand}>{selectedProduct.vendor}</p><div className={styles.detailImage}><Image src={selectedProduct.images[0].localPath} alt={selectedProduct.images[0].alt} fill sizes="420px" /></div><div className={styles.detailPrice}><strong>{formatMoney(selectedProduct.priceChf)}</strong>{selectedProduct.compareAtPriceChf && <del>{formatMoney(selectedProduct.compareAtPriceChf)}</del>}<span>{selectedProduct.variant}</span></div>{selectedProduct.description && <p className={styles.detailDescription}>{selectedProduct.description}</p>}<div className={styles.secondaryActions}><button type="button" data-active={shortlist[selectedProduct.id]} onClick={() => mutateShortlist(selectedProduct.id, !shortlist[selectedProduct.id])}><Heart size={17} fill={shortlist[selectedProduct.id] ? "currentColor" : "none"} /> {shortlist[selectedProduct.id] ? "Saved" : "Save"}</button><button type="button" data-active={comparison.includes(selectedProduct.id)} onClick={() => { const next = comparison.includes(selectedProduct.id) ? comparison.filter((id) => id !== selectedProduct.id) : [...comparison, selectedProduct.id]; setComparisonState(next); if (next.length === 2) setActivePanel("compare"); }}><GitCompareArrows size={17} /> Compare</button></div><button className={styles.primarySheetAction} type="button" onClick={() => mutateBasket(selectedProduct.id, 1, "add")}><Plus size={17} /> Add to bag</button><a className={styles.detailSource} href={selectedProduct.sourceUrl} target="_blank" rel="noreferrer">View captured public listing</a></>}
+        {activePanel === "detail" && selectedProduct && <><p className={styles.eyebrow}>Product details</p><h2>{selectedProduct.name}</h2><p className={styles.sheetBrand}>{selectedProduct.vendor}</p><div className={styles.detailImage}><Image src={selectedProduct.images[0].localPath} alt={selectedProduct.images[0].alt} fill sizes="420px" /></div><div className={styles.detailPrice}><strong>{formatMoney(selectedProduct.priceChf)}</strong>{selectedProduct.compareAtPriceChf && <del>{formatMoney(selectedProduct.compareAtPriceChf)}</del>}<span>{selectedProduct.variant}</span></div>{selectedProduct.description && <p className={styles.detailDescription}>{selectedProduct.description}</p>}<div className={styles.secondaryActions}><button type="button" data-active={shortlist[selectedProduct.id]} onClick={() => mutateShortlist(selectedProduct.id, !shortlist[selectedProduct.id])}><Heart size={17} fill={shortlist[selectedProduct.id] ? "currentColor" : "none"} /> {shortlist[selectedProduct.id] ? "Saved" : "Save"}</button><button type="button" data-active={comparison.includes(selectedProduct.id)} onClick={() => { const next = comparison.includes(selectedProduct.id) ? comparison.filter((id) => id !== selectedProduct.id) : [...comparison, selectedProduct.id]; setComparisonState(next); if (next.length === 2) setActivePanel("compare"); }}><GitCompareArrows size={17} /> Compare</button></div><button className={styles.primarySheetAction} type="button" onClick={() => mutateBasket(selectedProduct.id, 1, "add")}><Plus size={17} /> Add to bag</button><a className={styles.detailSource} href={selectedProduct.sourceUrl} target="_blank" rel="noreferrer">View product source</a></>}
         {activePanel === "saved" && <><p className={styles.eyebrow}>Saved for later</p><h2>{Object.keys(shortlist).length || "No"} saved</h2>{!Object.keys(shortlist).length ? <p className={styles.empty}>Ask the shop to save a product, or use Save inside product details.</p> : <div className={styles.sheetList}>{Object.keys(shortlist).map((id) => { const product = productsById.get(id); return product && <button type="button" key={id} onClick={() => showProductDetails(id)}><span>{product.vendor}<strong>{product.name}</strong><small>{product.variant}</small></span><b>{formatMoney(product.priceChf)}</b></button>; })}</div>}</>}
         {activePanel === "compare" && <><p className={styles.eyebrow}>Compare</p><h2>{comparison.length || "No"} selected</h2>{comparison.length < 2 && <p className={styles.empty}>Choose Compare inside the details of two products, or ask by voice.</p>}<div className={styles.compareList}>{comparison.map((id) => { const product = productsById.get(id); return product && <article key={id}><div className={styles.compareImage}><Image src={product.images[0].localPath} alt={product.images[0].alt} fill sizes="180px" /></div><small>{product.vendor}</small><h3>{product.name}</h3><p>{product.variant}</p><strong>{formatMoney(product.priceChf)}</strong><button type="button" onClick={() => setComparisonState(comparison.filter((item) => item !== id))}>Remove</button></article>; })}</div></>}
-        {activePanel === "basket" && <><p className={styles.eyebrow}>Order bag</p><h2>{basketDetails.itemCount || "No"} {basketDetails.itemCount === 1 ? "item" : "items"}</h2>{reservation && <div className={styles.reservationResult}><span><Check size={16} /> Demo order</span><strong>{reservation.reference}</strong><p>{reservation.fulfillment.destination}</p><small>{orderProgress(reservation, demoNow)?.state} · simulated fulfillment</small></div>}{!basketDetails.itemCount ? <p className={styles.empty}>Add a product when something catches your eye.</p> : <><div className={styles.basketItems}>{basketDetails.items.map((item) => <div className={styles.basketItem} key={item.productId}><div><strong>{item.brand} {item.name}</strong><small>{item.variant} · {formatMoney(item.unitPrice)}</small></div><div><b>{formatMoney(item.lineTotal)}</b><div className={styles.miniStepper}><button type="button" onClick={() => mutateBasket(item.productId, 1, "remove")}><Minus size={13} /></button><span>{item.quantity}</span><button type="button" onClick={() => mutateBasket(item.productId, 1, "add")}><Plus size={13} /></button></div></div></div>)}</div>{travel.selectedFlight ? <p className={styles.flightReuse}>Confirmed {travel.selectedFlight.flightNumber || "flight"} to {travel.destination || travel.selectedFlight.destinationCode || "destination"}{travel.gate ? ` · Gate ${travel.gate}` : " · gate not assigned"}.</p> : <p className={styles.flightReuse}>Confirm your flight with the concierge before ordering.</p>}{reservationError && <p className={styles.error}>{reservationError}</p>}<div className={styles.total}><span>Total</span><strong>{formatMoney(basketDetails.total)}</strong></div><button className={styles.reviewButton} type="button" onClick={openTouchReview}>Review demo order</button><p className={styles.discreet}>Simulated fulfillment · no payment or stock hold.</p></>}</>}
-        {activePanel === "review" && review && <><p className={styles.eyebrow}>Demo order review</p><h2>{review.fulfillment.method === "gate_delivery" ? "Gate delivery" : "Collection"}</h2><div className={styles.pickup}><MapPin /><div><strong>{review.fulfillment.destination}</strong><span>{reviewFlight?.flightNumber || "Confirmed flight"} to {reviewFlight?.destination || reviewFlight?.destinationCode || "destination"}{reviewFlight?.gate ? ` · Gate ${reviewFlight.gate}` : ""}</span><span>Estimated demo time · {review.fulfillment.etaMinutes} min</span></div></div><div className={styles.reviewItems}>{review.summary.items.map((item) => <p key={item.productId}><span>{item.quantity} × {item.brand} {item.name}<small>{item.variant}</small></span><strong>{formatMoney(item.lineTotal)}</strong></p>)}</div><div className={styles.total}><span>Total</span><strong>{formatMoney(review.summary.total)}</strong></div><p className={styles.conceptNote}>This starts a simulated order on this device. No payment, real stock hold, store message or dispatch occurs.</p><div className={styles.reviewActions}><button type="button" onClick={rejectApproval}>Change bag</button><button type="button" onClick={confirmApproval}><Check size={17} /> Confirm demo order</button></div></>}
+        {activePanel === "basket" && <><p className={styles.eyebrow}>Order bag</p><h2>{basketDetails.itemCount || "No"} {basketDetails.itemCount === 1 ? "item" : "items"}</h2>{reservation && <div className={styles.reservationResult}><span><Check size={16} /> Order confirmed</span><strong>{reservation.reference}</strong><p>{reservation.fulfillment.destination}</p><small>{orderProgress(reservation, demoNow)?.state}</small></div>}{!basketDetails.itemCount ? <p className={styles.empty}>Add a product when something catches your eye.</p> : <><div className={styles.basketItems}>{basketDetails.items.map((item) => <div className={styles.basketItem} key={item.productId}><div><strong>{item.brand} {item.name}</strong><small>{item.variant} · {formatMoney(item.unitPrice)}</small></div><div><b>{formatMoney(item.lineTotal)}</b><div className={styles.miniStepper}><button type="button" onClick={() => mutateBasket(item.productId, 1, "remove")}><Minus size={13} /></button><span>{item.quantity}</span><button type="button" onClick={() => mutateBasket(item.productId, 1, "add")}><Plus size={13} /></button></div></div></div>)}</div>{travel.selectedFlight ? <p className={styles.flightReuse}>Confirmed {travel.selectedFlight.flightNumber || "flight"} to {travel.destination || travel.selectedFlight.destinationCode || "destination"}{travel.gate ? ` · Gate ${travel.gate}` : " · gate not assigned"}.</p> : <p className={styles.flightReuse}>Confirm your flight with the concierge before ordering.</p>}{reservationError && <p className={styles.error}>{reservationError}</p>}<div className={styles.total}><span>Total</span><strong>{formatMoney(basketDetails.total)}</strong></div><button className={styles.reviewButton} type="button" onClick={openTouchReview}>Review order</button></>}</>}
+        {activePanel === "review" && review && <><p className={styles.eyebrow}>Review order</p><h2>{review.fulfillment.method === "gate_delivery" ? "Gate delivery" : "Collection"}</h2><div className={styles.pickup}><MapPin /><div><strong>{review.fulfillment.destination}</strong><span>{reviewFlight?.flightNumber || "Confirmed flight"} to {reviewFlight?.destination || reviewFlight?.destinationCode || "destination"}{reviewFlight?.gate ? ` · Gate ${reviewFlight.gate}` : ""}</span><span>{review.fulfillment.method === "gate_delivery" ? "Arrives" : "Ready"} in {review.fulfillment.etaMinutes} min</span></div></div><div className={styles.reviewItems}>{review.summary.items.map((item) => <p key={item.productId}><span>{item.quantity} × {item.brand} {item.name}<small>{item.variant}</small></span><strong>{formatMoney(item.lineTotal)}</strong></p>)}</div><div className={styles.total}><span>Total</span><strong>{formatMoney(review.summary.total)}</strong></div><div className={styles.reviewActions}><button type="button" onClick={rejectApproval}>Change bag</button><button type="button" onClick={confirmApproval}><Check size={17} /> Confirm order</button></div></>}
       </section></div>}
     </main>
   );

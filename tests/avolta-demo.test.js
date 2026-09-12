@@ -99,6 +99,13 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /candidate\?\.id === flight_id/);
   assert.match(client, /travel\.selectedFlight \|\| pendingFlight \|\| flightLookupActive/);
   assert.match(client, /assess_journey/);
+  assert.match(client, /Welcome the traveler to Avolta now/);
+  assert.match(client, /finding something they will love and arranging the easiest supported way to get it/);
+  assert.match(client, /Do not mention the demo day, replay, simulation, data, tools or setup/);
+  assert.match(client, /without repeating the welcome/);
+  assert.match(client, /If the traveler asks for a product before flight or location is known/);
+  assert.match(client, /Reuse volunteered context instead of repeating the question/);
+  assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
@@ -113,6 +120,8 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
 test("Avolta shopper UX is simple, product-led, complete and keeps operational context off-screen", () => {
   const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
   const css = fs.readFileSync(path.join(feature, "avoltaVoiceShop.module.css"), "utf8");
+  const page = fs.readFileSync(path.join(root, "app", "avolta-demo", "page.jsx"), "utf8");
+  const renderedClient = client.slice(client.lastIndexOf("\n  return ("));
   const provenance = fs.readFileSync(path.join(root, "docs", "avolta-design-reference.md"), "utf8");
   assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
   assert.match(client, />All products</);
@@ -135,8 +144,15 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
   assert.doesNotMatch(client, /Terminal 1/);
   assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
-  assert.match(client, /Awaiting flight confirmation · illustrative/);
-  assert.match(client, /Demo day ·/);
+  assert.match(client, />Departures</);
+  assert.match(client, />Your flight\?</);
+  assert.match(client, /data-flight-state=\{flightDisplayState\}/);
+  assert.match(client, /setInterval\([^,]+, 5000\)/);
+  assert.match(client, /voiceStatus !== "idle" \|\| travel\.selectedFlight \|\| pendingFlight/);
+  assert.match(css, /@keyframes departureSwap/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.doesNotMatch(renderedClient, /Awaiting flight confirmation|Demo day ·|Avolta concept|Simulated gate delivery|Simulated collection|Review demo order|Demo order review|Confirm demo order|Estimated demo time|simulated fulfillment/);
+  assert.doesNotMatch(page, /concept|preview|Enter the experience|AVOLTA_DEMO_PASSCODE/i);
   assert.match(client, /data-has-order=\{Boolean\(order\)\}/);
   assert.doesNotMatch(client, />Reset demo</);
   assert.match(client, /!session \|\| session\.transport\.status !== "connected" \|\| isMuted \|\| voiceStatus !== "listening"/);
@@ -196,7 +212,8 @@ test("flight replay matches codeshares and ambiguity while keeping source observ
   assert.equal(replay.matchFlights(flights, "LX 8402").matches[0].flightNumber, "WK402");
   assert.equal(replay.matchFlights(flights, "London").ambiguous, true);
   const previews = replay.illustrativeFlights(flights, new Date("2026-09-12T06:00:00Z"), 4);
-  assert.ok(previews.every((flight) => !flight.boardingTime || new Date(flight.boardingTime).getTime() >= new Date("2026-09-12T06:20:00Z").getTime()));
+  assert.ok(previews.every((flight) => new Date(flight.scheduledDeparture).getTime() >= new Date("2026-09-12T06:20:00Z").getTime()));
+  assert.ok(previews.every((flight) => !flight.boardingTime || new Date(flight.boardingTime).getTime() <= new Date(flight.scheduledDeparture).getTime()));
   const missing = { ...flights[0], boardingTime: null, gate: null };
   assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).known, false);
   assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).label, "Boarding time unavailable");

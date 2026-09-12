@@ -36,6 +36,6 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error("Avolta journey context retrieval failed", { message: error instanceof Error ? error.message : "Unknown error" });
-    return json({ error: "The captured demo day could not be loaded; shopping remains available." }, { status: 502 });
+    return json({ error: "Flight information is temporarily unavailable; shopping remains available." }, { status: 502 });
   }
 }
