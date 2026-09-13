@@ -35,20 +35,22 @@
 .accessCard form button { min-height: 3.1rem; margin-top: .55rem; border: 0; border-radius: .75rem; color: #28133d; background: #d9f05c; font-weight: 850; cursor: pointer; }
 .accessError { padding: .9rem; border-radius: .75rem; color: #ffcfc5; background: rgba(241,90,58,.18); font-size: .78rem; line-height: 1.5; }
 
-.header { position: sticky; top: 0; z-index: 20; min-height: 4.65rem; padding: .55rem max(1.5rem, calc((100vw - 78rem) / 2 + 1.5rem)); display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--violet-deep); background: rgba(255,254,253,.96); border-bottom: 1px solid rgba(72,35,107,.18); box-shadow: 0 .25rem 1rem rgba(40,19,61,.055); backdrop-filter: blur(14px); }
+.brandHeader { position: relative; z-index: 20; color: #fff; background: linear-gradient(122deg, #28133d 0%, #48236b 52%, #6e37a0 100%); box-shadow: 0 .65rem 2rem rgba(40,19,61,.14); }
+.brandHeader[data-expanded="false"] { position: sticky; top: 0; }
+.brandHeader::after { content: ""; position: absolute; width: 8rem; height: .35rem; left: max(1.5rem, calc((100vw - 78rem) / 2 + 1.5rem)); bottom: 0; border-radius: 999px 999px 0 0; background: var(--lime); }
+.brandHeaderInner { width: min(78rem, 100%); margin: 0 auto; padding: .72rem 1.5rem .95rem; }
+.brandHeader[data-expanded="false"] .brandHeaderInner { padding-block: .62rem; }
+.brandRow { min-height: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .brand { min-width: 0; display: flex; align-items: center; }
-.brandLogo { display: block; width: 8.8rem; height: auto; }
-.location { min-width: 0; display: flex; align-items: center; color: var(--violet-deep); }
+.brandLogo { display: block; width: 8.25rem; height: auto; filter: brightness(0) invert(1); }
+.location { min-width: 0; display: flex; align-items: center; color: #fff; }
 .location strong { font-size: 1rem; font-weight: 800; letter-spacing: -.025em; white-space: nowrap; }
 
-.productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 1rem 1.5rem 2rem; }
-.welcome { position: relative; min-height: 11rem; margin-bottom: .85rem; padding: clamp(1.2rem, 2.5vw, 1.65rem); overflow: hidden; border-radius: 1.35rem; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(19rem, .65fr); align-items: center; gap: clamp(1rem, 3vw, 3rem); color: #fff; background: linear-gradient(122deg, #28133d 0%, #48236b 52%, #6e37a0 100%); box-shadow: 0 1rem 2.8rem rgba(40,19,61,.16); }
-.welcome::before { content: ""; position: absolute; width: min(45rem, 55%); height: 100%; right: 0; top: 0; background: url("/avolta-demo/brand/zurich-signature.svg") right bottom / cover no-repeat; opacity: .82; }
-.welcome::after { content: ""; position: absolute; width: 8rem; height: .42rem; left: clamp(1.2rem, 3vw, 2rem); bottom: 0; border-radius: 999px 999px 0 0; background: var(--lime); }
-.welcomeCopy, .welcomeActions { position: relative; z-index: 1; }
+.productSurface { width: min(78rem, 100%); margin: 0 auto; padding: .85rem 1.5rem 2rem; }
+.brandInvitation { margin-top: .55rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(9rem, .34fr) minmax(19rem, .62fr); align-items: center; gap: clamp(.8rem, 2vw, 1.6rem); }
+.invitationCopy p { max-width: 37rem; margin: 0; color: rgba(255,255,255,.88); font-size: clamp(1rem, 1.45vw, 1.28rem); font-weight: 680; line-height: 1.3; letter-spacing: -.018em; text-wrap: balance; }
+.zurichSignature { width: 100%; min-height: 5.5rem; align-self: stretch; background: url("/avolta-demo/brand/zurich-signature.svg") center bottom / contain no-repeat; }
 .welcomeActions > span { margin: 0; color: var(--lime); font-size: .68rem; font-weight: 850; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
-.welcomeCopy h1 { max-width: 46rem; margin: 0; color: #fff; font-size: clamp(2.4rem, 4.2vw, 4.2rem); font-weight: 790; line-height: .96; letter-spacing: -.052em; text-wrap: balance; }
-.welcomeCopy p { max-width: 43rem; margin: .72rem 0 0; color: rgba(255,255,255,.86); font-size: clamp(.95rem, 1.3vw, 1.15rem); font-weight: 560; line-height: 1.35; letter-spacing: -.012em; text-wrap: balance; }
 .welcomeActions { padding: .85rem; border: 1px solid rgba(255,255,255,.16); border-radius: 1rem; background: rgba(31,13,47,.3); backdrop-filter: blur(12px); }
 .welcomeModelRow { margin-top: .62rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
 .welcomeVoiceAction { min-width: 0; min-height: 3.75rem; padding: .55rem .65rem; border: 1px solid rgba(255,255,255,.3); border-radius: .85rem; display: flex; align-items: center; gap: .45rem; color: #fff; background: rgba(255,255,255,.08); cursor: pointer; }
@@ -208,7 +210,7 @@
 .reviewItems small { margin-top: .2rem; color: var(--muted); }
 .reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
 @media (max-width: 980px) {
-  .welcome { grid-template-columns: 1fr; }
+  .brandInvitation { grid-template-columns: minmax(0, 1fr) minmax(8rem, .32fr) minmax(18rem, .72fr); }
   .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .productCard { border-inline-end: 0; border-block-end: 0; }
   .productCard:not(:nth-child(2n)) { border-inline-end: 1px solid rgba(72,35,107,.14); }
@@ -216,17 +218,20 @@
 }
 @media (max-width: 760px) {
   .page { padding-bottom: calc(8.75rem + env(safe-area-inset-bottom)); }
-  .header { min-height: 4.1rem; padding: .42rem .75rem; }
+  .brandHeaderInner { padding: .62rem .75rem .78rem; }
+  .brandHeader[data-expanded="false"] .brandHeaderInner { padding-block: .5rem; }
+  .brandHeader::after { left: .75rem; width: 6rem; }
+  .brandRow { min-height: 1.8rem; }
   .brandLogo { width: 7.4rem; }
   .location strong { font-size: .9rem; }
   .productSurface { padding: .62rem .55rem 1.5rem; }
-  .welcome { min-height: 0; padding: 1.05rem; border-radius: 1.05rem; gap: .9rem; }
-  .welcome::before { width: 78%; background-position: right top; background-size: contain; opacity: .62; }
-  .welcome::after { left: 1.05rem; width: 6rem; }
-  .welcomeCopy h1 { max-width: 34rem; font-size: clamp(2rem, 8vw, 2.7rem); }
-  .welcomeCopy p { margin-top: .5rem; font-size: .92rem; line-height: 1.3; }
-  .welcomeActions { padding: .7rem; }
-  .welcomeVoiceAction { min-height: 3.45rem; padding: .48rem .55rem; }
+  .brandInvitation { margin-top: .48rem; grid-template-columns: minmax(0, 1fr) 7.5rem; grid-template-areas: "copy art" "actions actions"; gap: .42rem .58rem; }
+  .invitationCopy { grid-area: copy; }
+  .invitationCopy p { font-size: .94rem; line-height: 1.3; }
+  .zurichSignature { grid-area: art; min-height: 3.5rem; background-position: center bottom; }
+  .welcomeActions { grid-area: actions; }
+  .welcomeActions { padding: .65rem; }
+  .welcomeVoiceAction { min-height: 3.25rem; padding: .48rem .55rem; }
   .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
   .orderCard { padding: .62rem .68rem; }
   .flightCard { min-height: 3.5rem; padding: .48rem .62rem; }
@@ -266,11 +271,10 @@
 @media (max-width: 560px) {
   .page { padding-bottom: calc(7.75rem + env(safe-area-inset-bottom)); }
   .welcomeActions > span { font-size: .6rem; }
-  .welcomeCopy h1 { font-size: clamp(1.9rem, 9vw, 2.35rem); line-height: 1; }
-  .welcomeCopy p { font-size: .88rem; }
-  .welcome::before { width: 86%; opacity: .42; transform: translateY(4rem); }
+  .invitationCopy p { font-size: .88rem; }
+  .zurichSignature { min-height: 3.1rem; }
   .welcomeModelRow { gap: .42rem; }
-  .welcomeVoiceAction { min-height: 3.35rem; }
+  .welcomeVoiceAction { min-height: 3.2rem; }
   .productGrid { grid-template-columns: 1fr; gap: .75rem; }
   .productCard { aspect-ratio: 1 / .95; border-inline-end: 0; border-block-end: 0; }
   .productCard:not(:nth-child(2n)) { border-inline-end: 0; }
@@ -292,17 +296,17 @@
   .dockRow { width: min(22rem, calc(100vw - 1rem)); flex-wrap: wrap; }
 }
 @media (max-width: 340px) {
-  .header { padding-inline: .52rem; }
+  .brandHeaderInner { padding: .55rem .52rem .7rem; }
+  .brandHeader::after { left: .52rem; }
   .brandLogo { width: 6.8rem; }
   .location strong { font-size: .8rem; }
   .productSurface { padding-inline: .42rem; }
-  .welcome { padding: .85rem; gap: .72rem; }
-  .welcome::after { left: .85rem; }
-  .welcomeCopy h1 { font-size: 1.9rem; }
-  .welcomeCopy p { margin-top: .42rem; font-size: .82rem; }
-  .welcomeActions { padding: .55rem; }
+  .brandInvitation { grid-template-columns: minmax(0, 1fr) 5.8rem; column-gap: .35rem; }
+  .invitationCopy p { font-size: .8rem; }
+  .zurichSignature { min-height: 2.7rem; }
+  .welcomeActions { padding: .5rem; }
   .welcomeModelRow { gap: .3rem; }
-  .welcomeVoiceAction { min-height: 3.2rem; padding: .38rem .34rem; gap: .25rem; }
+  .welcomeVoiceAction { min-height: 3.05rem; padding: .38rem .34rem; gap: .25rem; }
   .welcomeVoiceAction .voiceGlyph { width: 1.15rem; }
   .welcomeVoiceAction .voiceModelLabel strong { font-size: .72rem; }
   .welcomeVoiceAction .voiceModelLabel small { font-size: .45rem; letter-spacing: -.025em; }

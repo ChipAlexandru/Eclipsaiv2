@@ -518,25 +518,29 @@ Initial interface state: ${safe(stateSnapshot())}` });
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>
       <audio ref={audioOutputRef} className={styles.audioOutput} autoPlay playsInline preload="auto" data-avolta-audio-output data-playback={playbackState} />
-      <header className={styles.header}>
-        <div className={styles.brand}><Image className={styles.brandLogo} src="/avolta-demo/brand/avolta-logo.svg" alt="Avolta" width={141} height={25} priority /></div>
-        <div className={styles.location}><strong>Zürich Duty Free</strong></div>
+      <header className={styles.brandHeader} data-expanded={welcomeVisible} aria-label="Avolta Zürich Duty Free">
+        <div className={styles.brandHeaderInner}>
+          <div className={styles.brandRow}>
+            <div className={styles.brand}><Image className={styles.brandLogo} src="/avolta-demo/brand/avolta-logo.svg" alt="Avolta" width={141} height={25} priority /></div>
+            <div className={styles.location}><strong>Zürich Duty Free</strong></div>
+          </div>
+          {welcomeVisible && <section className={styles.brandInvitation} aria-label="Start voice shopping">
+            <div className={styles.invitationCopy}>
+              <p>Let’s find something you’ll love. We’ll help you get it before you fly.</p>
+            </div>
+            <div className={styles.zurichSignature} aria-hidden="true" />
+            <div className={styles.welcomeActions}>
+              <span>Start a conversation</span>
+              <div className={styles.welcomeModelRow} aria-label="Choose voice model">
+                {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.welcomeVoiceAction} data-primary={choice.model === DEFAULT_AVOLTA_REALTIME_MODEL} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && connecting} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}</button>; })}
+              </div>
+              {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.welcomeNotice} role="status" aria-live="polite">{voiceMessage}</p>}
+            </div>
+          </section>}
+        </div>
       </header>
 
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
-        {welcomeVisible && <section className={styles.welcome} aria-labelledby="avolta-welcome-title">
-          <div className={styles.welcomeCopy}>
-            <h1 id="avolta-welcome-title">Welcome to Avolta.</h1>
-            <p>Let’s find something you’ll love. We’ll help you get it before you fly.</p>
-          </div>
-          <div className={styles.welcomeActions}>
-            <span>Start a conversation</span>
-            <div className={styles.welcomeModelRow} aria-label="Choose voice model">
-              {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.welcomeVoiceAction} data-primary={choice.model === DEFAULT_AVOLTA_REALTIME_MODEL} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && connecting} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}</button>; })}
-            </div>
-            {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.welcomeNotice} role="status" aria-live="polite">{voiceMessage}</p>}
-          </div>
-        </section>}
         <div className={styles.contextRail} data-has-order={Boolean(order)}>
           <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"} data-flight-context-status={flightContextStatus}>
             {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} data-has-summary={Boolean(confirmedFlight && !order)} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>

@@ -173,7 +173,10 @@ test("Avolta shopper UX has a curated welcome while keeping the complete catalog
   assert.match(client, /const CURATED_PRODUCT_IDS = \[/);
   assert.match(client, /const CURATED_PRODUCT_IDS = \[\s*"favarger-la-boite-zurich-edition-240g",\s*"mawico-sitting-trio-cow-plush-25cm",\s*"creed-aventus-50ml"/);
   assert.match(client, /useState\(\(\) => CURATED_PRODUCT_IDS\.filter/);
-  assert.match(client, /<h1 id="avolta-welcome-title">Welcome to Avolta\.<\/h1>/);
+  assert.doesNotMatch(renderedClient, />Welcome to Avolta\.</);
+  assert.match(client, /className=\{styles\.brandHeader\} data-expanded=\{welcomeVisible\}/);
+  assert.match(client, /className=\{styles\.brandInvitation\}/);
+  assert.match(client, /className=\{styles\.zurichSignature\}/);
   assert.match(client, /<p>Let’s find something you’ll love\. We’ll help you get it before you fly\.<\/p>/);
   assert.match(client, /className=\{styles\.welcomeModelRow\}/);
   assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
