@@ -4,16 +4,20 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
-import { isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
+import { DEFAULT_AVOLTA_REALTIME_MODEL, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, effectiveDepartureAt, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay, upcomingFlights } from "./flightReplay.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
 const STORAGE_KEY = "avolta-zrh-flight-day-v2";
-const FIRST_VOICE_OPENING = "Welcome the traveler to Avolta now. In warm, natural language, say you can help them make the most of their journey by finding something they will love and arranging the easiest supported way to get it whether they are on the way or already at the airport, then ask where they are flying today. This opening may use up to three short sentences. Do not mention the demo day, replay, simulation, data, tools or setup.";
-const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, and ask one context-aware question only if it is useful.";
+const FIRST_VOICE_OPENING = 'Begin now with the exact sentence "Welcome to Avolta." Then, in one short sentence, explain that you can help the traveler find something they will enjoy and work out the easiest convenient way to get it wherever they are in their journey, adapting to their location and time. Ask exactly one natural question about their journey. Then stop speaking and wait for the traveler. Do not ask another question, answer for them, or continue because there is silence. Do not mention the demo day, replay, simulation, data, tools or setup.';
+const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, ask at most one context-aware question if it is useful, then stop speaking and wait. Never fill silence with another question or an invented answer.";
 const DEFAULT_TRAVEL = { stage: "unknown", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
+const VOICE_MODEL_CHOICES = [
+  { label: "Mini", model: "gpt-realtime-2.1-mini" },
+  { label: "Standard", model: "gpt-realtime-2.1" },
+];
 
 function formatMoney(value, currency = "CHF") { const [whole, decimals] = Number(value).toFixed(2).split("."); return `${currency} ${whole.replace(/\B(?=(\d{3})+(?!\d))/g, "’")}.${decimals}`; }
 function safe(value) { return JSON.stringify(value); }
@@ -36,6 +40,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [activePanel, setActivePanel] = useState(null);
   const [voiceStatus, setVoiceStatus] = useState("idle");
   const [voiceMessage, setVoiceMessage] = useState("Talk to Order");
+  const [activeVoiceModel, setActiveVoiceModel] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
   const [soundBlocked, setSoundBlocked] = useState(false);
   const [playbackState, setPlaybackState] = useState("idle");
@@ -56,6 +61,8 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [previewIndex, setPreviewIndex] = useState(0);
 
   const sessionRef = useRef(null);
+  const activeVoiceModelRef = useRef(null);
+  const voiceStartSequenceRef = useRef(0);
   const voiceTimeoutRef = useRef(null);
   const audioOutputRef = useRef(null);
   const peerConnectionRef = useRef(null);
@@ -314,11 +321,20 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     try { await audio.play(); if (mountedRef.current) { setPlaybackState("playing"); setSoundBlocked(false); } return true; }
     catch { if (mountedRef.current) { setPlaybackState("blocked"); setSoundBlocked(true); } return false; }
   }, []);
-  const closeVoiceSession = useCallback((message) => {
+  const disposeVoiceTransport = useCallback(() => {
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
     const audio = audioOutputRef.current; if (audio) { audio.pause(); audio.srcObject = null; }
-    setVoiceStatus("idle"); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle"); setVoiceMessage(message); setApprovalRequest(null);
   }, [clearAudioPoll, clearVoiceTimeout]);
+  const clearPendingVoiceApproval = useCallback(() => {
+    setApprovalRequest((current) => {
+      if (current?.type === "voice") { reviewRef.current = null; setReview(null); setActivePanel("basket"); }
+      return null;
+    });
+  }, []);
+  const closeVoiceSession = useCallback((message) => {
+    voiceStartSequenceRef.current += 1; disposeVoiceTransport(); activeVoiceModelRef.current = null; setActiveVoiceModel(null);
+    setVoiceStatus("idle"); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle"); setVoiceMessage(message); clearPendingVoiceApproval();
+  }, [clearPendingVoiceApproval, disposeVoiceTransport]);
 
   useEffect(() => {
     const progress = orderProgress(order, demoNow);
@@ -333,51 +349,74 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     try { session.transport.sendMessage(`[One-time order update. Say one short sentence, then listen.] The order is now ${announcement}.`, {}, { triggerResponse: true }); } catch { /* The visible tracker remains authoritative. */ }
   }, [demoNow, isMuted, order, voiceStatus]);
 
-  const startVoice = useCallback(async () => {
-    if (sessionRef.current) { const muted = !isMuted; sessionRef.current.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening — speak naturally."); return; }
+  const startVoice = useCallback(async (requestedModel = null) => {
+    const comparisonStart = requestedModel !== null;
+    const selectedModel = requestedModel || DEFAULT_AVOLTA_REALTIME_MODEL;
+    if (!isAllowedAvoltaRealtimeModel(selectedModel)) { setVoiceStatus("error"); setVoiceMessage("That voice model is unavailable."); return; }
+    if (sessionRef.current && activeVoiceModelRef.current === selectedModel) return;
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) { setVoiceStatus("unsupported"); setVoiceMessage("Voice needs a secure browser with microphone access."); return; }
+    const sequence = ++voiceStartSequenceRef.current;
+    disposeVoiceTransport(); clearPendingVoiceApproval(); activeVoiceModelRef.current = selectedModel; setActiveVoiceModel(selectedModel);
     setVoiceStatus("connecting"); setVoiceMessage("Connecting…"); setPlaybackState("waiting"); setSoundBlocked(false); setAudioEvidence({ trackReceived: false, modelAudioStarted: false, bytesReceived: 0, totalAudioEnergy: 0 });
+    let session = null;
     try {
       const [{ RealtimeAgent, RealtimeSession, OpenAIRealtimeWebRTC, tool }, { z }] = await Promise.all([import("@openai/agents/realtime"), import("zod")]);
-      const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" } }); const payload = await response.json().catch(() => ({}));
-      if (!response.ok || !payload.value) throw new Error(payload.error || "Voice service is unavailable."); if (!isAllowedAvoltaRealtimeModel(payload.model)) throw new Error("Voice model configuration is unavailable.");
+      if (voiceStartSequenceRef.current !== sequence) return;
+      const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: selectedModel }) }); const payload = await response.json().catch(() => ({}));
+      if (voiceStartSequenceRef.current !== sequence) return;
+      if (!response.ok || !payload.value) throw new Error(payload.error || "Voice service is unavailable.");
+      if (!isAllowedAvoltaRealtimeModel(payload.model) || payload.model !== selectedModel) throw new Error("The selected voice model could not be confirmed.");
       const audioElement = audioOutputRef.current; if (!audioElement) throw new Error("Audio output could not be initialized.");
       const transport = new OpenAIRealtimeWebRTC({ audioElement, changePeerConnection: async (peerConnection) => {
+        if (voiceStartSequenceRef.current !== sequence) { peerConnection.close(); return peerConnection; }
         peerConnectionRef.current = peerConnection;
-        peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio") return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { ensureAudioPlayback(); collectAudioEvidence(); }, 0); });
+        peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio" || voiceStartSequenceRef.current !== sequence) return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) { ensureAudioPlayback(); collectAudioEvidence(); } }, 0); });
         return peerConnection;
       } });
-      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z), instructions: `You are Avolta's warm, concise and confident English voice shopping concierge for Zürich Duty Free at Zürich Airport.
+      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
 
-This experience uses one captured airport day on a shared internal clock, and fulfillment has no real-world side effects. Keep that context internal during ordinary shopping and answer truthfully if asked. Browse remains open and product-first, and gifting is only one possible intent.
+Conversation contract:
+- For every fresh comparison session, follow the supplied startup instruction exactly: say “Welcome to Avolta.” first, give the brief service promise, ask exactly one natural journey question, then stop and wait.
+- Never ask a second question, answer on the traveler's behalf, or continue simply because there is silence. Treat pauses as listening time. After any reply, say only what is useful, ask no more than one question, and listen again.
+- This is a flexible conversation, not a flight-intake questionnaire. If the traveler asks for a product, gift, category, brand, price or idea at any point, help with that request immediately. Gather only the journey context that materially improves timing or fulfillment.
+- Reuse anything the traveler has already volunteered about their flight, destination, location, available time, recipient or taste. Acknowledge corrections and update your understanding without making them repeat themselves.
+- Let the traveler interrupt. Stop the current line of thought and address the interruption directly. Ordinary replies are one or two short sentences; avoid long lists, generic budget scripts and repeated summaries.
 
-Rules:
-- On the first connection, welcome the traveler to Avolta, offer a concise and inviting picture of how you can help along their journey, then naturally ask about their flight. Never open with replay, simulation or technical setup, and never reduce the welcome to a bare flight-intake question. The opening may use up to three short sentences.
-- On a resumed connection, continue from current state without replaying the welcome. If the traveler volunteers flight, location or timing, acknowledge and use it rather than asking again. Do not require a questionnaire before shopping.
+Discovery and guidance:
+- Browse is open and product-first; gifting is only one possible intent. When no product intent is known, use one light question about what would make the journey better or what they feel like exploring.
 - The selection contains ${products.length} public products captured on 2026-09-11. It is not the full assortment and public listing status is not live store stock.
-- Use search_and_show_products for needs or options. Never claim images are visible until the tool confirms the on-screen recommendation images. The full ${products.length}-product catalog remains independently browsable.
+- Use search_and_show_products for needs or options. Give one concrete, grounded reason for each recommendation and normally show one or two choices. Never claim images are visible until the tool confirms them. The full catalog remains independently browsable.
+- Use show_product_details only when details would help or are requested. Save and compare are secondary capabilities; show their sheets only when requested.
 - Call get_shopping_state before resolving “this,” “that,” ordinals, touch selections or bag changes. Touch selection is authoritative; otherwise use current viewport order.
-- Use show_product_details only when asked for details. Save and compare are secondary capabilities; show their sheets only when requested.
 - Never invent products, attributes, offers, exclusivity, prices, walking time, gates, stock, pickup eligibility or delivery services.
-- A flight result's capturedObservation is end-of-day provenance only, never a status history. Use the shared demo clock and structured replay status; do not announce captured “Departed” text as an earlier-morning fact.
-- Identify the flight in one or two clarifying questions: flight number when supplied, otherwise destination and approximate time. Search with find_replay_flight, resolve codeshares or ambiguity, use propose_replay_flight, state the exact flight number, destination and departure time, then wait for explicit assent before confirm_replay_flight.
-- Ask present location naturally when it is useful and record only what the traveler says with update_travel_context. Reuse volunteered context instead of repeating the question. Flight and time never prove location. Corrections may move the journey backward. Missing gate or boarding time stays unknown.
-- Use assess_journey only for timing advice. Do not treat a delayed departure as shopping time without boarding evidence, and never guarantee a connection or boarding outcome.
-- If the traveler asks for a product before flight or location is known, answer that request and show suitable products first. Then gather only the travel context that becomes useful for timing or fulfillment. Otherwise move into shopping with one light question about need, recipient or taste. Give one concrete reason and at most two choices, show them immediately, then ask one useful question or listen. Avoid generic budget scripts and long lists.
-- Use recommend_demo_fulfillment to recommend one supported method, not a menu. Connect it briefly to the traveler's situation: browsing with ample time, collection along the route, gate delivery only when the tool supports it, or the gate first when time is too tight. Do not volunteer implementation labels, invent walking time or promise infeasible delivery.
-- An order requires products, a confirmed flight, review_demo_order, a concise spoken review of items, quantity, total, destination and arrival or ready time, explicit affirmative approval, then confirm_demo_order. Never imply payment, real stock hold, store message, dispatch or notification, but do not volunteer a technical disclaimer unless asked.
-- Ordinary replies after the opening are one or two short sentences. Do not narrate tools, read countdowns constantly or replay missed progress updates.
+
+Journey and fulfillment:
+- Identify a flight with the minimum clarification needed: use the flight number when supplied, otherwise destination and approximate time. Search with find_replay_flight, resolve genuine ambiguity, use propose_replay_flight, state the exact flight number, destination and departure time, then wait for explicit assent before confirm_replay_flight.
+- Ask present location only when it changes practical advice, and record only what the traveler says with update_travel_context. Flight and time never prove location. Missing gate or boarding time stays unknown.
+- A flight result's capturedObservation is end-of-day provenance only, never status history. Use the shared demo clock and structured replay status; never announce captured “Departed” text as an earlier-morning fact.
+- Use assess_journey only for timing advice. Interpret available time conservatively, do not treat a delayed departure as extra shopping time without boarding evidence, and never guarantee a connection or boarding outcome.
+- Use recommend_demo_fulfillment to recommend one supported next step rather than reciting a menu: browsing when there is ample time, collection when it fits the route, gate delivery only when supported, or the gate first when time is too tight. Explain the recommendation briefly and never invent walking time or promise infeasible delivery.
+
+Order discipline:
+- An order requires products, a confirmed flight and review_demo_order. Speak one concise review containing the items, quantities, total, destination and arrival or ready time. Ask for explicit approval and stop. Call confirm_demo_order only after an unambiguous affirmative response.
+- Never treat silence, hesitation or an unrelated reply as order approval. Never imply payment, real stock hold, a store message, dispatch or notification. Do not volunteer a technical disclaimer unless asked.
+- Announce only meaningful order-state changes, once, in one short sentence. Do not narrate tools, read countdowns constantly, or replay updates that happened while disconnected.
+
+Internal operating context: this experience uses one captured airport day on a shared internal clock, and fulfillment has no real-world side effects. Keep that context internal during ordinary shopping and answer truthfully if asked.
 
 Initial interface state: ${safe(stateSnapshot())}` });
-      const session = new RealtimeSession(agent, { model: payload.model, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
-      session.on("audio_start", () => { if (mountedRef.current) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
-      session.on("audio_stopped", () => { if (mountedRef.current) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });
-      session.on("audio_interrupted", () => { if (mountedRef.current) { setVoiceStatus("listening"); setVoiceMessage("Listening — go ahead."); } });
-      session.on("tool_approval_requested", (_context, _agent, request) => { if (mountedRef.current) { setApprovalRequest({ type: "voice", request }); setActivePanel("review"); } });
-      session.on("error", () => { if (mountedRef.current) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
-      sessionRef.current = session; await session.connect({ apiKey: payload.value }); await ensureAudioPlayback(); collectAudioEvidence();
-      clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => closeVoiceSession("Five-minute voice session ended. Start again anytime."), VOICE_DEMO_DURATION_MS);
-      const startupInstruction = voiceWelcomedRef.current ? RESUMED_VOICE_OPENING : FIRST_VOICE_OPENING;
+      session = new RealtimeSession(agent, { model: payload.model, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
+      const isCurrentSession = () => mountedRef.current && voiceStartSequenceRef.current === sequence && sessionRef.current === session;
+      session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
+      session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });
+      session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening — go ahead."); } });
+      session.on("tool_approval_requested", (_context, _agent, request) => { if (isCurrentSession()) { setApprovalRequest({ type: "voice", request }); setActivePanel("review"); } });
+      session.on("error", () => { if (isCurrentSession()) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
+      sessionRef.current = session; await session.connect({ apiKey: payload.value });
+      if (!isCurrentSession()) { if (sessionRef.current === session) sessionRef.current = null; session.close(); return; }
+      await ensureAudioPlayback(); collectAudioEvidence();
+      clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) closeVoiceSession("Five-minute voice session ended. Start again anytime."); }, VOICE_DEMO_DURATION_MS);
+      const startupInstruction = comparisonStart ? FIRST_VOICE_OPENING : (voiceWelcomedRef.current ? RESUMED_VOICE_OPENING : FIRST_VOICE_OPENING);
       voiceWelcomedRef.current = true;
       try {
         const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") || {};
@@ -385,10 +424,16 @@ Initial interface state: ${safe(stateSnapshot())}` });
       } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
       setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally."); session.sendMessage(startupInstruction);
     } catch (error) {
-      clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null; setVoiceStatus("error");
+      session?.close();
+      if (voiceStartSequenceRef.current !== sequence) return;
+      clearAudioPoll(); if (sessionRef.current === session) sessionRef.current = null; peerConnectionRef.current = null; activeVoiceModelRef.current = null; setActiveVoiceModel(null); setVoiceStatus("error");
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : (error.message || "Voice service is unavailable."));
     }
-  }, [buildTools, clearAudioPoll, clearVoiceTimeout, closeVoiceSession, collectAudioEvidence, ensureAudioPlayback, isMuted, products.length, stateSnapshot]);
+  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
+  const toggleVoiceMute = useCallback(() => {
+    const session = sessionRef.current; if (!session) return;
+    const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening — speak naturally.");
+  }, [isMuted]);
   useEffect(() => () => { mountedRef.current = false; clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); }, [clearAudioPoll, clearVoiceTimeout]);
 
   const showFullCollection = useCallback((category = "All") => { const matches = category === "All" ? products : products.filter((product) => product.productType === category); presentationSequenceRef.current += 1; visibleIdsRef.current = matches.map((product) => product.id); setVisibleIds(visibleIdsRef.current); setFocusedView(false); setActiveCategory(category); selectedIdRef.current = null; setSelectedId(null); queueMicrotask(() => sendInterfaceState("the browse collection changed")); }, [products, sendInterfaceState]);
@@ -443,12 +488,15 @@ Initial interface state: ${safe(stateSnapshot())}` });
 
       <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} aria-label="Shopping controls">
         {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status" aria-live="polite">{voiceMessage}</p>}
-        <div className={styles.dockRow}>
-          <button className={styles.voiceAction} type="button" onClick={startVoice} disabled={voiceStatus === "connecting"} aria-label={hasVoiceSession ? (isMuted ? "Unmute microphone" : "Mute microphone") : "Talk to Order"}><span className={styles.voiceGlyph}>{isMuted ? <MicOff /> : <Mic />}</span><span className={styles.voiceLabel}><strong>{voiceStatus === "idle" ? "Talk to Order" : voiceMessage}</strong></span>{voiceStatus === "connecting" && <span className={styles.connectingIndicator} />}{hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>
+        <div className={styles.modelRow} aria-label="Choose voice model">
+          {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.voiceModelAction} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && (hasVoiceSession || connecting)} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}{active && hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>; })}
+        </div>
+        {(hasVoiceSession || soundBlocked || hasBasket) && <div className={styles.dockRow}>
+          {hasVoiceSession && <button className={styles.muteVoice} type="button" onClick={toggleVoiceMute} aria-label={isMuted ? "Unmute microphone" : "Mute microphone"}>{isMuted ? <MicOff size={16} /> : <Mic size={16} />}<span>{isMuted ? "Unmute" : "Mute"}</span></button>}
           {soundBlocked && <button className={styles.soundButton} type="button" onClick={ensureAudioPlayback}>Enable sound</button>}
           {hasVoiceSession && <button className={styles.endVoice} type="button" onClick={() => closeVoiceSession("Talk to Order")} aria-label="End voice session"><X size={17} /></button>}
           {hasBasket && <button className={styles.basketTrigger} type="button" onClick={() => setActivePanel("basket")} aria-label={`Order bag, ${basketDetails.itemCount} ${basketDetails.itemCount === 1 ? "item" : "items"}, ${formatMoney(basketDetails.total)}`}><ShoppingBag size={17} /><span>{basketDetails.itemCount}</span><strong>{formatMoney(basketDetails.total)}</strong></button>}
-        </div>
+        </div>}
         {voiceStatus !== "error" && voiceStatus !== "unsupported" && <span className={styles.visuallyHidden} role="status" aria-live="polite">{voiceMessage}</span>}
       </section>
 

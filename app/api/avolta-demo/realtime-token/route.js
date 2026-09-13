@@ -1,7 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { hasAccess } from "../../../../src/avolta-demo/auth.mjs";
-import { resolveAvoltaRealtimeModel } from "../../../../src/avolta-demo/realtimeConfig.mjs";
+import { isAllowedAvoltaRealtimeModel, resolveAvoltaRealtimeModel } from "../../../../src/avolta-demo/realtimeConfig.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,9 +32,22 @@ function allowStart(key) {
   return true;
 }
 
-export async function POST() {
+export async function POST(request) {
   const cookieStore = await cookies();
   if (!hasAccess(cookieStore)) return noStoreJson({ error: "Passcode access is required." }, { status: 401 });
+
+  const body = await request.json().catch(() => ({}));
+  const requestedModel = body?.model;
+  if (requestedModel !== undefined && !isAllowedAvoltaRealtimeModel(requestedModel)) {
+    return noStoreJson({ error: "Unsupported voice model selection." }, { status: 400 });
+  }
+
+  let model;
+  try {
+    model = resolveAvoltaRealtimeModel(requestedModel || process.env.AVOLTA_OPENAI_REALTIME_MODEL);
+  } catch {
+    return noStoreJson({ error: "Voice model configuration is invalid for this deployment." }, { status: 503 });
+  }
 
   const requestHeaders = await headers();
   const clientKey = `${cookieStore.get("avolta_demo_access")?.value}:${requestHeaders.get("x-forwarded-for") || "local"}`;
@@ -42,13 +55,6 @@ export async function POST() {
 
   const apiKey = process.env.AVOLTA_OPENAI_API_KEY;
   if (!apiKey) return noStoreJson({ error: "Voice service is not configured for this deployment." }, { status: 503 });
-
-  let model;
-  try {
-    model = resolveAvoltaRealtimeModel(process.env.AVOLTA_OPENAI_REALTIME_MODEL);
-  } catch {
-    return noStoreJson({ error: "Voice model configuration is invalid for this deployment." }, { status: 503 });
-  }
 
   try {
     const upstream = await fetch(OPENAI_CLIENT_SECRETS_URL, {
@@ -63,7 +69,12 @@ export async function POST() {
       console.error("Avolta realtime client secret request failed", { status: upstream.status, requestId: upstream.headers.get("x-request-id") });
       return noStoreJson({ error: "Voice service is temporarily unavailable." }, { status: upstream.status === 429 ? 429 : 502 });
     }
-    return noStoreJson({ value, model: payload?.session?.model || model, expiresAt: payload?.expires_at || payload?.expiresAt || null });
+    const actualModel = payload?.session?.model || model;
+    if (actualModel !== model) {
+      console.error("Avolta realtime model mismatch", { requestedModel: model, actualModel });
+      return noStoreJson({ error: "Voice model selection could not be confirmed." }, { status: 502 });
+    }
+    return noStoreJson({ value, model: actualModel, expiresAt: payload?.expires_at || payload?.expiresAt || null });
   } catch (error) {
     console.error("Avolta realtime client secret request could not be completed", { message: error instanceof Error ? error.message : "Unknown error" });
     return noStoreJson({ error: "Voice service is temporarily unavailable." }, { status: 502 });

@@ -99,19 +99,30 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /candidate\?\.id === flight_id/);
   assert.match(client, /travel\.selectedFlight \|\| pendingFlight \|\| flightLookupActive/);
   assert.match(client, /assess_journey/);
-  assert.match(client, /Welcome the traveler to Avolta now/);
-  assert.match(client, /finding something they will love and arranging the easiest supported way to get it/);
+  assert.match(client, /exact sentence \"Welcome to Avolta\.\"/);
+  assert.match(client, /find something they will enjoy and work out the easiest convenient way to get it/);
   assert.match(client, /Do not mention the demo day, replay, simulation, data, tools or setup/);
   assert.match(client, /without repeating the welcome/);
-  assert.match(client, /If the traveler asks for a product before flight or location is known/);
-  assert.match(client, /Reuse volunteered context instead of repeating the question/);
+  assert.match(client, /If the traveler asks for a product, gift, category, brand, price or idea at any point/);
+  assert.match(client, /Reuse anything the traveler has already volunteered/);
+  assert.match(client, /Never ask a second question, answer on the traveler's behalf, or continue simply because there is silence/);
+  assert.match(client, /Ask for explicit approval and stop/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_API_KEY/);
   assert.doesNotMatch(token, /process\.env\.OPENAI_API_KEY/);
   assert.match(token, /process\.env\.AVOLTA_OPENAI_REALTIME_MODEL/);
+  assert.match(token, /const requestedModel = body\?\.model/);
+  assert.match(token, /!isAllowedAvoltaRealtimeModel\(requestedModel\)/);
+  assert.match(token, /Unsupported voice model selection/);
+  assert.match(token, /actualModel !== model/);
   assert.doesNotMatch(token, /console\.log\([^)]*AVOLTA_OPENAI_API_KEY/);
+  assert.match(client, /body: JSON\.stringify\(\{ model: selectedModel \}\)/);
+  assert.match(client, /payload\.model !== selectedModel/);
+  assert.match(client, /voiceStartSequenceRef\.current !== sequence/);
+  assert.match(client, /disposeVoiceTransport\(\); clearPendingVoiceApproval\(\)/);
+  assert.match(client, /comparisonStart \? FIRST_VOICE_OPENING/);
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
   assert.match(robots, /\/avolta-demo/);
@@ -126,6 +137,11 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
   assert.match(client, />All products</);
   assert.match(client, /"Talk to Order"/);
+  assert.match(client, /\{ label: "Mini", model: "gpt-realtime-2\.1-mini" \}/);
+  assert.match(client, /\{ label: "Standard", model: "gpt-realtime-2\.1" \}/);
+  assert.match(client, /aria-label="Choose voice model"/);
+  assert.match(client, /className=\{styles\.muteVoice\}/);
+  assert.match(client, /aria-pressed=\{active\}/);
   assert.match(client, /showFullCollection/);
   assert.match(client, /currentViewportIds/);
   assert.match(client, /const viewportIds = ids\.slice\(0, 4\)/);
@@ -138,6 +154,8 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(css, /grid-template-columns:\s*repeat\(5,/);
   assert.match(css, /@media \(max-width: 760px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
   assert.match(css, /@media \(max-width: 340px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+  assert.match(css, /\.modelRow, \.dockRow \{[^}]*display:\s*flex/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(22rem, calc\(100vw - 1rem\)\)/);
   assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
   assert.doesNotMatch(client, /session\.on\("history_updated"/);
@@ -194,6 +212,9 @@ test("Avolta voice output uses an attached audio element and records playback ev
   assert.match(client, /peerConnection\.addEventListener\("track"/);
   assert.match(client, /await audio\.play\(\)/);
   assert.match(client, /entry\.type === "inbound-rtp" && entry\.kind === "audio"/);
+  assert.match(client, /voice: "marin"/);
+  assert.match(client, /speed: 1\.03/);
+  assert.match(client, /type: "semantic_vad", eagerness: "medium"/);
   assert.match(client, /data-audio-track=/);
   assert.match(client, /data-audio-bytes=/);
   assert.match(client, /data-audio-energy=/);
@@ -303,9 +324,9 @@ test("journey and simulated order paths share the replay clock and announce mean
   assert.equal(replay.nextMeaningfulOrderAnnouncement("Ready", "On the way", []), null);
 });
 
-test("Avolta Realtime model configuration reuses the proven mini model and fails closed", async () => {
+test("Avolta Realtime model configuration defaults to the standard comparison model and fails closed", async () => {
   const config = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
-  assert.equal(config.resolveAvoltaRealtimeModel(), "gpt-realtime-2.1-mini");
+  assert.equal(config.resolveAvoltaRealtimeModel(), "gpt-realtime-2.1");
   assert.equal(config.resolveAvoltaRealtimeModel("gpt-realtime-2.1-mini"), "gpt-realtime-2.1-mini");
   assert.equal(config.resolveAvoltaRealtimeModel("gpt-realtime-2.1"), "gpt-realtime-2.1");
   assert.throws(() => config.resolveAvoltaRealtimeModel("gpt-realtime"), /Unsupported/);

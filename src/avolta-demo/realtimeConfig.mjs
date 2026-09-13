@@ -1,5 +1,5 @@
-export const DEFAULT_AVOLTA_REALTIME_MODEL = "gpt-realtime-2.1-mini";
-export const AVOLTA_REALTIME_MODELS = [DEFAULT_AVOLTA_REALTIME_MODEL, "gpt-realtime-2.1"];
+export const DEFAULT_AVOLTA_REALTIME_MODEL = "gpt-realtime-2.1";
+export const AVOLTA_REALTIME_MODELS = [DEFAULT_AVOLTA_REALTIME_MODEL, "gpt-realtime-2.1-mini"];
 
 export function isAllowedAvoltaRealtimeModel(value) {
   return AVOLTA_REALTIME_MODELS.includes(value);
