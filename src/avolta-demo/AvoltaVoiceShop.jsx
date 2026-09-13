@@ -518,8 +518,8 @@ Initial interface state: ${safe(stateSnapshot())}` });
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
         {welcomeVisible && <section className={styles.welcome} aria-labelledby="avolta-welcome-title">
           <div className={styles.welcomeCopy}>
-            <p>Welcome to Avolta.</p>
-            <h1 id="avolta-welcome-title">Let’s find something you’ll love—and the easiest way to get it before you fly.</h1>
+            <h1 id="avolta-welcome-title">Welcome to Avolta.</h1>
+            <p>Let’s find something you’ll love—and the easiest way to get it before you fly.</p>
           </div>
           <div className={styles.welcomeActions}>
             <span>Start a conversation</span>

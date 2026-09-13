@@ -172,8 +172,8 @@ test("Avolta shopper UX has a curated welcome while keeping the complete catalog
   const provenance = fs.readFileSync(path.join(root, "docs", "avolta-design-reference.md"), "utf8");
   assert.match(client, /const CURATED_PRODUCT_IDS = \[/);
   assert.match(client, /useState\(\(\) => CURATED_PRODUCT_IDS\.filter/);
-  assert.match(client, /Welcome to Avolta\./);
-  assert.match(client, /Let’s find something you’ll love—and the easiest way to get it before you fly\./);
+  assert.match(client, /<h1 id="avolta-welcome-title">Welcome to Avolta\.<\/h1>/);
+  assert.match(client, /<p>Let’s find something you’ll love—and the easiest way to get it before you fly\.<\/p>/);
   assert.match(client, /className=\{styles\.welcomeModelRow\}/);
   assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
   assert.match(client, /!welcomeVisible && <div className=\{styles\.modelRow\}/);
