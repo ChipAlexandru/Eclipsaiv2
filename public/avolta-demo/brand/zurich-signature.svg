@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" fill="none">
+  <circle cx="646" cy="18" r="152" fill="#F15A3A" fill-opacity=".72"/>
+  <path d="M210 164 286 92l42 51 64-91 68 94 49-53 107 91" stroke="#D9F05C" stroke-opacity=".5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m286 92 18 22 16-10 8 39m64-91 25 36 18-14 25 72m49-53 24 26 19-7 44 72" stroke="#FFF" stroke-opacity=".34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g stroke="#FFF" stroke-opacity=".76" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M186 210h348"/>
+    <path d="M220 210v-31l18-10 18 10v31m11 0v-44h24v44m12 0v-72l15-17 15 17v72m10 0v-72l15-17 15 17v72m15 0v-50l15-17 15 17v50m15 0v-36l22-12 22 12v36m14 0v-27l25-13 25 13v27"/>
+    <path d="M306 138h24m36 0h24m-78 19h12m48 0h12m-65-36v-14m56 14v-14"/>
+  </g>
+  <g stroke="#D9F05C" stroke-opacity=".68" stroke-width="3" stroke-linecap="round">
+    <path d="M252 229c42-10 78 10 119 0s79-10 124 0 83 10 126 0"/>
+    <path d="M215 246c55-10 99 10 151 0s102-10 155 0 100 10 151 0"/>
+    <path d="M280 263c36-7 67 7 103 0s70-7 107 0 70 7 106 0"/>
+  </g>
+</svg>

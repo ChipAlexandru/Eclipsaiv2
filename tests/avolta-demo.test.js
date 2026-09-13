@@ -163,14 +163,24 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(robots, /\/avolta-demo/);
 });
 
-test("Avolta shopper UX is simple, product-led, complete and keeps operational context off-screen", () => {
+test("Avolta shopper UX has a curated welcome while keeping the complete catalogue available to voice", () => {
   const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
   const css = fs.readFileSync(path.join(feature, "avoltaVoiceShop.module.css"), "utf8");
   const page = fs.readFileSync(path.join(root, "app", "avolta-demo", "page.jsx"), "utf8");
   const brandAsset = fs.readFileSync(path.join(root, "public", "avolta-demo", "brand", "avolta-logo.svg"), "utf8");
   const renderedClient = client.slice(client.lastIndexOf("\n  return ("));
   const provenance = fs.readFileSync(path.join(root, "docs", "avolta-design-reference.md"), "utf8");
-  assert.match(client, /useState\(\(\) => products\.map\(\(product\) => product\.id\)\)/);
+  assert.match(client, /const CURATED_PRODUCT_IDS = \[/);
+  assert.match(client, /const CURATED_PRODUCT_IDS = \[\s*"favarger-la-boite-zurich-edition-240g",\s*"mawico-sitting-trio-cow-plush-25cm",\s*"creed-aventus-50ml"/);
+  assert.match(client, /useState\(\(\) => CURATED_PRODUCT_IDS\.filter/);
+  assert.doesNotMatch(renderedClient, />Welcome to Avolta\.</);
+  assert.match(client, /className=\{styles\.brandHeader\} data-expanded=\{welcomeVisible\}/);
+  assert.match(client, /className=\{styles\.brandInvitation\}/);
+  assert.match(client, /className=\{styles\.zurichSignature\}/);
+  assert.match(client, /<p>Let’s find something you’ll love\. We’ll help you get it before you fly\.<\/p>/);
+  assert.match(client, /className=\{styles\.welcomeModelRow\}/);
+  assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
+  assert.match(client, /!welcomeVisible && <div className=\{styles\.modelRow\}/);
   assert.match(client, />All products</);
   assert.match(client, /"Talk to Order"/);
   assert.match(client, /\{ label: "Mini", model: "gpt-realtime-2\.1-mini" \}/);
@@ -193,19 +203,25 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(provenance, /avoltaworld\.com\/themes\/wndrs\/images\/logo\.svg/);
   assert.match(provenance, /flughafen-zuerich\.ch\/en\/passengers\/shopping-and-enjoy\/shops\/duty-free/);
   assert.match(client, /hasBasket && <button className=\{styles\.basketTrigger\}/);
-  assert.doesNotMatch(client, /className=\{styles\.(?:shopIntro|catalogueTop|categories|bagButton)\}/);
+  assert.doesNotMatch(client, /className=\{styles\.(?:catalogueTop|categories|bagButton)\}/);
   assert.doesNotMatch(client, />205 products<|Zürich Airport selection|>What would you like to pick up\?</);
-  assert.match(css, /grid-template-columns:\s*repeat\(5,/);
+  assert.match(css, /\.productGrid \{[^}]*grid-template-columns:\s*repeat\(3,/);
+  assert.match(css, /@media \(max-width: 980px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+  assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.productGrid \{[^}]*grid-template-columns:\s*1fr/);
   assert.match(client, /data-framing=\{productImageFraming\(product\)\}/);
   assert.match(css, /\.productImage\[data-framing="tall"\]/);
   assert.match(css, /\.productImage\[data-framing="wide"\]/);
+  assert.match(css, /\.productImage\[data-framing="dense"\]/);
   assert.match(css, /\.productImage\[data-framing="edge-safe"\]/);
+  assert.match(css, /\.productCard:not\(:nth-child\(3n\)\) \{[^}]*border-inline-end/);
+  assert.match(css, /zurich-signature\.svg/);
   assert.match(client, /EDGE_SAFE_PRODUCT_IDS/);
   assert.match(css, /\.productImage img \{[^}]*mix-blend-mode:\s*normal/);
   assert.doesNotMatch(css, /\.imageWrap::(?:before|after)/);
   assert.doesNotMatch(css, /\.productText \{[^}]*text-shadow/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
-  assert.match(css, /@media \(max-width: 340px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+  assert.match(css, /\.productText \{[^}]*inset:\s*0 0 auto/);
+  assert.match(css, /\.productText \{[^}]*background:\s*transparent/);
+  assert.match(css, /\.productImage \{[^}]*background:\s*#fff/);
   assert.match(css, /\.modelRow, \.dockRow \{[^}]*display:\s*flex/);
   assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(22rem, calc\(100vw - 1rem\)\)/);
   assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);

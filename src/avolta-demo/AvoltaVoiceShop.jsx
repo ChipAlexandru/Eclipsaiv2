@@ -18,11 +18,39 @@ const VOICE_MODEL_CHOICES = [
   { label: "Mini", model: "gpt-realtime-2.1-mini" },
   { label: "Standard", model: "gpt-realtime-2.1" },
 ];
+const CURATED_PRODUCT_IDS = [
+  "favarger-la-boite-zurich-edition-240g",
+  "mawico-sitting-trio-cow-plush-25cm",
+  "creed-aventus-50ml",
+  "chloe-love-story-75ml",
+  "amouage-guidance-46-100ml",
+  "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml",
+  "sol-de-janeiro-bum-bum-jet-set-30ml-90ml-50ml",
+  "studer-swiss-gold-gin-70cl",
+  "zacapa-no-23-1l",
+  "munz-swiss-view-napolitains-140g",
+  "goldkenn-mini-safe-200g",
+  "villars-zurich-destination-old-fashioned-assorted-chocolate-200g",
+];
 const EDGE_SAFE_PRODUCT_IDS = new Set([
   "hugo-boss-dark-blue-repack-75ml",
   "calvin-klein-ck-free-for-men-100ml",
   "lancome-idole-100ml",
   "creed-absolu-aventus-100ml",
+  "chloe-love-story-75ml",
+  "maison-francis-kurkdjian-baccarat-rouge-540-extrait-de-parfum-35ml",
+  "studer-swiss-gold-gin-70cl",
+  "zacapa-no-23-1l",
+  "goldkenn-mini-safe-200g",
+  "villars-zurich-destination-old-fashioned-assorted-chocolate-200g",
+]);
+const DENSE_PRODUCT_IDS = new Set([
+  "creed-aventus-50ml",
+  "amouage-guidance-46-100ml",
+  "sol-de-janeiro-bum-bum-jet-set-30ml-90ml-50ml",
+  "munz-swiss-view-napolitains-140g",
+  "favarger-la-boite-zurich-edition-240g",
+  "mawico-sitting-trio-cow-plush-25cm",
 ]);
 
 function formatMoney(value, currency = "CHF") { const [whole, decimals] = Number(value).toFixed(2).split("."); return `${currency} ${whole.replace(/\B(?=(\d{3})+(?!\d))/g, "’")}.${decimals}`; }
@@ -30,13 +58,13 @@ function safe(value) { return JSON.stringify(value); }
 function formatClock(value) { return value ? new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Europe/Zurich" }).format(new Date(value)) : "Time unavailable"; }
 function customerFlight(flight) { return flight ? { id: flight.id, flightNumber: flight.flightNumber, codeshares: flight.codeshares, destinationCode: flight.destinationCode, destination: flight.destination, scheduledDeparture: flight.scheduledDeparture, estimatedDeparture: flight.estimatedDeparture, boardingTime: flight.boardingTime, gate: flight.gate } : null; }
 function customerFulfillment(fulfillment) { return fulfillment ? { method: fulfillment.method, destination: fulfillment.destination, etaMinutes: fulfillment.etaMinutes, reason: fulfillment.reason } : null; }
-function productImageFraming(product) { return EDGE_SAFE_PRODUCT_IDS.has(product.id) ? "edge-safe" : /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
+function productImageFraming(product) { return EDGE_SAFE_PRODUCT_IDS.has(product.id) ? "edge-safe" : DENSE_PRODUCT_IDS.has(product.id) ? "dense" : /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
   const products = catalog.products;
   const productsById = useMemo(() => new Map(products.map((product) => [product.id, product])), [products]);
   const validProductIds = useMemo(() => new Set(productsById.keys()), [productsById]);
-  const [visibleIds, setVisibleIds] = useState(() => products.map((product) => product.id));
+  const [visibleIds, setVisibleIds] = useState(() => CURATED_PRODUCT_IDS.filter((id) => products.some((product) => product.id === id)));
   const [selectedId, setSelectedId] = useState(null);
   const [comparison, setComparison] = useState([]);
   const [shortlist, setShortlist] = useState({});
@@ -433,9 +461,9 @@ Initial interface state: ${safe(stateSnapshot())}` });
         activeVoiceModelRef.current = null; setActiveVoiceModel(null); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle");
         setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
       });
-      session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
-      session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });
-      session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening — go ahead."); } });
+      session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking. Interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
+      session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening. Speak naturally."); } });
+      session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening. Go ahead."); } });
       session.on("tool_approval_requested", (_context, _agent, request) => { if (isCurrentSession()) { setApprovalRequest({ type: "voice", request }); setActivePanel("review"); } });
       session.on("error", () => { if (isCurrentSession()) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
       sessionRef.current = session; await session.connect({ apiKey: payload.value });
@@ -448,7 +476,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") || {};
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, voiceWelcomed: true }));
       } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
-      setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally."); session.sendMessage(startupInstruction);
+      setVoiceStatus("listening"); setVoiceMessage("Listening. Speak naturally."); session.sendMessage(startupInstruction);
     } catch (error) {
       session?.close();
       if (voiceStartSequenceRef.current !== sequence) return;
@@ -459,7 +487,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
     const session = sessionRef.current; if (!session) return;
-    const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening — speak naturally.");
+    const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening. Speak naturally.");
   }, [isMuted]);
   useEffect(() => () => { mountedRef.current = false; clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); }, [clearAudioPoll, clearVoiceTimeout]);
 
@@ -472,6 +500,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const reviewFlight = review?.travel?.selectedFlight;
   const hasVoiceSession = Boolean(sessionRef.current);
   const hasBasket = basketDetails.itemCount > 0;
+  const welcomeVisible = voiceStatus === "idle" || voiceStatus === "error" || voiceStatus === "unsupported";
   const confirmedFlight = travel.selectedFlight;
   const previewFlight = upcomingPreviewFlights[previewIndex % Math.max(1, upcomingPreviewFlights.length)] || null;
   const displayedFlight = confirmedFlight || pendingFlight || previewFlight;
@@ -482,16 +511,33 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
   const departuresExhausted = !confirmedFlight && !pendingFlight && !upcomingPreviewFlights.length && flightContextStatus === "ready";
   const flightDisplayState = confirmedFlight ? "confirmed" : pendingFlight ? "candidate" : voiceStatus !== "idle" ? "focused" : "idle";
-  const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "—"}` : (displayedFlight.destination || displayedFlight.destinationCode || "—")) : "—";
+  const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "TBD"}` : (displayedFlight.destination || displayedFlight.destinationCode || "TBD")) : "TBD";
   const actionableFlightStatus = ["Scheduled", "Boarding window approaching"].includes(displayedFlightStatus.label) ? null : displayedFlightStatus.label;
   const departureLabel = pendingFlight ? "Your flight?" : confirmedFlight ? (actionableFlightStatus || "Your flight") : "Departures";
 
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>
       <audio ref={audioOutputRef} className={styles.audioOutput} autoPlay playsInline preload="auto" data-avolta-audio-output data-playback={playbackState} />
-      <header className={styles.header}>
-        <div className={styles.brand}><Image className={styles.brandLogo} src="/avolta-demo/brand/avolta-logo.svg" alt="Avolta" width={141} height={25} priority /></div>
-        <div className={styles.location}><strong>Zürich Duty Free</strong></div>
+      <header className={styles.brandHeader} data-expanded={welcomeVisible} aria-label="Avolta Zürich Duty Free">
+        <div className={styles.brandHeaderInner}>
+          <div className={styles.brandRow}>
+            <div className={styles.brand}><Image className={styles.brandLogo} src="/avolta-demo/brand/avolta-logo.svg" alt="Avolta" width={141} height={25} priority /></div>
+            <div className={styles.location}><strong>Zürich Duty Free</strong></div>
+          </div>
+          {welcomeVisible && <section className={styles.brandInvitation} aria-label="Start voice shopping">
+            <div className={styles.invitationCopy}>
+              <p>Let’s find something you’ll love. We’ll help you get it before you fly.</p>
+            </div>
+            <div className={styles.zurichSignature} aria-hidden="true" />
+            <div className={styles.welcomeActions}>
+              <span>Start a conversation</span>
+              <div className={styles.welcomeModelRow} aria-label="Choose voice model">
+                {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.welcomeVoiceAction} data-primary={choice.model === DEFAULT_AVOLTA_REALTIME_MODEL} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && connecting} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}</button>; })}
+              </div>
+              {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.welcomeNotice} role="status" aria-live="polite">{voiceMessage}</p>}
+            </div>
+          </section>}
+        </div>
       </header>
 
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
@@ -499,7 +545,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
           <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"} data-flight-context-status={flightContextStatus}>
             {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} data-has-summary={Boolean(confirmedFlight && !order)} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
               <div className={styles.departureMeta}><span>{departureLabel}</span>{confirmedFlight && !order && <strong>{displayedBoarding.label}</strong>}</div>
-              <div className={styles.departureRow}><time aria-label={`Departure ${formatClock(effectiveDepartureAt(displayedFlight, demoNow))}`}>{formatClock(effectiveDepartureAt(displayedFlight, demoNow))}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate —"}</b></div>
+              <div className={styles.departureRow}><time aria-label={`Departure ${formatClock(effectiveDepartureAt(displayedFlight, demoNow))}`}>{formatClock(effectiveDepartureAt(displayedFlight, demoNow))}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "TBD"}</span><b>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate TBD"}</b></div>
             </div> : scheduleEnded || departuresExhausted ? <div className={styles.noDepartures}>No more departures</div> : flightContextStatus === "loading" ? <div className={styles.noDepartures}>Loading departures…</div> : <div className={styles.noDepartures}><span>Departures unavailable</span><button type="button" onClick={() => refreshJourney()}>Retry</button></div>}
             {confirmedFlight && travel.stage !== "unknown" && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
           </article>
@@ -510,14 +556,13 @@ Initial interface state: ${safe(stateSnapshot())}` });
           </article>}
         </div>
         {focusedView && <div className={styles.resultsContext}><span>Selected for you</span><button type="button" onClick={() => showFullCollection("All")}>All products</button></div>}
-        <div className={styles.productGrid}>{visibleProducts.map((product, index) => { const image = product.images[0]; const failed = imageFailures.has(product.id); const quantity = basket[product.id] || 0; const selected = selectedId === product.id; return <article className={styles.productCard} data-product-card={product.id} data-selected={selected} key={product.id}><button type="button" className={styles.productSelect} onClick={() => selectProduct(product.id)} aria-label={`Select ${product.vendor} ${product.name} for voice reference`} aria-pressed={selected}><div className={styles.imageWrap}><div className={styles.productImage} data-framing={productImageFraming(product)}>{!failed ? <Image data-product-image={product.id} src={image.localPath} alt={image.alt} fill priority={index === 0} loading={index === 0 ? undefined : index < 10 ? "eager" : "lazy"} sizes="(max-width: 760px) 50vw, (max-width: 860px) 33vw, (max-width: 1100px) 25vw, 240px" onError={(event) => { event.currentTarget.dataset.failed = "true"; imageFailuresRef.current.add(product.id); setImageFailures((current) => new Set(current).add(product.id)); }} /> : <span className={styles.imageFallback}>Photo unavailable</span>}</div><div className={styles.productText}><small>{product.vendor}</small><h2>{product.name}</h2><span>{product.variant}</span><strong>{formatMoney(product.priceChf)}</strong></div></div></button><div className={styles.cardAction}>{quantity ? <div className={styles.stepper} aria-label={`${product.name} quantity`}><button type="button" onClick={() => mutateBasket(product.id, 1, "remove")} aria-label={`Remove one ${product.name}`}><Minus size={15} aria-hidden="true" /></button><span>{quantity}</span><button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add one ${product.name}`}><Plus size={15} aria-hidden="true" /></button></div> : <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.vendor} ${product.name} to bag`}><Plus size={23} strokeWidth={2.4} aria-hidden="true" /></button>}</div></article>; })}</div>
+        <div className={styles.productGrid}>{visibleProducts.map((product, index) => { const image = product.images[0]; const failed = imageFailures.has(product.id); const quantity = basket[product.id] || 0; const selected = selectedId === product.id; return <article className={styles.productCard} data-product-card={product.id} data-selected={selected} key={product.id}><button type="button" className={styles.productSelect} onClick={() => selectProduct(product.id)} aria-label={`Select ${product.vendor} ${product.name} for voice reference`} aria-pressed={selected}><div className={styles.imageWrap}><div className={styles.productImage} data-framing={productImageFraming(product)}>{!failed ? <Image data-product-image={product.id} src={image.localPath} alt={image.alt} fill priority={index === 0} loading={index === 0 ? undefined : index < 10 ? "eager" : "lazy"} sizes="(max-width: 560px) 100vw, (max-width: 980px) 50vw, 33vw" onError={(event) => { event.currentTarget.dataset.failed = "true"; imageFailuresRef.current.add(product.id); setImageFailures((current) => new Set(current).add(product.id)); }} /> : <span className={styles.imageFallback}>Photo unavailable</span>}</div><div className={styles.productText}><small>{product.vendor}</small><h2>{product.name}</h2><span>{product.variant}</span><strong>{formatMoney(product.priceChf)}</strong></div></div></button><div className={styles.cardAction}>{quantity ? <div className={styles.stepper} aria-label={`${product.name} quantity`}><button type="button" onClick={() => mutateBasket(product.id, 1, "remove")} aria-label={`Remove one ${product.name}`}><Minus size={15} aria-hidden="true" /></button><span>{quantity}</span><button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add one ${product.name}`}><Plus size={15} aria-hidden="true" /></button></div> : <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.vendor} ${product.name} to bag`}><Plus size={23} strokeWidth={2.4} aria-hidden="true" /></button>}</div></article>; })}</div>
       </section>
 
-      <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} data-voice-model-verification={voiceModelVerification.status} data-voice-requested-model={voiceModelVerification.requestedModel || ""} data-voice-server-reported-model={voiceModelVerification.serverReportedModel || ""} data-voice-session-reported-model={voiceModelVerification.sessionReportedModel || ""} data-voice-model-verification-source={voiceModelVerification.source || ""} aria-label="Shopping controls">
-        {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status" aria-live="polite">{voiceMessage}</p>}
-        <div className={styles.modelRow} aria-label="Choose voice model">
+      {(!welcomeVisible || hasBasket || soundBlocked) && <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} data-voice-model-verification={voiceModelVerification.status} data-voice-requested-model={voiceModelVerification.requestedModel || ""} data-voice-server-reported-model={voiceModelVerification.serverReportedModel || ""} data-voice-session-reported-model={voiceModelVerification.sessionReportedModel || ""} data-voice-model-verification-source={voiceModelVerification.source || ""} aria-label="Shopping controls">
+        {!welcomeVisible && <div className={styles.modelRow} aria-label="Choose voice model">
           {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.voiceModelAction} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && (hasVoiceSession || connecting)} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}{active && hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>; })}
-        </div>
+        </div>}
         {(hasVoiceSession || soundBlocked || hasBasket) && <div className={styles.dockRow}>
           {hasVoiceSession && <button className={styles.muteVoice} type="button" onClick={toggleVoiceMute} aria-label={isMuted ? "Unmute microphone" : "Mute microphone"}>{isMuted ? <MicOff size={16} /> : <Mic size={16} />}<span>{isMuted ? "Unmute" : "Mute"}</span></button>}
           {soundBlocked && <button className={styles.soundButton} type="button" onClick={ensureAudioPlayback}>Enable sound</button>}
@@ -525,7 +570,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
           {hasBasket && <button className={styles.basketTrigger} type="button" onClick={() => setActivePanel("basket")} aria-label={`Order bag, ${basketDetails.itemCount} ${basketDetails.itemCount === 1 ? "item" : "items"}, ${formatMoney(basketDetails.total)}`}><ShoppingBag size={17} /><span>{basketDetails.itemCount}</span><strong>{formatMoney(basketDetails.total)}</strong></button>}
         </div>}
         {voiceStatus !== "error" && voiceStatus !== "unsupported" && <span className={styles.visuallyHidden} role="status" aria-live="polite">{voiceMessage}</span>}
-      </section>
+      </section>}
 
       {activePanel && <div className={styles.sheetBackdrop} onMouseDown={() => setActivePanel(null)}><section className={styles.sheet} role="dialog" aria-modal="true" aria-label={panelLabel} onMouseDown={(event) => event.stopPropagation()}><button className={styles.sheetClose} type="button" onClick={() => setActivePanel(null)} aria-label="Close"><X size={20} /></button>
         {activePanel === "detail" && selectedProduct && <><p className={styles.eyebrow}>Product details</p><h2>{selectedProduct.name}</h2><p className={styles.sheetBrand}>{selectedProduct.vendor}</p><div className={styles.detailImage}><Image src={selectedProduct.images[0].localPath} alt={selectedProduct.images[0].alt} fill sizes="420px" /></div><div className={styles.detailPrice}><strong>{formatMoney(selectedProduct.priceChf)}</strong>{selectedProduct.compareAtPriceChf && <del>{formatMoney(selectedProduct.compareAtPriceChf)}</del>}<span>{selectedProduct.variant}</span>{selectedProduct.promotionEvidence && <em>{selectedProduct.promotionEvidence}</em>}</div>{selectedProduct.description && <p className={styles.detailDescription}>{selectedProduct.description}</p>}<div className={styles.secondaryActions}><button type="button" data-active={shortlist[selectedProduct.id]} onClick={() => mutateShortlist(selectedProduct.id, !shortlist[selectedProduct.id])}><Heart size={17} fill={shortlist[selectedProduct.id] ? "currentColor" : "none"} /> {shortlist[selectedProduct.id] ? "Saved" : "Save"}</button><button type="button" data-active={comparison.includes(selectedProduct.id)} onClick={() => { const next = comparison.includes(selectedProduct.id) ? comparison.filter((id) => id !== selectedProduct.id) : [...comparison, selectedProduct.id]; setComparisonState(next); if (next.length === 2) setActivePanel("compare"); }}><GitCompareArrows size={17} /> Compare</button></div><button className={styles.primarySheetAction} type="button" onClick={() => mutateBasket(selectedProduct.id, 1, "add")}><Plus size={17} /> Add to bag</button><a className={styles.detailSource} href={selectedProduct.sourceUrl} target="_blank" rel="noreferrer">View product source</a></>}
