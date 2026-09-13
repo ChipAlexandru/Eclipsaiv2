@@ -199,6 +199,8 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.match(client, /data-framing=\{productImageFraming\(product\)\}/);
   assert.match(css, /\.productImage\[data-framing="tall"\]/);
   assert.match(css, /\.productImage\[data-framing="wide"\]/);
+  assert.match(css, /\.productImage\[data-framing="edge-safe"\]/);
+  assert.match(client, /EDGE_SAFE_PRODUCT_IDS/);
   assert.match(css, /\.productImage img \{[^}]*mix-blend-mode:\s*normal/);
   assert.doesNotMatch(css, /\.imageWrap::(?:before|after)/);
   assert.doesNotMatch(css, /\.productText \{[^}]*text-shadow/);

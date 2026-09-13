@@ -18,13 +18,19 @@ const VOICE_MODEL_CHOICES = [
   { label: "Mini", model: "gpt-realtime-2.1-mini" },
   { label: "Standard", model: "gpt-realtime-2.1" },
 ];
+const EDGE_SAFE_PRODUCT_IDS = new Set([
+  "hugo-boss-dark-blue-repack-75ml",
+  "calvin-klein-ck-free-for-men-100ml",
+  "lancome-idole-100ml",
+  "creed-absolu-aventus-100ml",
+]);
 
 function formatMoney(value, currency = "CHF") { const [whole, decimals] = Number(value).toFixed(2).split("."); return `${currency} ${whole.replace(/\B(?=(\d{3})+(?!\d))/g, "’")}.${decimals}`; }
 function safe(value) { return JSON.stringify(value); }
 function formatClock(value) { return value ? new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Europe/Zurich" }).format(new Date(value)) : "Time unavailable"; }
 function customerFlight(flight) { return flight ? { id: flight.id, flightNumber: flight.flightNumber, codeshares: flight.codeshares, destinationCode: flight.destinationCode, destination: flight.destination, scheduledDeparture: flight.scheduledDeparture, estimatedDeparture: flight.estimatedDeparture, boardingTime: flight.boardingTime, gate: flight.gate } : null; }
 function customerFulfillment(fulfillment) { return fulfillment ? { method: fulfillment.method, destination: fulfillment.destination, etaMinutes: fulfillment.etaMinutes, reason: fulfillment.reason } : null; }
-function productImageFraming(product) { return /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
+function productImageFraming(product) { return EDGE_SAFE_PRODUCT_IDS.has(product.id) ? "edge-safe" : /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
   const products = catalog.products;
