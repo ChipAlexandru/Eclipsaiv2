@@ -144,24 +144,35 @@ test("Avolta shopper UX is simple, product-led, complete and keeps operational c
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
   assert.doesNotMatch(client, /Terminal 1/);
   assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
-  assert.match(client, />Departures</);
-  assert.match(client, />Your flight\?</);
+  assert.match(client, /: "Departures"/);
+  assert.match(client, /pendingFlight \? "Your flight\?"/);
   assert.match(client, /data-flight-state=\{flightDisplayState\}/);
   assert.match(client, /data-flight-context-status=\{flightContextStatus\}/);
   assert.match(client, /setFlightContextStatus\(journeyContextRef\.current \? "fallback" : "error"\)/);
   assert.match(client, />Loading departures…<|>Departures unavailable</);
-  assert.doesNotMatch(client, />No more departures</);
-  assert.match(page, /initialContext: \{ scheduleEnded: false, departureCount: capturedFlights\.length, illustrativeFlights: initialFlights \}/);
+  assert.match(client, />No more departures</);
+  assert.match(page, /departureCount: upcomingFlights\(capturedFlights,/);
   assert.doesNotMatch(page, /liveContextServer/);
   assert.match(client, /setInterval\([^,]+, 5000\)/);
   assert.match(client, /voiceStatus !== "idle" \|\| travel\.selectedFlight \|\| pendingFlight/);
+  assert.match(client, /visibilitychange/);
+  assert.match(client, /const replayMinute = Math\.floor\(demoNow\.getTime\(\) \/ 60_000\)/);
+  assert.match(client, /const previewFlight = upcomingPreviewFlights/);
+  assert.match(client, /const displayedFlight = confirmedFlight \|\| pendingFlight \|\| previewFlight/);
+  assert.match(client, /voiceStatus !== "idle" \|\| travel\.selectedFlight \|\| pendingFlight \|\| flightLookupActive/);
+  assert.match(client, /departuresExhausted = [^;]+flightContextStatus === "ready"/);
   assert.match(css, /@keyframes departureSwap/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.doesNotMatch(renderedClient, /Awaiting flight confirmation|Demo day ·|Avolta concept|Simulated gate delivery|Simulated collection|Review demo order|Demo order review|Confirm demo order|Estimated demo time|simulated fulfillment/);
   assert.doesNotMatch(renderedClient, /<span data-active=\{travel\.stage === "unknown"\}>Unknown<\/span>/);
   assert.match(client, /travel\.stage !== "unknown"/);
   assert.match(client, /\["Scheduled", "Boarding window approaching"\]\.includes\(displayedFlightStatus\.label\)/);
-  assert.match(css, /\.departureTopline strong \{[^}]*white-space:\s*nowrap/);
+  assert.match(css, /\.flightCard \{[^}]*min-height:\s*3\.25rem[^}]*background:\s*#f4f0f8/);
+  assert.match(css, /\.departureBoard\[data-has-summary="true"\] \{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)/);
+  assert.match(css, /\.departureRow time, \.departureRow span, \.departureRow b \{[^}]*font-size:\s*\.875rem/);
+  assert.match(css, /@media \(max-width: 420px\)[\s\S]*grid-template-areas:\s*"time destination destination" "time flight gate"/);
+  assert.doesNotMatch(css, /\.flightCard \{[^}]*background:\s*#21172a/);
+  assert.doesNotMatch(renderedClient, /className=\{styles\.departureHead\}/);
   assert.match(client, /data-current=\{index === orderState\.stateIndex\}/);
   assert.doesNotMatch(renderedClient, /product\.promotionEvidence && <i>/);
   assert.match(renderedClient, /selectedProduct\.promotionEvidence && <em>/);
@@ -203,8 +214,10 @@ test("captured flight fixture is complete, immutable and never fetched at runtim
   assert.match(route, /const capturedFlights = normalizeFixtureFlights\(flightDay\)/);
   assert.match(route, /matchFlights\(context\.flights/);
   const context = await import(pathToFileURL(path.join(feature, "liveContextServer.mjs")));
-  assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).departureCount, 393);
-  assert.equal(context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z")).sources.runtimeNetwork, false);
+  const middayContext = context.getReplayJourneyContext(new Date("2026-09-12T10:00:00Z"));
+  assert.equal(middayContext.departureCount, 220);
+  assert.equal(middayContext.flights.length, 393);
+  assert.equal(middayContext.sources.runtimeNetwork, false);
 });
 
 test("one Zurich replay clock maps morning and evening, survives refresh, observes DST and advances past midnight", async () => {
@@ -230,9 +243,27 @@ test("flight replay matches codeshares and ambiguity while keeping source observ
   const flights = replay.normalizeFixtureFlights(fixture);
   assert.equal(replay.matchFlights(flights, "LX 8402").matches[0].flightNumber, "WK402");
   assert.equal(replay.matchFlights(flights, "London").ambiguous, true);
-  const previews = replay.illustrativeFlights(flights, new Date("2026-09-12T06:00:00Z"), 4);
-  assert.ok(previews.every((flight) => new Date(flight.scheduledDeparture).getTime() >= new Date("2026-09-12T06:20:00Z").getTime()));
-  assert.ok(previews.every((flight) => !flight.boardingTime || new Date(flight.boardingTime).getTime() <= new Date(flight.scheduledDeparture).getTime()));
+  const morning = replay.illustrativeFlights(flights, new Date("2026-09-12T04:00:00Z"), 4);
+  assert.deepEqual(morning.map((flight) => flight.flightNumber), ["WK130", "WK398", "WK214", "WK264"]);
+  const midday = replay.illustrativeFlights(flights, new Date("2026-09-12T10:00:00Z"), 4);
+  assert.deepEqual(midday.map((flight) => flight.flightNumber), ["LX1888", "LX2142", "LX1222", "LX332"]);
+  const evening = replay.illustrativeFlights(flights, new Date("2026-09-12T17:00:00Z"), 4);
+  assert.deepEqual(evening.map((flight) => flight.flightNumber), ["AY1514", "A3853", "AZ573", "LX1110"]);
+  const withinNineteenMinutes = replay.illustrativeFlights(flights, new Date("2026-09-12T10:46:00Z"), 4);
+  assert.equal(new Date(withinNineteenMinutes[0].scheduledDeparture).getTime() - new Date("2026-09-12T10:46:00Z").getTime(), 4 * 60_000);
+  const nearLast = replay.illustrativeFlights(flights, new Date("2026-09-12T20:41:00Z"), 4);
+  assert.deepEqual(nearLast.map((flight) => flight.flightNumber), ["WK170", "LX1638"]);
+  assert.deepEqual(replay.illustrativeFlights(flights, new Date("2026-09-12T20:45:01Z"), 4), []);
+  const beforeAdvance = replay.illustrativeFlights(flights, new Date("2026-09-12T11:04:59Z"), 4);
+  const afterAdvance = replay.illustrativeFlights(flights, new Date("2026-09-12T11:05:01Z"), 4);
+  assert.deepEqual(beforeAdvance.map((flight) => flight.flightNumber), ["LX008", "WK002", "LX2114", "LX160"]);
+  assert.deepEqual(afterAdvance.map((flight) => flight.flightNumber), ["LX072", "WK332", "LX040", "LX038"]);
+  const equalTimeAndCodeshare = [
+    { id: "first", flightNumber: "LX100", codeshares: ["UA 900"], destinationCode: "LHR", destination: "London", scheduledDeparture: "2026-09-12T12:00:00Z", simulationEvents: [] },
+    { id: "duplicate", flightNumber: "UA900", codeshares: ["LX 100"], destinationCode: "LHR", destination: "London", scheduledDeparture: "2026-09-12T12:00:00Z", simulationEvents: [] },
+    { id: "second", flightNumber: "BA200", codeshares: [], destinationCode: "LCY", destination: "London City", scheduledDeparture: "2026-09-12T12:00:00Z", simulationEvents: [] },
+  ];
+  assert.deepEqual(replay.upcomingFlights(equalTimeAndCodeshare, new Date("2026-09-12T11:59:00Z")).map((flight) => flight.id), ["first", "second"]);
   const missing = { ...flights[0], boardingTime: null, gate: null };
   assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).known, false);
   assert.equal(replay.boardingCountdown(missing, new Date("2026-09-12T01:00:00Z")).label, "Boarding time unavailable");
@@ -240,6 +271,10 @@ test("flight replay matches codeshares and ambiguity while keeping source observ
   assert.equal(replay.replayFlightStatus(capturedDeparted, new Date("2026-09-12T08:00:00Z")).label, "Scheduled");
   const cancelled = { ...capturedDeparted, simulationEvents: [{ type: "cancelled", at: "2026-09-12T07:00:00Z" }] };
   assert.equal(replay.replayFlightStatus(cancelled, new Date("2026-09-12T08:00:00Z")).isCancelled, true);
+  assert.equal(replay.upcomingFlights([cancelled], new Date("2026-09-12T08:00:00Z")).length, 0);
+  const rescheduled = { ...capturedDeparted, simulationEvents: [{ type: "departure_time_change", at: "2026-09-12T07:00:00Z", effectiveDeparture: "2026-09-12T12:30:00Z" }] };
+  assert.equal(replay.effectiveDepartureAt(rescheduled, new Date("2026-09-12T08:00:00Z")), "2026-09-12T12:30:00.000Z");
+  assert.equal(replay.upcomingFlights([rescheduled], new Date("2026-09-12T12:15:00Z"))[0].effectiveDeparture, "2026-09-12T12:30:00.000Z");
   assert.equal(replay.boardingCountdown(capturedDeparted, new Date("2026-09-12T13:00:00Z")).seconds, 0);
   assert.equal(replay.formatRemaining(29), "<1 min");
   assert.equal(replay.formatRemaining(60), "1 min");

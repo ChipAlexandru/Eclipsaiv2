@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import flightDay from "../../../../src/avolta-demo/flight-day.fixture.json";
 import { hasAccess } from "../../../../src/avolta-demo/auth.mjs";
-import { illustrativeFlights, matchFlights, normalizeFixtureFlights, zurichServiceDate } from "../../../../src/avolta-demo/flightReplay.mjs";
+import { illustrativeFlights, matchFlights, normalizeFixtureFlights, upcomingFlights, zurichServiceDate } from "../../../../src/avolta-demo/flightReplay.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,7 +33,7 @@ export async function POST(request) {
         runtimeNetwork: false,
         explanation: "One immutable Zürich Airport service-day capture replayed with a per-tab demo clock. No live airport, queue or traffic feed is used.",
       },
-      departureCount: capturedFlights.length,
+      departureCount: upcomingFlights(capturedFlights, parsedDemoNow).length,
       illustrativeFlights: illustrativeFlights(capturedFlights, parsedDemoNow, 4),
       replayScenario: flightDay.replayScenario,
       flights: capturedFlights,

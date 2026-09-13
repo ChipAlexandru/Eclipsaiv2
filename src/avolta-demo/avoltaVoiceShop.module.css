@@ -52,42 +52,39 @@
 .productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 1rem 1.5rem 2rem; }
 .contextRail { margin-bottom: .85rem; display: grid; grid-template-columns: 1fr; gap: .65rem; }
 .contextRail[data-has-order="true"] { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-.flightCard, .orderCard { min-width: 0; padding: .72rem .85rem; border: 1px solid var(--line); border-radius: .82rem; background: #fff; box-shadow: 0 .25rem 1rem rgba(40,19,61,.06); }
-.flightCard { min-height: 7rem; overflow: hidden; background: #21172a; transform-origin: center top; transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease; }
-.flightCard[data-flight-state="idle"] { border-color: rgba(72,35,107,.22); }
-.flightCard[data-flight-state="focused"] { border-color: rgba(217,240,92,.65); box-shadow: 0 .45rem 1.4rem rgba(40,19,61,.16); transform: scale(1.006); }
-.flightCard[data-flight-state="candidate"] { border-color: rgba(241,90,58,.75); box-shadow: 0 .45rem 1.4rem rgba(40,19,61,.14); transform: scale(1.006); }
-.flightCard[data-flight-state="confirmed"] { border-color: rgba(72,35,107,.3); }
+.flightCard, .orderCard { min-width: 0; border: 1px solid var(--line); border-radius: .72rem; background: #fff; box-shadow: 0 .2rem .8rem rgba(40,19,61,.05); }
+.orderCard { padding: .72rem .85rem; }
+.flightCard { min-height: 3.25rem; padding: .48rem .75rem; overflow: hidden; color: var(--violet-deep); background: #f4f0f8; transform-origin: center top; transition: border-color .28s ease, box-shadow .28s ease, transform .28s ease; }
+.flightCard[data-flight-state="idle"] { border-color: rgba(72,35,107,.18); }
+.flightCard[data-flight-state="focused"], .flightCard[data-flight-state="candidate"] { border-color: rgba(72,35,107,.42); box-shadow: 0 .3rem 1rem rgba(40,19,61,.1); transform: scale(1.003); }
+.flightCard[data-flight-state="confirmed"] { border-color: rgba(72,35,107,.28); }
 .contextTopline, .pairedCountdown { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
 .contextTopline span { color: var(--coral); font-size: .58rem; font-weight: 850; text-transform: uppercase; letter-spacing: .065em; }
 .contextTopline b { overflow: hidden; color: var(--muted); font-size: .58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-.departureTopline { display: flex; align-items: center; justify-content: space-between; gap: .75rem; color: #fff; }
-.departureTopline span { color: var(--lime); font-size: .59rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
-.departureTopline b { padding: .16rem .38rem; border-radius: .25rem; color: var(--violet-deep); background: var(--coral); font-size: .53rem; letter-spacing: .06em; text-transform: uppercase; }
-.departureTopline strong { margin-left: auto; color: var(--lime); font-size: .66rem; white-space: nowrap; }
-.departureTopline[data-personal="true"] span { color: var(--coral); letter-spacing: .06em; }
-.departureBoard { margin-top: .48rem; animation: departureSwap .36s cubic-bezier(.2,.7,.2,1) both; }
-.departureHead, .departureRow { display: grid; grid-template-columns: 4.2rem minmax(8rem, 1fr) 5.4rem 3.2rem; align-items: center; column-gap: .72rem; }
-.departureHead { padding: 0 .1rem .2rem; color: #94899c; font-size: .47rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
-.departureRow { min-height: 2.75rem; padding: .42rem .5rem; border-radius: .32rem; color: #fff; background: linear-gradient(180deg, #342a3b, #2a2131); box-shadow: inset 0 1px rgba(255,255,255,.08), inset 0 -1px rgba(0,0,0,.32); font-variant-numeric: tabular-nums; }
-.departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .78rem; font-weight: 780; letter-spacing: .025em; white-space: nowrap; }
-.departureRow strong { overflow: hidden; color: var(--lime); font-size: .9rem; letter-spacing: .035em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-.departureRow b { color: var(--coral); text-align: right; }
-.noDepartures { min-height: 3.4rem; display: flex; align-items: center; gap: .7rem; color: #d7cfda; font-size: .78rem; }
-.noDepartures button { padding: 0; border: 0; color: var(--lime); background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
+.departureBoard { min-height: 2.2rem; display: grid; grid-template-columns: minmax(5.25rem, auto) minmax(0, 1fr); align-items: center; column-gap: .85rem; animation: departureSwap .32s cubic-bezier(.2,.7,.2,1) both; }
+.departureMeta { min-width: 0; display: flex; flex-direction: column; gap: .08rem; }
+.departureMeta span { color: #5f5268; font-size: .64rem; font-weight: 850; letter-spacing: .105em; text-transform: uppercase; white-space: nowrap; }
+.departureMeta strong { color: var(--violet-deep); font-size: .72rem; line-height: 1.15; white-space: nowrap; }
+.departureBoard[data-has-summary="true"] { grid-template-columns: minmax(0, 1fr); row-gap: .2rem; }
+.departureBoard[data-has-summary="true"] .departureMeta { flex-direction: row; align-items: center; justify-content: space-between; gap: .75rem; }
+.departureBoard[data-has-summary="true"] .departureRow { width: 100%; }
+.departureRow { min-width: 0; display: grid; grid-template-columns: 4.2rem minmax(8rem, 1fr) 5rem minmax(4.6rem, auto); align-items: center; column-gap: .8rem; color: var(--violet-deep); font-variant-numeric: tabular-nums; }
+.departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .875rem; font-weight: 760; line-height: 1.25; letter-spacing: .01em; white-space: nowrap; }
+.departureRow strong { min-width: 0; color: var(--ink); font-size: .92rem; font-weight: 820; line-height: 1.2; letter-spacing: .015em; text-transform: uppercase; overflow-wrap: anywhere; }
+.departureRow b { color: var(--violet-deep); text-align: right; }
+.noDepartures { min-height: 2.2rem; display: flex; align-items: center; gap: .7rem; color: #5f5268; font-size: .82rem; }
+.noDepartures button { padding: 0; border: 0; color: var(--violet); background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
 @keyframes departureSwap { from { opacity: 0; transform: translateY(-.38rem); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .journeyTrack, .progressTrack { margin-top: .58rem; padding-top: .5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .32rem; overflow: hidden; }
-.flightCard .journeyTrack { border-top-color: rgba(255,255,255,.13); }
 .journeyTrack span { flex: 1 1 auto; padding: .25rem .3rem; border-radius: 999px; color: #827889; background: #f3eff5; font-size: .52rem; text-align: center; white-space: nowrap; }
-.flightCard .journeyTrack span { color: #b9aebf; background: rgba(255,255,255,.08); }
-.journeyTrack span[data-active="true"] { color: var(--violet-deep); background: var(--lime); font-weight: 800; }
+.journeyTrack span[data-active="true"] { color: var(--violet-deep); background: var(--lavender); font-weight: 800; }
 .progressTrack span { min-width: 0; flex: 1 1 0; display: flex; align-items: center; gap: .2rem; color: #867d8a; font-size: .5rem; white-space: nowrap; }
 .progressTrack em { overflow: hidden; font-style: normal; text-overflow: ellipsis; }
 .progressTrack i { width: .38rem; height: .38rem; flex: 0 0 auto; border: 1px solid #b9afbd; border-radius: 50%; }
 .progressTrack span[data-complete="true"] { color: var(--violet); font-weight: 800; }
 .progressTrack span[data-complete="true"] i { border-color: var(--coral); background: var(--coral); }
 .pairedCountdown { margin-top: .52rem; padding-top: .5rem; border-top: 1px solid var(--line); color: var(--violet); font-size: .65rem; }
-.pairedCountdown strong { color: var(--coral); }
+.pairedCountdown strong { color: var(--violet-deep); }
 .resultsContext { min-height: 2.6rem; margin-bottom: .65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .resultsContext span { color: var(--muted); font-size: .8rem; font-weight: 750; }
 .resultsContext button { border: 0; color: var(--violet); background: transparent; font-size: .8rem; font-weight: 800; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
@@ -212,10 +209,14 @@
   .location small { font-size: .5rem; }
   .productSurface { padding: .62rem .55rem 1.5rem; }
   .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
-  .flightCard, .orderCard { padding: .62rem .68rem; }
-  .departureHead, .departureRow { grid-template-columns: 3.35rem minmax(6rem, 1fr) 4.4rem 2.4rem; column-gap: .42rem; }
-  .departureRow time, .departureRow span, .departureRow b { font-size: .68rem; }
-  .departureRow strong { font-size: .76rem; }
+  .orderCard { padding: .62rem .68rem; }
+  .flightCard { min-height: 3.5rem; padding: .48rem .62rem; }
+  .departureBoard { min-height: 2.5rem; grid-template-columns: 4.85rem minmax(0, 1fr); column-gap: .58rem; }
+  .departureMeta span { font-size: .61rem; }
+  .departureMeta strong { font-size: .68rem; }
+  .departureRow { grid-template-columns: 3.35rem minmax(6rem, 1fr) 4.45rem minmax(4.35rem, auto); column-gap: .48rem; }
+  .departureRow time, .departureRow span, .departureRow b { font-size: .875rem; }
+  .departureRow strong { font-size: .9rem; }
   .journeyTrack span { font-size: .46rem; }
   .progressTrack { justify-content: space-between; gap: .45rem; }
   .progressTrack span { min-width: .42rem; flex: 0 0 auto; gap: .28rem; font-size: .62rem; }
@@ -242,6 +243,14 @@
   .sheet { width: 100%; height: min(88vh, 48rem); padding: 1.5rem 1rem; border-radius: 1.2rem 1.2rem 0 0; box-shadow: 0 -1rem 3rem rgba(20,8,30,.2); }
 }
 @media (max-width: 420px) {
+  .flightCard { min-height: 3.75rem; }
+  .departureBoard { grid-template-columns: 4.4rem minmax(0, 1fr); align-items: start; column-gap: .46rem; }
+  .departureMeta { padding-top: .1rem; }
+  .departureRow { grid-template-columns: 3.2rem minmax(0, 1fr) auto; grid-template-areas: "time destination destination" "time flight gate"; gap: .08rem .4rem; }
+  .departureRow time { grid-area: time; align-self: center; }
+  .departureRow strong { grid-area: destination; }
+  .departureRow span { grid-area: flight; }
+  .departureRow b { grid-area: gate; }
   .controlDock[data-has-session="true"][data-has-basket="true"] .dockRow { width: min(20rem, calc(100vw - 1rem)); display: grid; grid-template-columns: 1fr auto; gap: .42rem; }
   .controlDock[data-has-session="true"][data-has-basket="true"] .voiceAction { width: 12.5rem; grid-column: 1 / -1; justify-self: center; }
   .controlDock[data-has-session="true"][data-has-basket="true"] .basketTrigger { grid-column: 1; justify-self: end; }
@@ -257,11 +266,13 @@
   .location small { font-size: .44rem; }
   .location svg { display: none; }
   .productSurface { padding-inline: .4rem; }
-  .flightCard { padding-inline: .52rem; }
-  .departureHead, .departureRow { grid-template-columns: 2.85rem minmax(4.8rem, 1fr) 3.65rem 2rem; column-gap: .28rem; }
-  .departureHead { font-size: .4rem; }
-  .departureRow time, .departureRow span, .departureRow b { font-size: .58rem; }
-  .departureRow strong { font-size: .64rem; }
+  .flightCard { padding-inline: .48rem; }
+  .departureBoard { grid-template-columns: 4.15rem minmax(0, 1fr); column-gap: .36rem; }
+  .departureMeta span { font-size: .58rem; }
+  .departureMeta strong { font-size: .64rem; white-space: normal; }
+  .departureRow { grid-template-columns: 3rem minmax(0, 1fr) auto; column-gap: .32rem; }
+  .departureRow time, .departureRow span, .departureRow b { font-size: .875rem; }
+  .departureRow strong { font-size: .875rem; }
   .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem; }
   .productText { padding: .48rem .48rem 1.6rem; }
   .productText h2 { font-size: .69rem; }
