@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Image from "next/image";
 import catalog from "../../src/avolta-demo/catalog.json";
 import flightDay from "../../src/avolta-demo/flight-day.fixture.json";
 import { accessConfigured, hasAccess } from "../../src/avolta-demo/auth.mjs";
@@ -28,7 +29,7 @@ export default async function AvoltaDemoPage({ searchParams }) {
   return (
     <main className={styles.accessPage}>
       <section className={styles.accessCard}>
-        <div className={styles.accessBrand}><span>A</span><div><strong>ZÜRICH DUTY FREE</strong><small>Zürich Airport</small></div></div>
+        <div className={styles.accessBrand}><Image src="/avolta-demo/brand/avolta-logo.svg" alt="Avolta" width={141} height={25} priority /></div>
         <p>Welcome</p>
         <h1>Explore before you fly.</h1>
         {configured ? (
