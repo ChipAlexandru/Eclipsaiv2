@@ -171,9 +171,10 @@ test("Avolta shopper UX has a curated welcome while keeping the complete catalog
   const renderedClient = client.slice(client.lastIndexOf("\n  return ("));
   const provenance = fs.readFileSync(path.join(root, "docs", "avolta-design-reference.md"), "utf8");
   assert.match(client, /const CURATED_PRODUCT_IDS = \[/);
+  assert.match(client, /const CURATED_PRODUCT_IDS = \[\s*"favarger-la-boite-zurich-edition-240g",\s*"mawico-sitting-trio-cow-plush-25cm",\s*"creed-aventus-50ml"/);
   assert.match(client, /useState\(\(\) => CURATED_PRODUCT_IDS\.filter/);
   assert.match(client, /<h1 id="avolta-welcome-title">Welcome to Avolta\.<\/h1>/);
-  assert.match(client, /<p>Let’s find something you’ll love—and the easiest way to get it before you fly\.<\/p>/);
+  assert.match(client, /<p>Let’s find something you’ll love\. We’ll help you get it before you fly\.<\/p>/);
   assert.match(client, /className=\{styles\.welcomeModelRow\}/);
   assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
   assert.match(client, /!welcomeVisible && <div className=\{styles\.modelRow\}/);
@@ -207,7 +208,10 @@ test("Avolta shopper UX has a curated welcome while keeping the complete catalog
   assert.match(client, /data-framing=\{productImageFraming\(product\)\}/);
   assert.match(css, /\.productImage\[data-framing="tall"\]/);
   assert.match(css, /\.productImage\[data-framing="wide"\]/);
+  assert.match(css, /\.productImage\[data-framing="dense"\]/);
   assert.match(css, /\.productImage\[data-framing="edge-safe"\]/);
+  assert.match(css, /\.productCard:not\(:nth-child\(3n\)\) \{[^}]*border-inline-end/);
+  assert.match(css, /zurich-signature\.svg/);
   assert.match(client, /EDGE_SAFE_PRODUCT_IDS/);
   assert.match(css, /\.productImage img \{[^}]*mix-blend-mode:\s*normal/);
   assert.doesNotMatch(css, /\.imageWrap::(?:before|after)/);

@@ -19,6 +19,8 @@ const VOICE_MODEL_CHOICES = [
   { label: "Standard", model: "gpt-realtime-2.1" },
 ];
 const CURATED_PRODUCT_IDS = [
+  "favarger-la-boite-zurich-edition-240g",
+  "mawico-sitting-trio-cow-plush-25cm",
   "creed-aventus-50ml",
   "chloe-love-story-75ml",
   "amouage-guidance-46-100ml",
@@ -27,10 +29,8 @@ const CURATED_PRODUCT_IDS = [
   "studer-swiss-gold-gin-70cl",
   "zacapa-no-23-1l",
   "munz-swiss-view-napolitains-140g",
-  "favarger-la-boite-zurich-edition-240g",
   "goldkenn-mini-safe-200g",
   "villars-zurich-destination-old-fashioned-assorted-chocolate-200g",
-  "mawico-sitting-trio-cow-plush-25cm",
 ];
 const EDGE_SAFE_PRODUCT_IDS = new Set([
   "hugo-boss-dark-blue-repack-75ml",
@@ -44,13 +44,21 @@ const EDGE_SAFE_PRODUCT_IDS = new Set([
   "goldkenn-mini-safe-200g",
   "villars-zurich-destination-old-fashioned-assorted-chocolate-200g",
 ]);
+const DENSE_PRODUCT_IDS = new Set([
+  "creed-aventus-50ml",
+  "amouage-guidance-46-100ml",
+  "sol-de-janeiro-bum-bum-jet-set-30ml-90ml-50ml",
+  "munz-swiss-view-napolitains-140g",
+  "favarger-la-boite-zurich-edition-240g",
+  "mawico-sitting-trio-cow-plush-25cm",
+]);
 
 function formatMoney(value, currency = "CHF") { const [whole, decimals] = Number(value).toFixed(2).split("."); return `${currency} ${whole.replace(/\B(?=(\d{3})+(?!\d))/g, "’")}.${decimals}`; }
 function safe(value) { return JSON.stringify(value); }
 function formatClock(value) { return value ? new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Europe/Zurich" }).format(new Date(value)) : "Time unavailable"; }
 function customerFlight(flight) { return flight ? { id: flight.id, flightNumber: flight.flightNumber, codeshares: flight.codeshares, destinationCode: flight.destinationCode, destination: flight.destination, scheduledDeparture: flight.scheduledDeparture, estimatedDeparture: flight.estimatedDeparture, boardingTime: flight.boardingTime, gate: flight.gate } : null; }
 function customerFulfillment(fulfillment) { return fulfillment ? { method: fulfillment.method, destination: fulfillment.destination, etaMinutes: fulfillment.etaMinutes, reason: fulfillment.reason } : null; }
-function productImageFraming(product) { return EDGE_SAFE_PRODUCT_IDS.has(product.id) ? "edge-safe" : /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
+function productImageFraming(product) { return EDGE_SAFE_PRODUCT_IDS.has(product.id) ? "edge-safe" : DENSE_PRODUCT_IDS.has(product.id) ? "dense" : /\b(set|pack|box|kit|duo|collection|napolitains|hearts)\b/i.test(product.name) ? "wide" : ["Fragrance", "Spirits"].includes(product.productType) ? "tall" : "standard"; }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
   const products = catalog.products;
@@ -453,9 +461,9 @@ Initial interface state: ${safe(stateSnapshot())}` });
         activeVoiceModelRef.current = null; setActiveVoiceModel(null); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle");
         setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
       });
-      session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
-      session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });
-      session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening — go ahead."); } });
+      session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking. Interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
+      session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening. Speak naturally."); } });
+      session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening. Go ahead."); } });
       session.on("tool_approval_requested", (_context, _agent, request) => { if (isCurrentSession()) { setApprovalRequest({ type: "voice", request }); setActivePanel("review"); } });
       session.on("error", () => { if (isCurrentSession()) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
       sessionRef.current = session; await session.connect({ apiKey: payload.value });
@@ -468,7 +476,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") || {};
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, voiceWelcomed: true }));
       } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
-      setVoiceStatus("listening"); setVoiceMessage("Listening — speak naturally."); session.sendMessage(startupInstruction);
+      setVoiceStatus("listening"); setVoiceMessage("Listening. Speak naturally."); session.sendMessage(startupInstruction);
     } catch (error) {
       session?.close();
       if (voiceStartSequenceRef.current !== sequence) return;
@@ -479,7 +487,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
     const session = sessionRef.current; if (!session) return;
-    const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening — speak naturally.");
+    const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening. Speak naturally.");
   }, [isMuted]);
   useEffect(() => () => { mountedRef.current = false; clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); }, [clearAudioPoll, clearVoiceTimeout]);
 
@@ -503,7 +511,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
   const departuresExhausted = !confirmedFlight && !pendingFlight && !upcomingPreviewFlights.length && flightContextStatus === "ready";
   const flightDisplayState = confirmedFlight ? "confirmed" : pendingFlight ? "candidate" : voiceStatus !== "idle" ? "focused" : "idle";
-  const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "—"}` : (displayedFlight.destination || displayedFlight.destinationCode || "—")) : "—";
+  const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "TBD"}` : (displayedFlight.destination || displayedFlight.destinationCode || "TBD")) : "TBD";
   const actionableFlightStatus = ["Scheduled", "Boarding window approaching"].includes(displayedFlightStatus.label) ? null : displayedFlightStatus.label;
   const departureLabel = pendingFlight ? "Your flight?" : confirmedFlight ? (actionableFlightStatus || "Your flight") : "Departures";
 
@@ -519,7 +527,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         {welcomeVisible && <section className={styles.welcome} aria-labelledby="avolta-welcome-title">
           <div className={styles.welcomeCopy}>
             <h1 id="avolta-welcome-title">Welcome to Avolta.</h1>
-            <p>Let’s find something you’ll love—and the easiest way to get it before you fly.</p>
+            <p>Let’s find something you’ll love. We’ll help you get it before you fly.</p>
           </div>
           <div className={styles.welcomeActions}>
             <span>Start a conversation</span>
@@ -533,7 +541,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
           <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"} data-flight-context-status={flightContextStatus}>
             {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} data-has-summary={Boolean(confirmedFlight && !order)} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
               <div className={styles.departureMeta}><span>{departureLabel}</span>{confirmedFlight && !order && <strong>{displayedBoarding.label}</strong>}</div>
-              <div className={styles.departureRow}><time aria-label={`Departure ${formatClock(effectiveDepartureAt(displayedFlight, demoNow))}`}>{formatClock(effectiveDepartureAt(displayedFlight, demoNow))}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate —"}</b></div>
+              <div className={styles.departureRow}><time aria-label={`Departure ${formatClock(effectiveDepartureAt(displayedFlight, demoNow))}`}>{formatClock(effectiveDepartureAt(displayedFlight, demoNow))}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "TBD"}</span><b>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate TBD"}</b></div>
             </div> : scheduleEnded || departuresExhausted ? <div className={styles.noDepartures}>No more departures</div> : flightContextStatus === "loading" ? <div className={styles.noDepartures}>Loading departures…</div> : <div className={styles.noDepartures}><span>Departures unavailable</span><button type="button" onClick={() => refreshJourney()}>Retry</button></div>}
             {confirmedFlight && travel.stage !== "unknown" && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
           </article>

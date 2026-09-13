@@ -16,3 +16,9 @@ The Avolta implementation translates only the product-first hierarchy: compact i
 - Source SHA-256 at capture: `22debcbbe0e6924277ca279ef7ecd9bb30310807c85fd14349d871dbf202db00`.
 - Local normalized SVG SHA-256: `46b8c0b925b7934e4f8f28712d4a6620d967fc20132c495e068b01cc753220cc`; path geometry and official `#8F53F0` fills are unchanged, while whitespace was normalized for the repository copy.
 - Store-name source: Zürich Airport's official Duty Free page, `https://www.flughafen-zuerich.ch/en/passengers/shopping-and-enjoy/shops/duty-free`, inspected 2026-09-13. The interface uses the name “Zürich Duty Free” as readable text; it does not assert a separate store-logo asset.
+
+## Zürich signature reference
+
+- Visual reference: Zürich Tourism's official Grossmünster page, `https://www.zuerich.com/en/visit/attractions/grossmunster`, inspected 2026-09-13. It identifies the twin-towered Grossmünster as a Zürich landmark and describes its view over the Old Town and lake.
+- Landscape reference: Zürich Tourism's official Uetliberg page, `https://www.zuerich.com/en/visit/nature/uetliberg-zurichs-very-own-mountain`, inspected 2026-09-13. It describes the city, lake and Alpine panorama.
+- Local implementation: `public/avolta-demo/brand/zurich-signature.svg` is an original Avolta-specific line illustration drawn in this repository from those geographic and architectural references. No source photograph or third-party vector geometry was copied.
