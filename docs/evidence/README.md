@@ -30,3 +30,7 @@ The light, compact strip was captured in headless Google Chrome against the auth
 Measured idle-strip height was 52.53px at 1280px and 60px at both 390px and 320px. Primary time, destination, flight and gate text was 14px or larger. Computed contrast against the `rgb(244, 240, 248)` strip was 14.92:1 for plum text and 15.08:1 for near-black destination text.
 
 At a controlled 13:04:58 start, the first row was 13:05 Chicago, LX008. After its departure passed, the rendered row became 13:10 Washington, LX072, and the context endpoint had refreshed. Dispatching the visible-tab resume event produced a second context request. A confirmed WK002 remained WK002 after more than one idle-rotation interval; the confirmed-order state retained the same flight.
+
+## Realtime model comparison — 13 September 2026
+
+The temporary Mini and Standard controls were captured in headless Google Chrome at `voice-model-comparison-390.png` and `voice-model-comparison-320.png`. Both exact model names remain readable in the fixed dock. The measured dock spans 352px in the 390px viewport and 304px in the 320px viewport, with no horizontal document overflow. The black “N” circle over the first button is the Next.js development toolbar and is absent from production.

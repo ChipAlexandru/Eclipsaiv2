@@ -5,10 +5,12 @@ An isolated Avolta feature for open-ended, voice-and-touch discovery around a ca
 ## Run locally
 
 ```bash
-AVOLTA_DEMO_PASSCODE='choose-a-passcode' AVOLTA_OPENAI_API_KEY='server-only-key' AVOLTA_OPENAI_REALTIME_MODEL='gpt-realtime-2.1-mini' npm run dev
+AVOLTA_DEMO_PASSCODE='choose-a-passcode' AVOLTA_OPENAI_API_KEY='server-only-key' AVOLTA_OPENAI_REALTIME_MODEL='gpt-realtime-2.1' npm run dev
 ```
 
 Open `http://localhost:3000/avolta-demo`. Touch browsing works without the OpenAI key; voice requires it.
+
+The temporary comparison dock exposes adjacent Mini (`gpt-realtime-2.1-mini`) and Standard (`gpt-realtime-2.1`) start buttons. Each explicit comparison start creates a new session with the labeled model and the same voice, audio and conversational configuration. Switching models disposes the current session first; a separate control handles mute/unmute.
 
 ## Public sources captured 2026-09-11
 
@@ -31,7 +33,7 @@ Prices, offer labels and online listing status are captured public data. They ar
 
 - `AVOLTA_DEMO_PASSCODE` is checked server-side and represented by an HttpOnly, same-site access cookie.
 - `AVOLTA_OPENAI_API_KEY` is Avolta-specific and is read only by the server-side Realtime token route; it does not replace the key used by other demos.
-- `AVOLTA_OPENAI_REALTIME_MODEL` defaults to the proven `gpt-realtime-2.1-mini` configuration. The explicit full-model option is `gpt-realtime-2.1`; invalid values fail closed rather than falling back.
+- `AVOLTA_OPENAI_REALTIME_MODEL` defaults to standard `gpt-realtime-2.1` for the controlled voice comparison. `gpt-realtime-2.1-mini` remains explicitly allowed for rollback; invalid values fail closed rather than falling back.
 - The Realtime token endpoint requires the same access cookie, returns only a short-lived client secret and applies a per-instance session-start limit.
 - Voice sessions end after five minutes.
 - Page metadata, response behavior and `robots.txt` keep the route out of indexing; it is absent from the sitemap.
