@@ -77,6 +77,34 @@ test("shopping helpers support exploration, context depth, basket totals and res
   assert.deepEqual(transcript, [{ id: "welcome", role: "assistant", text: "Where are you flying today?" }]);
 });
 
+test("Realtime model verification keeps server and active-session evidence distinct and generation-scoped", async () => {
+  const realtime = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
+  const pending = realtime.beginAvoltaRealtimeVerification(7, "gpt-realtime-2.1-mini", null);
+  assert.deepEqual(pending, {
+    generation: 7,
+    status: "pending",
+    requestedModel: "gpt-realtime-2.1-mini",
+    serverReportedModel: null,
+    sessionReportedModel: null,
+    source: null,
+  });
+  const unavailable = realtime.applyAvoltaRealtimeSessionEvidence(pending, 7, { type: "session.created", session: {} });
+  assert.equal(unavailable.status, "unavailable");
+  assert.equal(unavailable.sessionReportedModel, null);
+  const verified = realtime.applyAvoltaRealtimeSessionEvidence(unavailable, 7, { type: "session.updated", session: { model: "gpt-realtime-2.1-mini", instructions: "not retained" } });
+  assert.equal(verified.status, "verified");
+  assert.equal(verified.sessionReportedModel, "gpt-realtime-2.1-mini");
+  assert.equal(verified.source, "session.updated");
+  assert.equal(Object.hasOwn(verified, "instructions"), false);
+  assert.strictEqual(realtime.applyAvoltaRealtimeSessionEvidence(verified, 6, { type: "session.updated", session: { model: "gpt-realtime-2.1" } }), verified);
+  assert.strictEqual(realtime.applyAvoltaRealtimeSessionEvidence(verified, 7, { type: "response.done", response: { model: "gpt-realtime-2.1" } }), verified);
+  assert.strictEqual(realtime.applyAvoltaRealtimeSessionEvidence(verified, 7, { type: "session.updated", session: {} }), verified);
+  const mismatch = realtime.applyAvoltaRealtimeSessionEvidence(pending, 7, { type: "session.created", session: { model: "gpt-realtime-2.1" } });
+  assert.equal(mismatch.status, "mismatch");
+  assert.equal(mismatch.sessionReportedModel, "gpt-realtime-2.1");
+  assert.equal(realtime.beginAvoltaRealtimeVerification(8, "gpt-realtime-2.1", "gpt-realtime-2.1-mini").status, "mismatch");
+});
+
 test("Avolta feature is isolated, protected and keeps reservation confirmation explicit", () => {
   const client = fs.readFileSync(path.join(feature, "AvoltaVoiceShop.jsx"), "utf8");
   const page = fs.readFileSync(path.join(root, "app", "avolta-demo", "page.jsx"), "utf8");
@@ -116,10 +144,17 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(token, /const requestedModel = body\?\.model/);
   assert.match(token, /!isAllowedAvoltaRealtimeModel\(requestedModel\)/);
   assert.match(token, /Unsupported voice model selection/);
-  assert.match(token, /actualModel !== model/);
+  assert.match(token, /serverReportedModel && serverReportedModel !== model/);
+  assert.match(token, /requestedModel: model, serverReportedModel/);
+  assert.doesNotMatch(token, /payload\?\.session\?\.model \|\| model/);
   assert.doesNotMatch(token, /console\.log\([^)]*AVOLTA_OPENAI_API_KEY/);
   assert.match(client, /body: JSON\.stringify\(\{ model: selectedModel \}\)/);
-  assert.match(client, /payload\.model !== selectedModel/);
+  assert.match(client, /payload\.requestedModel !== selectedModel/);
+  assert.match(client, /beginAvoltaRealtimeVerification\(sequence, selectedModel, payload\.serverReportedModel\)/);
+  assert.match(client, /session\.on\("transport_event"/);
+  assert.match(client, /applyAvoltaRealtimeSessionEvidence\(voiceModelVerificationRef\.current, sequence, event\)/);
+  assert.match(client, /data-voice-model-verification=/);
+  assert.match(client, /data-voice-session-reported-model=/);
   assert.match(client, /voiceStartSequenceRef\.current !== sequence/);
   assert.match(client, /disposeVoiceTransport\(\); clearPendingVoiceApproval\(\)/);
   assert.match(client, /comparisonStart \? FIRST_VOICE_OPENING/);

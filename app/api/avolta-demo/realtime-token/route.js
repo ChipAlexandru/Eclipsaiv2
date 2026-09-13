@@ -69,12 +69,12 @@ export async function POST(request) {
       console.error("Avolta realtime client secret request failed", { status: upstream.status, requestId: upstream.headers.get("x-request-id") });
       return noStoreJson({ error: "Voice service is temporarily unavailable." }, { status: upstream.status === 429 ? 429 : 502 });
     }
-    const actualModel = payload?.session?.model || model;
-    if (actualModel !== model) {
-      console.error("Avolta realtime model mismatch", { requestedModel: model, actualModel });
+    const serverReportedModel = typeof payload?.session?.model === "string" ? payload.session.model : null;
+    if (serverReportedModel && serverReportedModel !== model) {
+      console.error("Avolta realtime model mismatch", { requestedModel: model, serverReportedModel });
       return noStoreJson({ error: "Voice model selection could not be confirmed." }, { status: 502 });
     }
-    return noStoreJson({ value, model: actualModel, expiresAt: payload?.expires_at || payload?.expiresAt || null });
+    return noStoreJson({ value, requestedModel: model, serverReportedModel, expiresAt: payload?.expires_at || payload?.expiresAt || null });
   } catch (error) {
     console.error("Avolta realtime client secret request could not be completed", { message: error instanceof Error ? error.message : "Unknown error" });
     return noStoreJson({ error: "Voice service is temporarily unavailable." }, { status: 502 });
