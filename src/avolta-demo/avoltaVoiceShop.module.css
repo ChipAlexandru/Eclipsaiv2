@@ -252,7 +252,7 @@
   .header { padding-inline: .52rem; }
   .brandLogo { width: 6.8rem; }
   .location strong { font-size: .8rem; }
-  .productSurface { padding-inline: .4rem; }
+  .productSurface { padding-inline: .28rem; }
   .flightCard { padding-inline: .48rem; }
   .departureBoard { grid-template-columns: 4.15rem minmax(0, 1fr); column-gap: .36rem; }
   .departureMeta span { font-size: .58rem; }
@@ -260,12 +260,14 @@
   .departureRow { grid-template-columns: 3rem minmax(0, 1fr) auto; column-gap: .32rem; }
   .departureRow time, .departureRow span, .departureRow b { font-size: .875rem; }
   .departureRow strong { font-size: .875rem; }
-  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .42rem; }
-  .productImage { bottom: 4.25rem; }
-  .productText { min-height: 4.25rem; padding: .35rem .42rem .38rem; }
-  .productText h2 { font-size: .67rem; }
-  .productText strong { font-size: .77rem; }
-  .cardAction { right: .34rem; top: calc(100% - 6.68rem); }
+  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .36rem; }
+  .productImage { bottom: 3.95rem; }
+  .productText { min-height: 3.95rem; padding: .3rem .42rem .34rem; }
+  .productText small { font-size: .5rem; }
+  .productText h2 { font-size: .71rem; }
+  .productText span { font-size: .53rem; }
+  .productText strong { font-size: .8rem; }
+  .cardAction { right: .34rem; top: calc(100% - 6.38rem); }
   .cardAction > button { width: 2rem; height: 2rem; }
   .stepper { width: 5.55rem; min-height: 2rem; grid-template-columns: 1.85rem 1fr 1.85rem; }
   .modelRow { gap: .32rem; }
