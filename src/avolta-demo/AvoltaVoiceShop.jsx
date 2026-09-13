@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
-import { DEFAULT_AVOLTA_REALTIME_MODEL, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
+import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, effectiveDepartureAt, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay, upcomingFlights } from "./flightReplay.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
@@ -41,6 +41,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [voiceStatus, setVoiceStatus] = useState("idle");
   const [voiceMessage, setVoiceMessage] = useState("Talk to Order");
   const [activeVoiceModel, setActiveVoiceModel] = useState(null);
+  const [voiceModelVerification, setVoiceModelVerification] = useState(idleAvoltaRealtimeVerification);
   const [isMuted, setIsMuted] = useState(false);
   const [soundBlocked, setSoundBlocked] = useState(false);
   const [playbackState, setPlaybackState] = useState("idle");
@@ -63,6 +64,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const sessionRef = useRef(null);
   const activeVoiceModelRef = useRef(null);
   const voiceStartSequenceRef = useRef(0);
+  const voiceModelVerificationRef = useRef(voiceModelVerification);
   const voiceTimeoutRef = useRef(null);
   const audioOutputRef = useRef(null);
   const peerConnectionRef = useRef(null);
@@ -333,6 +335,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const closeVoiceSession = useCallback((message) => {
     voiceStartSequenceRef.current += 1; disposeVoiceTransport(); activeVoiceModelRef.current = null; setActiveVoiceModel(null);
+    const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification);
     setVoiceStatus("idle"); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle"); setVoiceMessage(message); clearPendingVoiceApproval();
   }, [clearPendingVoiceApproval, disposeVoiceTransport]);
 
@@ -357,6 +360,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) { setVoiceStatus("unsupported"); setVoiceMessage("Voice needs a secure browser with microphone access."); return; }
     const sequence = ++voiceStartSequenceRef.current;
     disposeVoiceTransport(); clearPendingVoiceApproval(); activeVoiceModelRef.current = selectedModel; setActiveVoiceModel(selectedModel);
+    const pendingVerification = beginAvoltaRealtimeVerification(sequence, selectedModel); voiceModelVerificationRef.current = pendingVerification; setVoiceModelVerification(pendingVerification);
     setVoiceStatus("connecting"); setVoiceMessage("Connecting…"); setPlaybackState("waiting"); setSoundBlocked(false); setAudioEvidence({ trackReceived: false, modelAudioStarted: false, bytesReceived: 0, totalAudioEnergy: 0 });
     let session = null;
     try {
@@ -365,7 +369,10 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: selectedModel }) }); const payload = await response.json().catch(() => ({}));
       if (voiceStartSequenceRef.current !== sequence) return;
       if (!response.ok || !payload.value) throw new Error(payload.error || "Voice service is unavailable.");
-      if (!isAllowedAvoltaRealtimeModel(payload.model) || payload.model !== selectedModel) throw new Error("The selected voice model could not be confirmed.");
+      if (payload.requestedModel !== selectedModel) throw new Error("The selected voice model could not be confirmed.");
+      const verification = beginAvoltaRealtimeVerification(sequence, selectedModel, payload.serverReportedModel);
+      voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification);
+      if (verification.status === "mismatch") throw new Error("The selected voice model did not match the server response.");
       const audioElement = audioOutputRef.current; if (!audioElement) throw new Error("Audio output could not be initialized.");
       const transport = new OpenAIRealtimeWebRTC({ audioElement, changePeerConnection: async (peerConnection) => {
         if (voiceStartSequenceRef.current !== sequence) { peerConnection.close(); return peerConnection; }
@@ -405,8 +412,20 @@ Order discipline:
 Internal operating context: this experience uses one captured airport day on a shared internal clock, and fulfillment has no real-world side effects. Keep that context internal during ordinary shopping and answer truthfully if asked.
 
 Initial interface state: ${safe(stateSnapshot())}` });
-      session = new RealtimeSession(agent, { model: payload.model, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
+      session = new RealtimeSession(agent, { model: selectedModel, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
       const isCurrentSession = () => mountedRef.current && voiceStartSequenceRef.current === sequence && sessionRef.current === session;
+      session.on("transport_event", (event) => {
+        if (!isCurrentSession()) return;
+        const nextVerification = applyAvoltaRealtimeSessionEvidence(voiceModelVerificationRef.current, sequence, event);
+        if (nextVerification === voiceModelVerificationRef.current) return;
+        voiceModelVerificationRef.current = nextVerification; setVoiceModelVerification(nextVerification);
+        if (nextVerification.status !== "mismatch") return;
+        voiceStartSequenceRef.current += 1; clearVoiceTimeout(); clearAudioPoll(); clearPendingVoiceApproval(); session.close();
+        if (sessionRef.current === session) sessionRef.current = null;
+        peerConnectionRef.current = null; const audio = audioOutputRef.current; if (audio) { audio.pause(); audio.srcObject = null; }
+        activeVoiceModelRef.current = null; setActiveVoiceModel(null); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle");
+        setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
+      });
       session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking — interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
       session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening — speak naturally."); } });
       session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening — go ahead."); } });
@@ -427,6 +446,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       session?.close();
       if (voiceStartSequenceRef.current !== sequence) return;
       clearAudioPoll(); if (sessionRef.current === session) sessionRef.current = null; peerConnectionRef.current = null; activeVoiceModelRef.current = null; setActiveVoiceModel(null); setVoiceStatus("error");
+      if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : (error.message || "Voice service is unavailable."));
     }
   }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
@@ -486,7 +506,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         <div className={styles.productGrid}>{visibleProducts.map((product, index) => { const image = product.images[0]; const failed = imageFailures.has(product.id); const quantity = basket[product.id] || 0; const selected = selectedId === product.id; return <article className={styles.productCard} data-product-card={product.id} data-selected={selected} key={product.id}><button type="button" className={styles.productSelect} onClick={() => selectProduct(product.id)} aria-label={`Select ${product.vendor} ${product.name} for voice reference`} aria-pressed={selected}><div className={styles.imageWrap}>{!failed ? <Image data-product-image={product.id} src={image.localPath} alt={image.alt} fill priority={index === 0} loading={index === 0 ? undefined : index < 10 ? "eager" : "lazy"} sizes="(max-width: 760px) 50vw, (max-width: 860px) 33vw, (max-width: 1100px) 25vw, 240px" onError={(event) => { event.currentTarget.dataset.failed = "true"; imageFailuresRef.current.add(product.id); setImageFailures((current) => new Set(current).add(product.id)); }} /> : <span className={styles.imageFallback}>Photo unavailable</span>}<div className={styles.productText}><small>{product.vendor}</small><h2>{product.name}</h2><span>{product.variant}</span><strong>{formatMoney(product.priceChf)}</strong></div></div></button><div className={styles.cardAction}>{quantity ? <div className={styles.stepper} aria-label={`${product.name} quantity`}><button type="button" onClick={() => mutateBasket(product.id, 1, "remove")} aria-label={`Remove one ${product.name}`}><Minus size={15} aria-hidden="true" /></button><span>{quantity}</span><button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add one ${product.name}`}><Plus size={15} aria-hidden="true" /></button></div> : <button type="button" onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.vendor} ${product.name} to bag`}><Plus size={31} strokeWidth={2.5} aria-hidden="true" /></button>}</div></article>; })}</div>
       </section>
 
-      <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} aria-label="Shopping controls">
+      <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} data-voice-model-verification={voiceModelVerification.status} data-voice-requested-model={voiceModelVerification.requestedModel || ""} data-voice-server-reported-model={voiceModelVerification.serverReportedModel || ""} data-voice-session-reported-model={voiceModelVerification.sessionReportedModel || ""} data-voice-model-verification-source={voiceModelVerification.source || ""} aria-label="Shopping controls">
         {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status" aria-live="polite">{voiceMessage}</p>}
         <div className={styles.modelRow} aria-label="Choose voice model">
           {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.voiceModelAction} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && (hasVoiceSession || connecting)} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}{active && hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>; })}
