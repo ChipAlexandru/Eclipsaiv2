@@ -148,26 +148,46 @@ export function matchFlights(flights, rawQuery) {
   return { query, matches, ambiguous: matches.length > 1 };
 }
 
-export function illustrativeFlights(flights, demoNow, limit = 4) {
-  const nowMs = new Date(demoNow).getTime();
-  const complete = flights.filter((flight) => {
-    if (!flight.scheduledDeparture || !flight.destination || !flight.flightNumber || !/^[A-Z]{3}$/.test(flight.destinationCode || "")) return false;
-    const departureMs = new Date(flight.scheduledDeparture).getTime();
-    const boardingMs = flight.boardingTime ? new Date(flight.boardingTime).getTime() : null;
-    return boardingMs == null || boardingMs <= departureMs;
-  });
-  const future = complete.filter((flight) => new Date(flight.scheduledDeparture).getTime() >= nowMs + 20 * 60_000);
-  const source = future.length >= limit ? future : complete;
-  if (!source.length) return [];
-  const step = Math.max(1, Math.floor(source.length / limit));
-  return Array.from({ length: Math.min(limit, source.length) }, (_, index) => source[Math.min(source.length - 1, index * step)]);
-}
-
 function activeSimulationEvent(flight, demoNow) {
   const nowMs = new Date(demoNow).getTime();
   return [...(flight?.simulationEvents || [])]
     .filter((event) => event?.at && new Date(event.at).getTime() <= nowMs)
     .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())[0] || null;
+}
+
+export function effectiveDepartureAt(flight, demoNow) {
+  const event = activeSimulationEvent(flight, demoNow);
+  const changedDeparture = event && event.type !== "cancelled" && event.type !== "departed"
+    ? isoOrNull(event.effectiveDeparture || event.scheduledDeparture || event.departureTime)
+    : null;
+  return changedDeparture || flight?.scheduledDeparture || null;
+}
+
+export function upcomingFlights(flights, demoNow) {
+  const nowMs = new Date(demoNow).getTime();
+  const candidates = (flights || []).map((flight, index) => {
+    const event = activeSimulationEvent(flight, demoNow);
+    const effectiveDeparture = effectiveDepartureAt(flight, demoNow);
+    return { flight, index, event, effectiveDeparture, departureMs: effectiveDeparture ? new Date(effectiveDeparture).getTime() : NaN };
+  }).filter(({ flight, event, departureMs }) => {
+    if (!flight.destination || !flight.flightNumber || !/^[A-Z]{3}$/.test(flight.destinationCode || "")) return false;
+    if (!Number.isFinite(departureMs) || departureMs < nowMs) return false;
+    return event?.type !== "cancelled" && event?.type !== "departed";
+  }).sort((left, right) => left.departureMs - right.departureMs || left.index - right.index);
+
+  const accepted = [];
+  for (const candidate of candidates) {
+    const aliases = new Set([candidate.flight.flightNumber, ...(candidate.flight.codeshares || [])].map(normalizeFlightNumber).filter(Boolean));
+    const duplicate = accepted.some((kept) => kept.departureMs === candidate.departureMs
+      && kept.flight.destinationCode === candidate.flight.destinationCode
+      && [...aliases].some((number) => kept.aliases.has(number)));
+    if (!duplicate) accepted.push({ ...candidate, aliases });
+  }
+  return accepted.map(({ flight, effectiveDeparture }) => ({ ...flight, effectiveDeparture }));
+}
+
+export function illustrativeFlights(flights, demoNow, limit = 4) {
+  return upcomingFlights(flights, demoNow).slice(0, Math.max(0, limit));
 }
 
 export function replayFlightStatus(flight, demoNow) {
@@ -176,7 +196,8 @@ export function replayFlightStatus(flight, demoNow) {
   if (event?.type === "cancelled") return { label: "Cancelled", basis: "simulated scenario", isCancelled: true };
   const nowMs = new Date(demoNow).getTime();
   const boardingMs = flight.boardingTime ? new Date(flight.boardingTime).getTime() : null;
-  const departureMs = flight.scheduledDeparture ? new Date(flight.scheduledDeparture).getTime() : null;
+  const effectiveDeparture = effectiveDepartureAt(flight, demoNow);
+  const departureMs = effectiveDeparture ? new Date(effectiveDeparture).getTime() : null;
   if (boardingMs && nowMs >= boardingMs && (!departureMs || nowMs < departureMs)) return { label: "Boarding time reached", basis: "demo clock" };
   if (departureMs && nowMs >= departureMs) return { label: "Scheduled time passed", basis: "demo clock" };
   if (boardingMs && boardingMs - nowMs <= 25 * 60_000) return { label: "Boarding window approaching", basis: "demo clock" };

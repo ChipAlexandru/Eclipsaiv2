@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
 import { isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
-import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
+import { assessReplayJourney, boardingCountdown, createReplayAnchor, effectiveDepartureAt, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay, upcomingFlights } from "./flightReplay.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -84,6 +84,8 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
   const selectedProduct = selectedId ? productsById.get(selectedId) : null;
+  const upcomingPreviewFlights = useMemo(() => upcomingFlights(flightContext?.illustrativeFlights || [], demoNow), [demoNow, flightContext]);
+  const upcomingPreviewSignature = upcomingPreviewFlights.map((flight) => flight.id).join("|");
   useEffect(() => {
     const explicitTime = process.env.NODE_ENV !== "production" ? new URLSearchParams(window.location.search).get("demoTime") : null;
     try {
@@ -196,6 +198,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
         if (!Array.isArray(payload.illustrativeFlights)) throw new Error("Flight information is unavailable.");
         journeyContextRef.current = payload; const matches = payload.flightSearch?.matches || []; flightMatchesRef.current = matches;
         setFlightContext(payload); if (!query) setFlightContextStatus("ready");
+        if (!query) setPreviewIndex(0);
         if (query) { setFlightLookupActive(true); if (matches.length === 1) proposeFlight(matches[0]); }
         return payload;
       } catch (error) {
@@ -206,13 +209,21 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     if (!query) setFlightContextStatus(journeyContextRef.current ? "fallback" : "error");
     return { error: lastError.message || "Flight information is unavailable." };
   }, [proposeFlight]);
-  useEffect(() => { if (clockReady) refreshJourney(); }, [clockReady, refreshJourney]);
+  const replayMinute = Math.floor(demoNow.getTime() / 60_000);
+  useEffect(() => { if (clockReady) refreshJourney(); }, [clockReady, refreshJourney, replayMinute]);
   useEffect(() => {
-    if (voiceStatus !== "idle" || travel.selectedFlight || pendingFlight || flightLookupActive || !flightContext?.illustrativeFlights?.length) return undefined;
+    if (!clockReady) return undefined;
+    const refreshOnResume = () => { if (document.visibilityState === "visible") refreshJourney(); };
+    document.addEventListener("visibilitychange", refreshOnResume);
+    return () => document.removeEventListener("visibilitychange", refreshOnResume);
+  }, [clockReady, refreshJourney]);
+  useEffect(() => { setPreviewIndex(0); }, [upcomingPreviewSignature]);
+  useEffect(() => {
+    if (voiceStatus !== "idle" || travel.selectedFlight || pendingFlight || flightLookupActive || !upcomingPreviewFlights.length) return undefined;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const timer = window.setInterval(() => setPreviewIndex((index) => (index + 1) % flightContext.illustrativeFlights.length), 5000);
+    const timer = window.setInterval(() => setPreviewIndex((index) => (index + 1) % upcomingPreviewFlights.length), 5000);
     return () => window.clearInterval(timer);
-  }, [flightContext, flightLookupActive, pendingFlight, travel.selectedFlight, voiceStatus]);
+  }, [flightLookupActive, pendingFlight, travel.selectedFlight, upcomingPreviewFlights.length, voiceStatus]);
   useEffect(() => {
     if (process.env.NODE_ENV === "production" || !flightContext?.illustrativeFlights?.length) return;
     const acceptanceState = new URLSearchParams(window.location.search).get("demoState");
@@ -390,16 +401,18 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const hasVoiceSession = Boolean(sessionRef.current);
   const hasBasket = basketDetails.itemCount > 0;
   const confirmedFlight = travel.selectedFlight;
-  const previewFlight = flightContext?.illustrativeFlights?.[previewIndex % Math.max(1, flightContext?.illustrativeFlights?.length || 1)] || null;
+  const previewFlight = upcomingPreviewFlights[previewIndex % Math.max(1, upcomingPreviewFlights.length)] || null;
   const displayedFlight = confirmedFlight || pendingFlight || previewFlight;
   const displayedFlightStatus = replayFlightStatus(displayedFlight, demoNow);
   const displayedBoarding = boardingCountdown(displayedFlight, demoNow);
   const orderState = orderProgress(order, demoNow);
   const countdowns = confirmedFlight && order ? pairedCountdowns(confirmedFlight, order, demoNow) : null;
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
+  const departuresExhausted = !confirmedFlight && !pendingFlight && !upcomingPreviewFlights.length && flightContextStatus === "ready";
   const flightDisplayState = confirmedFlight ? "confirmed" : pendingFlight ? "candidate" : voiceStatus !== "idle" ? "focused" : "idle";
   const displayedDestination = displayedFlight ? ((confirmedFlight || pendingFlight) ? `ZRH → ${displayedFlight.destinationCode || displayedFlight.destination || "—"}` : (displayedFlight.destination || displayedFlight.destinationCode || "—")) : "—";
   const actionableFlightStatus = ["Scheduled", "Boarding window approaching"].includes(displayedFlightStatus.label) ? null : displayedFlightStatus.label;
+  const departureLabel = pendingFlight ? "Your flight?" : confirmedFlight ? (actionableFlightStatus || "Your flight") : "Departures";
 
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>
@@ -412,11 +425,10 @@ Initial interface state: ${safe(stateSnapshot())}` });
       <section className={styles.productSurface} aria-label="Zürich Duty Free products">
         <div className={styles.contextRail} data-has-order={Boolean(order)}>
           <article className={styles.flightCard} data-flight-state={flightDisplayState} data-flight-id={displayedFlight?.id || "none"} data-flight-context-status={flightContextStatus}>
-            {!confirmedFlight ? <div className={styles.departureTopline}><span>Departures</span>{pendingFlight && <b>Your flight?</b>}</div> : (actionableFlightStatus || !order) && <div className={styles.departureTopline} data-personal="true">{actionableFlightStatus && <span>{actionableFlightStatus}</span>}{!order && <strong>{displayedBoarding.label}</strong>}</div>}
-            {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
-              <div className={styles.departureHead}><span>Time</span><span>Destination</span><span>Flight</span><span>Gate</span></div>
-              <div className={styles.departureRow}><time>{formatClock(displayedFlight.scheduledDeparture)}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate || "—"}</b></div>
-            </div> : scheduleEnded ? <div className={styles.noDepartures}>Departures complete</div> : flightContextStatus === "loading" ? <div className={styles.noDepartures}>Loading departures…</div> : <div className={styles.noDepartures}><span>Departures unavailable</span><button type="button" onClick={() => refreshJourney()}>Retry</button></div>}
+            {displayedFlight && (!scheduleEnded || confirmedFlight || pendingFlight) ? <div className={styles.departureBoard} data-has-summary={Boolean(confirmedFlight && !order)} key={`${flightDisplayState}-${displayedFlight.id || displayedFlight.flightNumber}`}>
+              <div className={styles.departureMeta}><span>{departureLabel}</span>{confirmedFlight && !order && <strong>{displayedBoarding.label}</strong>}</div>
+              <div className={styles.departureRow}><time aria-label={`Departure ${formatClock(effectiveDepartureAt(displayedFlight, demoNow))}`}>{formatClock(effectiveDepartureAt(displayedFlight, demoNow))}</time><strong>{displayedDestination}</strong><span>{displayedFlight.flightNumber || "—"}</span><b>{displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate —"}</b></div>
+            </div> : scheduleEnded || departuresExhausted ? <div className={styles.noDepartures}>No more departures</div> : flightContextStatus === "loading" ? <div className={styles.noDepartures}>Loading departures…</div> : <div className={styles.noDepartures}><span>Departures unavailable</span><button type="button" onClick={() => refreshJourney()}>Retry</button></div>}
             {confirmedFlight && travel.stage !== "unknown" && <div className={styles.journeyTrack} aria-label={`Journey: ${journeyStageLabel(travel.stage)}`}>{["on_the_way", "at_airport", "past_security", "at_gate"].map((stage) => <span key={stage} data-active={travel.stage === stage}>{journeyStageLabel(stage)}</span>)}</div>}
           </article>
           {order && orderState && <article className={styles.orderCard}>
