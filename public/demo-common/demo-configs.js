@@ -279,9 +279,9 @@
         sources: [
           "/Spruengli-demo-2/assets/source-photos/pos-900.jpg",
           "/Spruengli-demo-2/assets/field-evidence/spruengli-product-display.jpg",
-          "/Spruengli-demo-2/assets/source-photos/computer.jpg",
+          "/demo-common/assets/shared/computer.jpg",
           "/Spruengli-demo-2/assets/field-evidence/spruengli-shelf-selection.jpg",
-          "/Spruengli-demo-2/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemVendors: {
@@ -372,9 +372,9 @@
           }
         ],
         sources: [
-          "/Hausammann-demo-1/assets/source-photos/pos.jpg", "/Hausammann-demo-1/assets/source-photos/baker-production.jpg",
-          "/Hausammann-demo-1/assets/source-photos/computer.jpg", "/Hausammann-demo-1/assets/source-photos/hausammann-counter-900.jpg",
-          "/Hausammann-demo-1/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/pos-2000.jpg", "/demo-common/assets/shared/baker-production.jpg",
+          "/demo-common/assets/shared/computer.jpg", "/Hausammann-demo-1/assets/source-photos/hausammann-counter-900.jpg",
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemVendors: {
@@ -452,9 +452,9 @@
           }
         ],
         sources: [
-          "/BakeryBakery-demo-1/assets/source-photos/pos.jpg", "/BakeryBakery-demo-1/assets/source-photos/baker-production.jpg",
-          "/BakeryBakery-demo-1/assets/source-photos/computer.jpg", "/BakeryBakery-demo-1/assets/source-photos/bakery-bakery-store-2026-08-11-1507-900.jpg",
-          "/BakeryBakery-demo-1/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/pos-2000.jpg", "/demo-common/assets/shared/baker-production.jpg",
+          "/demo-common/assets/shared/computer.jpg", "/BakeryBakery-demo-1/assets/source-photos/bakery-bakery-store-2026-08-11-1507-900.jpg",
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemVendors: {
@@ -543,9 +543,9 @@
           }
         ],
         sources: [
-          "/Steiner-Flughafebeck-demo-1/assets/source-photos/pos.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/baker-production.jpg",
-          "/Steiner-Flughafebeck-demo-1/assets/source-photos/computer.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/steiner-sihlpost-store-2026-08-11-1419-900.jpg",
-          "/Steiner-Flughafebeck-demo-1/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/pos-2000.jpg", "/demo-common/assets/shared/baker-production.jpg",
+          "/demo-common/assets/shared/computer.jpg", "/Steiner-Flughafebeck-demo-1/assets/source-photos/steiner-sihlpost-store-2026-08-11-1419-900.jpg",
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemVendors: {
@@ -710,11 +710,11 @@
           }
         ],
         sources: [
-          "/restaurant-profit-brain-demo/assets/source-photos/pos.jpg",
+          "/demo-common/assets/shared/pos-2000.jpg",
           "/restaurant-profit-brain-demo/assets/source-photos/recipes-menu.jpg",
           "/restaurant-profit-brain-demo/assets/source-photos/purchases-invoice.jpg",
           "/restaurant-profit-brain-demo/assets/source-photos/remaining-chicken-plate-v2.jpg",
-          "/restaurant-profit-brain-demo/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemSources: [
@@ -889,21 +889,21 @@
       assets: {
         fieldEvidence: [
           {
-            src: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
-            small: "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
+            src: "/demo-common/assets/shared/bakery-display-neutral.jpg",
+            small: "/demo-common/assets/shared/bakery-display-neutral.jpg",
             time: "16:03",
             copyKey: "fieldLate"
           },
           {
-            src: "/fresh-food-demo/assets/source-photos/baker-production.jpg",
+            src: "/demo-common/assets/shared/baker-production.jpg",
             time: "6:28",
             copyKey: "fieldEarly"
           }
         ],
         sources: [
-          "/fresh-food-demo/assets/source-photos/pos.jpg", "/fresh-food-demo/assets/source-photos/baker-production.jpg",
-          "/fresh-food-demo/assets/source-photos/computer.jpg", "/fresh-food-demo/assets/source-photos/bakery-display-neutral.png",
-          "/fresh-food-demo/assets/source-photos/phone-message.jpg"
+          "/demo-common/assets/shared/pos-2000.jpg", "/demo-common/assets/shared/baker-production.jpg",
+          "/demo-common/assets/shared/computer.jpg", "/demo-common/assets/shared/bakery-display-neutral.jpg",
+          "/demo-common/assets/shared/phone-message.jpg"
         ]
       },
       systemVendors: {

@@ -1,7 +1,17 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 
 const nextConfig = require("../next.config.js");
+const legacyDemoAssetRewriteCount = 30;
+
+function withoutLegacyDemoAssetRewrites(rewrites) {
+  return {
+    ...rewrites,
+    beforeFiles: rewrites.beforeFiles.slice(legacyDemoAssetRewriteCount),
+  };
+}
 
 async function withEnvironment(values, callback) {
   const keys = ["VERCEL_ENV", "JULIETTE_PORTAL_ORIGIN"];
@@ -26,7 +36,7 @@ test("production proxies the complete Juliette path to Railway", async () => {
     VERCEL_ENV: "production",
     JULIETTE_PORTAL_ORIGIN: "https://example-production.up.railway.app",
   }, async () => {
-    assert.deepEqual(await nextConfig.rewrites(), {
+    assert.deepEqual(withoutLegacyDemoAssetRewrites(await nextConfig.rewrites()), {
       beforeFiles: [
         {
           source: "/fresh-food-demo",
@@ -77,7 +87,7 @@ test("preview and local builds serve the public demo without proxying production
       VERCEL_ENV: vercelEnvironment,
       JULIETTE_PORTAL_ORIGIN: "https://example-production.up.railway.app",
     }, async () => {
-      assert.deepEqual(await nextConfig.rewrites(), {
+      assert.deepEqual(withoutLegacyDemoAssetRewrites(await nextConfig.rewrites()), {
         beforeFiles: [
           {
             source: "/fresh-food-demo",
@@ -112,6 +122,18 @@ test("preview and local builds serve the public demo without proxying production
         fallback: [],
       });
     });
+  }
+});
+
+test("legacy demo asset URLs resolve to retained image files", async () => {
+  const rewrites = await nextConfig.rewrites();
+  const assetRewrites = rewrites.beforeFiles.slice(0, legacyDemoAssetRewriteCount);
+  assert.equal(assetRewrites.length, legacyDemoAssetRewriteCount);
+  assert.equal(new Set(assetRewrites.map(({ source }) => source)).size, legacyDemoAssetRewriteCount);
+
+  for (const { source, destination } of assetRewrites) {
+    assert.equal(fs.existsSync(path.join(__dirname, "..", "public", source)), false, source);
+    assert.equal(fs.existsSync(path.join(__dirname, "..", "public", destination)), true, destination);
   }
 });
 

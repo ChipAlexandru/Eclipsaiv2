@@ -182,7 +182,7 @@ test("target bakery demos use their own brands and neutral local imagery", () =>
     const config = runtime.ECLIPSAI_DEMOS[id];
     assert.ok(config.assets.clientLogo.startsWith(config.route + "/assets/brand/"));
     for (const asset of [...config.assets.fieldEvidence.map((item) => item.src), ...config.assets.sources]) {
-      assert.ok(asset.startsWith(config.route + "/assets/"));
+      assert.ok(asset.startsWith(config.route + "/assets/") || asset.startsWith("/demo-common/assets/shared/"));
       assert.doesNotMatch(asset, /spruengli/i);
     }
   }
