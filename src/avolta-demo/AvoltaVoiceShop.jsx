@@ -7,7 +7,7 @@ import { basketSummary, changeQuantity, compactProduct, departureEligibility, re
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
 import { acquireMicrophoneWithTimeout } from "./voiceLifecycle.mjs";
-import { classifySpokenOrderApproval, completeSpokenOrderConfirmation, finalizeReviewedOrder, findOrderConfirmationReply, latestUserTurn, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
+import { completeSpokenOrderConfirmation, finalizeReviewedOrder, findOrderConfirmationReply, latestUserTurn, materiallyEqual, transitionApprovalForCompletedReply, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -138,6 +138,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const travelRef = useRef(travel);
   const reviewRef = useRef(review);
   const voiceReviewApprovalRef = useRef(null);
+  const voiceApprovalRevocationsRef = useRef(new WeakMap());
   const voiceHistoryRef = useRef([]);
   const transcriptWaitersRef = useRef(new Set());
   const reservationRef = useRef(reservation);
@@ -162,6 +163,16 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     voiceOrderFlowRef.current = next;
     setVoiceOrderFlow(next);
   }, []);
+  const revokeVoiceApproval = useCallback((reason) => {
+    const approvalState = voiceReviewApprovalRef.current;
+    if (!approvalState) return false;
+    voiceApprovalRevocationsRef.current.set(approvalState, { approvalState, reason });
+    voiceReviewApprovalRef.current = null;
+    if (mountedRef.current) recordVoiceOrderEvent(`approval_revoked_${reason}`);
+    for (const notify of transcriptWaitersRef.current) notify(null);
+    transcriptWaitersRef.current.clear();
+    return true;
+  }, [recordVoiceOrderEvent]);
   const selectedProduct = selectedId ? productsById.get(selectedId) : null;
   const collapseIntro = useCallback(() => {
     if (introTimerRef.current !== null) { window.clearTimeout(introTimerRef.current); introTimerRef.current = null; }
@@ -276,9 +287,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     return { displayed: result.displayedIds.length === result.checkedIds.length, displayedProducts: result.displayedIds.map((id) => compactProduct(productsById.get(id))), selectedProduct: compactProduct(productsById.get(nextSelected)), failedImageProductIds: result.failedIds, recommendationProductCount: ids.length, imageReadinessScope: "first products in the recommendation viewport", message: result.displayedIds.length === result.checkedIds.length ? "The on-screen recommendation images are displayed." : "Some on-screen images did not load; only displayedProducts are confirmed visible." };
   }, [productsById, validProductIds, waitForDisplayedImages]);
 
-  const invalidateReview = useCallback(() => { reviewRef.current = null; voiceReviewApprovalRef.current = null; for (const notify of transcriptWaitersRef.current) notify(null); transcriptWaitersRef.current.clear(); setReview(null); setApprovalRequest(null); setActivePanel((current) => current === "review" ? "basket" : current); setReservationError(""); }, []);
+  const invalidateReview = useCallback((reason) => { reviewRef.current = null; revokeVoiceApproval(reason); setReview(null); setApprovalRequest(null); setActivePanel((current) => current === "review" ? "basket" : current); setReservationError(""); }, [revokeVoiceApproval]);
   const mutateBasket = useCallback((productId, quantity, mode, source = "touch") => {
-    const next = changeQuantity(basketRef.current, productId, quantity, mode, validProductIds); basketRef.current = next; setBasket(next); invalidateReview();
+    const next = changeQuantity(basketRef.current, productId, quantity, mode, validProductIds);
+    if (materiallyEqual(basketRef.current, next)) return basketSummary(basketRef.current, productsById);
+    basketRef.current = next; setBasket(next); invalidateReview("bag_changed");
     if (source === "touch") queueMicrotask(() => sendInterfaceState("a basket touch action"));
     return basketSummary(next, productsById);
   }, [invalidateReview, productsById, sendInterfaceState, validProductIds]);
@@ -289,7 +302,9 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     return Object.keys(next).map((id) => compactProduct(productsById.get(id))).filter(Boolean);
   }, [productsById, sendInterfaceState, validProductIds]);
   const updateTravel = useCallback((patch, source = "touch") => {
-    const next = { ...travelRef.current, ...patch, ...(patch.stage ? { stage: normalizeJourneyStage(patch.stage) } : {}) }; travelRef.current = next; setTravel(next); invalidateReview();
+    const next = { ...travelRef.current, ...patch, ...(patch.stage ? { stage: normalizeJourneyStage(patch.stage) } : {}) };
+    if (materiallyEqual(travelRef.current, next)) return travelRef.current;
+    travelRef.current = next; setTravel(next); invalidateReview("travel_changed");
     if (source === "touch") queueMicrotask(() => sendInterfaceState("travel context changed")); return next;
   }, [invalidateReview, sendInterfaceState]);
   const proposeFlight = useCallback((flight) => {
@@ -366,8 +381,9 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const fingerprint = `${reservationFingerprint(basketRef.current, travelRef.current)}:${flight.id}:${fulfillment.method}:${fulfillment.destination}`;
     const draft = { fingerprint, summary, travel: { ...travelRef.current }, fulfillment, pickupLocation: fulfillment.destination, serviceConcept: "Simulated same-journey fulfillment", reviewedAtDemo: demoNowRef.current.toISOString() };
     const reviewUserItemId = latestUserTurn(sessionRef.current?.history || voiceHistoryRef.current)?.itemId || null;
-    reviewRef.current = draft; voiceReviewApprovalRef.current = { fingerprint, reviewUserItemId, generation: voiceStartSequenceRef.current, session: sessionRef.current }; setReview(draft); setReservationError(""); return { ok: true, review: draft };
-  }, [productsById]);
+    const replacedApproval = revokeVoiceApproval("approval_replaced");
+    reviewRef.current = draft; voiceReviewApprovalRef.current = { fingerprint, reviewUserItemId, generation: voiceStartSequenceRef.current, session: sessionRef.current }; setReview(draft); setReservationError(""); return { ok: true, review: draft, replacedApproval };
+  }, [productsById, revokeVoiceApproval]);
   const createReservation = useCallback((expectedFingerprint = null) => {
     const flight = travelRef.current.selectedFlight; const fulfillment = recommendFulfillment({ stage: travelRef.current.stage, flight, demoNow: demoNowRef.current });
     const fingerprint = `${reservationFingerprint(basketRef.current, travelRef.current)}:${flight?.id || "none"}:${fulfillment.method}:${fulfillment.destination}`;
@@ -384,10 +400,16 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const pending = voiceReviewApprovalRef.current;
     if (pending) {
       const confirmation = findOrderConfirmationReply(voiceHistoryRef.current, pending.reviewUserItemId);
-      if (confirmation.ok && confirmation.reply?.status === "completed" && confirmation.reply?.text && classifySpokenOrderApproval(confirmation.reply.text) !== "approved") voiceReviewApprovalRef.current = null;
+      const transition = transitionApprovalForCompletedReply(pending, confirmation);
+      if (transition.action === "explicit_refusal") revokeVoiceApproval("explicit_refusal");
+      else if (transition.action === "ambiguous_reask") {
+        voiceApprovalRevocationsRef.current.set(pending, { approvalState: pending, reason: "ambiguous_reask" });
+        voiceReviewApprovalRef.current = transition.approvalState;
+        recordVoiceOrderEvent("approval_ambiguous_reask");
+      }
     }
     for (const notify of transcriptWaitersRef.current) notify(voiceHistoryRef.current);
-  }, []);
+  }, [recordVoiceOrderEvent, revokeVoiceApproval]);
   const waitForConfirmationReply = useCallback((reviewState, timeoutMs = 4500) => {
     return waitForScopedConfirmationReply({ getHistory: () => voiceHistoryRef.current, reviewUserItemId: reviewState?.reviewUserItemId, timeoutMs, subscribe: (notify) => { transcriptWaitersRef.current.add(notify); return () => transcriptWaitersRef.current.delete(notify); } });
   }, []);
@@ -417,14 +439,14 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const correctFlightTool = tool({ name: "correct_confirmed_flight", description: "Clear the confirmed flight when the traveler says it is wrong or wants to correct it; then search and reconfirm.", parameters: z.object({}), execute: async () => safe(clearConfirmedFlight()) });
     const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
     const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
-    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) { recordVoiceOrderEvent("review_ready", true); setActivePanel("review"); } return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
+    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) { recordVoiceOrderEvent("review_ready", true); if (result.replacedApproval) recordVoiceOrderEvent("approval_replaced"); setActivePanel("review"); } return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
     const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact reviewed order only in the response turn immediately after the traveler gives an unambiguous spoken approval to the order confirmation question. ‘Confirm’, ‘confirmed’, ‘please confirm’, ‘yes’ and equivalent clear scoped assent are valid. Call silently and announce success only when the result is ok. If pending is true, do not call it a failed transaction; keep the review available and wait for or request a fresh confirmation. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => {
       recordVoiceOrderEvent("confirm_tool_started");
       if (reservationRef.current?.fingerprint === review_fingerprint) return safe({ ...createReservation(review_fingerprint), closeOverlay: true, showOrderTracker: true });
       const approvalState = voiceReviewApprovalRef.current;
-      const result = await completeSpokenOrderConfirmation({ approvalState, expectedFingerprint: review_fingerprint, getCurrentApprovalState: () => voiceReviewApprovalRef.current, getCurrentGeneration: () => voiceStartSequenceRef.current, getCurrentSession: () => sessionRef.current, getReview: () => reviewRef.current, waitForConfirmationReply, finalizeOrder: createReservation, onConsentValidated: () => recordVoiceOrderEvent("consent_validated") });
+      const result = await completeSpokenOrderConfirmation({ approvalState, expectedFingerprint: review_fingerprint, getCurrentApprovalState: () => voiceReviewApprovalRef.current, getCurrentGeneration: () => voiceStartSequenceRef.current, getCurrentSession: () => sessionRef.current, getReview: () => reviewRef.current, getRevocation: () => voiceApprovalRevocationsRef.current.get(approvalState) || null, waitForConfirmationReply, finalizeOrder: createReservation, onConsentValidated: () => recordVoiceOrderEvent("consent_validated") });
       if (!result.ok) recordVoiceOrderEvent(`consent_${result.reason || "failed"}`);
-      if (result.clearApproval) voiceReviewApprovalRef.current = null;
+      if (result.clearApproval && voiceReviewApprovalRef.current === approvalState) voiceReviewApprovalRef.current = null;
       return safe(result);
     } });
     const collectTool = tool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
@@ -451,12 +473,10 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const disposeVoiceTransport = useCallback(() => {
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
-    voiceReviewApprovalRef.current = null; voiceHistoryRef.current = [];
-    for (const notify of transcriptWaitersRef.current) notify(null);
-    transcriptWaitersRef.current.clear();
+    revokeVoiceApproval("session_ended"); voiceHistoryRef.current = [];
     microphoneStreamRef.current?.getTracks().forEach((track) => track.stop()); microphoneStreamRef.current = null;
     const audio = audioOutputRef.current; if (audio) { audio.pause(); audio.srcObject = null; }
-  }, [clearAudioPoll, clearVoiceTimeout]);
+  }, [clearAudioPoll, clearVoiceTimeout, revokeVoiceApproval]);
   const clearPendingVoiceApproval = useCallback(() => {
     setApprovalRequest((current) => {
       if (current?.type === "voice") { reviewRef.current = null; setReview(null); setActivePanel("basket"); }
@@ -613,7 +633,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const selectProduct = useCallback((productId) => { presentationSequenceRef.current += 1; selectedIdRef.current = productId; setSelectedId(productId); queueMicrotask(() => sendInterfaceState("the shopper selected a product by touch")); }, [sendInterfaceState]);
   const openTouchReview = () => { const result = prepareReview(); if (!result.ok) setReservationError(result.error); else { recordVoiceOrderEvent("review_ready", true); setApprovalRequest({ type: "touch" }); setActivePanel("review"); } };
   const confirmApproval = async () => { const pending = approvalRequest; if (pending?.type === "voice") await sessionRef.current?.approve(pending.request.approvalItem); else { recordVoiceOrderEvent("manual_confirmation"); createReservation(); } };
-  const rejectApproval = async () => { const pending = approvalRequest; invalidateReview(); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
+  const rejectApproval = async () => { const pending = approvalRequest; invalidateReview("explicit_change_requested"); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
   const panelLabel = activePanel === "detail" ? "Product details" : activePanel === "saved" ? "Saved products" : activePanel === "compare" ? "Product comparison" : activePanel === "review" ? "Order review" : "Order bag";
   const reviewFlight = review?.travel?.selectedFlight;
   const hasVoiceSession = Boolean(sessionRef.current) || ["connecting", "listening", "speaking", "muted"].includes(voiceStatus);

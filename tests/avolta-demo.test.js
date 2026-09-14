@@ -135,9 +135,12 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.isOrderConfirmationQuestion("Would you like to confirm this order?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("Can I finalize your purchase?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("I cannot confirm the order."), false);
+  assert.equal(approval.materiallyEqual({ quantity: 1, travel: { stage: "at_gate", gate: "A" } }, { travel: { gate: "A", stage: "at_gate" }, quantity: 1 }), true);
+  assert.equal(approval.materiallyEqual({ quantity: 1 }, { quantity: 2 }), false);
 
   const refusalHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "No, not yet" }] } : item);
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId) }).reason, "refused");
+  const refusalReply = approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId);
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: refusalReply }).reason, "explicit_refusal");
   const divertedThenYes = [...historyThroughQuestion,
     { itemId: "diversion", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "What time is it?" }] },
     { itemId: "assistant-diversion", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "It is eight." }] },
@@ -146,6 +149,19 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   const diversionReply = approval.findOrderConfirmationReply(divertedThenYes, reviewUserItemId);
   assert.equal(diversionReply.reply.itemId, "diversion");
   assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: diversionReply }).reason, "ambiguous");
+  const ambiguousTransition = approval.transitionApprovalForCompletedReply({ fingerprint: review.fingerprint, reviewUserItemId, generation: 7, session: {} }, diversionReply);
+  assert.equal(ambiguousTransition.action, "ambiguous_reask");
+  assert.equal(ambiguousTransition.approvalState.reviewUserItemId, "diversion");
+  const reaskedHistory = [...divertedThenYes.slice(0, -2),
+    { itemId: "assistant-reask", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "Do you confirm the order?" }] },
+    { itemId: "reply-after-reask", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Confirm" }] },
+  ];
+  const reaskedReply = approval.findOrderConfirmationReply(reaskedHistory, ambiguousTransition.approvalState.reviewUserItemId);
+  assert.equal(reaskedReply.reply.itemId, "reply-after-reask");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId: ambiguousTransition.approvalState.reviewUserItemId, confirmationReply: reaskedReply }).ok, true);
+  const refusalTransition = approval.transitionApprovalForCompletedReply({ fingerprint: review.fingerprint, reviewUserItemId, generation: 7, session: {} }, refusalReply);
+  assert.equal(refusalTransition.action, "explicit_refusal");
+  assert.equal(refusalTransition.approvalState, null);
 
   const yesHistory = [...historyThroughQuestion, { itemId: "reply-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes, thank you" }] }];
   const yesReply = approval.findOrderConfirmationReply(yesHistory, reviewUserItemId);
@@ -206,11 +222,40 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(pendingResult.closeOverlay, false);
 
   const refusalResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => wiredApprovalState, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId), finalizeOrder: () => { throw new Error("refusal must not commit"); } });
-  assert.equal(refusalResult.reason, "refused");
+  assert.equal(refusalResult.reason, "explicit_refusal");
   assert.equal(refusalResult.clearApproval, true);
   const cancelledResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => null, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => yesReply, finalizeOrder: () => { throw new Error("cancelled session must not commit"); } });
   assert.equal(cancelledResult.reason, "approval_cancelled");
   assert.equal(cancelledResult.closeOverlay, false);
+
+  const replacementApproval = { ...wiredApprovalState, reviewUserItemId: "replacement-review" };
+  let currentApproval = wiredApprovalState;
+  const staleAsyncResult = await approval.completeSpokenOrderConfirmation({
+    approvalState: wiredApprovalState,
+    expectedFingerprint: review.fingerprint,
+    getCurrentApprovalState: () => currentApproval,
+    getCurrentGeneration: () => 11,
+    getCurrentSession: () => wiredSession,
+    getReview: () => review,
+    waitForConfirmationReply: async () => { currentApproval = replacementApproval; return yesReply; },
+    finalizeOrder: () => { throw new Error("a stale confirmation must not commit"); },
+  });
+  assert.equal(staleAsyncResult.reason, "approval_replaced");
+  assert.equal(staleAsyncResult.clearApproval, false);
+  if (staleAsyncResult.clearApproval && currentApproval === wiredApprovalState) currentApproval = null;
+  assert.strictEqual(currentApproval, replacementApproval);
+
+  const ambiguousReaskResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => replacementApproval, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, getRevocation: () => ({ approvalState: wiredApprovalState, reason: "ambiguous_reask" }), waitForConfirmationReply: async () => diversionReply, finalizeOrder: () => { throw new Error("an ambiguous reply must not commit"); } });
+  assert.equal(ambiguousReaskResult.reason, "ambiguous_reask");
+  assert.equal(ambiguousReaskResult.pending, true);
+  assert.equal(ambiguousReaskResult.clearApproval, false);
+
+  const bagChangedResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => null, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => null, getRevocation: () => ({ approvalState: wiredApprovalState, reason: "bag_changed" }), waitForConfirmationReply: async () => yesReply, finalizeOrder: () => { throw new Error("a changed bag must not commit"); } });
+  assert.equal(bagChangedResult.reason, "bag_changed");
+  assert.match(bagChangedResult.error, /reviewed order changed/i);
+  assert.equal(bagChangedResult.clearApproval, true);
+  assert.equal(approval.approvalCancellationReason({ approvalState: wiredApprovalState, currentApprovalState: null, currentGeneration: 12, currentSession: wiredSession, revocation: null }), "session_replaced");
+  assert.equal(approval.approvalCancellationReason({ approvalState: wiredApprovalState, currentApprovalState: null, currentGeneration: 11, currentSession: null, revocation: null }), "session_ended");
 });
 
 test("Realtime model verification keeps server and active-session evidence distinct and generation-scoped", async () => {
@@ -281,8 +326,12 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /completeSpokenOrderConfirmation/);
   assert.match(client, /setActivePanel\(null\); setReservationError/);
   assert.match(client, /recordVoiceOrderEvent\("manual_confirmation"\); createReservation\(\)/);
-  assert.match(client, /const rejectApproval = async \(\) => \{[^}]*invalidateReview\(\)/);
+  assert.match(client, /const rejectApproval = async \(\) => \{[^}]*invalidateReview\("explicit_change_requested"\)/);
   assert.match(client, /getCurrentApprovalState: \(\) => voiceReviewApprovalRef\.current/);
+  assert.match(client, /getRevocation: \(\) => voiceApprovalRevocationsRef\.current\.get\(approvalState\)/);
+  assert.match(client, /if \(result\.clearApproval && voiceReviewApprovalRef\.current === approvalState\)/);
+  assert.match(client, /materiallyEqual\(basketRef\.current, next\)/);
+  assert.match(client, /materiallyEqual\(travelRef\.current, next\)/);
   assert.match(client, /reservationRef\.current\?\.fingerprint === review_fingerprint/);
   assert.match(client, /data-voice-tool-starts=/);
   assert.match(client, /data-voice-order-flow=/);

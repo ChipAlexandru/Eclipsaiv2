@@ -25,6 +25,16 @@ export function classifySpokenOrderApproval(utterance) {
   return words.some((word) => APPROVAL_SIGNAL.test(word)) || APPROVAL_SIGNAL.test(normalized) ? "approved" : "ambiguous";
 }
 
+export function materiallyEqual(left, right) {
+  if (Object.is(left, right)) return true;
+  if (!left || !right || typeof left !== "object" || typeof right !== "object") return false;
+  if (Array.isArray(left) !== Array.isArray(right)) return false;
+  const leftKeys = Object.keys(left).sort();
+  const rightKeys = Object.keys(right).sort();
+  return leftKeys.length === rightKeys.length
+    && leftKeys.every((key, index) => key === rightKeys[index] && materiallyEqual(left[key], right[key]));
+}
+
 function messageText(item) {
   return (item?.content || []).map((entry) => entry?.type === "input_audio" || entry?.type === "output_audio" ? entry.transcript : entry?.type === "input_text" || entry?.type === "output_text" ? entry.text : "").filter(Boolean).join(" ").trim() || null;
 }
@@ -47,6 +57,14 @@ export function findOrderConfirmationReply(history, reviewUserItemId) {
   const reply = history.slice(questionIndex + 1).find((item) => item?.type === "message" && item.role === "user" && item.itemId);
   if (!reply) return { ok: false, reason: "no_new_reply" };
   return { ok: true, questionItemId: history[questionIndex].itemId, reply: { itemId: reply.itemId, status: reply.status, text: messageText(reply) } };
+}
+
+export function transitionApprovalForCompletedReply(approvalState, confirmationReply) {
+  if (!approvalState || !confirmationReply?.ok || confirmationReply.reply?.status !== "completed" || !confirmationReply.reply?.text) return { action: "unchanged", approvalState };
+  const decision = classifySpokenOrderApproval(confirmationReply.reply.text);
+  if (decision === "approved") return { action: "approved_reply", decision, approvalState };
+  if (decision === "refused") return { action: "explicit_refusal", decision, approvalState: null };
+  return { action: "ambiguous_reask", decision, approvalState: { ...approvalState, reviewUserItemId: confirmationReply.reply.itemId } };
 }
 
 export function isOrderConfirmationQuestion(value) {
@@ -81,7 +99,7 @@ export function validateSpokenOrderApproval({ review, expectedFingerprint, revie
   if (confirmationReply.reply?.status !== "completed" || !confirmationReply.reply?.text) return { ok: false, pending: true, retryable: true, reason: "reply_transcript_pending", error: "The traveler’s confirmation transcript is still settling." };
   const decision = classifySpokenOrderApproval(confirmationReply.reply.text);
   if (decision === "approved") return { ok: true, decision, fingerprint: review.fingerprint };
-  if (decision === "refused") return { ok: false, decision, reason: "refused", error: "The traveler did not confirm the order." };
+  if (decision === "refused") return { ok: false, decision, reason: "explicit_refusal", error: "The traveler did not confirm the order." };
   return { ok: false, decision, reason: "ambiguous", error: "The reply was not an unambiguous order confirmation. Ask again and wait." };
 }
 
@@ -89,14 +107,27 @@ export function shouldKeepApprovalArmed(result) {
   return Boolean(result && !result.ok && result.pending && result.retryable);
 }
 
-export async function completeSpokenOrderConfirmation({ approvalState, expectedFingerprint, getCurrentApprovalState, getCurrentGeneration, getCurrentSession, getReview, waitForConfirmationReply, finalizeOrder, onConsentValidated = () => {} }) {
-  if (!approvalState) return { ok: false, reason: "approval_cancelled", error: "The order confirmation was cancelled. Review the order again before confirming.", closeOverlay: false, showOrderTracker: false, clearApproval: true };
+export function approvalCancellationReason({ approvalState, currentApprovalState, currentGeneration, currentSession, revocation }) {
+  if (!approvalState) return "missing_approval";
+  if (revocation?.approvalState === approvalState && revocation.reason) return revocation.reason;
+  if (currentApprovalState && currentApprovalState !== approvalState) return "approval_replaced";
+  if (approvalState.generation !== currentGeneration) return "session_replaced";
+  if (!currentSession || approvalState.session !== currentSession) return "session_ended";
+  return "approval_cancelled";
+}
+
+export async function completeSpokenOrderConfirmation({ approvalState, expectedFingerprint, getCurrentApprovalState, getCurrentGeneration, getCurrentSession, getReview, getRevocation = () => null, waitForConfirmationReply, finalizeOrder, onConsentValidated = () => {} }) {
+  if (!approvalState) return { ok: false, reason: "missing_approval", error: "Review the order again before confirming.", closeOverlay: false, showOrderTracker: false, clearApproval: true };
   const confirmationReply = await waitForConfirmationReply(approvalState);
-  const sessionIsCurrent = isApprovalSessionCurrent({ approvalState, currentApprovalState: getCurrentApprovalState(), currentGeneration: getCurrentGeneration(), currentSession: getCurrentSession() });
+  const currentApprovalState = getCurrentApprovalState();
+  const currentGeneration = getCurrentGeneration();
+  const currentSession = getCurrentSession();
+  const sessionIsCurrent = isApprovalSessionCurrent({ approvalState, currentApprovalState, currentGeneration, currentSession });
+  const cancellationReason = sessionIsCurrent ? null : approvalCancellationReason({ approvalState, currentApprovalState, currentGeneration, currentSession, revocation: getRevocation() });
   const approval = sessionIsCurrent
     ? validateSpokenOrderApproval({ review: getReview(), expectedFingerprint, reviewUserItemId: approvalState?.reviewUserItemId, confirmationReply })
-    : { ok: false, reason: "approval_cancelled", error: "The order confirmation was cancelled. Review the order again before confirming." };
-  if (!approval.ok) return { ...approval, closeOverlay: false, showOrderTracker: false, clearApproval: !shouldKeepApprovalArmed(approval) };
+    : { ok: false, ...(cancellationReason === "ambiguous_reask" ? { pending: true, retryable: true } : {}), reason: cancellationReason, error: cancellationReason === "approval_replaced" ? "A newer order review is awaiting confirmation." : cancellationReason === "ambiguous_reask" ? "The reply was not an unambiguous order confirmation. Ask again and wait." : cancellationReason === "bag_changed" || cancellationReason === "travel_changed" ? "The reviewed order changed. Review it again before confirming." : cancellationReason === "explicit_refusal" || cancellationReason === "explicit_change_requested" ? "The traveler did not confirm this order." : "The order confirmation session ended. Review the order again before confirming." };
+  if (!approval.ok) return { ...approval, closeOverlay: false, showOrderTracker: false, clearApproval: !["approval_replaced", "ambiguous_reask"].includes(approval.reason) && !shouldKeepApprovalArmed(approval) };
   onConsentValidated(approval);
   const committed = finalizeOrder(expectedFingerprint);
   return committed.ok
