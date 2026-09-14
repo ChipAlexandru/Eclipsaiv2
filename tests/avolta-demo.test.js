@@ -97,25 +97,52 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   const approval = await import(pathToFileURL(path.join(feature, "voiceOrderApproval.mjs")));
   const review = { fingerprint: "bag-a:flight-a:collection:store", summary: { itemCount: 1 } };
   const reviewUserItemId = "request-review";
-  const yes = { itemId: "reply-yes", text: "Yes, please confirm the order." };
-
-  assert.deepEqual(approval.latestCompletedUserUtterance([
+  const historyThroughQuestion = [
+    { itemId: "older-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes" }] },
     { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Please review it." }] },
     { itemId: "assistant-review", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "Do you confirm the order?" }] },
-    { itemId: yes.itemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: yes.text }] },
-  ]), yes);
-  assert.equal(approval.latestUserItemId([
-    { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: null }] },
-    { itemId: "assistant-review", type: "message", role: "assistant", status: "in_progress", content: [] },
-  ]), reviewUserItemId);
+  ];
+  const pendingRefusal = [...historyThroughQuestion, { itemId: "current-reply", type: "message", role: "user", status: "in_progress", content: [{ type: "input_audio", transcript: null }] }];
+  assert.deepEqual(approval.latestUserTurn(pendingRefusal), { itemId: "current-reply", status: "in_progress", text: null });
+  const pendingReply = approval.findOrderConfirmationReply(pendingRefusal, reviewUserItemId);
+  assert.equal(pendingReply.reply.itemId, "current-reply");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: pendingReply }).reason, "reply_transcript_pending");
+  let currentHistory = pendingRefusal;
+  let publishHistory = null;
+  const delayedReplyPromise = approval.waitForScopedConfirmationReply({ getHistory: () => currentHistory, reviewUserItemId, timeoutMs: 100, subscribe: (notify) => { publishHistory = notify; return () => { publishHistory = null; }; } });
+  currentHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "Yes, thank you" }] } : item);
+  publishHistory(currentHistory);
+  assert.equal((await delayedReplyPromise).reply.itemId, "current-reply");
+  let cancelWait = null;
+  const cancelledReplyPromise = approval.waitForScopedConfirmationReply({ getHistory: () => pendingRefusal, reviewUserItemId, timeoutMs: 100, subscribe: (notify) => { cancelWait = notify; return () => { cancelWait = null; }; } });
+  cancelWait(null);
+  assert.equal(await cancelledReplyPromise, null);
+
   assert.equal(approval.classifySpokenOrderApproval("Yes"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, thank you"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, please go ahead"), "approved");
   assert.equal(approval.classifySpokenOrderApproval("No, change it"), "refused");
   assert.equal(approval.classifySpokenOrderApproval("Yes, I like that brand"), "ambiguous");
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: { itemId: reviewUserItemId, text: "yes" } }).reason, "no_new_reply");
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId: null, latestUser: yes }).reason, "missing_review_boundary");
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: { itemId: "reply-no", text: "No, not yet" } }).reason, "refused");
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: "stale-review", reviewUserItemId, latestUser: yes }).reason, "stale_review");
-  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: yes }).ok, true);
+
+  const refusalHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "No, not yet" }] } : item);
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId) }).reason, "refused");
+  const divertedThenYes = [...historyThroughQuestion,
+    { itemId: "diversion", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "What time is it?" }] },
+    { itemId: "assistant-diversion", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "It is eight." }] },
+    { itemId: "later-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes" }] },
+  ];
+  const diversionReply = approval.findOrderConfirmationReply(divertedThenYes, reviewUserItemId);
+  assert.equal(diversionReply.reply.itemId, "diversion");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: diversionReply }).reason, "ambiguous");
+
+  const yesHistory = [...historyThroughQuestion, { itemId: "reply-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes, thank you" }] }];
+  const yesReply = approval.findOrderConfirmationReply(yesHistory, reviewUserItemId);
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: "stale-review", reviewUserItemId, confirmationReply: yesReply }).reason, "stale_review");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: yesReply }).ok, true);
+  const session = {};
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 7, currentSession: session }), true);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 8, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 7, currentSession: null }), false);
 
   const first = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, reference: "ZRH-1", confirmedAt: "real-now", confirmedAtDemo: "demo-now" });
   assert.equal(first.ok, true);

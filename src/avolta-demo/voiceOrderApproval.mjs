@@ -16,6 +16,9 @@ const APPROVAL_PHRASES = new Set([
   "yes please confirm it",
   "yes please confirm the order",
   "yes go ahead",
+  "yes please go ahead",
+  "yes thank you",
+  "yes thanks",
   "i confirm",
   "i confirm it",
   "i confirm the order",
@@ -39,34 +42,61 @@ export function classifySpokenOrderApproval(utterance) {
   return APPROVAL_PHRASES.has(normalized) ? "approved" : "ambiguous";
 }
 
-export function latestCompletedUserUtterance(history) {
+function messageText(item) {
+  return (item?.content || []).map((entry) => entry?.type === "input_audio" || entry?.type === "output_audio" ? entry.transcript : entry?.type === "input_text" || entry?.type === "output_text" ? entry.text : "").filter(Boolean).join(" ").trim() || null;
+}
+
+export function latestUserTurn(history) {
   if (!Array.isArray(history)) return null;
   for (let index = history.length - 1; index >= 0; index -= 1) {
     const item = history[index];
-    if (item?.type !== "message" || item.role !== "user" || item.status !== "completed") continue;
-    const text = (item.content || []).map((entry) => entry?.type === "input_audio" ? entry.transcript : entry?.type === "input_text" ? entry.text : "").filter(Boolean).join(" ").trim();
-    if (text) return { itemId: item.itemId, text };
+    if (item?.type === "message" && item.role === "user" && item.itemId) return { itemId: item.itemId, status: item.status, text: messageText(item) };
   }
   return null;
 }
 
-export function latestUserItemId(history) {
-  if (!Array.isArray(history)) return null;
-  for (let index = history.length - 1; index >= 0; index -= 1) {
-    const item = history[index];
-    if (item?.type === "message" && item.role === "user" && item.itemId) return item.itemId;
-  }
-  return null;
+export function findOrderConfirmationReply(history, reviewUserItemId) {
+  if (!Array.isArray(history) || !reviewUserItemId) return { ok: false, reason: "missing_review_boundary" };
+  const reviewIndex = history.findIndex((item) => item?.itemId === reviewUserItemId);
+  if (reviewIndex < 0) return { ok: false, reason: "missing_review_boundary" };
+  const questionIndex = history.findIndex((item, index) => index > reviewIndex && item?.type === "message" && item.role === "assistant" && item.status === "completed" && normalizeUtterance(messageText(item)).includes("do you confirm the order"));
+  if (questionIndex < 0) return { ok: false, reason: "question_not_spoken" };
+  const reply = history.slice(questionIndex + 1).find((item) => item?.type === "message" && item.role === "user" && item.itemId);
+  if (!reply) return { ok: false, reason: "no_new_reply" };
+  return { ok: true, questionItemId: history[questionIndex].itemId, reply: { itemId: reply.itemId, status: reply.status, text: messageText(reply) } };
 }
 
-export function validateSpokenOrderApproval({ review, expectedFingerprint, reviewUserItemId, latestUser }) {
+export function waitForScopedConfirmationReply({ getHistory, subscribe, reviewUserItemId, timeoutMs = 1800 }) {
+  const inspect = () => findOrderConfirmationReply(getHistory(), reviewUserItemId);
+  const current = inspect();
+  if (current.ok && current.reply?.status === "completed" && current.reply?.text) return Promise.resolve(current);
+  return new Promise((resolve) => {
+    let timeoutId = null;
+    let unsubscribe = () => {};
+    const finish = (result = null) => { if (timeoutId !== null) clearTimeout(timeoutId); unsubscribe(); resolve(result); };
+    const onHistory = (history) => {
+      if (history === null) { finish(null); return; }
+      const result = inspect();
+      if (result.ok && result.reply?.status === "completed" && result.reply?.text) finish(result);
+    };
+    unsubscribe = subscribe(onHistory) || unsubscribe;
+    timeoutId = setTimeout(() => finish(inspect()), timeoutMs);
+  });
+}
+
+export function validateSpokenOrderApproval({ review, expectedFingerprint, reviewUserItemId, confirmationReply }) {
   if (!review || !expectedFingerprint || review.fingerprint !== expectedFingerprint) return { ok: false, reason: "stale_review", error: "The reviewed order changed. Review it again before confirming." };
   if (!reviewUserItemId) return { ok: false, reason: "missing_review_boundary", error: "Ask the traveler to review the order again before confirming." };
-  if (!latestUser?.itemId || latestUser.itemId === reviewUserItemId) return { ok: false, reason: "no_new_reply", error: "Wait for the traveler to answer the order confirmation question." };
-  const decision = classifySpokenOrderApproval(latestUser.text);
+  if (!confirmationReply?.ok) return { ok: false, reason: confirmationReply?.reason || "no_new_reply", error: confirmationReply?.reason === "question_not_spoken" ? "Ask the order confirmation question and wait for the answer." : "Wait for the traveler to answer the order confirmation question." };
+  if (confirmationReply.reply?.status !== "completed" || !confirmationReply.reply?.text) return { ok: false, reason: "reply_transcript_pending", error: "Wait for the traveler’s confirmation transcript." };
+  const decision = classifySpokenOrderApproval(confirmationReply.reply.text);
   if (decision === "approved") return { ok: true, decision, fingerprint: review.fingerprint };
   if (decision === "refused") return { ok: false, decision, reason: "refused", error: "The traveler did not confirm the order." };
   return { ok: false, decision, reason: "ambiguous", error: "The reply was not an unambiguous order confirmation. Ask again and wait." };
+}
+
+export function isApprovalSessionCurrent({ approvalState, currentGeneration, currentSession }) {
+  return Boolean(approvalState && currentSession && approvalState.generation === currentGeneration && approvalState.session === currentSession);
 }
 
 export function finalizeReviewedOrder({ review, currentFingerprint, expectedFingerprint = null, existingReservation = null, reference, confirmedAt, confirmedAtDemo }) {

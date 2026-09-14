@@ -7,7 +7,7 @@ import { basketSummary, changeQuantity, compactProduct, departureEligibility, re
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
 import { acquireMicrophoneWithTimeout } from "./voiceLifecycle.mjs";
-import { finalizeReviewedOrder, latestCompletedUserUtterance, latestUserItemId, validateSpokenOrderApproval } from "./voiceOrderApproval.mjs";
+import { classifySpokenOrderApproval, finalizeReviewedOrder, findOrderConfirmationReply, isApprovalSessionCurrent, latestUserTurn, validateSpokenOrderApproval, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -137,7 +137,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const travelRef = useRef(travel);
   const reviewRef = useRef(review);
   const voiceReviewApprovalRef = useRef(null);
-  const latestUserUtteranceRef = useRef(null);
+  const voiceHistoryRef = useRef([]);
   const transcriptWaitersRef = useRef(new Set());
   const reservationRef = useRef(reservation);
   const orderRef = useRef(order);
@@ -358,8 +358,8 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     if (fulfillment.method === "none") return { ok: false, error: fulfillment.reason };
     const fingerprint = `${reservationFingerprint(basketRef.current, travelRef.current)}:${flight.id}:${fulfillment.method}:${fulfillment.destination}`;
     const draft = { fingerprint, summary, travel: { ...travelRef.current }, fulfillment, pickupLocation: fulfillment.destination, serviceConcept: "Simulated same-journey fulfillment", reviewedAtDemo: demoNowRef.current.toISOString() };
-    const reviewUserItemId = latestUserUtteranceRef.current?.itemId || latestUserItemId(sessionRef.current?.history) || null;
-    reviewRef.current = draft; voiceReviewApprovalRef.current = { fingerprint, reviewUserItemId }; setReview(draft); setReservationError(""); return { ok: true, review: draft };
+    const reviewUserItemId = latestUserTurn(sessionRef.current?.history || voiceHistoryRef.current)?.itemId || null;
+    reviewRef.current = draft; voiceReviewApprovalRef.current = { fingerprint, reviewUserItemId, generation: voiceStartSequenceRef.current, session: sessionRef.current }; setReview(draft); setReservationError(""); return { ok: true, review: draft };
   }, [productsById]);
   const createReservation = useCallback((expectedFingerprint = null) => {
     const flight = travelRef.current.selectedFlight; const fulfillment = recommendFulfillment({ stage: travelRef.current.stage, flight, demoNow: demoNowRef.current });
@@ -368,24 +368,20 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     if (!outcome.ok) { setReservationError(outcome.error); return outcome; }
     const result = outcome.reservation;
     if (!outcome.duplicatePrevented) { reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result); previousOrderStateRef.current = "Preparing"; }
-    setApprovalRequest(null); setActivePanel("basket"); setReservationError(""); return { ok: true, duplicatePrevented: outcome.duplicatePrevented, order: { reference: result.reference, fulfillment: customerFulfillment(result.fulfillment), progress: orderProgress(result, demoNowRef.current) } };
+    voiceReviewApprovalRef.current = null; setApprovalRequest(null); setActivePanel("basket"); setReservationError(""); return { ok: true, duplicatePrevented: outcome.duplicatePrevented, order: { reference: result.reference, fulfillment: customerFulfillment(result.fulfillment), progress: orderProgress(result, demoNowRef.current) } };
   }, [flightDay.serviceDate]);
 
-  const recordUserUtterance = useCallback((utterance) => {
-    if (!utterance?.itemId || !utterance.text) return;
-    latestUserUtteranceRef.current = utterance;
-    for (const notify of transcriptWaitersRef.current) notify(utterance);
+  const recordVoiceHistory = useCallback((history) => {
+    voiceHistoryRef.current = Array.isArray(history) ? history : [];
+    const pending = voiceReviewApprovalRef.current;
+    if (pending) {
+      const confirmation = findOrderConfirmationReply(voiceHistoryRef.current, pending.reviewUserItemId);
+      if (confirmation.ok && confirmation.reply?.status === "completed" && confirmation.reply?.text && classifySpokenOrderApproval(confirmation.reply.text) !== "approved") voiceReviewApprovalRef.current = null;
+    }
+    for (const notify of transcriptWaitersRef.current) notify(voiceHistoryRef.current);
   }, []);
-  const waitForUserReplyAfter = useCallback((itemId, timeoutMs = 1800) => {
-    const current = latestUserUtteranceRef.current;
-    if (current?.itemId && current.itemId !== itemId) return Promise.resolve(current);
-    return new Promise((resolve) => {
-      let timeoutId = null;
-      const finish = (utterance = null) => { if (timeoutId !== null) window.clearTimeout(timeoutId); transcriptWaitersRef.current.delete(onTranscript); resolve(utterance); };
-      const onTranscript = (utterance) => { if (utterance?.itemId && utterance.itemId !== itemId) finish(utterance); };
-      transcriptWaitersRef.current.add(onTranscript);
-      timeoutId = window.setTimeout(() => finish(null), timeoutMs);
-    });
+  const waitForConfirmationReply = useCallback((reviewState, timeoutMs = 1800) => {
+    return waitForScopedConfirmationReply({ getHistory: () => voiceHistoryRef.current, reviewUserItemId: reviewState?.reviewUserItemId, timeoutMs, subscribe: (notify) => { transcriptWaitersRef.current.add(notify); return () => transcriptWaitersRef.current.delete(notify); } });
   }, []);
   const showProductDetails = useCallback((productId) => { if (!validProductIds.has(productId)) return null; selectedIdRef.current = productId; setSelectedId(productId); setActivePanel("detail"); return compactProduct(productsById.get(productId)); }, [productsById, validProductIds]);
   const markCollectionCollected = useCallback(() => {
@@ -414,10 +410,10 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
     const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
     const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) setActivePanel("review"); return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
-    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact reviewed order only in the response turn immediately after the traveler gives an unambiguous spoken approval to ‘Do you confirm the order?’. Call silently and announce success only when the result is ok. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => { const approvalState = voiceReviewApprovalRef.current; const latestUser = await waitForUserReplyAfter(approvalState?.reviewUserItemId); const approval = validateSpokenOrderApproval({ review: reviewRef.current, expectedFingerprint: review_fingerprint, reviewUserItemId: approvalState?.reviewUserItemId, latestUser }); return safe(approval.ok ? createReservation(review_fingerprint) : approval); } });
+    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact reviewed order only in the response turn immediately after the traveler gives an unambiguous spoken approval to ‘Do you confirm the order?’. Call silently and announce success only when the result is ok. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => { const approvalState = voiceReviewApprovalRef.current; const confirmationReply = await waitForConfirmationReply(approvalState); const sessionIsCurrent = isApprovalSessionCurrent({ approvalState, currentGeneration: voiceStartSequenceRef.current, currentSession: sessionRef.current }); const approval = sessionIsCurrent ? validateSpokenOrderApproval({ review: reviewRef.current, expectedFingerprint: review_fingerprint, reviewUserItemId: approvalState.reviewUserItemId, confirmationReply }) : { ok: false, reason: "session_ended", error: "The voice session ended. Review the order again before confirming." }; if (!approval.ok) voiceReviewApprovalRef.current = null; return safe(approval.ok ? createReservation(review_fingerprint) : approval); } });
     const collectTool = tool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
     return [getState, search, show, details, compare, keep, showSaved, basketTool, travelTool, findFlight, proposeFlightTool, confirmFlightTool, correctFlightTool, assess, fulfillmentTool, reviewTool, confirmTool, collectTool];
-  }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel, waitForUserReplyAfter]);
+  }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel, waitForConfirmationReply]);
 
   const clearVoiceTimeout = useCallback(() => { if (voiceTimeoutRef.current !== null) { window.clearTimeout(voiceTimeoutRef.current); voiceTimeoutRef.current = null; } }, []);
   const clearAudioPoll = useCallback(() => { if (audioPollRef.current !== null) { window.clearInterval(audioPollRef.current); audioPollRef.current = null; } }, []);
@@ -439,7 +435,9 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const disposeVoiceTransport = useCallback(() => {
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
+    voiceReviewApprovalRef.current = null; voiceHistoryRef.current = [];
     for (const notify of transcriptWaitersRef.current) notify(null);
+    transcriptWaitersRef.current.clear();
     microphoneStreamRef.current?.getTracks().forEach((track) => track.stop()); microphoneStreamRef.current = null;
     const audio = audioOutputRef.current; if (audio) { audio.pause(); audio.srcObject = null; }
   }, [clearAudioPoll, clearVoiceTimeout]);
@@ -552,7 +550,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         activeVoiceModelRef.current = null; setActiveVoiceModel(null); setIsMuted(false); setSoundBlocked(false); setPlaybackState("idle");
         setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
       });
-      session.on("history_updated", (history) => { if (isCurrentSession()) recordUserUtterance(latestCompletedUserUtterance(history)); });
+      session.on("history_updated", (history) => { if (isCurrentSession()) recordVoiceHistory(history); });
       session.on("agent_tool_start", (_context, _agent, activeTool) => { if (isCurrentSession()) setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); });
       session.on("agent_tool_end", () => { if (isCurrentSession()) setVoiceEventEvidence((current) => ({ ...current, toolEnds: current.toolEnds + 1 })); });
       session.on("agent_end", (_context, _agent, output) => { if (isCurrentSession() && String(output || "").trim()) setVoiceEventEvidence((current) => ({ ...current, spokenTurns: current.spokenTurns + 1 })); });
@@ -588,12 +586,12 @@ Initial interface state: ${safe(stateSnapshot())}` });
       if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceMicrophoneTimeoutError" ? "Microphone permission did not complete. Check your browser permission and try again." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
     }
-  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, recordUserUtterance, stateSnapshot]);
+  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, recordVoiceHistory, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
     const session = sessionRef.current; if (!session) return;
     const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening. Speak naturally.");
   }, [isMuted]);
-  useEffect(() => () => { mountedRef.current = false; if (introTimerRef.current !== null) window.clearTimeout(introTimerRef.current); clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); }, [clearAudioPoll, clearVoiceTimeout]);
+  useEffect(() => () => { mountedRef.current = false; voiceStartSequenceRef.current += 1; if (introTimerRef.current !== null) window.clearTimeout(introTimerRef.current); disposeVoiceTransport(); }, [disposeVoiceTransport]);
 
   const showFullCollection = useCallback((category = "All") => { const matches = category === "All" ? products : products.filter((product) => product.productType === category); presentationSequenceRef.current += 1; visibleIdsRef.current = matches.map((product) => product.id); setVisibleIds(visibleIdsRef.current); setFocusedView(false); setActiveCategory(category); selectedIdRef.current = null; setSelectedId(null); queueMicrotask(() => sendInterfaceState("the browse collection changed")); }, [products, sendInterfaceState]);
   const selectProduct = useCallback((productId) => { presentationSequenceRef.current += 1; selectedIdRef.current = productId; setSelectedId(productId); queueMicrotask(() => sendInterfaceState("the shopper selected a product by touch")); }, [sendInterfaceState]);
