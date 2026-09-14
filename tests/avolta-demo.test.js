@@ -256,6 +256,8 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /itineraryProvenance:[^\n]+basis: "assumed demo itinerary"/);
   assert.match(client, /retrievedFromPersonalBooking: false/);
   assert.match(client, /useState\(\(\) => travelWithItinerary\(initialAssumedFlight\)\)/);
+  assert.match(client, /!assumedItineraryAlignedRef\.current/);
+  assert.match(client, /else if \(travelRef\.current\.selectedFlight\?\.assumptionBasis\) updateTravel\(\{ selectedFlight: null/);
   assert.match(client, /className=\{styles\.flightTimeline\}/);
   assert.match(client, /className=\{styles\.timelineRail\}/);
   assert.match(client, /journeyStage !== "unknown" && <i className=\{styles\.timelinePosition\}/);

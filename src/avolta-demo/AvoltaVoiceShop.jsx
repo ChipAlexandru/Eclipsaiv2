@@ -140,6 +140,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const flightMatchesRef = useRef([]);
   const pendingFlightRef = useRef(null);
   const itineraryDismissedRef = useRef(false);
+  const assumedItineraryAlignedRef = useRef(false);
   const announcedOrderStatesRef = useRef([]);
   const previousOrderStateRef = useRef(null);
   const voiceWelcomedRef = useRef(false);
@@ -169,6 +170,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       if (stored?.basket) { basketRef.current = stored.basket; setBasket(stored.basket); }
       if (stored?.travel) { travelRef.current = { ...DEFAULT_TRAVEL, ...stored.travel }; setTravel(travelRef.current); }
       itineraryDismissedRef.current = Boolean(stored?.itineraryDismissed);
+      assumedItineraryAlignedRef.current = Boolean(stored?.travel || stored?.itineraryDismissed);
       if (stored?.reservation) { reservationRef.current = stored.reservation; setReservation(stored.reservation); }
       if (stored?.order) { orderRef.current = stored.order; setOrder(stored.order); }
       if (Array.isArray(stored?.announcedOrderStates)) announcedOrderStatesRef.current = stored.announcedOrderStates;
@@ -292,7 +294,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
         if (!Array.isArray(payload.illustrativeFlights)) throw new Error("Flight information is unavailable.");
         journeyContextRef.current = payload; const matches = payload.flightSearch?.matches || []; flightMatchesRef.current = matches;
         setFlightContext(payload); if (!query) setFlightContextStatus("ready");
-        if (!query && !travelRef.current.selectedFlight && !pendingFlightRef.current && !itineraryDismissedRef.current && payload.assumedFlight) updateTravel({ selectedFlight: payload.assumedFlight, destination: payload.assumedFlight.destination || "", gate: payload.assumedFlight.gate || "", departureDateTime: payload.assumedFlight.scheduledDeparture || "" }, "assumption");
+        if (!query && !pendingFlightRef.current && !itineraryDismissedRef.current && !assumedItineraryAlignedRef.current) {
+          assumedItineraryAlignedRef.current = true;
+          if (payload.assumedFlight) updateTravel({ selectedFlight: payload.assumedFlight, destination: payload.assumedFlight.destination || "", gate: payload.assumedFlight.gate || "", departureDateTime: payload.assumedFlight.scheduledDeparture || "" }, "assumption");
+          else if (travelRef.current.selectedFlight?.assumptionBasis) updateTravel({ selectedFlight: null, destination: "", gate: "", departureDateTime: "" }, "assumption");
+        }
         if (query && matches.length === 1) proposeFlight(matches[0]);
         return payload;
       } catch (error) {
