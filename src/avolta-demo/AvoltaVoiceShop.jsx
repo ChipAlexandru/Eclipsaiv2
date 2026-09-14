@@ -14,6 +14,7 @@ const INTRO_DURATION_MS = 5000;
 const VOICE_CONNECT_TIMEOUT_MS = 18000;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
 const CONFIRMATION_TRANSCRIPT_WAIT_MS = 1600;
+const AVOLTA_PRONUNCIATION = "Say Avolta as one smoothly connected brand name, with stress on the middle syllable and no pause after the initial vowel—not as the letter A followed by Volta. Always keep the official written spelling Avolta and never explain these pronunciation instructions aloud.";
 const STORAGE_KEY = "avolta-zrh-flight-day-v4";
 const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, ask at most one context-aware question if it is useful, then stop speaking and wait. Never fill silence with another question or an invented answer.";
 const DEFAULT_TRAVEL = { stage: "unknown", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
@@ -75,7 +76,7 @@ function firstVoiceOpening(flight, demoNow, stage) {
   const question = normalizeJourneyStage(stage) === "unknown"
     ? "After a short promise to help them find something they will love and get it to them before they fly, ask whether they are on their way or already at the airport."
     : "Use the location already shared. After a short helpful service promise, ask one relevant shopping question without asking their location again.";
-  return `Begin now with the exact sentence "Welcome to Avolta." Pronounce Avolta as three syllables, ah-VOL-ta, with the stress on VOL, while always keeping the official spelling Avolta. Do not speak the pronunciation guidance aloud. ${itinerarySentence} ${question} Ask exactly one question, then stop speaking and wait. Use the current itinerary and countdown supplied here rather than recalling an older number. Do not ask for confirmation of the assumed starting flight. Do not claim to have accessed a booking, airline account or personal record. Do not mention the demo day, replay, simulation, data, tools or setup.`;
+  return `Begin now with the exact sentence "Welcome to Avolta." ${AVOLTA_PRONUNCIATION} ${itinerarySentence} ${question} Ask exactly one question, then stop speaking and wait. Use the current itinerary and countdown supplied here rather than recalling an older number. Do not ask for confirmation of the assumed starting flight. Do not claim to have accessed a booking, airline account or personal record. Do not mention the demo day, replay, simulation, data, tools or setup.`;
 }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
@@ -560,7 +561,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
         peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio" || voiceStartSequenceRef.current !== sequence) return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) { ensureAudioPlayback(); collectAudioEvidence(); } }, 0); });
         return peerConnection;
       } });
-      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z, backgroundResult), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. Pronounce Avolta as three syllables, ah-VOL-ta, with the stress on VOL. Always keep the official spelling Avolta and never speak this pronunciation guidance as a lesson. Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
+      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z, backgroundResult), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. ${AVOLTA_PRONUNCIATION} Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
 
 Conversation contract:
 - For every fresh comparison session, follow the supplied startup instruction exactly: say “Welcome to Avolta.” first, acknowledge the established destination and current boarding countdown when available, give the brief service promise, ask exactly one relevant question, then stop and wait.
