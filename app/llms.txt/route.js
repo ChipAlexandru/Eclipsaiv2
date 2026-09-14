@@ -13,7 +13,7 @@ export async function GET() {
   const lines = [
     "# Eclipsai",
     "",
-    "> Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
+    "> Eclipsai makes and implements daily production decisions for fresh-food operators, then measures their effect on profit, waste, and sales.",
     "",
     "## About",
     "",
