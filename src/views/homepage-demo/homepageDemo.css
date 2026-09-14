@@ -139,6 +139,17 @@
   letter-spacing: -.045em;
   text-wrap: balance;
 }
+.homepage-demo-copy-refresh .homepage-demo-hero-hierarchy {
+  display: grid;
+  gap: 17px;
+}
+.homepage-demo-copy-refresh .homepage-demo-hero-hierarchy > span { display: block; }
+.homepage-demo-copy-refresh .homepage-demo-hero-hierarchy > small {
+  display: block;
+  color: var(--solar);
+  font: 600 clamp(22px, 2.35vw, 31px)/1.08 var(--sans);
+  letter-spacing: -.025em;
+}
 
 .homepage-demo-hero-lower {
   display: grid;
@@ -152,6 +163,10 @@
   color: rgba(255,250,242,.83);
   font-size: clamp(16px, 1.55vw, 20px);
   line-height: 1.55;
+}
+.homepage-demo-copy-refresh .homepage-demo-hero-intro > p {
+  max-width: 590px;
+  line-height: 1.68;
 }
 
 .homepage-demo-button {
@@ -263,6 +278,14 @@
   font: 500 clamp(38px, 4.4vw, 62px)/1.02 var(--sans);
   letter-spacing: -.045em;
 }
+.homepage-demo-copy-refresh .homepage-demo-approach-head h2 {
+  max-width: 820px;
+  font-size: clamp(34px, 3.6vw, 50px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -.035em;
+}
+.homepage-demo-copy-refresh .homepage-demo-deliberate-break { display: block; }
 .homepage-demo-approach-stage {
   display: grid;
   grid-template-columns: 1fr .92fr;
@@ -777,6 +800,15 @@
   font: 500 clamp(48px, 5.7vw, 78px)/.96 var(--sans);
   letter-spacing: -.045em;
 }
+.homepage-demo-copy-refresh .homepage-demo-evidence h2,
+.homepage-demo-copy-refresh.ffh .vision h2,
+.homepage-demo-copy-refresh.ffh .faq h2,
+.homepage-demo-copy-refresh.ffh .homepage-demo-final-cta h2 {
+  font-size: clamp(34px, 3.8vw, 52px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -.035em;
+}
 .homepage-demo-final-cta .button {
   min-height: 58px;
   padding-inline: 28px;
@@ -828,6 +860,9 @@
   .homepage-demo-hero { min-height: auto; }
   .homepage-demo-hero-inner { padding: 100px 0 36px; }
   .homepage-demo-hero h1 { margin-bottom: 26px; font-size: 44px; }
+  .homepage-demo-copy-refresh .homepage-demo-hero-hierarchy { gap: 13px; }
+  .homepage-demo-copy-refresh .homepage-demo-hero-hierarchy > small { font-size: 22px; }
+  .homepage-demo-copy-refresh .homepage-demo-deliberate-break { display: none; }
   .homepage-demo-hero-intro > p { font-size: 16px; }
   .homepage-demo-hero-lower { gap: 34px; }
   .homepage-demo-results { padding: 13px 14px 11px; }
@@ -887,6 +922,11 @@
     margin-bottom: 36px;
     font-size: 44px;
   }
+  .homepage-demo-copy-refresh .homepage-demo-approach-head h2,
+  .homepage-demo-copy-refresh .homepage-demo-evidence h2,
+  .homepage-demo-copy-refresh.ffh .vision h2,
+  .homepage-demo-copy-refresh.ffh .faq h2,
+  .homepage-demo-copy-refresh.ffh .homepage-demo-final-cta h2 { font-size: 34px; }
   .homepage-demo-final-cta .button { width: 100%; }
 }
 

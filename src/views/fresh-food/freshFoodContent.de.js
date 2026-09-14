@@ -22,7 +22,9 @@ export const de = {
   hero: {
     eyebrow: "Operative Intelligenz für Frischebetriebe.",
     h1: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
-    copy: "Eclipsai verbindet Verkaufs-, Produktions- und Finanzsysteme. Es trifft Produktionsentscheidungen für jede Filiale, jeden Artikel und jeden Wochentag, schreibt freigegebene Änderungen in das Produktionssystem zurück und misst täglich ihre Wirkung auf Gewinn, Abfall und früh ausverkaufte Artikel.",
+    h1Primary: "Wissen, was morgen zu produzieren ist",
+    h1Support: "Weniger wegwerfen. Mehr verkaufen.",
+    copy: "Eclipsai verbindet Verkaufs-, Produktions- und Finanzsysteme. Für jede Filiale, jeden Artikel und jeden Wochentag legt es die Produktionsmenge fest. Nach der Freigabe schreibt Eclipsai die Änderung in das Produktionssystem. Danach misst es täglich die Wirkung auf Gewinn, Abfall und frühe Ausverkäufe.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
       "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",
@@ -57,14 +59,16 @@ export const de = {
 
   product: {
     eyebrow: "Operative Intelligenz im Einsatz",
-    h2: "Es beobachtet jede Filiale, jeden Tag. Es fragt nach, wenn die Daten nicht ausreichen.",
+    h2: "Eclipsai prüft täglich die Daten jeder Filiale und fragt das Team, wenn etwas geklärt werden muss.",
+    h2Primary: "Eclipsai prüft täglich die Daten jeder Filiale",
+    h2Secondary: "und fragt das Team, wenn etwas geklärt werden muss.",
     lede: "Eclipsai verbindet Verkaufs-, Produktions-, Bestell- und Rechnungsstellungssysteme mit E-Mail, Team-Chats und relevanten externen Daten. Wenn die Daten nicht erklären, was passiert ist, stellt es dem Personal eine gezielte Frage. Antworten sind per Text, Foto oder Sprachnachricht möglich.",
     mediaLabel: "Beispiel: Eclipsai begleitet eine Produktionsentscheidung über einen vertrauten Teamkanal",
     whatChanges: "So arbeitet Eclipsai",
     items: [
       { strong: "Daten aus allen Systemen lesen und analysieren", text: "Jede Filiale, jeder Artikel und jeder Wochentag hat ein eigenes Nachfragemuster. Eclipsai berücksichtigt vergleichbare Verkaufstage, den zeitlichen Verkaufsverlauf, wahrscheinliche Ausverkäufe, geschätzten Abfall, die Wirtschaftlichkeit des Artikels und betriebliche Vorgaben." },
-      { strong: "Wirtschaftlich sinnvolle Entscheidungen erkennen", text: "Für jede Position im Produktionsplan vergleicht Eclipsai die aktuelle Menge mit umsetzbaren Alternativen. Es wägt die Kosten unverkaufter Ware gegen die gefährdete Marge ab, wenn zu wenig produziert wird." },
-      { strong: "Umsetzen und nachverfolgen", text: "Freigegebene Entscheidungen werden in die Produktionssoftware geschrieben und bestätigt. Nach Ladenschluss misst Eclipsai die Wirkung auf Verkäufe, geschätzten Abfall, frühe Ausverkäufe und Gewinn. Das Ergebnis wird zum Beleg für die nächste Entscheidung." },
+      { strong: "Produktionsmengen vergleichen", text: "Für jede Position im Produktionsplan vergleicht Eclipsai die aktuelle Menge mit umsetzbaren Alternativen. Es wägt die Kosten unverkaufter Ware gegen die gefährdete Marge ab, wenn zu wenig produziert wird." },
+      { strong: "Produktionsauftrag aktualisieren und Ergebnis prüfen", text: "Freigegebene Entscheidungen werden in die Produktionssoftware geschrieben und bestätigt. Nach Ladenschluss misst Eclipsai die Wirkung auf Verkäufe, geschätzten Abfall, frühe Ausverkäufe und Gewinn. Das Ergebnis wird zum Beleg für die nächste Entscheidung." },
     ],
   },
 

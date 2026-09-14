@@ -463,11 +463,18 @@ export function FreshFoodHomepage({ content = originalContent }) {
     );
   };
 
+  const hasCopyRefresh = Boolean(
+    c.hero.h1Primary
+    && c.hero.h1Support
+    && c.product.h2Primary
+    && c.product.h2Secondary
+  );
+
   return (
     <div
       ref={rootRef}
       lang={c.locale}
-      className={`homepage-demo ffh ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}
+      className={`homepage-demo ffh${hasCopyRefresh ? " homepage-demo-copy-refresh" : ""} ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}
     >
       <nav className="homepage-demo-nav" aria-label={c.nav.ariaLabel}>
         <div className="homepage-demo-nav-inner">
@@ -502,7 +509,14 @@ export function FreshFoodHomepage({ content = originalContent }) {
           </video>
           <div className="homepage-demo-hero-inner">
             <p className="homepage-demo-eyebrow">{c.hero.eyebrow}</p>
-            <h1>{c.hero.h1}</h1>
+            <h1 className={hasCopyRefresh ? "homepage-demo-hero-hierarchy" : undefined}>
+              {hasCopyRefresh ? (
+                <>
+                  <span>{c.hero.h1Primary}</span>
+                  <small>{c.hero.h1Support}</small>
+                </>
+              ) : c.hero.h1}
+            </h1>
 
             <div className="homepage-demo-hero-lower">
               <div className="homepage-demo-hero-intro">
@@ -551,7 +565,15 @@ export function FreshFoodHomepage({ content = originalContent }) {
           <div className="homepage-demo-wrap">
             <div className="homepage-demo-approach-head">
               <p className="homepage-demo-eyebrow">{c.product.eyebrow}</p>
-              <h2>{c.product.h2}</h2>
+              <h2>
+                {hasCopyRefresh ? (
+                  <>
+                    {c.product.h2Primary}
+                    <br className="homepage-demo-deliberate-break" />
+                    {" "}{c.product.h2Secondary}
+                  </>
+                ) : c.product.h2}
+              </h2>
             </div>
 
             <div className="homepage-demo-approach-stage">

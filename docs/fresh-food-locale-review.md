@@ -39,7 +39,8 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 | Profit brain for fresh food | Operative Intelligenz für Frischebetriebe | L'intelligence opérationnelle des métiers du frais | Intelligenza operativa per il fresco | Inteligență operațională pentru afacerile cu produse proaspete |
 | Production order lines changed | geänderte Positionen in Produktionsaufträgen | lignes de commande de production modifiées | righe degli ordini di produzione modificate | linii modificate în comenzile de producție |
 | Profit impact as share of sales | Gewinnwirkung im Verhältnis zum Umsatz | impact sur le profit en part du chiffre d'affaires | impatto sul profitto in percentuale delle vendite | impact asupra profitului ca procent din vânzări |
-| Implement and follow through | Umsetzen und nachverfolgen | Mettre en œuvre et suivre | Implementare e verificare | Implementăm și urmărim rezultatul |
+| Compare production quantities | Produktionsmengen vergleichen | Comparer les quantités de production | Confrontare le quantità di produzione | Compară cantitățile de producție |
+| Update the order and check the result | Produktionsauftrag aktualisieren und Ergebnis prüfen | Mettre à jour la commande et vérifier le résultat | Aggiornare l'ordine e verificare il risultato | Actualizează comanda și verifică rezultatul |
 
 Review these phrases for the vocabulary an owner would actually use, not for
 literal similarity to the English. German must remain Swiss Standard German

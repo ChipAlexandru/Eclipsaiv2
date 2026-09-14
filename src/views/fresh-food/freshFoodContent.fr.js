@@ -22,7 +22,9 @@ export const fr = {
   hero: {
     eyebrow: "L'intelligence opérationnelle des métiers du frais.",
     h1: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
-    copy: "Eclipsai relie les systèmes de vente, de production et de gestion financière. Elle prend des décisions de production pour chaque boutique, chaque produit et chaque jour de la semaine, inscrit les changements approuvés dans le système de production et mesure chaque jour leur effet sur le profit, les pertes et les ruptures précoces.",
+    h1Primary: "Savoir quoi produire demain",
+    h1Support: "Moins de pertes. Plus de ventes.",
+    copy: "Eclipsai relie les systèmes de vente, de production et de gestion financière. Pour chaque boutique, produit et jour de la semaine, elle décide des quantités à produire. Une fois la décision approuvée, Eclipsai la saisit dans le système de production. Elle mesure ensuite chaque jour son effet sur le profit, les pertes et les ruptures précoces.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
@@ -57,14 +59,16 @@ export const fr = {
 
   product: {
     eyebrow: "L'intelligence opérationnelle au travail",
-    h2: "Elle suit chaque boutique, chaque jour. Elle pose la question quand les données ne suffisent pas.",
+    h2: "Eclipsai vérifie chaque jour les données de chaque boutique et demande des précisions à l'équipe lorsque c'est nécessaire.",
+    h2Primary: "Eclipsai vérifie chaque jour les données de chaque boutique",
+    h2Secondary: "et demande des précisions à l'équipe lorsque c'est nécessaire.",
     lede: "Eclipsai relie les systèmes de vente, de production, de commande et de facturation aux e-mails, aux messageries d'équipe et aux données externes pertinentes. Lorsque les données n'expliquent pas ce qui s'est passé, elle pose une question précise à l'équipe concernée. Les équipes peuvent répondre par texte, photo ou message vocal.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
     items: [
       { strong: "Lire et analyser les données de tous les systèmes", text: "Chaque boutique, chaque produit et chaque jour de la semaine possède son propre profil de demande. Eclipsai tient compte des journées comparables, du rythme des ventes, des ruptures probables, des pertes estimées, de l'économie du produit et des contraintes opérationnelles." },
-      { strong: "Repérer les décisions qui ont un sens économique", text: "Pour chaque ligne de production, Eclipsai compare la quantité actuelle aux alternatives réalisables. Elle met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
-      { strong: "Mettre en œuvre et suivre", text: "Les décisions approuvées sont inscrites dans le logiciel de production et confirmées. Après la fermeture de chaque boutique, Eclipsai mesure l'effet sur les ventes, les pertes estimées, les ruptures précoces et le profit. Ce résultat devient une preuve pour la décision suivante." },
+      { strong: "Comparer les quantités de production", text: "Pour chaque ligne de production, Eclipsai compare la quantité actuelle aux alternatives réalisables. Elle met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
+      { strong: "Mettre à jour la commande et vérifier le résultat", text: "Les décisions approuvées sont inscrites dans le logiciel de production et confirmées. Après la fermeture de chaque boutique, Eclipsai mesure l'effet sur les ventes, les pertes estimées, les ruptures précoces et le profit. Ce résultat devient une preuve pour la décision suivante." },
     ],
   },
 

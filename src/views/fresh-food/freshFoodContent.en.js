@@ -26,7 +26,9 @@ export const en = {
   hero: {
     eyebrow: "The profit brain for fresh food.",
     h1: "Know what to make tomorrow. Waste less. Sell more.",
-    copy: "Eclipsai connects sales, production, and financial systems. It makes production decisions for every shop, product, and weekday, writes approved changes into the production system, and measures their daily effect on profit, waste, and early sellouts.",
+    h1Primary: "Know what to make tomorrow",
+    h1Support: "Waste less. Sell more.",
+    copy: "Eclipsai connects sales, production, and financial systems. It makes production decisions for every shop, product, and weekday. After a change is approved, Eclipsai writes it into the production system. It then measures the daily effect on profit, waste, and early sellouts.",
     examples: [
       "Adjusts tomorrow's production orders.",
       "Monitors special orders through delivery and invoicing.",
@@ -61,14 +63,16 @@ export const en = {
 
   product: {
     eyebrow: "The profit brain at work",
-    h2: "Watches every shop, every day. Asks when the data is not enough.",
+    h2: "Eclipsai checks each shop’s records and asks your team when something needs explaining.",
+    h2Primary: "Eclipsai checks each shop’s records",
+    h2Secondary: "and asks your team when something needs explaining.",
     lede: "Eclipsai connects sales, production, ordering, and invoicing systems with email, team chats, and relevant external data. When the data cannot explain what happened, it asks staff a targeted question. They can answer with text, photos, or voice notes.",
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
     items: [
       { strong: "Read and analyze data from all systems", text: "Each shop, product, and weekday has its own demand pattern. Eclipsai considers comparable trading days, sales timing, likely sellouts, estimated waste, product economics, and operating constraints." },
-      { strong: "Identify the decisions that make economic sense", text: "For each production line, Eclipsai compares the current quantity with feasible alternatives. It weighs the cost of unsold product against the margin at risk when too little is made." },
-      { strong: "Implement and follow through", text: "Approved decisions are written into the production software and confirmed. After each shop closes, Eclipsai measures the effect on sales, estimated waste, early sellouts, and cash. The result becomes evidence for the next decision." },
+      { strong: "Compare production quantities", text: "For each production line, Eclipsai compares the current quantity with feasible alternatives. It weighs the cost of unsold product against the margin at risk when too little is made." },
+      { strong: "Update the order and check the result", text: "Approved decisions are written into the production software and confirmed. After each shop closes, Eclipsai measures the effect on sales, estimated waste, early sellouts, and cash. The result becomes evidence for the next decision." },
     ],
   },
 

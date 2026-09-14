@@ -22,7 +22,9 @@ export const it = {
   hero: {
     eyebrow: "Intelligenza operativa per il fresco.",
     h1: "Sapere cosa produrre domani. Meno sprechi. Più vendite.",
-    copy: "Eclipsai collega i sistemi di vendita, produzione e amministrazione finanziaria. Prende decisioni di produzione per ogni punto vendita, prodotto e giorno della settimana, inserisce i cambiamenti approvati nel sistema di produzione e ne misura ogni giorno l'effetto su profitto, sprechi ed esaurimenti anticipati.",
+    h1Primary: "Sapere cosa produrre domani",
+    h1Support: "Meno sprechi. Più vendite.",
+    copy: "Eclipsai collega i sistemi di vendita, produzione e amministrazione finanziaria. Per ogni punto vendita, prodotto e giorno della settimana decide la quantità da produrre. Dopo l'approvazione, Eclipsai inserisce la modifica nel sistema di produzione. Poi ne misura ogni giorno l'effetto su profitto, sprechi ed esaurimenti anticipati.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
       "Segue gli ordini speciali fino a consegna e fatturazione.",
@@ -57,14 +59,16 @@ export const it = {
 
   product: {
     eyebrow: "Intelligenza operativa al lavoro",
-    h2: "Osserva ogni punto vendita, ogni giorno. Chiede quando i dati non bastano.",
+    h2: "Eclipsai controlla ogni giorno i dati di ogni punto vendita e chiede chiarimenti al team quando serve.",
+    h2Primary: "Eclipsai controlla ogni giorno i dati di ogni punto vendita",
+    h2Secondary: "e chiede chiarimenti al team quando serve.",
     lede: "Eclipsai collega i sistemi di vendita, produzione, ordini e fatturazione con e-mail, chat di lavoro e dati esterni rilevanti. Quando i dati non spiegano cosa è successo, pone al personale una domanda mirata. Le risposte possono arrivare via testo, foto o messaggio vocale.",
     mediaLabel: "Esempio: Eclipsai segue una decisione di produzione in un canale di team già familiare",
     whatChanges: "Come lavora Eclipsai",
     items: [
       { strong: "Leggere e analizzare i dati di tutti i sistemi", text: "Ogni punto vendita, prodotto e giorno della settimana ha un proprio andamento della domanda. Eclipsai considera giornate di vendita comparabili, andamento orario delle vendite, probabili esaurimenti, sprechi stimati, economia del prodotto e vincoli operativi." },
-      { strong: "Individuare le decisioni economicamente sensate", text: "Per ogni riga di produzione, Eclipsai confronta la quantità attuale con le alternative realizzabili. Soppesa il costo dell'invenduto rispetto al margine a rischio quando si produce troppo poco." },
-      { strong: "Implementare e verificare", text: "Le decisioni approvate vengono inserite nel software di produzione e confermate. Dopo la chiusura di ogni punto vendita, Eclipsai misura l'effetto su vendite, sprechi stimati, esaurimenti anticipati e profitto. Il risultato diventa una prova per la decisione successiva." },
+      { strong: "Confrontare le quantità di produzione", text: "Per ogni riga di produzione, Eclipsai confronta la quantità attuale con le alternative realizzabili. Soppesa il costo dell'invenduto rispetto al margine a rischio quando si produce troppo poco." },
+      { strong: "Aggiornare l'ordine e verificare il risultato", text: "Le decisioni approvate vengono inserite nel software di produzione e confermate. Dopo la chiusura di ogni punto vendita, Eclipsai misura l'effetto su vendite, sprechi stimati, esaurimenti anticipati e profitto. Il risultato diventa una prova per la decisione successiva." },
     ],
   },
 

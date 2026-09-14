@@ -22,7 +22,9 @@ export const ro = {
   hero: {
     eyebrow: "Inteligență operațională pentru afacerile cu produse proaspete.",
     h1: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
-    copy: "Eclipsai conectează sistemele de vânzări, producție și financiar-contabile. Ia decizii de producție pentru fiecare magazin, produs și zi a săptămânii, introduce schimbările aprobate în sistemul de producție și măsoară zilnic efectul lor asupra profitului, risipei și epuizării timpurii a stocului.",
+    h1Primary: "Știți ce să produceți mâine",
+    h1Support: "Mai puțină risipă. Mai multe vânzări.",
+    copy: "Eclipsai conectează sistemele de vânzări, producție și financiar-contabile. Stabilește cât trebuie produs în fiecare magazin, pentru fiecare produs și zi a săptămânii. După aprobare, Eclipsai introduce schimbarea în sistemul de producție. Apoi măsoară zilnic efectul asupra profitului, risipei și epuizării timpurii a stocului.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",
@@ -57,14 +59,16 @@ export const ro = {
 
   product: {
     eyebrow: "Inteligența operațională la lucru",
-    h2: "Urmărește fiecare magazin, în fiecare zi. Întreabă atunci când datele nu sunt de ajuns.",
+    h2: "Eclipsai verifică zilnic datele fiecărui magazin și cere explicații echipei când este nevoie.",
+    h2Primary: "Eclipsai verifică zilnic datele fiecărui magazin",
+    h2Secondary: "și cere explicații echipei când este nevoie.",
     lede: "Eclipsai conectează sistemele de vânzări, producție, comenzi și facturare cu e-mailul, canalele de chat ale echipelor și datele externe relevante. Când datele nu explică ce s-a întâmplat, adresează personalului o întrebare punctuală. Echipele pot răspunde prin text, fotografii sau mesaje vocale.",
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
     whatChanges: "Cum lucrează Eclipsai",
     items: [
-      { strong: "Citim și analizăm datele din toate sistemele", text: "Fiecare magazin, produs și zi a săptămânii are propriul tipar de cerere. Eclipsai ia în calcul zile de vânzare comparabile, ritmul vânzărilor, epuizările probabile, risipa estimată, economia produsului și constrângerile operaționale." },
-      { strong: "Identificăm deciziile care au sens economic", text: "Pentru fiecare linie de producție, Eclipsai compară cantitatea actuală cu alternativele fezabile. Cântărește costul produselor nevândute față de marja pusă în pericol atunci când se produce prea puțin." },
-      { strong: "Implementăm și urmărim rezultatul", text: "Deciziile aprobate sunt introduse în software-ul de producție și confirmate. După închiderea fiecărui magazin, Eclipsai măsoară efectul asupra vânzărilor, risipei estimate, epuizărilor timpurii și profitului. Rezultatul devine dovadă pentru următoarea decizie." },
+      { strong: "Analizează datele din toate sistemele", text: "Fiecare magazin, produs și zi a săptămânii are propriul tipar de cerere. Eclipsai ia în calcul zile de vânzare comparabile, ritmul vânzărilor, epuizările probabile, risipa estimată, economia produsului și constrângerile operaționale." },
+      { strong: "Compară cantitățile de producție", text: "Pentru fiecare linie de producție, Eclipsai compară cantitatea actuală cu alternativele fezabile. Cântărește costul produselor nevândute față de marja pusă în pericol atunci când se produce prea puțin." },
+      { strong: "Actualizează comanda și verifică rezultatul", text: "Deciziile aprobate sunt introduse în software-ul de producție și confirmate. După închiderea fiecărui magazin, Eclipsai măsoară efectul asupra vânzărilor, risipei estimate, epuizărilor timpurii și profitului. Rezultatul devine dovadă pentru următoarea decizie." },
     ],
   },
 
