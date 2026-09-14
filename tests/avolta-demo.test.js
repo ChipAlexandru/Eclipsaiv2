@@ -93,6 +93,40 @@ test("microphone acquisition cannot leave voice connecting forever and disposes 
   assert.equal(stopped, 1);
 });
 
+test("spoken order approval is bound to the next clear reply and the exact review", async () => {
+  const approval = await import(pathToFileURL(path.join(feature, "voiceOrderApproval.mjs")));
+  const review = { fingerprint: "bag-a:flight-a:collection:store", summary: { itemCount: 1 } };
+  const reviewUserItemId = "request-review";
+  const yes = { itemId: "reply-yes", text: "Yes, please confirm the order." };
+
+  assert.deepEqual(approval.latestCompletedUserUtterance([
+    { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Please review it." }] },
+    { itemId: "assistant-review", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "Do you confirm the order?" }] },
+    { itemId: yes.itemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: yes.text }] },
+  ]), yes);
+  assert.equal(approval.latestUserItemId([
+    { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: null }] },
+    { itemId: "assistant-review", type: "message", role: "assistant", status: "in_progress", content: [] },
+  ]), reviewUserItemId);
+  assert.equal(approval.classifySpokenOrderApproval("Yes"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("No, change it"), "refused");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, I like that brand"), "ambiguous");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: { itemId: reviewUserItemId, text: "yes" } }).reason, "no_new_reply");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId: null, latestUser: yes }).reason, "missing_review_boundary");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: { itemId: "reply-no", text: "No, not yet" } }).reason, "refused");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: "stale-review", reviewUserItemId, latestUser: yes }).reason, "stale_review");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, latestUser: yes }).ok, true);
+
+  const first = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, reference: "ZRH-1", confirmedAt: "real-now", confirmedAtDemo: "demo-now" });
+  assert.equal(first.ok, true);
+  assert.equal(first.duplicatePrevented, false);
+  assert.equal(first.reservation.submittedExternally, false);
+  const repeated = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, existingReservation: first.reservation, reference: "ZRH-2", confirmedAt: "later", confirmedAtDemo: "later-demo" });
+  assert.equal(repeated.duplicatePrevented, true);
+  assert.strictEqual(repeated.reservation, first.reservation);
+  assert.equal(approval.finalizeReviewedOrder({ review, currentFingerprint: "bag-changed", expectedFingerprint: review.fingerprint }).ok, false);
+});
+
 test("Realtime model verification keeps server and active-session evidence distinct and generation-scoped", async () => {
   const realtime = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
   const pending = realtime.beginAvoltaRealtimeVerification(7, "gpt-realtime-2.1-mini", null);
@@ -130,7 +164,7 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
 
   for (const source of [client, page, token, access]) assert.doesNotMatch(source, /src\/juliette-demo|app\/juliette-demo/);
   assert.doesNotMatch(client, /process\.env\.OPENAI_API_KEY/);
-  assert.match(client, /needsApproval:\s*true/);
+  assert.doesNotMatch(client, /needsApproval:\s*true/);
   assert.match(client, /review_demo_order/);
   assert.match(client, /confirm_demo_order/);
   assert.match(client, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
@@ -154,7 +188,11 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /If the traveler asks for a product, gift, category, brand, price or idea at any point/);
   assert.match(client, /Reuse anything the traveler has already volunteered/);
   assert.match(client, /Never ask a second question, answer on the traveler's behalf, or continue simply because there is silence/);
-  assert.match(client, /Ask for explicit approval and stop/);
+  assert.match(client, /Speak once after the tool completes/);
+  assert.match(client, /Ask exactly “Do you confirm the order\?”/);
+  assert.match(client, /review_fingerprint/);
+  assert.match(client, /validateSpokenOrderApproval/);
+  assert.match(client, /data-voice-tool-starts=/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
@@ -260,7 +298,7 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(18rem, calc\(100vw - 1rem\)\)/);
   assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
-  assert.doesNotMatch(client, /session\.on\("history_updated"/);
+  assert.match(client, /session\.on\("history_updated"/);
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
   assert.doesNotMatch(client, /Terminal 1/);
   assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
@@ -293,7 +331,11 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /\.brandHeader \{[^}]*position:\s*fixed[^}]*height:\s*var\(--compact-header-height\)/);
   assert.match(css, /\.brandHeader\[data-intro-expanded="true"\] \{[^}]*75svh/);
-  assert.match(css, /\.brandHeader \{[^}]*--compact-header-height:\s*4\.15rem/);
+  assert.match(css, /\.brandHeader \{[^}]*--compact-header-height:\s*6\.25rem/);
+  assert.match(css, /\.timelineText strong \{[^}]*font-size:\s*1rem/);
+  assert.match(css, /\.timelineCountdown strong \{[^}]*font-size:\s*1\.5rem/);
+  assert.match(css, /\.timelineStartDot, \.timelineEndDot, \.timelinePosition \{[^}]*width:\s*\.9rem/);
+  assert.doesNotMatch(css, /\.brandHeader::after/);
   assert.match(css, /data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\]/);
   assert.match(css, /\.brandHeader, \.arrivalIntro \{ transition:\s*none/);
   assert.match(css, /-webkit-mask:\s*url\("\/avolta-demo\/brand\/avolta-logo\.svg"\)/);
