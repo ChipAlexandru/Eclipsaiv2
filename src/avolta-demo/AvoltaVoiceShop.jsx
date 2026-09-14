@@ -6,7 +6,7 @@ import { AudioWaveform, Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Min
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
-import { acquireMicrophoneWithTimeout, realtimeLifecycleSignal, runTurnBoundOperation } from "./voiceLifecycle.mjs";
+import { acquireMicrophoneWithTimeout, createToolResponseCoordinator, realtimeLifecycleSignal, runTurnBoundOperation } from "./voiceLifecycle.mjs";
 import { completeSpokenOrderConfirmation, finalizeReviewedOrder, findOrderConfirmationReply, latestTravelerTurn, materiallyEqual, transitionApprovalForCompletedReply, validatePriorityOrderConfirmation, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
@@ -125,6 +125,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const voiceTurnGenerationRef = useRef(0);
   const voiceLifecycleStartedAtRef = useRef(0);
   const voiceLifecycleRef = useRef([]);
+  const toolResponseCoordinatorRef = useRef(null);
+  const responseActiveRef = useRef(false);
+  const responseOriginQueueRef = useRef([]);
+  const responseOwnershipRef = useRef(new Map());
+  const responseAudioContentRef = useRef(new Set());
   const voiceModelVerificationRef = useRef(voiceModelVerification);
   const voiceTimeoutRef = useRef(null);
   const introTimerRef = useRef(null);
@@ -176,6 +181,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     voiceLifecycleRef.current = next;
     if (mountedRef.current) setVoiceLifecycle(next);
   }, []);
+  const queueResponseOrigin = useCallback((origin, details = {}) => {
+    const ownership = { origin, turnGeneration: voiceTurnGenerationRef.current, ...details };
+    responseOriginQueueRef.current.push(ownership);
+    recordVoiceLifecycle("response_requested", ownership);
+  }, [recordVoiceLifecycle]);
   const revokeVoiceApproval = useCallback((reason) => {
     const approvalState = voiceReviewApprovalRef.current;
     if (!approvalState) return false;
@@ -435,7 +445,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     return { ok: true, progress: orderProgress(next, demoNowRef.current) };
   }, []);
 
-  const buildTools = useCallback((tool, z, backgroundResult) => {
+  const buildTools = useCallback((tool, z, backgroundResult, isBackgroundResult) => {
     const runTurnBound = (toolName, operation) => runTurnBoundOperation({
       toolName,
       turnGeneration: voiceTurnGenerationRef.current,
@@ -445,23 +455,24 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       suppressedResult: safe({ stale: true, reason: "superseded_by_new_traveler_turn" }),
       onSuppressed: ({ turnGeneration, currentTurnGeneration }) => recordVoiceLifecycle("stale_tool_result_suppressed", { tool: toolName, turnGeneration, currentTurnGeneration }),
     });
-    const getState = tool({ name: "get_shopping_state", description: "Read products in the viewport, touch-selected product, comparison, shortlist, bag and travel state. Always call before relative phrases. Touch selection is authoritative; ordinals refer to viewport order.", parameters: z.object({}), execute: async () => safe({ ...stateSnapshot(), comparison: comparisonRef.current.map((id) => compactProduct(productsById.get(id))) }) });
-    const search = tool({ name: "search_and_show_products", description: "Silently search and select a small relevant recommendation, then respond once using the result. Selection is immediate; images may continue loading. Ordinary shopping never requires flight or queue data.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => runTurnBound("search_and_show_products", async () => { const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current)); if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the available ${products.length}-product selection.` }); return safe({ found: true, query, ...(await presentProducts(matches.map((product) => product.id), matches[0].id)) }); }) });
-    const show = tool({ name: "show_products", description: "Silently select known products by stable ID, then respond once using the result. Images may continue loading.", parameters: z.object({ product_ids: z.array(z.string()).min(1).max(12), focus_product_id: z.string().nullable().default(null) }), execute: async ({ product_ids, focus_product_id }) => runTurnBound("show_products", async () => safe(await presentProducts(product_ids, focus_product_id))) });
-    const details = tool({ name: "show_product_details", description: "Open secondary details for one known product only when the shopper asks.", parameters: z.object({ product_id: z.string() }), execute: async ({ product_id }) => safe({ product: showProductDetails(product_id) || null }) });
-    const compare = tool({ name: "compare_products", description: "Compare exactly two known products and open the secondary comparison sheet.", parameters: z.object({ product_ids: z.array(z.string()).length(2) }), execute: async ({ product_ids }) => { const result = setComparisonState(product_ids, "voice"); setActivePanel("compare"); return safe({ comparison: result }); } });
-    const keep = tool({ name: "update_shortlist", description: "Add or remove one known item from the secondary saved list.", parameters: z.object({ product_id: z.string(), keep: z.boolean() }), execute: async ({ product_id, keep: shouldKeep }) => safe({ shortlist: mutateShortlist(product_id, shouldKeep, "voice") }) });
-    const showSaved = tool({ name: "show_saved_products", description: "Open the secondary saved-products sheet when asked.", parameters: z.object({}), execute: async () => { setActivePanel("saved"); return safe({ shortlist: Object.keys(shortlistRef.current).map((id) => compactProduct(productsById.get(id))).filter(Boolean) }); } });
-    const basketTool = tool({ name: "update_demo_order_bag", description: "Silently add, remove or set quantity for one known product in the demo order bag, then respond once using the result.", parameters: z.object({ product_id: z.string(), quantity: z.number().int().min(0).max(12), mode: z.enum(["add", "remove", "set"]) }), execute: async ({ product_id, quantity, mode }) => { try { return safe({ ok: true, basket: mutateBasket(product_id, quantity, mode, "voice") }); } catch (error) { return safe({ ok: false, error: error.message }); } } });
-    const travelTool = tool({ name: "update_travel_context", description: "Record only traveler-provided location or timing context. Never infer location from flight or time; corrections may move backward.", parameters: z.object({ stage: z.enum(["unknown", "on_the_way", "at_airport", "past_security", "at_gate"]).optional(), minutes_available: z.string().optional(), arrival_estimate: z.string().optional(), needs_checkin: z.boolean().optional() }), execute: async (args) => safe({ travel: updateTravel({ ...(args.stage ? { stage: args.stage } : {}), ...(args.minutes_available !== undefined ? { minutesAvailable: args.minutes_available } : {}), ...(args.arrival_estimate !== undefined ? { arrivalEstimate: args.arrival_estimate } : {}), ...(args.needs_checkin !== undefined ? { needsCheckin: args.needs_checkin } : {}) }, "voice") }) });
-    const findFlight = tool({ name: "find_replay_flight", description: "Search the available Zürich departures by flight number, codeshare or destination. Results are proposals only; never lock a flight without explicit confirmation.", parameters: z.object({ query: z.string().min(1).max(80) }), execute: async ({ query }) => runTurnBound("find_replay_flight", async () => { const context = await refreshJourney(query); if (context.error) return safe(context); return safe({ query, matches: (context.flightSearch?.matches || []).map(customerFlight), ambiguous: Boolean(context.flightSearch?.ambiguous), scheduleEnded: context.scheduleEnded }); }) });
-    const proposeFlightTool = tool({ name: "propose_replay_flight", description: "Put one exact result on screen for verbal confirmation. This does not confirm or lock it.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const flight = flightMatchesRef.current.find((item) => item.id === flight_id); return safe(flight ? { proposed: customerFlight(proposeFlight(flight)), requiresExplicitConfirmation: true } : { error: "That flight was not in the latest results." }); } });
-    const confirmFlightTool = tool({ name: "confirm_replay_flight", description: "Lock the proposed flight only after the traveler explicitly agrees to the exact flight number, destination and time.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const candidate = pendingFlightRef.current; return safe(candidate?.id === flight_id ? { confirmed: customerFlight(confirmFlight(candidate, "voice")) } : { error: "Propose that exact flight and obtain explicit confirmation first." }); } });
-    const correctFlightTool = tool({ name: "correct_confirmed_flight", description: "Clear the confirmed flight when the traveler says it is wrong or wants to correct it; then search and reconfirm.", parameters: z.object({}), execute: async () => safe(clearConfirmedFlight()) });
-    const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
-    const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
-    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait unless the traveler explicitly confirms while you are reading it. This does not itself confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) { recordVoiceOrderEvent("review_ready", true); recordVoiceLifecycle("review_ready", { fingerprint: result.review.fingerprint }); if (result.replacedApproval) recordVoiceOrderEvent("approval_replaced"); setActivePanel("review"); } return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
-    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact active reviewed order after an unambiguous spoken approval. An explicit order command during the spoken review has priority and does not require the trailing question to finish. ‘Confirm’, ‘confirmed’, ‘please confirm’, ‘yes’ after the completed question, and equivalent clear scoped assent are valid. Call silently and announce success only when the result is ok. If pending is true, do not call it a failed transaction; keep the review available and wait for or request a fresh confirmation. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => runTurnBound("confirm_demo_order", async () => {
+    const coordinatedTool = (definition) => tool({ ...definition, execute: async (...args) => { const result = await definition.execute(...args); return isBackgroundResult(result) ? result : backgroundResult(result); } });
+    const getState = coordinatedTool({ name: "get_shopping_state", description: "Read products in the viewport, touch-selected product, comparison, shortlist, bag and travel state. Always call before relative phrases. Touch selection is authoritative; ordinals refer to viewport order.", parameters: z.object({}), execute: async () => safe({ ...stateSnapshot(), comparison: comparisonRef.current.map((id) => compactProduct(productsById.get(id))) }) });
+    const search = coordinatedTool({ name: "search_and_show_products", description: "Silently search and select a small relevant recommendation, then respond once using the result. Selection is immediate; images may continue loading. Ordinary shopping never requires flight or queue data.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => runTurnBound("search_and_show_products", async () => { const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current)); if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the available ${products.length}-product selection.` }); return safe({ found: true, query, ...(await presentProducts(matches.map((product) => product.id), matches[0].id)) }); }) });
+    const show = coordinatedTool({ name: "show_products", description: "Silently select known products by stable ID, then respond once using the result. Images may continue loading.", parameters: z.object({ product_ids: z.array(z.string()).min(1).max(12), focus_product_id: z.string().nullable().default(null) }), execute: async ({ product_ids, focus_product_id }) => runTurnBound("show_products", async () => safe(await presentProducts(product_ids, focus_product_id))) });
+    const details = coordinatedTool({ name: "show_product_details", description: "Open secondary details for one known product only when the shopper asks.", parameters: z.object({ product_id: z.string() }), execute: async ({ product_id }) => safe({ product: showProductDetails(product_id) || null }) });
+    const compare = coordinatedTool({ name: "compare_products", description: "Compare exactly two known products and open the secondary comparison sheet.", parameters: z.object({ product_ids: z.array(z.string()).length(2) }), execute: async ({ product_ids }) => { const result = setComparisonState(product_ids, "voice"); setActivePanel("compare"); return safe({ comparison: result }); } });
+    const keep = coordinatedTool({ name: "update_shortlist", description: "Add or remove one known item from the secondary saved list.", parameters: z.object({ product_id: z.string(), keep: z.boolean() }), execute: async ({ product_id, keep: shouldKeep }) => safe({ shortlist: mutateShortlist(product_id, shouldKeep, "voice") }) });
+    const showSaved = coordinatedTool({ name: "show_saved_products", description: "Open the secondary saved-products sheet when asked.", parameters: z.object({}), execute: async () => { setActivePanel("saved"); return safe({ shortlist: Object.keys(shortlistRef.current).map((id) => compactProduct(productsById.get(id))).filter(Boolean) }); } });
+    const basketTool = coordinatedTool({ name: "update_demo_order_bag", description: "Silently add, remove or set quantity for one known product in the demo order bag, then respond once using the result.", parameters: z.object({ product_id: z.string(), quantity: z.number().int().min(0).max(12), mode: z.enum(["add", "remove", "set"]) }), execute: async ({ product_id, quantity, mode }) => { try { return safe({ ok: true, basket: mutateBasket(product_id, quantity, mode, "voice") }); } catch (error) { return safe({ ok: false, error: error.message }); } } });
+    const travelTool = coordinatedTool({ name: "update_travel_context", description: "Record only traveler-provided location or timing context. Never infer location from flight or time; corrections may move backward.", parameters: z.object({ stage: z.enum(["unknown", "on_the_way", "at_airport", "past_security", "at_gate"]).optional(), minutes_available: z.string().optional(), arrival_estimate: z.string().optional(), needs_checkin: z.boolean().optional() }), execute: async (args) => safe({ travel: updateTravel({ ...(args.stage ? { stage: args.stage } : {}), ...(args.minutes_available !== undefined ? { minutesAvailable: args.minutes_available } : {}), ...(args.arrival_estimate !== undefined ? { arrivalEstimate: args.arrival_estimate } : {}), ...(args.needs_checkin !== undefined ? { needsCheckin: args.needs_checkin } : {}) }, "voice") }) });
+    const findFlight = coordinatedTool({ name: "find_replay_flight", description: "Search the available Zürich departures by flight number, codeshare or destination. Results are proposals only; never lock a flight without explicit confirmation.", parameters: z.object({ query: z.string().min(1).max(80) }), execute: async ({ query }) => runTurnBound("find_replay_flight", async () => { const context = await refreshJourney(query); if (context.error) return safe(context); return safe({ query, matches: (context.flightSearch?.matches || []).map(customerFlight), ambiguous: Boolean(context.flightSearch?.ambiguous), scheduleEnded: context.scheduleEnded }); }) });
+    const proposeFlightTool = coordinatedTool({ name: "propose_replay_flight", description: "Put one exact result on screen for verbal confirmation. This does not confirm or lock it.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const flight = flightMatchesRef.current.find((item) => item.id === flight_id); return safe(flight ? { proposed: customerFlight(proposeFlight(flight)), requiresExplicitConfirmation: true } : { error: "That flight was not in the latest results." }); } });
+    const confirmFlightTool = coordinatedTool({ name: "confirm_replay_flight", description: "Lock the proposed flight only after the traveler explicitly agrees to the exact flight number, destination and time.", parameters: z.object({ flight_id: z.string() }), execute: async ({ flight_id }) => { const candidate = pendingFlightRef.current; return safe(candidate?.id === flight_id ? { confirmed: customerFlight(confirmFlight(candidate, "voice")) } : { error: "Propose that exact flight and obtain explicit confirmation first." }); } });
+    const correctFlightTool = coordinatedTool({ name: "correct_confirmed_flight", description: "Clear the confirmed flight when the traveler says it is wrong or wants to correct it; then search and reconfirm.", parameters: z.object({}), execute: async () => safe(clearConfirmedFlight()) });
+    const assess = coordinatedTool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
+    const fulfillmentTool = coordinatedTool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
+    const reviewTool = coordinatedTool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait unless the traveler explicitly confirms while you are reading it. This does not itself confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) { recordVoiceOrderEvent("review_ready", true); recordVoiceLifecycle("review_ready", { fingerprint: result.review.fingerprint }); if (result.replacedApproval) recordVoiceOrderEvent("approval_replaced"); setActivePanel("review"); } return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
+    const confirmTool = coordinatedTool({ name: "confirm_demo_order", description: "Confirm the exact active reviewed order after an unambiguous spoken approval. An explicit order command during the spoken review has priority and does not require the trailing question to finish. ‘Confirm’, ‘confirmed’, ‘please confirm’, ‘yes’ after the completed question, and equivalent clear scoped assent are valid. Call silently and announce success only when the result is ok. If pending is true, do not call it a failed transaction; keep the review available and wait for or request a fresh confirmation. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => runTurnBound("confirm_demo_order", async () => {
       recordVoiceOrderEvent("confirm_tool_started");
       if (reservationRef.current?.fingerprint === review_fingerprint) return safe({ ...createReservation(review_fingerprint), closeOverlay: true, showOrderTracker: true });
       const approvalState = voiceReviewApprovalRef.current;
@@ -470,7 +481,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       if (result.clearApproval && voiceReviewApprovalRef.current === approvalState) voiceReviewApprovalRef.current = null;
       return safe(result);
     }) });
-    const collectTool = tool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
+    const collectTool = coordinatedTool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
     return [getState, search, show, details, compare, keep, showSaved, basketTool, travelTool, findFlight, proposeFlightTool, confirmFlightTool, correctFlightTool, assess, fulfillmentTool, reviewTool, confirmTool, collectTool];
   }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, recordVoiceLifecycle, recordVoiceOrderEvent, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel, waitForConfirmationReply]);
 
@@ -494,6 +505,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const disposeVoiceTransport = useCallback(() => {
     if (sessionRef.current) recordVoiceLifecycle("session_end", { turnGeneration: voiceTurnGenerationRef.current });
+    toolResponseCoordinatorRef.current?.close(); toolResponseCoordinatorRef.current = null; responseActiveRef.current = false; responseOriginQueueRef.current = []; responseOwnershipRef.current.clear(); responseAudioContentRef.current.clear();
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
     revokeVoiceApproval("session_ended"); voiceHistoryRef.current = [];
     microphoneStreamRef.current?.getTracks().forEach((track) => track.stop()); microphoneStreamRef.current = null;
@@ -521,8 +533,9 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     announcedOrderStatesRef.current = [...announcedOrderStatesRef.current, announcement];
     const session = sessionRef.current;
     if (!session || session.transport.status !== "connected" || isMuted || voiceStatus !== "listening") return;
-    try { session.transport.sendMessage(`[One-time order update. Say one short sentence, then listen.] The order is now ${announcement}.`, {}, { triggerResponse: true }); } catch { /* The visible tracker remains authoritative. */ }
-  }, [demoNow, isMuted, order, voiceStatus]);
+    if (responseActiveRef.current || toolResponseCoordinatorRef.current?.isBusy()) { recordVoiceLifecycle("order_update_suppressed_busy", { announcement }); return; }
+    try { queueResponseOrigin("order_update", { announcement }); session.transport.sendMessage(`[One-time order update. Say one short sentence, then listen.] The order is now ${announcement}.`, {}, { triggerResponse: true }); } catch { /* The visible tracker remains authoritative. */ }
+  }, [demoNow, isMuted, order, queueResponseOrigin, recordVoiceLifecycle, voiceStatus]);
 
   const startVoice = useCallback(async (requestedModel = null) => {
     collapseIntro();
@@ -539,7 +552,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     let session = null;
     let microphoneStream = null;
     try {
-      const [{ RealtimeAgent, RealtimeSession, OpenAIRealtimeWebRTC, backgroundResult, tool }, { z }] = await Promise.all([import("@openai/agents/realtime"), import("zod")]);
+      const [{ RealtimeAgent, RealtimeSession, OpenAIRealtimeWebRTC, backgroundResult, isBackgroundResult, tool }, { z }] = await Promise.all([import("@openai/agents/realtime"), import("zod")]);
       if (voiceStartSequenceRef.current !== sequence) return;
       microphoneStream = await acquireMicrophoneWithTimeout({
         getUserMedia: (constraints) => navigator.mediaDevices.getUserMedia(constraints),
@@ -561,7 +574,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
         peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio" || voiceStartSequenceRef.current !== sequence) return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) { ensureAudioPlayback(); collectAudioEvidence(); } }, 0); });
         return peerConnection;
       } });
-      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z, backgroundResult), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. ${AVOLTA_PRONUNCIATION} Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
+      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z, backgroundResult, isBackgroundResult), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. ${AVOLTA_PRONUNCIATION} Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
 
 Conversation contract:
 - For every fresh comparison session, follow the supplied startup instruction exactly: say “Welcome to Avolta.” first, acknowledge the established destination and current boarding countdown when available, give the brief service promise, ask exactly one relevant question, then stop and wait.
@@ -570,6 +583,7 @@ Conversation contract:
 - Treat the selected flight in the initial interface state as the traveler's established starting itinerary for this demo. Do not ask them to confirm it and do not claim it came from a booking, airline account or personal record. Reuse anything the traveler has already volunteered about their flight, destination, location, available time, recipient or taste. Acknowledge corrections and update your understanding without making them repeat themselves.
 - Let the traveler interrupt. Stop the current line of thought and address the interruption directly. Ordinary replies are one or two short sentences; avoid long lists, generic budget scripts and repeated summaries.
 - When a request requires a tool, call the tool immediately without a spoken preamble, acknowledgement or promise. The session continues automatically after the tool result. Speak once after the tool completes, combining the acknowledgement and useful result in one natural response. Never say that you are passing context, calling a tool, updating the interface or handing anything off.
+- A response that contains one or more tool calls produces no spoken audio. Wait until every tool requested by that response has returned, then give one coherent spoken answer owned by the final continuation. Never let individual tool completions produce separate acknowledgements.
 
 Discovery and guidance:
 - Browse is open and product-first; gifting is only one possible intent. When no product intent is known, use one light question about what would make the journey better or what they feel like exploring.
@@ -598,14 +612,39 @@ Internal operating context: this experience uses one captured airport day on a s
 Initial interface state: ${safe(stateSnapshot())}` });
       session = new RealtimeSession(agent, { model: selectedModel, transport, tracingDisabled: true, config: { outputModalities: ["audio"], audio: { input: { noiseReduction: { type: "near_field" }, transcription: { model: "gpt-4o-mini-transcribe", language: "en" }, turnDetection: { type: "semantic_vad", eagerness: "medium", createResponse: true, interruptResponse: true } }, output: { voice: "marin", speed: 1.03 } } } });
       const isCurrentSession = () => mountedRef.current && voiceStartSequenceRef.current === sequence && sessionRef.current === session;
+      const responseCoordinator = createToolResponseCoordinator({
+        requestResponse: (details) => {
+          if (!isCurrentSession()) return;
+          queueResponseOrigin("tool_continuation", details);
+          if (session.transport.requestResponse) session.transport.requestResponse();
+          else session.transport.sendEvent({ type: "response.create" });
+        },
+        onEvent: (event, details) => recordVoiceLifecycle(event, details),
+      });
+      responseCoordinator.onTravelerTurn(voiceTurnGenerationRef.current);
+      toolResponseCoordinatorRef.current = responseCoordinator;
       session.on("transport_event", (event) => {
         if (!isCurrentSession()) return;
         const lifecycle = realtimeLifecycleSignal(event);
         if (lifecycle) {
           const { event: lifecycleEvent, ...lifecycleDetails } = lifecycle;
-          if (lifecycleEvent === "user_speech_start") voiceTurnGenerationRef.current += 1;
-          recordVoiceLifecycle(lifecycleEvent, { ...lifecycleDetails, turnGeneration: voiceTurnGenerationRef.current });
+          if (lifecycleEvent === "user_speech_start") { voiceTurnGenerationRef.current += 1; responseCoordinator.onTravelerTurn(voiceTurnGenerationRef.current); }
+          if (lifecycleEvent === "response_start") {
+            responseActiveRef.current = true;
+            const ownership = responseOriginQueueRef.current.shift() || { origin: "traveler_turn", turnGeneration: voiceTurnGenerationRef.current };
+            if (lifecycleDetails.responseId) responseOwnershipRef.current.set(lifecycleDetails.responseId, ownership);
+            Object.assign(lifecycleDetails, ownership);
+          }
+          if (lifecycleEvent === "response_end" || lifecycleEvent === "response_cancelled") {
+            responseActiveRef.current = false;
+            responseCoordinator.onResponseDone(lifecycleDetails.responseId);
+            Object.assign(lifecycleDetails, responseOwnershipRef.current.get(lifecycleDetails.responseId) || {});
+          }
+          recordVoiceLifecycle(lifecycleEvent, { ...lifecycleDetails, turnGeneration: lifecycleDetails.turnGeneration ?? voiceTurnGenerationRef.current });
         }
+        if (event.type === "response.output_item.added") recordVoiceLifecycle("response_output_item", { responseId: event.response_id || null, itemId: event.item?.id || null, outputType: event.item?.type || null, tool: event.item?.name || null, ...(responseOwnershipRef.current.get(event.response_id) || {}) });
+        if (event.type === "response.output_audio.delta" && event.response_id && !responseAudioContentRef.current.has(event.response_id)) { responseAudioContentRef.current.add(event.response_id); recordVoiceLifecycle("response_audio_content_start", { responseId: event.response_id, ...(responseOwnershipRef.current.get(event.response_id) || {}) }); }
+        if (event.type === "response.output_audio.done") recordVoiceLifecycle("response_audio_content_end", { responseId: event.response_id || null, ...(responseOwnershipRef.current.get(event.response_id) || {}) });
         const nextVerification = applyAvoltaRealtimeSessionEvidence(voiceModelVerificationRef.current, sequence, event);
         if (nextVerification === voiceModelVerificationRef.current) return;
         voiceModelVerificationRef.current = nextVerification; setVoiceModelVerification(nextVerification);
@@ -617,8 +656,8 @@ Initial interface state: ${safe(stateSnapshot())}` });
         setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
       });
       session.on("history_updated", (history) => { if (isCurrentSession()) recordVoiceHistory(history); });
-      session.on("agent_tool_start", (_context, _agent, activeTool, details) => { if (isCurrentSession()) { setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); recordVoiceLifecycle("tool_start", { tool: activeTool?.name || "", callId: details?.toolCall?.callId || details?.toolCall?.id || null, responseId: details?.toolCall?.responseId || null, turnGeneration: voiceTurnGenerationRef.current }); } });
-      session.on("agent_tool_end", (_context, _agent, activeTool, _result, details) => { if (isCurrentSession()) { setVoiceEventEvidence((current) => ({ ...current, toolEnds: current.toolEnds + 1 })); recordVoiceLifecycle("tool_end", { tool: activeTool?.name || "", callId: details?.toolCall?.callId || details?.toolCall?.id || null, responseId: details?.toolCall?.responseId || null, turnGeneration: voiceTurnGenerationRef.current }); } });
+      session.on("agent_tool_start", (_context, _agent, activeTool, details) => { if (isCurrentSession()) { const callId = details?.toolCall?.callId || details?.toolCall?.id || null; const responseId = details?.toolCall?.responseId || null; responseCoordinator.onToolStart({ callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); recordVoiceLifecycle("tool_start", { tool: activeTool?.name || "", callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); } });
+      session.on("agent_tool_end", (_context, _agent, activeTool, _result, details) => { if (isCurrentSession()) { const callId = details?.toolCall?.callId || details?.toolCall?.id || null; const responseId = details?.toolCall?.responseId || null; responseCoordinator.onToolEnd({ callId, turnGeneration: voiceTurnGenerationRef.current }); setVoiceEventEvidence((current) => ({ ...current, toolEnds: current.toolEnds + 1 })); recordVoiceLifecycle("tool_end", { tool: activeTool?.name || "", callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); } });
       session.on("agent_end", (_context, _agent, output) => { if (isCurrentSession() && String(output || "").trim()) { setVoiceEventEvidence((current) => ({ ...current, spokenTurns: current.spokenTurns + 1 })); if (voiceOrderFlowRef.current.at(-1) === "order_committed") recordVoiceOrderEvent("response_generated"); } });
       session.on("audio_start", () => { if (isCurrentSession()) { recordVoiceLifecycle("audio_start", { turnGeneration: voiceTurnGenerationRef.current }); setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking. Interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
       session.on("audio_stopped", () => { if (isCurrentSession()) { recordVoiceLifecycle("audio_stop", { turnGeneration: voiceTurnGenerationRef.current }); setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening. Speak naturally."); } });
@@ -643,7 +682,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") || {};
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, voiceWelcomed: true }));
       } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
-      setVoiceStatus("listening"); setVoiceMessage("Listening. Speak naturally."); session.sendMessage(startupInstruction);
+      setVoiceStatus("listening"); setVoiceMessage("Listening. Speak naturally."); queueResponseOrigin("startup"); session.sendMessage(startupInstruction);
     } catch (error) {
       session?.close(); microphoneStream?.getTracks().forEach((track) => track.stop());
       if (microphoneStreamRef.current === microphoneStream) microphoneStreamRef.current = null;
@@ -652,7 +691,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceMicrophoneTimeoutError" ? "Microphone permission did not complete. Check your browser permission and try again." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
     }
-  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, recordVoiceHistory, recordVoiceLifecycle, recordVoiceOrderEvent, stateSnapshot]);
+  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, queueResponseOrigin, recordVoiceHistory, recordVoiceLifecycle, recordVoiceOrderEvent, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
     const session = sessionRef.current; if (!session) return;
     const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening. Speak naturally.");

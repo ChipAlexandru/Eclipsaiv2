@@ -109,6 +109,38 @@ test("voice lifecycle evidence is content-free and stale tool results cannot res
   const stale = await lifecycle.runTurnBoundOperation({ toolName: "search", turnGeneration, getCurrentTurnGeneration: () => turnGeneration, operation: async () => { turnGeneration += 1; return "obsolete-result"; }, backgroundResult: (value) => ({ background: value }), suppressedResult: "stale-result", onSuppressed: (details) => suppressed.push(details) });
   assert.deepEqual(stale, { background: "stale-result" });
   assert.deepEqual(suppressed, [{ toolName: "search", turnGeneration: 3, currentTurnGeneration: 4 }]);
+
+  let nextTimerId = 0;
+  const timers = new Map();
+  const responseRequests = [];
+  const coordinatorEvents = [];
+  const coordinator = lifecycle.createToolResponseCoordinator({
+    requestResponse: (details) => responseRequests.push(details),
+    setTimer: (callback) => { const id = ++nextTimerId; timers.set(id, callback); return id; },
+    clearTimer: (id) => timers.delete(id),
+    onEvent: (event, details) => coordinatorEvents.push({ event, ...details }),
+  });
+  const runTimers = () => { for (const [id, callback] of [...timers]) { timers.delete(id); callback(); } };
+  coordinator.onTravelerTurn(1);
+  coordinator.onToolStart({ callId: "call-a", responseId: "response-a", turnGeneration: 1 });
+  coordinator.onToolStart({ callId: "call-b", responseId: "response-a", turnGeneration: 1 });
+  coordinator.onToolEnd({ callId: "call-a", turnGeneration: 1 });
+  coordinator.onResponseDone("response-a");
+  runTimers();
+  assert.equal(responseRequests.length, 0);
+  coordinator.onToolEnd({ callId: "call-b", turnGeneration: 1 });
+  runTimers();
+  assert.deepEqual(responseRequests, [{ turnGeneration: 1, sourceResponseIds: ["response-a"], toolCount: 2 }]);
+  assert.equal(coordinatorEvents.filter((entry) => entry.event === "tool_continuation_requested").length, 1);
+
+  coordinator.onToolStart({ callId: "obsolete", responseId: "response-old", turnGeneration: 1 });
+  coordinator.onTravelerTurn(2);
+  coordinator.onResponseDone("response-old");
+  coordinator.onToolEnd({ callId: "obsolete", turnGeneration: 2 });
+  runTimers();
+  assert.equal(responseRequests.length, 1);
+  assert.equal(coordinatorEvents.at(-1).event, "stale_tool_continuation_suppressed");
+  coordinator.close();
 });
 
 test("spoken order approval is bound to the next clear reply and the exact review", async () => {
@@ -431,6 +463,13 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /CONFIRMATION_TRANSCRIPT_WAIT_MS = 1600/);
   assert.match(client, /backgroundResult/);
   assert.match(client, /stale_tool_result_suppressed/);
+  assert.match(client, /createToolResponseCoordinator/);
+  assert.match(client, /const coordinatedTool = \(definition\) => tool/);
+  assert.match(client, /isBackgroundResult\(result\) \? result : backgroundResult\(result\)/);
+  assert.match(client, /queueResponseOrigin\("tool_continuation"/);
+  assert.match(client, /response\.output_audio\.delta/);
+  assert.match(client, /order_update_suppressed_busy/);
+  assert.match(client, /A response that contains one or more tool calls produces no spoken audio/);
   assert.match(client, /latestTravelerTurn/);
   assert.match(client, /explicit order command such as “I confirm” or “go ahead with the order,” stop the summary immediately/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
