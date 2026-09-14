@@ -46,24 +46,22 @@ const jsonLd = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Eclipsai — One deliverable, then a workflow that stays",
+    default: "Eclipsai | The profit brain for fresh food",
     template: "%s",
   },
   description:
-    "Eclipsai turns the AI tools your team already uses into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
+    "Eclipsai makes and implements daily production decisions for fresh-food operators, then measures their effect on profit, waste, and sales.",
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: "Eclipsai",
-    title: "Eclipsai — One deliverable, then a workflow that stays",
-    description:
-      "We turn the AI tools you already use into recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
+    title: "Eclipsai | The profit brain for fresh food",
+    description: "Know what to make tomorrow. Waste less. Sell more.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eclipsai — One deliverable, then a workflow that stays",
-    description:
-      "Recurring work you can trust: one deliverable, proven against your standard, then a workflow that stays.",
+    title: "Eclipsai | The profit brain for fresh food",
+    description: "Know what to make tomorrow. Waste less. Sell more.",
   },
 };
 
