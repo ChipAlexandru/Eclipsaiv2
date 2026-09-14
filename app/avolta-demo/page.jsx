@@ -4,7 +4,7 @@ import catalog from "../../src/avolta-demo/catalog.json";
 import flightDay from "../../src/avolta-demo/flight-day.fixture.json";
 import { accessConfigured, hasAccess } from "../../src/avolta-demo/auth.mjs";
 import { AvoltaVoiceShop } from "../../src/avolta-demo/AvoltaVoiceShop.jsx";
-import { illustrativeFlights, mapZurichTimeOfDayToFixture, normalizeFixtureFlights, upcomingFlights } from "../../src/avolta-demo/flightReplay.mjs";
+import { illustrativeFlights, mapZurichTimeOfDayToFixture, normalizeFixtureFlights, selectAssumedItinerary, upcomingFlights } from "../../src/avolta-demo/flightReplay.mjs";
 import styles from "../../src/avolta-demo/avoltaVoiceShop.module.css";
 
 const capturedFlights = normalizeFixtureFlights(flightDay);
@@ -22,7 +22,7 @@ export default async function AvoltaDemoPage({ searchParams }) {
   if (hasAccess(cookieStore)) {
     const initialNow = mapZurichTimeOfDayToFixture(new Date(), flightDay.provenance.serviceDate);
     const initialFlights = illustrativeFlights(capturedFlights, initialNow, 4);
-    return <AvoltaVoiceShop catalog={catalog} flightDay={{ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.provenance.serviceDate, initialContext: { scheduleEnded: false, departureCount: upcomingFlights(capturedFlights, initialNow).length, illustrativeFlights: initialFlights } }} />;
+    return <AvoltaVoiceShop catalog={catalog} flightDay={{ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.provenance.serviceDate, initialContext: { scheduleEnded: false, departureCount: upcomingFlights(capturedFlights, initialNow).length, illustrativeFlights: initialFlights, assumedFlight: selectAssumedItinerary(capturedFlights, initialNow) } }} />;
   }
   const params = await searchParams;
   const configured = accessConfigured();

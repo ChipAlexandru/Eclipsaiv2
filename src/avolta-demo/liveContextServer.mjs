@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { illustrativeFlights, normalizeFixtureFlights, upcomingFlights, zurichServiceDate } from "./flightReplay.mjs";
+import { illustrativeFlights, normalizeFixtureFlights, selectAssumedItinerary, upcomingFlights, zurichServiceDate } from "./flightReplay.mjs";
 
 const require = createRequire(import.meta.url);
 const fixture = require("./flight-day.fixture.json");
@@ -15,6 +15,7 @@ export function getReplayJourneyContext(demoNow = new Date()) {
     scheduleEnded: zurichServiceDate(demoNow) !== fixture.provenance.serviceDate,
     departureCount: upcomingFlights(flights, demoNow).length,
     illustrativeFlights: illustrativeFlights(flights, demoNow, 4),
+    assumedFlight: selectAssumedItinerary(flights, demoNow),
     flights,
     replayScenario: fixture.replayScenario,
     provenance: fixture.provenance,
