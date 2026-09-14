@@ -35,64 +35,48 @@
 .accessCard form button { min-height: 3.1rem; margin-top: .55rem; border: 0; border-radius: .75rem; color: #28133d; background: #d9f05c; font-weight: 850; cursor: pointer; }
 .accessError { padding: .9rem; border-radius: .75rem; color: #ffcfc5; background: rgba(241,90,58,.18); font-size: .78rem; line-height: 1.5; }
 
-.brandHeader { position: relative; z-index: 20; color: #fff; background: linear-gradient(122deg, #28133d 0%, #48236b 52%, #6e37a0 100%); box-shadow: 0 .65rem 2rem rgba(40,19,61,.14); }
-.brandHeader[data-expanded="false"] { position: sticky; top: 0; }
+.brandHeader { --compact-header-height: 4.15rem; position: fixed; z-index: 20; inset: 0 0 auto; height: var(--compact-header-height); overflow: hidden; color: #fff; background: linear-gradient(122deg, #28133d 0%, #48236b 52%, #6e37a0 100%); box-shadow: 0 .65rem 2rem rgba(40,19,61,.18); transition: height .58s cubic-bezier(.22,.75,.2,1); }
+.brandHeader[data-has-order="true"] { --compact-header-height: 5rem; }
+.brandHeader[data-intro-expanded="true"] { height: clamp(28rem, 75svh, 48rem); }
+.brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] { height: 6.5rem; }
+.brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"][data-has-order="true"] { height: 7.35rem; }
 .brandHeader::after { content: ""; position: absolute; width: 8rem; height: .35rem; left: max(1.5rem, calc((100vw - 78rem) / 2 + 1.5rem)); bottom: 0; border-radius: 999px 999px 0 0; background: var(--lime); }
-.brandHeaderInner { width: min(78rem, 100%); margin: 0 auto; padding: .72rem 1.5rem .95rem; }
-.brandHeader[data-expanded="false"] .brandHeaderInner { padding-block: .62rem; }
-.brandRow { min-height: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.brand { min-width: 0; display: flex; align-items: center; }
-.brandLogo { display: block; width: 8.25rem; height: auto; filter: brightness(0) invert(1); }
+.brandHeaderInner { width: min(78rem, 100%); height: 100%; margin: 0 auto; padding: .62rem 1.5rem .72rem; display: grid; grid-template-rows: 0 0 auto; }
+.brandRow { height: 0; min-height: 0; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 1rem; opacity: 0; transition: opacity .2s ease; }
+.brandHeader[data-intro-expanded="true"] .brandHeaderInner { grid-template-rows: auto minmax(0, 1fr) auto; }
+.brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandHeaderInner { grid-template-rows: auto 0 auto; }
+.brandHeader[data-intro-expanded="true"] .brandRow, .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandRow { height: auto; min-height: 1.7rem; overflow: visible; opacity: 1; }
+.brand { width: 7.7rem; height: 1.4rem; min-width: 0; display: flex; align-items: center; background: #fff; -webkit-mask: url("/avolta-demo/brand/avolta-logo.svg") left center / contain no-repeat; mask: url("/avolta-demo/brand/avolta-logo.svg") left center / contain no-repeat; }
+.brandLogo { display: block; width: 7.7rem; height: auto; opacity: 0; }
 .location { min-width: 0; display: flex; align-items: center; color: #fff; }
-.location strong { font-size: 1rem; font-weight: 800; letter-spacing: -.025em; white-space: nowrap; }
+.location strong { font-size: .9rem; font-weight: 800; letter-spacing: -.025em; white-space: nowrap; }
 
-.productSurface { width: min(78rem, 100%); margin: 0 auto; padding: .85rem 1.5rem 2rem; }
-.brandInvitation { margin-top: .55rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(9rem, .34fr) minmax(19rem, .62fr); align-items: center; gap: clamp(.8rem, 2vw, 1.6rem); }
-.invitationCopy p { max-width: 37rem; margin: 0; color: rgba(255,255,255,.88); font-size: clamp(1rem, 1.45vw, 1.28rem); font-weight: 680; line-height: 1.3; letter-spacing: -.018em; text-wrap: balance; }
-.zurichSignature { width: 100%; min-height: 5.5rem; align-self: stretch; background: url("/avolta-demo/brand/zurich-signature.svg") center bottom / contain no-repeat; }
-.welcomeActions > span { margin: 0; color: var(--lime); font-size: .68rem; font-weight: 850; line-height: 1; letter-spacing: .1em; text-transform: uppercase; }
-.welcomeActions { padding: .85rem; border: 1px solid rgba(255,255,255,.16); border-radius: 1rem; background: rgba(31,13,47,.3); backdrop-filter: blur(12px); }
-.welcomeModelRow { margin-top: .62rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-.welcomeVoiceAction { min-width: 0; min-height: 3.75rem; padding: .55rem .65rem; border: 1px solid rgba(255,255,255,.3); border-radius: .85rem; display: flex; align-items: center; gap: .45rem; color: #fff; background: rgba(255,255,255,.08); cursor: pointer; }
-.welcomeVoiceAction[data-primary="true"] { border-color: var(--lime); color: var(--violet-deep); background: var(--lime); box-shadow: 0 .55rem 1.4rem rgba(20,8,30,.18); }
-.welcomeVoiceAction[data-primary="true"] .voiceModelLabel small { color: rgba(40,19,61,.68); }
-.welcomeVoiceAction:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
-.welcomeNotice { margin: .65rem 0 0; color: #ffd5cc; font-size: .72rem; line-height: 1.35; }
-.contextRail { margin-bottom: .85rem; display: grid; grid-template-columns: 1fr; gap: .65rem; }
-.contextRail[data-has-order="true"] { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-.flightCard, .orderCard { min-width: 0; border: 1px solid var(--line); border-radius: .72rem; background: #fff; box-shadow: 0 .2rem .8rem rgba(40,19,61,.05); }
-.orderCard { padding: .72rem .85rem; }
-.flightCard { min-height: 3.25rem; padding: .48rem .75rem; overflow: hidden; color: var(--violet-deep); background: #f4f0f8; transform-origin: center top; transition: border-color .28s ease, box-shadow .28s ease, transform .28s ease; }
-.flightCard[data-flight-state="idle"] { border-color: rgba(72,35,107,.18); }
-.flightCard[data-flight-state="focused"], .flightCard[data-flight-state="candidate"] { border-color: rgba(72,35,107,.42); box-shadow: 0 .3rem 1rem rgba(40,19,61,.1); transform: scale(1.003); }
-.flightCard[data-flight-state="confirmed"] { border-color: rgba(72,35,107,.28); }
-.contextTopline, .pairedCountdown { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
-.contextTopline span { color: var(--coral); font-size: .58rem; font-weight: 850; text-transform: uppercase; letter-spacing: .065em; }
-.contextTopline b { overflow: hidden; color: var(--muted); font-size: .58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-.departureBoard { min-height: 2.2rem; display: grid; grid-template-columns: minmax(5.25rem, auto) minmax(0, 1fr); align-items: center; column-gap: .85rem; animation: departureSwap .32s cubic-bezier(.2,.7,.2,1) both; }
-.departureMeta { min-width: 0; display: flex; flex-direction: column; gap: .08rem; }
-.departureMeta span { color: #5f5268; font-size: .64rem; font-weight: 850; letter-spacing: .105em; text-transform: uppercase; white-space: nowrap; }
-.departureMeta strong { color: var(--violet-deep); font-size: .72rem; line-height: 1.15; white-space: nowrap; }
-.departureBoard[data-has-summary="true"] { grid-template-columns: minmax(0, 1fr); row-gap: .2rem; }
-.departureBoard[data-has-summary="true"] .departureMeta { flex-direction: row; align-items: center; justify-content: space-between; gap: .75rem; }
-.departureBoard[data-has-summary="true"] .departureRow { width: 100%; }
-.departureRow { min-width: 0; display: grid; grid-template-columns: 4.2rem minmax(8rem, 1fr) 5rem minmax(4.6rem, auto); align-items: center; column-gap: .8rem; color: var(--violet-deep); font-variant-numeric: tabular-nums; }
-.departureRow time, .departureRow span, .departureRow b { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .875rem; font-weight: 760; line-height: 1.25; letter-spacing: .01em; white-space: nowrap; }
-.departureRow strong { min-width: 0; color: var(--ink); font-size: .92rem; font-weight: 820; line-height: 1.2; letter-spacing: .015em; text-transform: uppercase; overflow-wrap: anywhere; }
-.departureRow b { color: var(--violet-deep); text-align: right; }
-.noDepartures { min-height: 2.2rem; display: flex; align-items: center; gap: .7rem; color: #5f5268; font-size: .82rem; }
-.noDepartures button { padding: 0; border: 0; color: var(--violet); background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
-@keyframes departureSwap { from { opacity: 0; transform: translateY(-.38rem); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
-.journeyTrack, .progressTrack { margin-top: .58rem; padding-top: .5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .32rem; overflow: hidden; }
-.journeyTrack span { flex: 1 1 auto; padding: .25rem .3rem; border-radius: 999px; color: #827889; background: #f3eff5; font-size: .52rem; text-align: center; white-space: nowrap; }
-.journeyTrack span[data-active="true"] { color: var(--violet-deep); background: var(--lavender); font-weight: 800; }
-.progressTrack span { min-width: 0; flex: 1 1 0; display: flex; align-items: center; gap: .2rem; color: #867d8a; font-size: .5rem; white-space: nowrap; }
-.progressTrack em { overflow: hidden; font-style: normal; text-overflow: ellipsis; }
-.progressTrack i { width: .38rem; height: .38rem; flex: 0 0 auto; border: 1px solid #b9afbd; border-radius: 50%; }
-.progressTrack span[data-complete="true"] { color: var(--violet); font-weight: 800; }
-.progressTrack span[data-complete="true"] i { border-color: var(--coral); background: var(--coral); }
-.pairedCountdown { margin-top: .52rem; padding-top: .5rem; border-top: 1px solid var(--line); color: var(--violet); font-size: .65rem; }
-.pairedCountdown strong { color: var(--violet-deep); }
+.productSurface { width: min(78rem, 100%); margin: 0 auto; padding: 7.85rem 1.5rem 2rem; }
+.arrivalIntro { min-height: 0; padding: clamp(1.5rem, 4vw, 3.5rem) 0; display: grid; grid-template-columns: minmax(0, .85fr) minmax(18rem, 1.15fr); align-items: center; gap: clamp(1rem, 4vw, 4rem); opacity: 0; transform: translateY(-1rem); pointer-events: none; transition: opacity .34s ease, transform .5s cubic-bezier(.22,.75,.2,1); }
+.brandHeader[data-intro-expanded="true"] .arrivalIntro { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.invitationCopy p { max-width: 34rem; margin: 0; color: #fff; font-size: clamp(2.1rem, 4.3vw, 4.4rem); font-weight: 760; line-height: .98; letter-spacing: -.052em; text-wrap: balance; }
+.zurichSignature { width: 100%; min-height: clamp(14rem, 32vh, 23rem); align-self: stretch; background: url("/avolta-demo/brand/zurich-signature.svg") center / contain no-repeat; }
+.flightTimeline { min-width: 0; padding-top: .5rem; border-top: 1px solid rgba(255,255,255,.2); }
+.timelineText { min-width: 0; display: grid; grid-template-columns: minmax(8rem, .7fr) minmax(11rem, 1fr) minmax(13rem, 1.2fr); align-items: end; gap: 1rem; }
+.timelineStart, .timelineCountdown, .timelineEnd { min-width: 0; display: flex; flex-direction: column; gap: .05rem; }
+.timelineCountdown { text-align: center; }
+.timelineEnd { text-align: right; }
+.timelineText strong { overflow: hidden; color: #fff; font-size: .74rem; font-weight: 820; line-height: 1.15; letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.timelineCountdown strong { color: var(--lime); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.timelineText span { overflow: hidden; color: rgba(255,255,255,.68); font-size: .56rem; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.timelineCountdown span { color: var(--lavender); font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.timelineRail { position: relative; height: .72rem; margin-top: .2rem; }
+.timelineRail > span { position: absolute; left: .28rem; right: .28rem; top: 50%; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,.65), rgba(215,200,244,.9)); transform: translateY(-50%); }
+.timelineStartDot, .timelineEndDot, .timelinePosition { position: absolute; z-index: 1; top: 50%; width: .55rem; height: .55rem; border: 2px solid #fff; border-radius: 50%; background: var(--violet); transform: translateY(-50%); }
+.timelineStartDot { left: 0; }
+.timelineEndDot { right: 0; background: var(--lime); border-color: var(--lime); }
+.timelinePosition { left: 12%; background: var(--coral); border-color: #fff; box-shadow: 0 0 0 .18rem rgba(241,90,58,.2); }
+.timelinePosition[data-stage="at_airport"] { left: 38%; }
+.timelinePosition[data-stage="past_security"] { left: 64%; }
+.timelinePosition[data-stage="at_gate"] { left: calc(100% - .55rem); }
+.orderPulse { margin-top: .22rem; display: flex; align-items: baseline; justify-content: flex-end; gap: .45rem; color: rgba(255,255,255,.72); font-size: .56rem; }
+.orderPulse span { color: var(--coral); font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+.orderPulse strong, .orderPulse b { color: #fff; }
 .resultsContext { min-height: 2.6rem; margin-bottom: .65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .resultsContext span { color: var(--muted); font-size: .8rem; font-weight: 750; }
 .resultsContext button { border: 0; color: var(--violet); background: transparent; font-size: .8rem; font-weight: 800; text-decoration: underline; text-underline-offset: .2rem; cursor: pointer; }
@@ -124,24 +108,29 @@
 .stepper button, .miniStepper button { min-height: 2.15rem; border: 0; display: grid; place-items: center; color: inherit; background: transparent; cursor: pointer; }
 .stepper span { color: var(--violet-deep); font-size: .82rem; font-weight: 800; }
 
-.controlDock { position: fixed; z-index: 45; left: 50%; bottom: calc(.9rem + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 1rem); display: flex; flex-direction: column; align-items: center; gap: .42rem; transform: translateX(-50%); color: #fff; }
-.modelRow, .dockRow { display: flex; align-items: center; justify-content: center; gap: .5rem; min-width: 0; }
-.voiceModelAction { width: 11.5rem; min-height: 3.6rem; padding: .5rem .72rem; border: 1px solid rgba(255,255,255,.18); border-radius: 1rem; display: flex; align-items: center; gap: .5rem; color: #fff; background: linear-gradient(135deg, rgba(72,35,107,.97), rgba(40,19,61,.98)); box-shadow: 0 .75rem 1.9rem rgba(40,19,61,.24), inset 0 1px rgba(255,255,255,.1); backdrop-filter: blur(16px); cursor: pointer; }
-.voiceModelAction[data-active="true"] { border-color: var(--lavender); background: linear-gradient(135deg, #5e347f, #32194a); box-shadow: 0 0 0 2px rgba(215,200,244,.4), 0 .75rem 1.9rem rgba(40,19,61,.28); }
+.controlDock { position: fixed; z-index: 45; left: 50%; bottom: calc(.65rem + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 1rem); display: flex; flex-direction: column; align-items: center; gap: .3rem; transform: translateX(-50%); color: #fff; }
+.modelRow, .dockRow { display: flex; align-items: center; justify-content: center; gap: .35rem; min-width: 0; }
+.voiceModelAction { width: 8.65rem; min-height: 2.7rem; padding: .36rem .52rem; border: 1px solid rgba(255,255,255,.2); border-radius: .78rem; display: flex; align-items: center; gap: .35rem; color: #fff; background: linear-gradient(135deg, rgba(72,35,107,.97), rgba(40,19,61,.98)); box-shadow: 0 .55rem 1.35rem rgba(40,19,61,.22), inset 0 1px rgba(255,255,255,.1); backdrop-filter: blur(16px); cursor: pointer; }
+.voiceModelAction[data-primary="true"] { border-color: var(--lime); color: var(--violet-deep); background: var(--lime); }
+.voiceModelAction[data-primary="true"] .voiceModelLabel small { color: rgba(40,19,61,.66); }
+.voiceModelAction[data-active="true"] { box-shadow: 0 0 0 2px rgba(241,90,58,.88), 0 .55rem 1.35rem rgba(40,19,61,.26); }
 .voiceModelAction:disabled { opacity: 1; cursor: default; }
-.voiceGlyph { width: 1.7rem; height: 1.7rem; flex: 0 0 auto; display: grid; place-items: center; }
-.voiceGlyph svg { width: 1.2rem; height: 1.2rem; }
+.voiceGlyph { width: 1.3rem; height: 1.3rem; flex: 0 0 auto; display: grid; place-items: center; }
+.voiceGlyph svg { width: 1rem; height: 1rem; }
 .voiceModelLabel { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: .08rem; text-align: left; }
-.voiceModelLabel strong { font-size: .84rem; line-height: 1.05; }
-.voiceModelLabel small { color: #ded2e8; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .55rem; line-height: 1.1; white-space: nowrap; }
-.connectingIndicator { width: 1rem; height: 1rem; border: 2px solid rgba(255,255,255,.24); border-top-color: #fff; border-radius: 50%; animation: spin .85s linear infinite; }
+.voiceModelLabel strong { font-size: .73rem; line-height: 1.05; }
+.voiceModelLabel small { color: #ded2e8; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .45rem; line-height: 1.1; white-space: nowrap; }
+.connectingIndicator { width: .78rem; height: .78rem; border: 2px solid rgba(255,255,255,.24); border-top-color: currentColor; border-radius: 50%; animation: spin .85s linear infinite; }
 .readyIndicator { width: .45rem; height: .45rem; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 .18rem rgba(217,240,92,.16); }
 @keyframes spin { to { transform: rotate(360deg); } }
-.soundButton, .muteVoice, .endVoice { flex: 0 0 auto; min-height: 3rem; border-radius: 999px; font-weight: 800; box-shadow: 0 .55rem 1.5rem rgba(40,19,61,.18); cursor: pointer; }
+.soundButton, .muteVoice, .endVoice { flex: 0 0 auto; min-height: 2.5rem; border-radius: 999px; font-weight: 800; box-shadow: 0 .45rem 1.1rem rgba(40,19,61,.18); cursor: pointer; }
 .soundButton { padding: 0 .75rem; border: 0; color: var(--violet-deep); background: var(--lime); font-size: .67rem; }
-.muteVoice { padding: 0 .78rem; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; gap: .35rem; color: #fff; background: rgba(72,35,107,.98); font-size: .7rem; }
-.endVoice { width: 3rem; padding: 0; border: 1px solid rgba(255,255,255,.2); display: grid; place-items: center; color: #fff; background: rgba(72,35,107,.98); }
-.basketTrigger { min-height: 3rem; padding: 0 .78rem; border: 1px solid rgba(72,35,107,.22); border-radius: 999px; display: flex; align-items: center; gap: .38rem; color: var(--violet-deep); background: rgba(255,255,255,.98); box-shadow: 0 .55rem 1.5rem rgba(40,19,61,.16); font-size: .75rem; cursor: pointer; }
+.voiceStatusChip { min-height: 1.75rem; padding: 0 .55rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; display: inline-flex; align-items: center; color: #fff; background: rgba(40,19,61,.94); font-size: .58rem; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+.voiceStatusChip::before { content: ""; width: .4rem; height: .4rem; margin-right: .28rem; border-radius: 50%; background: var(--lime); }
+.voiceStatusChip[data-status="muted"]::before { background: var(--coral); }
+.muteVoice { padding: 0 .68rem; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; gap: .3rem; color: #fff; background: rgba(72,35,107,.98); font-size: .65rem; }
+.endVoice { width: 2.5rem; padding: 0; border: 1px solid rgba(255,255,255,.2); display: grid; place-items: center; color: #fff; background: rgba(72,35,107,.98); }
+.basketTrigger { min-height: 2.5rem; padding: 0 .68rem; border: 1px solid rgba(72,35,107,.22); border-radius: 999px; display: flex; align-items: center; gap: .32rem; color: var(--violet-deep); background: rgba(255,255,255,.98); box-shadow: 0 .45rem 1.1rem rgba(40,19,61,.16); font-size: .68rem; cursor: pointer; }
 .basketTrigger span { min-width: 1.22rem; height: 1.22rem; display: grid; place-items: center; border-radius: 999px; background: var(--lavender-soft); }
 .basketTrigger strong { white-space: nowrap; }
 .voiceNotice { position: absolute; left: 50%; bottom: calc(100% + .55rem); width: max-content; max-width: min(22rem, calc(100vw - 1rem)); transform: translateX(-50%); margin: 0; padding: .62rem .82rem; border: 1px solid rgba(255,255,255,.22); border-radius: .7rem; color: #fff; background: rgba(40,19,61,.98); box-shadow: 0 .75rem 2rem rgba(40,19,61,.22); font-size: .76rem; text-align: center; }
@@ -210,42 +199,38 @@
 .reviewItems small { margin-top: .2rem; color: var(--muted); }
 .reviewActions button:last-child { border-color: var(--coral); color: #fff; background: var(--coral); }
 @media (max-width: 980px) {
-  .brandInvitation { grid-template-columns: minmax(0, 1fr) minmax(8rem, .32fr) minmax(18rem, .72fr); }
   .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .productCard { border-inline-end: 0; border-block-end: 0; }
   .productCard:not(:nth-child(2n)) { border-inline-end: 1px solid rgba(72,35,107,.14); }
   .productCard:not(:nth-last-child(-n + 2)) { border-block-end: 1px solid rgba(72,35,107,.14); }
 }
 @media (max-width: 760px) {
-  .page { padding-bottom: calc(8.75rem + env(safe-area-inset-bottom)); }
-  .brandHeaderInner { padding: .62rem .75rem .78rem; }
-  .brandHeader[data-expanded="false"] .brandHeaderInner { padding-block: .5rem; }
+  .page { padding-bottom: calc(7.5rem + env(safe-area-inset-bottom)); }
+  .brandHeader { --compact-header-height: 4.45rem; }
+  .brandHeader[data-has-order="true"] { --compact-header-height: 5.15rem; }
+  .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] { height: 6.75rem; }
+  .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"][data-has-order="true"] { height: 7.45rem; }
+  .brandHeaderInner { padding: .55rem .75rem .68rem; }
   .brandHeader::after { left: .75rem; width: 6rem; }
-  .brandRow { min-height: 1.8rem; }
-  .brandLogo { width: 7.4rem; }
-  .location strong { font-size: .9rem; }
-  .productSurface { padding: .62rem .55rem 1.5rem; }
-  .brandInvitation { margin-top: .48rem; grid-template-columns: minmax(0, 1fr) 7.5rem; grid-template-areas: "copy art" "actions actions"; gap: .42rem .58rem; }
-  .invitationCopy { grid-area: copy; }
-  .invitationCopy p { font-size: .94rem; line-height: 1.3; }
-  .zurichSignature { grid-area: art; min-height: 3.5rem; background-position: center bottom; }
-  .welcomeActions { grid-area: actions; }
-  .welcomeActions { padding: .65rem; }
-  .welcomeVoiceAction { min-height: 3.25rem; padding: .48rem .55rem; }
-  .contextRail, .contextRail[data-has-order="true"] { grid-template-columns: 1fr; gap: .5rem; margin-bottom: .58rem; }
-  .orderCard { padding: .62rem .68rem; }
-  .flightCard { min-height: 3.5rem; padding: .48rem .62rem; }
-  .departureBoard { min-height: 2.5rem; grid-template-columns: 4.85rem minmax(0, 1fr); column-gap: .58rem; }
-  .departureMeta span { font-size: .61rem; }
-  .departureMeta strong { font-size: .68rem; }
-  .departureRow { grid-template-columns: 3.35rem minmax(6rem, 1fr) 4.45rem minmax(4.35rem, auto); column-gap: .48rem; }
-  .departureRow time, .departureRow span, .departureRow b { font-size: .875rem; }
-  .departureRow strong { font-size: .9rem; }
-  .journeyTrack span { font-size: .46rem; }
-  .progressTrack { justify-content: space-between; gap: .45rem; }
-  .progressTrack span { min-width: .42rem; flex: 0 0 auto; gap: .28rem; font-size: .62rem; }
-  .progressTrack span:not([data-current="true"]) em { display: none; }
-  .progressTrack span[data-current="true"] { color: var(--violet-deep); }
+  .brandHeader[data-intro-expanded="true"] .brandRow, .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandRow { min-height: 1.6rem; }
+  .brand { width: 7.1rem; height: 1.3rem; }
+  .brandLogo { width: 7.1rem; }
+  .location strong { font-size: .82rem; }
+  .productSurface { padding: 7.75rem .55rem 1.5rem; }
+  .arrivalIntro { padding: .8rem 0; grid-template-columns: 1fr; align-content: center; gap: .35rem; }
+  .invitationCopy p { max-width: 21rem; font-size: clamp(1.75rem, 8.5vw, 2.7rem); }
+  .zurichSignature { min-height: clamp(9rem, 24vh, 13rem); background-position: center; }
+  .flightTimeline { padding-top: .35rem; }
+  .timelineText { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); grid-template-areas: "start countdown" "end end"; gap: .1rem .55rem; }
+  .timelineStart { grid-area: start; }
+  .timelineCountdown { grid-area: countdown; text-align: right; }
+  .timelineEnd { grid-area: end; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; text-align: left; }
+  .timelineEnd span { text-align: right; }
+  .timelineText strong { font-size: .66rem; }
+  .timelineCountdown strong { font-size: .94rem; }
+  .timelineText span { font-size: .55rem; }
+  .timelineRail { height: .62rem; margin-top: .1rem; }
+  .orderPulse { margin-top: .12rem; font-size: .5rem; }
   .resultsContext { min-height: 2.3rem; padding: 0 .15rem; margin-bottom: .4rem; }
   .productGrid { scroll-margin-top: 5rem; gap: .8rem .65rem; }
   .productImage { inset: 5.15rem .3rem .15rem; }
@@ -258,75 +243,56 @@
   .cardAction > button { width: 2.55rem; height: 2.55rem; }
   .stepper { width: 6.15rem; min-height: 2.2rem; grid-template-columns: 2.05rem 1fr 2.05rem; }
   .controlDock { bottom: calc(.55rem + env(safe-area-inset-bottom)); }
-  .modelRow { width: min(22rem, calc(100vw - 1rem)); }
-  .voiceModelAction { min-width: 0; width: auto; min-height: 3.4rem; flex: 1 1 0; padding: .44rem .58rem; }
-  .voiceModelLabel strong { font-size: .8rem; }
-  .voiceModelLabel small { font-size: .52rem; }
-  .muteVoice, .endVoice, .basketTrigger { min-height: 2.85rem; }
-  .endVoice { width: 2.85rem; }
+  .modelRow { width: min(18rem, calc(100vw - 1rem)); }
+  .voiceModelAction { min-width: 0; width: auto; min-height: 2.7rem; flex: 1 1 0; padding: .36rem .48rem; }
+  .voiceModelLabel strong { font-size: .72rem; }
+  .voiceModelLabel small { font-size: .44rem; }
+  .muteVoice, .endVoice, .basketTrigger { min-height: 2.5rem; }
+  .endVoice { width: 2.5rem; }
   .basketTrigger { padding: 0 .66rem; }
   .sheetBackdrop { align-items: flex-end; }
   .sheet { width: 100%; height: min(88vh, 48rem); padding: 1.5rem 1rem; border-radius: 1.2rem 1.2rem 0 0; box-shadow: 0 -1rem 3rem rgba(20,8,30,.2); }
 }
 @media (max-width: 560px) {
-  .page { padding-bottom: calc(7.75rem + env(safe-area-inset-bottom)); }
-  .welcomeActions > span { font-size: .6rem; }
-  .invitationCopy p { font-size: .88rem; }
-  .zurichSignature { min-height: 3.1rem; }
-  .welcomeModelRow { gap: .42rem; }
-  .welcomeVoiceAction { min-height: 3.2rem; }
-  .productGrid { grid-template-columns: 1fr; gap: .75rem; }
-  .productCard { aspect-ratio: 1 / .95; border-inline-end: 0; border-block-end: 0; }
-  .productCard:not(:nth-child(2n)) { border-inline-end: 0; }
-  .productCard:not(:last-child) { border-block-end: 1px solid rgba(72,35,107,.14); }
-  .productImage { inset: 5rem .25rem .1rem; }
-  .productText { min-height: 4.8rem; }
-  .productText h2 { font-size: 1.05rem; }
-  .productText strong { font-size: 1rem; }
+  .productGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .62rem .45rem; }
+  .productCard { aspect-ratio: 1 / 1.24; }
+  .productImage { inset: 4.75rem .08rem .08rem; }
+  .productText { min-height: 4.65rem; padding: .28rem .28rem .2rem; grid-template-areas: "brand price" "name name" "variant variant"; column-gap: .3rem; }
+  .productText small { margin-bottom: .14rem; font-size: .52rem; }
+  .productText h2 { min-height: 2.1em; font-size: .78rem; line-height: 1.05; }
+  .productText span { margin-top: .12rem; font-size: .56rem; }
+  .productText strong { font-size: .72rem; }
+  .cardAction { right: .38rem; bottom: .34rem; }
+  .cardAction > button { width: 2.75rem; height: 2.75rem; }
+  .stepper { width: 6.15rem; min-height: 2.75rem; grid-template-columns: 2.05rem 1fr 2.05rem; }
+  .stepper button { min-height: 2.7rem; }
 }
 @media (max-width: 420px) {
-  .flightCard { min-height: 3.75rem; }
-  .departureBoard { grid-template-columns: 4.4rem minmax(0, 1fr); align-items: start; column-gap: .46rem; }
-  .departureMeta { padding-top: .1rem; }
-  .departureRow { grid-template-columns: 3.2rem minmax(0, 1fr) auto; grid-template-areas: "time destination destination" "time flight gate"; gap: .08rem .4rem; }
-  .departureRow time { grid-area: time; align-self: center; }
-  .departureRow strong { grid-area: destination; }
-  .departureRow span { grid-area: flight; }
-  .departureRow b { grid-area: gate; }
+  .brandHeader[data-intro-expanded="true"] { min-height: 29rem; }
+  .timelineEnd { grid-template-columns: 1fr; gap: 0; }
+  .timelineEnd span { text-align: left; }
   .dockRow { width: min(22rem, calc(100vw - 1rem)); flex-wrap: wrap; }
 }
 @media (max-width: 340px) {
   .brandHeaderInner { padding: .55rem .52rem .7rem; }
   .brandHeader::after { left: .52rem; }
   .brandLogo { width: 6.8rem; }
+  .brand { width: 6.8rem; }
   .location strong { font-size: .8rem; }
   .productSurface { padding-inline: .42rem; }
-  .brandInvitation { grid-template-columns: minmax(0, 1fr) 5.8rem; column-gap: .35rem; }
-  .invitationCopy p { font-size: .8rem; }
-  .zurichSignature { min-height: 2.7rem; }
-  .welcomeActions { padding: .5rem; }
-  .welcomeModelRow { gap: .3rem; }
-  .welcomeVoiceAction { min-height: 3.05rem; padding: .38rem .34rem; gap: .25rem; }
-  .welcomeVoiceAction .voiceGlyph { width: 1.15rem; }
-  .welcomeVoiceAction .voiceModelLabel strong { font-size: .72rem; }
-  .welcomeVoiceAction .voiceModelLabel small { font-size: .45rem; letter-spacing: -.025em; }
-  .flightCard { padding-inline: .48rem; }
-  .departureBoard { grid-template-columns: 4.15rem minmax(0, 1fr); column-gap: .36rem; }
-  .departureMeta span { font-size: .58rem; }
-  .departureMeta strong { font-size: .64rem; white-space: normal; }
-  .departureRow { grid-template-columns: 3rem minmax(0, 1fr) auto; column-gap: .32rem; }
-  .departureRow time, .departureRow span, .departureRow b { font-size: .875rem; }
-  .departureRow strong { font-size: .875rem; }
-  .productGrid { grid-template-columns: 1fr; gap: .65rem; }
-  .productImage { inset: 4.85rem .2rem .08rem; }
-  .productText { min-height: 4.65rem; padding: .25rem .35rem .18rem; }
-  .productText small { font-size: .6rem; }
-  .productText h2 { font-size: 1rem; }
-  .productText span { font-size: .64rem; }
-  .productText strong { font-size: .94rem; }
+  .arrivalIntro { padding-top: .55rem; }
+  .invitationCopy p { font-size: 1.65rem; }
+  .zurichSignature { min-height: 8.5rem; }
+  .productGrid { gap: .55rem .36rem; }
+  .productCard { aspect-ratio: 1 / 1.3; }
+  .productImage { inset: 4.55rem .05rem .05rem; }
+  .productText { min-height: 4.48rem; padding: .22rem .22rem .14rem; }
+  .productText h2 { font-size: .72rem; }
+  .productText span { font-size: .52rem; }
+  .productText strong { font-size: .67rem; }
   .cardAction { right: .48rem; bottom: .42rem; }
-  .cardAction > button { width: 2.5rem; height: 2.5rem; }
-  .stepper { width: 5.55rem; min-height: 2rem; grid-template-columns: 1.85rem 1fr 1.85rem; }
+  .cardAction > button { width: 2.75rem; height: 2.75rem; }
+  .stepper { width: 5.9rem; min-height: 2.75rem; grid-template-columns: 1.95rem 1fr 1.95rem; }
   .modelRow { gap: .32rem; }
   .voiceModelAction { min-height: 3.25rem; gap: .32rem; padding: .38rem .4rem; }
   .voiceGlyph { width: 1.35rem; }
@@ -335,6 +301,5 @@
   .basketTrigger strong { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flightCard { transition: none; }
-  .departureBoard { animation: none; }
+  .brandHeader, .arrivalIntro { transition: none; }
 }

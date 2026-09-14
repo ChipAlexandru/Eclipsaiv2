@@ -190,6 +190,25 @@ export function illustrativeFlights(flights, demoNow, limit = 4) {
   return upcomingFlights(flights, demoNow).slice(0, Math.max(0, limit));
 }
 
+export function selectAssumedItinerary(flights, demoNow, minMinutes = 90, maxMinutes = 120) {
+  const nowMs = new Date(demoNow).getTime();
+  if (!Number.isFinite(nowMs)) return null;
+  const catchable = upcomingFlights(flights, demoNow).filter((flight) => !flight.boardingTime || new Date(flight.boardingTime).getTime() > nowMs);
+  const inWindow = catchable.filter((flight) => {
+    const departureMs = new Date(flight.effectiveDeparture || flight.scheduledDeparture).getTime();
+    const minutes = (departureMs - nowMs) / 60_000;
+    return minutes >= minMinutes && minutes <= maxMinutes;
+  });
+  const reliable = inWindow.find((flight) => flight.gate && flight.boardingTime);
+  const selected = reliable || inWindow[0] || catchable[0] || null;
+  if (!selected) return null;
+  return {
+    ...selected,
+    assumptionBasis: inWindow.includes(selected) ? "arrival_window" : "next_upcoming",
+    assumedAt: new Date(demoNow).toISOString(),
+  };
+}
+
 export function replayFlightStatus(flight, demoNow) {
   if (!flight) return { label: "Awaiting confirmation", basis: "demo replay" };
   const event = activeSimulationEvent(flight, demoNow);
