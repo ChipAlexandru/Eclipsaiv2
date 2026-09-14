@@ -140,9 +140,12 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: "stale-review", reviewUserItemId, confirmationReply: yesReply }).reason, "stale_review");
   assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: yesReply }).ok, true);
   const session = {};
-  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 7, currentSession: session }), true);
-  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 8, currentSession: session }), false);
-  assert.equal(approval.isApprovalSessionCurrent({ approvalState: { generation: 7, session }, currentGeneration: 7, currentSession: null }), false);
+  const approvalState = { generation: 7, session };
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 7, currentSession: session }), true);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: null, currentGeneration: 7, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: { generation: 7, session }, currentGeneration: 7, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 8, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 7, currentSession: null }), false);
 
   const first = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, reference: "ZRH-1", confirmedAt: "real-now", confirmedAtDemo: "demo-now" });
   assert.equal(first.ok, true);
@@ -219,6 +222,9 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /Ask exactly “Do you confirm the order\?”/);
   assert.match(client, /review_fingerprint/);
   assert.match(client, /validateSpokenOrderApproval/);
+  assert.match(client, /const rejectApproval = async \(\) => \{[^}]*invalidateReview\(\)/);
+  assert.match(client, /currentApprovalState: voiceReviewApprovalRef\.current/);
+  assert.match(client, /reservationRef\.current\?\.fingerprint === review_fingerprint/);
   assert.match(client, /data-voice-tool-starts=/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);

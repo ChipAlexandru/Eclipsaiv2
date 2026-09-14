@@ -95,8 +95,8 @@ export function validateSpokenOrderApproval({ review, expectedFingerprint, revie
   return { ok: false, decision, reason: "ambiguous", error: "The reply was not an unambiguous order confirmation. Ask again and wait." };
 }
 
-export function isApprovalSessionCurrent({ approvalState, currentGeneration, currentSession }) {
-  return Boolean(approvalState && currentSession && approvalState.generation === currentGeneration && approvalState.session === currentSession);
+export function isApprovalSessionCurrent({ approvalState, currentApprovalState, currentGeneration, currentSession }) {
+  return Boolean(approvalState && approvalState === currentApprovalState && currentSession && approvalState.generation === currentGeneration && approvalState.session === currentSession);
 }
 
 export function finalizeReviewedOrder({ review, currentFingerprint, expectedFingerprint = null, existingReservation = null, reference, confirmedAt, confirmedAtDemo }) {
