@@ -93,6 +93,126 @@ test("microphone acquisition cannot leave voice connecting forever and disposes 
   assert.equal(stopped, 1);
 });
 
+test("spoken order approval is bound to the next clear reply and the exact review", async () => {
+  const approval = await import(pathToFileURL(path.join(feature, "voiceOrderApproval.mjs")));
+  const replay = await import(pathToFileURL(path.join(feature, "flightReplay.mjs")));
+  const review = { fingerprint: "bag-a:flight-a:collection:store", summary: { itemCount: 1 }, fulfillment: { method: "collection", destination: "Zürich Duty Free", etaMinutes: 4 } };
+  const reviewUserItemId = "request-review";
+  const historyThroughQuestion = [
+    { itemId: "older-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes" }] },
+    { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Please review it." }] },
+    { itemId: "assistant-review", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "Do you confirm the order?" }] },
+  ];
+  const pendingRefusal = [...historyThroughQuestion, { itemId: "current-reply", type: "message", role: "user", status: "in_progress", content: [{ type: "input_audio", transcript: null }] }];
+  assert.deepEqual(approval.latestUserTurn(pendingRefusal), { itemId: "current-reply", status: "in_progress", text: null });
+  const pendingReply = approval.findOrderConfirmationReply(pendingRefusal, reviewUserItemId);
+  assert.equal(pendingReply.reply.itemId, "current-reply");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: pendingReply }).reason, "reply_transcript_pending");
+  let currentHistory = pendingRefusal;
+  let publishHistory = null;
+  const delayedReplyPromise = approval.waitForScopedConfirmationReply({ getHistory: () => currentHistory, reviewUserItemId, timeoutMs: 100, subscribe: (notify) => { publishHistory = notify; return () => { publishHistory = null; }; } });
+  currentHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "Yes, thank you" }] } : item);
+  publishHistory(currentHistory);
+  assert.equal((await delayedReplyPromise).reply.itemId, "current-reply");
+  let cancelWait = null;
+  const cancelledReplyPromise = approval.waitForScopedConfirmationReply({ getHistory: () => pendingRefusal, reviewUserItemId, timeoutMs: 100, subscribe: (notify) => { cancelWait = notify; return () => { cancelWait = null; }; } });
+  cancelWait(null);
+  assert.equal(await cancelledReplyPromise, null);
+
+  assert.equal(approval.classifySpokenOrderApproval("Yes"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Confirm"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Confirmed"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Please confirm"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Please confirm the order"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, thank you"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, please go ahead"), "approved");
+  assert.equal(approval.classifySpokenOrderApproval("No, change it"), "refused");
+  assert.equal(approval.classifySpokenOrderApproval("Yes, I like that brand"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Is the order confirmed?"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Is the order confirmed"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order?"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order"), "ambiguous");
+  assert.equal(approval.isOrderConfirmationQuestion("Would you like to confirm this order?"), true);
+  assert.equal(approval.isOrderConfirmationQuestion("Can I finalize your purchase?"), true);
+  assert.equal(approval.isOrderConfirmationQuestion("I cannot confirm the order."), false);
+
+  const refusalHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "No, not yet" }] } : item);
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId) }).reason, "refused");
+  const divertedThenYes = [...historyThroughQuestion,
+    { itemId: "diversion", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "What time is it?" }] },
+    { itemId: "assistant-diversion", type: "message", role: "assistant", status: "completed", content: [{ type: "output_audio", transcript: "It is eight." }] },
+    { itemId: "later-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes" }] },
+  ];
+  const diversionReply = approval.findOrderConfirmationReply(divertedThenYes, reviewUserItemId);
+  assert.equal(diversionReply.reply.itemId, "diversion");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: diversionReply }).reason, "ambiguous");
+
+  const yesHistory = [...historyThroughQuestion, { itemId: "reply-yes", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Yes, thank you" }] }];
+  const yesReply = approval.findOrderConfirmationReply(yesHistory, reviewUserItemId);
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: "stale-review", reviewUserItemId, confirmationReply: yesReply }).reason, "stale_review");
+  assert.equal(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: yesReply }).ok, true);
+  assert.equal(approval.shouldKeepApprovalArmed(approval.validateSpokenOrderApproval({ review, expectedFingerprint: review.fingerprint, reviewUserItemId, confirmationReply: pendingReply })), true);
+  const session = {};
+  const approvalState = { generation: 7, session };
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 7, currentSession: session }), true);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: null, currentGeneration: 7, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: { generation: 7, session }, currentGeneration: 7, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 8, currentSession: session }), false);
+  assert.equal(approval.isApprovalSessionCurrent({ approvalState, currentApprovalState: approvalState, currentGeneration: 7, currentSession: null }), false);
+
+  const first = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, reference: "ZRH-1", confirmedAt: "real-now", confirmedAtDemo: "demo-now" });
+  assert.equal(first.ok, true);
+  assert.equal(first.duplicatePrevented, false);
+  assert.equal(first.reservation.submittedExternally, false);
+  const repeated = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint: review.fingerprint, existingReservation: first.reservation, reference: "ZRH-2", confirmedAt: "later", confirmedAtDemo: "later-demo" });
+  assert.equal(repeated.duplicatePrevented, true);
+  assert.strictEqual(repeated.reservation, first.reservation);
+  assert.equal(approval.finalizeReviewedOrder({ review, currentFingerprint: "bag-changed", expectedFingerprint: review.fingerprint }).ok, false);
+
+  const wiredSession = {};
+  const wiredApprovalState = { fingerprint: review.fingerprint, reviewUserItemId, generation: 11, session: wiredSession };
+  const confirmHistory = [...historyThroughQuestion, { itemId: "reply-confirm", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Confirm" }] }];
+  let overlay = "review";
+  let visibleOrder = null;
+  let trackerVisible = false;
+  const flowEvents = [];
+  const wiredResult = await approval.completeSpokenOrderConfirmation({
+    approvalState: wiredApprovalState,
+    expectedFingerprint: review.fingerprint,
+    getCurrentApprovalState: () => wiredApprovalState,
+    getCurrentGeneration: () => 11,
+    getCurrentSession: () => wiredSession,
+    getReview: () => review,
+    waitForConfirmationReply: async () => approval.findOrderConfirmationReply(confirmHistory, reviewUserItemId),
+    onConsentValidated: () => flowEvents.push("consent_validated"),
+    finalizeOrder: (expectedFingerprint) => {
+      const result = approval.finalizeReviewedOrder({ review, currentFingerprint: review.fingerprint, expectedFingerprint, reference: "ZRH-WIRED", confirmedAt: "2026-09-14T08:00:00.000Z", confirmedAtDemo: "2026-09-14T08:00:00.000Z" });
+      if (result.ok) { visibleOrder = result.reservation; overlay = null; trackerVisible = true; flowEvents.push("order_committed"); }
+      return result;
+    },
+  });
+  assert.equal(wiredResult.ok, true);
+  assert.equal(wiredResult.closeOverlay, true);
+  assert.equal(wiredResult.showOrderTracker, true);
+  assert.equal(overlay, null);
+  assert.equal(trackerVisible, true);
+  assert.equal(visibleOrder.reference, "ZRH-WIRED");
+  assert.equal(replay.orderProgress(visibleOrder, "2026-09-14T08:00:00.000Z").state, "Preparing");
+  assert.deepEqual(flowEvents, ["consent_validated", "order_committed"]);
+
+  const pendingResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => wiredApprovalState, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => pendingReply, finalizeOrder: () => { throw new Error("pending consent must not commit"); } });
+  assert.equal(pendingResult.pending, true);
+  assert.equal(pendingResult.clearApproval, false);
+  assert.equal(pendingResult.closeOverlay, false);
+
+  const refusalResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => wiredApprovalState, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId), finalizeOrder: () => { throw new Error("refusal must not commit"); } });
+  assert.equal(refusalResult.reason, "refused");
+  assert.equal(refusalResult.clearApproval, true);
+  const cancelledResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => null, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => yesReply, finalizeOrder: () => { throw new Error("cancelled session must not commit"); } });
+  assert.equal(cancelledResult.reason, "approval_cancelled");
+  assert.equal(cancelledResult.closeOverlay, false);
+});
+
 test("Realtime model verification keeps server and active-session evidence distinct and generation-scoped", async () => {
   const realtime = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
   const pending = realtime.beginAvoltaRealtimeVerification(7, "gpt-realtime-2.1-mini", null);
@@ -130,7 +250,7 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
 
   for (const source of [client, page, token, access]) assert.doesNotMatch(source, /src\/juliette-demo|app\/juliette-demo/);
   assert.doesNotMatch(client, /process\.env\.OPENAI_API_KEY/);
-  assert.match(client, /needsApproval:\s*true/);
+  assert.doesNotMatch(client, /needsApproval:\s*true/);
   assert.match(client, /review_demo_order/);
   assert.match(client, /confirm_demo_order/);
   assert.match(client, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
@@ -145,6 +265,7 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /const displayedFlight = pendingFlight \|\| confirmedFlight/);
   assert.match(client, /assess_journey/);
   assert.match(client, /exact sentence \"Welcome to Avolta\.\"/);
+  assert.match(client, /Pronounce Avolta as three syllables, ah-VOL-ta, with the stress on VOL/);
   assert.match(client, /help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it/i);
   assert.match(client, /Do not mention the demo day, replay, simulation, data, tools or setup/);
   assert.match(client, /without repeating the welcome/);
@@ -154,7 +275,17 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /If the traveler asks for a product, gift, category, brand, price or idea at any point/);
   assert.match(client, /Reuse anything the traveler has already volunteered/);
   assert.match(client, /Never ask a second question, answer on the traveler's behalf, or continue simply because there is silence/);
-  assert.match(client, /Ask for explicit approval and stop/);
+  assert.match(client, /Speak once after the tool completes/);
+  assert.match(client, /Ask exactly “Do you confirm the order\?”/);
+  assert.match(client, /review_fingerprint/);
+  assert.match(client, /completeSpokenOrderConfirmation/);
+  assert.match(client, /setActivePanel\(null\); setReservationError/);
+  assert.match(client, /recordVoiceOrderEvent\("manual_confirmation"\); createReservation\(\)/);
+  assert.match(client, /const rejectApproval = async \(\) => \{[^}]*invalidateReview\(\)/);
+  assert.match(client, /getCurrentApprovalState: \(\) => voiceReviewApprovalRef\.current/);
+  assert.match(client, /reservationRef\.current\?\.fingerprint === review_fingerprint/);
+  assert.match(client, /data-voice-tool-starts=/);
+  assert.match(client, /data-voice-order-flow=/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
@@ -216,7 +347,8 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
   assert.match(client, /<div className=\{styles\.modelRow\} aria-label="Choose voice model">/);
   assert.match(client, />All products</);
-  assert.match(client, /"Talk to Order"/);
+  assert.match(client, /<strong>Let’s talk<\/strong><small>\{choice\.label\}<\/small>/);
+  assert.doesNotMatch(client, />\{choice\.model\}<\/small>|"Talk to Order"/);
   assert.match(client, /\{ label: "Mini", model: "gpt-realtime-2\.1-mini" \}/);
   assert.match(client, /\{ label: "Standard", model: "gpt-realtime-2\.1" \}/);
   assert.match(client, /aria-label="Choose voice model"/);
@@ -257,10 +389,13 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /\.productText \{[^}]*background:\s*transparent/);
   assert.match(css, /\.productImage \{[^}]*background:\s*#fff/);
   assert.match(css, /\.modelRow, \.dockRow \{[^}]*display:\s*flex/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(18rem, calc\(100vw - 1rem\)\)/);
+  assert.match(css, /\.voiceModelAction \{[^}]*width:\s*15\.25rem[^}]*min-height:\s*3\.75rem[^}]*border-radius:\s*999px/);
+  assert.match(css, /\.voiceModelLabel strong \{[^}]*font-size:\s*1rem/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(31rem, calc\(100vw - 1rem\)\)/);
+  assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.productCard \{[^}]*aspect-ratio:\s*1 \/ 1\.02/);
   assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
-  assert.doesNotMatch(client, /session\.on\("history_updated"/);
+  assert.match(client, /session\.on\("history_updated"/);
   assert.doesNotMatch(client, /Today at Zürich Airport|Journey not assessed|Security \{/);
   assert.doesNotMatch(client, /Terminal 1/);
   assert.doesNotMatch(client, /className=\{styles\.(?:headerActions|cardActions|modalBackdrop)\}/);
@@ -293,7 +428,16 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /\.brandHeader \{[^}]*position:\s*fixed[^}]*height:\s*var\(--compact-header-height\)/);
   assert.match(css, /\.brandHeader\[data-intro-expanded="true"\] \{[^}]*75svh/);
-  assert.match(css, /\.brandHeader \{[^}]*--compact-header-height:\s*4\.15rem/);
+  assert.match(css, /\.brandHeader \{[^}]*--compact-header-height:\s*6\.25rem/);
+  assert.match(css, /\.timelineText strong \{[^}]*font-size:\s*1rem/);
+  assert.match(css, /\.timelineCountdown strong \{[^}]*font-size:\s*1\.5rem/);
+  assert.match(css, /\.timelineStartDot, \.timelineEndDot, \.timelinePosition \{[^}]*width:\s*\.9rem/);
+  assert.doesNotMatch(css, /\.brandHeader::after/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.brandHeader \{ --compact-header-height:\s*9\.15rem; \}/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.brandHeader\[data-has-order="true"\] \{ --compact-header-height:\s*10\.45rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader \{ --compact-header-height:\s*10\.1rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader\[data-has-order="true"\] \{ --compact-header-height:\s*11\.65rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader\[data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\] \{ height:\s*10\.55rem; \}/);
   assert.match(css, /data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\]/);
   assert.match(css, /\.brandHeader, \.arrivalIntro \{ transition:\s*none/);
   assert.match(css, /-webkit-mask:\s*url\("\/avolta-demo\/brand\/avolta-logo\.svg"\)/);
