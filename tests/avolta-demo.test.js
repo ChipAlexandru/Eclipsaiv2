@@ -287,7 +287,8 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /data-primary=\{choice\.model === DEFAULT_AVOLTA_REALTIME_MODEL\}/);
   assert.match(client, /<div className=\{styles\.modelRow\} aria-label="Choose voice model">/);
   assert.match(client, />All products</);
-  assert.match(client, /"Talk to Order"/);
+  assert.match(client, /<strong>Let’s talk<\/strong><small>\{choice\.label\}<\/small>/);
+  assert.doesNotMatch(client, />\{choice\.model\}<\/small>|"Talk to Order"/);
   assert.match(client, /\{ label: "Mini", model: "gpt-realtime-2\.1-mini" \}/);
   assert.match(client, /\{ label: "Standard", model: "gpt-realtime-2\.1" \}/);
   assert.match(client, /aria-label="Choose voice model"/);
@@ -328,7 +329,10 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /\.productText \{[^}]*background:\s*transparent/);
   assert.match(css, /\.productImage \{[^}]*background:\s*#fff/);
   assert.match(css, /\.modelRow, \.dockRow \{[^}]*display:\s*flex/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(18rem, calc\(100vw - 1rem\)\)/);
+  assert.match(css, /\.voiceModelAction \{[^}]*width:\s*15\.25rem[^}]*min-height:\s*3\.75rem[^}]*border-radius:\s*999px/);
+  assert.match(css, /\.voiceModelLabel strong \{[^}]*font-size:\s*1rem/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.modelRow \{[^}]*width:\s*min\(31rem, calc\(100vw - 1rem\)\)/);
+  assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.productCard \{[^}]*aspect-ratio:\s*1 \/ 1\.02/);
   assert.match(provenance, /8ae73af3fbe60fa142789d12bac1dfd4a359bc33/);
   assert.doesNotMatch(client, /className=\{styles\.(?:transcript|travelBar|journeyPanel|sidePanel|sourceLink)\}/);
   assert.match(client, /session\.on\("history_updated"/);

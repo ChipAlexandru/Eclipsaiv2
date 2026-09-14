@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
+import { AudioWaveform, Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
@@ -93,7 +93,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [focusedView, setFocusedView] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
   const [voiceStatus, setVoiceStatus] = useState("idle");
-  const [voiceMessage, setVoiceMessage] = useState("Talk to Order");
+  const [voiceMessage, setVoiceMessage] = useState("Ready to talk.");
   const [activeVoiceModel, setActiveVoiceModel] = useState(null);
   const [voiceModelVerification, setVoiceModelVerification] = useState(idleAvoltaRealtimeVerification);
   const [isMuted, setIsMuted] = useState(false);
@@ -659,13 +659,13 @@ Initial interface state: ${safe(stateSnapshot())}` });
 
       <section className={styles.controlDock} data-status={voiceStatus} data-has-session={hasVoiceSession} data-has-basket={hasBasket} data-voice-model-verification={voiceModelVerification.status} data-voice-requested-model={voiceModelVerification.requestedModel || ""} data-voice-server-reported-model={voiceModelVerification.serverReportedModel || ""} data-voice-session-reported-model={voiceModelVerification.sessionReportedModel || ""} data-voice-model-verification-source={voiceModelVerification.source || ""} aria-label="Shopping controls">
         <div className={styles.modelRow} aria-label="Choose voice model">
-          {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.voiceModelAction} data-primary={choice.model === DEFAULT_AVOLTA_REALTIME_MODEL} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && (hasVoiceSession || connecting)} aria-label={`Start ${choice.label} voice session with ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><Mic /></span><span className={styles.voiceModelLabel}><strong>{choice.label}</strong><small>{choice.model}</small></span>{connecting && <span className={styles.connectingIndicator} />}{active && hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>; })}
+          {VOICE_MODEL_CHOICES.map((choice) => { const active = activeVoiceModel === choice.model; const connecting = active && voiceStatus === "connecting"; return <button className={styles.voiceModelAction} data-primary={choice.model === DEFAULT_AVOLTA_REALTIME_MODEL} data-active={active} type="button" key={choice.model} onClick={() => startVoice(choice.model)} disabled={active && (hasVoiceSession || connecting)} aria-label={`Start ${choice.label} voice session with ${choice.model}`} title={`${choice.label}: ${choice.model}`} aria-pressed={active}><span className={styles.voiceGlyph}><AudioWaveform aria-hidden="true" /></span><span className={styles.voiceModelLabel}><strong>Let’s talk</strong><small>{choice.label}</small></span>{connecting && <span className={styles.connectingIndicator} />}{active && hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} />}</button>; })}
         </div>
         {(hasVoiceSession || soundBlocked || hasBasket) && <div className={styles.dockRow}>
           {hasVoiceSession && <span className={styles.voiceStatusChip} data-status={voiceStatus}>{isMuted ? "Muted" : voiceStatus === "speaking" ? "Speaking" : voiceStatus === "connecting" ? "Connecting" : "Live"}</span>}
           {hasVoiceSession && <button className={styles.muteVoice} type="button" onClick={toggleVoiceMute} aria-label={isMuted ? "Unmute microphone" : "Mute microphone"}>{isMuted ? <MicOff size={16} /> : <Mic size={16} />}<span>{isMuted ? "Unmute" : "Mute"}</span></button>}
           {soundBlocked && <button className={styles.soundButton} type="button" onClick={ensureAudioPlayback}>Enable sound</button>}
-          {hasVoiceSession && <button className={styles.endVoice} type="button" onClick={() => closeVoiceSession("Talk to Order")} aria-label="End voice session"><X size={17} /></button>}
+          {hasVoiceSession && <button className={styles.endVoice} type="button" onClick={() => closeVoiceSession("Ready to talk again.")} aria-label="End voice session"><X size={17} /></button>}
           {hasBasket && <button className={styles.basketTrigger} type="button" onClick={() => setActivePanel("basket")} aria-label={`Order bag, ${basketDetails.itemCount} ${basketDetails.itemCount === 1 ? "item" : "items"}, ${formatMoney(basketDetails.total)}`}><ShoppingBag size={17} /><span>{basketDetails.itemCount}</span><strong>{formatMoney(basketDetails.total)}</strong></button>}
         </div>}
         {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status" aria-live="polite">{voiceMessage}</p>}
