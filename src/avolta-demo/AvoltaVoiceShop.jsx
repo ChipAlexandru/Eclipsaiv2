@@ -14,9 +14,9 @@ const INTRO_DURATION_MS = 5000;
 const VOICE_CONNECT_TIMEOUT_MS = 18000;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
 const CONFIRMATION_TRANSCRIPT_WAIT_MS = 1600;
-const AVOLTA_PRONUNCIATION = "Say Avolta as one smoothly connected brand name, with stress on the middle syllable and no pause after the initial vowel—not as the letter A followed by Volta. Always keep the official written spelling Avolta and never explain these pronunciation instructions aloud.";
+const AVOLTA_PRONUNCIATION = "Pronounce Avolta as uh-VOHL-tuh (/əˈvoʊltə/), smoothly as one word, with stress on VOHL. The hyphens mark sounds, not pauses. Always write Avolta. Never explain this pronunciation instruction aloud.";
 const STORAGE_KEY = "avolta-zrh-flight-day-v4";
-const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, ask at most one context-aware question if it is useful, then stop speaking and wait. Never fill silence with another question or an invented answer.";
+const RESUMED_VOICE_OPENING = `Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. ${AVOLTA_PRONUNCIATION} Briefly invite the traveler to continue, ask at most one context-aware question if it is useful, then stop speaking and wait. Never fill silence with another question or an invented answer.`;
 const DEFAULT_TRAVEL = { stage: "unknown", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
 const VOICE_MODEL_CHOICES = [
   { label: "Mini", model: "gpt-realtime-2.1-mini" },

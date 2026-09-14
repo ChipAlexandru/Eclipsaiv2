@@ -448,9 +448,10 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /const displayedFlight = pendingFlight \|\| confirmedFlight/);
   assert.match(client, /assess_journey/);
   assert.match(client, /exact sentence \"Welcome to Avolta\.\"/);
-  assert.match(client, /const AVOLTA_PRONUNCIATION = "Say Avolta as one smoothly connected brand name, with stress on the middle syllable and no pause after the initial vowel—not as the letter A followed by Volta\. Always keep the official written spelling Avolta and never explain these pronunciation instructions aloud\."/);
-  assert.equal(client.match(/\$\{AVOLTA_PRONUNCIATION\}/g)?.length, 2);
-  assert.doesNotMatch(client, /ah-VOL-ta|three syllables/);
+  assert.match(client, /const AVOLTA_PRONUNCIATION = "Pronounce Avolta as uh-VOHL-tuh \(\/əˈvoʊltə\/\), smoothly as one word, with stress on VOHL\. The hyphens mark sounds, not pauses\. Always write Avolta\. Never explain this pronunciation instruction aloud\."/);
+  assert.equal(client.match(/\$\{AVOLTA_PRONUNCIATION\}/g)?.length, 3);
+  assert.match(client, /const RESUMED_VOICE_OPENING = `[^`]*\$\{AVOLTA_PRONUNCIATION\}/);
+  assert.doesNotMatch(client, /ah-VOL-ta|three syllables|one smoothly connected brand name|middle syllable|initial vowel|letter A followed by Volta/);
   assert.match(client, /help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it/i);
   assert.match(client, /Do not mention the demo day, replay, simulation, data, tools or setup/);
   assert.match(client, /without repeating the welcome/);
