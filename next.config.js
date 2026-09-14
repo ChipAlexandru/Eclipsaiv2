@@ -9,6 +9,7 @@ const nextConfig = {
   async rewrites() {
     const origin = productionJuliettePortalOrigin();
     const publicPages = [
+      ...legacyDemoAssetRewrites,
       freshFoodDemoRewrite,
       spruengliDemoRewrite,
       hausammannDemoRewrite,
@@ -118,6 +119,56 @@ const nextConfig = {
     ];
   },
 };
+
+const legacyDemoAssetRewrites = [
+  ...assetAliases(
+    ["fresh-food-demo", "Hausammann-demo-1", "Spruengli-demo-2", "BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1", "restaurant-profit-brain-demo"],
+    "assets/source-photos/pos.jpg",
+    "/demo-common/assets/shared/pos-2000.jpg",
+  ),
+  ...assetAliases(
+    ["fresh-food-demo", "Hausammann-demo-1", "Spruengli-demo-2", "BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1", "restaurant-profit-brain-demo"],
+    "assets/source-photos/phone-message.jpg",
+    "/demo-common/assets/shared/phone-message.jpg",
+  ),
+  ...assetAliases(
+    ["fresh-food-demo", "Hausammann-demo-1", "BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1"],
+    "assets/source-photos/baker-production.jpg",
+    "/demo-common/assets/shared/baker-production.jpg",
+  ),
+  ...assetAliases(
+    ["BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1"],
+    "assets/field-evidence/opening-production.jpg",
+    "/demo-common/assets/shared/baker-production.jpg",
+  ),
+  ...assetAliases(
+    ["fresh-food-demo", "Hausammann-demo-1", "Spruengli-demo-2", "BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1"],
+    "assets/source-photos/computer.jpg",
+    "/demo-common/assets/shared/computer.jpg",
+  ),
+  ...assetAliases(
+    ["fresh-food-demo", "BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1"],
+    "assets/source-photos/bakery-display-neutral.png",
+    "/demo-common/assets/shared/bakery-display-neutral.jpg",
+  ),
+  ...assetAliases(
+    ["BakeryBakery-demo-1", "Steiner-Flughafebeck-demo-1"],
+    "assets/field-evidence/opening-display.png",
+    "/demo-common/assets/shared/bakery-display-neutral.jpg",
+  ),
+  {
+    source: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028.jpg",
+    destination: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-03-1028-1600.jpg",
+  },
+  {
+    source: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603.jpg",
+    destination: "/Spruengli-demo-2/assets/field-evidence/spruengli-2026-08-04-1603-1600.jpg",
+  },
+];
+
+function assetAliases(demos, assetPath, destination) {
+  return demos.map((demo) => ({ source: `/${demo}/${assetPath}`, destination }));
+}
 
 const hausammannDemoRewrite = {
   source: "/Hausammann-demo-1",
