@@ -140,6 +140,23 @@ test("voice lifecycle evidence is content-free and stale tool results cannot res
   runTimers();
   assert.equal(responseRequests.length, 1);
   assert.equal(coordinatorEvents.at(-1).event, "stale_tool_continuation_suppressed");
+
+  coordinator.onTravelerTurn(3);
+  coordinator.onToolStart({ callId: "slow-old", responseId: "response-slow-old", turnGeneration: 3 });
+  coordinator.onTravelerTurn(4);
+  coordinator.onToolStart({ callId: "current", responseId: "response-current", turnGeneration: 4 });
+  coordinator.onResponseDone("response-current");
+  coordinator.onToolEnd({ callId: "current", turnGeneration: 4 });
+  coordinator.onToolStart({ callId: "late-old-dispatch", responseId: "response-slow-old", turnGeneration: 3 });
+  assert.equal(coordinator.isBusy(), true);
+  runTimers();
+  assert.deepEqual(responseRequests.at(-1), { turnGeneration: 4, sourceResponseIds: ["response-current"], toolCount: 1 });
+  assert.equal(coordinator.isBusy(), false);
+  coordinator.onToolEnd({ callId: "slow-old", turnGeneration: 4 });
+  coordinator.onToolEnd({ callId: "late-old-dispatch", turnGeneration: 4 });
+  runTimers();
+  assert.equal(responseRequests.length, 2);
+  assert.equal(coordinatorEvents.filter((entry) => entry.event === "stale_tool_continuation_suppressed").length, 3);
   coordinator.close();
 });
 
@@ -469,6 +486,9 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /queueResponseOrigin\("tool_continuation"/);
   assert.match(client, /response\.output_audio\.delta/);
   assert.match(client, /order_update_suppressed_busy/);
+  assert.match(client, /responseOwnershipRef\.current\.get\(responseId\)\?\.turnGeneration \?\? voiceTurnGenerationRef\.current/);
+  assert.match(client, /uncoordinated_tool_output/);
+  assert.match(client, /tool_execution_error/);
   assert.match(client, /A response that contains one or more tool calls produces no spoken audio/);
   assert.match(client, /latestTravelerTurn/);
   assert.match(client, /explicit order command such as “I confirm” or “go ahead with the order,” stop the summary immediately/);

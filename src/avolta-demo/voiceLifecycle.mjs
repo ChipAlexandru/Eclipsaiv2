@@ -34,8 +34,10 @@ export function createToolResponseCoordinator({ requestResponse, settleMs = 40, 
   };
   const schedule = () => {
     clearScheduled();
-    if (activeCalls.size || !pendingCalls.size) return;
-    const pending = [...pendingCalls.values()];
+    const currentActiveCalls = [...activeCalls.values()].filter((entry) => entry.turnGeneration === currentTurnGeneration);
+    if (currentActiveCalls.length || !pendingCalls.size) return;
+    const pending = [...pendingCalls.values()].filter((entry) => entry.turnGeneration === currentTurnGeneration);
+    if (!pending.length) return;
     if (pending.some((entry) => entry.responseId && !completedResponses.has(entry.responseId))) return;
     timerId = setTimer(() => {
       timerId = null;
@@ -56,7 +58,7 @@ export function createToolResponseCoordinator({ requestResponse, settleMs = 40, 
     },
     onToolStart({ callId, responseId, turnGeneration }) {
       if (!callId) return;
-      clearScheduled();
+      if (turnGeneration === currentTurnGeneration) clearScheduled();
       activeCalls.set(callId, { callId, responseId: responseId || null, turnGeneration });
     },
     onToolEnd({ callId, turnGeneration }) {
@@ -70,7 +72,7 @@ export function createToolResponseCoordinator({ requestResponse, settleMs = 40, 
       if (responseId) completedResponses.add(responseId);
       schedule();
     },
-    isBusy() { return Boolean(activeCalls.size || pendingCalls.size || timerId !== null); },
+    isBusy() { return Boolean([...activeCalls.values()].some((entry) => entry.turnGeneration === currentTurnGeneration) || [...pendingCalls.values()].some((entry) => entry.turnGeneration === currentTurnGeneration) || timerId !== null); },
     close() { clearScheduled(); activeCalls.clear(); pendingCalls.clear(); completedResponses.clear(); },
   };
 }

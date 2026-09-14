@@ -130,6 +130,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const responseOriginQueueRef = useRef([]);
   const responseOwnershipRef = useRef(new Map());
   const responseAudioContentRef = useRef(new Set());
+  const coordinatedToolCallIdsRef = useRef(new Set());
   const voiceModelVerificationRef = useRef(voiceModelVerification);
   const voiceTimeoutRef = useRef(null);
   const introTimerRef = useRef(null);
@@ -455,7 +456,10 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       suppressedResult: safe({ stale: true, reason: "superseded_by_new_traveler_turn" }),
       onSuppressed: ({ turnGeneration, currentTurnGeneration }) => recordVoiceLifecycle("stale_tool_result_suppressed", { tool: toolName, turnGeneration, currentTurnGeneration }),
     });
-    const coordinatedTool = (definition) => tool({ ...definition, execute: async (...args) => { const result = await definition.execute(...args); return isBackgroundResult(result) ? result : backgroundResult(result); } });
+    const coordinatedTool = (definition) => tool({ ...definition, execute: async (...args) => {
+      try { const result = await definition.execute(...args); return isBackgroundResult(result) ? result : backgroundResult(result); }
+      catch (error) { recordVoiceLifecycle("tool_execution_error", { tool: definition.name, errorType: error?.name || "Error" }); return backgroundResult(safe({ ok: false, error: "The requested action could not be completed." })); }
+    } });
     const getState = coordinatedTool({ name: "get_shopping_state", description: "Read products in the viewport, touch-selected product, comparison, shortlist, bag and travel state. Always call before relative phrases. Touch selection is authoritative; ordinals refer to viewport order.", parameters: z.object({}), execute: async () => safe({ ...stateSnapshot(), comparison: comparisonRef.current.map((id) => compactProduct(productsById.get(id))) }) });
     const search = coordinatedTool({ name: "search_and_show_products", description: "Silently search and select a small relevant recommendation, then respond once using the result. Selection is immediate; images may continue loading. Ordinary shopping never requires flight or queue data.", parameters: z.object({ query: z.string().min(1).max(120) }), execute: async ({ query }) => runTurnBound("search_and_show_products", async () => { const matches = searchCatalog(products, query, resultsLimitForTravel(travelRef.current)); if (!matches.length) return safe({ found: false, query, limitation: `No matching item exists in the available ${products.length}-product selection.` }); return safe({ found: true, query, ...(await presentProducts(matches.map((product) => product.id), matches[0].id)) }); }) });
     const show = coordinatedTool({ name: "show_products", description: "Silently select known products by stable ID, then respond once using the result. Images may continue loading.", parameters: z.object({ product_ids: z.array(z.string()).min(1).max(12), focus_product_id: z.string().nullable().default(null) }), execute: async ({ product_ids, focus_product_id }) => runTurnBound("show_products", async () => safe(await presentProducts(product_ids, focus_product_id))) });
@@ -505,7 +509,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const disposeVoiceTransport = useCallback(() => {
     if (sessionRef.current) recordVoiceLifecycle("session_end", { turnGeneration: voiceTurnGenerationRef.current });
-    toolResponseCoordinatorRef.current?.close(); toolResponseCoordinatorRef.current = null; responseActiveRef.current = false; responseOriginQueueRef.current = []; responseOwnershipRef.current.clear(); responseAudioContentRef.current.clear();
+    toolResponseCoordinatorRef.current?.close(); toolResponseCoordinatorRef.current = null; responseActiveRef.current = false; responseOriginQueueRef.current = []; responseOwnershipRef.current.clear(); responseAudioContentRef.current.clear(); coordinatedToolCallIdsRef.current.clear();
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
     revokeVoiceApproval("session_ended"); voiceHistoryRef.current = [];
     microphoneStreamRef.current?.getTracks().forEach((track) => track.stop()); microphoneStreamRef.current = null;
@@ -645,6 +649,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         if (event.type === "response.output_item.added") recordVoiceLifecycle("response_output_item", { responseId: event.response_id || null, itemId: event.item?.id || null, outputType: event.item?.type || null, tool: event.item?.name || null, ...(responseOwnershipRef.current.get(event.response_id) || {}) });
         if (event.type === "response.output_audio.delta" && event.response_id && !responseAudioContentRef.current.has(event.response_id)) { responseAudioContentRef.current.add(event.response_id); recordVoiceLifecycle("response_audio_content_start", { responseId: event.response_id, ...(responseOwnershipRef.current.get(event.response_id) || {}) }); }
         if (event.type === "response.output_audio.done") recordVoiceLifecycle("response_audio_content_end", { responseId: event.response_id || null, ...(responseOwnershipRef.current.get(event.response_id) || {}) });
+        if (event.type === "conversation.item.added" && event.item?.type === "function_call_output" && !coordinatedToolCallIdsRef.current.has(event.item.call_id)) recordVoiceLifecycle("uncoordinated_tool_output", { callId: event.item.call_id || null, turnGeneration: voiceTurnGenerationRef.current });
         const nextVerification = applyAvoltaRealtimeSessionEvidence(voiceModelVerificationRef.current, sequence, event);
         if (nextVerification === voiceModelVerificationRef.current) return;
         voiceModelVerificationRef.current = nextVerification; setVoiceModelVerification(nextVerification);
@@ -656,7 +661,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
         setVoiceStatus("error"); setVoiceMessage("The selected voice model did not match the active session.");
       });
       session.on("history_updated", (history) => { if (isCurrentSession()) recordVoiceHistory(history); });
-      session.on("agent_tool_start", (_context, _agent, activeTool, details) => { if (isCurrentSession()) { const callId = details?.toolCall?.callId || details?.toolCall?.id || null; const responseId = details?.toolCall?.responseId || null; responseCoordinator.onToolStart({ callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); recordVoiceLifecycle("tool_start", { tool: activeTool?.name || "", callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); } });
+      session.on("agent_tool_start", (_context, _agent, activeTool, details) => { if (isCurrentSession()) { const callId = details?.toolCall?.callId || details?.toolCall?.id || null; const responseId = details?.toolCall?.responseId || null; const turnGeneration = responseOwnershipRef.current.get(responseId)?.turnGeneration ?? voiceTurnGenerationRef.current; if (callId) coordinatedToolCallIdsRef.current.add(callId); responseCoordinator.onToolStart({ callId, responseId, turnGeneration }); setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); recordVoiceLifecycle("tool_start", { tool: activeTool?.name || "", callId, responseId, turnGeneration }); } });
       session.on("agent_tool_end", (_context, _agent, activeTool, _result, details) => { if (isCurrentSession()) { const callId = details?.toolCall?.callId || details?.toolCall?.id || null; const responseId = details?.toolCall?.responseId || null; responseCoordinator.onToolEnd({ callId, turnGeneration: voiceTurnGenerationRef.current }); setVoiceEventEvidence((current) => ({ ...current, toolEnds: current.toolEnds + 1 })); recordVoiceLifecycle("tool_end", { tool: activeTool?.name || "", callId, responseId, turnGeneration: voiceTurnGenerationRef.current }); } });
       session.on("agent_end", (_context, _agent, output) => { if (isCurrentSession() && String(output || "").trim()) { setVoiceEventEvidence((current) => ({ ...current, spokenTurns: current.spokenTurns + 1 })); if (voiceOrderFlowRef.current.at(-1) === "order_committed") recordVoiceOrderEvent("response_generated"); } });
       session.on("audio_start", () => { if (isCurrentSession()) { recordVoiceLifecycle("audio_start", { turnGeneration: voiceTurnGenerationRef.current }); setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking. Interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
