@@ -46,7 +46,7 @@ const jsonLd = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Eclipsai | The profit brain for fresh food",
+    default: "Eclipsai — The Profit Brain",
     template: "%s",
   },
   description:
@@ -55,13 +55,11 @@ export const metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Eclipsai",
-    title: "Eclipsai | The profit brain for fresh food",
-    description: "Know what to make tomorrow. Waste less. Sell more.",
+    title: "Eclipsai — The Profit Brain",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eclipsai | The profit brain for fresh food",
-    description: "Know what to make tomorrow. Waste less. Sell more.",
+    title: "Eclipsai — The Profit Brain",
   },
 };
 

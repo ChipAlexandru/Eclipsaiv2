@@ -17,7 +17,7 @@ import { ImageResponse } from "next/og";
 import { OG_SIZE } from "./_og/card.jsx";
 
 export const runtime = "nodejs";
-export const alt = "Eclipsai. The profit brain for fresh food.";
+export const alt = "Eclipsai. The Profit Brain.";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
@@ -90,10 +90,7 @@ export default async function OgImage() {
               display: "flex",
             }}
           >
-            The profit brain for fresh food.
-          </div>
-          <div style={{ fontSize: 26, color: "rgba(239,238,231,.78)", display: "flex" }}>
-            Know what to make tomorrow. Waste less. Sell more.
+            The Profit Brain.
           </div>
         </div>
       </div>
