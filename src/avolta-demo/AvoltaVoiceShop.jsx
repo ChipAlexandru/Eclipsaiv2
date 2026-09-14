@@ -7,7 +7,7 @@ import { basketSummary, changeQuantity, compactProduct, departureEligibility, re
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
 import { acquireMicrophoneWithTimeout } from "./voiceLifecycle.mjs";
-import { classifySpokenOrderApproval, finalizeReviewedOrder, findOrderConfirmationReply, isApprovalSessionCurrent, latestUserTurn, validateSpokenOrderApproval, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
+import { classifySpokenOrderApproval, completeSpokenOrderConfirmation, finalizeReviewedOrder, findOrderConfirmationReply, latestUserTurn, waitForScopedConfirmationReply } from "./voiceOrderApproval.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -75,7 +75,7 @@ function firstVoiceOpening(flight, demoNow, stage) {
   const question = normalizeJourneyStage(stage) === "unknown"
     ? "After a short promise to help them find something they will love and get it to them before they fly, ask whether they are on their way or already at the airport."
     : "Use the location already shared. After a short helpful service promise, ask one relevant shopping question without asking their location again.";
-  return `Begin now with the exact sentence "Welcome to Avolta." ${itinerarySentence} ${question} Ask exactly one question, then stop speaking and wait. Use the current itinerary and countdown supplied here rather than recalling an older number. Do not ask for confirmation of the assumed starting flight. Do not claim to have accessed a booking, airline account or personal record. Do not mention the demo day, replay, simulation, data, tools or setup.`;
+  return `Begin now with the exact sentence "Welcome to Avolta." Pronounce Avolta as three syllables, ah-VOL-ta, with the stress on VOL, while always keeping the official spelling Avolta. Do not speak the pronunciation guidance aloud. ${itinerarySentence} ${question} Ask exactly one question, then stop speaking and wait. Use the current itinerary and countdown supplied here rather than recalling an older number. Do not ask for confirmation of the assumed starting flight. Do not claim to have accessed a booking, airline account or personal record. Do not mention the demo day, replay, simulation, data, tools or setup.`;
 }
 
 export function AvoltaVoiceShop({ catalog, flightDay }) {
@@ -101,6 +101,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [playbackState, setPlaybackState] = useState("idle");
   const [audioEvidence, setAudioEvidence] = useState({ trackReceived: false, modelAudioStarted: false, bytesReceived: 0, totalAudioEnergy: 0 });
   const [voiceEventEvidence, setVoiceEventEvidence] = useState({ toolStarts: 0, toolEnds: 0, spokenTurns: 0, lastTool: "" });
+  const [voiceOrderFlow, setVoiceOrderFlow] = useState([]);
   const [approvalRequest, setApprovalRequest] = useState(null);
   const [review, setReview] = useState(null);
   const [reservation, setReservation] = useState(null);
@@ -152,9 +153,15 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const announcedOrderStatesRef = useRef([]);
   const previousOrderStateRef = useRef(null);
   const voiceWelcomedRef = useRef(false);
+  const voiceOrderFlowRef = useRef([]);
 
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
+  const recordVoiceOrderEvent = useCallback((event, reset = false) => {
+    const next = [...(reset ? [] : voiceOrderFlowRef.current), event].slice(-8);
+    voiceOrderFlowRef.current = next;
+    setVoiceOrderFlow(next);
+  }, []);
   const selectedProduct = selectedId ? productsById.get(selectedId) : null;
   const collapseIntro = useCallback(() => {
     if (introTimerRef.current !== null) { window.clearTimeout(introTimerRef.current); introTimerRef.current = null; }
@@ -365,11 +372,12 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const flight = travelRef.current.selectedFlight; const fulfillment = recommendFulfillment({ stage: travelRef.current.stage, flight, demoNow: demoNowRef.current });
     const fingerprint = `${reservationFingerprint(basketRef.current, travelRef.current)}:${flight?.id || "none"}:${fulfillment.method}:${fulfillment.destination}`;
     const outcome = finalizeReviewedOrder({ review: reviewRef.current, currentFingerprint: fingerprint, expectedFingerprint, existingReservation: reservationRef.current, reference: `ZRH-${flightDay.serviceDate.slice(0, 4)}-${String(Date.now()).slice(-6)}`, confirmedAt: new Date().toISOString(), confirmedAtDemo: demoNowRef.current.toISOString() });
-    if (!outcome.ok) { setReservationError(outcome.error); return outcome; }
+    if (!outcome.ok) { recordVoiceOrderEvent("order_commit_failed"); setReservationError(outcome.error); return outcome; }
     const result = outcome.reservation;
-    if (!outcome.duplicatePrevented) { reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result); previousOrderStateRef.current = "Preparing"; }
-    voiceReviewApprovalRef.current = null; setApprovalRequest(null); setActivePanel("basket"); setReservationError(""); return { ok: true, duplicatePrevented: outcome.duplicatePrevented, order: { reference: result.reference, fulfillment: customerFulfillment(result.fulfillment), progress: orderProgress(result, demoNowRef.current) } };
-  }, [flightDay.serviceDate]);
+    if (!outcome.duplicatePrevented) { reservationRef.current = result; orderRef.current = result; setReservation(result); setOrder(result); previousOrderStateRef.current = "Preparing"; recordVoiceOrderEvent("order_committed"); }
+    else recordVoiceOrderEvent("existing_order_returned");
+    voiceReviewApprovalRef.current = null; setApprovalRequest(null); setActivePanel(null); setReservationError(""); return { ok: true, duplicatePrevented: outcome.duplicatePrevented, order: { reference: result.reference, fulfillment: customerFulfillment(result.fulfillment), progress: orderProgress(result, demoNowRef.current) } };
+  }, [flightDay.serviceDate, recordVoiceOrderEvent]);
 
   const recordVoiceHistory = useCallback((history) => {
     voiceHistoryRef.current = Array.isArray(history) ? history : [];
@@ -380,7 +388,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     }
     for (const notify of transcriptWaitersRef.current) notify(voiceHistoryRef.current);
   }, []);
-  const waitForConfirmationReply = useCallback((reviewState, timeoutMs = 1800) => {
+  const waitForConfirmationReply = useCallback((reviewState, timeoutMs = 4500) => {
     return waitForScopedConfirmationReply({ getHistory: () => voiceHistoryRef.current, reviewUserItemId: reviewState?.reviewUserItemId, timeoutMs, subscribe: (notify) => { transcriptWaitersRef.current.add(notify); return () => transcriptWaitersRef.current.delete(notify); } });
   }, []);
   const showProductDetails = useCallback((productId) => { if (!validProductIds.has(productId)) return null; selectedIdRef.current = productId; setSelectedId(productId); setActivePanel("detail"); return compactProduct(productsById.get(productId)); }, [productsById, validProductIds]);
@@ -409,11 +417,19 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const correctFlightTool = tool({ name: "correct_confirmed_flight", description: "Clear the confirmed flight when the traveler says it is wrong or wants to correct it; then search and reconfirm.", parameters: z.object({}), execute: async () => safe(clearConfirmedFlight()) });
     const assess = tool({ name: "assess_journey", description: "Interpret timing from the confirmed flight, shared clock and traveler-provided location. No live queues or traffic are used.", parameters: z.object({}), execute: async () => { const result = assessReplayJourney({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, arrivalEstimate: travelRef.current.arrivalEstimate, minutesAvailable: travelRef.current.minutesAvailable }, demoNowRef.current); return safe({ outcome: result.outcome, availableShoppingMinutes: result.availableShoppingMinutes, recommendation: result.recommendation, known: result.known, missing: result.missing }); } });
     const fulfillmentTool = tool({ name: "recommend_demo_fulfillment", description: "Recommend one supported fulfillment method based on confirmed gate, traveler-provided location and boarding time. Do not present a menu or imply an external transaction.", parameters: z.object({}), execute: async () => safe(customerFulfillment(recommendFulfillment({ stage: travelRef.current.stage, flight: travelRef.current.selectedFlight, demoNow: demoNowRef.current }))) });
-    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) setActivePanel("review"); return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
-    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact reviewed order only in the response turn immediately after the traveler gives an unambiguous spoken approval to ‘Do you confirm the order?’. Call silently and announce success only when the result is ok. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => { if (reservationRef.current?.fingerprint === review_fingerprint) return safe(createReservation(review_fingerprint)); const approvalState = voiceReviewApprovalRef.current; const confirmationReply = await waitForConfirmationReply(approvalState); const sessionIsCurrent = isApprovalSessionCurrent({ approvalState, currentApprovalState: voiceReviewApprovalRef.current, currentGeneration: voiceStartSequenceRef.current, currentSession: sessionRef.current }); const approval = sessionIsCurrent ? validateSpokenOrderApproval({ review: reviewRef.current, expectedFingerprint: review_fingerprint, reviewUserItemId: approvalState.reviewUserItemId, confirmationReply }) : { ok: false, reason: "approval_cancelled", error: "The order confirmation was cancelled. Review the order again before confirming." }; if (!approval.ok) voiceReviewApprovalRef.current = null; return safe(approval.ok ? createReservation(review_fingerprint) : approval); } });
+    const reviewTool = tool({ name: "review_demo_order", description: "Validate and open one concise order review. Call silently, then give one spoken summary, ask exactly ‘Do you confirm the order?’ and wait. This does not confirm the order.", parameters: z.object({}), execute: async () => { const result = prepareReview(); if (result.ok) { recordVoiceOrderEvent("review_ready", true); setActivePanel("review"); } return safe(result.ok ? { ok: true, review_fingerprint: result.review.fingerprint, review: { summary: result.review.summary, flight: customerFlight(result.review.travel.selectedFlight), fulfillment: customerFulfillment(result.review.fulfillment) } } : result); } });
+    const confirmTool = tool({ name: "confirm_demo_order", description: "Confirm the exact reviewed order only in the response turn immediately after the traveler gives an unambiguous spoken approval to the order confirmation question. ‘Confirm’, ‘confirmed’, ‘please confirm’, ‘yes’ and equivalent clear scoped assent are valid. Call silently and announce success only when the result is ok. If pending is true, do not call it a failed transaction; keep the review available and wait for or request a fresh confirmation. No payment, stock hold, store message or dispatch occurs.", parameters: z.object({ review_fingerprint: z.string().min(1) }), execute: async ({ review_fingerprint }) => {
+      recordVoiceOrderEvent("confirm_tool_started");
+      if (reservationRef.current?.fingerprint === review_fingerprint) return safe({ ...createReservation(review_fingerprint), closeOverlay: true, showOrderTracker: true });
+      const approvalState = voiceReviewApprovalRef.current;
+      const result = await completeSpokenOrderConfirmation({ approvalState, expectedFingerprint: review_fingerprint, getCurrentApprovalState: () => voiceReviewApprovalRef.current, getCurrentGeneration: () => voiceStartSequenceRef.current, getCurrentSession: () => sessionRef.current, getReview: () => reviewRef.current, waitForConfirmationReply, finalizeOrder: createReservation, onConsentValidated: () => recordVoiceOrderEvent("consent_validated") });
+      if (!result.ok) recordVoiceOrderEvent(`consent_${result.reason || "failed"}`);
+      if (result.clearApproval) voiceReviewApprovalRef.current = null;
+      return safe(result);
+    } });
     const collectTool = tool({ name: "mark_demo_collection_collected", description: "Mark a ready collection order collected only when the traveler explicitly says they collected it.", parameters: z.object({}), execute: async () => safe(markCollectionCollected()) });
     return [getState, search, show, details, compare, keep, showSaved, basketTool, travelTool, findFlight, proposeFlightTool, confirmFlightTool, correctFlightTool, assess, fulfillmentTool, reviewTool, confirmTool, collectTool];
-  }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel, waitForConfirmationReply]);
+  }, [clearConfirmedFlight, confirmFlight, createReservation, markCollectionCollected, mutateBasket, mutateShortlist, prepareReview, presentProducts, products, productsById, proposeFlight, recordVoiceOrderEvent, refreshJourney, setComparisonState, showProductDetails, stateSnapshot, updateTravel, waitForConfirmationReply]);
 
   const clearVoiceTimeout = useCallback(() => { if (voiceTimeoutRef.current !== null) { window.clearTimeout(voiceTimeoutRef.current); voiceTimeoutRef.current = null; } }, []);
   const clearAudioPoll = useCallback(() => { if (audioPollRef.current !== null) { window.clearInterval(audioPollRef.current); audioPollRef.current = null; } }, []);
@@ -502,7 +518,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
         peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio" || voiceStartSequenceRef.current !== sequence) return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) { ensureAudioPlayback(); collectAudioEvidence(); } }, 0); });
         return peerConnection;
       } });
-      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
+      const agent = new RealtimeAgent({ name: "Avolta travel shopping concierge", voice: "marin", tools: buildTools(tool, z), instructions: `You are Avolta's warm, calm and perceptive English voice shopping concierge for Zürich Duty Free at Zürich Airport. Pronounce Avolta as three syllables, ah-VOL-ta, with the stress on VOL. Always keep the official spelling Avolta and never speak this pronunciation guidance as a lesson. Help each traveler discover something they will genuinely enjoy and choose the easiest convenient way to get it wherever they are in their journey. Adapt naturally to their location, available time and stated preferences.
 
 Conversation contract:
 - For every fresh comparison session, follow the supplied startup instruction exactly: say “Welcome to Avolta.” first, acknowledge the established destination and current boarding countdown when available, give the brief service promise, ask exactly one relevant question, then stop and wait.
@@ -530,7 +546,7 @@ Journey and fulfillment:
 Order discipline:
 - An order requires products, a confirmed flight and review_demo_order. Speak one concise review containing the items, quantities, total, destination and arrival or ready time. Ask exactly “Do you confirm the order?” and stop. Call confirm_demo_order with the returned review_fingerprint only in the next response after an unambiguous affirmative answer. Spoken approval is the approval for this simulated order, so no second interface approval is required.
 - Never treat silence, hesitation or an unrelated reply as order approval. Never imply payment, real stock hold, a store message, dispatch or notification. Do not volunteer a technical disclaimer unless asked.
-- If confirm_demo_order returns an error, do not announce success. Explain the one recoverable next step briefly. If it succeeds, announce the confirmed reference and fulfillment destination once.
+- If confirm_demo_order returns pending, do not describe it as a failed transaction; keep the review open and ask for one fresh confirmation only if needed. For any other error, do not announce success and explain one recoverable next step briefly. If it succeeds, say the order is confirmed and name the fulfillment destination once, without reading a long reference.
 - Announce only meaningful order-state changes, once, in one short sentence. Do not narrate tools, read countdowns constantly, or replay updates that happened while disconnected.
 
 Internal operating context: this experience uses one captured airport day on a shared internal clock, and fulfillment has no real-world side effects. Keep that context internal during ordinary shopping and answer truthfully if asked.
@@ -553,7 +569,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       session.on("history_updated", (history) => { if (isCurrentSession()) recordVoiceHistory(history); });
       session.on("agent_tool_start", (_context, _agent, activeTool) => { if (isCurrentSession()) setVoiceEventEvidence((current) => ({ ...current, toolStarts: current.toolStarts + 1, lastTool: activeTool?.name || "" })); });
       session.on("agent_tool_end", () => { if (isCurrentSession()) setVoiceEventEvidence((current) => ({ ...current, toolEnds: current.toolEnds + 1 })); });
-      session.on("agent_end", (_context, _agent, output) => { if (isCurrentSession() && String(output || "").trim()) setVoiceEventEvidence((current) => ({ ...current, spokenTurns: current.spokenTurns + 1 })); });
+      session.on("agent_end", (_context, _agent, output) => { if (isCurrentSession() && String(output || "").trim()) { setVoiceEventEvidence((current) => ({ ...current, spokenTurns: current.spokenTurns + 1 })); if (voiceOrderFlowRef.current.at(-1) === "order_committed") recordVoiceOrderEvent("response_generated"); } });
       session.on("audio_start", () => { if (isCurrentSession()) { setAudioEvidence((current) => ({ ...current, modelAudioStarted: true })); setVoiceStatus("speaking"); setVoiceMessage("Speaking. Interrupt anytime."); ensureAudioPlayback(); collectAudioEvidence(); } });
       session.on("audio_stopped", () => { if (isCurrentSession()) { setVoiceStatus(session.muted ? "muted" : "listening"); setVoiceMessage(session.muted ? "Microphone muted." : "Listening. Speak naturally."); } });
       session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening. Go ahead."); } });
@@ -586,7 +602,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
       setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceMicrophoneTimeoutError" ? "Microphone permission did not complete. Check your browser permission and try again." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
     }
-  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, recordVoiceHistory, stateSnapshot]);
+  }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, recordVoiceHistory, recordVoiceOrderEvent, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
     const session = sessionRef.current; if (!session) return;
     const muted = !isMuted; session.mute(muted); setIsMuted(muted); setVoiceStatus(muted ? "muted" : "listening"); setVoiceMessage(muted ? "Microphone muted." : "Listening. Speak naturally.");
@@ -595,8 +611,8 @@ Initial interface state: ${safe(stateSnapshot())}` });
 
   const showFullCollection = useCallback((category = "All") => { const matches = category === "All" ? products : products.filter((product) => product.productType === category); presentationSequenceRef.current += 1; visibleIdsRef.current = matches.map((product) => product.id); setVisibleIds(visibleIdsRef.current); setFocusedView(false); setActiveCategory(category); selectedIdRef.current = null; setSelectedId(null); queueMicrotask(() => sendInterfaceState("the browse collection changed")); }, [products, sendInterfaceState]);
   const selectProduct = useCallback((productId) => { presentationSequenceRef.current += 1; selectedIdRef.current = productId; setSelectedId(productId); queueMicrotask(() => sendInterfaceState("the shopper selected a product by touch")); }, [sendInterfaceState]);
-  const openTouchReview = () => { const result = prepareReview(); if (!result.ok) setReservationError(result.error); else { setApprovalRequest({ type: "touch" }); setActivePanel("review"); } };
-  const confirmApproval = async () => { const pending = approvalRequest; if (pending?.type === "voice") await sessionRef.current?.approve(pending.request.approvalItem); else createReservation(); };
+  const openTouchReview = () => { const result = prepareReview(); if (!result.ok) setReservationError(result.error); else { recordVoiceOrderEvent("review_ready", true); setApprovalRequest({ type: "touch" }); setActivePanel("review"); } };
+  const confirmApproval = async () => { const pending = approvalRequest; if (pending?.type === "voice") await sessionRef.current?.approve(pending.request.approvalItem); else { recordVoiceOrderEvent("manual_confirmation"); createReservation(); } };
   const rejectApproval = async () => { const pending = approvalRequest; invalidateReview(); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
   const panelLabel = activePanel === "detail" ? "Product details" : activePanel === "saved" ? "Saved products" : activePanel === "compare" ? "Product comparison" : activePanel === "review" ? "Order review" : "Order bag";
   const reviewFlight = review?.travel?.selectedFlight;
@@ -621,7 +637,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const flightDetail = displayedFlight ? `${displayedFlight.flightNumber || "Flight pending"} · ${displayedFlight.boardingTime ? `Boarding ${formatClock(displayedFlight.boardingTime)}` : "Boarding time pending"}` : (flightContextStatus === "error" ? "Flight information unavailable" : "Share a number or destination");
 
   return (
-    <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState} data-voice-tool-starts={voiceEventEvidence.toolStarts} data-voice-tool-ends={voiceEventEvidence.toolEnds} data-voice-spoken-turns={voiceEventEvidence.spokenTurns} data-voice-last-tool={voiceEventEvidence.lastTool}>
+    <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState} data-voice-tool-starts={voiceEventEvidence.toolStarts} data-voice-tool-ends={voiceEventEvidence.toolEnds} data-voice-spoken-turns={voiceEventEvidence.spokenTurns} data-voice-last-tool={voiceEventEvidence.lastTool} data-voice-order-flow={voiceOrderFlow.join(">") }>
       <audio ref={audioOutputRef} className={styles.audioOutput} autoPlay playsInline preload="auto" data-avolta-audio-output data-playback={playbackState} />
       <header className={styles.brandHeader} data-intro-expanded={introExpanded} data-at-top={atPageTop} data-shop-takeover={!atPageTop || voiceStatus !== "idle"} data-flight-state={flightDisplayState} data-has-order={Boolean(order)} aria-label="Avolta Zürich Duty Free">
         <div className={styles.brandHeaderInner}>
