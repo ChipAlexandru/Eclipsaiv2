@@ -162,8 +162,8 @@ export const en = {
   },
 
   meta: {
-    title: "Eclipsai | The profit brain for fresh food",
-    description: "Eclipsai makes and implements daily production decisions for fresh-food operators, then measures their effect on profit, waste, and sales.",
-    ogDescription: "Know what to make tomorrow. Waste less. Sell more.",
+    title: "Eclipsai — The Profit Brain",
+    description: null,
+    ogDescription: null,
   },
 };
