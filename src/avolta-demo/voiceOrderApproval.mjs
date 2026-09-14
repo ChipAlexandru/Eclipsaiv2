@@ -14,7 +14,7 @@ const APPROVAL_SIGNAL = /^(?:yes|yeah|yep|yup|absolutely|confirm|confirmed|appro
 
 const REFUSAL_PATTERN = /\b(no|nope|cancel|stop|wait|hold|change|dont|do not|not yet)\b/;
 const QUESTION_OR_STATUS_PATTERN = /^(?:is|was|were|has|have|had|did|does|do you|can you|could you|would you|will you|shall i|shall we)\b/;
-const EXPLICIT_ORDER_APPROVAL_PATTERN = /^(?:(?:i|we)\s+)?(?:confirm|approve|finalize)(?:\s+(?:the|this|my|our))?\s*(?:order|purchase)?$|^(?:please\s+)?go ahead with (?:the|this|my|our) (?:order|purchase)$/;
+const EXPLICIT_ORDER_APPROVAL_PATTERN = /^(?:(?:yes|yeah|yep|absolutely|ok|okay)\s+)?(?:please\s+)?(?:(?:i|we)\s+)?(?:confirm|approve|finalize)(?:\s+(?:the|this|my|our))?\s*(?:order|purchase)?(?:\s+please)?$|^(?:please\s+)?go ahead with (?:the|this|my|our) (?:order|purchase)(?:\s+please)?$/;
 
 export function classifySpokenOrderApproval(utterance) {
   const normalized = normalizeUtterance(utterance);
@@ -67,8 +67,12 @@ export function findOrderConfirmationReply(history, reviewUserItemId) {
   if (!Array.isArray(history) || !reviewUserItemId) return { ok: false, reason: "missing_review_boundary" };
   const reviewIndex = history.findIndex((item) => item?.itemId === reviewUserItemId);
   if (reviewIndex < 0) return { ok: false, reason: "missing_review_boundary" };
-  const priorityReply = history.slice(reviewIndex + 1).find((item) => isTravelerSpeechItem(item) && item.status === "completed" && item.content && classifyPrioritySpokenOrderApproval(messageText(item)) !== "ambiguous");
-  if (priorityReply) return { ok: true, mode: "priority_interrupt", questionItemId: null, reply: { itemId: priorityReply.itemId, status: priorityReply.status, text: messageText(priorityReply) } };
+  for (const item of history.slice(reviewIndex + 1)) {
+    if (!isTravelerSpeechItem(item)) continue;
+    const text = messageText(item);
+    if (item.status !== "completed" || !text) return { ok: false, reason: "reply_transcript_pending", reply: { itemId: item.itemId, status: item.status, text } };
+    if (classifyPrioritySpokenOrderApproval(text) !== "ambiguous") return { ok: true, mode: "priority_interrupt", questionItemId: null, reply: { itemId: item.itemId, status: item.status, text } };
+  }
   const questionIndex = history.findIndex((item, index) => index > reviewIndex && item?.type === "message" && item.role === "assistant" && item.status === "completed" && isOrderConfirmationQuestion(messageText(item)));
   if (questionIndex < 0) return { ok: false, reason: "question_not_spoken" };
   const reply = history.slice(questionIndex + 1).find(isTravelerSpeechItem);

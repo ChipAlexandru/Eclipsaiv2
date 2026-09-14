@@ -151,6 +151,8 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order?"), "ambiguous");
   assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order"), "ambiguous");
   assert.equal(approval.classifyPrioritySpokenOrderApproval("I confirm"), "approved");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("Yes, I confirm"), "approved");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("I confirm the order, please"), "approved");
   assert.equal(approval.classifyPrioritySpokenOrderApproval("Go ahead with the order"), "approved");
   assert.equal(approval.classifyPrioritySpokenOrderApproval("Yes"), "ambiguous");
   assert.equal(approval.classifyPrioritySpokenOrderApproval("I confirm, but change the item"), "refused");
@@ -177,12 +179,33 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: null, currentGeneration: 8, currentSession: prioritySession, review, confirmationReply: priorityReply }).reason, "approval_cancelled");
   assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 9, currentSession: prioritySession, review, confirmationReply: priorityReply }).reason, "approval_cancelled");
   assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 8, currentSession: prioritySession, review: { ...review, fingerprint: "changed" }, confirmationReply: priorityReply }).reason, "stale_review");
+  for (const transcript of ["Yes, I confirm", "I confirm the order, please"]) {
+    const naturalHistory = interruptedReviewHistory.map((item) => item.itemId === "priority-confirm" ? { ...item, content: [{ type: "input_audio", transcript }] } : item);
+    const naturalReply = approval.findOrderConfirmationReply(naturalHistory, reviewUserItemId);
+    const naturalApproval = approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 8, currentSession: prioritySession, review, confirmationReply: naturalReply });
+    assert.equal(naturalReply.mode, "priority_interrupt");
+    assert.equal(naturalApproval.ok, true);
+    const naturalCommit = approval.finalizeReviewedOrder({ review, currentFingerprint: naturalApproval.fingerprint, expectedFingerprint: naturalApproval.fingerprint, reference: `ZRH-${transcript.length}`, confirmedAt: "real-now", confirmedAtDemo: "demo-now" });
+    assert.equal(naturalCommit.ok, true);
+  }
   const interruptedBareYes = interruptedReviewHistory.map((item) => item.itemId === "priority-confirm" ? { ...item, content: [{ type: "input_audio", transcript: "Yes" }] } : item);
   assert.equal(approval.findOrderConfirmationReply(interruptedBareYes, reviewUserItemId).reason, "question_not_spoken");
   const interruptedChange = interruptedReviewHistory.map((item) => item.itemId === "priority-confirm" ? { ...item, content: [{ type: "input_audio", transcript: "I confirm, but change the item" }] } : item);
   const changeReply = approval.findOrderConfirmationReply(interruptedChange, reviewUserItemId);
   assert.equal(changeReply.mode, "priority_interrupt");
   assert.equal(approval.transitionApprovalForCompletedReply(priorityApprovalState, changeReply).action, "explicit_refusal");
+  const outOfOrderHistory = [
+    ...interruptedReviewHistory.slice(0, 2),
+    { itemId: "earlier-unsettled", type: "message", role: "user", status: "in_progress", content: [{ type: "input_audio", transcript: null }] },
+    { itemId: "later-confirm", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "I confirm" }] },
+  ];
+  const blockedOutOfOrder = approval.findOrderConfirmationReply(outOfOrderHistory, reviewUserItemId);
+  assert.equal(blockedOutOfOrder.reason, "reply_transcript_pending");
+  assert.equal(blockedOutOfOrder.reply.itemId, "earlier-unsettled");
+  const settledOutOfOrder = outOfOrderHistory.map((item) => item.itemId === "earlier-unsettled" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "Wait, change that" }] } : item);
+  const refusalBeforeLaterApproval = approval.findOrderConfirmationReply(settledOutOfOrder, reviewUserItemId);
+  assert.equal(refusalBeforeLaterApproval.reply.itemId, "earlier-unsettled");
+  assert.equal(approval.transitionApprovalForCompletedReply(priorityApprovalState, refusalBeforeLaterApproval).action, "explicit_refusal");
 
   const refusalHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "No, not yet" }] } : item);
   const refusalReply = approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId);
