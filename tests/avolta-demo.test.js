@@ -373,6 +373,11 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /\.timelineCountdown strong \{[^}]*font-size:\s*1\.5rem/);
   assert.match(css, /\.timelineStartDot, \.timelineEndDot, \.timelinePosition \{[^}]*width:\s*\.9rem/);
   assert.doesNotMatch(css, /\.brandHeader::after/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.brandHeader \{ --compact-header-height:\s*9\.15rem; \}/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.brandHeader\[data-has-order="true"\] \{ --compact-header-height:\s*10\.45rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader \{ --compact-header-height:\s*10\.1rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader\[data-has-order="true"\] \{ --compact-header-height:\s*11\.65rem; \}/);
+  assert.match(css, /@media \(max-width: 340px\)[\s\S]*\.brandHeader\[data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\] \{ height:\s*10\.55rem; \}/);
   assert.match(css, /data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\]/);
   assert.match(css, /\.brandHeader, \.arrivalIntro \{ transition:\s*none/);
   assert.match(css, /-webkit-mask:\s*url\("\/avolta-demo\/brand\/avolta-logo\.svg"\)/);

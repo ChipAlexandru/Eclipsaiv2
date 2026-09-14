@@ -207,8 +207,8 @@
 }
 @media (max-width: 760px) {
   .page { padding-bottom: calc(9rem + env(safe-area-inset-bottom)); }
-  .brandHeader { --compact-header-height: 8.35rem; }
-  .brandHeader[data-has-order="true"] { --compact-header-height: 9.65rem; }
+  .brandHeader { --compact-header-height: 9.15rem; }
+  .brandHeader[data-has-order="true"] { --compact-header-height: 10.45rem; }
   .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] { height: 10.35rem; }
   .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"][data-has-order="true"] { height: 11.65rem; }
   .brandHeaderInner { padding: .55rem .75rem .68rem; }
@@ -275,6 +275,9 @@
   .dockRow { width: min(22rem, calc(100vw - 1rem)); flex-wrap: wrap; }
 }
 @media (max-width: 340px) {
+  .brandHeader { --compact-header-height: 10.1rem; }
+  .brandHeader[data-has-order="true"] { --compact-header-height: 11.65rem; }
+  .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] { height: 10.55rem; }
   .brandHeaderInner { padding: .55rem .52rem .7rem; }
   .brandLogo { width: 6.8rem; }
   .brand { width: 6.8rem; }
