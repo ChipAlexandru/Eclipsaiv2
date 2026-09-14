@@ -6,6 +6,7 @@ import { Check, GitCompareArrows, Heart, MapPin, Mic, MicOff, Minus, Plus, Shopp
 import { basketSummary, changeQuantity, compactProduct, departureEligibility, reservationFingerprint, resultsLimitForTravel, searchCatalog, shoppingStateSnapshot } from "./shopping.mjs";
 import { applyAvoltaRealtimeSessionEvidence, beginAvoltaRealtimeVerification, DEFAULT_AVOLTA_REALTIME_MODEL, idleAvoltaRealtimeVerification, isAllowedAvoltaRealtimeModel } from "./realtimeConfig.mjs";
 import { assessReplayJourney, boardingCountdown, createReplayAnchor, journeyStageLabel, nextMeaningfulOrderAnnouncement, normalizeJourneyStage, orderProgress, pairedCountdowns, recommendFulfillment, replayClockState, replayFlightStatus, replayNow, shouldRebasePassiveReplay } from "./flightReplay.mjs";
+import { acquireMicrophoneWithTimeout } from "./voiceLifecycle.mjs";
 import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
@@ -458,8 +459,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     try {
       const [{ RealtimeAgent, RealtimeSession, OpenAIRealtimeWebRTC, tool }, { z }] = await Promise.all([import("@openai/agents/realtime"), import("zod")]);
       if (voiceStartSequenceRef.current !== sequence) return;
-      microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      if (voiceStartSequenceRef.current !== sequence) { microphoneStream.getTracks().forEach((track) => track.stop()); return; }
+      microphoneStream = await acquireMicrophoneWithTimeout({
+        getUserMedia: (constraints) => navigator.mediaDevices.getUserMedia(constraints),
+        timeoutMs: VOICE_CONNECT_TIMEOUT_MS,
+        isCurrent: () => voiceStartSequenceRef.current === sequence,
+      });
       microphoneStreamRef.current = microphoneStream;
       const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: selectedModel }) }); const payload = await response.json().catch(() => ({}));
       if (voiceStartSequenceRef.current !== sequence) return;
@@ -551,7 +555,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
       if (voiceStartSequenceRef.current !== sequence) return;
       clearAudioPoll(); if (sessionRef.current === session) sessionRef.current = null; peerConnectionRef.current = null; activeVoiceModelRef.current = null; setActiveVoiceModel(null); setVoiceStatus("error");
       if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
-      setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
+      setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceMicrophoneTimeoutError" ? "Microphone permission did not complete. Check your browser permission and try again." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
     }
   }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {

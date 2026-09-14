@@ -77,6 +77,22 @@ test("shopping helpers support exploration, context depth, basket totals and res
   assert.deepEqual(transcript, [{ id: "welcome", role: "assistant", text: "Where are you flying today?" }]);
 });
 
+test("microphone acquisition cannot leave voice connecting forever and disposes a late stream", async () => {
+  const { acquireMicrophoneWithTimeout } = await import(pathToFileURL(path.join(feature, "voiceLifecycle.mjs")));
+  let resolveMicrophone;
+  let stopped = 0;
+  const pendingMicrophone = new Promise((resolve) => { resolveMicrophone = resolve; });
+
+  await assert.rejects(
+    acquireMicrophoneWithTimeout({ getUserMedia: () => pendingMicrophone, timeoutMs: 10 }),
+    (error) => error?.name === "VoiceMicrophoneTimeoutError",
+  );
+
+  resolveMicrophone({ getTracks: () => [{ stop: () => { stopped += 1; } }] });
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(stopped, 1);
+});
+
 test("Realtime model verification keeps server and active-session evidence distinct and generation-scoped", async () => {
   const realtime = await import(pathToFileURL(path.join(feature, "realtimeConfig.mjs")));
   const pending = realtime.beginAvoltaRealtimeVerification(7, "gpt-realtime-2.1-mini", null);
@@ -161,9 +177,11 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /data-voice-session-reported-model=/);
   assert.match(client, /voiceStartSequenceRef\.current !== sequence/);
   assert.match(client, /disposeVoiceTransport\(\); clearPendingVoiceApproval\(\)/);
-  assert.match(client, /navigator\.mediaDevices\.getUserMedia\(\{ audio: true \}\)/);
+  assert.match(client, /acquireMicrophoneWithTimeout\(\{/);
+  assert.match(client, /getUserMedia: \(constraints\) => navigator\.mediaDevices\.getUserMedia\(constraints\)/);
   assert.match(client, /mediaStream: microphoneStream/);
   assert.match(client, /Promise\.race\(\[/);
+  assert.match(client, /Microphone permission did not complete\. Check your browser permission and try again\./);
   assert.match(client, /Voice connection timed out\. Check microphone permission and try again\./);
   assert.match(client, /comparisonStart \? freshOpening/);
   assert.match(access, /httpOnly:\s*true/);
