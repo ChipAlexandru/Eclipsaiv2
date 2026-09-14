@@ -93,6 +93,24 @@ test("microphone acquisition cannot leave voice connecting forever and disposes 
   assert.equal(stopped, 1);
 });
 
+test("voice lifecycle evidence is content-free and stale tool results cannot restart speech", async () => {
+  const lifecycle = await import(pathToFileURL(path.join(feature, "voiceLifecycle.mjs")));
+  assert.deepEqual(lifecycle.realtimeLifecycleSignal({ type: "input_audio_buffer.speech_started", item_id: "traveler-1" }), { event: "user_speech_start", itemId: "traveler-1" });
+  assert.deepEqual(lifecycle.realtimeLifecycleSignal({ type: "input_audio_buffer.speech_stopped", item_id: "traveler-1" }), { event: "user_speech_stop", itemId: "traveler-1" });
+  assert.deepEqual(lifecycle.realtimeLifecycleSignal({ type: "conversation.item.input_audio_transcription.completed", item_id: "traveler-1", transcript: "private words" }), { event: "user_transcript_complete", itemId: "traveler-1" });
+  assert.deepEqual(lifecycle.realtimeLifecycleSignal({ type: "response.created", response: { id: "response-1" } }), { event: "response_start", responseId: "response-1" });
+  assert.deepEqual(lifecycle.realtimeLifecycleSignal({ type: "response.done", response: { id: "response-1", status: "cancelled" } }), { event: "response_cancelled", responseId: "response-1", status: "cancelled" });
+  assert.equal(lifecycle.realtimeLifecycleSignal({ type: "rate_limits.updated" }), null);
+
+  let turnGeneration = 3;
+  const suppressed = [];
+  const fresh = await lifecycle.runTurnBoundOperation({ toolName: "fresh", turnGeneration, getCurrentTurnGeneration: () => turnGeneration, operation: async () => "fresh-result", backgroundResult: (value) => ({ background: value }), suppressedResult: "stale-result", onSuppressed: (details) => suppressed.push(details) });
+  assert.equal(fresh, "fresh-result");
+  const stale = await lifecycle.runTurnBoundOperation({ toolName: "search", turnGeneration, getCurrentTurnGeneration: () => turnGeneration, operation: async () => { turnGeneration += 1; return "obsolete-result"; }, backgroundResult: (value) => ({ background: value }), suppressedResult: "stale-result", onSuppressed: (details) => suppressed.push(details) });
+  assert.deepEqual(stale, { background: "stale-result" });
+  assert.deepEqual(suppressed, [{ toolName: "search", turnGeneration: 3, currentTurnGeneration: 4 }]);
+});
+
 test("spoken order approval is bound to the next clear reply and the exact review", async () => {
   const approval = await import(pathToFileURL(path.join(feature, "voiceOrderApproval.mjs")));
   const replay = await import(pathToFileURL(path.join(feature, "flightReplay.mjs")));
@@ -132,11 +150,39 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.classifySpokenOrderApproval("Is the order confirmed"), "ambiguous");
   assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order?"), "ambiguous");
   assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order"), "ambiguous");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("I confirm"), "approved");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("Go ahead with the order"), "approved");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("Yes"), "ambiguous");
+  assert.equal(approval.classifyPrioritySpokenOrderApproval("I confirm, but change the item"), "refused");
   assert.equal(approval.isOrderConfirmationQuestion("Would you like to confirm this order?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("Can I finalize your purchase?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("I cannot confirm the order."), false);
   assert.equal(approval.materiallyEqual({ quantity: 1, travel: { stage: "at_gate", gate: "A" } }, { travel: { gate: "A", stage: "at_gate" }, quantity: 1 }), true);
   assert.equal(approval.materiallyEqual({ quantity: 1 }, { quantity: 2 }), false);
+
+  const interruptedReviewHistory = [
+    { itemId: reviewUserItemId, type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "Please review it." }] },
+    { itemId: "interrupted-summary", type: "message", role: "assistant", status: "in_progress", content: [{ type: "output_audio", transcript: "One item, Favarger chocolate, for collection" }] },
+    { itemId: "internal-state", type: "message", role: "user", status: "completed", content: [{ type: "input_text", text: "[Interface state; do not respond.]" }] },
+    { itemId: "priority-confirm", type: "message", role: "user", status: "completed", content: [{ type: "input_audio", transcript: "I confirm" }] },
+    { itemId: "newer-internal-state", type: "message", role: "user", status: "completed", content: [{ type: "input_text", text: "[Interface state after review.]" }] },
+  ];
+  assert.deepEqual(approval.latestTravelerTurn(interruptedReviewHistory), { itemId: "priority-confirm", status: "completed", text: "I confirm" });
+  const priorityReply = approval.findOrderConfirmationReply(interruptedReviewHistory, reviewUserItemId);
+  assert.equal(priorityReply.mode, "priority_interrupt");
+  assert.equal(priorityReply.reply.itemId, "priority-confirm");
+  const prioritySession = {};
+  const priorityApprovalState = { fingerprint: review.fingerprint, reviewUserItemId, generation: 8, session: prioritySession };
+  assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 8, currentSession: prioritySession, review, confirmationReply: priorityReply }).ok, true);
+  assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: null, currentGeneration: 8, currentSession: prioritySession, review, confirmationReply: priorityReply }).reason, "approval_cancelled");
+  assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 9, currentSession: prioritySession, review, confirmationReply: priorityReply }).reason, "approval_cancelled");
+  assert.equal(approval.validatePriorityOrderConfirmation({ approvalState: priorityApprovalState, currentApprovalState: priorityApprovalState, currentGeneration: 8, currentSession: prioritySession, review: { ...review, fingerprint: "changed" }, confirmationReply: priorityReply }).reason, "stale_review");
+  const interruptedBareYes = interruptedReviewHistory.map((item) => item.itemId === "priority-confirm" ? { ...item, content: [{ type: "input_audio", transcript: "Yes" }] } : item);
+  assert.equal(approval.findOrderConfirmationReply(interruptedBareYes, reviewUserItemId).reason, "question_not_spoken");
+  const interruptedChange = interruptedReviewHistory.map((item) => item.itemId === "priority-confirm" ? { ...item, content: [{ type: "input_audio", transcript: "I confirm, but change the item" }] } : item);
+  const changeReply = approval.findOrderConfirmationReply(interruptedChange, reviewUserItemId);
+  assert.equal(changeReply.mode, "priority_interrupt");
+  assert.equal(approval.transitionApprovalForCompletedReply(priorityApprovalState, changeReply).action, "explicit_refusal");
 
   const refusalHistory = pendingRefusal.map((item) => item.itemId === "current-reply" ? { ...item, status: "completed", content: [{ type: "input_audio", transcript: "No, not yet" }] } : item);
   const refusalReply = approval.findOrderConfirmationReply(refusalHistory, reviewUserItemId);
@@ -215,6 +261,26 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(visibleOrder.reference, "ZRH-WIRED");
   assert.equal(replay.orderProgress(visibleOrder, "2026-09-14T08:00:00.000Z").state, "Preparing");
   assert.deepEqual(flowEvents, ["consent_validated", "order_committed"]);
+
+  let racedReservation = null;
+  const racedResult = await approval.completeSpokenOrderConfirmation({
+    approvalState: wiredApprovalState,
+    expectedFingerprint: review.fingerprint,
+    getCurrentApprovalState: () => null,
+    getCurrentGeneration: () => 11,
+    getCurrentSession: () => wiredSession,
+    getReview: () => review,
+    getExistingReservation: () => racedReservation,
+    waitForConfirmationReply: async () => {
+      racedReservation = first.reservation;
+      return priorityReply;
+    },
+    finalizeOrder: () => ({ ok: true, duplicatePrevented: true, reservation: racedReservation }),
+  });
+  assert.equal(racedResult.ok, true);
+  assert.equal(racedResult.consent, "already_validated");
+  assert.equal(racedResult.closeOverlay, true);
+  assert.equal(racedResult.showOrderTracker, true);
 
   const pendingResult = await approval.completeSpokenOrderConfirmation({ approvalState: wiredApprovalState, expectedFingerprint: review.fingerprint, getCurrentApprovalState: () => wiredApprovalState, getCurrentGeneration: () => 11, getCurrentSession: () => wiredSession, getReview: () => review, waitForConfirmationReply: async () => pendingReply, finalizeOrder: () => { throw new Error("pending consent must not commit"); } });
   assert.equal(pendingResult.pending, true);
@@ -329,12 +395,19 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /const rejectApproval = async \(\) => \{[^}]*invalidateReview\("explicit_change_requested"\)/);
   assert.match(client, /getCurrentApprovalState: \(\) => voiceReviewApprovalRef\.current/);
   assert.match(client, /getRevocation: \(\) => voiceApprovalRevocationsRef\.current\.get\(approvalState\)/);
+  assert.match(client, /getExistingReservation: \(\) => reservationRef\.current/);
   assert.match(client, /if \(result\.clearApproval && voiceReviewApprovalRef\.current === approvalState\)/);
   assert.match(client, /materiallyEqual\(basketRef\.current, next\)/);
   assert.match(client, /materiallyEqual\(travelRef\.current, next\)/);
   assert.match(client, /reservationRef\.current\?\.fingerprint === review_fingerprint/);
   assert.match(client, /data-voice-tool-starts=/);
   assert.match(client, /data-voice-order-flow=/);
+  assert.match(client, /data-voice-lifecycle=/);
+  assert.match(client, /CONFIRMATION_TRANSCRIPT_WAIT_MS = 1600/);
+  assert.match(client, /backgroundResult/);
+  assert.match(client, /stale_tool_result_suppressed/);
+  assert.match(client, /latestTravelerTurn/);
+  assert.match(client, /explicit order command such as “I confirm” or “go ahead with the order,” stop the summary immediately/);
   assert.doesNotMatch(client, /In one short sentence, say this is a replayed Zürich Airport demo day with simulated fulfillment/);
   assert.match(token, /hasAccess\(cookieStore\)/);
   assert.match(token, /MAX_STARTS = 12/);
@@ -406,7 +479,10 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /showFullCollection/);
   assert.match(client, /currentViewportIds/);
   assert.match(client, /const viewportIds = ids\.slice\(0, 4\)/);
-  assert.match(client, /IMAGE_WAIT_MS = 1800/);
+  assert.doesNotMatch(client, /IMAGE_WAIT_MS/);
+  assert.doesNotMatch(client, /while \(performance\.now\(\) < deadline\)/);
+  assert.match(client, /selectionReady: true/);
+  assert.match(client, /loadingImageProductIds/);
   assert.match(client, /className=\{styles\.productSurface\}/);
   assert.match(client, /className=\{styles\.controlDock\}/);
   assert.match(client, /src="\/avolta-demo\/brand\/avolta-logo\.svg" alt="Avolta"/);

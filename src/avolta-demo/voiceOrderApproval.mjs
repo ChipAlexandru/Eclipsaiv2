@@ -14,15 +14,24 @@ const APPROVAL_SIGNAL = /^(?:yes|yeah|yep|yup|absolutely|confirm|confirmed|appro
 
 const REFUSAL_PATTERN = /\b(no|nope|cancel|stop|wait|hold|change|dont|do not|not yet)\b/;
 const QUESTION_OR_STATUS_PATTERN = /^(?:is|was|were|has|have|had|did|does|do you|can you|could you|would you|will you|shall i|shall we)\b/;
+const EXPLICIT_ORDER_APPROVAL_PATTERN = /^(?:(?:i|we)\s+)?(?:confirm|approve|finalize)(?:\s+(?:the|this|my|our))?\s*(?:order|purchase)?$|^(?:please\s+)?go ahead with (?:the|this|my|our) (?:order|purchase)$/;
 
 export function classifySpokenOrderApproval(utterance) {
   const normalized = normalizeUtterance(utterance);
   if (!normalized) return "ambiguous";
   if (REFUSAL_PATTERN.test(normalized)) return "refused";
   if (QUESTION_OR_STATUS_PATTERN.test(normalized)) return "ambiguous";
+  if (EXPLICIT_ORDER_APPROVAL_PATTERN.test(normalized)) return "approved";
   const words = normalized.split(" ");
   if (words.length > 8 || words.some((word) => !APPROVAL_WORDS.has(word))) return "ambiguous";
   return words.some((word) => APPROVAL_SIGNAL.test(word)) || APPROVAL_SIGNAL.test(normalized) ? "approved" : "ambiguous";
+}
+
+export function classifyPrioritySpokenOrderApproval(utterance) {
+  const normalized = normalizeUtterance(utterance);
+  if (!normalized) return "ambiguous";
+  if (REFUSAL_PATTERN.test(normalized)) return "refused";
+  return EXPLICIT_ORDER_APPROVAL_PATTERN.test(normalized) ? "approved" : "ambiguous";
 }
 
 export function materiallyEqual(left, right) {
@@ -39,24 +48,38 @@ function messageText(item) {
   return (item?.content || []).map((entry) => entry?.type === "input_audio" || entry?.type === "output_audio" ? entry.transcript : entry?.type === "input_text" || entry?.type === "output_text" ? entry.text : "").filter(Boolean).join(" ").trim() || null;
 }
 
-export function latestUserTurn(history) {
+export function isTravelerSpeechItem(item) {
+  return Boolean(item?.type === "message" && item.role === "user" && item.itemId && item.content?.some((entry) => entry?.type === "input_audio"));
+}
+
+export function latestTravelerTurn(history) {
   if (!Array.isArray(history)) return null;
   for (let index = history.length - 1; index >= 0; index -= 1) {
     const item = history[index];
-    if (item?.type === "message" && item.role === "user" && item.itemId) return { itemId: item.itemId, status: item.status, text: messageText(item) };
+    if (isTravelerSpeechItem(item)) return { itemId: item.itemId, status: item.status, text: messageText(item) };
   }
   return null;
 }
+
+export const latestUserTurn = latestTravelerTurn;
 
 export function findOrderConfirmationReply(history, reviewUserItemId) {
   if (!Array.isArray(history) || !reviewUserItemId) return { ok: false, reason: "missing_review_boundary" };
   const reviewIndex = history.findIndex((item) => item?.itemId === reviewUserItemId);
   if (reviewIndex < 0) return { ok: false, reason: "missing_review_boundary" };
+  const priorityReply = history.slice(reviewIndex + 1).find((item) => isTravelerSpeechItem(item) && item.status === "completed" && item.content && classifyPrioritySpokenOrderApproval(messageText(item)) !== "ambiguous");
+  if (priorityReply) return { ok: true, mode: "priority_interrupt", questionItemId: null, reply: { itemId: priorityReply.itemId, status: priorityReply.status, text: messageText(priorityReply) } };
   const questionIndex = history.findIndex((item, index) => index > reviewIndex && item?.type === "message" && item.role === "assistant" && item.status === "completed" && isOrderConfirmationQuestion(messageText(item)));
   if (questionIndex < 0) return { ok: false, reason: "question_not_spoken" };
-  const reply = history.slice(questionIndex + 1).find((item) => item?.type === "message" && item.role === "user" && item.itemId);
+  const reply = history.slice(questionIndex + 1).find(isTravelerSpeechItem);
   if (!reply) return { ok: false, reason: "no_new_reply" };
-  return { ok: true, questionItemId: history[questionIndex].itemId, reply: { itemId: reply.itemId, status: reply.status, text: messageText(reply) } };
+  return { ok: true, mode: "question_reply", questionItemId: history[questionIndex].itemId, reply: { itemId: reply.itemId, status: reply.status, text: messageText(reply) } };
+}
+
+export function validatePriorityOrderConfirmation({ approvalState, currentApprovalState, currentGeneration, currentSession, review, confirmationReply }) {
+  if (confirmationReply?.mode !== "priority_interrupt" || classifyPrioritySpokenOrderApproval(confirmationReply.reply?.text) !== "approved") return { ok: false, reason: "not_priority_approval" };
+  if (!isApprovalSessionCurrent({ approvalState, currentApprovalState, currentGeneration, currentSession })) return { ok: false, reason: "approval_cancelled" };
+  return validateSpokenOrderApproval({ review, expectedFingerprint: approvalState.fingerprint, reviewUserItemId: approvalState.reviewUserItemId, confirmationReply });
 }
 
 export function transitionApprovalForCompletedReply(approvalState, confirmationReply) {
@@ -116,9 +139,13 @@ export function approvalCancellationReason({ approvalState, currentApprovalState
   return "approval_cancelled";
 }
 
-export async function completeSpokenOrderConfirmation({ approvalState, expectedFingerprint, getCurrentApprovalState, getCurrentGeneration, getCurrentSession, getReview, getRevocation = () => null, waitForConfirmationReply, finalizeOrder, onConsentValidated = () => {} }) {
+export async function completeSpokenOrderConfirmation({ approvalState, expectedFingerprint, getCurrentApprovalState, getCurrentGeneration, getCurrentSession, getReview, getExistingReservation = () => null, getRevocation = () => null, waitForConfirmationReply, finalizeOrder, onConsentValidated = () => {} }) {
   if (!approvalState) return { ok: false, reason: "missing_approval", error: "Review the order again before confirming.", closeOverlay: false, showOrderTracker: false, clearApproval: true };
   const confirmationReply = await waitForConfirmationReply(approvalState);
+  if (getExistingReservation()?.fingerprint === expectedFingerprint) {
+    const existing = finalizeOrder(expectedFingerprint);
+    return existing.ok ? { ...existing, consent: "already_validated", closeOverlay: true, showOrderTracker: true, clearApproval: true } : { ...existing, reason: "order_commit_failed", closeOverlay: false, showOrderTracker: false, clearApproval: false };
+  }
   const currentApprovalState = getCurrentApprovalState();
   const currentGeneration = getCurrentGeneration();
   const currentSession = getCurrentSession();
