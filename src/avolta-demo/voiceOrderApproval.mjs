@@ -13,11 +13,13 @@ const APPROVAL_WORDS = new Set([
 const APPROVAL_SIGNAL = /^(?:yes|yeah|yep|yup|absolutely|confirm|confirmed|approve|approved|ok|okay)$|\b(?:go ahead|please do|do it|sounds good|thats correct|that is correct)\b/;
 
 const REFUSAL_PATTERN = /\b(no|nope|cancel|stop|wait|hold|change|dont|do not|not yet)\b/;
+const QUESTION_OR_STATUS_PATTERN = /^(?:is|was|were|has|have|had|did|does|do you|can you|could you|would you|will you|shall i|shall we)\b/;
 
 export function classifySpokenOrderApproval(utterance) {
   const normalized = normalizeUtterance(utterance);
   if (!normalized) return "ambiguous";
   if (REFUSAL_PATTERN.test(normalized)) return "refused";
+  if (QUESTION_OR_STATUS_PATTERN.test(normalized)) return "ambiguous";
   const words = normalized.split(" ");
   if (words.length > 8 || words.some((word) => !APPROVAL_WORDS.has(word))) return "ambiguous";
   return words.some((word) => APPROVAL_SIGNAL.test(word)) || APPROVAL_SIGNAL.test(normalized) ? "approved" : "ambiguous";

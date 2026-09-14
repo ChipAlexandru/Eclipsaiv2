@@ -128,6 +128,10 @@ test("spoken order approval is bound to the next clear reply and the exact revie
   assert.equal(approval.classifySpokenOrderApproval("Yes, please go ahead"), "approved");
   assert.equal(approval.classifySpokenOrderApproval("No, change it"), "refused");
   assert.equal(approval.classifySpokenOrderApproval("Yes, I like that brand"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Is the order confirmed?"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Is the order confirmed"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order?"), "ambiguous");
+  assert.equal(approval.classifySpokenOrderApproval("Do you confirm the order"), "ambiguous");
   assert.equal(approval.isOrderConfirmationQuestion("Would you like to confirm this order?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("Can I finalize your purchase?"), true);
   assert.equal(approval.isOrderConfirmationQuestion("I cannot confirm the order."), false);
