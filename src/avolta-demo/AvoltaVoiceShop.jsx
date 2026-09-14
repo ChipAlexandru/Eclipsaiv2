@@ -10,8 +10,9 @@ import styles from "./avoltaVoiceShop.module.css";
 
 const IMAGE_WAIT_MS = 1800;
 const INTRO_DURATION_MS = 5000;
+const VOICE_CONNECT_TIMEOUT_MS = 18000;
 const VOICE_DEMO_DURATION_MS = 5 * 60 * 1000;
-const STORAGE_KEY = "avolta-zrh-flight-day-v3";
+const STORAGE_KEY = "avolta-zrh-flight-day-v4";
 const RESUMED_VOICE_OPENING = "Resume naturally from the current shopping and journey context without repeating the welcome or any demo explanation. Briefly invite the traveler to continue, ask at most one context-aware question if it is useful, then stop speaking and wait. Never fill silence with another question or an invented answer.";
 const DEFAULT_TRAVEL = { stage: "unknown", minutesAvailable: "", departureDateTime: "", gate: "", destination: "", flightQuery: "", arrivalEstimate: "", needsCheckin: false, selectedFlight: null };
 const VOICE_MODEL_CHOICES = [
@@ -109,7 +110,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const [flightContext, setFlightContext] = useState(() => flightDay.initialContext || null);
   const [flightContextStatus, setFlightContextStatus] = useState(() => flightDay.initialContext ? "ready" : "loading");
   const [pendingFlight, setPendingFlight] = useState(null);
-  const [introExpanded, setIntroExpanded] = useState(true);
+  const [introExpanded, setIntroExpanded] = useState(false);
   const [atPageTop, setAtPageTop] = useState(true);
 
   const sessionRef = useRef(null);
@@ -120,6 +121,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   const introTimerRef = useRef(null);
   const introSeenRef = useRef(false);
   const audioOutputRef = useRef(null);
+  const microphoneStreamRef = useRef(null);
   const peerConnectionRef = useRef(null);
   const audioPollRef = useRef(null);
   const mountedRef = useRef(true);
@@ -159,6 +161,8 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   useEffect(() => {
     const explicitTime = process.env.NODE_ENV !== "production" ? new URLSearchParams(window.location.search).get("demoTime") : null;
+    let revealFrame = null;
+    let settleFrame = null;
     try {
       const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
       const realNow = new Date();
@@ -176,7 +180,6 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       if (Array.isArray(stored?.announcedOrderStates)) announcedOrderStatesRef.current = stored.announcedOrderStates;
       voiceWelcomedRef.current = Boolean(stored?.voiceWelcomed);
       introSeenRef.current = Boolean(stored?.introSeen || stored?.order);
-      setIntroExpanded(!introSeenRef.current);
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...stored, clockAnchor: anchor }));
     } catch {
       const anchor = createReplayAnchor({ fixtureVersion: flightDay.fixtureVersion, serviceDate: flightDay.serviceDate, realNow: new Date(), explicitTime });
@@ -184,8 +187,10 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       const replayedNow = replayNow(anchor, new Date()); demoNowRef.current = replayedNow; setDemoNow(replayedNow);
       try { sessionStorage.removeItem(STORAGE_KEY); } catch { /* Storage may be unavailable; in-memory replay still works. */ }
     }
+    revealFrame = window.requestAnimationFrame(() => { settleFrame = window.requestAnimationFrame(() => { const atTop = window.scrollY <= 6; setAtPageTop(atTop); if (!introSeenRef.current) setIntroExpanded(atTop); }); });
     setClockReady(true);
     setStorageReady(true);
+    return () => { if (revealFrame !== null) window.cancelAnimationFrame(revealFrame); if (settleFrame !== null) window.cancelAnimationFrame(settleFrame); };
   }, [flightDay.fixtureVersion, flightDay.serviceDate]);
   useEffect(() => {
     if (!clockReady) return undefined;
@@ -207,11 +212,11 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     };
   }, [collapseIntro, introExpanded, storageReady]);
   useEffect(() => {
-    const updateTopState = () => setAtPageTop(window.scrollY <= 6);
+    const updateTopState = () => { const atTop = window.scrollY <= 6; setAtPageTop(atTop); if (storageReady && atTop && !introSeenRef.current) setIntroExpanded(true); };
     updateTopState();
     window.addEventListener("scroll", updateTopState, { passive: true });
     return () => window.removeEventListener("scroll", updateTopState);
-  }, []);
+  }, [storageReady]);
 
   const currentViewportIds = useCallback(() => {
     if (typeof document === "undefined") return [];
@@ -409,6 +414,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
   }, []);
   const disposeVoiceTransport = useCallback(() => {
     clearVoiceTimeout(); clearAudioPoll(); sessionRef.current?.close(); sessionRef.current = null; peerConnectionRef.current = null;
+    microphoneStreamRef.current?.getTracks().forEach((track) => track.stop()); microphoneStreamRef.current = null;
     const audio = audioOutputRef.current; if (audio) { audio.pause(); audio.srcObject = null; }
   }, [clearAudioPoll, clearVoiceTimeout]);
   const clearPendingVoiceApproval = useCallback(() => {
@@ -448,9 +454,13 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
     const pendingVerification = beginAvoltaRealtimeVerification(sequence, selectedModel); voiceModelVerificationRef.current = pendingVerification; setVoiceModelVerification(pendingVerification);
     setVoiceStatus("connecting"); setVoiceMessage("Connecting…"); setPlaybackState("waiting"); setSoundBlocked(false); setAudioEvidence({ trackReceived: false, modelAudioStarted: false, bytesReceived: 0, totalAudioEnergy: 0 });
     let session = null;
+    let microphoneStream = null;
     try {
       const [{ RealtimeAgent, RealtimeSession, OpenAIRealtimeWebRTC, tool }, { z }] = await Promise.all([import("@openai/agents/realtime"), import("zod")]);
       if (voiceStartSequenceRef.current !== sequence) return;
+      microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (voiceStartSequenceRef.current !== sequence) { microphoneStream.getTracks().forEach((track) => track.stop()); return; }
+      microphoneStreamRef.current = microphoneStream;
       const response = await fetch("/api/avolta-demo/realtime-token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: selectedModel }) }); const payload = await response.json().catch(() => ({}));
       if (voiceStartSequenceRef.current !== sequence) return;
       if (!response.ok || !payload.value) throw new Error(payload.error || "Voice service is unavailable.");
@@ -459,7 +469,7 @@ export function AvoltaVoiceShop({ catalog, flightDay }) {
       voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification);
       if (verification.status === "mismatch") throw new Error("The selected voice model did not match the server response.");
       const audioElement = audioOutputRef.current; if (!audioElement) throw new Error("Audio output could not be initialized.");
-      const transport = new OpenAIRealtimeWebRTC({ audioElement, changePeerConnection: async (peerConnection) => {
+      const transport = new OpenAIRealtimeWebRTC({ audioElement, mediaStream: microphoneStream, changePeerConnection: async (peerConnection) => {
         if (voiceStartSequenceRef.current !== sequence) { peerConnection.close(); return peerConnection; }
         peerConnectionRef.current = peerConnection;
         peerConnection.addEventListener("track", (event) => { if (event.track?.kind !== "audio" || voiceStartSequenceRef.current !== sequence) return; if (mountedRef.current) setAudioEvidence((current) => ({ ...current, trackReceived: true })); window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) { ensureAudioPlayback(); collectAudioEvidence(); } }, 0); });
@@ -516,7 +526,14 @@ Initial interface state: ${safe(stateSnapshot())}` });
       session.on("audio_interrupted", () => { if (isCurrentSession()) { setVoiceStatus("listening"); setVoiceMessage("Listening. Go ahead."); } });
       session.on("tool_approval_requested", (_context, _agent, request) => { if (isCurrentSession()) { setApprovalRequest({ type: "voice", request }); setActivePanel("review"); } });
       session.on("error", () => { if (isCurrentSession()) { setVoiceStatus("error"); setVoiceMessage("The voice connection had a problem. End it and try again."); } });
-      sessionRef.current = session; await session.connect({ apiKey: payload.value });
+      sessionRef.current = session;
+      let connectTimeout = null;
+      try {
+        await Promise.race([
+          session.connect({ apiKey: payload.value }),
+          new Promise((_, reject) => { connectTimeout = window.setTimeout(() => { const error = new Error("Voice connection timed out."); error.name = "VoiceConnectionTimeoutError"; reject(error); }, VOICE_CONNECT_TIMEOUT_MS); }),
+        ]);
+      } finally { if (connectTimeout !== null) window.clearTimeout(connectTimeout); }
       if (!isCurrentSession()) { if (sessionRef.current === session) sessionRef.current = null; session.close(); return; }
       await ensureAudioPlayback(); collectAudioEvidence();
       clearVoiceTimeout(); voiceTimeoutRef.current = window.setTimeout(() => { if (voiceStartSequenceRef.current === sequence) closeVoiceSession("Five-minute voice session ended. Start again anytime."); }, VOICE_DEMO_DURATION_MS);
@@ -529,11 +546,12 @@ Initial interface state: ${safe(stateSnapshot())}` });
       } catch { /* The in-memory flag still prevents a repeated welcome in this page session. */ }
       setVoiceStatus("listening"); setVoiceMessage("Listening. Speak naturally."); session.sendMessage(startupInstruction);
     } catch (error) {
-      session?.close();
+      session?.close(); microphoneStream?.getTracks().forEach((track) => track.stop());
+      if (microphoneStreamRef.current === microphoneStream) microphoneStreamRef.current = null;
       if (voiceStartSequenceRef.current !== sequence) return;
       clearAudioPoll(); if (sessionRef.current === session) sessionRef.current = null; peerConnectionRef.current = null; activeVoiceModelRef.current = null; setActiveVoiceModel(null); setVoiceStatus("error");
       if (voiceModelVerificationRef.current.generation === sequence && voiceModelVerificationRef.current.status !== "mismatch") { const verification = idleAvoltaRealtimeVerification(); voiceModelVerificationRef.current = verification; setVoiceModelVerification(verification); }
-      setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : (error.message || "Voice service is unavailable."));
+      setVoiceMessage(error?.name === "NotAllowedError" ? "Microphone access was not granted. Browsing is still available." : error?.name === "VoiceConnectionTimeoutError" ? "Voice connection timed out. Check microphone permission and try again." : (error.message || "Voice service is unavailable."));
     }
   }, [buildTools, clearAudioPoll, clearPendingVoiceApproval, clearVoiceTimeout, closeVoiceSession, collapseIntro, collectAudioEvidence, disposeVoiceTransport, ensureAudioPlayback, products.length, stateSnapshot]);
   const toggleVoiceMute = useCallback(() => {
@@ -549,7 +567,7 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const rejectApproval = async () => { const pending = approvalRequest; setApprovalRequest(null); setActivePanel("basket"); if (pending?.type === "voice") await sessionRef.current?.reject(pending.request.approvalItem, { message: "The traveler did not confirm." }); };
   const panelLabel = activePanel === "detail" ? "Product details" : activePanel === "saved" ? "Saved products" : activePanel === "compare" ? "Product comparison" : activePanel === "review" ? "Order review" : "Order bag";
   const reviewFlight = review?.travel?.selectedFlight;
-  const hasVoiceSession = Boolean(sessionRef.current);
+  const hasVoiceSession = Boolean(sessionRef.current) || ["connecting", "listening", "speaking", "muted"].includes(voiceStatus);
   const hasBasket = basketDetails.itemCount > 0;
   const confirmedFlight = travel.selectedFlight;
   const scheduleEnded = clockAnchorRef.current ? replayClockState(clockAnchorRef.current, new Date()).scheduleEnded : false;
@@ -566,8 +584,8 @@ Initial interface state: ${safe(stateSnapshot())}` });
   const journeyStartDetail = journeyStage === "unknown" ? "Now" : "From what you shared";
   const timelineStatus = pendingFlight ? "Confirm replacement" : confirmedFlight ? (actionableFlightStatus || "Your flight") : flightContextStatus === "loading" ? "Finding your flight" : "Tell me your flight";
   const timelineCountdown = displayedFlight ? (displayedBoarding.known ? (displayedBoarding.seconds === 0 ? "Boarding time reached" : `${Math.max(1, Math.ceil(displayedBoarding.seconds / 60))} min to boarding`) : "Boarding time pending") : (scheduleEnded ? "No future flight available" : "Flight details pending");
-  const flightIdentity = displayedFlight ? `${displayedFlight.flightNumber || "Flight pending"} · ${displayedDestination}` : "Your flight";
-  const flightDetail = displayedFlight ? `${displayedFlight.gate ? `Gate ${displayedFlight.gate}` : "Gate pending"} · ${displayedFlight.boardingTime ? `Boarding ${formatClock(displayedFlight.boardingTime)}` : "Boarding time pending"}` : (flightContextStatus === "error" ? "Flight information unavailable" : "Share a number or destination");
+  const flightIdentity = displayedFlight ? `${displayedFlight.destination || displayedDestination}${displayedFlight.gate ? ` · Gate ${displayedFlight.gate}` : " · Gate pending"}` : "Your flight";
+  const flightDetail = displayedFlight ? `${displayedFlight.flightNumber || "Flight pending"} · ${displayedFlight.boardingTime ? `Boarding ${formatClock(displayedFlight.boardingTime)}` : "Boarding time pending"}` : (flightContextStatus === "error" ? "Flight information unavailable" : "Share a number or destination");
 
   return (
     <main className={styles.page} data-audio-track={audioEvidence.trackReceived ? "received" : "none"} data-audio-model={audioEvidence.modelAudioStarted ? "started" : "waiting"} data-audio-bytes={audioEvidence.bytesReceived} data-audio-energy={audioEvidence.totalAudioEnergy} data-audio-playback={playbackState}>

@@ -46,8 +46,8 @@
 .brandHeader[data-intro-expanded="true"] .brandHeaderInner { grid-template-rows: auto minmax(0, 1fr) auto; }
 .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandHeaderInner { grid-template-rows: auto 0 auto; }
 .brandHeader[data-intro-expanded="true"] .brandRow, .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandRow { height: auto; min-height: 1.7rem; overflow: visible; opacity: 1; }
-.brand { min-width: 0; display: flex; align-items: center; }
-.brandLogo { display: block; width: 7.7rem; height: auto; filter: brightness(0) invert(1); }
+.brand { width: 7.7rem; height: 1.4rem; min-width: 0; display: flex; align-items: center; background: #fff; -webkit-mask: url("/avolta-demo/brand/avolta-logo.svg") left center / contain no-repeat; mask: url("/avolta-demo/brand/avolta-logo.svg") left center / contain no-repeat; }
+.brandLogo { display: block; width: 7.7rem; height: auto; opacity: 0; }
 .location { min-width: 0; display: flex; align-items: center; color: #fff; }
 .location strong { font-size: .9rem; font-weight: 800; letter-spacing: -.025em; white-space: nowrap; }
 
@@ -213,6 +213,7 @@
   .brandHeaderInner { padding: .55rem .75rem .68rem; }
   .brandHeader::after { left: .75rem; width: 6rem; }
   .brandHeader[data-intro-expanded="true"] .brandRow, .brandHeader[data-at-top="true"][data-intro-expanded="false"][data-shop-takeover="false"] .brandRow { min-height: 1.6rem; }
+  .brand { width: 7.1rem; height: 1.3rem; }
   .brandLogo { width: 7.1rem; }
   .location strong { font-size: .82rem; }
   .productSurface { padding: 7.75rem .55rem 1.5rem; }
@@ -276,6 +277,7 @@
   .brandHeaderInner { padding: .55rem .52rem .7rem; }
   .brandHeader::after { left: .52rem; }
   .brandLogo { width: 6.8rem; }
+  .brand { width: 6.8rem; }
   .location strong { font-size: .8rem; }
   .productSurface { padding-inline: .42rem; }
   .arrivalIntro { padding-top: .55rem; }

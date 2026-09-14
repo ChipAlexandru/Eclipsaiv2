@@ -118,6 +118,7 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /review_demo_order/);
   assert.match(client, /confirm_demo_order/);
   assert.match(client, /VOICE_DEMO_DURATION_MS = 5 \* 60 \* 1000/);
+  assert.match(client, /VOICE_CONNECT_TIMEOUT_MS = 18000/);
   assert.match(client, /submittedExternally:\s*false/);
   assert.doesNotMatch(client, /Fragrances under CHF 100/);
   assert.doesNotMatch(client, /promptRow/);
@@ -160,6 +161,10 @@ test("Avolta feature is isolated, protected and keeps reservation confirmation e
   assert.match(client, /data-voice-session-reported-model=/);
   assert.match(client, /voiceStartSequenceRef\.current !== sequence/);
   assert.match(client, /disposeVoiceTransport\(\); clearPendingVoiceApproval\(\)/);
+  assert.match(client, /navigator\.mediaDevices\.getUserMedia\(\{ audio: true \}\)/);
+  assert.match(client, /mediaStream: microphoneStream/);
+  assert.match(client, /Promise\.race\(\[/);
+  assert.match(client, /Voice connection timed out\. Check microphone permission and try again\./);
   assert.match(client, /comparisonStart \? freshOpening/);
   assert.match(access, /httpOnly:\s*true/);
   assert.match(page, /robots:\s*\{ index: false, follow: false/);
@@ -178,6 +183,9 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /useState\(\(\) => CURATED_PRODUCT_IDS\.filter/);
   assert.doesNotMatch(renderedClient, />Welcome to Avolta\.</);
   assert.match(client, /className=\{styles\.brandHeader\} data-intro-expanded=\{introExpanded\}/);
+  assert.match(client, /const \[introExpanded, setIntroExpanded\] = useState\(false\)/);
+  assert.match(client, /window\.requestAnimationFrame\(\(\) => \{ settleFrame = window\.requestAnimationFrame/);
+  assert.match(client, /if \(storageReady && atTop && !introSeenRef\.current\) setIntroExpanded\(true\)/);
   assert.match(client, /data-at-top=\{atPageTop\} data-shop-takeover=\{!atPageTop \|\| voiceStatus !== "idle"\}/);
   assert.match(client, /className=\{styles\.arrivalIntro\}/);
   assert.match(client, /className=\{styles\.zurichSignature\}/);
@@ -244,8 +252,10 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(client, /data-context-status=\{flightContextStatus\}/);
   assert.match(client, /setFlightContextStatus\(journeyContextRef\.current \? "fallback" : "error"\)/);
   assert.match(client, /"No future flight available"/);
-  assert.match(client, /"Gate pending"/);
+  assert.match(client, /Gate pending/);
   assert.match(client, /"Boarding time pending"/);
+  assert.match(client, /displayedFlight\.destination \|\| displayedDestination\}\$\{displayedFlight\.gate \? ` · Gate/);
+  assert.match(client, /displayedFlight\.flightNumber \|\| "Flight pending"\} · \$\{displayedFlight\.boardingTime/);
   assert.match(page, /departureCount: upcomingFlights\(capturedFlights,/);
   assert.match(page, /assumedFlight: selectAssumedItinerary\(capturedFlights, initialNow\)/);
   assert.doesNotMatch(page, /liveContextServer/);
@@ -268,6 +278,7 @@ test("Avolta shopper UX moves from a journey-led arrival to compact two-column s
   assert.match(css, /\.brandHeader \{[^}]*--compact-header-height:\s*4\.15rem/);
   assert.match(css, /data-at-top="true"\]\[data-intro-expanded="false"\]\[data-shop-takeover="false"\]/);
   assert.match(css, /\.brandHeader, \.arrivalIntro \{ transition:\s*none/);
+  assert.match(css, /-webkit-mask:\s*url\("\/avolta-demo\/brand\/avolta-logo\.svg"\)/);
   assert.doesNotMatch(renderedClient, />Suggested</);
   assert.doesNotMatch(renderedClient, /Awaiting flight confirmation|Demo day ·|Avolta concept|Simulated gate delivery|Simulated collection|Review demo order|Demo order review|Confirm demo order|Estimated demo time|simulated fulfillment/);
   assert.doesNotMatch(renderedClient, /<span data-active=\{travel\.stage === "unknown"\}>Unknown<\/span>/);
