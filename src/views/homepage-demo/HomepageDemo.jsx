@@ -80,30 +80,93 @@ function formatUpdatedAt(value, locale) {
   }).format(date);
 }
 
-function ProfitBrainGraphic() {
+function renderProfitBrainPhrase(value) {
+  return String(value).split(/(the profit brain|profit brain)/gi).map((part, index) =>
+    /^(?:the )?profit brain$/i.test(part)
+      ? <span className="homepage-demo-brand-phrase" key={`${part}-${index}`}>{part}</span>
+      : part,
+  );
+}
+
+function ProfitBrainGraphic({ labels }) {
+  const sceneRef = useRef(null);
+  const platformFirstRef = useRef(null);
+  const platformLastRef = useRef(null);
+  const systemFirstRef = useRef(null);
+  const systemLastRef = useRef(null);
+  const readLabelRef = useRef(null);
+  const implementLabelRef = useRef(null);
+  const [connectors, setConnectors] = useState(null);
+
+  useEffect(() => {
+    const elements = [sceneRef, platformFirstRef, platformLastRef, systemFirstRef, systemLastRef, readLabelRef, implementLabelRef]
+      .map((ref) => ref.current);
+    if (elements.some((element) => !element)) return undefined;
+    let active = true;
+    const update = () => {
+      if (!active) return;
+      const scene = sceneRef.current.getBoundingClientRect();
+      const position = (element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          left: rect.left - scene.left,
+          right: rect.right - scene.left,
+          top: rect.top - scene.top,
+          bottom: rect.bottom - scene.top,
+          centerY: rect.top - scene.top + rect.height / 2,
+        };
+      };
+      const firstPlatform = position(platformFirstRef.current);
+      const lastPlatform = position(platformLastRef.current);
+      const firstSystem = position(systemFirstRef.current);
+      const lastSystem = position(systemLastRef.current);
+      const readLabel = position(readLabelRef.current);
+      const implementLabel = position(implementLabelRef.current);
+      const inset = Math.min(34, scene.width * .075);
+      const leftLoop = Math.max(10, Math.min(firstPlatform.left, firstSystem.left) - inset);
+      const rightLoop = Math.min(scene.width - 10, Math.max(lastPlatform.right, lastSystem.right) + inset);
+      const bend = Math.min(42, scene.height * .1);
+      const labelGap = Math.max(6, scene.height * .01);
+      setConnectors({
+        width: scene.width,
+        height: scene.height,
+        leftLower: `M${firstSystem.left} ${firstSystem.centerY} Q${leftLoop} ${firstSystem.centerY} ${leftLoop} ${firstSystem.centerY - bend} L${leftLoop} ${readLabel.bottom + labelGap}`,
+        leftUpper: `M${leftLoop} ${readLabel.top - labelGap} L${leftLoop} ${firstPlatform.centerY + bend} Q${leftLoop} ${firstPlatform.centerY} ${firstPlatform.left} ${firstPlatform.centerY}`,
+        rightUpper: `M${lastPlatform.right} ${lastPlatform.centerY} Q${rightLoop} ${lastPlatform.centerY} ${rightLoop} ${lastPlatform.centerY + bend} L${rightLoop} ${implementLabel.top - labelGap}`,
+        rightLower: `M${rightLoop} ${implementLabel.bottom + labelGap} L${rightLoop} ${lastSystem.centerY - bend} Q${rightLoop} ${lastSystem.centerY} ${lastSystem.right} ${lastSystem.centerY}`,
+        topArrow: `M${firstPlatform.left - 10} ${firstPlatform.centerY - 6} L${firstPlatform.left} ${firstPlatform.centerY} L${firstPlatform.left - 10} ${firstPlatform.centerY + 6}`,
+        bottomArrow: `M${lastSystem.right + 10} ${lastSystem.centerY - 6} L${lastSystem.right} ${lastSystem.centerY} L${lastSystem.right + 10} ${lastSystem.centerY + 6}`,
+      });
+    };
+    const observer = new ResizeObserver(update);
+    elements.forEach((element) => observer.observe(element));
+    document.fonts.ready.then(update);
+    update();
+    return () => { active = false; observer.disconnect(); };
+  }, []);
+
   return (
-    <figure className="homepage-demo-profit-graphic" aria-label="The Profit Brain correlates data, measures profit, creates actions, reads company systems and implements profit decisions">
-      <div className="homepage-demo-profit-graphic-scene">
-        <svg className="homepage-demo-profit-graphic-arrows is-desktop" viewBox="0 0 1000 600" preserveAspectRatio="none" fill="none" aria-hidden="true">
-          <path d="M160 469 Q90 469 90 410 L90 330 M90 235 L90 216 Q90 170 160 170 M840 170 Q910 170 910 216 L910 230 M910 330 L910 410 Q910 469 840 469" />
-          <path d="m148 163 12 7-12 7 M852 462l-12 7 12 7" />
-        </svg>
-        <svg className="homepage-demo-profit-graphic-arrows is-mobile" viewBox="0 0 1000 620" preserveAspectRatio="none" fill="none" aria-hidden="true">
-          <path d="M100 463 Q30 463 30 411 L30 326 M30 248 L30 220 Q30 175 85 175 M915 175 Q970 175 970 220 L970 248 M970 326 L970 411 Q970 463 900 463" />
-          <path d="m65 168 20 7-20 7 M920 456l-20 7 20 7" />
-        </svg>
+    <figure className="homepage-demo-profit-graphic" aria-label={labels.ariaLabel}>
+      <div className="homepage-demo-profit-graphic-scene" ref={sceneRef}>
+        {connectors && (
+          <svg className="homepage-demo-profit-graphic-arrows" viewBox={`0 0 ${connectors.width} ${connectors.height}`} fill="none" aria-hidden="true">
+            <path d={connectors.leftLower} /><path d={connectors.leftUpper} />
+            <path d={connectors.rightUpper} /><path d={connectors.rightLower} />
+            <path d={connectors.topArrow} /><path d={connectors.bottomArrow} />
+          </svg>
+        )}
         <span className="homepage-demo-profit-graphic-title">The Profit Brain</span>
         <div className="homepage-demo-profit-graphic-platform">
-          <span>Correlate data</span>
-          <span>Measure profit</span>
-          <span>Create actions</span>
+          <span ref={platformFirstRef}>{labels.correlate}</span>
+          <span>{labels.measure}</span>
+          <span ref={platformLastRef}>{labels.actions}</span>
         </div>
-        <span className="homepage-demo-profit-graphic-read">Read Data</span>
-        <span className="homepage-demo-profit-graphic-implement">Implement<br />Profit Decisions</span>
+        <span className="homepage-demo-profit-graphic-read" ref={readLabelRef}>{labels.read}</span>
+        <span className="homepage-demo-profit-graphic-implement" ref={implementLabelRef}>{labels.implement}</span>
         <div className="homepage-demo-profit-graphic-company">
-          <span>Company Systems</span>
+          <span>{labels.systems}</span>
           <div className="homepage-demo-profit-graphic-systems">
-            <span>ERP</span><span>POS</span><span>CRM</span><span>Production</span><span>Ops</span>
+            <span ref={systemFirstRef}>ERP</span><span>POS</span><span>CRM</span><span>{labels.production}</span><span ref={systemLastRef}>{labels.ops}</span>
           </div>
         </div>
       </div>
@@ -181,7 +244,7 @@ const PERFORMANCE_TRACKER_VALUES = {
   projected: { cash: 19900, economic: 40600, waste: 17200 },
 };
 
-function PerformanceTrackerEvidence({ variant = "evidence", content = originalContent }) {
+function PerformanceTrackerEvidence({ variant = "evidence", labels, locale }) {
   const trackerRef = useRef(null);
   const introStartedRef = useRef(false);
   const [introProgress, setIntroProgress] = useState(0);
@@ -267,9 +330,11 @@ function PerformanceTrackerEvidence({ variant = "evidence", content = originalCo
     const projected = PERFORMANCE_TRACKER_VALUES.projected[key];
     return Math.round((actual + (projected - actual) * projectionProgress) * introProgress);
   };
-  const t = content.tracker;
-  const formatNumber = (value) => value.toLocaleString(localeTag(content.locale));
-  const formatRate = (value) => `${new Intl.NumberFormat(localeTag(content.locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value)}%`;
+  const formatNumber = (value) => value.toLocaleString(localeTag(locale));
+  const formatShare = (value) => new Intl.NumberFormat(localeTag(locale), {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(value) + "%";
   const toggleProjection = () => {
     if (isProjecting) return;
     if (isProjected) {
@@ -286,39 +351,39 @@ function PerformanceTrackerEvidence({ variant = "evidence", content = originalCo
       ref={trackerRef}
       className={`homepage-demo-performance-tracker${variant === "demo" ? " is-demo" : ""}${projectionActive ? " is-projected" : ""}`}
     >
-      <div className="homepage-demo-performance-period">{t.period}</div>
+      <div className="homepage-demo-performance-period">{labels.period}</div>
 
       <div className="homepage-demo-performance-readings" aria-live="polite">
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{t.cashImpact}{projectionActive ? `, ${t.projected}` : ""}</span>
-            <small>{t.ingredients}</small>
+            <span>{labels.cash}{projectionActive ? `, ${labels.projected}` : ""}</span>
+            <small>{labels.ingredients}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
             <span className="homepage-demo-performance-value">CHF {formatNumber(currentValue("cash"))}</span>
-            <span className="homepage-demo-performance-change">{formatRate(0.7)} {t.ofSales}</span>
+            <span className="homepage-demo-performance-change">{formatShare(0.7)} {labels.ofSales}</span>
           </span>
         </div>
 
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{t.economicProfit}{projectionActive ? `, ${t.projected}` : ""}</span>
-            <small>{t.economicBasis}</small>
+            <span>{labels.economic}{projectionActive ? `, ${labels.projected}` : ""}</span>
+            <small>{labels.economics}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
             <span className="homepage-demo-performance-value">CHF {formatNumber(currentValue("economic"))}</span>
-            <span className="homepage-demo-performance-change">{formatRate(1.4)} {t.ofSales}</span>
+            <span className="homepage-demo-performance-change">{formatShare(1.4)} {labels.ofSales}</span>
           </span>
         </div>
 
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{t.wasteAvoided}{projectionActive ? `, ${t.projected}` : ""}</span>
-            <small>{projectionActive ? t.fullYear : t.measuredImpact}</small>
+            <span>{labels.waste}{projectionActive ? `, ${labels.projected}` : ""}</span>
+            <small>{projectionActive ? labels.fullYear : labels.measured}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
-            <span className="homepage-demo-performance-value">{formatNumber(currentValue("waste"))} {t.units}</span>
-            <span className="homepage-demo-performance-change">24% → 21% {t.wasteRate}</span>
+            <span className="homepage-demo-performance-value">{formatNumber(currentValue("waste"))} {labels.units}</span>
+            <span className="homepage-demo-performance-change">24% → 21% {labels.wasteRate}</span>
           </span>
         </div>
       </div>
@@ -327,7 +392,7 @@ function PerformanceTrackerEvidence({ variant = "evidence", content = originalCo
         <div className="homepage-demo-performance-projection-control">
           <button type="button" onClick={toggleProjection} disabled={isProjecting}>
             {!isProjected && <span className="homepage-demo-performance-triangle" aria-hidden="true" />}
-            <span>{isProjected ? t.actuals : t.annualizedImpact}</span>
+            <span>{isProjected ? labels.actuals : labels.annualized}</span>
           </button>
         </div>
         <div className="homepage-demo-performance-track" aria-hidden="true">
@@ -337,7 +402,7 @@ function PerformanceTrackerEvidence({ variant = "evidence", content = originalCo
             style={{ left: `${projectionProgress * 100}%`, opacity: projectionActive ? 1 : 0 }}
           />
         </div>
-        <div className="homepage-demo-performance-axis"><span aria-hidden="true" /><span>{t.fullYear.toUpperCase()}</span></div>
+        <div className="homepage-demo-performance-axis"><span aria-hidden="true" /><span>{labels.fullYearAxis}</span></div>
       </div>
     </div>
   );
@@ -350,7 +415,9 @@ export function FreshFoodHomepage({ content = originalContent }) {
   const [showcaseIndex, setShowcaseIndex] = useState(0);
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [liveResults, setLiveResults] = useState({ ...initialLiveResults, display_status: "snapshot" });
+  const [hasResolvedLiveResults, setHasResolvedLiveResults] = useState(false);
   const c = content;
+  const embeddedDemoLocale = c.locale === "de" ? "de" : "en";
 
   useEffect(() => {
     let active = true;
@@ -362,7 +429,10 @@ export function FreshFoodHomepage({ content = originalContent }) {
       .then((results) => {
         if (active && validLiveResults(results)) setLiveResults(results);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (active) setHasResolvedLiveResults(true);
+      });
     return () => {
       active = false;
     };
@@ -434,7 +504,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
     DEMO_SLIDES.forEach((_, index) => {
       const frame = demoFrameRefs.current[index];
       if (!frame) return;
-      frame.contentWindow?.postMessage({ type: "eclipsai-demo-set-language", lang: "en" }, "*");
+      frame.contentWindow?.postMessage({ type: "eclipsai-demo-set-language", lang: embeddedDemoLocale }, "*");
       frame.contentWindow?.postMessage(
         index === showcaseIndex
           ? DEMO_SLIDES[index].replay
@@ -444,7 +514,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
         "*",
       );
     });
-  }, [showcaseIndex, isDemoOpen]);
+  }, [showcaseIndex, isDemoOpen, embeddedDemoLocale]);
 
   useEffect(() => {
     if (!isDemoOpen) return undefined;
@@ -464,7 +534,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
   const activateDemoFrame = (index) => {
     const frame = demoFrameRefs.current[index];
     if (!frame) return;
-    frame.contentWindow?.postMessage({ type: "eclipsai-demo-set-language", lang: "en" }, "*");
+    frame.contentWindow?.postMessage({ type: "eclipsai-demo-set-language", lang: embeddedDemoLocale }, "*");
     frame.contentWindow?.postMessage(
       index === showcaseIndex
         ? DEMO_SLIDES[index].replay
@@ -486,7 +556,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
     <div
       ref={rootRef}
       lang={c.locale}
-      className={`homepage-demo ffh${hasCopyRefresh ? " homepage-demo-copy-refresh" : ""} ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}
+      className={`homepage-demo ffh${hasCopyRefresh ? " homepage-demo-copy-refresh" : ""} homepage-demo-english-hero ${newsreader.variable} ${manrope.variable} ${dmMono.variable}`}
     >
       <nav className="homepage-demo-nav" aria-label={c.nav.ariaLabel}>
         <div className="homepage-demo-nav-inner">
@@ -520,18 +590,8 @@ export function FreshFoodHomepage({ content = originalContent }) {
             <source src={`${ASSETS}/hero-video.mp4`} type="video/mp4" />
           </video>
           <div className="homepage-demo-hero-inner">
-            <h1 className={hasCopyRefresh ? "homepage-demo-hero-hierarchy" : undefined}>
-              {hasCopyRefresh ? (
-                <>
-                  <span className="homepage-demo-hero-brand">
-                    <span className="homepage-demo-hero-brand-font">{c.hero.h1Primary}</span>
-                    <span className="homepage-demo-hero-brand-colon">{c.locale === "fr" ? "\u00a0:" : ":"}</span>
-                  </span>
-                  {" "}
-                  <span className="homepage-demo-hero-continuation">{c.hero.h1Support}</span>
-                </>
-              ) : c.hero.h1}
-            </h1>
+            <p className="homepage-demo-hero-product-label">{renderProfitBrainPhrase(c.hero.h1Primary)}</p>
+            <h1>{c.hero.h1Support}</h1>
 
             <div className="homepage-demo-hero-lower">
               <div className="homepage-demo-hero-intro">
@@ -541,28 +601,36 @@ export function FreshFoodHomepage({ content = originalContent }) {
                 </p>
               </div>
 
-              <aside className="homepage-demo-results" aria-label={c.live.ariaLabel}>
-                <div className="homepage-demo-result homepage-demo-result-profit">
-                  <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
-                  <span>{c.live.profitImpact}</span>
-                </div>
-                <div className="homepage-demo-result">
-                  <b>{formatPercent(-liveResults.estimated_waste_reduction_share, c.locale)}</b>
-                  <span>{c.live.wasteReduction}</span>
-                </div>
-                <div className="homepage-demo-result">
-                  <b>{liveResults.production_lines_changed.toLocaleString(localeTag(c.locale))}</b>
-                  <span>{c.live.linesChanged}</span>
-                </div>
-                <div className="homepage-demo-results-footer">
-                  <span className="homepage-demo-results-period">
-                    <span>{c.live.period}</span>
-                    <span className={`homepage-demo-live-label${liveResults.display_status === "live" ? "" : " is-snapshot"}`}>
-                      {liveResults.display_status === "live" ? c.live.live : c.live.snapshot}
-                    </span>
-                  </span>
-                  <span>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</span>
-                </div>
+              <aside className="homepage-demo-results" aria-label={c.live.ariaLabel} aria-busy={!hasResolvedLiveResults}>
+                {!hasResolvedLiveResults ? (
+                  <div className="homepage-demo-results-loading" aria-hidden="true">
+                    <i /><i /><i /><i />
+                  </div>
+                ) : (
+                  <>
+                    <div className="homepage-demo-result homepage-demo-result-profit">
+                      <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
+                      <span>{c.live.profitImpact}</span>
+                    </div>
+                    <div className="homepage-demo-result">
+                      <b>{formatPercent(-liveResults.estimated_waste_reduction_share, c.locale)}</b>
+                      <span>{c.live.wasteReduction}</span>
+                    </div>
+                    <div className="homepage-demo-result">
+                      <b>{liveResults.production_lines_changed.toLocaleString(localeTag(c.locale))}</b>
+                      <span>{c.live.linesChanged}</span>
+                    </div>
+                    <div className="homepage-demo-results-footer">
+                      <span className="homepage-demo-results-period">
+                        <span>{c.live.period}</span>
+                        <span className={`homepage-demo-live-label${liveResults.display_status === "live" ? "" : " is-snapshot"}`}>
+                          {liveResults.display_status === "live" ? c.live.live : c.live.snapshot}
+                        </span>
+                      </span>
+                      <span>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</span>
+                    </div>
+                  </>
+                )}
               </aside>
 
             </div>
@@ -573,30 +641,23 @@ export function FreshFoodHomepage({ content = originalContent }) {
           <div className="homepage-demo-wrap">
             <div className="homepage-demo-approach-head">
               <h2>
-                {hasCopyRefresh ? (
-                  <>
-                    {c.product.h2Primary}
-                    <br className="homepage-demo-deliberate-break" />
-                    {" "}{c.product.h2Secondary}
-                  </>
-                ) : c.product.h2}
+                {renderProfitBrainPhrase(c.product.h2)}
               </h2>
             </div>
 
             <div className="homepage-demo-approach-stage">
-              <div className="homepage-demo-approach-media">
-                <ProfitBrainGraphic />
-              </div>
-
               <div className="homepage-demo-approach-copy">
                 <ol className="homepage-demo-approach-list">
                   {c.product.items.map((item) => (
                     <li key={item.strong}>
                       <h3>{item.strong}</h3>
-                      <p>{item.text}</p>
+                      <p>{renderProfitBrainPhrase(item.text)}</p>
                     </li>
                   ))}
                 </ol>
+              </div>
+              <div className="homepage-demo-approach-media">
+                <ProfitBrainGraphic labels={c.product.diagram} />
                 <button
                   className="homepage-demo-open-demo"
                   type="button"
@@ -606,7 +667,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
                   }}
                 >
                   {c.demo.open}
-                  <span aria-hidden="true">▶</span>
                 </button>
               </div>
             </div>
@@ -616,16 +676,16 @@ export function FreshFoodHomepage({ content = originalContent }) {
         <section className="homepage-demo-evidence" id="proof">
           <div className="homepage-demo-wrap">
             <h2>{c.proof.h2Before}<span className="homepage-demo-nowrap">{c.proof.h2Value}</span>{c.proof.h2After}</h2>
-            <p className="homepage-demo-evidence-subtitle">{c.proof.lede}</p>
+            {c.proof.lede && <p className="homepage-demo-evidence-subtitle">{c.proof.lede}</p>}
 
-            <PerformanceTrackerEvidence content={c} />
+            <PerformanceTrackerEvidence labels={c.proof.tracker} locale={c.locale} />
           </div>
         </section>
 
         <section className="section vision" id="vision">
           <div className="wrap">
             <h2 className="reveal">{c.vision.h2}</h2>
-            <p className="vision-intro reveal">{c.vision.intro}</p>
+            <p className="vision-intro reveal">{renderProfitBrainPhrase(c.vision.intro)}</p>
             <div className="vision-path" aria-label={c.vision.pathLabel}>
               {c.vision.steps.map((step) => (
                 <article key={step.index} className="vision-step">
@@ -646,8 +706,8 @@ export function FreshFoodHomepage({ content = originalContent }) {
             <div className="reveal">
               {c.faq.items.map((item) => (
                 <details key={item.q}>
-                  <summary>{item.q}</summary>
-                  <p>{item.a}</p>
+                  <summary>{renderProfitBrainPhrase(item.q)}</summary>
+                  <p>{renderProfitBrainPhrase(item.a)}</p>
                 </details>
               ))}
             </div>
@@ -656,7 +716,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
 
         <section className="section offer" id="start">
           <div className="wrap homepage-demo-final-cta">
-            <h2 className="reveal">{c.offer.h2}</h2>
+            <h2 className="reveal">{renderProfitBrainPhrase(c.offer.h2)}</h2>
           </div>
         </section>
       </main>
@@ -677,7 +737,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
           >
             <header className="homepage-demo-overlay-header">
               <span aria-hidden="true" />
-              <h2 id="homepage-demo-overlay-title">Demo</h2>
+              <h2 id="homepage-demo-overlay-title">{c.demo.open}</h2>
               <button ref={demoCloseRef} type="button" onClick={() => setIsDemoOpen(false)}>
                 {c.demo.close}
               </button>
@@ -691,13 +751,13 @@ export function FreshFoodHomepage({ content = originalContent }) {
                 {DEMO_SLIDES.map((slide, index) => (
                   slide.kind === "tracker" ? (
                     <section
-                      key={slide.title}
+                      key={c.demo.slides[index]}
                       className={`homepage-demo-showcase-report${index === showcaseIndex ? " is-active" : ""}`}
-                      aria-label={slide.title}
+                      aria-label={c.demo.slides[index]}
                     >
-                      <h3>{slide.title}</h3>
+                      <h3>{c.demo.slides[index]}</h3>
                       <div className="homepage-demo-showcase-report-body">
-                        <PerformanceTrackerEvidence variant="demo" />
+                        <PerformanceTrackerEvidence variant="demo" labels={c.proof.tracker} locale={c.locale} />
                       </div>
                     </section>
                   ) : (
@@ -705,21 +765,21 @@ export function FreshFoodHomepage({ content = originalContent }) {
                       key={`${slide.chapter}-${slide.embed}`}
                       ref={(node) => { demoFrameRefs.current[index] = node; }}
                       className={index === showcaseIndex ? "is-active" : ""}
-                      src={`/demo-common/engine.html?demo=generic&lang=en&chapter=${slide.chapter}&embed=${slide.embed}&mode=${slide.replay ? "ready" : "done"}&v=homepage-showcase-5-${index}`}
-                      title={slide.title}
+                      src={`/demo-common/engine.html?demo=generic&lang=${embeddedDemoLocale}&chapter=${slide.chapter}&embed=${slide.embed}&mode=${slide.replay ? "ready" : "done"}&v=homepage-showcase-5-${index}`}
+                      title={c.demo.slides[index]}
                       loading="eager"
                       onLoad={() => activateDemoFrame(index)}
                     />
                   )
                 ))}
               </div>
-              <div className="homepage-demo-showcase-progress" aria-label="Choose demo view">
+              <div className="homepage-demo-showcase-progress" aria-label={c.demo.chooseView}>
                 {DEMO_SLIDES.map((slide, index) => (
                   <button
-                    key={slide.title}
+                    key={c.demo.slides[index]}
                     className={index === showcaseIndex ? "is-active" : ""}
                     type="button"
-                    aria-label={`${index + 1} of ${DEMO_SLIDES.length}: ${slide.title}`}
+                    aria-label={`${index + 1} ${c.demo.viewOf} ${DEMO_SLIDES.length}: ${c.demo.slides[index]}`}
                     aria-current={index === showcaseIndex ? "step" : undefined}
                     onClick={() => setShowcaseIndex(index)}
                   />
@@ -732,12 +792,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
 
       <footer>
         <div className="footer-inner">
-          <div>
-            <a className="logo" href="#top" aria-label={c.nav.homeAriaLabel}>
-              <img src="/assets/eclipsai-wordmark-light.svg" alt="" />
-            </a>
-            <p>{c.footer.tagline}</p>
-          </div>
           <p>{c.footer.location}</p>
         </div>
       </footer>

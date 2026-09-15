@@ -11,11 +11,9 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 
 ## Decisions that must remain consistent
 
-- The visual demo stays in English on every localized page. Only the website
-  control that opens and closes it is localized.
-- The on-page evidence tracker is localized, including its period, units,
-  percentage formatting, and annualized-impact control. The Profit Brain
-  diagram remains an English visual, like the separate demo.
+- The on-page Profit Brain diagram and evidence tracker are localized. The
+  embedded demo supports English and German only; its surrounding controls
+  and slide descriptions are localized in all five languages.
 - The hero keeps "The Profit Brain" as the brand phrase in every locale. Its
   continuation is written as operator-facing copy, not a word-for-word slogan.
 - "Profit impact" in the live box means implemented profit from verified
@@ -32,14 +30,15 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 - LIVE is a status, not decorative copy. The site shows it only when the
   current production source is reached and recent. A fallback is labeled as
   the latest verified result.
-- CHF 40–60K, 2 to 20 locations, and the live metrics are not translated or
-  recalculated. Only number and date formatting changes by locale.
+- The historical evidence values, tracker values, 2 to 20 locations, and
+  live metrics are not translated or recalculated. Only number and date
+  formatting changes by locale.
 
 ## High-priority native review
 
 | Meaning | German | French | Italian | Romanian |
 |---|---|---|---|---|
-| Profit brain for fresh food | Operative Intelligenz für Frischebetriebe | L'intelligence opérationnelle des métiers du frais | Intelligenza operativa per il fresco | Inteligență operațională pentru afacerile cu produse proaspete |
+| Daily profit actions | tägliche Gewinnmassnahmen | actions quotidiennes sur le profit | azioni quotidiane sul profitto | acțiuni zilnice pentru profit |
 | Production order lines changed | Änderungen an Produktionsaufträgen (Positionen) | commandes de production modifiées (lignes) | modifiche agli ordini di produzione (righe) | modificări ale comenzilor de producție (linii) |
 | Profit impact as share of sales | Gewinnwirkung im Verhältnis zum Umsatz | impact sur le profit en part du chiffre d'affaires | impatto sul profitto in percentuale delle vendite | impact asupra profitului ca procent din vânzări |
 | Compare production quantities | Produktionsmengen vergleichen | Comparer les quantités de production | Confrontare le quantità di produzione | Compară cantitățile de producție |

@@ -16,7 +16,7 @@ export const en = {
     ariaLabel: "Main navigation",
     homeAriaLabel: "Eclipsai home",
     product: "How it works",
-    proof: "Evidence",
+    proof: "Impact",
     vision: "Beyond production",
     cta: "Book a call",
     chooseLanguage: "Choose language",
@@ -25,9 +25,9 @@ export const en = {
 
   hero: {
     eyebrow: "Fresh Food:",
-    h1: "The Profit Brain: AI to connect sales, production and financials for daily profit actions.",
+    h1: "Connect sales, production, and financials for daily profit actions.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI to connect sales, production and financials for daily profit actions.",
+    h1Support: "Connect sales, production, and financials for daily profit actions.",
     copy: "Make production decisions for every shop, product, and weekday. Measure the daily effect on profit, sales, and waste.",
     examples: [
       "Adjusts tomorrow's production orders.",
@@ -50,23 +50,6 @@ export const en = {
     updated: "Updated",
   },
 
-  tracker: {
-    period: "19 August–2 September 2026",
-    cashImpact: "Cash impact",
-    economicProfit: "Economic profit",
-    wasteAvoided: "Waste avoided",
-    projected: "projected",
-    ingredients: "Ingredients",
-    economicBasis: "Ingredients + standard labor + energy",
-    measuredImpact: "Measured impact",
-    fullYear: "Full year",
-    units: "units",
-    ofSales: "of sales",
-    wasteRate: "waste rate",
-    actuals: "ACTUALS",
-    annualizedImpact: "ANNUALIZED IMPACT",
-  },
-
   problem: {
     eyebrow: "What owners know and systems miss",
     h2: "Tomorrow's production plan is set before today's sales and shop feedback can inform it.",
@@ -81,30 +64,54 @@ export const en = {
 
   product: {
     eyebrow: "The profit brain at work",
-    h2: "Eclipsai checks each shop’s records and asks your team when something needs explaining.",
-    h2Primary: "Eclipsai checks each shop’s records",
-    h2Secondary: "and asks your team when something needs explaining.",
+    h2: "The Profit Brain creates daily improvement loops.",
+    h2Primary: "The Profit Brain",
+    h2Secondary: "creates daily improvement loops.",
     lede: "Eclipsai connects sales, production, ordering, and invoicing systems with email, team chats, and relevant external data. When the data cannot explain what happened, it asks staff a targeted question. They can answer with text, photos, or voice notes.",
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
+    diagram: {
+      ariaLabel: "The Profit Brain correlates data, measures profit, creates actions, reads company systems and implements profit decisions",
+      correlate: "Correlate data", measure: "Measure profit", actions: "Create actions",
+      read: "Read Data", implement: "Implement Profit Decisions", systems: "Company Systems",
+      production: "Production", ops: "Ops",
+    },
     items: [
       { strong: "Read and analyze data from all systems", text: "Each shop, product, and weekday has its own demand pattern. Eclipsai considers comparable trading days, sales timing, likely sellouts, estimated waste, product economics, and operating constraints." },
-      { strong: "Compare production quantities", text: "For each production line, Eclipsai compares the current quantity with feasible alternatives. It weighs the cost of unsold product against the margin at risk when too little is made." },
-      { strong: "Update the order and check the result", text: "Approved decisions are written into the production software and confirmed. After each shop closes, Eclipsai measures the effect on sales, estimated waste, early sellouts, and cash. The result becomes evidence for the next decision." },
+      { strong: "Find profit decisions", text: "For each production line, Eclipsai compares the current quantity with feasible alternatives. It weighs the cost of unsold product against the margin at risk when too little is made." },
+      { strong: "Implement, measure, and track the result", text: "Approved decisions are written into the production software and confirmed. Daily, the Profit Brain measures the effect on sales, estimated waste, early sellouts, and cash. The outcomes influence the next decisions." },
     ],
   },
 
   demo: {
-    open: "View demo",
+    open: "Demo",
     close: "Close",
+    chooseView: "Choose demo view",
+    viewOf: "of",
+    slides: [
+      "Build a daily picture of the business",
+      "Propose production quantities",
+      "Implement directly in production systems (API or computer use for older systems)",
+      "Analyze results daily",
+      "Report profit and waste",
+    ],
   },
 
   proof: {
     metadata: "Our impact",
-    h2Before: "We found a ",
-    h2Value: "CHF 40–60K",
-    h2After: " annual profit opportunity with one operator.",
-    lede: "We are now working with the operator to put these changes into daily production.",
+    h2Before: "On track to deliver approximately ",
+    h2Value: "1%",
+    h2After: " profit margin opportunity with one food operator",
+    lede: "",
+    tracker: {
+      period: "19 August–2 September 2026",
+      cash: "Cash impact", economic: "Economic profit", waste: "Waste avoided",
+      projected: "projected", ingredients: "Ingredients",
+      economics: "Ingredients + standard labor + energy",
+      fullYear: "Full year", measured: "Measured impact",
+      ofSales: "of sales", units: "units", wasteRate: "waste rate",
+      actuals: "ACTUALS", annualized: "ANNUALIZED IMPACT", fullYearAxis: "FULL YEAR",
+    },
     ledgerLabel: "Evidence ledger from one operator",
     rows: [
       { h3: "pieces analyzed", value: "860,000", copy: "Sixteen months of sales and production records. We matched 92% between the two." },
@@ -126,8 +133,8 @@ export const en = {
 
   vision: {
     eyebrow: "Beyond production",
-    h2: "The next decisions.",
-    intro: "Once connected to the company's systems and communication channels, Eclipsai can add the information needed for each new decision, implement the change, and measure the result.",
+    h2: "The next profit decisions",
+    intro: "Once connected to the company's systems and communication channels, the Profit Brain can add the information needed for each new decision, implement the change, and measure the result.",
     pathLabel: "Eclipsai expansion path",
     steps: [
       { index: "Start", h3: "Production and waste", p: "Protect sales while cutting repeated, avoidable waste. Update production plans that no longer match demand." },
@@ -138,7 +145,7 @@ export const en = {
   },
 
   offer: {
-    h2: "Eclipsai makes the daily decisions that run a food business.",
+    h2: "The Profit Brain for the daily profit actions.",
     copy: "It connects sales, production, and what your team sees to find the few decisions worth acting on and prove the result in cash.",
     cardH3: "Start free",
     items: [
@@ -157,23 +164,23 @@ export const en = {
     items: [
       {
         q: "Will making less put sales at risk?",
-        a: "Eclipsai weighs both risks. A missed sale can cost more than the ingredients saved. It only suggests making less when the evidence supports it, then measures the result against the plan it replaced.",
+        a: "The Profit Brain weighs both risks. A missed sale can cost more than the ingredients saved. It only suggests making less when the evidence supports it, then measures the result against the plan it replaced.",
       },
       {
-        q: "How is Eclipsai different from the quantities our system already recommends?",
-        a: "Eclipsai tests the current quantity against feasible alternatives using sales timing, likely sellouts, waste, product economics, and operating constraints. Approved changes are written back into the production system and measured in cash.",
+        q: "How is the Profit Brain different from the quantities our system already recommends?",
+        a: "The Profit Brain tests the current quantity against feasible alternatives using sales timing, likely sellouts, waste, product economics, and operating constraints. Approved changes are written back into the production system and measured in cash.",
       },
       {
         q: "Do we need to replace our existing systems?",
-        a: "No. Eclipsai works with the systems already in use. It reads from and writes back through APIs or computer use for older systems.",
+        a: "No. The Profit Brain works with the systems already in use. It reads from and writes back through APIs or computer use for older systems.",
       },
       {
         q: "How much work does the team have to do?",
-        a: "Eclipsai works from sales and production records. It asks the team a short question only when the records cannot explain what happened, such as a sell-out, unusual leftovers, or a local event.",
+        a: "The Profit Brain works from sales and production records. It asks the team a short question only when the records cannot explain what happened, such as a sell-out, unusual leftovers, or a local event.",
       },
       {
         q: "How do we start?",
-        a: "We begin with the records that can be trusted and the shop-product combinations where the evidence is strongest. When the data is not sufficient, Eclipsai asks for context or leaves the quantity unchanged. You do not need to change every shop at once.",
+        a: "We begin with the records that can be trusted and the shop-product combinations where the evidence is strongest. When the data is not sufficient, the Profit Brain asks for context or leaves the quantity unchanged. You do not need to change every shop at once.",
       },
     ],
   },
@@ -185,7 +192,7 @@ export const en = {
 
   meta: {
     title: "Eclipsai — The Profit Brain",
-    description: null,
-    ogDescription: null,
+    description: "The Profit Brain connects sales, production, and financials for daily profit actions in fresh-food operations.",
+    ogDescription: "Connect sales, production, and financials for daily profit actions.",
   },
 };

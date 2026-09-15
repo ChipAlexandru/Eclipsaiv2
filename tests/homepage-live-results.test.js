@@ -56,13 +56,27 @@ test("all localized homepages carry the live-result and demo controls", () => {
 test("locale hero copy stays operator-facing", () => {
   const phrases = {
     en: "Make production decisions for every shop, product, and weekday. Measure the daily effect on profit, sales, and waste.",
-    de: "Entscheiden Sie für jede Filiale, jeden Artikel und jeden Wochentag, wie viel produziert wird.",
-    fr: "Décidez des quantités à produire pour chaque boutique, produit et jour de la semaine.",
-    it: "Stabilite quanto produrre per ogni punto vendita, prodotto e giorno della settimana.",
-    ro: "Stabiliți cât produceți pentru fiecare magazin, produs și zi a săptămânii.",
+    de: "Tägliche Produktionsaufträge je Filiale und Artikel umsetzen",
+    fr: "Mettre à jour chaque jour les commandes de production",
+    it: "Aggiornare ogni giorno gli ordini di produzione",
+    ro: "Actualizați zilnic comenzile de producție",
   };
   for (const [locale, phrase] of Object.entries(phrases)) {
     const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);
     assert.ok(fs.readFileSync(contentPath, "utf8").includes(phrase), `${locale} must use operational hero copy`);
+  }
+});
+
+test("every locale uses the Profit Brain in the closing page and FAQ", () => {
+  for (const locale of ["en", "de", "fr", "it", "ro"]) {
+    const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);
+    const content = fs.readFileSync(contentPath, "utf8");
+    const faq = content.split("  faq: {")[1]?.split("  footer: {")[0];
+    assert.ok(faq, `${locale} FAQ must exist`);
+    assert.doesNotMatch(faq, /Eclipsai/i, `${locale} FAQ must use the Profit Brain`);
+    assert.match(faq, /The Profit Brain/);
+    assert.match(content, /offer:\s*\{\s*h2:\s*"The Profit Brain/);
+    assert.match(content, /diagram:\s*\{/);
+    assert.match(content, /tracker:\s*\{/);
   }
 });

@@ -21,10 +21,10 @@ export const fr = {
 
   hero: {
     eyebrow: "Produits frais :",
-    h1: "The Profit Brain : l’IA relie ventes, production et finances pour décider chaque jour quoi changer et mesurer l’effet sur le profit.",
+    h1: "The Profit Brain : une IA qui relie ventes, produits et finances pour agir chaque jour sur le profit.",
     h1Primary: "The Profit Brain",
-    h1Support: "L’IA relie ventes, production et finances pour décider chaque jour quoi changer et mesurer l’effet sur le profit.",
-    copy: "Décidez des quantités à produire pour chaque boutique, produit et jour de la semaine. Mesurez chaque jour l’effet sur le profit, les ventes et les pertes.",
+    h1Support: "Relie ventes, production et finances pour agir chaque jour sur le profit.",
+    copy: "Mettre à jour chaque jour les commandes de production, boutique par boutique et produit par produit, pour vendre davantage et réduire les pertes.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
@@ -46,23 +46,6 @@ export const fr = {
     updated: "Actualisé le",
   },
 
-  tracker: {
-    period: "19 août–2 septembre 2026",
-    cashImpact: "Impact financier",
-    economicProfit: "Résultat économique",
-    wasteAvoided: "Pertes évitées",
-    projected: "annualisé",
-    ingredients: "Ingrédients",
-    economicBasis: "Ingrédients + main-d’œuvre standard + énergie",
-    measuredImpact: "Effet mesuré",
-    fullYear: "Année complète",
-    units: "pièces",
-    ofSales: "du chiffre d’affaires",
-    wasteRate: "taux de pertes",
-    actuals: "VALEURS OBSERVÉES",
-    annualizedImpact: "IMPACT ANNUALISÉ",
-  },
-
   problem: {
     eyebrow: "Ce que les patrons savent et que les systèmes ne voient pas",
     h2: "Le plan de production de demain est fixé avant que les ventes du jour et les retours des équipes en magasin puissent être pris en compte.",
@@ -77,12 +60,18 @@ export const fr = {
 
   product: {
     eyebrow: "L'intelligence opérationnelle au travail",
-    h2: "Eclipsai vérifie chaque jour les données de chaque boutique et demande des précisions à l'équipe lorsque c'est nécessaire.",
-    h2Primary: "Eclipsai vérifie chaque jour les données de chaque boutique",
-    h2Secondary: "et demande des précisions à l'équipe lorsque c'est nécessaire.",
+    h2: "The Profit Brain améliore le profit chaque jour.",
+    h2Primary: "The Profit Brain",
+    h2Secondary: "améliore le profit chaque jour.",
     lede: "Eclipsai relie les systèmes de vente, de production, de commande et de facturation aux e-mails, aux messageries d'équipe et aux données externes pertinentes. Lorsque les données n'expliquent pas ce qui s'est passé, elle pose une question précise à l'équipe concernée. Les équipes peuvent répondre par texte, photo ou message vocal.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
+    diagram: {
+      ariaLabel: "The Profit Brain relie les données, mesure le profit, crée des actions, lit les systèmes de l'entreprise et applique les décisions de profit",
+      correlate: "Relier les données", measure: "Mesurer le profit", actions: "Créer des actions",
+      read: "Lire les données", implement: "Appliquer les décisions", systems: "Systèmes de l'entreprise",
+      production: "Production", ops: "Gestion",
+    },
     items: [
       { strong: "Lire et analyser les données de tous les systèmes", text: "Chaque boutique, chaque produit et chaque jour de la semaine possède son propre profil de demande. Eclipsai tient compte des journées comparables, du rythme des ventes, des ruptures probables, des pertes estimées, de l'économie du produit et des contraintes opérationnelles." },
       { strong: "Comparer les quantités de production", text: "Pour chaque ligne de production, Eclipsai compare la quantité actuelle aux alternatives réalisables. Elle met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
@@ -93,14 +82,32 @@ export const fr = {
   demo: {
     open: "Voir la démo",
     close: "Fermer",
+    chooseView: "Choisir la vue de la démo",
+    viewOf: "sur",
+    slides: [
+      "Voir l'activité du jour dans son ensemble",
+      "Proposer les quantités à produire",
+      "Appliquer les décisions dans le système de production (API ou utilisation de l'ordinateur pour les anciens systèmes)",
+      "Analyser les résultats chaque jour",
+      "Suivre le profit et les pertes",
+    ],
   },
 
   proof: {
     metadata: "Notre impact",
-    h2Before: "Nous avons trouvé ",
-    h2Value: "CHF 40–60K",
-    h2After: " d'opportunité de profit annuel chez un exploitant.",
-    lede: "Nous travaillons maintenant avec cet exploitant pour intégrer ces changements dans la production quotidienne.",
+    h2Before: "En voie de dégager environ ",
+    h2Value: "1 %",
+    h2After: " de marge bénéficiaire supplémentaire chez un exploitant alimentaire",
+    lede: "",
+    tracker: {
+      period: "19 août–2 septembre 2026",
+      cash: "Impact en trésorerie", economic: "Profit économique", waste: "Pertes évitées",
+      projected: "projeté", ingredients: "Ingrédients",
+      economics: "Ingrédients + main-d'œuvre standard + énergie",
+      fullYear: "Année complète", measured: "Impact mesuré",
+      ofSales: "des ventes", units: "unités", wasteRate: "taux de pertes",
+      actuals: "RÉALISÉ", annualized: "IMPACT ANNUALISÉ", fullYearAxis: "ANNÉE COMPLÈTE",
+    },
     ledgerLabel: "Registre de preuves d'un exploitant",
     rows: [
       { h3: "pièces analysées", value: "860 000", copy: "Seize mois de données de vente et de production. Nous en avons rapproché 92 % entre les deux." },
@@ -122,9 +129,9 @@ export const fr = {
 
   vision: {
     eyebrow: "Au-delà de la production",
-    h2: "Les prochaines décisions.",
-    intro: "Une fois Eclipsai reliée aux systèmes et aux canaux de communication de l'entreprise, elle peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
-    pathLabel: "Parcours d'extension d'Eclipsai",
+    h2: "Les prochaines décisions de profit",
+    intro: "Une fois The Profit Brain relié aux systèmes et aux canaux de communication de l'entreprise, il peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
+    pathLabel: "Parcours d'extension de The Profit Brain",
     steps: [
       { index: "Départ", h3: "Production et pertes", p: "Protéger les ventes tout en réduisant les pertes répétées et évitables. Corriger les plans de production qui ne correspondent plus à la demande." },
       { index: "Ensuite", h3: "Achats et prix", p: "Signaler les hausses de prix fournisseurs et les prix qui ne couvrent plus les coûts." },
@@ -134,7 +141,7 @@ export const fr = {
   },
 
   offer: {
-    h2: "Eclipsai prend les décisions quotidiennes qui font fonctionner une entreprise alimentaire.",
+    h2: "The Profit Brain met en œuvre les actions quotidiennes pour améliorer le profit.",
     copy: "Elle relie les ventes, la production et ce que votre équipe observe pour trouver les quelques décisions qui méritent d'être prises et en démontrer le résultat économique.",
     cardH3: "Commencer gratuitement",
     items: [
@@ -153,23 +160,23 @@ export const fr = {
     items: [
       {
         q: "Produire moins va-t-il mettre nos ventes en danger ?",
-        a: "Eclipsai met les deux risques en balance. Une vente manquée peut coûter plus cher que les ingrédients économisés. Elle ne propose de produire moins que lorsque les preuves le soutiennent, puis mesure le résultat face au plan qu'elle a remplacé.",
+        a: "The Profit Brain met les deux risques en balance. Une vente manquée peut coûter plus cher que les ingrédients économisés. Il ne propose de produire moins que lorsque les preuves le soutiennent, puis mesure le résultat face au plan précédent.",
       },
       {
-        q: "En quoi Eclipsai diffère-t-elle des quantités déjà recommandées par notre système ?",
-        a: "Eclipsai teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et leur effet financier est mesuré.",
+        q: "En quoi The Profit Brain diffère-t-il des quantités déjà recommandées par notre système ?",
+        a: "The Profit Brain teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et leur effet financier est mesuré.",
       },
       {
         q: "Devons-nous remplacer nos systèmes actuels ?",
-        a: "Non. Eclipsai fonctionne avec les systèmes déjà en place. Elle lit et écrit les données par API ou par utilisation directe de l'ordinateur pour les systèmes plus anciens.",
+        a: "Non. The Profit Brain fonctionne avec les systèmes déjà en place. Il lit et écrit les données par API ou par utilisation directe de l'ordinateur pour les systèmes plus anciens.",
       },
       {
         q: "Quelle charge de travail pour l'équipe ?",
-        a: "Eclipsai travaille à partir des données de vente et de production. Elle ne pose une question courte que lorsque les données n'expliquent pas ce qui s'est passé : une rupture, des restes inhabituels ou un événement local.",
+        a: "The Profit Brain travaille à partir des données de vente et de production. Il ne pose une question courte que lorsque les données n'expliquent pas ce qui s'est passé : une rupture, des restes inhabituels ou un événement local.",
       },
       {
         q: "Comment commençons-nous ?",
-        a: "Nous commençons par les données fiables et les combinaisons boutique-produit pour lesquelles les preuves sont les plus solides. Lorsque les données ne suffisent pas, Eclipsai demande du contexte ou laisse la quantité inchangée. Il n'est pas nécessaire de changer toutes les boutiques en même temps.",
+        a: "Nous commençons par les données fiables et les combinaisons boutique-produit pour lesquelles les preuves sont les plus solides. Lorsque les données ne suffisent pas, The Profit Brain demande du contexte ou laisse la quantité inchangée. Il n'est pas nécessaire de changer toutes les boutiques en même temps.",
       },
     ],
   },
@@ -180,8 +187,8 @@ export const fr = {
   },
 
   meta: {
-    title: "Eclipsai | L'intelligence opérationnelle des métiers du frais",
-    description: "Eclipsai prend et met en œuvre les décisions quotidiennes de production pour les métiers du frais, puis mesure leur effet sur le profit, les pertes et les ventes.",
-    ogDescription: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
+    title: "Eclipsai — The Profit Brain pour les métiers du frais",
+    description: "The Profit Brain relie ventes, production et finances, applique les actions quotidiennes sur le profit et mesure leurs résultats.",
+    ogDescription: "Relier ventes, production et finances pour agir chaque jour sur le profit.",
   },
 };

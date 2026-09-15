@@ -21,10 +21,10 @@ export const ro = {
 
   hero: {
     eyebrow: "Produse proaspete:",
-    h1: "The Profit Brain: AI conectează vânzările, producția și datele financiare pentru decizii zilnice cu efect măsurabil asupra profitului.",
+    h1: "The Profit Brain: AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI conectează vânzările, producția și datele financiare pentru decizii zilnice cu efect măsurabil asupra profitului.",
-    copy: "Stabiliți cât produceți pentru fiecare magazin, produs și zi a săptămânii. Măsurați zilnic efectul asupra profitului, vânzărilor și risipei.",
+    h1Support: "Conectează vânzările, producția și datele financiare pentru acțiuni zilnice care cresc profitul.",
+    copy: "Actualizați zilnic comenzile de producție pentru fiecare locație și produs, ca să vindeți mai mult și să reduceți risipa.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",
@@ -46,23 +46,6 @@ export const ro = {
     updated: "Actualizat la",
   },
 
-  tracker: {
-    period: "19 august–2 septembrie 2026",
-    cashImpact: "Impact financiar",
-    economicProfit: "Profit economic",
-    wasteAvoided: "Risipă evitată",
-    projected: "anualizat",
-    ingredients: "Ingrediente",
-    economicBasis: "Ingrediente + manoperă standard + energie",
-    measuredImpact: "Impact măsurat",
-    fullYear: "An întreg",
-    units: "bucăți",
-    ofSales: "din vânzări",
-    wasteRate: "rata risipei",
-    actuals: "VALORI MĂSURATE",
-    annualizedImpact: "IMPACT ANUALIZAT",
-  },
-
   problem: {
     eyebrow: "Ce știu patronii și sistemele nu văd",
     h2: "Planul de producție pentru mâine este stabilit înainte ca vânzările de astăzi și observațiile echipelor din magazine să poată fi luate în calcul.",
@@ -77,12 +60,18 @@ export const ro = {
 
   product: {
     eyebrow: "Inteligența operațională la lucru",
-    h2: "Eclipsai verifică zilnic datele fiecărui magazin și cere explicații echipei când este nevoie.",
-    h2Primary: "Eclipsai verifică zilnic datele fiecărui magazin",
-    h2Secondary: "și cere explicații echipei când este nevoie.",
+    h2: "The Profit Brain îmbunătățește profitul în fiecare zi.",
+    h2Primary: "The Profit Brain",
+    h2Secondary: "îmbunătățește profitul în fiecare zi.",
     lede: "Eclipsai conectează sistemele de vânzări, producție, comenzi și facturare cu e-mailul, canalele de chat ale echipelor și datele externe relevante. Când datele nu explică ce s-a întâmplat, adresează personalului o întrebare punctuală. Echipele pot răspunde prin text, fotografii sau mesaje vocale.",
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
     whatChanges: "Cum lucrează Eclipsai",
+    diagram: {
+      ariaLabel: "The Profit Brain corelează datele, măsoară profitul, creează acțiuni, citește sistemele companiei și aplică deciziile pentru profit",
+      correlate: "Corelează date", measure: "Măsoară profitul", actions: "Creează acțiuni",
+      read: "Citește datele", implement: "Aplică deciziile", systems: "Sistemele companiei",
+      production: "Producție", ops: "Operare",
+    },
     items: [
       { strong: "Analizează datele din toate sistemele", text: "Fiecare magazin, produs și zi a săptămânii are propriul tipar de cerere. Eclipsai ia în calcul zile de vânzare comparabile, ritmul vânzărilor, epuizările probabile, risipa estimată, economia produsului și constrângerile operaționale." },
       { strong: "Compară cantitățile de producție", text: "Pentru fiecare linie de producție, Eclipsai compară cantitatea actuală cu alternativele fezabile. Cântărește costul produselor nevândute față de marja pusă în pericol atunci când se produce prea puțin." },
@@ -93,14 +82,32 @@ export const ro = {
   demo: {
     open: "Vedeți demonstrația",
     close: "Închideți",
+    chooseView: "Alegeți ecranul demonstrației",
+    viewOf: "din",
+    slides: [
+      "Creează imaginea zilnică a afacerii",
+      "Propune cantități de producție",
+      "Aplică direct în sistemul de producție (API sau utilizarea computerului pentru sistemele vechi)",
+      "Analizează rezultatele zilnic",
+      "Raportează profitul și risipa",
+    ],
   },
 
   proof: {
     metadata: "Impactul nostru",
-    h2Before: "Am găsit la o singură afacere o oportunitate de profit anual de ",
-    h2Value: "CHF 40–60K",
-    h2After: ".",
-    lede: "Lucrăm acum împreună cu această afacere pentru a introduce schimbările în producția zilnică.",
+    h2Before: "Pe cale să obținem o oportunitate de marjă a profitului de aproximativ ",
+    h2Value: "1%",
+    h2After: " la un operator alimentar",
+    lede: "",
+    tracker: {
+      period: "19 august–2 septembrie 2026",
+      cash: "Impact asupra numerarului", economic: "Profit economic", waste: "Risipă evitată",
+      projected: "proiectat", ingredients: "Ingrediente",
+      economics: "Ingrediente + muncă standard + energie",
+      fullYear: "An întreg", measured: "Impact măsurat",
+      ofSales: "din vânzări", units: "unități", wasteRate: "rata risipei",
+      actuals: "VALORI REALE", annualized: "IMPACT ANUALIZAT", fullYearAxis: "AN ÎNTREG",
+    },
     ledgerLabel: "Registrul de dovezi al unei afaceri",
     rows: [
       { h3: "unități analizate", value: "860.000", copy: "Șaisprezece luni de date de vânzări și producție. Am corelat 92% între cele două." },
@@ -122,9 +129,9 @@ export const ro = {
 
   vision: {
     eyebrow: "Dincolo de producție",
-    h2: "Următoarele decizii.",
-    intro: "După conectarea la sistemele și canalele de comunicare ale companiei, Eclipsai poate adăuga informațiile necesare pentru fiecare decizie nouă, poate aplica schimbarea și poate măsura rezultatul.",
-    pathLabel: "Traseul de extindere Eclipsai",
+    h2: "Următoarele decizii pentru profit",
+    intro: "După conectarea la sistemele și canalele de comunicare ale companiei, The Profit Brain poate adăuga informațiile necesare pentru fiecare decizie nouă, poate aplica schimbarea și poate măsura rezultatul.",
+    pathLabel: "Traseul de extindere al The Profit Brain",
     steps: [
       { index: "Start", h3: "Producție și risipă", p: "Protejați vânzările reducând în același timp risipa repetată și evitabilă. Corectați planurile de producție care nu mai corespund cererii." },
       { index: "Urmează", h3: "Achiziții și prețuri", p: "Semnalați scumpirile furnizorilor și prețurile care nu mai acoperă costurile." },
@@ -134,7 +141,7 @@ export const ro = {
   },
 
   offer: {
-    h2: "Eclipsai ia deciziile zilnice care fac să funcționeze o afacere alimentară.",
+    h2: "The Profit Brain pune în practică acțiunile zilnice pentru profit.",
     copy: "Conectează vânzările, producția și ce observă echipa dumneavoastră ca să găsească puținele decizii care merită acțiune și să dovedească rezultatul ca impact financiar.",
     cardH3: "Începeți gratuit",
     items: [
@@ -153,23 +160,23 @@ export const ro = {
     items: [
       {
         q: "Dacă producem mai puțin, punem vânzările în pericol?",
-        a: "Eclipsai cântărește ambele riscuri. O vânzare ratată poate costa mai mult decât ingredientele economisite. Propune să produceți mai puțin doar când dovezile o susțin, apoi măsoară rezultatul față de planul pe care l-a înlocuit.",
+        a: "The Profit Brain cântărește ambele riscuri. O vânzare ratată poate costa mai mult decât ingredientele economisite. Propune să produceți mai puțin doar când dovezile o susțin, apoi măsoară rezultatul față de planul anterior.",
       },
       {
-        q: "Prin ce diferă Eclipsai de cantitățile deja recomandate de sistemul nostru?",
-        a: "Eclipsai testează cantitatea actuală față de alternativele fezabile folosind ritmul vânzărilor, epuizările probabile, risipa, economia produsului și constrângerile operaționale. Schimbările aprobate sunt introduse în sistemul de producție și măsurate financiar.",
+        q: "Prin ce diferă The Profit Brain de cantitățile deja recomandate de sistemul nostru?",
+        a: "The Profit Brain testează cantitatea actuală față de alternativele fezabile folosind ritmul vânzărilor, epuizările probabile, risipa, economia produsului și constrângerile operaționale. Schimbările aprobate sunt introduse în sistemul de producție și măsurate financiar.",
       },
       {
         q: "Trebuie să înlocuim sistemele existente?",
-        a: "Nu. Eclipsai lucrează cu sistemele deja utilizate. Citește și scrie date prin API-uri sau prin utilizarea directă a computerului pentru sistemele mai vechi.",
+        a: "Nu. The Profit Brain lucrează cu sistemele deja utilizate. Citește și scrie date prin API-uri sau prin utilizarea directă a computerului pentru sistemele mai vechi.",
       },
       {
         q: "Cât de multă muncă cere echipei?",
-        a: "Eclipsai lucrează cu datele de vânzări și producție. Pune echipei o întrebare scurtă doar când datele nu explică ce s-a întâmplat, cum ar fi un stoc epuizat, resturi neobișnuite sau un eveniment local.",
+        a: "The Profit Brain lucrează cu datele de vânzări și producție. Pune echipei o întrebare scurtă doar când datele nu explică ce s-a întâmplat, cum ar fi un stoc epuizat, resturi neobișnuite sau un eveniment local.",
       },
       {
         q: "Cum începem?",
-        a: "Începem cu datele de încredere și combinațiile magazin-produs pentru care dovezile sunt cele mai solide. Când datele nu sunt suficiente, Eclipsai cere context sau lasă cantitatea neschimbată. Nu trebuie să schimbați toate magazinele deodată.",
+        a: "Începem cu datele de încredere și combinațiile magazin-produs pentru care dovezile sunt cele mai solide. Când datele nu sunt suficiente, The Profit Brain cere context sau lasă cantitatea neschimbată. Nu trebuie să schimbați toate magazinele deodată.",
       },
     ],
   },
@@ -180,8 +187,8 @@ export const ro = {
   },
 
   meta: {
-    title: "Eclipsai | Inteligență operațională pentru produse proaspete",
-    description: "Eclipsai ia și implementează decizii zilnice de producție pentru afacerile cu produse proaspete, apoi le măsoară efectul asupra profitului, risipei și vânzărilor.",
-    ogDescription: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
+    title: "Eclipsai — The Profit Brain pentru produse proaspete",
+    description: "The Profit Brain conectează vânzările, producția și finanțele, pune în practică acțiuni zilnice pentru profit și măsoară rezultatele.",
+    ogDescription: "Conectați vânzările, producția și finanțele pentru acțiuni zilnice care cresc profitul.",
   },
 };
