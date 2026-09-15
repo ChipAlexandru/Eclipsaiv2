@@ -495,15 +495,17 @@ export function FreshFoodHomepage({ content = originalContent }) {
                     <span className="homepage-demo-hero-brand-colon">{c.locale === "fr" ? "\u00a0:" : ":"}</span>
                   </span>
                   {" "}
-                  <small>{c.hero.h1Support}</small>
+                  <span className="homepage-demo-hero-continuation">{c.hero.h1Support}</span>
                 </>
               ) : c.hero.h1}
             </h1>
 
             <div className="homepage-demo-hero-lower">
               <div className="homepage-demo-hero-intro">
-                <p className="homepage-demo-hero-category">{c.hero.eyebrow}</p>
-                <p>{c.hero.copy}</p>
+                <p>
+                  <strong className="homepage-demo-hero-category">{c.hero.eyebrow}</strong>
+                  {" "}{c.hero.copy}
+                </p>
               </div>
 
               <aside className="homepage-demo-results" aria-label={c.live.ariaLabel}>
