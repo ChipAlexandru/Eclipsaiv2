@@ -80,6 +80,37 @@ function formatUpdatedAt(value, locale) {
   }).format(date);
 }
 
+function ProfitBrainGraphic() {
+  return (
+    <figure className="homepage-demo-profit-graphic" aria-label="The Profit Brain correlates data, measures profit, creates actions, reads company systems and implements profit decisions">
+      <div className="homepage-demo-profit-graphic-scene">
+        <svg className="homepage-demo-profit-graphic-arrows is-desktop" viewBox="0 0 1000 600" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <path d="M160 469 Q90 469 90 410 L90 330 M90 235 L90 216 Q90 170 160 170 M840 170 Q910 170 910 216 L910 230 M910 330 L910 410 Q910 469 840 469" />
+          <path d="m148 163 12 7-12 7 M852 462l-12 7 12 7" />
+        </svg>
+        <svg className="homepage-demo-profit-graphic-arrows is-mobile" viewBox="0 0 1000 620" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <path d="M100 463 Q30 463 30 411 L30 326 M30 248 L30 220 Q30 175 85 175 M915 175 Q970 175 970 220 L970 248 M970 326 L970 411 Q970 463 900 463" />
+          <path d="m65 168 20 7-20 7 M920 456l-20 7 20 7" />
+        </svg>
+        <span className="homepage-demo-profit-graphic-title">The Profit Brain</span>
+        <div className="homepage-demo-profit-graphic-platform">
+          <span>Correlate data</span>
+          <span>Measure profit</span>
+          <span>Create actions</span>
+        </div>
+        <span className="homepage-demo-profit-graphic-read">Read Data</span>
+        <span className="homepage-demo-profit-graphic-implement">Implement<br />Profit Decisions</span>
+        <div className="homepage-demo-profit-graphic-company">
+          <span>Company Systems</span>
+          <div className="homepage-demo-profit-graphic-systems">
+            <span>ERP</span><span>POS</span><span>CRM</span><span>Production</span><span>Ops</span>
+          </div>
+        </div>
+      </div>
+    </figure>
+  );
+}
+
 function HomepageLanguageSwitcher({ content }) {
   const active = content.locale;
   const switchLocale = (event, path) => {
@@ -150,7 +181,7 @@ const PERFORMANCE_TRACKER_VALUES = {
   projected: { cash: 19900, economic: 40600, waste: 17200 },
 };
 
-function PerformanceTrackerEvidence({ variant = "evidence" }) {
+function PerformanceTrackerEvidence({ variant = "evidence", content = originalContent }) {
   const trackerRef = useRef(null);
   const introStartedRef = useRef(false);
   const [introProgress, setIntroProgress] = useState(0);
@@ -236,7 +267,9 @@ function PerformanceTrackerEvidence({ variant = "evidence" }) {
     const projected = PERFORMANCE_TRACKER_VALUES.projected[key];
     return Math.round((actual + (projected - actual) * projectionProgress) * introProgress);
   };
-  const formatNumber = (value) => value.toLocaleString("en-US");
+  const t = content.tracker;
+  const formatNumber = (value) => value.toLocaleString(localeTag(content.locale));
+  const formatRate = (value) => `${new Intl.NumberFormat(localeTag(content.locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value)}%`;
   const toggleProjection = () => {
     if (isProjecting) return;
     if (isProjected) {
@@ -253,39 +286,39 @@ function PerformanceTrackerEvidence({ variant = "evidence" }) {
       ref={trackerRef}
       className={`homepage-demo-performance-tracker${variant === "demo" ? " is-demo" : ""}${projectionActive ? " is-projected" : ""}`}
     >
-      <div className="homepage-demo-performance-period">19 August–2 September 2026</div>
+      <div className="homepage-demo-performance-period">{t.period}</div>
 
       <div className="homepage-demo-performance-readings" aria-live="polite">
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{projectionActive ? "Cash impact, projected" : "Cash impact"}</span>
-            <small>Ingredients</small>
+            <span>{t.cashImpact}{projectionActive ? `, ${t.projected}` : ""}</span>
+            <small>{t.ingredients}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
             <span className="homepage-demo-performance-value">CHF {formatNumber(currentValue("cash"))}</span>
-            <span className="homepage-demo-performance-change">0.7% of sales</span>
+            <span className="homepage-demo-performance-change">{formatRate(0.7)} {t.ofSales}</span>
           </span>
         </div>
 
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{projectionActive ? "Economic profit, projected" : "Economic profit"}</span>
-            <small>Ingredients + standard labor + energy</small>
+            <span>{t.economicProfit}{projectionActive ? `, ${t.projected}` : ""}</span>
+            <small>{t.economicBasis}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
             <span className="homepage-demo-performance-value">CHF {formatNumber(currentValue("economic"))}</span>
-            <span className="homepage-demo-performance-change">1.4% of sales</span>
+            <span className="homepage-demo-performance-change">{formatRate(1.4)} {t.ofSales}</span>
           </span>
         </div>
 
         <div className="homepage-demo-performance-reading">
           <span className="homepage-demo-performance-key">
-            <span>{projectionActive ? "Waste avoided, projected" : "Waste avoided"}</span>
-            <small>{projectionActive ? "Full year" : "Measured impact"}</small>
+            <span>{t.wasteAvoided}{projectionActive ? `, ${t.projected}` : ""}</span>
+            <small>{projectionActive ? t.fullYear : t.measuredImpact}</small>
           </span>
           <span className="homepage-demo-performance-reading-value">
-            <span className="homepage-demo-performance-value">{formatNumber(currentValue("waste"))} units</span>
-            <span className="homepage-demo-performance-change">24% → 21% waste rate</span>
+            <span className="homepage-demo-performance-value">{formatNumber(currentValue("waste"))} {t.units}</span>
+            <span className="homepage-demo-performance-change">24% → 21% {t.wasteRate}</span>
           </span>
         </div>
       </div>
@@ -294,7 +327,7 @@ function PerformanceTrackerEvidence({ variant = "evidence" }) {
         <div className="homepage-demo-performance-projection-control">
           <button type="button" onClick={toggleProjection} disabled={isProjecting}>
             {!isProjected && <span className="homepage-demo-performance-triangle" aria-hidden="true" />}
-            <span>{isProjected ? "ACTUALS" : "ANNUALIZED IMPACT"}</span>
+            <span>{isProjected ? t.actuals : t.annualizedImpact}</span>
           </button>
         </div>
         <div className="homepage-demo-performance-track" aria-hidden="true">
@@ -304,7 +337,7 @@ function PerformanceTrackerEvidence({ variant = "evidence" }) {
             style={{ left: `${projectionProgress * 100}%`, opacity: projectionActive ? 1 : 0 }}
           />
         </div>
-        <div className="homepage-demo-performance-axis"><span aria-hidden="true" /><span>FULL YEAR</span></div>
+        <div className="homepage-demo-performance-axis"><span aria-hidden="true" /><span>{t.fullYear.toUpperCase()}</span></div>
       </div>
     </div>
   );
@@ -509,18 +542,10 @@ export function FreshFoodHomepage({ content = originalContent }) {
               </div>
 
               <aside className="homepage-demo-results" aria-label={c.live.ariaLabel}>
-                <div className="homepage-demo-results-head">
-                  <strong>
-                    <span className={`homepage-demo-live-label${liveResults.display_status === "live" ? "" : " is-snapshot"}`}>
-                      {liveResults.display_status === "live" ? c.live.live : c.live.snapshot}
-                    </span>
-                  </strong>
-                </div>
                 <div className="homepage-demo-result homepage-demo-result-profit">
                   <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
                   <span>{c.live.profitImpact}</span>
                 </div>
-                <div className="homepage-demo-results-section">{c.live.production}</div>
                 <div className="homepage-demo-result">
                   <b>{formatPercent(-liveResults.estimated_waste_reduction_share, c.locale)}</b>
                   <span>{c.live.wasteReduction}</span>
@@ -530,7 +555,12 @@ export function FreshFoodHomepage({ content = originalContent }) {
                   <span>{c.live.linesChanged}</span>
                 </div>
                 <div className="homepage-demo-results-footer">
-                  <span>{c.live.period}</span>
+                  <span className="homepage-demo-results-period">
+                    <span>{c.live.period}</span>
+                    <span className={`homepage-demo-live-label${liveResults.display_status === "live" ? "" : " is-snapshot"}`}>
+                      {liveResults.display_status === "live" ? c.live.live : c.live.snapshot}
+                    </span>
+                  </span>
                   <span>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</span>
                 </div>
               </aside>
@@ -542,7 +572,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
         <section className="homepage-demo-approach" id="approach">
           <div className="homepage-demo-wrap">
             <div className="homepage-demo-approach-head">
-              <p className="homepage-demo-eyebrow">{c.product.eyebrow}</p>
               <h2>
                 {hasCopyRefresh ? (
                   <>
@@ -555,10 +584,8 @@ export function FreshFoodHomepage({ content = originalContent }) {
             </div>
 
             <div className="homepage-demo-approach-stage">
-              <div className="homepage-demo-approach-media" aria-label={c.product.mediaLabel}>
-                <video autoPlay muted loop playsInline preload="metadata">
-                  <source src={`${ASSETS}/product-conversation-v2.mp4`} type="video/mp4" />
-                </video>
+              <div className="homepage-demo-approach-media">
+                <ProfitBrainGraphic />
               </div>
 
               <div className="homepage-demo-approach-copy">
@@ -588,17 +615,15 @@ export function FreshFoodHomepage({ content = originalContent }) {
 
         <section className="homepage-demo-evidence" id="proof">
           <div className="homepage-demo-wrap">
-            <p className="homepage-demo-eyebrow">{c.proof.metadata}</p>
             <h2>{c.proof.h2Before}<span className="homepage-demo-nowrap">{c.proof.h2Value}</span>{c.proof.h2After}</h2>
             <p className="homepage-demo-evidence-subtitle">{c.proof.lede}</p>
 
-            <PerformanceTrackerEvidence />
+            <PerformanceTrackerEvidence content={c} />
           </div>
         </section>
 
         <section className="section vision" id="vision">
           <div className="wrap">
-            <p className="eyebrow reveal">{c.vision.eyebrow}</p>
             <h2 className="reveal">{c.vision.h2}</h2>
             <p className="vision-intro reveal">{c.vision.intro}</p>
             <div className="vision-path" aria-label={c.vision.pathLabel}>
@@ -616,7 +641,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
         <section className="section faq">
           <div className="wrap faq-grid">
             <div>
-              <p className="eyebrow reveal">{c.faq.eyebrow}</p>
               <h2 className="reveal">{c.faq.h2}</h2>
             </div>
             <div className="reveal">

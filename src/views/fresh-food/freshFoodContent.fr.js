@@ -21,10 +21,10 @@ export const fr = {
 
   hero: {
     eyebrow: "Produits frais :",
-    h1: "The Profit Brain : une IA qui relie ventes, produits et finances pour agir chaque jour sur le profit.",
+    h1: "The Profit Brain : l’IA relie ventes, production et finances pour décider chaque jour quoi changer et mesurer l’effet sur le profit.",
     h1Primary: "The Profit Brain",
-    h1Support: "Une IA qui relie ventes, produits et finances pour agir chaque jour sur le profit.",
-    copy: "Mettre à jour chaque jour les commandes de production, boutique par boutique et produit par produit, pour vendre davantage et réduire les pertes.",
+    h1Support: "L’IA relie ventes, production et finances pour décider chaque jour quoi changer et mesurer l’effet sur le profit.",
+    copy: "Décidez des quantités à produire pour chaque boutique, produit et jour de la semaine. Mesurez chaque jour l’effet sur le profit, les ventes et les pertes.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
@@ -44,6 +44,23 @@ export const fr = {
     profitImpact: "impact sur le profit en part du chiffre d'affaires",
     wasteReduction: "réduction estimée des pertes en pourcentage des pertes initiales",
     updated: "Actualisé le",
+  },
+
+  tracker: {
+    period: "19 août–2 septembre 2026",
+    cashImpact: "Impact financier",
+    economicProfit: "Résultat économique",
+    wasteAvoided: "Pertes évitées",
+    projected: "annualisé",
+    ingredients: "Ingrédients",
+    economicBasis: "Ingrédients + main-d’œuvre standard + énergie",
+    measuredImpact: "Effet mesuré",
+    fullYear: "Année complète",
+    units: "pièces",
+    ofSales: "du chiffre d’affaires",
+    wasteRate: "taux de pertes",
+    actuals: "VALEURS OBSERVÉES",
+    annualizedImpact: "IMPACT ANNUALISÉ",
   },
 
   problem: {

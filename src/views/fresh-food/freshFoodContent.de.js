@@ -21,10 +21,10 @@ export const de = {
 
   hero: {
     eyebrow: "Frischeprodukte:",
-    h1: "The Profit Brain: KI verbindet Verkauf, Artikel und Finanzdaten, um täglich gewinnbringende Änderungen umzusetzen.",
+    h1: "The Profit Brain: KI verbindet Verkaufs-, Produktions- und Finanzdaten für tägliche Entscheidungen mit messbarer Gewinnwirkung.",
     h1Primary: "The Profit Brain",
-    h1Support: "KI verbindet Verkauf, Artikel und Finanzdaten, um täglich gewinnbringende Änderungen umzusetzen.",
-    copy: "Tägliche Produktionsaufträge je Filiale und Artikel umsetzen, um mehr zu verkaufen und weniger Ware wegzuwerfen.",
+    h1Support: "KI verbindet Verkaufs-, Produktions- und Finanzdaten für tägliche Entscheidungen mit messbarer Gewinnwirkung.",
+    copy: "Entscheiden Sie für jede Filiale, jeden Artikel und jeden Wochentag, wie viel produziert wird. Messen Sie täglich die Wirkung auf Gewinn, Umsatz und Abfall.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
       "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",
@@ -44,6 +44,23 @@ export const de = {
     profitImpact: "Gewinnwirkung im Verhältnis zum Umsatz",
     wasteReduction: "geschätzte Abfallreduktion in Prozent des ursprünglichen Abfalls",
     updated: "Aktualisiert",
+  },
+
+  tracker: {
+    period: "19. August–2. September 2026",
+    cashImpact: "Cash-Wirkung",
+    economicProfit: "Wirtschaftlicher Gewinn",
+    wasteAvoided: "Vermiedener Abfall",
+    projected: "hochgerechnet",
+    ingredients: "Zutaten",
+    economicBasis: "Zutaten + Standardlohn + Energie",
+    measuredImpact: "Gemessene Wirkung",
+    fullYear: "Ganzes Jahr",
+    units: "Stück",
+    ofSales: "des Umsatzes",
+    wasteRate: "Abfallquote",
+    actuals: "GEMESSEN",
+    annualizedImpact: "HOCHGERECHNETE JAHRESWIRKUNG",
   },
 
   problem: {

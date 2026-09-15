@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Eclipsai Circular";
-  src: url("/fonts/EclipsaiCircular-Revision3.woff2") format("woff2");
+  src: url("/fonts/EclipsaiCircular-Revision4.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -92,7 +92,7 @@
   position: relative;
   min-height: 100svh;
   display: grid;
-  align-items: end;
+  align-items: start;
   overflow: hidden;
   background: var(--night) url("/assets/fresh-food/hero-closing-hour-v2.jpg") 58% center / cover;
   color: var(--paper);
@@ -121,7 +121,7 @@
   z-index: 2;
   width: min(var(--max), calc(100% - 56px));
   margin: 0 auto;
-  padding: 138px 0 clamp(140px, 18vh, 170px);
+  padding: 112px 0 clamp(148px, 16vh, 178px);
 }
 
 .homepage-demo-eyebrow {
@@ -134,16 +134,18 @@
 
 .homepage-demo-hero .homepage-demo-eyebrow { color: var(--solar); }
 .homepage-demo-hero h1 {
-  width: min(100%, 860px);
-  margin-bottom: clamp(80px, 9vh, 100px);
-  font: 600 clamp(30px, 3.2vw, 42px)/1.2 var(--sans);
+  width: 100%;
+  max-width: none;
+  margin-bottom: 170px;
+  font: 600 clamp(34px, 3.6vw, 47px)/1.2 var(--sans);
   letter-spacing: -.025em;
   text-wrap: wrap;
 }
-.homepage-demo-hero-brand { display: inline; color: var(--solar); }
+.homepage-demo-hero-brand { display: inline; color: #fff; }
 .homepage-demo-hero-brand-font {
+  color: #fff;
   font-family: "Eclipsai Circular", var(--sans);
-  font-size: .68em;
+  font-size: .65em;
   font-weight: 400;
   font-style: normal;
   font-synthesis: none;
@@ -158,14 +160,14 @@
 }
 .homepage-demo-hero-continuation {
   margin-left: .16em;
-  color: var(--solar);
+  color: #fff;
   font-family: var(--sans);
   font-weight: 600;
 }
 
 .homepage-demo-hero-lower {
   display: grid;
-  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
   gap: clamp(36px, 4.5vw, 72px);
   align-items: flex-start;
 }
@@ -173,16 +175,16 @@
 .homepage-demo-hero-intro > p {
   margin-bottom: 0;
   color: rgba(255,250,242,.83);
-  font-size: clamp(22px, 2.35vw, 30px);
+  font-size: clamp(24px, 2.6vw, 33px);
   font-weight: 600;
   line-height: 1.3;
 }
 .homepage-demo-copy-refresh .homepage-demo-hero-intro > p {
-  max-width: 520px;
+  max-width: 100%;
   line-height: 1.3;
 }
 .homepage-demo-hero-category {
-  color: var(--paper);
+  color: #fff;
   font-size: inherit;
   font-weight: 700;
 }
@@ -204,9 +206,9 @@
 
 .homepage-demo-results {
   min-width: 0;
-  padding: 22px 26px 20px;
+  padding: 18px 22px 16px;
   display: grid;
-  gap: 14px;
+  gap: 10px;
   border-radius: 3px;
   border: 1px solid rgba(255,255,255,.18);
   background: rgba(25,23,31,.24);
@@ -215,19 +217,9 @@
   backdrop-filter: blur(10px);
 }
 
-.homepage-demo-results-head {
-  margin-bottom: 3px;
-  text-align: right;
-}
-.homepage-demo-results-head strong {
+.homepage-demo-live-label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-.homepage-demo-live-label {
   padding: 2px 5px;
   border-radius: 1px;
   background: #c83c35;
@@ -236,6 +228,7 @@
   font-weight: 700;
   letter-spacing: .08em;
   line-height: 1.2;
+  white-space: nowrap;
 }
 .homepage-demo-live-label.is-snapshot {
   border: 1px solid rgba(255,255,255,.28);
@@ -245,14 +238,15 @@
 }
 .homepage-demo-result {
   display: grid;
-  grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: 84px minmax(0, 1fr);
+  column-gap: 14px;
   align-items: center;
 }
 .homepage-demo-result b {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
   letter-spacing: -.015em;
   white-space: nowrap;
 }
@@ -264,30 +258,29 @@
 }
 .homepage-demo-result-profit b {
   color: var(--solar);
-  font-size: 28px;
 }
 .homepage-demo-result-profit span { color: var(--solar); font-weight: 700; }
-.homepage-demo-results-section {
-  margin-top: 2px;
-  color: var(--paper);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.25;
-}
 .homepage-demo-results-footer {
-  margin-top: 2px;
-  padding-top: 8px;
+  margin-top: 4px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255,255,255,.16);
   color: rgba(255,250,242,.52);
   font-size: 11px;
   font-weight: 500;
   line-height: 1.3;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 6px 12px;
 }
-.homepage-demo-results-footer > span:last-child { text-align: right; }
+.homepage-demo-results-period {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.homepage-demo-results-footer > span:last-child { margin-left: auto; text-align: right; }
 
 .homepage-demo-wrap { width: min(var(--max), calc(100% - 56px)); margin: 0 auto; }
 
@@ -323,6 +316,104 @@
   width: min(100%, 680px);
   margin: 0;
 }
+.homepage-demo-profit-graphic {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(239,238,231,.18);
+  border-radius: 22px;
+  background: #19171f url("/assets/fresh-food/hero-closing-hour-v2.jpg") 58% center / cover;
+  box-shadow: 0 28px 70px rgba(0,0,0,.38);
+}
+.homepage-demo-profit-graphic-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 600;
+  container-type: inline-size;
+  color: var(--solar);
+  isolation: isolate;
+}
+.homepage-demo-profit-graphic-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(25,23,31,.82), rgba(25,23,31,.7) 66%, rgba(25,23,31,.69));
+}
+.homepage-demo-profit-graphic-arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.homepage-demo-profit-graphic-arrows path { vector-effect: non-scaling-stroke; }
+.homepage-demo-profit-graphic-arrows.is-mobile { display: none; }
+.homepage-demo-profit-graphic-title {
+  position: absolute;
+  top: 5%;
+  left: 15%;
+  width: 70%;
+  text-align: center;
+  font: 400 5.6cqw/1.12 "Eclipsai Circular", var(--sans);
+  font-synthesis: none;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+.homepage-demo-profit-graphic-platform,
+.homepage-demo-profit-graphic-systems { display: grid; gap: 1.2cqw; }
+.homepage-demo-profit-graphic-platform {
+  position: absolute;
+  top: 23%;
+  left: 16%;
+  width: 68%;
+  height: 16%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.homepage-demo-profit-graphic-platform span,
+.homepage-demo-profit-graphic-systems span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 4px;
+  border: 1.5px solid currentColor;
+  text-align: center;
+  font: 600 2.35cqw/1.18 var(--sans);
+}
+.homepage-demo-profit-graphic-read,
+.homepage-demo-profit-graphic-implement {
+  position: absolute;
+  top: 46%;
+  width: 18%;
+  text-align: center;
+  font: 600 2cqw/1.25 var(--sans);
+}
+.homepage-demo-profit-graphic-read { left: 1%; }
+.homepage-demo-profit-graphic-implement { right: 1%; }
+.homepage-demo-profit-graphic-company {
+  position: absolute;
+  top: 57%;
+  left: 16%;
+  width: 68%;
+  height: 27%;
+  color: #fff;
+  text-align: center;
+}
+.homepage-demo-profit-graphic-company > span {
+  display: block;
+  margin-bottom: 2cqw;
+  font: 600 3.1cqw/1.15 var(--sans);
+}
+.homepage-demo-profit-graphic-systems {
+  height: 16%;
+  min-height: 40px;
+  grid-template-columns: 1fr 1fr 1fr 1.6fr 1fr;
+}
+.homepage-demo-profit-graphic-systems span { border-color: #fff; font-size: 2.25cqw; }
 .homepage-demo-approach-media video {
   display: block;
   width: 100%;
@@ -857,6 +948,7 @@
   .homepage-demo-hero-intro,
   .homepage-demo-results { width: 100%; min-width: 0; max-width: 100%; }
   .homepage-demo-results { max-width: 620px; }
+  .homepage-demo-hero h1 { margin-bottom: 96px; }
   .homepage-demo-hero-inner { padding-top: 124px; padding-bottom: 76px; }
   .homepage-demo-approach-stage { grid-template-columns: 1fr; gap: 44px; }
   .homepage-demo-approach-media { max-width: 720px; }
@@ -872,17 +964,38 @@
   .homepage-demo-nav-cta { padding: 9px 10px; font-size: 11px !important; white-space: nowrap; }
   .homepage-demo-hero { min-height: auto; }
   .homepage-demo-hero-inner { padding: 106px 0 56px; }
-  .homepage-demo-hero h1 { margin-bottom: 48px; font-size: clamp(28px, 8vw, 34px); }
+  .homepage-demo-hero h1 { margin-bottom: 72px; font-size: clamp(31px, 8.8vw, 38px); }
   .homepage-demo-copy-refresh .homepage-demo-deliberate-break { display: none; }
-  .homepage-demo-hero-intro > p { font-size: 23px; }
+  .homepage-demo-hero-intro > p { font-size: 25px; }
   .homepage-demo-hero-lower { gap: 34px; }
-  .homepage-demo-results { padding: 18px 18px 16px; }
-  .homepage-demo-result { grid-template-columns: minmax(70px, auto) minmax(0, 1fr); gap: 12px; }
-  .homepage-demo-result-profit b { font-size: 25px; }
+  .homepage-demo-results { padding: 16px 18px 14px; }
+  .homepage-demo-result { column-gap: 10px; }
   .homepage-demo-approach { min-height: 0; padding: 64px 0 76px; }
   .homepage-demo-approach-head { margin-bottom: 38px; }
   .homepage-demo-approach-head h2 { font-size: 38px; }
   .homepage-demo-approach-stage { gap: 44px; }
+  .homepage-demo-profit-graphic { border-radius: 15px; }
+  .homepage-demo-profit-graphic-scene { aspect-ratio: auto; height: 550px; }
+  .homepage-demo-profit-graphic-arrows.is-desktop { display: none; }
+  .homepage-demo-profit-graphic-arrows.is-mobile { display: block; }
+  .homepage-demo-profit-graphic-title { top: 8%; left: 5%; width: 90%; font-size: 28px; }
+  .homepage-demo-profit-graphic-platform {
+    top: 23%; left: 9%; width: 82%; height: 62px; gap: 6px;
+  }
+  .homepage-demo-profit-graphic-platform span { padding: 3px; font-size: 12px; }
+  .homepage-demo-profit-graphic-read,
+  .homepage-demo-profit-graphic-implement { top: 46%; width: 30%; font-size: 12px; }
+  .homepage-demo-profit-graphic-read { left: 1%; }
+  .homepage-demo-profit-graphic-implement { right: 1%; }
+  .homepage-demo-profit-graphic-company { top: 60%; left: 9%; width: 82%; height: 31%; }
+  .homepage-demo-profit-graphic-company > span { margin-bottom: 15px; font-size: 19px; }
+  .homepage-demo-profit-graphic-systems {
+    height: auto; min-height: 0; grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: 52px; gap: 8px;
+  }
+  .homepage-demo-profit-graphic-systems span { grid-column: span 2; font-size: 13px; }
+  .homepage-demo-profit-graphic-systems span:nth-child(4),
+  .homepage-demo-profit-graphic-systems span:nth-child(5) { grid-column: span 3; }
   .homepage-demo-approach-media video { border-radius: 15px; }
   .homepage-demo-approach-list h3 { font-size: 16px; }
   .homepage-demo-approach-list p { font-size: 13px; }

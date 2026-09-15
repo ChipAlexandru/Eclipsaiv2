@@ -13,15 +13,15 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 
 - The visual demo stays in English on every localized page. Only the website
   control that opens and closes it is localized.
+- The on-page evidence tracker is localized, including its period, units,
+  percentage formatting, and annualized-impact control. The Profit Brain
+  diagram remains an English visual, like the separate demo.
 - The hero keeps "The Profit Brain" as the brand phrase in every locale. Its
   continuation is written as operator-facing copy, not a word-for-word slogan.
 - "Profit impact" in the live box means implemented profit from verified
   production changes. It is not the theoretical economic-profit opportunity.
 - "Production order lines changed" counts individual order lines whose
   quantity changed, not products, recommendations, or shops.
-- "Production" in the hero results box is a section label for the two
-  production measures, not a fourth figure. The source exposes only three
-  verified figures, so the site does not invent a production total.
 - "Estimated waste reduction" is measured against initial waste, not against
   production or sales.
 - Sellout and missed sale remain distinct. A sellout can be correct; a missed

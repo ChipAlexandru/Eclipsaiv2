@@ -29,6 +29,8 @@ test("homepage renders the live endpoint and retains the verified snapshot as fa
 
   assert.match(component, /fetch\("\/api\/homepage-live-results"/);
   assert.match(component, /liveResults\.production_lines_changed/);
+  assert.doesNotMatch(component, /homepage-demo-results-section/);
+  assert.match(component, /homepage-demo-results-footer[\s\S]*homepage-demo-live-label/);
   assert.doesNotMatch(component, /<b>553<\/b>/);
   assert.match(route, /JULIETTE_PORTAL_ORIGIN/);
   assert.match(route, /\/public\/homepage-live-results\.json/);
@@ -51,13 +53,13 @@ test("all localized homepages carry the live-result and demo controls", () => {
   }
 });
 
-test("localized hero copy describes putting daily production orders into operation", () => {
+test("locale hero copy stays operator-facing", () => {
   const phrases = {
-    en: "Implement daily production orders by location and product to sell more and waste less.",
-    de: "Tägliche Produktionsaufträge je Filiale und Artikel umsetzen",
-    fr: "Mettre à jour chaque jour les commandes de production",
-    it: "Aggiornare ogni giorno gli ordini di produzione",
-    ro: "Actualizați zilnic comenzile de producție",
+    en: "Make production decisions for every shop, product, and weekday. Measure the daily effect on profit, sales, and waste.",
+    de: "Entscheiden Sie für jede Filiale, jeden Artikel und jeden Wochentag, wie viel produziert wird.",
+    fr: "Décidez des quantités à produire pour chaque boutique, produit et jour de la semaine.",
+    it: "Stabilite quanto produrre per ogni punto vendita, prodotto e giorno della settimana.",
+    ro: "Stabiliți cât produceți pentru fiecare magazin, produs și zi a săptămânii.",
   };
   for (const [locale, phrase] of Object.entries(phrases)) {
     const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);

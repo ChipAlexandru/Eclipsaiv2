@@ -21,10 +21,10 @@ export const ro = {
 
   hero: {
     eyebrow: "Produse proaspete:",
-    h1: "The Profit Brain: AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
+    h1: "The Profit Brain: AI conectează vânzările, producția și datele financiare pentru decizii zilnice cu efect măsurabil asupra profitului.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
-    copy: "Actualizați zilnic comenzile de producție pentru fiecare locație și produs, ca să vindeți mai mult și să reduceți risipa.",
+    h1Support: "AI conectează vânzările, producția și datele financiare pentru decizii zilnice cu efect măsurabil asupra profitului.",
+    copy: "Stabiliți cât produceți pentru fiecare magazin, produs și zi a săptămânii. Măsurați zilnic efectul asupra profitului, vânzărilor și risipei.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",
@@ -44,6 +44,23 @@ export const ro = {
     profitImpact: "impact asupra profitului ca procent din vânzări",
     wasteReduction: "reducere estimată a risipei ca procent din risipa inițială",
     updated: "Actualizat la",
+  },
+
+  tracker: {
+    period: "19 august–2 septembrie 2026",
+    cashImpact: "Impact financiar",
+    economicProfit: "Profit economic",
+    wasteAvoided: "Risipă evitată",
+    projected: "anualizat",
+    ingredients: "Ingrediente",
+    economicBasis: "Ingrediente + manoperă standard + energie",
+    measuredImpact: "Impact măsurat",
+    fullYear: "An întreg",
+    units: "bucăți",
+    ofSales: "din vânzări",
+    wasteRate: "rata risipei",
+    actuals: "VALORI MĂSURATE",
+    annualizedImpact: "IMPACT ANUALIZAT",
   },
 
   problem: {

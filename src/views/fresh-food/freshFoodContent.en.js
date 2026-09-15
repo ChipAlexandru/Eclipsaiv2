@@ -25,10 +25,10 @@ export const en = {
 
   hero: {
     eyebrow: "Fresh Food:",
-    h1: "The Profit Brain: AI to connect sales, product, and financials for daily profit actions.",
+    h1: "The Profit Brain: AI to connect sales, production and financials for daily profit actions.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI to connect sales, product, and financials for daily profit actions.",
-    copy: "Implement daily production orders by location and product to sell more and waste less.",
+    h1Support: "AI to connect sales, production and financials for daily profit actions.",
+    copy: "Make production decisions for every shop, product, and weekday. Measure the daily effect on profit, sales, and waste.",
     examples: [
       "Adjusts tomorrow's production orders.",
       "Monitors special orders through delivery and invoicing.",
@@ -48,6 +48,23 @@ export const en = {
     profitImpact: "profit impact as share of sales",
     wasteReduction: "estimated waste reduction as a percentage of initial waste",
     updated: "Updated",
+  },
+
+  tracker: {
+    period: "19 August–2 September 2026",
+    cashImpact: "Cash impact",
+    economicProfit: "Economic profit",
+    wasteAvoided: "Waste avoided",
+    projected: "projected",
+    ingredients: "Ingredients",
+    economicBasis: "Ingredients + standard labor + energy",
+    measuredImpact: "Measured impact",
+    fullYear: "Full year",
+    units: "units",
+    ofSales: "of sales",
+    wasteRate: "waste rate",
+    actuals: "ACTUALS",
+    annualizedImpact: "ANNUALIZED IMPACT",
   },
 
   problem: {

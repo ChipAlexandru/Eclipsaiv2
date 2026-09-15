@@ -21,10 +21,10 @@ export const it = {
 
   hero: {
     eyebrow: "Prodotti freschi:",
-    h1: "The Profit Brain: l'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
+    h1: "The Profit Brain: l'IA collega vendite, produzione e finanze per decidere ogni giorno cosa cambiare e misurare l'effetto sul profitto.",
     h1Primary: "The Profit Brain",
-    h1Support: "L'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
-    copy: "Aggiornare ogni giorno gli ordini di produzione per punto vendita e prodotto, per vendere di più e ridurre gli sprechi.",
+    h1Support: "L'IA collega vendite, produzione e finanze per decidere ogni giorno cosa cambiare e misurare l'effetto sul profitto.",
+    copy: "Stabilite quanto produrre per ogni punto vendita, prodotto e giorno della settimana. Misurate ogni giorno l'effetto su profitto, vendite e sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
       "Segue gli ordini speciali fino a consegna e fatturazione.",
@@ -44,6 +44,23 @@ export const it = {
     profitImpact: "impatto sul profitto in percentuale delle vendite",
     wasteReduction: "riduzione stimata degli sprechi in percentuale rispetto agli sprechi iniziali",
     updated: "Aggiornato il",
+  },
+
+  tracker: {
+    period: "19 agosto–2 settembre 2026",
+    cashImpact: "Impatto in CHF",
+    economicProfit: "Profitto economico",
+    wasteAvoided: "Sprechi evitati",
+    projected: "annualizzato",
+    ingredients: "Ingredienti",
+    economicBasis: "Ingredienti + manodopera standard + energia",
+    measuredImpact: "Effetto misurato",
+    fullYear: "Anno intero",
+    units: "unità",
+    ofSales: "delle vendite",
+    wasteRate: "tasso di spreco",
+    actuals: "VALORI MISURATI",
+    annualizedImpact: "IMPATTO ANNUALIZZATO",
   },
 
   problem: {
