@@ -54,7 +54,7 @@ export function SiteHeader({ active = null, onAboutOpen, style }) {
         ...style,
       }}
     >
-      <Link href="/" onClick={onHomeClick} aria-label="Eclipsai — home" style={{ textDecoration: "none", display: "block", flexShrink: 0 }}>
+      <Link href="/" onClick={onHomeClick} aria-label="Eclipsai — home" style={{ textDecoration: "none", display: "inline-flex", flexShrink: 0, background: "#19171F", borderRadius: 4, padding: "5px 8px" }}>
         <img
           src="/assets/eclipsai-wordmark-ink.svg"
           alt=""

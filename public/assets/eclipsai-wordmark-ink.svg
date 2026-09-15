@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="250 525 730 190" role="img" aria-labelledby="title description">
   <title id="title">Eclipsai wordmark</title>
   <desc id="description">Geometric lowercase Eclipsai wordmark with an eclipse dot in the opening E.</desc>
-  <g fill="none" stroke="#19171F" stroke-width="13" stroke-linecap="butt" stroke-linejoin="round">
+  <g fill="none" stroke="#E9B84A" stroke-width="13" stroke-linecap="butt" stroke-linejoin="round">
     <path d="M369 550 A58 58 0 1 0 369 656"/>
     <path d="M470.6 550 A58 58 0 1 0 470.6 656"/>
     <path d="M491.6 540 V666"/>
@@ -13,5 +13,5 @@
     <path d="M938.6 603 V666"/>
     <path d="M963.6 566 V666"/>
   </g>
-  <circle cx="323" cy="603" r="14" fill="#19171F"/>
+  <circle cx="323" cy="603" r="14" fill="#E9B84A"/>
 </svg>
