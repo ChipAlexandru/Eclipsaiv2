@@ -55,10 +55,11 @@ export function SiteHeader({ active = null, onAboutOpen, style }) {
       }}
     >
       <Link href="/" onClick={onHomeClick} aria-label="Eclipsai — home" style={{ textDecoration: "none", display: "block", flexShrink: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 800, color: C.wine, letterSpacing: 3.5, textTransform: "uppercase" }}>
-          Eclipsai
-        </div>
-        <div style={{ width: 44, height: 2, background: C.accent, marginTop: 8 }} />
+        <img
+          src="/assets/eclipsai-wordmark-ink.svg"
+          alt=""
+          style={{ width: "clamp(105px, 12vw, 130px)", height: "auto", display: "block" }}
+        />
       </Link>
       <nav style={{ display: "flex", gap: "clamp(13px, 2vw, 22px)", alignItems: "flex-start", flexWrap: "wrap", justifyContent: "flex-end" }}>
         <Link href="/" onClick={onHomeClick} style={navItem(active === "home")}>Home</Link>

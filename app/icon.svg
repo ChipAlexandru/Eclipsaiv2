@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="eclipsai mark"><path transform="translate(69.65 188.04) scale(1.32 -1.32)" d="M 0 0 A 146.3 146.3 0 1 0 172.5 -195.5 A 146.3 146.3 0 0 1 0 0 Z" fill="#e9b84a"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="248 528 150 150" role="img" aria-label="Eclipsai E icon">
+  <rect x="248" y="528" width="150" height="150" rx="25" fill="#19171F"/>
+  <path d="M369 550 A58 58 0 1 0 369 656" fill="none" stroke="#E9B84A" stroke-width="13" stroke-linecap="butt"/>
+  <circle cx="323" cy="603" r="14" fill="#E9B84A"/>
+</svg>

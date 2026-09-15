@@ -479,7 +479,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
       <nav className="homepage-demo-nav" aria-label={c.nav.ariaLabel}>
         <div className="homepage-demo-nav-inner">
           <a className="homepage-demo-logo" href="#top" aria-label={c.nav.homeAriaLabel}>
-            <img src={`${ASSETS}/eclipsai-wordmark-mineral-solar.svg`} alt="" />
+            <img src="/assets/eclipsai-wordmark-light.svg" alt="" />
           </a>
           <div className="homepage-demo-nav-links">
             <a href="#approach">{c.nav.product}</a>
@@ -735,7 +735,7 @@ export function FreshFoodHomepage({ content = originalContent }) {
         <div className="footer-inner">
           <div>
             <a className="logo" href="#top" aria-label={c.nav.homeAriaLabel}>
-              <img src={`${ASSETS}/eclipsai-wordmark-mineral-solar.svg`} alt="" />
+              <img src="/assets/eclipsai-wordmark-light.svg" alt="" />
             </a>
             <p>{c.footer.tagline}</p>
           </div>
