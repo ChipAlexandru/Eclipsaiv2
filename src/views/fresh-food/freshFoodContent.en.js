@@ -99,7 +99,7 @@ export const en = {
 
   proof: {
     metadata: "Our impact",
-    h2Before: "On track to deliver approximately ",
+    h2Before: "On track to deliver ",
     h2Value: "1%",
     h2After: " profit margin opportunity with one food operator",
     lede: "",

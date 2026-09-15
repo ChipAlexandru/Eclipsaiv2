@@ -12,7 +12,7 @@ export const fr = {
     ariaLabel: "Navigation principale",
     homeAriaLabel: "Accueil Eclipsai",
     product: "Comment ça marche",
-    proof: "Preuves",
+    proof: "Impact",
     vision: "Au-delà de la production",
     cta: "Réserver un appel",
     chooseLanguage: "Choisir la langue",
@@ -21,10 +21,10 @@ export const fr = {
 
   hero: {
     eyebrow: "Produits frais :",
-    h1: "The Profit Brain : une IA qui relie ventes, produits et finances pour agir chaque jour sur le profit.",
+    h1: "The Profit Brain relie ventes, production et finances pour des actions quotidiennes qui influencent le profit.",
     h1Primary: "The Profit Brain",
-    h1Support: "Relie ventes, production et finances pour agir chaque jour sur le profit.",
-    copy: "Mettre à jour chaque jour les commandes de production, boutique par boutique et produit par produit, pour vendre davantage et réduire les pertes.",
+    h1Support: "Relie ventes, production et finances pour des actions quotidiennes qui influencent le profit.",
+    copy: "Décider des quantités à produire pour chaque boutique, chaque produit et chaque jour de la semaine. Mesurer chaque jour l'effet sur le profit, les ventes et les pertes.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",
@@ -60,9 +60,9 @@ export const fr = {
 
   product: {
     eyebrow: "L'intelligence opérationnelle au travail",
-    h2: "The Profit Brain améliore le profit chaque jour.",
+    h2: "The Profit Brain crée des cycles d'amélioration quotidiens.",
     h2Primary: "The Profit Brain",
-    h2Secondary: "améliore le profit chaque jour.",
+    h2Secondary: "crée des cycles d'amélioration quotidiens.",
     lede: "Eclipsai relie les systèmes de vente, de production, de commande et de facturation aux e-mails, aux messageries d'équipe et aux données externes pertinentes. Lorsque les données n'expliquent pas ce qui s'est passé, elle pose une question précise à l'équipe concernée. Les équipes peuvent répondre par texte, photo ou message vocal.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
@@ -73,14 +73,14 @@ export const fr = {
       production: "Production", ops: "Gestion",
     },
     items: [
-      { strong: "Lire et analyser les données de tous les systèmes", text: "Chaque boutique, chaque produit et chaque jour de la semaine possède son propre profil de demande. Eclipsai tient compte des journées comparables, du rythme des ventes, des ruptures probables, des pertes estimées, de l'économie du produit et des contraintes opérationnelles." },
-      { strong: "Comparer les quantités de production", text: "Pour chaque ligne de production, Eclipsai compare la quantité actuelle aux alternatives réalisables. Elle met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
-      { strong: "Mettre à jour la commande et vérifier le résultat", text: "Les décisions approuvées sont inscrites dans le logiciel de production et confirmées. Après la fermeture de chaque boutique, Eclipsai mesure l'effet sur les ventes, les pertes estimées, les ruptures précoces et le profit. Ce résultat devient une preuve pour la décision suivante." },
+      { strong: "Lire et analyser les données de tous les systèmes", text: "Chaque boutique, chaque produit et chaque jour de la semaine a son propre profil de demande. The Profit Brain tient compte des journées comparables, du rythme des ventes, des ruptures probables, des pertes estimées, de l'économie du produit et des contraintes opérationnelles." },
+      { strong: "Identifier les décisions qui comptent pour le profit", text: "Pour chaque ligne de production, The Profit Brain compare la quantité actuelle aux alternatives réalisables. Il met en balance le coût des invendus et la marge menacée si la production est insuffisante." },
+      { strong: "Mettre en œuvre, mesurer et suivre le résultat", text: "Les décisions approuvées sont inscrites dans le logiciel de production et confirmées. Chaque jour, The Profit Brain mesure l'effet sur les ventes, les pertes estimées, les ruptures précoces et la trésorerie. Les résultats orientent les décisions suivantes." },
     ],
   },
 
   demo: {
-    open: "Voir la démo",
+    open: "Démo",
     close: "Fermer",
     chooseView: "Choisir la vue de la démo",
     viewOf: "sur",
@@ -95,9 +95,9 @@ export const fr = {
 
   proof: {
     metadata: "Notre impact",
-    h2Before: "En voie de dégager environ ",
-    h2Value: "1 %",
-    h2After: " de marge bénéficiaire supplémentaire chez un exploitant alimentaire",
+    h2Before: "En voie de dégager un potentiel de marge bénéficiaire de ",
+    h2Value: "1%",
+    h2After: " chez un exploitant alimentaire",
     lede: "",
     tracker: {
       period: "19 août–2 septembre 2026",
@@ -130,7 +130,7 @@ export const fr = {
   vision: {
     eyebrow: "Au-delà de la production",
     h2: "Les prochaines décisions de profit",
-    intro: "Une fois The Profit Brain relié aux systèmes et aux canaux de communication de l'entreprise, il peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
+    intro: "Une fois connecté aux systèmes et aux canaux de communication de l'entreprise, The Profit Brain peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
     pathLabel: "Parcours d'extension de The Profit Brain",
     steps: [
       { index: "Départ", h3: "Production et pertes", p: "Protéger les ventes tout en réduisant les pertes répétées et évitables. Corriger les plans de production qui ne correspondent plus à la demande." },
@@ -141,7 +141,7 @@ export const fr = {
   },
 
   offer: {
-    h2: "The Profit Brain met en œuvre les actions quotidiennes pour améliorer le profit.",
+    h2: "The Profit Brain pour les actions quotidiennes qui influencent le profit.",
     copy: "Elle relie les ventes, la production et ce que votre équipe observe pour trouver les quelques décisions qui méritent d'être prises et en démontrer le résultat économique.",
     cardH3: "Commencer gratuitement",
     items: [
@@ -156,7 +156,7 @@ export const fr = {
 
   faq: {
     eyebrow: "Questions fréquentes",
-    h2: "Ce que les patrons veulent savoir avant de commencer.",
+    h2: "Ce qu'il faut savoir avant de commencer.",
     items: [
       {
         q: "Produire moins va-t-il mettre nos ventes en danger ?",
@@ -164,7 +164,7 @@ export const fr = {
       },
       {
         q: "En quoi The Profit Brain diffère-t-il des quantités déjà recommandées par notre système ?",
-        a: "The Profit Brain teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et leur effet financier est mesuré.",
+        a: "The Profit Brain teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et mesurés en trésorerie.",
       },
       {
         q: "Devons-nous remplacer nos systèmes actuels ?",

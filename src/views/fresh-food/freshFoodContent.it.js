@@ -12,7 +12,7 @@ export const it = {
     ariaLabel: "Navigazione principale",
     homeAriaLabel: "Home Eclipsai",
     product: "Come funziona",
-    proof: "Le prove",
+    proof: "Impatto",
     vision: "Oltre la produzione",
     cta: "Prenota una chiamata",
     chooseLanguage: "Scegli la lingua",
@@ -21,10 +21,10 @@ export const it = {
 
   hero: {
     eyebrow: "Prodotti freschi:",
-    h1: "The Profit Brain: l'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
+    h1: "The Profit Brain collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto.",
     h1Primary: "The Profit Brain",
-    h1Support: "Collega vendite, produzione e finanze per azioni quotidiane sul profitto.",
-    copy: "Aggiornare ogni giorno gli ordini di produzione per punto vendita e prodotto, per vendere di più e ridurre gli sprechi.",
+    h1Support: "Collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto.",
+    copy: "Decidere quanto produrre per ogni punto vendita, prodotto e giorno della settimana. Misurare ogni giorno l'effetto su profitto, vendite e sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
       "Segue gli ordini speciali fino a consegna e fatturazione.",
@@ -60,9 +60,9 @@ export const it = {
 
   product: {
     eyebrow: "Intelligenza operativa al lavoro",
-    h2: "The Profit Brain migliora il profitto ogni giorno.",
+    h2: "The Profit Brain crea cicli quotidiani di miglioramento.",
     h2Primary: "The Profit Brain",
-    h2Secondary: "migliora il profitto ogni giorno.",
+    h2Secondary: "crea cicli quotidiani di miglioramento.",
     lede: "Eclipsai collega i sistemi di vendita, produzione, ordini e fatturazione con e-mail, chat di lavoro e dati esterni rilevanti. Quando i dati non spiegano cosa è successo, pone al personale una domanda mirata. Le risposte possono arrivare via testo, foto o messaggio vocale.",
     mediaLabel: "Esempio: Eclipsai segue una decisione di produzione in un canale di team già familiare",
     whatChanges: "Come lavora Eclipsai",
@@ -73,14 +73,14 @@ export const it = {
       production: "Produzione", ops: "Gestione",
     },
     items: [
-      { strong: "Leggere e analizzare i dati di tutti i sistemi", text: "Ogni punto vendita, prodotto e giorno della settimana ha un proprio andamento della domanda. Eclipsai considera giornate di vendita comparabili, andamento orario delle vendite, probabili esaurimenti, sprechi stimati, economia del prodotto e vincoli operativi." },
-      { strong: "Confrontare le quantità di produzione", text: "Per ogni riga di produzione, Eclipsai confronta la quantità attuale con le alternative realizzabili. Soppesa il costo dell'invenduto rispetto al margine a rischio quando si produce troppo poco." },
-      { strong: "Aggiornare l'ordine e verificare il risultato", text: "Le decisioni approvate vengono inserite nel software di produzione e confermate. Dopo la chiusura di ogni punto vendita, Eclipsai misura l'effetto su vendite, sprechi stimati, esaurimenti anticipati e profitto. Il risultato diventa una prova per la decisione successiva." },
+      { strong: "Leggere e analizzare i dati di tutti i sistemi", text: "Ogni punto vendita, prodotto e giorno della settimana ha un proprio andamento della domanda. The Profit Brain considera giornate comparabili, andamento delle vendite, probabili esaurimenti, sprechi stimati, economia del prodotto e vincoli operativi." },
+      { strong: "Individuare le decisioni che incidono sul profitto", text: "Per ogni riga di produzione, The Profit Brain confronta la quantità attuale con alternative realizzabili. Soppesa il costo dell'invenduto rispetto al margine a rischio quando si produce troppo poco." },
+      { strong: "Attuare, misurare e seguire il risultato", text: "Le decisioni approvate vengono inserite nel software di produzione e confermate. Ogni giorno The Profit Brain misura l'effetto su vendite, sprechi stimati, esaurimenti anticipati e liquidità. I risultati orientano le decisioni successive." },
     ],
   },
 
   demo: {
-    open: "Guarda la demo",
+    open: "Demo",
     close: "Chiudi",
     chooseView: "Scegli la schermata della demo",
     viewOf: "di",
@@ -95,9 +95,9 @@ export const it = {
 
   proof: {
     metadata: "Il nostro impatto",
-    h2Before: "Sulla strada per generare circa ",
+    h2Before: "In linea per generare un'opportunità di margine di ",
     h2Value: "1%",
-    h2After: " di opportunità di margine in un'azienda alimentare",
+    h2After: " in un'azienda alimentare",
     lede: "",
     tracker: {
       period: "19 agosto–2 settembre 2026",
@@ -130,7 +130,7 @@ export const it = {
   vision: {
     eyebrow: "Oltre la produzione",
     h2: "Le prossime decisioni sul profitto",
-    intro: "Dopo il collegamento ai sistemi e ai canali di comunicazione dell'azienda, The Profit Brain può aggiungere le informazioni necessarie a ogni nuova decisione, applicare il cambiamento e misurarne il risultato.",
+    intro: "Una volta collegato ai sistemi e ai canali di comunicazione dell'azienda, The Profit Brain può aggiungere le informazioni necessarie a ogni nuova decisione, applicare il cambiamento e misurarne il risultato.",
     pathLabel: "Percorso di espansione di The Profit Brain",
     steps: [
       { index: "Inizio", h3: "Produzione e sprechi", p: "Proteggere le vendite riducendo gli sprechi ripetuti ed evitabili. Correggere i piani di produzione che non corrispondono più alla domanda." },
@@ -141,7 +141,7 @@ export const it = {
   },
 
   offer: {
-    h2: "The Profit Brain attua le azioni quotidiane per il profitto.",
+    h2: "The Profit Brain per le azioni quotidiane che incidono sul profitto.",
     copy: "Collega vendite, produzione e ciò che vede il vostro team per trovare le poche decisioni su cui vale la pena agire e dimostrarne il risultato economico.",
     cardH3: "Inizia gratis",
     items: [
@@ -156,7 +156,7 @@ export const it = {
 
   faq: {
     eyebrow: "Domande frequenti",
-    h2: "Cosa vogliono sapere i titolari prima di iniziare.",
+    h2: "Cosa sapere prima di iniziare.",
     items: [
       {
         q: "Produrre meno mette a rischio le vendite?",
@@ -164,7 +164,7 @@ export const it = {
       },
       {
         q: "In cosa The Profit Brain differisce dalle quantità già consigliate dal nostro sistema?",
-        a: "The Profit Brain verifica la quantità attuale rispetto alle alternative realizzabili considerando andamento delle vendite, probabili esaurimenti, sprechi, economia del prodotto e vincoli operativi. I cambiamenti approvati vengono inseriti nel sistema di produzione e misurati in termini finanziari.",
+        a: "The Profit Brain verifica la quantità attuale rispetto alle alternative realizzabili considerando andamento delle vendite, probabili esaurimenti, sprechi, economia del prodotto e vincoli operativi. I cambiamenti approvati vengono inseriti nel sistema di produzione e misurati in termini di liquidità.",
       },
       {
         q: "Dobbiamo sostituire i sistemi esistenti?",

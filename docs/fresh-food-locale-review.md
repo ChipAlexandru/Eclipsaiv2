@@ -1,9 +1,9 @@
-# Fresh-food homepage: locale review handoff
+# Fresh-food homepage: operational locale alignment
 
-**Status: contextually adapted, not native-reviewed.** The English homepage is
-the approved source. German, French, Italian, and Romanian reuse the operating
-language already established on the previous homepage, but a native operator
-or editor should make the final call before outreach or paid traffic.
+**Status: aligned with approved English meaning; native-language signoff has
+not occurred.** German, French, Italian, and Romanian use operational wording
+rather than literal slogan translations. A native operator or editor should
+make the final call before outreach or paid traffic.
 
 Source of truth: `src/views/fresh-food/freshFoodContent.en.js`.
 Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
@@ -12,10 +12,25 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 ## Decisions that must remain consistent
 
 - The on-page Profit Brain diagram and evidence tracker are localized. The
-  embedded demo supports English and German only; its surrounding controls
-  and slide descriptions are localized in all five languages.
+  diagram is desktop-only; mobile keeps the Demo button without a blank
+  schematic panel. The embedded demo supports English and German only; its
+  surrounding controls and slide descriptions are localized in all five
+  languages.
 - The hero keeps "The Profit Brain" as the brand phrase in every locale. Its
-  continuation is written as operator-facing copy, not a word-for-word slogan.
+  continuation names sales, production, financials, and daily profit actions.
+  The supporting explanation names shop, product, weekday decisions and daily
+  measurement of profit, sales, and waste.
+- The second-section headline means **creates daily improvement loops**, not
+  a claim that profit improves every day. The three operational stages are
+  reading and analyzing systems, finding profit decisions, and implementing,
+  measuring, and tracking results. Measurement is daily, not merely after a
+  shop closes, and includes cash rather than a generic profit claim.
+- "Impact" and "Demo" are concise navigation and button labels. The closing
+  line presents The Profit Brain **for** daily profit actions; it does not say
+  the brand itself takes every action.
+- The Impact headline states an opportunity of **1%** without an approximation
+  word or symbol in any locale. Supporting figures and business-specific
+  qualifiers remain unchanged.
 - "Profit impact" in the live box means implemented profit from verified
   production changes. It is not the theoretical economic-profit opportunity.
 - "Production order lines changed" counts individual order lines whose
@@ -34,24 +49,26 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
   live metrics are not translated or recalculated. Only number and date
   formatting changes by locale.
 
-## High-priority native review
+## Terms aligned to the approved meaning
 
 | Meaning | German | French | Italian | Romanian |
 |---|---|---|---|---|
-| Daily profit actions | tägliche Gewinnmassnahmen | actions quotidiennes sur le profit | azioni quotidiane sul profitto | acțiuni zilnice pentru profit |
+| Daily improvement loops | tägliche Verbesserungszyklen | cycles d'amélioration quotidiens | cicli quotidiani di miglioramento | cicluri zilnice de îmbunătățire |
+| Find profit decisions | Gewinnentscheidungen finden | Identifier les décisions qui comptent pour le profit | Individuare le decisioni che incidono sul profitto | Identifică deciziile care influențează profitul |
+| Impact navigation | Wirkung | Impact | Impatto | Impact |
+| Brand for daily profit actions | für die täglichen Gewinnmassnahmen | pour les actions quotidiennes qui influencent le profit | per le azioni quotidiane che incidono sul profitto | pentru acțiunile zilnice care influențează profitul |
 | Production order lines changed | Änderungen an Produktionsaufträgen (Positionen) | commandes de production modifiées (lignes) | modifiche agli ordini di produzione (righe) | modificări ale comenzilor de producție (linii) |
 | Profit impact as share of sales | Gewinnwirkung im Verhältnis zum Umsatz | impact sur le profit en part du chiffre d'affaires | impatto sul profitto in percentuale delle vendite | impact asupra profitului ca procent din vânzări |
-| Compare production quantities | Produktionsmengen vergleichen | Comparer les quantités de production | Confrontare le quantità di produzione | Compară cantitățile de producție |
-| Update the order and check the result | Produktionsauftrag aktualisieren und Ergebnis prüfen | Mettre à jour la commande et vérifier le résultat | Aggiornare l'ordine e verificare il risultato | Actualizează comanda și verifică rezultatul |
 
-Review these phrases for the vocabulary an owner would actually use, not for
-literal similarity to the English. German must remain Swiss Standard German
-with `ss`, not `ß`. Italian and Romanian should retain the register already
-used elsewhere on their pages.
+German remains Swiss Standard German with `ss`, not `ß`. The table records a
+meaning audit, not native-language approval.
 
 ## Layout review
 
-Check all five routes at desktop and narrow mobile widths. The longest current
-risks are the German hero and the localized fallback-status label inside the
-live-results box. Confirm that the header call-to-action remains usable and
-that no translated text introduces horizontal overflow.
+Local browser checks on 15 September 2026 used 1920 × 929 desktop and 390 ×
+844 mobile for DE, FR, IT, and RO. Each page's document width equalled its
+viewport width. On desktop, text bounds of all five lower diagram boxes (ERP,
+POS, CRM, Production, Operations) stayed inside their borders. The system-box
+widths reserve more room for translated labels; connectors follow the measured
+box edges. On mobile, the schematic is hidden and the Demo button follows the
+section text. These checks do not substitute for native review.

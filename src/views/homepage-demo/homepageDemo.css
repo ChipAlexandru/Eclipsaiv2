@@ -426,9 +426,13 @@
 .homepage-demo-profit-graphic-systems {
   height: 16%;
   min-height: 40px;
-  grid-template-columns: 1fr 1fr 1fr 1.6fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, .75fr)) minmax(0, 1.55fr) minmax(0, 1.3fr);
 }
-.homepage-demo-profit-graphic-systems span { border-color: #fff; font-size: 2.25cqw; }
+.homepage-demo-profit-graphic-systems span {
+  border-color: #fff;
+  font-size: 2.25cqw;
+  overflow-wrap: anywhere;
+}
 .homepage-demo-approach-media video {
   display: block;
   width: 100%;
@@ -969,8 +973,10 @@
   .homepage-demo-results { max-width: 620px; }
   .homepage-demo-hero h1 { margin-bottom: 96px; }
   .homepage-demo-hero-inner { padding-top: 124px; padding-bottom: 76px; }
-  .homepage-demo-approach-stage { grid-template-columns: 1fr; gap: 44px; }
-  .homepage-demo-approach-media { max-width: 720px; }
+  .homepage-demo-approach-stage { grid-template-columns: 1fr; gap: 24px; }
+  .homepage-demo-approach-media { max-width: 720px; align-items: flex-start; }
+  .homepage-demo-profit-graphic { display: none; }
+  .homepage-demo-open-demo { margin-top: 0; }
 }
 
 @media (max-width: 560px) {
@@ -992,7 +998,7 @@
   .homepage-demo-approach { min-height: 0; padding: 64px 0 76px; }
   .homepage-demo-approach-head { margin-bottom: 38px; }
   .homepage-demo-approach-head h2 { font-size: 38px; }
-  .homepage-demo-approach-stage { gap: 44px; }
+  .homepage-demo-approach-stage { gap: 24px; }
   .homepage-demo-profit-graphic { border-radius: 15px; }
   .homepage-demo-profit-graphic-scene { aspect-ratio: auto; height: 550px; }
   .homepage-demo-profit-graphic-title { top: 17%; left: 5%; width: 90%; font-size: 16px; }
@@ -1016,7 +1022,7 @@
   .homepage-demo-approach-media video { border-radius: 15px; }
   .homepage-demo-approach-list h3 { font-size: 16px; }
   .homepage-demo-approach-list p { font-size: 15px; }
-  .homepage-demo-open-demo { width: auto; justify-content: center; margin-top: 18px; }
+  .homepage-demo-open-demo { width: auto; justify-content: center; margin-top: 0; }
   .homepage-demo-overlay { padding: 9px; }
   .homepage-demo-overlay-dialog {
     width: calc(100vw - 18px);
