@@ -20,11 +20,11 @@ export const de = {
   },
 
   hero: {
-    eyebrow: "Operative Intelligenz für Frischebetriebe.",
-    h1: "Wissen, was morgen zu produzieren ist. Weniger wegwerfen. Mehr verkaufen.",
-    h1Primary: "Wissen, was morgen zu produzieren ist",
-    h1Support: "Weniger wegwerfen. Mehr verkaufen.",
-    copy: "Eclipsai verbindet Verkaufs-, Produktions- und Finanzsysteme. Für jede Filiale, jeden Artikel und jeden Wochentag legt es die Produktionsmenge fest. Nach der Freigabe schreibt Eclipsai die Änderung in das Produktionssystem. Danach misst es täglich die Wirkung auf Gewinn, Abfall und frühe Ausverkäufe.",
+    eyebrow: "Frische Lebensmittel",
+    h1: "The Profit Brain: KI für tägliche Gewinnentscheidungen.",
+    h1Primary: "The Profit Brain",
+    h1Support: "KI für tägliche Gewinnentscheidungen.",
+    copy: "Was morgen produziert werden soll, um mehr zu verkaufen und weniger wegzuwerfen.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
       "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",

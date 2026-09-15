@@ -24,11 +24,11 @@ export const en = {
   },
 
   hero: {
-    eyebrow: "The profit brain for fresh food.",
-    h1: "Know what to make tomorrow. Waste less. Sell more.",
-    h1Primary: "Know what to make tomorrow",
-    h1Support: "Waste less. Sell more.",
-    copy: "Eclipsai connects sales, production, and financial systems. It makes production decisions for every shop, product, and weekday. After a change is approved, Eclipsai writes it into the production system. It then measures the daily effect on profit, waste, and early sellouts.",
+    eyebrow: "Fresh food",
+    h1: "The Profit Brain: AI for daily profit action.",
+    h1Primary: "The Profit Brain",
+    h1Support: "AI for daily profit action.",
+    copy: "What to make for tomorrow to sell more and waste less.",
     examples: [
       "Adjusts tomorrow's production orders.",
       "Monitors special orders through delivery and invoicing.",

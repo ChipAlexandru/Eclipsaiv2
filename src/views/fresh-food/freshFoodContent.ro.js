@@ -20,11 +20,11 @@ export const ro = {
   },
 
   hero: {
-    eyebrow: "Inteligență operațională pentru afacerile cu produse proaspete.",
-    h1: "Știți ce să produceți mâine. Mai puțină risipă. Mai multe vânzări.",
-    h1Primary: "Știți ce să produceți mâine",
-    h1Support: "Mai puțină risipă. Mai multe vânzări.",
-    copy: "Eclipsai conectează sistemele de vânzări, producție și financiar-contabile. Stabilește cât trebuie produs în fiecare magazin, pentru fiecare produs și zi a săptămânii. După aprobare, Eclipsai introduce schimbarea în sistemul de producție. Apoi măsoară zilnic efectul asupra profitului, risipei și epuizării timpurii a stocului.",
+    eyebrow: "Produse proaspete",
+    h1: "The Profit Brain: AI pentru decizii zilnice care cresc profitul.",
+    h1Primary: "The Profit Brain",
+    h1Support: "AI pentru decizii zilnice care cresc profitul.",
+    copy: "Ce să produceți mâine ca să vindeți mai mult și să reduceți risipa.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",

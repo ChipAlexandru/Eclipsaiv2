@@ -20,11 +20,11 @@ export const it = {
   },
 
   hero: {
-    eyebrow: "Intelligenza operativa per il fresco.",
-    h1: "Sapere cosa produrre domani. Meno sprechi. Più vendite.",
-    h1Primary: "Sapere cosa produrre domani",
-    h1Support: "Meno sprechi. Più vendite.",
-    copy: "Eclipsai collega i sistemi di vendita, produzione e amministrazione finanziaria. Per ogni punto vendita, prodotto e giorno della settimana decide la quantità da produrre. Dopo l'approvazione, Eclipsai inserisce la modifica nel sistema di produzione. Poi ne misura ogni giorno l'effetto su profitto, sprechi ed esaurimenti anticipati.",
+    eyebrow: "Prodotti freschi",
+    h1: "The Profit Brain: l'IA per migliorare il profitto ogni giorno.",
+    h1Primary: "The Profit Brain",
+    h1Support: "L'IA per migliorare il profitto ogni giorno.",
+    copy: "Cosa produrre domani per vendere di più e ridurre gli sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
       "Segue gli ordini speciali fino a consegna e fatturazione.",

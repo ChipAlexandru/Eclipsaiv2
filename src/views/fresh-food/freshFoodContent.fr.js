@@ -20,11 +20,11 @@ export const fr = {
   },
 
   hero: {
-    eyebrow: "L'intelligence opérationnelle des métiers du frais.",
-    h1: "Savoir quoi produire demain. Moins de pertes. Plus de ventes.",
-    h1Primary: "Savoir quoi produire demain",
-    h1Support: "Moins de pertes. Plus de ventes.",
-    copy: "Eclipsai relie les systèmes de vente, de production et de gestion financière. Pour chaque boutique, produit et jour de la semaine, elle décide des quantités à produire. Une fois la décision approuvée, Eclipsai la saisit dans le système de production. Elle mesure ensuite chaque jour son effet sur le profit, les pertes et les ruptures précoces.",
+    eyebrow: "Produits frais",
+    h1: "The Profit Brain : l'IA pour agir chaque jour sur le profit.",
+    h1Primary: "The Profit Brain",
+    h1Support: "L'IA pour agir chaque jour sur le profit.",
+    copy: "Quoi produire demain pour vendre davantage et réduire les pertes.",
     examples: [
       "Ajuste les commandes de production de demain.",
       "Suit les commandes spéciales jusqu'à la livraison et la facturation.",

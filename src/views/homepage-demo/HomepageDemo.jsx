@@ -357,29 +357,9 @@ export function FreshFoodHomepage({ content = originalContent }) {
     }
 
     const nav = root.querySelector(".homepage-demo-nav");
-    const hero = root.querySelector(".homepage-demo-hero");
     const updateNav = () => {
       nav?.classList.toggle("is-scrolled", window.scrollY > 40);
-      nav?.classList.toggle("is-past-hero", window.scrollY > hero.offsetHeight - 120);
     };
-
-    const pageCtas = [...root.querySelectorAll("[data-page-book-call]")];
-    const visiblePageCtas = new Set();
-    const updateNavCta = () => {
-      nav?.classList.add("is-cta-ready");
-      nav?.classList.toggle("has-visible-page-cta", visiblePageCtas.size > 0);
-    };
-    const ctaObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) visiblePageCtas.add(entry.target);
-          else visiblePageCtas.delete(entry.target);
-        });
-        updateNavCta();
-      },
-      { threshold: 0.35 },
-    );
-    pageCtas.forEach((cta) => ctaObserver.observe(cta));
 
     const switcher = root.querySelector(".language-switcher");
     const closeSwitcher = () => {
@@ -403,7 +383,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
       window.removeEventListener("scroll", updateNav);
       document.removeEventListener("pointerdown", closeSwitcherFromOutside);
       document.removeEventListener("keydown", closeSwitcherOnEscape);
-      ctaObserver.disconnect();
     };
   }, []);
 
@@ -508,7 +487,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
             <source src={`${ASSETS}/hero-video.mp4`} type="video/mp4" />
           </video>
           <div className="homepage-demo-hero-inner">
-            <p className="homepage-demo-eyebrow">{c.hero.eyebrow}</p>
             <h1 className={hasCopyRefresh ? "homepage-demo-hero-hierarchy" : undefined}>
               {hasCopyRefresh ? (
                 <>
@@ -520,11 +498,8 @@ export function FreshFoodHomepage({ content = originalContent }) {
 
             <div className="homepage-demo-hero-lower">
               <div className="homepage-demo-hero-intro">
+                <p className="homepage-demo-hero-category">{c.hero.eyebrow}</p>
                 <p>{c.hero.copy}</p>
-                <a className="homepage-demo-button" data-page-book-call href={CALENDLY_URL} target="_blank" rel="noreferrer">
-                  {c.nav.cta}
-                </a>
-                <small>{c.hero.audience}</small>
               </div>
 
               <aside className="homepage-demo-results" aria-label={c.live.ariaLabel}>
@@ -536,13 +511,13 @@ export function FreshFoodHomepage({ content = originalContent }) {
                     </span>
                   </strong>
                 </div>
+                <div className="homepage-demo-result homepage-demo-result-profit">
+                  <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
+                  <span>{c.live.profitImpact}</span>
+                </div>
                 <div className="homepage-demo-result">
                   <b>{liveResults.production_lines_changed.toLocaleString(localeTag(c.locale))}</b>
                   <span>{c.live.linesChanged}</span>
-                </div>
-                <div className="homepage-demo-result">
-                  <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
-                  <span>{c.live.profitImpact}</span>
                 </div>
                 <div className="homepage-demo-result">
                   <b>{formatPercent(-liveResults.estimated_waste_reduction_share, c.locale)}</b>
@@ -551,12 +526,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
                 <p>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</p>
               </aside>
 
-              <div className="homepage-demo-hero-mobile-cta">
-                <a className="homepage-demo-button" data-page-book-call href={CALENDLY_URL} target="_blank" rel="noreferrer">
-                  {c.nav.cta}
-                </a>
-                <small>{c.hero.audience}</small>
-              </div>
             </div>
           </div>
         </header>
@@ -655,9 +624,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
         <section className="section offer" id="start">
           <div className="wrap homepage-demo-final-cta">
             <h2 className="reveal">{c.offer.h2}</h2>
-            <a className="button" data-page-book-call href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
-              {c.nav.cta}
-            </a>
           </div>
         </section>
       </main>
