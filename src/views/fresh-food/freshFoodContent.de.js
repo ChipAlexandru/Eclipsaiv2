@@ -20,10 +20,10 @@ export const de = {
   },
 
   hero: {
-    eyebrow: "Frische Lebensmittel",
-    h1: "The Profit Brain: KI für tägliche Gewinnentscheidungen.",
+    eyebrow: "Frische Lebensmittel:",
+    h1: "The Profit Brain: KI verbindet Verkauf, Produkte und Finanzen für tägliche Maßnahmen zur Gewinnsteigerung.",
     h1Primary: "The Profit Brain",
-    h1Support: "KI für tägliche Gewinnentscheidungen.",
+    h1Support: "KI verbindet Verkauf, Produkte und Finanzen für tägliche Maßnahmen zur Gewinnsteigerung.",
     copy: "Was morgen produziert werden soll, um mehr zu verkaufen und weniger wegzuwerfen.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",

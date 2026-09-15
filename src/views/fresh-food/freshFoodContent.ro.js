@@ -20,10 +20,10 @@ export const ro = {
   },
 
   hero: {
-    eyebrow: "Produse proaspete",
-    h1: "The Profit Brain: AI pentru decizii zilnice care cresc profitul.",
+    eyebrow: "Produse proaspete:",
+    h1: "The Profit Brain: AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI pentru decizii zilnice care cresc profitul.",
+    h1Support: "AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
     copy: "Ce să produceți mâine ca să vindeți mai mult și să reduceți risipa.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",

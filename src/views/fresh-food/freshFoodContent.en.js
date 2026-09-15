@@ -24,10 +24,10 @@ export const en = {
   },
 
   hero: {
-    eyebrow: "Fresh food",
-    h1: "The Profit Brain: AI for daily profit action.",
+    eyebrow: "Fresh Food:",
+    h1: "The Profit Brain: AI to connect sales, product, and financials for daily profit actions.",
     h1Primary: "The Profit Brain",
-    h1Support: "AI for daily profit action.",
+    h1Support: "AI to connect sales, product, and financials for daily profit actions.",
     copy: "What to make for tomorrow to sell more and waste less.",
     examples: [
       "Adjusts tomorrow's production orders.",

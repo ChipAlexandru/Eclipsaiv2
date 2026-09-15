@@ -20,10 +20,10 @@ export const it = {
   },
 
   hero: {
-    eyebrow: "Prodotti freschi",
-    h1: "The Profit Brain: l'IA per migliorare il profitto ogni giorno.",
+    eyebrow: "Prodotti freschi:",
+    h1: "The Profit Brain: l'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
     h1Primary: "The Profit Brain",
-    h1Support: "L'IA per migliorare il profitto ogni giorno.",
+    h1Support: "L'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
     copy: "Cosa produrre domani per vendere di più e ridurre gli sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",

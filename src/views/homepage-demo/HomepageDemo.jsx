@@ -490,7 +490,11 @@ export function FreshFoodHomepage({ content = originalContent }) {
             <h1 className={hasCopyRefresh ? "homepage-demo-hero-hierarchy" : undefined}>
               {hasCopyRefresh ? (
                 <>
-                  <span>{c.hero.h1Primary}</span>
+                  <span className="homepage-demo-hero-brand">
+                    <span className="homepage-demo-hero-brand-font">{c.hero.h1Primary}</span>
+                    <span className="homepage-demo-hero-brand-colon">{c.locale === "fr" ? "\u00a0:" : ":"}</span>
+                  </span>
+                  {" "}
                   <small>{c.hero.h1Support}</small>
                 </>
               ) : c.hero.h1}
