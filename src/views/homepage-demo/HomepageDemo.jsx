@@ -511,7 +511,6 @@ export function FreshFoodHomepage({ content = originalContent }) {
               <aside className="homepage-demo-results" aria-label={c.live.ariaLabel}>
                 <div className="homepage-demo-results-head">
                   <strong>
-                    <span>{c.live.period}</span>
                     <span className={`homepage-demo-live-label${liveResults.display_status === "live" ? "" : " is-snapshot"}`}>
                       {liveResults.display_status === "live" ? c.live.live : c.live.snapshot}
                     </span>
@@ -521,15 +520,19 @@ export function FreshFoodHomepage({ content = originalContent }) {
                   <b>{formatPercent(liveResults.profit_impact_share_of_sales, c.locale)}</b>
                   <span>{c.live.profitImpact}</span>
                 </div>
-                <div className="homepage-demo-result">
-                  <b>{liveResults.production_lines_changed.toLocaleString(localeTag(c.locale))}</b>
-                  <span>{c.live.linesChanged}</span>
-                </div>
+                <div className="homepage-demo-results-section">{c.live.production}</div>
                 <div className="homepage-demo-result">
                   <b>{formatPercent(-liveResults.estimated_waste_reduction_share, c.locale)}</b>
                   <span>{c.live.wasteReduction}</span>
                 </div>
-                <p>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</p>
+                <div className="homepage-demo-result">
+                  <b>{liveResults.production_lines_changed.toLocaleString(localeTag(c.locale))}</b>
+                  <span>{c.live.linesChanged}</span>
+                </div>
+                <div className="homepage-demo-results-footer">
+                  <span>{c.live.period}</span>
+                  <span>{c.live.updated} {formatUpdatedAt(liveResults.updated_at, c.locale)}</span>
+                </div>
               </aside>
 
             </div>

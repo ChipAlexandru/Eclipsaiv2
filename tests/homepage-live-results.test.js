@@ -43,9 +43,24 @@ test("all localized homepages carry the live-result and demo controls", () => {
     const content = fs.readFileSync(contentPath, "utf8");
     assert.match(content, /live:\s*\{/);
     assert.match(content, /snapshot:/);
+    assert.match(content, /production:/);
     assert.match(content, /linesChanged:/);
     assert.match(content, /profitImpact:/);
     assert.match(content, /wasteReduction:/);
     assert.match(content, /demo:\s*\{/);
+  }
+});
+
+test("localized hero copy describes putting daily production orders into operation", () => {
+  const phrases = {
+    en: "Implement daily production orders by location and product to sell more and waste less.",
+    de: "Tägliche Produktionsaufträge je Filiale und Artikel umsetzen",
+    fr: "Mettre à jour chaque jour les commandes de production",
+    it: "Aggiornare ogni giorno gli ordini di produzione",
+    ro: "Actualizați zilnic comenzile de producție",
+  };
+  for (const [locale, phrase] of Object.entries(phrases)) {
+    const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);
+    assert.ok(fs.readFileSync(contentPath, "utf8").includes(phrase), `${locale} must use operational hero copy`);
   }
 });

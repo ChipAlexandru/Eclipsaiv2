@@ -24,7 +24,7 @@ export const ro = {
     h1: "The Profit Brain: AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
     h1Primary: "The Profit Brain",
     h1Support: "AI conectează vânzările, produsele și datele financiare pentru acțiuni zilnice care cresc profitul.",
-    copy: "Ce să produceți mâine ca să vindeți mai mult și să reduceți risipa.",
+    copy: "Actualizați zilnic comenzile de producție pentru fiecare locație și produs, ca să vindeți mai mult și să reduceți risipa.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
       "Urmărește comenzile speciale până la livrare și facturare.",
@@ -39,7 +39,8 @@ export const ro = {
     period: "Ultimele șapte zile încheiate",
     live: "LIVE",
     snapshot: "ULTIMELE REZULTATE VERIFICATE",
-    linesChanged: "linii modificate în comenzile de producție",
+    production: "Producție",
+    linesChanged: "modificări ale comenzilor de producție (linii)",
     profitImpact: "impact asupra profitului ca procent din vânzări",
     wasteReduction: "reducere estimată a risipei ca procent din risipa inițială",
     updated: "Actualizat la",

@@ -13,12 +13,15 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 
 - The visual demo stays in English on every localized page. Only the website
   control that opens and closes it is localized.
-- "Profit brain" is not translated literally. Each locale keeps the existing
-  operating-intelligence formulation.
+- The hero keeps "The Profit Brain" as the brand phrase in every locale. Its
+  continuation is written as operator-facing copy, not a word-for-word slogan.
 - "Profit impact" in the live box means implemented profit from verified
   production changes. It is not the theoretical economic-profit opportunity.
 - "Production order lines changed" counts individual order lines whose
   quantity changed, not products, recommendations, or shops.
+- "Production" in the hero results box is a section label for the two
+  production measures, not a fourth figure. The source exposes only three
+  verified figures, so the site does not invent a production total.
 - "Estimated waste reduction" is measured against initial waste, not against
   production or sales.
 - Sellout and missed sale remain distinct. A sellout can be correct; a missed
@@ -37,7 +40,7 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 | Meaning | German | French | Italian | Romanian |
 |---|---|---|---|---|
 | Profit brain for fresh food | Operative Intelligenz für Frischebetriebe | L'intelligence opérationnelle des métiers du frais | Intelligenza operativa per il fresco | Inteligență operațională pentru afacerile cu produse proaspete |
-| Production order lines changed | geänderte Positionen in Produktionsaufträgen | lignes de commande de production modifiées | righe degli ordini di produzione modificate | linii modificate în comenzile de producție |
+| Production order lines changed | Änderungen an Produktionsaufträgen (Positionen) | commandes de production modifiées (lignes) | modifiche agli ordini di produzione (righe) | modificări ale comenzilor de producție (linii) |
 | Profit impact as share of sales | Gewinnwirkung im Verhältnis zum Umsatz | impact sur le profit en part du chiffre d'affaires | impatto sul profitto in percentuale delle vendite | impact asupra profitului ca procent din vânzări |
 | Compare production quantities | Produktionsmengen vergleichen | Comparer les quantités de production | Confrontare le quantità di produzione | Compară cantitățile de producție |
 | Update the order and check the result | Produktionsauftrag aktualisieren und Ergebnis prüfen | Mettre à jour la commande et vérifier le résultat | Aggiornare l'ordine e verificare il risultato | Actualizează comanda și verifică rezultatul |
@@ -51,5 +54,5 @@ used elsewhere on their pages.
 
 Check all five routes at desktop and narrow mobile widths. The longest current
 risks are the German hero and the localized fallback-status label inside the
-live-results box. Confirm that the call-to-action remains the final element of
-the mobile hero and that no translated text introduces horizontal overflow.
+live-results box. Confirm that the header call-to-action remains usable and
+that no translated text introduces horizontal overflow.

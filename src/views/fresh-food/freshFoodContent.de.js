@@ -20,11 +20,11 @@ export const de = {
   },
 
   hero: {
-    eyebrow: "Frische Lebensmittel:",
-    h1: "The Profit Brain: KI verbindet Verkauf, Produkte und Finanzen für tägliche Maßnahmen zur Gewinnsteigerung.",
+    eyebrow: "Frischeprodukte:",
+    h1: "The Profit Brain: KI verbindet Verkauf, Artikel und Finanzdaten, um täglich gewinnbringende Änderungen umzusetzen.",
     h1Primary: "The Profit Brain",
-    h1Support: "KI verbindet Verkauf, Produkte und Finanzen für tägliche Maßnahmen zur Gewinnsteigerung.",
-    copy: "Was morgen produziert werden soll, um mehr zu verkaufen und weniger wegzuwerfen.",
+    h1Support: "KI verbindet Verkauf, Artikel und Finanzdaten, um täglich gewinnbringende Änderungen umzusetzen.",
+    copy: "Tägliche Produktionsaufträge je Filiale und Artikel umsetzen, um mehr zu verkaufen und weniger Ware wegzuwerfen.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
       "Verfolgt Sonderbestellungen bis zu Lieferung und Rechnung.",
@@ -39,7 +39,8 @@ export const de = {
     period: "Letzte sieben abgeschlossene Tage",
     live: "LIVE",
     snapshot: "LETZTER BESTÄTIGTER STAND",
-    linesChanged: "geänderte Positionen in Produktionsaufträgen",
+    production: "Produktion",
+    linesChanged: "Änderungen an Produktionsaufträgen (Positionen)",
     profitImpact: "Gewinnwirkung im Verhältnis zum Umsatz",
     wasteReduction: "geschätzte Abfallreduktion in Prozent des ursprünglichen Abfalls",
     updated: "Aktualisiert",

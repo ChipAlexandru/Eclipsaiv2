@@ -24,7 +24,7 @@ export const it = {
     h1: "The Profit Brain: l'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
     h1Primary: "The Profit Brain",
     h1Support: "L'IA collega vendite, prodotti e finanze per migliorare il profitto ogni giorno.",
-    copy: "Cosa produrre domani per vendere di più e ridurre gli sprechi.",
+    copy: "Aggiornare ogni giorno gli ordini di produzione per punto vendita e prodotto, per vendere di più e ridurre gli sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
       "Segue gli ordini speciali fino a consegna e fatturazione.",
@@ -39,7 +39,8 @@ export const it = {
     period: "Ultimi sette giorni completati",
     live: "LIVE",
     snapshot: "ULTIMI RISULTATI VERIFICATI",
-    linesChanged: "righe degli ordini di produzione modificate",
+    production: "Produzione",
+    linesChanged: "modifiche agli ordini di produzione (righe)",
     profitImpact: "impatto sul profitto in percentuale delle vendite",
     wasteReduction: "riduzione stimata degli sprechi in percentuale rispetto agli sprechi iniziali",
     updated: "Aggiornato il",

@@ -28,7 +28,7 @@ export const en = {
     h1: "The Profit Brain: AI to connect sales, product, and financials for daily profit actions.",
     h1Primary: "The Profit Brain",
     h1Support: "AI to connect sales, product, and financials for daily profit actions.",
-    copy: "What to make for tomorrow to sell more and waste less.",
+    copy: "Implement daily production orders by location and product to sell more and waste less.",
     examples: [
       "Adjusts tomorrow's production orders.",
       "Monitors special orders through delivery and invoicing.",
@@ -43,7 +43,8 @@ export const en = {
     period: "Last seven completed days",
     live: "LIVE",
     snapshot: "LATEST VERIFIED",
-    linesChanged: "production order lines changed",
+    production: "Production",
+    linesChanged: "production order changes (lines)",
     profitImpact: "profit impact as share of sales",
     wasteReduction: "estimated waste reduction as a percentage of initial waste",
     updated: "Updated",
