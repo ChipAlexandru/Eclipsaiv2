@@ -13,7 +13,7 @@ export const de = {
     homeAriaLabel: "Eclipsai Startseite",
     product: "So funktioniert es",
     proof: "Wirkung",
-    vision: "Über die Produktion hinaus",
+    vision: "Massnahmen",
     cta: "Gespräch buchen",
     chooseLanguage: "Sprache wählen",
     availableLanguages: "Verfügbare Sprachen",
@@ -21,9 +21,9 @@ export const de = {
 
   hero: {
     eyebrow: "Frischeprodukte:",
-    h1: "The Profit Brain verbindet Verkauf, Produktion und Finanzdaten für tägliche Gewinnmassnahmen.",
+    h1: "The Profit Brain verbindet Verkauf, Produktion und Finanzdaten für tägliche Gewinnmassnahmen",
     h1Primary: "The Profit Brain",
-    h1Support: "Verbindet Verkauf, Produktion und Finanzdaten für tägliche Gewinnmassnahmen.",
+    h1Support: "Verbindet Verkauf, Produktion und Finanzdaten für tägliche Gewinnmassnahmen",
     copy: "Produktionsentscheidungen für jede Filiale, jeden Artikel und jeden Wochentag treffen. Die tägliche Wirkung auf Gewinn, Verkauf und Abfall messen.",
     examples: [
       "Passt die Produktionsbestellungen für morgen an.",
@@ -60,9 +60,9 @@ export const de = {
 
   product: {
     eyebrow: "Operative Intelligenz im Einsatz",
-    h2: "The Profit Brain schafft tägliche Verbesserungszyklen.",
-    h2Primary: "The Profit Brain",
-    h2Secondary: "schafft tägliche Verbesserungszyklen.",
+    h2: "Tägliche Verbesserungszyklen für den Gewinn aufbauen",
+    h2Primary: "Tägliche",
+    h2Secondary: "Verbesserungszyklen für den Gewinn aufbauen",
     lede: "Eclipsai verbindet Verkaufs-, Produktions-, Bestell- und Rechnungsstellungssysteme mit E-Mail, Team-Chats und relevanten externen Daten. Wenn die Daten nicht erklären, was passiert ist, stellt es dem Personal eine gezielte Frage. Antworten sind per Text, Foto oder Sprachnachricht möglich.",
     mediaLabel: "Beispiel: Eclipsai begleitet eine Produktionsentscheidung über einen vertrauten Teamkanal",
     whatChanges: "So arbeitet Eclipsai",
@@ -95,12 +95,12 @@ export const de = {
 
   proof: {
     metadata: "Unsere Wirkung",
-    h2Before: "Auf Kurs, bei einem Lebensmittelbetrieb ein Gewinnmargenpotenzial von ",
+    h2Before: "Wir werden ",
     h2Value: "1%",
-    h2After: " zu erzielen",
-    lede: "",
+    h2After: " Gewinnmarge erzielen",
+    lede: "Gemeinsam mit einer Zürcher Bäckereikette legen wir Produktionsmengen und Sortiment je Filiale fest",
     tracker: {
-      period: "19. August–2. September 2026",
+      period: "1% Gewinnmarge erzielen",
       cash: "Liquiditätswirkung", economic: "Wirtschaftlicher Gewinn", waste: "Vermiedener Abfall",
       projected: "hochgerechnet", ingredients: "Zutaten",
       economics: "Zutaten + Standardarbeit + Energie",
@@ -129,19 +129,19 @@ export const de = {
 
   vision: {
     eyebrow: "Über die Produktion hinaus",
-    h2: "Die nächsten Gewinnentscheidungen",
-    intro: "Nach dem Anschluss an die Systeme und Kommunikationskanäle des Betriebs kann The Profit Brain die Informationen für jede neue Entscheidung ergänzen, die Änderung umsetzen und das Ergebnis messen.",
+    h2: "Die nächsten Gewinnmassnahmen",
+    intro: "Sobald wir mit den Systemen und Daten des Unternehmens verbunden sind, können wir neue Chancen erkennen, Änderungen umsetzen und das Ergebnis messen.",
     pathLabel: "Ausbaupfad von The Profit Brain",
     steps: [
-      { index: "Start", h3: "Produktion und Abfall", p: "Verkäufe schützen und zugleich wiederholten, vermeidbaren Abfall senken. Produktionspläne anpassen, die nicht mehr zur Nachfrage passen." },
-      { index: "Als Nächstes", h3: "Einkauf und Preise", p: "Preiserhöhungen von Lieferanten melden und Preise, die die Kosten nicht mehr decken." },
-      { index: "Danach", h3: "Personal und Betrieb", p: "Sehen, wann kleinere Chargen Abfall sparen, aber Arbeit kosten, oder wann Unterbesetzung Verkäufe kostet." },
-      { index: "Beim Wachsen", h3: "Der nächste Standort", p: "Das, was in Ihren heutigen Filialen funktioniert, für die nächste nutzen." },
+      { index: "Start", h3: "Produktion und Abfall", p: "Wiederholten, vermeidbaren Abfall senken und neue Nachfrage nutzen." },
+      { index: "Als Nächstes", h3: "Einkauf und Preise", p: "Preiserhöhungen von Lieferanten und ihre Wirkung auf die Produktrentabilität verfolgen." },
+      { index: "Danach", h3: "Personal und Betrieb", p: "Den Personaleinsatz mit Verkauf und Nachfrage in Einklang bringen." },
+      { index: "Beim Wachsen", h3: "Der nächste Standort", p: "Neue Nachfragemodelle auf dem aufbauen, was in vergleichbaren Filialen funktioniert." },
     ],
   },
 
   offer: {
-    h2: "The Profit Brain für die täglichen Gewinnmassnahmen.",
+    h2: "The Profit Brain für tägliche Gewinnmassnahmen",
     copy: "Es verbindet Verkäufe, Produktion und das, was Ihr Team sieht, findet die wenigen Entscheidungen, bei denen sich Handeln lohnt, und belegt das Ergebnis finanziell.",
     cardH3: "Kostenlos starten",
     items: [
@@ -156,27 +156,27 @@ export const de = {
 
   faq: {
     eyebrow: "Häufige Fragen",
-    h2: "Was Sie vor dem Start wissen sollten.",
+    h2: "Häufig gestellte Fragen",
     items: [
       {
         q: "Gefährden wir Verkäufe, wenn wir weniger produzieren?",
-        a: "The Profit Brain wägt beide Risiken ab. Ein entgangener Verkauf kann mehr kosten als die eingesparten Zutaten. Es schlägt eine kleinere Menge nur vor, wenn die Belege das stützen, und misst das Ergebnis danach gegen den bisherigen Plan.",
+        a: "Wir wägen beide Risiken ab. Ein entgangener Verkauf kostet in der Regel mehr als die eingesparten Zutaten. Wir schlagen nur dann eine geringere Produktion vor, wenn die Belege dafür sprechen, und messen das Ergebnis anschliessend am ursprünglichen Plan.",
       },
       {
         q: "Wie unterscheidet sich The Profit Brain von den Mengen, die unser System bereits empfiehlt?",
-        a: "The Profit Brain prüft die aktuelle Menge gegen umsetzbare Alternativen und berücksichtigt den Verkaufsverlauf, wahrscheinliche Ausverkäufe, Abfall, die Wirtschaftlichkeit des Artikels und betriebliche Vorgaben. Freigegebene Änderungen werden in das Produktionssystem zurückgeschrieben und als Cash-Ergebnis gemessen.",
+        a: "The Profit Brain prüft die aktuelle Menge gegen umsetzbare Alternativen und berücksichtigt den Verkaufsverlauf, wahrscheinliche Ausverkäufe, Abfall, die Wirtschaftlichkeit des Artikels und betriebliche Vorgaben. Die Gewinnwirkung jeder einzelnen Änderung wird gemessen und ausgewiesen.",
       },
       {
         q: "Müssen wir unsere bestehenden Systeme ersetzen?",
-        a: "Nein. The Profit Brain arbeitet mit den bereits eingesetzten Systemen. Es liest und schreibt über APIs oder über Computersteuerung bei älteren Systemen.",
+        a: "Nein. Wir bedienen die bereits eingesetzten Systeme über APIs oder über Computersteuerung bei älteren Systemen.",
       },
       {
         q: "Wie viel Arbeit hat das Team damit?",
-        a: "The Profit Brain arbeitet mit den Verkaufs- und Produktionsdaten. Es stellt dem Team nur dann eine kurze Frage, wenn die Aufzeichnungen nicht erklären, was passiert ist, etwa bei einem Ausverkauf, ungewöhnlichen Resten oder einem lokalen Anlass.",
+        a: "Wir setzen Änderungen direkt um und fragen das Team nur dann, wenn die Aufzeichnungen nicht erklären, was in der Filiale passiert ist.",
       },
       {
         q: "Wie beginnen wir?",
-        a: "Wir beginnen mit den verlässlichen Aufzeichnungen und den Filial-Artikel-Kombinationen mit der stärksten Beleglage. Reichen die Daten nicht aus, fragt The Profit Brain nach Kontext oder lässt die Menge unverändert. Sie müssen nicht alle Filialen auf einmal umstellen.",
+        a: "Wir verbinden uns mit den Systemen und analysieren historische Daten, um eine erste Schätzung des Potenzials zu erstellen. Danach schlagen wir Änderungen vor, ohne sie umzusetzen, und messen die erwartete Verbesserung.",
       },
     ],
   },

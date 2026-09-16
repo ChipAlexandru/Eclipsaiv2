@@ -13,7 +13,7 @@ export const fr = {
     homeAriaLabel: "Accueil Eclipsai",
     product: "Comment ça marche",
     proof: "Impact",
-    vision: "Au-delà de la production",
+    vision: "Actions",
     cta: "Réserver un appel",
     chooseLanguage: "Choisir la langue",
     availableLanguages: "Langues disponibles",
@@ -21,9 +21,9 @@ export const fr = {
 
   hero: {
     eyebrow: "Produits frais :",
-    h1: "The Profit Brain relie ventes, production et finances pour des actions quotidiennes qui influencent le profit.",
+    h1: "The Profit Brain relie ventes, production et finances pour des actions quotidiennes qui influencent le profit",
     h1Primary: "The Profit Brain",
-    h1Support: "Relie ventes, production et finances pour des actions quotidiennes qui influencent le profit.",
+    h1Support: "Relie ventes, production et finances pour des actions quotidiennes qui influencent le profit",
     copy: "Décider des quantités à produire pour chaque boutique, chaque produit et chaque jour de la semaine. Mesurer chaque jour l'effet sur le profit, les ventes et les pertes.",
     examples: [
       "Ajuste les commandes de production de demain.",
@@ -60,9 +60,9 @@ export const fr = {
 
   product: {
     eyebrow: "L'intelligence opérationnelle au travail",
-    h2: "The Profit Brain crée des cycles d'amélioration quotidiens.",
-    h2Primary: "The Profit Brain",
-    h2Secondary: "crée des cycles d'amélioration quotidiens.",
+    h2: "Construire des cycles quotidiens d'amélioration du profit",
+    h2Primary: "Construire",
+    h2Secondary: "des cycles quotidiens d'amélioration du profit",
     lede: "Eclipsai relie les systèmes de vente, de production, de commande et de facturation aux e-mails, aux messageries d'équipe et aux données externes pertinentes. Lorsque les données n'expliquent pas ce qui s'est passé, elle pose une question précise à l'équipe concernée. Les équipes peuvent répondre par texte, photo ou message vocal.",
     mediaLabel: "Exemple : Eclipsai suit une décision de production via un canal d'équipe familier",
     whatChanges: "Comment Eclipsai fonctionne",
@@ -95,12 +95,12 @@ export const fr = {
 
   proof: {
     metadata: "Notre impact",
-    h2Before: "En voie de dégager un potentiel de marge bénéficiaire de ",
+    h2Before: "Nous atteindrons ",
     h2Value: "1%",
-    h2After: " chez un exploitant alimentaire",
-    lede: "",
+    h2After: " de marge bénéficiaire",
+    lede: "Nous travaillons avec une chaîne de boulangeries zurichoise pour définir les quantités de production et l'assortiment par boutique",
     tracker: {
-      period: "19 août–2 septembre 2026",
+      period: "Atteindre 1% de marge bénéficiaire",
       cash: "Impact en trésorerie", economic: "Profit économique", waste: "Pertes évitées",
       projected: "projeté", ingredients: "Ingrédients",
       economics: "Ingrédients + main-d'œuvre standard + énergie",
@@ -129,19 +129,19 @@ export const fr = {
 
   vision: {
     eyebrow: "Au-delà de la production",
-    h2: "Les prochaines décisions de profit",
-    intro: "Une fois connecté aux systèmes et aux canaux de communication de l'entreprise, The Profit Brain peut ajouter les informations nécessaires à chaque nouvelle décision, mettre en œuvre le changement et en mesurer le résultat.",
+    h2: "Les prochaines actions pour le profit",
+    intro: "Une fois connectés aux systèmes et aux données de l'entreprise, nous pouvons identifier de nouvelles opportunités, mettre en œuvre les changements et mesurer le résultat.",
     pathLabel: "Parcours d'extension de The Profit Brain",
     steps: [
-      { index: "Départ", h3: "Production et pertes", p: "Protéger les ventes tout en réduisant les pertes répétées et évitables. Corriger les plans de production qui ne correspondent plus à la demande." },
-      { index: "Ensuite", h3: "Achats et prix", p: "Signaler les hausses de prix fournisseurs et les prix qui ne couvrent plus les coûts." },
-      { index: "Puis", h3: "Personnel et opérations", p: "Voir quand des lots plus petits réduisent les pertes mais ajoutent du travail, ou quand le sous-effectif coûte des ventes." },
-      { index: "En grandissant", h3: "Le prochain point de vente", p: "Reprendre ce qui fonctionne dans vos boutiques actuelles pour ouvrir la suivante." },
+      { index: "Départ", h3: "Production et pertes", p: "Réduire les pertes répétées et évitables, et capter une nouvelle demande." },
+      { index: "Ensuite", h3: "Achats et prix", p: "Suivre les hausses de prix fournisseurs et leur impact sur la rentabilité des produits." },
+      { index: "Puis", h3: "Personnel et opérations", p: "Adapter les effectifs aux ventes et à la demande." },
+      { index: "En grandissant", h3: "Le prochain point de vente", p: "Construire de nouveaux modèles de demande à partir de ce qui fonctionne dans des boutiques comparables." },
     ],
   },
 
   offer: {
-    h2: "The Profit Brain pour les actions quotidiennes qui influencent le profit.",
+    h2: "The Profit Brain pour les actions quotidiennes qui influencent le profit",
     copy: "Elle relie les ventes, la production et ce que votre équipe observe pour trouver les quelques décisions qui méritent d'être prises et en démontrer le résultat économique.",
     cardH3: "Commencer gratuitement",
     items: [
@@ -156,27 +156,27 @@ export const fr = {
 
   faq: {
     eyebrow: "Questions fréquentes",
-    h2: "Ce qu'il faut savoir avant de commencer.",
+    h2: "Questions fréquemment posées",
     items: [
       {
         q: "Produire moins va-t-il mettre nos ventes en danger ?",
-        a: "The Profit Brain met les deux risques en balance. Une vente manquée peut coûter plus cher que les ingrédients économisés. Il ne propose de produire moins que lorsque les preuves le soutiennent, puis mesure le résultat face au plan précédent.",
+        a: "Nous mettons les deux risques en balance. Une vente manquée coûte généralement plus cher que les ingrédients économisés. Nous proposons de produire moins lorsque les preuves le justifient, puis mesurons le résultat par rapport au plan initial.",
       },
       {
         q: "En quoi The Profit Brain diffère-t-il des quantités déjà recommandées par notre système ?",
-        a: "The Profit Brain teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. Les changements approuvés sont inscrits dans le système de production et mesurés en trésorerie.",
+        a: "The Profit Brain teste la quantité actuelle face aux alternatives réalisables en tenant compte du rythme des ventes, des ruptures probables, des pertes, de l'économie du produit et des contraintes opérationnelles. L'impact sur le profit de chaque changement est mesuré et communiqué.",
       },
       {
         q: "Devons-nous remplacer nos systèmes actuels ?",
-        a: "Non. The Profit Brain fonctionne avec les systèmes déjà en place. Il lit et écrit les données par API ou par utilisation directe de l'ordinateur pour les systèmes plus anciens.",
+        a: "Non. Nous utilisons les systèmes déjà en place par API ou par utilisation directe de l'ordinateur pour les systèmes plus anciens.",
       },
       {
         q: "Quelle charge de travail pour l'équipe ?",
-        a: "The Profit Brain travaille à partir des données de vente et de production. Il ne pose une question courte que lorsque les données n'expliquent pas ce qui s'est passé : une rupture, des restes inhabituels ou un événement local.",
+        a: "Nous appliquons les changements directement et ne sollicitons l'équipe que lorsque les données n'expliquent pas ce qui s'est passé dans la boutique.",
       },
       {
         q: "Comment commençons-nous ?",
-        a: "Nous commençons par les données fiables et les combinaisons boutique-produit pour lesquelles les preuves sont les plus solides. Lorsque les données ne suffisent pas, The Profit Brain demande du contexte ou laisse la quantité inchangée. Il n'est pas nécessaire de changer toutes les boutiques en même temps.",
+        a: "Nous nous connectons aux systèmes et analysons les données historiques afin d'établir une première estimation du potentiel. Nous proposons ensuite des changements sans les mettre en œuvre et mesurons l'amélioration attendue.",
       },
     ],
   },

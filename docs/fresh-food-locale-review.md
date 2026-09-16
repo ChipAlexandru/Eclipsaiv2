@@ -20,14 +20,15 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
   continuation names sales, production, financials, and daily profit actions.
   The supporting explanation names shop, product, weekday decisions and daily
   measurement of profit, sales, and waste.
-- The second-section headline means **creates daily improvement loops**, not
-  a claim that profit improves every day. The three operational stages are
+- The second-section headline means **build daily profit improvement loops**
+  and does not repeat the Profit Brain name. The three operational stages are
   reading and analyzing systems, finding profit decisions, and implementing,
   measuring, and tracking results. Measurement is daily, not merely after a
   shop closes, and includes cash rather than a generic profit claim.
-- "Impact" and "Demo" are concise navigation and button labels. The closing
-  line presents The Profit Brain **for** daily profit actions; it does not say
-  the brand itself takes every action.
+- "Impact" and "Demo" are concise navigation and button labels. Display
+  headlines do not end in full stops. The closing line presents The Profit
+  Brain **for** daily profit actions; it does not say the brand itself takes
+  every action.
 - The Impact headline states an opportunity of **1%** without an approximation
   word or symbol in any locale. Supporting figures and business-specific
   qualifiers remain unchanged.
@@ -53,7 +54,7 @@ Locale files: `freshFoodContent.{de,fr,it,ro}.js`.
 
 | Meaning | German | French | Italian | Romanian |
 |---|---|---|---|---|
-| Daily improvement loops | tägliche Verbesserungszyklen | cycles d'amélioration quotidiens | cicli quotidiani di miglioramento | cicluri zilnice de îmbunătățire |
+| Build daily profit improvement loops | Tägliche Verbesserungszyklen für den Gewinn aufbauen | Construire des cycles quotidiens d'amélioration du profit | Creare cicli quotidiani di miglioramento del profitto | Construiți cicluri zilnice de îmbunătățire a profitului |
 | Find profit decisions | Gewinnentscheidungen finden | Identifier les décisions qui comptent pour le profit | Individuare le decisioni che incidono sul profitto | Identifică deciziile care influențează profitul |
 | Impact navigation | Wirkung | Impact | Impatto | Impact |
 | Brand for daily profit actions | für die täglichen Gewinnmassnahmen | pour les actions quotidiennes qui influencent le profit | per le azioni quotidiane che incidono sul profitto | pentru acțiunile zilnice care influențează profitul |

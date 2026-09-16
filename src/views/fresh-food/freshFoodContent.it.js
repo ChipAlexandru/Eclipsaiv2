@@ -13,7 +13,7 @@ export const it = {
     homeAriaLabel: "Home Eclipsai",
     product: "Come funziona",
     proof: "Impatto",
-    vision: "Oltre la produzione",
+    vision: "Azioni",
     cta: "Prenota una chiamata",
     chooseLanguage: "Scegli la lingua",
     availableLanguages: "Lingue disponibili",
@@ -21,9 +21,9 @@ export const it = {
 
   hero: {
     eyebrow: "Prodotti freschi:",
-    h1: "The Profit Brain collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto.",
+    h1: "The Profit Brain collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto",
     h1Primary: "The Profit Brain",
-    h1Support: "Collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto.",
+    h1Support: "Collega vendite, produzione e finanze per azioni quotidiane che incidono sul profitto",
     copy: "Decidere quanto produrre per ogni punto vendita, prodotto e giorno della settimana. Misurare ogni giorno l'effetto su profitto, vendite e sprechi.",
     examples: [
       "Adegua gli ordini di produzione di domani.",
@@ -60,9 +60,9 @@ export const it = {
 
   product: {
     eyebrow: "Intelligenza operativa al lavoro",
-    h2: "The Profit Brain crea cicli quotidiani di miglioramento.",
-    h2Primary: "The Profit Brain",
-    h2Secondary: "crea cicli quotidiani di miglioramento.",
+    h2: "Creare cicli quotidiani di miglioramento del profitto",
+    h2Primary: "Creare",
+    h2Secondary: "cicli quotidiani di miglioramento del profitto",
     lede: "Eclipsai collega i sistemi di vendita, produzione, ordini e fatturazione con e-mail, chat di lavoro e dati esterni rilevanti. Quando i dati non spiegano cosa è successo, pone al personale una domanda mirata. Le risposte possono arrivare via testo, foto o messaggio vocale.",
     mediaLabel: "Esempio: Eclipsai segue una decisione di produzione in un canale di team già familiare",
     whatChanges: "Come lavora Eclipsai",
@@ -95,12 +95,12 @@ export const it = {
 
   proof: {
     metadata: "Il nostro impatto",
-    h2Before: "In linea per generare un'opportunità di margine di ",
+    h2Before: "Raggiungeremo un margine di profitto dell'",
     h2Value: "1%",
-    h2After: " in un'azienda alimentare",
-    lede: "",
+    h2After: "",
+    lede: "Lavoriamo con una catena di panetterie di Zurigo per definire le quantità di produzione e l'assortimento per punto vendita",
     tracker: {
-      period: "19 agosto–2 settembre 2026",
+      period: "Raggiungere un margine di profitto dell'1%",
       cash: "Impatto di cassa", economic: "Profitto economico", waste: "Sprechi evitati",
       projected: "proiettato", ingredients: "Ingredienti",
       economics: "Ingredienti + lavoro standard + energia",
@@ -129,19 +129,19 @@ export const it = {
 
   vision: {
     eyebrow: "Oltre la produzione",
-    h2: "Le prossime decisioni sul profitto",
-    intro: "Una volta collegato ai sistemi e ai canali di comunicazione dell'azienda, The Profit Brain può aggiungere le informazioni necessarie a ogni nuova decisione, applicare il cambiamento e misurarne il risultato.",
+    h2: "Le prossime azioni per il profitto",
+    intro: "Una volta collegati ai sistemi e ai dati dell'azienda, possiamo individuare nuove opportunità, attuare i cambiamenti e misurare il risultato.",
     pathLabel: "Percorso di espansione di The Profit Brain",
     steps: [
-      { index: "Inizio", h3: "Produzione e sprechi", p: "Proteggere le vendite riducendo gli sprechi ripetuti ed evitabili. Correggere i piani di produzione che non corrispondono più alla domanda." },
-      { index: "Poi", h3: "Acquisti e prezzi", p: "Segnalare i rincari dei fornitori e i prezzi che non coprono più i costi." },
-      { index: "In seguito", h3: "Personale e operazioni", p: "Vedere quando lotti più piccoli riducono gli sprechi ma aggiungono lavoro, o quando il personale insufficiente costa vendite." },
-      { index: "Crescendo", h3: "Il prossimo punto vendita", p: "Usare ciò che funziona nei punti vendita attuali per avviare il prossimo." },
+      { index: "Inizio", h3: "Produzione e sprechi", p: "Ridurre gli sprechi ripetuti ed evitabili e intercettare nuova domanda." },
+      { index: "Poi", h3: "Acquisti e prezzi", p: "Monitorare i rincari dei fornitori e il loro impatto sulla redditività dei prodotti." },
+      { index: "In seguito", h3: "Personale e operazioni", p: "Bilanciare il personale con vendite e domanda." },
+      { index: "Crescendo", h3: "Il prossimo punto vendita", p: "Creare nuovi modelli di domanda basati su ciò che funziona in punti vendita simili." },
     ],
   },
 
   offer: {
-    h2: "The Profit Brain per le azioni quotidiane che incidono sul profitto.",
+    h2: "The Profit Brain per le azioni quotidiane che incidono sul profitto",
     copy: "Collega vendite, produzione e ciò che vede il vostro team per trovare le poche decisioni su cui vale la pena agire e dimostrarne il risultato economico.",
     cardH3: "Inizia gratis",
     items: [
@@ -156,27 +156,27 @@ export const it = {
 
   faq: {
     eyebrow: "Domande frequenti",
-    h2: "Cosa sapere prima di iniziare.",
+    h2: "Domande frequenti",
     items: [
       {
         q: "Produrre meno mette a rischio le vendite?",
-        a: "The Profit Brain soppesa entrambi i rischi. Una vendita persa può costare più degli ingredienti risparmiati. Propone di produrre meno solo quando le prove lo sostengono, poi misura il risultato rispetto al piano precedente.",
+        a: "Bilanciamo entrambi i rischi. Una vendita persa costa in genere più degli ingredienti risparmiati. Suggeriamo di produrre meno quando le prove lo sostengono, poi misuriamo il risultato rispetto al piano iniziale.",
       },
       {
         q: "In cosa The Profit Brain differisce dalle quantità già consigliate dal nostro sistema?",
-        a: "The Profit Brain verifica la quantità attuale rispetto alle alternative realizzabili considerando andamento delle vendite, probabili esaurimenti, sprechi, economia del prodotto e vincoli operativi. I cambiamenti approvati vengono inseriti nel sistema di produzione e misurati in termini di liquidità.",
+        a: "The Profit Brain verifica la quantità attuale rispetto alle alternative realizzabili considerando andamento delle vendite, probabili esaurimenti, sprechi, economia del prodotto e vincoli operativi. L'impatto sul profitto di ogni singolo cambiamento viene misurato e riportato.",
       },
       {
         q: "Dobbiamo sostituire i sistemi esistenti?",
-        a: "No. The Profit Brain lavora con i sistemi già in uso. Legge e scrive tramite API oppure tramite uso diretto del computer per i sistemi più vecchi.",
+        a: "No. Operiamo i sistemi già in uso tramite API o mediante l'uso diretto del computer per i sistemi più vecchi.",
       },
       {
         q: "Quanto lavoro richiede al team?",
-        a: "The Profit Brain lavora sui dati di vendita e produzione. Fa una domanda breve al team solo quando i dati non spiegano cosa è successo, come un esaurito, avanzi insoliti o un evento locale.",
+        a: "Applichiamo direttamente i cambiamenti e chiediamo al team solo quando i dati non spiegano cosa è successo nel punto vendita.",
       },
       {
         q: "Come iniziamo?",
-        a: "Iniziamo dai dati affidabili e dalle combinazioni punto vendita-prodotto con le prove più solide. Quando i dati non bastano, The Profit Brain chiede contesto oppure lascia invariata la quantità. Non è necessario cambiare tutti i punti vendita insieme.",
+        a: "Ci colleghiamo ai sistemi e analizziamo i dati storici per creare una prima stima del potenziale. Poi proponiamo cambiamenti senza implementarli e misuriamo il miglioramento atteso.",
       },
     ],
   },

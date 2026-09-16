@@ -13,7 +13,7 @@ export const ro = {
     homeAriaLabel: "Pagina principală Eclipsai",
     product: "Cum funcționează",
     proof: "Impact",
-    vision: "Dincolo de producție",
+    vision: "Acțiuni",
     cta: "Programați o discuție",
     chooseLanguage: "Alegeți limba",
     availableLanguages: "Limbi disponibile",
@@ -21,9 +21,9 @@ export const ro = {
 
   hero: {
     eyebrow: "Produse proaspete:",
-    h1: "The Profit Brain conectează vânzările, producția și datele financiare pentru acțiuni zilnice care influențează profitul.",
+    h1: "The Profit Brain conectează vânzările, producția și datele financiare pentru acțiuni zilnice care influențează profitul",
     h1Primary: "The Profit Brain",
-    h1Support: "Conectează vânzările, producția și datele financiare pentru acțiuni zilnice care influențează profitul.",
+    h1Support: "Conectează vânzările, producția și datele financiare pentru acțiuni zilnice care influențează profitul",
     copy: "Stabiliți cât produceți pentru fiecare magazin, produs și zi a săptămânii. Măsurați zilnic efectul asupra profitului, vânzărilor și risipei.",
     examples: [
       "Ajustează comenzile de producție pentru mâine.",
@@ -60,9 +60,9 @@ export const ro = {
 
   product: {
     eyebrow: "Inteligența operațională la lucru",
-    h2: "The Profit Brain creează cicluri zilnice de îmbunătățire.",
-    h2Primary: "The Profit Brain",
-    h2Secondary: "creează cicluri zilnice de îmbunătățire.",
+    h2: "Construiți cicluri zilnice de îmbunătățire a profitului",
+    h2Primary: "Construiți",
+    h2Secondary: "cicluri zilnice de îmbunătățire a profitului",
     lede: "Eclipsai conectează sistemele de vânzări, producție, comenzi și facturare cu e-mailul, canalele de chat ale echipelor și datele externe relevante. Când datele nu explică ce s-a întâmplat, adresează personalului o întrebare punctuală. Echipele pot răspunde prin text, fotografii sau mesaje vocale.",
     mediaLabel: "Exemplu: Eclipsai urmărește o decizie de producție printr-un canal de echipă deja familiar",
     whatChanges: "Cum lucrează Eclipsai",
@@ -95,12 +95,12 @@ export const ro = {
 
   proof: {
     metadata: "Impactul nostru",
-    h2Before: "Pe cale să obținem o oportunitate de marjă a profitului de ",
+    h2Before: "Vom obține o marjă a profitului de ",
     h2Value: "1%",
-    h2After: " la un operator alimentar",
-    lede: "",
+    h2After: "",
+    lede: "Lucrăm cu un lanț de brutării din Zürich pentru a stabili cantitățile de producție și sortimentul pentru fiecare magazin",
     tracker: {
-      period: "19 august–2 septembrie 2026",
+      period: "Obținerea unei marje a profitului de 1%",
       cash: "Impact asupra numerarului", economic: "Profit economic", waste: "Risipă evitată",
       projected: "proiectat", ingredients: "Ingrediente",
       economics: "Ingrediente + muncă standard + energie",
@@ -129,19 +129,19 @@ export const ro = {
 
   vision: {
     eyebrow: "Dincolo de producție",
-    h2: "Următoarele decizii pentru profit",
-    intro: "Odată conectat la sistemele și canalele de comunicare ale companiei, The Profit Brain poate adăuga informațiile necesare pentru fiecare decizie nouă, poate aplica schimbarea și poate măsura rezultatul.",
+    h2: "Următoarele acțiuni pentru profit",
+    intro: "Odată conectați la sistemele și datele companiei, putem identifica noi oportunități, implementa schimbări și măsura rezultatul.",
     pathLabel: "Traseul de extindere al The Profit Brain",
     steps: [
-      { index: "Start", h3: "Producție și risipă", p: "Protejați vânzările reducând în același timp risipa repetată și evitabilă. Corectați planurile de producție care nu mai corespund cererii." },
-      { index: "Urmează", h3: "Achiziții și prețuri", p: "Semnalați scumpirile furnizorilor și prețurile care nu mai acoperă costurile." },
-      { index: "Apoi", h3: "Personal și operațiuni", p: "Vedeți când loturile mai mici reduc risipa dar adaugă muncă, sau când personalul insuficient costă vânzări." },
-      { index: "Pe măsură ce creșteți", h3: "Următoarea locație", p: "Folosiți ce funcționează în magazinele actuale pentru a deschide următorul." },
+      { index: "Start", h3: "Producție și risipă", p: "Reduceți risipa repetată și evitabilă și captați cererea nouă." },
+      { index: "Urmează", h3: "Achiziții și prețuri", p: "Urmăriți scumpirile furnizorilor și impactul lor asupra profitabilității produselor." },
+      { index: "Apoi", h3: "Personal și operațiuni", p: "Echilibrați personalul în funcție de vânzări și cerere." },
+      { index: "Pe măsură ce creșteți", h3: "Următoarea locație", p: "Construiți noi modele de cerere pe baza a ceea ce funcționează în magazine similare." },
     ],
   },
 
   offer: {
-    h2: "The Profit Brain pentru acțiunile zilnice care influențează profitul.",
+    h2: "The Profit Brain pentru acțiunile zilnice care influențează profitul",
     copy: "Conectează vânzările, producția și ce observă echipa dumneavoastră ca să găsească puținele decizii care merită acțiune și să dovedească rezultatul ca impact financiar.",
     cardH3: "Începeți gratuit",
     items: [
@@ -156,27 +156,27 @@ export const ro = {
 
   faq: {
     eyebrow: "Întrebări frecvente",
-    h2: "Ce trebuie să știți înainte de a începe.",
+    h2: "Întrebări frecvente",
     items: [
       {
         q: "Dacă producem mai puțin, punem vânzările în pericol?",
-        a: "The Profit Brain cântărește ambele riscuri. O vânzare ratată poate costa mai mult decât ingredientele economisite. Propune să produceți mai puțin doar când dovezile o susțin, apoi măsoară rezultatul față de planul anterior.",
+        a: "Echilibrăm ambele riscuri. O vânzare ratată costă, în general, mai mult decât ingredientele economisite. Propunem să produceți mai puțin când dovezile susțin schimbarea, apoi măsurăm rezultatul față de planul inițial.",
       },
       {
         q: "Prin ce diferă The Profit Brain de cantitățile deja recomandate de sistemul nostru?",
-        a: "The Profit Brain testează cantitatea actuală față de alternativele fezabile folosind ritmul vânzărilor, epuizările probabile, risipa, economia produsului și constrângerile operaționale. Schimbările aprobate sunt introduse în sistemul de producție și măsurate în numerar.",
+        a: "The Profit Brain testează cantitatea actuală față de alternativele fezabile folosind ritmul vânzărilor, epuizările probabile, risipa, economia produsului și constrângerile operaționale. Impactul asupra profitului al fiecărei schimbări este măsurat și raportat.",
       },
       {
         q: "Trebuie să înlocuim sistemele existente?",
-        a: "Nu. The Profit Brain lucrează cu sistemele deja utilizate. Citește și scrie date prin API-uri sau prin utilizarea directă a computerului pentru sistemele mai vechi.",
+        a: "Nu. Operăm sistemele deja utilizate prin API-uri sau prin utilizarea directă a computerului pentru sistemele mai vechi.",
       },
       {
         q: "Cât de multă muncă cere echipei?",
-        a: "The Profit Brain lucrează cu datele de vânzări și producție. Pune echipei o întrebare scurtă doar când datele nu explică ce s-a întâmplat, cum ar fi un stoc epuizat, resturi neobișnuite sau un eveniment local.",
+        a: "Aplicăm schimbările direct și întrebăm echipa doar atunci când datele nu explică ce s-a întâmplat în magazin.",
       },
       {
         q: "Cum începem?",
-        a: "Începem cu datele de încredere și combinațiile magazin-produs pentru care dovezile sunt cele mai solide. Când datele nu sunt suficiente, The Profit Brain cere context sau lasă cantitatea neschimbată. Nu trebuie să schimbați toate magazinele deodată.",
+        a: "Ne conectăm la sisteme și analizăm datele istorice pentru a crea o primă estimare a potențialului. Apoi propunem schimbări fără să le implementăm și măsurăm îmbunătățirea estimată.",
       },
     ],
   },

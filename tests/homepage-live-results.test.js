@@ -67,18 +67,19 @@ test("locale hero copy stays operator-facing", () => {
   }
 });
 
-test("translated visible copy matches the approved daily improvement-loop intent", () => {
+test("translated visible copy matches the approved daily profit-loop intent", () => {
   const expected = {
-    de: { loop: "schafft tägliche Verbesserungszyklen.", impact: "Wirkung", demo: "Demo", close: "für die täglichen Gewinnmassnahmen." },
-    fr: { loop: "crée des cycles d'amélioration quotidiens.", impact: "Impact", demo: "Démo", close: "pour les actions quotidiennes qui influencent le profit." },
-    it: { loop: "crea cicli quotidiani di miglioramento.", impact: "Impatto", demo: "Demo", close: "per le azioni quotidiane che incidono sul profitto." },
-    ro: { loop: "creează cicluri zilnice de îmbunătățire.", impact: "Impact", demo: "Demo", close: "pentru acțiunile zilnice care influențează profitul." },
+    de: { loop: "Tägliche Verbesserungszyklen für den Gewinn aufbauen", impact: "Wirkung", actions: "Massnahmen", demo: "Demo", close: "für tägliche Gewinnmassnahmen" },
+    fr: { loop: "Construire des cycles quotidiens d'amélioration du profit", impact: "Impact", actions: "Actions", demo: "Démo", close: "pour les actions quotidiennes qui influencent le profit" },
+    it: { loop: "Creare cicli quotidiani di miglioramento del profitto", impact: "Impatto", actions: "Azioni", demo: "Demo", close: "per le azioni quotidiane che incidono sul profitto" },
+    ro: { loop: "Construiți cicluri zilnice de îmbunătățire a profitului", impact: "Impact", actions: "Acțiuni", demo: "Demo", close: "pentru acțiunile zilnice care influențează profitul" },
   };
   for (const [locale, copy] of Object.entries(expected)) {
     const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);
     const content = fs.readFileSync(contentPath, "utf8");
-    assert.ok(content.includes(`h2Secondary: "${copy.loop}"`), `${locale} must translate improvement loops`);
+    assert.ok(content.includes(`h2: "${copy.loop}"`), `${locale} must translate daily profit improvement loops`);
     assert.ok(content.includes(`proof: "${copy.impact}"`), `${locale} nav must mean Impact`);
+    assert.ok(content.includes(`vision: "${copy.actions}"`), `${locale} nav must mean Actions`);
     assert.ok(content.includes(`open: "${copy.demo}"`), `${locale} demo button must stay concise`);
     assert.ok(content.includes(`h2: "The Profit Brain ${copy.close}"`), `${locale} closing must use the brand-for-actions intent`);
     assert.doesNotMatch(content.split("  product: {")[1]?.split("  demo: {")[0] || "", /Nach Ladenschluss|Après la fermeture|Dopo la chiusura|După închiderea/, `${locale} measurement must be daily`);
@@ -116,4 +117,18 @@ test("mobile hides only the Profit Brain schematic and keeps the Demo control", 
   assert.match(css, /@media \(max-width: 900px\)[\s\S]*?\.homepage-demo-profit-graphic \{ display: none; \}/);
   assert.match(css, /\.homepage-demo-approach-stage \{ grid-template-columns: 1fr; gap: 24px; \}/);
   assert.match(component, /<ProfitBrainGraphic labels=\{c\.product\.diagram\} \/>[\s\S]*?<button[\s\S]*?className="homepage-demo-open-demo"/);
+});
+
+test("display headlines do not end in full stops", () => {
+  for (const locale of ["en", "de", "fr", "it", "ro"]) {
+    const contentPath = path.join(root, "src", "views", "fresh-food", `freshFoodContent.${locale}.js`);
+    const content = fs.readFileSync(contentPath, "utf8");
+    const displayBlocks = ["  hero: {", "  product: {", "  vision: {", "  offer: {", "  faq: {"];
+    for (const marker of displayBlocks) {
+      const block = content.split(marker)[1]?.split("\n  },")[0] || "";
+      const headline = block.match(/\n\s+h(?:1|2): "([^"]+)"/)?.[1];
+      assert.ok(headline, `${locale} ${marker.trim()} must have a headline`);
+      assert.doesNotMatch(headline, /\.$/, `${locale} ${marker.trim()} headline must not end in a full stop`);
+    }
+  }
 });

@@ -17,7 +17,7 @@ export const en = {
     homeAriaLabel: "Eclipsai home",
     product: "How it works",
     proof: "Impact",
-    vision: "Beyond production",
+    vision: "Actions",
     cta: "Book a call",
     chooseLanguage: "Choose language",
     availableLanguages: "Available languages",
@@ -25,9 +25,9 @@ export const en = {
 
   hero: {
     eyebrow: "Fresh Food:",
-    h1: "Connect sales, production, and financials for daily profit actions.",
+    h1: "Connect sales, production, and financials for daily profit actions",
     h1Primary: "The Profit Brain",
-    h1Support: "Connect sales, production, and financials for daily profit actions.",
+    h1Support: "Connect sales, production, and financials for daily profit actions",
     copy: "Make production decisions for every shop, product, and weekday. Measure the daily effect on profit, sales, and waste.",
     examples: [
       "Adjusts tomorrow's production orders.",
@@ -64,9 +64,9 @@ export const en = {
 
   product: {
     eyebrow: "The profit brain at work",
-    h2: "The Profit Brain creates daily improvement loops.",
-    h2Primary: "The Profit Brain",
-    h2Secondary: "creates daily improvement loops.",
+    h2: "Build daily profit improvement loops",
+    h2Primary: "Build",
+    h2Secondary: "daily profit improvement loops",
     lede: "Eclipsai connects sales, production, ordering, and invoicing systems with email, team chats, and relevant external data. When the data cannot explain what happened, it asks staff a targeted question. They can answer with text, photos, or voice notes.",
     mediaLabel: "Example of Eclipsai monitoring a production decision through a familiar team channel",
     whatChanges: "How Eclipsai works",
@@ -99,12 +99,12 @@ export const en = {
 
   proof: {
     metadata: "Our impact",
-    h2Before: "On track to deliver ",
+    h2Before: "Will deliver ",
     h2Value: "1%",
-    h2After: " profit margin opportunity with one food operator",
-    lede: "",
+    h2After: " profit margin",
+    lede: "Working with a Zurich-based bakery chain to set production quantities and assortment by store",
     tracker: {
-      period: "19 August–2 September 2026",
+      period: "Delivering 1% profit margin",
       cash: "Cash impact", economic: "Economic profit", waste: "Waste avoided",
       projected: "projected", ingredients: "Ingredients",
       economics: "Ingredients + standard labor + energy",
@@ -133,19 +133,19 @@ export const en = {
 
   vision: {
     eyebrow: "Beyond production",
-    h2: "The next profit decisions",
-    intro: "Once connected to the company's systems and communication channels, the Profit Brain can add the information needed for each new decision, implement the change, and measure the result.",
+    h2: "The next profit actions",
+    intro: "Once connected to the company's systems and data, we can identify new opportunities, implement changes, and measure the result.",
     pathLabel: "Eclipsai expansion path",
     steps: [
-      { index: "Start", h3: "Production and waste", p: "Protect sales while cutting repeated, avoidable waste. Update production plans that no longer match demand." },
-      { index: "Next", h3: "Buying and pricing", p: "Flag supplier price rises and prices that no longer cover costs." },
-      { index: "Then", h3: "Labor and operations", p: "See when smaller batches save waste but add work, or when understaffing costs sales." },
-      { index: "As you grow", h3: "The next location", p: "Use what works in your current shops to start the next one." },
+      { index: "Start", h3: "Production and waste", p: "Cut repeated, avoidable waste and capture new demand." },
+      { index: "Next", h3: "Buying and pricing", p: "Track supplier price rises and their impact on product profitability." },
+      { index: "Then", h3: "Labor and operations", p: "Balance staffing with sales and demand." },
+      { index: "As you grow", h3: "The next location", p: "Build new demand models based on what works in similar shops." },
     ],
   },
 
   offer: {
-    h2: "The Profit Brain for the daily profit actions.",
+    h2: "The Profit Brain for daily profit actions",
     copy: "It connects sales, production, and what your team sees to find the few decisions worth acting on and prove the result in cash.",
     cardH3: "Start free",
     items: [
@@ -160,27 +160,27 @@ export const en = {
 
   faq: {
     eyebrow: "Common questions",
-    h2: "What to know before starting.",
+    h2: "Frequently asked questions",
     items: [
       {
         q: "Will making less put sales at risk?",
-        a: "The Profit Brain weighs both risks. A missed sale can cost more than the ingredients saved. It only suggests making less when the evidence supports it, then measures the result against the plan it replaced.",
+        a: "We balance both risks. A missed sale generally costs more than the ingredients saved. We suggest making less when the evidence supports it, then measure the result against the initial plan.",
       },
       {
         q: "How is the Profit Brain different from the quantities our system already recommends?",
-        a: "The Profit Brain tests the current quantity against feasible alternatives using sales timing, likely sellouts, waste, product economics, and operating constraints. Approved changes are written back into the production system and measured in cash.",
+        a: "The Profit Brain tests the current quantity against feasible alternatives using sales timing, likely sellouts, waste, product economics, and operating constraints. The profit impact of every single change is measured and reported.",
       },
       {
         q: "Do we need to replace our existing systems?",
-        a: "No. The Profit Brain works with the systems already in use. It reads from and writes back through APIs or computer use for older systems.",
+        a: "No. We operate the systems already in use through APIs or computer use for older systems.",
       },
       {
         q: "How much work does the team have to do?",
-        a: "The Profit Brain works from sales and production records. It asks the team a short question only when the records cannot explain what happened, such as a sell-out, unusual leftovers, or a local event.",
+        a: "We make changes directly and ask the team only when the records cannot explain what happened in the store.",
       },
       {
         q: "How do we start?",
-        a: "We begin with the records that can be trusted and the shop-product combinations where the evidence is strongest. When the data is not sufficient, the Profit Brain asks for context or leaves the quantity unchanged. You do not need to change every shop at once.",
+        a: "We connect to systems and analyze historical data to create a first estimate of the potential. We then propose changes without implementing them and measure the expected improvement.",
       },
     ],
   },
