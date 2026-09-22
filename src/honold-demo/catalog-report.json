@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-09-19T06:31:03.662Z",
+  "sourceUrl": "https://shop.honold.ch/shop/",
+  "pagesFetched": 7,
+  "listedProductCount": 134,
+  "downloadedImageCount": 134,
+  "failures": [],
+  "priceBasis": "One displayed CHF price per simple product on the seven public shop listing pages. Variable products are rejected by the extractor.",
+  "limitations": [
+    "Only shop listing pages are captured; product detail ingredients, allergens, and custom options are not included.",
+    "Gutscheine are promoted through a separate navigation route and are not represented in this seven-page listing snapshot.",
+    "Online listing does not prove physical-store availability or current prices at checkout."
+  ]
+}

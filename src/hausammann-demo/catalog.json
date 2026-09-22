@@ -1,0 +1,788 @@
+{
+  "brand": "Bäckerei Hausammann · Zopf-Beck",
+  "source": "https://www.zopfbeck.ch/",
+  "extractedAt": "2026-09-19T06:25:23.366Z",
+  "priceBasis": "No current, per-item public prices were verified. Prices are omitted.",
+  "availabilityBasis": "Catalogue presence does not establish current store availability.",
+  "products": [
+    {
+      "id": "bro-chnebelbrot-1",
+      "handle": "chnebelbrot",
+      "name": "Chnebelbrot",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/-mg-8486-ret-02.jpg",
+          "alt": "Chnebelbrot",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/-mg-8486-ret-02.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-sesamleinsamenbrot-2",
+      "handle": "sesamleinsamenbrot",
+      "name": "Sesamleinsamenbrot",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/mg-8779-6.jpg",
+          "alt": "Sesamleinsamenbrot",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/mg-8779-6.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-chorblibrot-3",
+      "handle": "chorblibrot",
+      "name": "Chörblibrot",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/brot-choerbli-8775-ret-02-2.jpg",
+          "alt": "Chörblibrot",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/brot-choerbli-8775-ret-02-2.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-burli-schild-4",
+      "handle": "burli-schild",
+      "name": "Bürli-Schild",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/mg-8783.jpg",
+          "alt": "Bürli-Schild",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/mg-8783.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-der-alte-fritz-5",
+      "handle": "der-alte-fritz",
+      "name": "Der Alte Fritz",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/der-alte-fritz-ret-01-1.01.jpg",
+          "alt": "Der Alte Fritz",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/der-alte-fritz-ret-01-1.01.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-roggenbrot-6",
+      "handle": "roggenbrot",
+      "name": "Roggenbrot",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-2-bro-nuss.jpg",
+          "alt": "Roggenbrot",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-2-bro-nuss.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "bro-st-abbondio-7",
+      "handle": "st-abbondio",
+      "name": "St. Abbondio",
+      "productType": "Brote",
+      "description": "",
+      "tags": [
+        "Brote"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/mg-8793-2.jpg",
+          "alt": "St. Abbondio",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/mg-8793-2.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.bro"
+    },
+    {
+      "id": "pat-franzosisch-patisserie-zitrone-8",
+      "handle": "franzosisch-patisserie-zitrone",
+      "name": "Französisch Patisserie Zitrone",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/ich-mag-dich-genau-so-wie-du-bist-mg-8949-2-1.jpg",
+          "alt": "Französisch Patisserie Zitrone",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/ich-mag-dich-genau-so-wie-du-bist-mg-8949-2-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-tiramisu-9",
+      "handle": "tiramisu",
+      "name": "Tiramisu",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro.pat-glaeser.jpg",
+          "alt": "Tiramisu",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro.pat-glaeser.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-mango-mousse-torte-10",
+      "handle": "mango-mousse-torte",
+      "name": "Mango-Mousse-Torte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/-mg-9303.jpg",
+          "alt": "Mango-Mousse-Torte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/-mg-9303.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-erdbeer-torte-11",
+      "handle": "erdbeer-torte",
+      "name": "Erdbeer-Torte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-tort-erdbeer-mandel-rand-3er-1.jpg",
+          "alt": "Erdbeer-Torte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-tort-erdbeer-mandel-rand-3er-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-schwarzwaldertorte-12",
+      "handle": "schwarzwaldertorte",
+      "name": "Schwarzwäldertorte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-tort-schoko-3er.jpg",
+          "alt": "Schwarzwäldertorte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-tort-schoko-3er.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-ananas-royal-13",
+      "handle": "ananas-royal",
+      "name": "Ananas-Royal",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-tort-profierolle.jpg",
+          "alt": "Ananas-Royal",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-tort-profierolle.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-schoggi-mousse-torte-14",
+      "handle": "schoggi-mousse-torte",
+      "name": "Schoggi-Mousse-Torte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-tort-mokka-schoko-frucht-3.jpg",
+          "alt": "Schoggi-Mousse-Torte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-tort-mokka-schoko-frucht-3.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-schoggi-schwedentorte-15",
+      "handle": "schoggi-schwedentorte",
+      "name": "Schoggi-Schwedentorte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-torte-marzipan-rot.jpg",
+          "alt": "Schoggi-Schwedentorte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-torte-marzipan-rot.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-mini-patisserie-assortiert-16",
+      "handle": "mini-patisserie-assortiert",
+      "name": "Mini-Patisserie assortiert",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro.pat-platte-m-15-teilem.jpg",
+          "alt": "Mini-Patisserie assortiert",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro.pat-platte-m-15-teilem.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-schwedentorte-17",
+      "handle": "schwedentorte",
+      "name": "Schwedentorte",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-torte-marzipan-gruen.jpg",
+          "alt": "Schwedentorte",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-torte-marzipan-gruen.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-nussknacker-18",
+      "handle": "nussknacker",
+      "name": "Nussknacker",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-4.pat-kl-geb-haselnuss-schoko-rodelle.jpeg",
+          "alt": "Nussknacker",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-4.pat-kl-geb-haselnuss-schoko-rodelle.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-florentiner-19",
+      "handle": "florentiner",
+      "name": "Florentiner",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-2.pat-kl-geb-sampler.jpeg",
+          "alt": "Florentiner",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-2.pat-kl-geb-sampler.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-florentiner-20",
+      "handle": "florentiner",
+      "name": "Florentiner",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro-2.pat-kl-geb-mandel.jpeg",
+          "alt": "Florentiner",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro-2.pat-kl-geb-mandel.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-berliner-21",
+      "handle": "berliner",
+      "name": "Berliner",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro.pat-kl-geb-berliner.jpeg",
+          "alt": "Berliner",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro.pat-kl-geb-berliner.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-zigerkrapfen-22",
+      "handle": "zigerkrapfen",
+      "name": "Zigerkrapfen",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/pro.pat-kl-geb-nusskipfel.jpeg",
+          "alt": "Zigerkrapfen",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/pro.pat-kl-geb-nusskipfel.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "pat-kruzli-23",
+      "handle": "kruzli",
+      "name": "Krüzli",
+      "productType": "Patisserie",
+      "description": "",
+      "tags": [
+        "Patisserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/vanille-pudding-gipfeli.jpeg",
+          "alt": "Krüzli",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/vanille-pudding-gipfeli.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.pat"
+    },
+    {
+      "id": "tra-tomaten-mozarella-salat-24",
+      "handle": "tomaten-mozarella-salat",
+      "name": "Tomaten-Mozarella Salat",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-tom-mozz-4.jpeg",
+          "alt": "Tomaten-Mozarella Salat",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-tom-mozz-4.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-mesclun-salat-25",
+      "handle": "mesclun-salat",
+      "name": "Mesclun Salat",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-loewenzahn-01.jpg",
+          "alt": "Mesclun Salat",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-loewenzahn-01.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-gemischter-salat-26",
+      "handle": "gemischter-salat",
+      "name": "Gemischter Salat",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-loewenzahn-gem-02.jpg",
+          "alt": "Gemischter Salat",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-loewenzahn-gem-02.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-nusslisalat-mit-ei-27",
+      "handle": "nusslisalat-mit-ei",
+      "name": "Nüsslisalat mit Ei",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-nuessli-ei.jpg",
+          "alt": "Nüsslisalat mit Ei",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-nuessli-ei.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-ruccola-salat-28",
+      "handle": "ruccola-salat",
+      "name": "Ruccola-Salat",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-nuessli-kaese-1.jpg",
+          "alt": "Ruccola-Salat",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-nuessli-kaese-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-griechischer-salat-29",
+      "handle": "griechischer-salat",
+      "name": "Griechischer Salat",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trai-salat-nuessli-feta-02-1.jpg",
+          "alt": "Griechischer Salat",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trai-salat-nuessli-feta-02-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-hamburger-30",
+      "handle": "hamburger",
+      "name": "Hamburger",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trait-hamb-01.jpg",
+          "alt": "Hamburger",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trait-hamb-01.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-fleischkas-burli-31",
+      "handle": "fleischkas-burli",
+      "name": "Fleischkäs-Bürli",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trait-leberkaese-1.jpg",
+          "alt": "Fleischkäs-Bürli",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trait-leberkaese-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "tra-sandwiches-32",
+      "handle": "sandwiches",
+      "name": "Sandwiches",
+      "productType": "Traiteur",
+      "description": "",
+      "tags": [
+        "Traiteur"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/trait-belegt-semmeli.jpg",
+          "alt": "Sandwiches",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/trait-belegt-semmeli.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.tra"
+    },
+    {
+      "id": "con-chocolierte-mandeln-33",
+      "handle": "chocolierte-mandeln",
+      "name": "Chocolierte Mandeln",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/img-9046.jpg",
+          "alt": "Chocolierte Mandeln",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/img-9046.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "con-confierte-orangenscheiben-34",
+      "handle": "confierte-orangenscheiben",
+      "name": "Confierte Orangenscheiben",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/conf-3.cand-ret-01-1646.jpg",
+          "alt": "Confierte Orangenscheiben",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/conf-3.cand-ret-01-1646.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "con-hauskonfekt-35",
+      "handle": "hauskonfekt",
+      "name": "Hauskonfekt",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/con.plaetz-ass-ret-01.jpg",
+          "alt": "Hauskonfekt",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/con.plaetz-ass-ret-01.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "con-hausgemachte-truffes-36",
+      "handle": "hausgemachte-truffes",
+      "name": "Hausgemachte Truffes",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/con-3.pralinen-ret-02.jpg",
+          "alt": "Hausgemachte Truffes",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/con-3.pralinen-ret-02.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "con-mini-florentiner-37",
+      "handle": "mini-florentiner",
+      "name": "Mini-Florentiner",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/con-7.plaetz-ret-03-img-1497.jpg",
+          "alt": "Mini-Florentiner",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/con-7.plaetz-ret-03-img-1497.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "con-chocolierte-haselnusse-38",
+      "handle": "chocolierte-haselnusse",
+      "name": "Chocolierte Haselnüsse",
+      "productType": "Confiserie",
+      "description": "",
+      "tags": [
+        "Confiserie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/con-7.nuesse-img-1786.jpg",
+          "alt": "Chocolierte Haselnüsse",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/con-7.nuesse-img-1786.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.con"
+    },
+    {
+      "id": "gla-glace-stengel-39",
+      "handle": "glace-stengel",
+      "name": "Glacé-Stengel",
+      "productType": "Glacerie",
+      "description": "",
+      "tags": [
+        "Glacerie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/glace-verp-1.jpg",
+          "alt": "Glacé-Stengel",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/glace-verp-1.jpg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.gla"
+    },
+    {
+      "id": "gla-glace-becher-40",
+      "handle": "glace-becher",
+      "name": "Glacé-Becher",
+      "productType": "Glacerie",
+      "description": "",
+      "tags": [
+        "Glacerie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/glace-tirm-seitl.jpeg",
+          "alt": "Glacé-Becher",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/glace-tirm-seitl.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.gla"
+    },
+    {
+      "id": "gla-glace-clown-41",
+      "handle": "glace-clown",
+      "name": "Glacé-Clown",
+      "productType": "Glacerie",
+      "description": "",
+      "tags": [
+        "Glacerie"
+      ],
+      "priceChf": null,
+      "images": [
+        {
+          "localPath": "/hausammann-demo/products/glace-clowns-big-1.jpeg",
+          "alt": "Glacé-Clown",
+          "sourceUrl": "https://www.zopfbeck.ch/assets/images/glace-clowns-big-1.jpeg"
+        }
+      ],
+      "sourceUrl": "https://www.zopfbeck.ch/pro.gla"
+    }
+  ]
+}
