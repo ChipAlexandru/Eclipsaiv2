@@ -1,0 +1,18 @@
+{
+  "source": "https://www.zopfbeck.ch/",
+  "extractedAt": "2026-09-19T06:25:23.366Z",
+  "counts": {
+    "Brote": 7,
+    "Patisserie": 16,
+    "Traiteur": 9,
+    "Confiserie": 6,
+    "Glacerie": 3
+  },
+  "photographedProducts": 41,
+  "locationSource": "https://www.zopfbeck.ch/fil.uni",
+  "limitations": [
+    "Only photographed products in five public category pages are included.",
+    "No current prices, live inventory, ingredient or allergen feed was available.",
+    "Seasonal and variant availability must be confirmed with Hausammann."
+  ]
+}
