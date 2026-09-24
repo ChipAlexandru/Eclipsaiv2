@@ -208,3 +208,128 @@ test("delivery validation and order QR identities stay bound to the confirmed or
   assert.ok(matrix.every((row) => row.length === 33));
   assert.notDeepEqual(matrix, qr.qrMatrix(identity.replace("order-123", "order-124")));
 });
+
+test("customer action execution opens the basket without checkout details and reports failures", async () => {
+  const { executeCustomerAction, checkoutQuestion, connectionRecovery } = await import(pathToFileURL(path.join(root, "src/honold-demo/voiceActions.mjs")));
+  const state = { ui: { view: "shop", modal: null }, basket: {}, slotId: null };
+  const snapshot = () => ({ ui: { ...state.ui }, basket: { ...state.basket } });
+  const actions = {
+    open_basket: () => { state.ui.modal = "basket"; return { basket: { itemCount: 0, items: [] } }; },
+    fail: () => { throw new Error("recoverable failure"); },
+    blocked: () => ({ ok: false, status: "blocked", question: "Choose a time." }),
+  };
+  const opened = await executeCustomerAction({ action: "open_basket", actions, snapshot });
+  assert.equal(opened.ok, true);
+  assert.equal(opened.screen.modal, "basket");
+  assert.equal(state.slotId, null);
+  const blocked = await executeCustomerAction({ action: "blocked", actions, snapshot });
+  assert.equal(blocked.status, "blocked");
+  assert.equal(blocked.question, "Choose a time.");
+  const failed = await executeCustomerAction({ action: "fail", actions, snapshot });
+  assert.equal(failed.status, "error");
+  assert.match(failed.error, /recoverable failure/);
+  const timeout = await executeCustomerAction({ action: "slow", actions: { slow: () => new Promise(() => {}) }, snapshot, timeoutMs: 5 });
+  assert.equal(timeout.status, "timeout");
+  assert.deepEqual(connectionRecovery("disconnected", false), { voiceStatus: "error", messageKey: "voiceDisconnected", retryAvailable: true });
+  assert.equal(connectionRecovery("disconnected", true), null);
+  assert.match(checkoutQuestion({ reason: "Choose a valid future pickup slot." }, "de"), /Tag/);
+});
+
+test("production customer action controller keeps every panel transition truthful", async () => {
+  const { createCustomerActionController, createPanelActionController, executeCustomerAction, resolvePanelTransition } =
+    await import(pathToFileURL(path.join(root, "src/honold-demo/voiceActions.mjs")));
+  let ui = resolvePanelTransition();
+  let slotId = null;
+  let approvalInput = null;
+  const commit = (target) => (ui = resolvePanelTransition({ ...ui, ...target }));
+  const panels = createPanelActionController(commit, () => ui.basketOpen);
+  const snapshot = () => ({ ui: { ...ui } });
+  const actions = createCustomerActionController({
+    openBasket: () => panels.openBasket(),
+    closeBasket: () => panels.closePanels(),
+    openFulfillment: () => panels.openFulfillment(),
+    closeFulfillment: () => panels.closeFulfillment(),
+    openProduct: (productId) => panels.openProduct(productId, { message: "None", wrap: "Standard" }),
+    setFulfillment: ({ field, value }) => { if (field === "slot") slotId = value; panels.openFulfillment(); return { slotId }; },
+    startCheckout: () => { panels.checkout(!slotId); return slotId ? { awaitingExplicitApproval: true } : { ok: false, status: "blocked" }; },
+    approveExactReview: (intent, expected) => { approvalInput = { intent, ...expected }; panels.showOrderStatus("ORDER-1"); return { orderId: "ORDER-1" }; },
+    showOrders: () => panels.showOrders(),
+    openOrder: (orderId) => panels.showOrderStatus(orderId, true),
+    toggleOrderDetails: (open) => panels.showOrderStatus("ORDER-1", open),
+    continueShopping: () => panels.continueShopping(),
+    backToOrders: () => panels.showOrders(),
+    changeLanguage: (language) => ({ language }),
+  });
+
+  await executeCustomerAction({ action: "open_fulfillment", actions, snapshot });
+  assert.equal(ui.modal, "fulfillment");
+  await executeCustomerAction({ action: "set_fulfillment", input: { field: "slot", value: "slot-1" }, actions, snapshot });
+  const checkout = await executeCustomerAction({ action: "start_checkout", actions, snapshot });
+  assert.equal(checkout.screen.modal, "basket", "valid checkout closes the fulfilment sheet over the basket");
+  assert.equal(ui.fulfillmentOpen, false);
+
+  await executeCustomerAction({ action: "continue_shopping", actions, snapshot });
+  assert.deepEqual({ view: ui.view, modal: ui.modal, basket: ui.basketOpen }, { view: "shop", modal: null, basket: false });
+
+  panels.openBasket();
+  await executeCustomerAction({ action: "show_status", input: { orderId: "ORDER-1" }, actions, snapshot });
+  assert.deepEqual({ view: ui.view, modal: ui.modal, basket: ui.basketOpen }, { view: "order_status", modal: null, basket: false });
+
+  panels.openProduct("product-1", { message: "None", wrap: "Standard" });
+  await executeCustomerAction({ action: "open_basket", actions, snapshot });
+  assert.equal(ui.modal, "basket");
+  assert.equal(ui.detailProductId, null);
+
+  const approved = await executeCustomerAction({
+    action: "approve_order",
+    input: { reviewId: "review-1", fingerprint: "fp-1", intent: "confirm" },
+    actions,
+    snapshot,
+  });
+  assert.deepEqual(approvalInput, { intent: "confirm", reviewId: "review-1", fingerprint: "fp-1" });
+  assert.deepEqual({ view: approved.screen.view, modal: approved.screen.modal, basket: ui.basketOpen, fulfillment: ui.fulfillmentOpen },
+    { view: "order_status", modal: null, basket: false, fulfillment: false });
+
+  await executeCustomerAction({ action: "toggle_order_details", input: { open: false }, actions, snapshot });
+  assert.equal(ui.orderDetailsOpen, false);
+});
+
+test("production session cleanup aborts active actions and rejects stale callbacks", async () => {
+  const { executeCustomerAction, isCurrentSession, retireSessionRuntime } = await import(pathToFileURL(path.join(root, "src/honold-demo/voiceActions.mjs")));
+  let mutated = false;
+  const result = await executeCustomerAction({
+    action: "slow",
+    actions: { slow: async (_input, { signal }) => { await new Promise((resolve) => setTimeout(resolve, 15)); if (!signal.aborted) mutated = true; } },
+    snapshot: () => ({ ui: {} }),
+    timeoutMs: 5,
+  });
+  assert.equal(result.status, "timeout");
+  await new Promise((resolve) => setTimeout(resolve, 20));
+  assert.equal(mutated, false);
+  let closed = 0;
+  const oldSession = { close: () => { closed += 1; } };
+  const newSession = {};
+  assert.equal(isCurrentSession(newSession, 2, oldSession, 1), false);
+  assert.equal(isCurrentSession(newSession, 2, newSession, 2), true);
+
+  const sessionRef = { current: oldSession };
+  const generationRef = { current: 1 };
+  const actionAbortRef = { current: new AbortController() };
+  let lateNavigation = false;
+  const pending = executeCustomerAction({
+    action: "browse",
+    actions: { browse: async (_input, context) => { await new Promise((resolve) => setTimeout(resolve, 15)); if (context.isCurrent()) lateNavigation = true; } },
+    snapshot: () => ({ ui: {} }),
+    abortController: actionAbortRef.current,
+    isCurrent: () => isCurrentSession(sessionRef.current, generationRef.current, oldSession, 1),
+  });
+  retireSessionRuntime({ session: oldSession, sessionRef, generationRef, actionAbortRef, reason: "Disconnected." });
+  const retired = await pending;
+  assert.equal(retired.status, "error");
+  await new Promise((resolve) => setTimeout(resolve, 20));
+  assert.equal(lateNavigation, false);
+  assert.equal(sessionRef.current, null);
+  assert.equal(generationRef.current, 2);
+  assert.equal(actionAbortRef.current, null);
+  assert.equal(closed, 1);
+});
