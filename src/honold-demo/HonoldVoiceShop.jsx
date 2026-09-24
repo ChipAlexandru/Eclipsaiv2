@@ -4,11 +4,15 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Captions,
+  ChevronDown,
   Check,
+  MapPin,
   MicOff,
   Minus,
   Plus,
   ShoppingBag,
+  Store,
+  Truck,
   X,
 } from "lucide-react";
 import {
@@ -21,19 +25,22 @@ import {
 } from "./shopping.mjs";
 import styles from "./honoldVoiceShop.module.css";
 import {
-  DEMO_BRANCHES, DEMO_PROFILES, advancePreview, futureSlots, makePreview,
-  offerQuote, pickupCheck, previewStatus, sampleStock, slotDateId, slotDayLabel, slotLabel, zurichParts,
+  DEMO_BRANCHES, DEMO_DELIVERY_ADDRESS, DEMO_PROFILES, advancePreview, fulfillmentCheck,
+  futureDeliveryWindows, futureSlots, makePreview, offerQuote, pickupCheck, previewStatus,
+  sampleStock, slotDateId, slotDayLabel, slotLabel, zurichParts,
 } from "./pickupJourney.mjs";
 import {
   DEMO_VARIANTS, SAMPLE_CUSTOMERS, approveReview, basketKey, itemOffer, makeReviewId, parseOrdersByProfile,
   pickupCodeForReview, reviewFingerprint, saveSampleOrder, serializeOrdersByProfile,
 } from "./experience.mjs";
+import { orderIdentity, qrMatrix } from "./orderQr.mjs";
+import { LANGUAGES, copyFor, localeFor, localizeReason, localizeStatus, productName, voiceInstructions } from "./i18n.mjs";
 
 const IMAGE_WAIT_MS = 4500;
 const VOICE_SESSION_DURATION_MS = 5 * 60 * 1000;
 
-function formatChf(value) {
-  return new Intl.NumberFormat("de-CH", {
+function formatChf(value, language = "de") {
+  return new Intl.NumberFormat(localeFor(language), {
     style: "currency",
     currency: "CHF",
     minimumFractionDigits: 2,
@@ -49,14 +56,36 @@ const CATEGORY_NAMES = {
 };
 
 const PRESENTER_SCENARIOS = [
-  { id: "new", label: "New customer", profileId: "guest", category: "all", featuredProductId: "1917" },
-  { id: "regular", label: "Returning regular", profileId: "regular", category: "offer", featuredProductId: "1917" },
-  { id: "gift", label: "Gift shopping", profileId: "chocolate", category: "schokolade", featuredProductId: "255" },
-  { id: "afternoon", label: "Afternoon offer", profileId: "regular", category: "patisserie und torten", featuredProductId: "1366" },
+  { id: "new", label: "First visit", profileId: "guest", category: "all", featuredProductId: "1917" },
+  { id: "regular", label: "Regular", profileId: "regular", category: "offer", featuredProductId: "1366" },
+  { id: "gift", label: "Gift", profileId: "chocolate", category: "schokolade", featuredProductId: "255" },
 ];
+
+const GIFT_OPTION_PRODUCT_IDS = new Set(["255", "265", "2518"]);
 
 function safeToolResult(value) {
   return JSON.stringify(value);
+}
+
+function localizedProduct(product, language) {
+  const compact = compactProduct(product);
+  return compact ? { ...compact, name: productName(product, language) } : null;
+}
+
+function OrderQr({ order, language }) {
+  const c = copyFor(language);
+  const identity = orderIdentity(order);
+  const matrix = qrMatrix(identity);
+  const quiet = 4;
+  const size = matrix.length + quiet * 2;
+  return <figure className={styles.orderQr}>
+    <svg role="img" aria-label={`${c.qrAlt} ${order.pickupCode}`} viewBox={`0 0 ${size} ${size}`} shapeRendering="crispEdges">
+      <rect width={size} height={size} fill="#fffdf6" />
+      {matrix.flatMap((row, y) => row.map((black, x) => black
+        ? <rect key={`${x}-${y}`} x={x + quiet} y={y + quiet} width="1" height="1" fill="#3b1e10" /> : null))}
+    </svg>
+    <figcaption className={styles.srOnly}>{c.qrAlt} {order.pickupCode}</figcaption>
+  </figure>;
 }
 
 export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
@@ -65,6 +94,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const validProductIds = useMemo(() => new Set(productsById.keys()), [productsById]);
 
   const [scenarioId, setScenarioId] = useState("regular");
+  const [language, setLanguage] = useState("en");
+  const [scenariosOpen, setScenariosOpen] = useState(false);
   const [visibleIds, setVisibleIds] = useState(() => products.filter((product) => ["baeckerei", "patisserie und torten"].includes(product.productType)).map((product) => product.id));
   const [activeCategory, setActiveCategory] = useState("offer");
   const [selectedId, setSelectedId] = useState(null);
@@ -77,6 +108,11 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const [transcript, setTranscript] = useState([]);
   const [pickupSimulation, setPickupSimulation] = useState(null);
   const [branchId, setBranchId] = useState("erlenbach");
+  const [fulfillmentMode, setFulfillmentMode] = useState("pickup");
+  const [fulfillmentOpen, setFulfillmentOpen] = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState(DEMO_DELIVERY_ADDRESS);
+  const [deliveryWindowId, setDeliveryWindowId] = useState(null);
+  const [orderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [profileId, setProfileId] = useState("regular");
   const [slotId, setSlotId] = useState(null);
   const [pickupDay, setPickupDay] = useState(null);
@@ -89,9 +125,10 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const [ordersByProfile, setOrdersByProfile] = useState({});
   const [ordersLoaded, setOrdersLoaded] = useState(false);
   const [pendingReview, setPendingReview] = useState(null);
-  const [typedMessage, setTypedMessage] = useState("");
+  const [reviewAttempted, setReviewAttempted] = useState(false);
 
   const sessionRef = useRef(null);
+  const languageRef = useRef(language);
   const voiceTimeoutRef = useRef(null);
   const mountedRef = useRef(true);
   const presentationSequenceRef = useRef(0);
@@ -108,6 +145,9 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const branchRef = useRef(branchId);
   const profileRef = useRef(profileId);
   const slotRef = useRef(slotId);
+  const fulfillmentModeRef = useRef(fulfillmentMode);
+  const deliveryAddressRef = useRef(deliveryAddress);
+  const deliveryWindowRef = useRef(deliveryWindowId);
   const clockRef = useRef(clockMs);
   const pickupRef = useRef(pickupSimulation);
   const pendingReviewRef = useRef(null);
@@ -115,41 +155,71 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const reviewSequenceRef = useRef(0);
   const imageFailuresRef = useRef(new Set());
 
+  const c = copyFor(language);
   const visibleProducts = visibleIds.map((id) => productsById.get(id)).filter(Boolean);
   const basketDetails = basketSummary(basket, productsById);
   const branch = DEMO_BRANCHES.find((item) => item.id === branchId);
   const quote = offerQuote(profileId, basketDetails, productsById);
   const activeScenario = PRESENTER_SCENARIOS.find((scenario) => scenario.id === scenarioId) || PRESENTER_SCENARIOS[0];
-  const featuredProduct = productsById.get(activeScenario.featuredProductId);
+  const requestedFeaturedProduct = productsById.get(activeScenario.featuredProductId);
+  const featuredProduct = requestedFeaturedProduct && sampleStock(requestedFeaturedProduct.id, branchId) > 0
+    ? requestedFeaturedProduct
+    : visibleProducts.find((product) => sampleStock(product.id, branchId) > 0) || requestedFeaturedProduct;
   const pickupOptions = clockMs ? futureSlots(clockMs, branchId) : [];
-  const pickupValidation = pickupCheck({ basket, branchId, slotId, nowMs: clockMs || 0 });
+  const deliveryWindows = clockMs ? futureDeliveryWindows(clockMs, 6, language) : [];
+  const fulfillmentValidation = fulfillmentCheck({ basket, mode: fulfillmentMode, branchId, slotId, address: deliveryAddress,
+    deliveryWindowId, nowMs: clockMs || 0 });
   const availableSlots = pickupOptions.filter((slot) => slot.capacity >= basketDetails.itemCount);
   const pickupDays = [...new Set(availableSlots.map((slot) => slotDateId(slot.id)))].slice(0, 4);
   const activePickupDay = pickupDays.includes(pickupDay) ? pickupDay : pickupDays[0];
   const daySlots = availableSlots.filter((slot) => slotDateId(slot.id) === activePickupDay);
-  const hasVoiceSession = Boolean(sessionRef.current);
+  const selectedDeliveryWindow = deliveryWindows.find((window) => window.id === deliveryWindowId);
+  const fulfillmentTitle = fulfillmentMode === "pickup" ? branch?.name : deliveryAddress;
+  const fulfillmentSubtitle = fulfillmentMode === "pickup"
+    ? (slotId ? slotLabel(slotId, language) : c.choosePickupTime)
+    : (selectedDeliveryWindow?.label || c.chooseDeliveryWindow);
   const hasCaptions = transcript.length > 0;
   const hasBasket = basketDetails.itemCount > 0;
   const currentOrders = ordersByProfile[profileId] || [];
+  const confirmedDetails = pickupSimulation ? basketSummary(pickupSimulation.basket || {}, productsById) : null;
   const customerSample = SAMPLE_CUSTOMERS[profileId] || SAMPLE_CUSTOMERS.guest;
   const detailProduct = detailProductId ? productsById.get(detailProductId) : null;
   const gridProducts = activeCategory === null ? visibleProducts : visibleProducts.filter((product) => product.id !== featuredProduct?.id);
+  const orderedGridProducts = [...gridProducts].sort((a, b) => {
+    const availability = Number(sampleStock(b.id, branchId) > 0) - Number(sampleStock(a.id, branchId) > 0);
+    if (availability) return availability;
+    if (profileId === "regular" || profileId === "chocolate") {
+      return Number(!customerSample.recommendations.includes(a.id)) - Number(!customerSample.recommendations.includes(b.id));
+    }
+    return 0;
+  });
   const isFullCatalogue = visibleIds.length === products.length
     && visibleIds.every((id, index) => id === products[index]?.id);
+  const visibleVoiceLabel = !voiceEnabled ? c.voiceButtonUnavailable
+    : voiceStatus === "error" ? c.voiceButtonRetry
+      : voiceStatus === "idle" ? c.voiceButtonIdle : voiceMessage;
 
   const stateSnapshot = useCallback(() => {
+    const currentLanguage = languageRef.current;
     const currentBasket = basketSummary(basketRef.current, productsById);
     const currentBranch = branchRef.current;
     const currentTime = Date.now();
+    const shopping = shoppingStateSnapshot({
+      visibleIds: visibleIdsRef.current,
+      selectedId: selectedIdRef.current,
+      basket: basketRef.current,
+    }, productsById);
     return {
-      ...shoppingStateSnapshot({
-        visibleIds: visibleIdsRef.current,
-        selectedId: selectedIdRef.current,
-        basket: basketRef.current,
-      }, productsById),
+      language: currentLanguage,
+      ...shopping,
+      visibleProducts: shopping.visibleProducts.map((item) => localizedProduct(productsById.get(item.id), currentLanguage)),
+      selectedProduct: shopping.selectedProduct ? localizedProduct(productsById.get(shopping.selectedProduct.id), currentLanguage) : null,
+      basket: { ...shopping.basket, items: shopping.basket.items.map((item) => ({ ...item, name: productName(productsById.get(item.productId), currentLanguage) })) },
+      stockBasis: currentLanguage === "de" ? "Die Verfügbarkeit ist illustrativ und kein Live-Filialbestand; bitte bei Honold bestätigen." : shopping.stockBasis,
       demoCheckout: {
         branches: DEMO_BRANCHES, profiles: DEMO_PROFILES,
-        branchId: currentBranch, profileId: profileRef.current, slotId: slotRef.current,
+        mode: fulfillmentModeRef.current, branchId: currentBranch, profileId: profileRef.current, slotId: slotRef.current,
+        address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current,
         nextSlotExamples: futureSlots(currentTime, currentBranch).slice(0, 8),
         pickupDates: [...new Set(futureSlots(currentTime, currentBranch).map((slot) => slotDateId(slot.id)))].slice(0, 4),
         quote: offerQuote(profileRef.current, currentBasket, productsById),
@@ -157,9 +227,11 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
           productId: item.productId, requested: item.quantity,
           sampleAvailable: sampleStock(item.productId, currentBranch),
         })),
-        validation: pickupCheck({ basket: basketRef.current, branchId: currentBranch, slotId: slotRef.current, nowMs: currentTime }),
-        pickupPreview: pickupRef.current ? { code: pickupRef.current.pickupCode, status: previewStatus(pickupRef.current) } : null,
-        basis: "Illustrative customer, branch stock, capacity, hours, offer and fulfillment scenario; no real transaction or customer data.",
+        validation: (() => { const validation = fulfillmentCheck({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: currentBranch,
+          slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current, nowMs: currentTime });
+          return { ...validation, reason: localizeReason(validation.reason, currentLanguage) }; })(),
+        pickupPreview: pickupRef.current ? { code: pickupRef.current.pickupCode, status: localizeStatus(previewStatus(pickupRef.current), currentLanguage) } : null,
+        basis: currentLanguage === "de" ? "Illustrative Kundendaten, Bestände, Kapazitäten, Öffnungszeiten, Angebote und Erfüllung; keine echte Transaktion und keine echten Kundendaten." : "Illustrative customer, branch stock, capacity, hours, offer and fulfillment scenario; no real transaction or customer data.",
       },
     };
   }, [productsById]);
@@ -241,13 +313,13 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       return { displayed: false, stale: true, message: "A newer shopper selection replaced this request." };
     }
 
-    const displayedProducts = result.displayedIds.map((id) => compactProduct(productsById.get(id)));
+    const displayedProducts = result.displayedIds.map((id) => localizedProduct(productsById.get(id), languageRef.current));
     const visibleImagesReady = result.viewportIds.length > 0
       && result.displayedIds.length === result.viewportIds.length;
     return {
       displayed: visibleImagesReady,
       displayedProducts,
-      selectedProduct: compactProduct(productsById.get(selectedIdRef.current)),
+      selectedProduct: localizedProduct(productsById.get(selectedIdRef.current), languageRef.current),
       failedImageProductIds: result.failedIds,
       belowFoldProductIds: ids.filter((id) => !result.viewportIds.includes(id)),
       timedOut: Boolean(result.timedOut),
@@ -338,7 +410,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       clockRef.current = now;
       setClockMs(now);
       const result = makePreview({
-        basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current,
+        basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current, slotId: slotRef.current,
+        address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current,
         profileId: profileRef.current,
         quote: offerQuote(profileRef.current, summary, productsById),
         nowMs: now,
@@ -348,7 +421,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       setPickupError("");
       return result;
     } catch (error) {
-      setPickupError(error instanceof Error ? error.message : "Pickup is unavailable.");
+      setPickupError(error instanceof Error ? error.message : "This order is unavailable.");
       return null;
     }
   }, [productsById]);
@@ -418,12 +491,17 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         const summary = basketSummary(basketRef.current, productsById);
         if (summary.itemCount === 0) return safeToolResult({ ok: false, error: "The basket is empty." });
         const now = Date.now();
-        const check = pickupCheck({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, nowMs: now });
+        const check = fulfillmentCheck({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+          slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current, nowMs: now });
         if (!check.ok) return safeToolResult({ ok: false, error: check.reason });
         const quote = offerQuote(profileRef.current, summary, productsById);
-        const fingerprint = reviewFingerprint({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, profileId: profileRef.current, exampleTotalChf: quote.exampleTotalChf });
+        const fingerprint = reviewFingerprint({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+          slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current,
+          profileId: profileRef.current, exampleTotalChf: quote.exampleTotalChf });
         reviewSequenceRef.current += 1;
-        const review = { fingerprint, reviewId: makeReviewId(fingerprint, now, reviewSequenceRef.current), createdAt: now, basket: { ...basketRef.current }, branchId: branchRef.current, slotId: slotRef.current, profileId: profileRef.current, quote };
+        const review = { fingerprint, reviewId: makeReviewId(fingerprint, now, reviewSequenceRef.current), createdAt: now,
+          basket: { ...basketRef.current }, mode: fulfillmentModeRef.current, branchId: branchRef.current, slotId: slotRef.current,
+          address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current, profileId: profileRef.current, quote };
         pendingReviewRef.current = review; setPendingReview(review); setBasketOpen(true);
         return safeToolResult({
           ok: true,
@@ -449,15 +527,19 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
           const now = Date.now();
           const liveSummary = basketSummary(basketRef.current, productsById);
           const liveQuote = offerQuote(profileRef.current, liveSummary, productsById);
-          const liveFingerprint = reviewFingerprint({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, profileId: profileRef.current, exampleTotalChf: liveQuote.exampleTotalChf });
+          const liveFingerprint = reviewFingerprint({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+            slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current,
+            profileId: profileRef.current, exampleTotalChf: liveQuote.exampleTotalChf });
           if (liveFingerprint !== review.fingerprint) throw new Error("The basket, offer, branch, or time changed. Prepare a fresh exact review.");
-          const liveCheck = pickupCheck({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, nowMs: now });
+          const liveCheck = fulfillmentCheck({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+            slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current, nowMs: now });
           if (!liveCheck.ok) throw new Error(liveCheck.reason);
           const approved = approveReview(review, intent, now);
           const result = createPickupSimulation();
           if (!result) return safeToolResult({ ok: false, error: "Final stock, slot, or price validation failed." });
           const completed = { ...result, orderId: approved.approvalId, pickupCode: pickupCodeForReview(approved.approvalId), reviewFingerprint: approved.fingerprint, payment: approved.payment };
           pickupRef.current = completed; setPickupSimulation(completed);
+          basketRef.current = {}; setBasket({});
           const nextOrders = saveSampleOrder(ordersRef.current[review.profileId] || [], approved, completed);
           setOrdersByProfile((current) => ({ ...current, [review.profileId]: nextOrders }));
           return safeToolResult({ ok: true, simulated: true, payment: approved.payment, pickupCode: completed.pickupCode, status: previewStatus(completed) });
@@ -540,27 +622,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   }, [clearVoiceTimeout]);
 
   const disconnectVoice = useCallback(() => {
-    closeVoiceSession("Talk to Shop");
+    closeVoiceSession(copyFor(languageRef.current).talkShop);
   }, [closeVoiceSession]);
-
-  const submitTypedRequest = useCallback(async (event) => {
-    event.preventDefault();
-    const message = typedMessage.trim();
-    if (!message) return;
-    setTypedMessage("");
-    try {
-      if (sessionRef.current?.sendMessage) {
-        sessionRef.current.sendMessage(message);
-        setVoiceMessage("Typed request sent");
-      } else {
-        const matches = searchCatalog(products, message, 8);
-        if (matches.length) await presentProducts(matches.map((product) => product.id), matches[0].id);
-        setVoiceMessage(matches.length ? "Local product search shown · connect voice for AI help" : "No local catalogue match · connect voice for AI help");
-      }
-    } catch {
-      setVoiceStatus("error"); setVoiceMessage("The typed request could not be sent. Try reconnecting voice.");
-    }
-  }, [presentProducts, products, typedMessage]);
 
   const startVoice = useCallback(async () => {
     if (!voiceEnabled) return;
@@ -569,18 +632,18 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       sessionRef.current.mute(nextMuted);
       setIsMuted(nextMuted);
       setVoiceStatus(nextMuted ? "muted" : "listening");
-      setVoiceMessage(nextMuted ? "Muted" : "Listening");
+      setVoiceMessage(nextMuted ? copyFor(languageRef.current).muted : copyFor(languageRef.current).listening);
       return;
     }
 
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
       setVoiceStatus("unsupported");
-      setVoiceMessage("Voice needs a secure, modern browser with microphone access.");
+      setVoiceMessage(copyFor(languageRef.current).voiceSecure);
       return;
     }
 
     setVoiceStatus("connecting");
-    setVoiceMessage("Connecting…");
+    setVoiceMessage(copyFor(languageRef.current).connecting);
 
     try {
       const [{ RealtimeAgent, RealtimeSession, tool: realtimeTool }, { z }] = await Promise.all([
@@ -593,36 +656,14 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       });
       const tokenPayload = await tokenResponse.json().catch(() => ({}));
       if (!tokenResponse.ok || !tokenPayload.value) {
-        throw new Error(tokenPayload.error || "Voice service is unavailable.");
+        throw new Error(copyFor(languageRef.current).voiceService);
       }
 
       const initialSummary = stateSnapshot();
       const agent = new RealtimeAgent({
         name: "Honold voice shopper",
         voice: "marin",
-        instructions: `You are the concise voice shopping assistant for this Honold shopping experience. Reply in the shopper's language, German or English.
-
-Keep speech warm, natural, brief, and easy to interrupt. Help the shopper discover products, see photos, change quantities, choose a branch and pickup time, and review an order. Use the same natural customer language as the interface: Offer, Usual order, Orders, Review order, Confirm order, Pickup code, Received, Preparing, and Ready.
-
-Critical rules:
-- Do not volunteer or repeat prototype, demo, simulation, snapshot, or provenance caveats during ordinary shopping exchanges. If the shopper asks whether data or an action is real, live, current, or official, answer clearly and truthfully using the facts below.
-- Acknowledge searches, basket edits, branch changes and time choices once in a short sentence. Do not read back the surrounding interface, repeat every product detail, or add a second confirmation.
-- Availability is not live physical-store inventory. When availability matters, say it must be confirmed with Honold.
-- Product prices are a public shop snapshot and may change. Do not present the basket total as a checkout quote.
-- Never say an order, reservation, payment, pickup, or store message is real. No real transaction is possible here.
-- Branch hours, stock, slot capacity, customer profiles, offers, savings, example totals, progress and pickup codes are all illustrative demo data, not Honold business data or real customer data.
-- Use get_shopping_state to obtain branch and profile IDs and sample availability. For a spoken time such as 12:15, call find_demo_pickup_slots, then pass a returned ID to set_demo_pickup_preference. A branch change clears the slot. Never invent a slot or claim sample stock is live.
-- Explain the selected offer, eligibility, savings, pickup branch and time, and visible total before asking the shopper to confirm. If a branch lacks sample stock or a slot lacks sample capacity, offer alternatives from the state instead of implying pickup is possible.
-- Use search_and_show_products whenever the shopper expresses a product need or asks for options. Describe as visible only the products returned in displayedProducts; below-fold products are not currently visible.
-- Call get_shopping_state before interpreting words such as 'this one', 'that', or 'two of this one'. The touch-selected product is authoritative.
-- Use only stable IDs returned by tools. Never invent products, prices, stock, ingredients, dietary suitability, or allergen facts.
-- Do not make allergen assurances. Tell the shopper to confirm ingredients and allergens with Honold.
-- When the shopper asks to review pickup, call prepare_simulated_pickup and read the exact visible review. Approval must occur in a later explicit shopper turn, by touch or approve_simulated_order with the unchanged review ID and fingerprint. Browsing, recommendation and review requests are never approval.
-- Give one complete order readback when the exact review opens. Do not repeat that readback unless the basket, offer, branch, or time changes.
-- After explicit approval, give one concise confirmation with the pickup code and status; do not recap the order again. Internally, the confirmation creates only a persistent fictional-profile sample order; Received, Preparing and Ready are manually advanced states and never real fulfilment events.
-- When a tool says a newer selection made its result stale, use the newer state and do not describe the stale products.
-
-Initial interface state: ${JSON.stringify(initialSummary)}`,
+        instructions: voiceInstructions(languageRef.current, initialSummary),
         tools: buildTools(realtimeTool, z),
       });
 
@@ -635,7 +676,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
           audio: {
             input: {
               noiseReduction: { type: "near_field" },
-              transcription: { model: "gpt-4o-mini-transcribe" },
+              transcription: { model: "gpt-4o-mini-transcribe", language: languageRef.current },
               turnDetection: {
                 type: "semantic_vad",
                 eagerness: "medium",
@@ -654,17 +695,17 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       session.on("audio_start", () => {
         if (!mountedRef.current) return;
         setVoiceStatus("speaking");
-        setVoiceMessage("Speaking");
+        setVoiceMessage(copyFor(languageRef.current).speaking);
       });
       session.on("audio_stopped", () => {
         if (!mountedRef.current) return;
         setVoiceStatus(session.muted ? "muted" : "listening");
-        setVoiceMessage(session.muted ? "Muted" : "Listening");
+        setVoiceMessage(session.muted ? copyFor(languageRef.current).muted : copyFor(languageRef.current).listening);
       });
       session.on("audio_interrupted", () => {
         if (!mountedRef.current) return;
         setVoiceStatus(session.muted ? "muted" : "listening");
-        setVoiceMessage("Listening");
+        setVoiceMessage(copyFor(languageRef.current).listening);
       });
       session.on("error", () => {
         console.error("Realtime session error");
@@ -673,7 +714,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
         if (sessionRef.current === session) sessionRef.current = null;
         session.close();
         setVoiceStatus("error");
-        setVoiceMessage("Voice connection failed. Try again.");
+        setVoiceMessage(copyFor(languageRef.current).voiceFailed);
       });
 
       sessionRef.current = session;
@@ -685,11 +726,11 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       clearVoiceTimeout();
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!mountedRef.current) return;
-        closeVoiceSession("Talk to Shop");
+        closeVoiceSession(copyFor(languageRef.current).talkShop);
       }, VOICE_SESSION_DURATION_MS);
       setVoiceStatus("listening");
-      setVoiceMessage("Listening");
-      session.sendMessage("Greet the shopper in one short sentence, then ask what they would like today.");
+      setVoiceMessage(copyFor(languageRef.current).listening);
+      session.sendMessage(languageRef.current === "de" ? "Begrüsse die Kundin oder den Kunden in einem kurzen Satz und frage, was sie oder er heute möchte." : "Greet the shopper in one short sentence, then ask what they would like today.");
     } catch (error) {
       clearVoiceTimeout();
       if (sessionRef.current) sessionRef.current.close();
@@ -697,8 +738,8 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       const denied = error?.name === "NotAllowedError" || /microphone|permission/i.test(error?.message || "");
       setVoiceStatus("error");
       setVoiceMessage(denied
-        ? "Microphone access was not granted. Allow it in your browser and try again."
-        : (error instanceof Error ? error.message : "Voice service is unavailable."));
+        ? copyFor(languageRef.current).micDenied
+        : (error instanceof Error ? error.message : copyFor(languageRef.current).voiceService));
     }
   }, [buildTools, clearVoiceTimeout, closeVoiceSession, isMuted, stateSnapshot, voiceEnabled]);
 
@@ -721,6 +762,30 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     const timer = window.setInterval(refreshClock, 30_000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const savedLanguage = window.localStorage.getItem("honold-demo-language");
+    if (LANGUAGES.some((item) => item.id === savedLanguage)) {
+      languageRef.current = savedLanguage;
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem("honold-demo-fulfillment-v1") || "{}");
+      if (saved.mode === "delivery") { setFulfillmentMode("delivery"); fulfillmentModeRef.current = "delivery"; }
+      if (typeof saved.address === "string" && saved.address.trim()) { setDeliveryAddress(saved.address); deliveryAddressRef.current = saved.address; }
+      if (typeof saved.deliveryWindowId === "string") { setDeliveryWindowId(saved.deliveryWindowId); deliveryWindowRef.current = saved.deliveryWindowId; }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    fulfillmentModeRef.current = fulfillmentMode;
+    deliveryAddressRef.current = deliveryAddress;
+    deliveryWindowRef.current = deliveryWindowId;
+    window.localStorage.setItem("honold-demo-fulfillment-v1", JSON.stringify({ mode: fulfillmentMode, address: deliveryAddress, deliveryWindowId }));
+  }, [deliveryAddress, deliveryWindowId, fulfillmentMode]);
 
   useEffect(() => {
     const stored = parseOrdersByProfile(window.localStorage.getItem("honold-demo-orders-v1"));
@@ -763,11 +828,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
 
   const applyScenario = useCallback((nextScenarioId) => {
     const scenario = PRESENTER_SCENARIOS.find((item) => item.id === nextScenarioId) || PRESENTER_SCENARIOS[0];
-    const nextIds = scenario.category === "all"
-      ? products.map((product) => product.id)
-      : scenario.category === "offer"
-        ? products.filter((product) => ["baeckerei", "patisserie und torten"].includes(product.productType)).map((product) => product.id)
-        : products.filter((product) => product.productType === scenario.category).map((product) => product.id);
+    const nextIds = products.map((product) => product.id);
     setScenarioId(scenario.id);
     updatePickupPreference("profile", scenario.profileId);
     presentationSequenceRef.current += 1;
@@ -775,14 +836,60 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     setVisibleIds(nextIds);
     selectedIdRef.current = scenario.featuredProductId;
     setSelectedId(scenario.featuredProductId);
-    setActiveCategory(scenario.category);
+    setActiveCategory("all");
     setShopView("shop");
     setDetailProductId(null);
     setBasketOpen(false);
+    setScenariosOpen(false);
+    window.scrollTo({ top: 0, behavior: "auto" });
     queueMicrotask(() => sendInterfaceState("the presenter changed the shopping scenario"));
   }, [products, sendInterfaceState, updatePickupPreference]);
 
-  const openBasket = useCallback(() => setBasketOpen(true), []);
+  const invalidateOrderReview = useCallback(() => {
+    pendingReviewRef.current = null; setPendingReview(null);
+    pickupRef.current = null; setPickupSimulation(null);
+    setPickupError("");
+    setReviewAttempted(false);
+  }, []);
+
+  const changeFulfillmentMode = useCallback((mode) => {
+    if (!['pickup', 'delivery'].includes(mode)) return;
+    fulfillmentModeRef.current = mode;
+    setFulfillmentMode(mode);
+    invalidateOrderReview();
+    setFulfillmentOpen(false);
+    queueMicrotask(() => sendInterfaceState("the shopper changed fulfilment mode"));
+  }, [invalidateOrderReview, sendInterfaceState]);
+
+  const changeDeliveryDetails = useCallback((field, value) => {
+    if (field === "address") { deliveryAddressRef.current = value; setDeliveryAddress(value); }
+    if (field === "window") { deliveryWindowRef.current = value; setDeliveryWindowId(value); }
+    invalidateOrderReview();
+  }, [invalidateOrderReview]);
+
+  const changeLanguage = useCallback((nextLanguage) => {
+    if (!LANGUAGES.some((item) => item.id === nextLanguage)) return;
+    languageRef.current = nextLanguage;
+    setLanguage(nextLanguage);
+    const nextCopy = copyFor(nextLanguage);
+    setVoiceMessage((current) => voiceStatus === "idle" ? nextCopy.talkShop : voiceStatus === "muted" ? nextCopy.muted : voiceStatus === "speaking" ? nextCopy.speaking : voiceStatus === "connecting" ? nextCopy.connecting : current);
+    window.localStorage.setItem("honold-demo-language", nextLanguage);
+    const session = sessionRef.current;
+    if (session?.transport?.status === "connected") {
+      try {
+        session.transport.updateSessionConfig({
+          instructions: voiceInstructions(nextLanguage, stateSnapshot()),
+          audio: { input: { transcription: { model: "gpt-4o-mini-transcribe", language: nextLanguage } } },
+        });
+        session.transport.sendMessage(
+          nextLanguage === "de" ? "[Die Sprache der Oberfläche ist jetzt Deutsch. Antworte ab jetzt auf Deutsch; antworte nicht auf diese Statusmeldung.]" : "[The interface language is now English. Reply in English from now on; do not respond to this status update.]",
+          {}, { triggerResponse: false },
+        );
+      } catch {}
+    }
+  }, [stateSnapshot, voiceStatus]);
+
+  const openBasket = useCallback(() => { setReviewAttempted(false); setBasketOpen(true); }, []);
   const closeBasket = useCallback(() => setBasketOpen(false), []);
   const closeCaptions = useCallback(() => {
     setCaptionsOpen(false);
@@ -790,13 +897,16 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
   }, []);
 
   const prepareExactReview = useCallback(() => {
-    if (!pickupValidation.ok) return;
-    const fingerprint = reviewFingerprint({ basket, branchId, slotId, profileId, exampleTotalChf: quote.exampleTotalChf });
+    if (!fulfillmentValidation.ok) return;
+    const fingerprint = reviewFingerprint({ basket, mode: fulfillmentMode, branchId, slotId, address: deliveryAddress,
+      deliveryWindowId, profileId, exampleTotalChf: quote.exampleTotalChf });
     const now = Date.now();
     reviewSequenceRef.current += 1;
-    const review = { fingerprint, reviewId: makeReviewId(fingerprint, now, reviewSequenceRef.current), createdAt: now, basket: { ...basket }, branchId, slotId, profileId, quote };
+    const review = { fingerprint, reviewId: makeReviewId(fingerprint, now, reviewSequenceRef.current), createdAt: now,
+      basket: { ...basket }, mode: fulfillmentMode, branchId, slotId, address: deliveryAddress, deliveryWindowId, profileId, quote };
     pendingReviewRef.current = review; setPendingReview(review);
-  }, [basket, branchId, pickupValidation.ok, profileId, quote, slotId]);
+    return review;
+  }, [basket, branchId, deliveryAddress, deliveryWindowId, fulfillmentMode, fulfillmentValidation.ok, profileId, quote, slotId]);
 
   const approveExactReview = useCallback((intent = "approve") => {
     try {
@@ -805,9 +915,12 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       const now = Date.now();
       const liveSummary = basketSummary(basketRef.current, productsById);
       const liveQuote = offerQuote(profileRef.current, liveSummary, productsById);
-      const liveFingerprint = reviewFingerprint({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, profileId: profileRef.current, exampleTotalChf: liveQuote.exampleTotalChf });
+      const liveFingerprint = reviewFingerprint({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+        slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current,
+        profileId: profileRef.current, exampleTotalChf: liveQuote.exampleTotalChf });
       if (!review || review.fingerprint !== liveFingerprint) throw new Error("The basket, offer, branch, or time changed. Prepare a fresh exact review.");
-      const liveCheck = pickupCheck({ basket: basketRef.current, branchId: branchRef.current, slotId: slotRef.current, nowMs: now });
+      const liveCheck = fulfillmentCheck({ basket: basketRef.current, mode: fulfillmentModeRef.current, branchId: branchRef.current,
+        slotId: slotRef.current, address: deliveryAddressRef.current, deliveryWindowId: deliveryWindowRef.current, nowMs: now });
       if (!liveCheck.ok) throw new Error(liveCheck.reason);
       const approved = approveReview(review, intent, now);
       const result = createPickupSimulation();
@@ -815,6 +928,8 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       const completed = { ...result, orderId: approved.approvalId, pickupCode: pickupCodeForReview(approved.approvalId), reviewFingerprint: approved.fingerprint, payment: approved.payment };
       pickupRef.current = completed;
       setPickupSimulation(completed);
+      basketRef.current = {}; setBasket({});
+      setBasketOpen(false);
       setOrdersByProfile((current) => ({ ...current, [profileId]: saveSampleOrder(current[profileId] || [], approved, completed) }));
       queueMicrotask(() => sendInterfaceState("the shopper explicitly approved the exact review; simulated payment and sample order were created"));
       return completed;
@@ -823,6 +938,19 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
       return null;
     }
   }, [createPickupSimulation, productsById, profileId, sendInterfaceState]);
+
+  const confirmTouchOrder = useCallback(() => {
+    setReviewAttempted(true);
+    if (!fulfillmentValidation.ok) {
+      const missingPickup = fulfillmentMode === "pickup" && !slotId;
+      const missingDelivery = fulfillmentMode === "delivery" && (!deliveryAddress.trim() || !deliveryWindowId);
+      if (missingPickup || missingDelivery) setFulfillmentOpen(true);
+      return null;
+    }
+    const review = prepareExactReview();
+    if (!review) return null;
+    return approveExactReview("confirm");
+  }, [approveExactReview, deliveryAddress, deliveryWindowId, fulfillmentMode, fulfillmentValidation.ok, prepareExactReview, slotId]);
 
   const reorderSample = useCallback((order) => {
     const remaining = {};
@@ -837,7 +965,7 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     }
     basketRef.current = next; setBasket(next); setShopView("shop"); setBasketOpen(true);
     setPendingReview(null); pendingReviewRef.current = null; setPickupSimulation(null); pickupRef.current = null;
-    setPickupError("Your reorder is ready. Availability and prices were refreshed; choose a pickup time and review again.");
+    setPickupError("Your reorder is ready. Availability and prices were refreshed; check the fulfilment details and confirm again.");
   }, [validProductIds]);
 
   const advancePickup = useCallback(() => {
@@ -899,408 +1027,265 @@ Initial interface state: ${JSON.stringify(initialSummary)}`,
     if (basketOpen && pickupSimulation) requestAnimationFrame(() => pickupResultRef.current?.focus());
   }, [basketOpen, pickupSimulation]);
 
+  useEffect(() => {
+    if (pickupSimulation) window.scrollTo({ top: 0, behavior: "auto" });
+  }, [pickupSimulation]);
+
   return (
-    <main className={styles.page}>
-      <aside className={styles.presenterBar} aria-label="Presentation controls">
-        <strong>Customer view</strong>
-        <label>Shopping as
-          <select aria-label="Shopping scenario" value={scenarioId} onChange={(event) => applyScenario(event.target.value)}>
-            {PRESENTER_SCENARIOS.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.label}</option>)}
-          </select>
-        </label>
-      </aside>
-      <header className={styles.header}>
-        <div className={styles.brand}>
-          <h1 className={styles.brandMark}>
-            <Image
-              className={styles.brandLogo}
-              src="/honold-demo/brand/honold-logo.svg"
-              alt="Confiserie Honold"
-              width={140}
-              height={120}
-              priority
-            />
-          </h1>
+    <main className={styles.page} lang={language === "de" ? "de-CH" : "en"}>
+      <aside className={styles.scenarioStrip} aria-label={c.demoScenarios} data-open={scenariosOpen}>
+        <div className={styles.scenarioHeading}>
+          <strong>{c.demoScenarios}</strong>
+          <button type="button" aria-expanded={scenariosOpen} onClick={() => setScenariosOpen((open) => !open)}>
+            {scenariosOpen ? c.hide : c.show} <ChevronDown size={15} aria-hidden="true" />
+          </button>
         </div>
-        <div className={styles.location} aria-label={`Pickup location: ${branch?.name}`}>
-          <strong>{branch?.name}</strong>
+        {scenariosOpen && <div className={styles.scenarioActions}>
+          {PRESENTER_SCENARIOS.map((scenario) => <button type="button" key={scenario.id}
+            aria-pressed={scenarioId === scenario.id} onClick={() => applyScenario(scenario.id)}>{c[scenario.id === "new" ? "firstVisit" : scenario.id]}</button>)}
+          {pickupSimulation && pickupSimulation.stage < 2 && <button type="button" className={styles.advanceStatus} onClick={advancePickup}>{c.advanceStatus}</button>}
+        </div>}
+      </aside>
+
+      <header className={styles.header}>
+        <button className={styles.brandButton} type="button" onClick={() => { setShopView("shop"); setPickupSimulation(null); pickupRef.current = null; }} aria-label={c.backShop}>
+          <Image className={styles.brandLogo} src="/honold-demo/brand/honold-logo.svg" alt="Confiserie Honold" width={180} height={150} priority />
+        </button>
+        <div className={styles.headerActions}>
+          <div className={styles.languageSelector} role="group" aria-label={language === "de" ? "Sprache" : "Language"}>
+            {LANGUAGES.map((item) => <button key={item.id} type="button" lang={item.id} aria-label={item.label} aria-pressed={language === item.id} onClick={() => changeLanguage(item.id)}>{item.short}</button>)}
+          </div>
+          <button className={styles.ordersAction} type="button" onClick={() => { setShopView("orders"); setPickupSimulation(null); pickupRef.current = null; }}>
+            {c.orders}{currentOrders.length ? " (" + currentOrders.length + ")" : ""}
+          </button>
         </div>
       </header>
 
-      <nav className={styles.viewNav} aria-label="Honold sections">
-        <button type="button" aria-pressed={shopView === "shop"} onClick={() => setShopView("shop")}>Shop</button>
-        <button type="button" aria-pressed={shopView === "orders"} onClick={() => setShopView("orders")}>Orders {currentOrders.length ? `(${currentOrders.length})` : ""}</button>
-      </nav>
-
-      {shopView === "orders" ? <section className={styles.ordersView} aria-label="Orders">
-        <h2>Your orders</h2>
-        {currentOrders.length ? currentOrders.map((order) => <article key={order.approvalId}>
-          <div><strong>{order.pickupCode}</strong><span>{DEMO_BRANCHES.find((item) => item.id === order.branchId)?.name} · {slotLabel(order.slotId)}</span><small>Confirmed · {previewStatus(order)}</small></div>
-          <button type="button" onClick={() => reorderSample(order)}>Reorder into basket</button>
-        </article>) : <p>No orders yet.</p>}
-      </section> : <section className={styles.productSurface} aria-label="Honold products">
-        <section className={styles.storefront} aria-label="Honold offers and featured product">
-          <div className={styles.storefrontBody}>
-            <div className={styles.storefrontCopy}>
-              <h2>{profileId === "regular" ? "Something sweet for the day." : profileId === "chocolate" ? "Chocolate deserves a moment." : "Find your favourite treat."}</h2>
-              <p>{profileId === "regular" ? "Enjoy 10% off bakery & pâtisserie, up to CHF 5." : profileId === "chocolate" ? "Enjoy 15% off chocolate, up to CHF 8." : "Explore Honold's bakery, pâtisserie and chocolate selection."}</p>
-              {hasBasket && profileId !== "guest" && <span className={styles.homeSavings}>{quote.savingsChf > 0 ? `Basket saving ${formatChf(quote.savingsChf)}` : "Add an eligible treat to save"}</span>}
-              <button className={styles.storefrontAction} type="button" onClick={browseOfferProducts}>
-                {profileId === "guest" ? "Explore the menu" : "View selection"} <span aria-hidden="true">→</span>
-              </button>
-            </div>
-            {featuredProduct && <div className={styles.featuredProduct}>
-              <div className={styles.featuredImage}>
-                <Image src={featuredProduct.images[0].localPath} alt={featuredProduct.images[0].alt || featuredProduct.name} fill sizes="(max-width: 760px) 44vw, 280px" priority />
-              </div>
-              <div className={styles.featuredCaption}>
-                <span>{featuredProduct.name}</span>
-                <strong>{formatChf(featuredProduct.priceChf)}</strong>
-                {itemOffer(profileId, featuredProduct).eligible && <em>Offer {formatChf(itemOffer(profileId, featuredProduct).indicativeEffectiveChf)}</em>}
-              </div>
-              <button className={styles.featuredAdd} type="button" disabled={sampleStock(featuredProduct.id, branchId) === 0} onClick={() => mutateBasket(featuredProduct.id, 1, "add")} aria-label={`Add featured ${featuredProduct.name} to basket`}><Plus size={18} aria-hidden="true" /></button>
-            </div>}
+      {pickupSimulation ? (
+        <section className={styles.statusScreen} aria-label={pickupSimulation.mode === "delivery" ? c.deliveryStatus : c.pickupStatus}>
+          <span className={styles.kicker}>{pickupSimulation.mode === "delivery" ? c.delivery : c.pickup}</span>
+          <h1>{localizeStatus(previewStatus(pickupSimulation), language)}</h1>
+          <p className={styles.statusLead}>
+            {pickupSimulation.mode === "delivery"
+              ? pickupSimulation.address + " · " + (futureDeliveryWindows(pickupSimulation.createdAt, 6, language).find((window) => window.id === pickupSimulation.deliveryWindowId)?.label || c.deliveryWindow)
+              : DEMO_BRANCHES.find((item) => item.id === pickupSimulation.branchId)?.name + " · " + slotLabel(pickupSimulation.slotId, language)}
+          </p>
+          <ol className={styles.statusTracker} aria-label={c.orderProgress}>
+            {(pickupSimulation.mode === "delivery" ? ["Confirmed", "Packing", "On the way"] : ["Confirmed", "Preparing", "Ready"]).map((stage, index) => (
+              <li key={stage} data-complete={index <= pickupSimulation.stage} data-current={index === pickupSimulation.stage}>
+                <span aria-hidden="true" /><strong>{localizeStatus(stage, language)}</strong>
+              </li>
+            ))}
+          </ol>
+          {pickupSimulation.mode === "pickup" ? <div className={styles.pickupIdentity}>
+            <div><span>{c.pickupNumber}</span><strong>{pickupSimulation.pickupCode}</strong><small>{c.showCode}</small></div>
+            <OrderQr order={pickupSimulation} language={language} />
+          </div> : <div className={styles.deliveryIdentity}>
+            <Truck size={28} aria-hidden="true" /><div><strong>{localizeStatus(previewStatus(pickupSimulation), language)}</strong><span>{pickupSimulation.pickupCode}</span></div>
+          </div>}
+          <button className={styles.detailsToggle} type="button" aria-expanded={orderDetailsOpen} onClick={() => setOrderDetailsOpen((open) => !open)}>
+            {c.orderDetails} <ChevronDown size={18} aria-hidden="true" />
+          </button>
+          {orderDetailsOpen && confirmedDetails && <div className={styles.confirmedDetails}>
+            {confirmedDetails.items.map((item) => <div key={item.basketKey}><span>{item.quantity} × {productName(productsById.get(item.productId), language)}</span><strong>{formatChf(item.lineTotalChf)}</strong></div>)}
+            {pickupSimulation.quote?.savingsChf > 0 && <div><span>{c.offerApplied}</span><strong>−{formatChf(pickupSimulation.quote.savingsChf)}</strong></div>}
+            <div className={styles.confirmedTotal}><span>{c.total}</span><strong>{formatChf(pickupSimulation.quote?.exampleTotalChf || confirmedDetails.totalChf)}</strong></div>
+          </div>}
+          <div className={styles.statusActions}>
+            <button className={styles.backToShop} type="button" onClick={() => { setPickupSimulation(null); pickupRef.current = null; setShopView("orders"); window.scrollTo({ top: 0, behavior: "auto" }); }}>{c.backOrders}</button>
+            <button className={styles.secondaryStatusAction} type="button" onClick={() => { setPickupSimulation(null); pickupRef.current = null; setShopView("shop"); window.scrollTo({ top: 0, behavior: "auto" }); }}>{c.continueShopping}</button>
           </div>
         </section>
-
-        <div className={styles.pickupStrip}>
-          <div><span className={styles.eyebrow}>Pickup</span><strong>{slotId ? slotLabel(slotId) : "Choose a time that suits you"}</strong></div>
-          <button type="button" onClick={openBasket}>{slotId ? "Review pickup" : "Plan pickup"} <span aria-hidden="true">→</span></button>
-          {pickupSimulation && <button className={styles.pickupStatus} type="button" onClick={openBasket}>Order {pickupSimulation.pickupCode} · {previewStatus(pickupSimulation)}</button>}
-        </div>
-
-        <nav className={styles.categoryNav} aria-label="Shop categories">
-          <div><h2>Shop the menu</h2></div>
-          <div className={styles.categoryList}>
-            {[
-              ["all", "All"], ["patisserie und torten", "Cakes & pâtisserie"], ["baeckerei", "Bakery"],
-              ["traiteur", "Savoury"], ["schokolade", "Chocolate"], ["konfekt", "Confections"],
-            ].map(([id, name]) => <button type="button" key={id} aria-pressed={activeCategory === id} onClick={() => browseCategory(id)}>{name}</button>)}
+      ) : shopView === "orders" ? (
+        <section className={styles.ordersView} aria-label={c.orders}>
+          <span className={styles.kicker}>{c.savedOrders}</span><h1>{c.yourOrders}</h1>
+          {currentOrders.length ? currentOrders.map((order) => <article key={order.approvalId}>
+            <button className={styles.orderSummary} type="button" onClick={() => { pickupRef.current = order; setPickupSimulation(order); setShopView("shop"); }}>
+              <strong>{order.mode === "delivery" ? c.delivery : c.pickup + " " + order.pickupCode}</strong>
+              <span>{order.mode === "delivery" ? order.address : DEMO_BRANCHES.find((item) => item.id === order.branchId)?.name}</span>
+              <small>{localizeStatus(previewStatus(order), language)} · {formatChf(order.quote?.exampleTotalChf || 0)}</small>
+            </button>
+            <button type="button" onClick={() => reorderSample(order)}>{c.orderAgain}</button>
+          </article>) : <p>{c.noOrders}</p>}
+        </section>
+      ) : (
+        <section className={styles.shopScreen} aria-label="Honold shop">
+          <div className={styles.fulfillmentSegment} role="group" aria-label="Fulfilment method">
+            <button type="button" aria-pressed={fulfillmentMode === "pickup"} onClick={() => changeFulfillmentMode("pickup")}><Store size={18} aria-hidden="true" /> {c.pickup}</button>
+            <button type="button" aria-pressed={fulfillmentMode === "delivery"} onClick={() => changeFulfillmentMode("delivery")}><Truck size={18} aria-hidden="true" /> {c.delivery}</button>
           </div>
-        </nav>
-        {profileId !== "guest" && <section className={styles.returningStrip} aria-label="Your recommendations">
-          <div><span className={styles.eyebrow}>Your usual</span><strong>{customerSample.history.length} recent favourites</strong></div>
-          {customerSample.usual.length > 0 && <button type="button" onClick={() => customerSample.usual.forEach((item) => mutateBasket(basketKey(item.productId, item.options), item.quantity, "add"))}>Add usual order</button>}
-        </section>}
-        {!isFullCatalogue && (
-          <div className={styles.resultsContext}>
-            <span>{activeCategory === "offer" ? "Offer selection" : activeCategory ? "Category selection" : "Search results"}</span>
-            <button type="button" onClick={showAllProducts}>All products</button>
-          </div>
-        )}
+          <button className={styles.fulfillmentSummary} type="button" onClick={() => setFulfillmentOpen(true)}>
+            <MapPin size={20} aria-hidden="true" />
+            <span><strong>{fulfillmentTitle}</strong><small>{fulfillmentSubtitle}</small></span>
+            <span aria-hidden="true">{c.change}</span>
+          </button>
 
-        <div ref={productGridRef} className={styles.productGrid}>
-          {gridProducts.map((product, index) => {
-            const quantity = basket[product.id] || 0;
-            const image = product.images[0];
-            const imageFailed = imageFailures.has(product.id);
-            return (
-              <article
-                className={styles.productCard}
-                data-selected={selectedId === product.id}
-                key={product.id}
-              >
-                <button
-                  className={styles.productSelect}
-                  type="button"
-                  onClick={() => { selectProduct(product.id); setDetailProductId(product.id); setDetailOptions({ message: "None", wrap: "Standard" }); }}
-                  aria-label={`Select ${product.name} for voice reference`}
-                  aria-pressed={selectedId === product.id}
-                >
+          {featuredProduct && <section className={styles.hero}>
+            <div className={styles.heroCopy}>
+              <h1>{profileId === "chocolate" ? c.heroGift : profileId === "regular" ? c.heroRegular : c.heroGuest}</h1>
+              <p>{profileId === "chocolate" ? c.offerGift : profileId === "regular" ? c.offerRegular : c.offerGuest}</p>
+              <div className={styles.heroActions}>
+                <button type="button" disabled={sampleStock(featuredProduct.id, branchId) === 0} onClick={() => mutateBasket(featuredProduct.id, 1, "add")}>
+                  {c.add} {formatChf(itemOffer(profileId, featuredProduct).eligible ? itemOffer(profileId, featuredProduct).indicativeEffectiveChf : featuredProduct.priceChf)}
+                </button>
+                {profileId === "regular" && customerSample.usual.length > 0 && <button className={styles.orderAgain} type="button"
+                  onClick={() => customerSample.usual.forEach((item) => mutateBasket(basketKey(item.productId, item.options), item.quantity, "add"))}>{c.orderUsual}</button>}
+              </div>
+            </div>
+            <div className={styles.heroImage}>
+              <Image src={featuredProduct.images[0].localPath} alt={featuredProduct.images[0].alt || featuredProduct.name} fill sizes="(max-width: 760px) 48vw, 420px" priority />
+              <span>{productName(featuredProduct, language)}</span>
+            </div>
+          </section>}
+
+          <nav className={styles.categoryNav} aria-label="Shop categories">
+            {[["all", c.all], ["patisserie und torten", c.cakes], ["baeckerei", c.bakery], ["traiteur", c.savoury], ["schokolade", c.chocolate], ["konfekt", c.confections]]
+              .map(([id, name]) => <button type="button" key={id} aria-pressed={activeCategory === id} onClick={() => browseCategory(id)}>{name}</button>)}
+          </nav>
+          {!isFullCatalogue && activeCategory === null && <div className={styles.resultsContext}>
+            <span>{c.results}</span><button type="button" onClick={showAllProducts}>{c.viewAll}</button>
+          </div>}
+
+          <div ref={productGridRef} className={styles.productGrid}>
+            {orderedGridProducts.map((product, index) => {
+              const quantity = basketDetails.items.filter((item) => item.productId === product.id).reduce((sum, item) => sum + item.quantity, 0);
+              const offer = itemOffer(profileId, product);
+              const unavailable = sampleStock(product.id, branchId) === 0;
+              const image = product.images[0];
+              return <article className={styles.productCard} key={product.id} data-selected={selectedId === product.id}>
+                <button className={styles.productSelect} type="button" onClick={() => { selectProduct(product.id); setDetailProductId(product.id); setDetailOptions({ message: "None", wrap: "Standard" }); }} aria-label={c.view + " " + productName(product, language)}>
                   <div className={styles.imageWrap}>
-                    {!imageFailed && image ? (
-                      <Image
-                        data-product-image={product.id}
-                        src={image.localPath}
-                        alt={image.alt || product.name}
-                        fill
-                        sizes="(max-width: 760px) 50vw, (max-width: 860px) 33vw, (max-width: 1100px) 25vw, 240px"
-                        priority={index < 5}
-                        onError={(event) => {
-                          event.currentTarget.dataset.failed = "true";
-                          imageFailuresRef.current.add(product.id);
-                          setImageFailures((current) => new Set(current).add(product.id));
-                        }}
-                      />
-                    ) : (
-                      <span className={styles.imageFallback}>Photo unavailable</span>
-                    )}
+                    {!imageFailures.has(product.id) && image ? <Image data-product-image={product.id} src={image.localPath} alt={image.alt || product.name}
+                      fill sizes="(max-width: 760px) 50vw, 240px" priority={index < 4}
+                      onError={() => { imageFailuresRef.current.add(product.id); setImageFailures((current) => new Set(current).add(product.id)); }} />
+                      : <span className={styles.imageFallback}>{c.photoUnavailable}</span>}
                   </div>
                 </button>
                 <div className={styles.productText}>
-                  <span>{CATEGORY_NAMES[product.productType] || product.productType}</span>
-                  <h2>{product.name}</h2>
-                  <small data-stock={sampleStock(product.id, branchId) === 0 ? "none" : "available"}>{sampleStock(product.id, branchId) === 0 ? `Unavailable at ${branch?.name}` : `${sampleStock(product.id, branchId)} available at ${branch?.name}`}</small>
+                  <h2>{productName(product, language)}</h2>{unavailable && <small>{c.unavailableAt} {branch?.name}</small>}
+                  <div className={styles.cardPrice}><strong>{formatChf(offer.eligible ? offer.indicativeEffectiveChf : product.priceChf)}</strong>{offer.eligible && <del>{formatChf(product.priceChf)}</del>}</div>
                 </div>
-                <div className={styles.cardBottom}>
-                  <div className={styles.cardPrice}><strong className={styles.productPrice}>{formatChf(product.priceChf)}</strong>{itemOffer(profileId, product).eligible && <span>Offer {formatChf(itemOffer(profileId, product).indicativeEffectiveChf)}</span>}</div>
-                  <div className={styles.cardAction}>
-                  {quantity === 0 ? (
-                    <button type="button" disabled={sampleStock(product.id, branchId) === 0} onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add ${product.name} to basket`}>
-                      <Plus size={32} strokeWidth={2.6} aria-hidden="true" />
-                    </button>
-                  ) : (
-                    <div className={styles.stepper} aria-label={`${product.name} quantity`}>
-                      <button type="button" onClick={() => mutateBasket(product.id, 1, "remove")} aria-label={`Remove one ${product.name}`}><Minus size={16} aria-hidden="true" /></button>
-                      <span>{quantity}</span>
-                      <button type="button" disabled={quantity >= sampleStock(product.id, branchId)} onClick={() => mutateBasket(product.id, 1, "add")} aria-label={`Add one ${product.name}`}><Plus size={16} aria-hidden="true" /></button>
-                    </div>
-                  )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+                {quantity === 0 ? <button className={styles.cardAdd} type="button" disabled={unavailable} onClick={() => mutateBasket(product.id, 1, "add")} aria-label={c.add + " " + productName(product, language)}>
+                  <Plus size={22} aria-hidden="true" />
+                </button> : <div className={styles.cardStepper} aria-label={productName(product, language) + " " + c.quantity}>
+                  <button type="button" aria-label={`${quantity === 1 ? c.removeItem : c.decrease} ${productName(product, language)}`} onClick={() => mutateBasket(product.id, 1, "remove")}><Minus size={16} aria-hidden="true" /></button><span>{quantity}</span>
+                  <button type="button" aria-label={`${c.increase} ${productName(product, language)}`} disabled={quantity >= sampleStock(product.id, branchId)} onClick={() => mutateBasket(product.id, 1, "add")}><Plus size={16} aria-hidden="true" /></button>
+                </div>}
+              </article>;
+            })}
+          </div>
+        </section>
+      )}
+
+      {!pickupSimulation && shopView === "shop" && <section className={styles.controlDock} data-status={voiceStatus} data-has-basket={hasBasket} aria-label={c.shoppingControls}>
+        <div className={styles.dockActions}>
+        <button ref={voiceButtonRef} className={styles.voiceAction} type="button" onClick={startVoice}
+          aria-label={!voiceEnabled ? c.voiceUnavailable : sessionRef.current ? (isMuted ? "Unmute microphone" : "Mute microphone") : c.talkShop}
+          disabled={!voiceEnabled || voiceStatus === "connecting"}>
+          <span className={styles.voiceGlyph} aria-hidden="true">{isMuted ? <MicOff /> : <span className={styles.voiceBars}><span /><span /><span /><span /><span /></span>}</span>
+          <strong>{visibleVoiceLabel}</strong>
+        </button>
+        {hasCaptions && <button ref={captionsButtonRef} className={styles.iconAction} type="button" aria-label={c.captions} onClick={() => setCaptionsOpen((open) => !open)}><Captions aria-hidden="true" /></button>}
+        {hasBasket && <button className={styles.basketTrigger} type="button" onClick={openBasket}
+          aria-label={c.basket + ", " + basketDetails.itemCount + " " + c.items + ", " + formatChf(quote.exampleTotalChf)}>
+          <ShoppingBag size={19} aria-hidden="true" /><span>{basketDetails.itemCount}</span><strong>{formatChf(quote.exampleTotalChf)}</strong>
+        </button>}
         </div>
+        {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status">{voiceMessage}</p>}
       </section>}
 
-      <section
-        className={styles.controlDock}
-        data-status={voiceStatus}
-        data-has-session={hasVoiceSession}
-        data-has-captions={hasCaptions}
-        data-has-basket={hasBasket}
-        aria-label="Shopping controls"
-      >
-        <div className={styles.dockRow}>
-          <button
-            ref={voiceButtonRef}
-            className={styles.voiceAction}
-            type="button"
-            onClick={startVoice}
-            aria-label={!voiceEnabled ? "Voice unavailable" : sessionRef.current
-              ? (isMuted ? "Unmute microphone" : "Mute microphone")
-              : (voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : "Talk to Shop")}
-            aria-describedby={voiceStatus === "error" || voiceStatus === "unsupported" ? "voice-error" : undefined}
-            disabled={!voiceEnabled || voiceStatus === "connecting"}
-          >
-            <span className={styles.voiceGlyph} aria-hidden="true">
-              {isMuted ? (
-                <MicOff className={styles.mutedGlyph} />
-              ) : (
-                <span className={styles.voiceBars}>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </span>
-              )}
-            </span>
-            <span className={styles.voiceLabel}>
-              <strong>{!voiceEnabled ? "Voice unavailable" : voiceStatus === "error" || voiceStatus === "unsupported" ? "Try voice again" : voiceMessage}</strong>
-            </span>
-            {voiceStatus === "connecting" && <span className={styles.connectingIndicator} aria-hidden="true" />}
-            {hasVoiceSession && voiceStatus !== "connecting" && <span className={styles.readyIndicator} aria-hidden="true" />}
-          </button>
+      {captionsOpen && transcript.length > 0 && <section className={styles.captions} aria-label={c.captions}>
+        <header><strong>{c.captions}</strong><button type="button" onClick={closeCaptions}><X size={16} /></button></header>
+        {transcript.slice(-2).map((item) => <p key={item.id + "-" + item.role}><span>{item.role === "assistant" ? "Honold" : c.you}</span>{item.text}</p>)}
+      </section>}
 
-          {hasCaptions && (
-            <button
-              ref={captionsButtonRef}
-              className={styles.iconAction}
-              type="button"
-              aria-label={captionsOpen ? "Close captions" : "Open captions"}
-              aria-expanded={captionsOpen}
-              onClick={() => setCaptionsOpen((open) => !open)}
-            >
-              <Captions aria-hidden="true" />
-            </button>
-          )}
-
-          {hasVoiceSession && (
-            <button className={styles.endVoice} type="button" onClick={disconnectVoice} aria-label="End voice session">
-              <X aria-hidden="true" />
-            </button>
-          )}
-
-          {hasBasket && (
-            <button
-              className={styles.basketTrigger}
-              type="button"
-              onClick={openBasket}
-              aria-label={`Basket, ${basketDetails.itemCount} ${basketDetails.itemCount === 1 ? "item" : "items"}, ${formatChf(basketDetails.totalChf)}`}
-            >
-              <ShoppingBag size={18} aria-hidden="true" />
-              <span>{basketDetails.itemCount}</span>
-              <strong>{formatChf(basketDetails.totalChf)}</strong>
-            </button>
-          )}
-        </div>
-
-        <form className={styles.typedRequest} onSubmit={submitTypedRequest}>
-          <input aria-label="Type a shopping request" value={typedMessage} onChange={(event) => setTypedMessage(event.target.value)} placeholder={hasVoiceSession ? "Type a request…" : "Search products…"} />
-          <button type="submit">Send</button>
-        </form>
-
-        {(voiceStatus === "error" || voiceStatus === "unsupported") ? (
-          <p className={styles.voiceNotice} id="voice-error" role="status" aria-live="polite">{voiceMessage}</p>
-        ) : voiceStatus !== "idle" && voiceMessage !== "Talk to Shop" ? (
-          <span className={styles.visuallyHidden} role="status" aria-live="polite">{voiceMessage}</span>
-        ) : null}
-
-        {captionsOpen && transcript.length > 0 && (
-          <div className={styles.captions} role="region" aria-label="Live captions" aria-live="polite">
-            <div className={styles.captionsHeader}>
-              <strong>Captions</strong>
-              <button type="button" onClick={closeCaptions} aria-label="Close captions"><X size={16} /></button>
-            </div>
-            {transcript.slice(-2).map((item) => (
-              <p key={`${item.id}-${item.role}`}>
-                <span>{item.role === "assistant" ? "Honold" : "You"}</span>
-                {item.text}
-              </p>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {detailProduct && <div className={styles.detailBackdrop} onMouseDown={() => setDetailProductId(null)}>
-        <section className={styles.detailSheet} role="dialog" aria-modal="true" aria-labelledby="product-detail-title" onMouseDown={(event) => event.stopPropagation()}>
-          <button className={styles.detailClose} type="button" onClick={() => setDetailProductId(null)} aria-label="Close product details"><X /></button>
+      {detailProduct && <div className={styles.modalBackdrop} onMouseDown={() => setDetailProductId(null)}>
+        <section className={styles.productDetail} role="dialog" aria-modal="true" aria-labelledby="product-detail-title" onMouseDown={(event) => event.stopPropagation()}>
+          <button className={styles.closeButton} type="button" onClick={() => setDetailProductId(null)} aria-label={c.closeDetails}><X /></button>
           <div className={styles.detailImage}><Image src={detailProduct.images[0].localPath} alt={detailProduct.images[0].alt || detailProduct.name} fill sizes="360px" /></div>
           <div className={styles.detailCopy}>
-            <span className={styles.eyebrow}>{CATEGORY_NAMES[detailProduct.productType] || detailProduct.productType}</span>
-            <h2 id="product-detail-title">{detailProduct.name}</h2>
-            <p>For ingredient and allergen information, please ask our team.</p>
-            <div className={styles.detailPrice}><span>List price <strong>{formatChf(detailProduct.priceChf)}</strong></span>{itemOffer(profileId, detailProduct).eligible && <span>Offer price <strong>{formatChf(itemOffer(profileId, detailProduct).indicativeEffectiveChf)}</strong></span>}</div>
-            <small>Your final saving is calculated across your basket and follows the offer limit.</small>
-            {Object.entries(DEMO_VARIANTS).map(([id, option]) => <label key={id}>{option.label} <em>{id === "wrap" ? "+CHF 2.50 for Ribbon" : "Optional"}</em>
-              <select value={detailOptions[id]} onChange={(event) => setDetailOptions((current) => ({ ...current, [id]: event.target.value }))}>{option.values.map((value) => <option key={value}>{value}</option>)}</select>
+            <h2 id="product-detail-title">{productName(detailProduct, language)}</h2><p>{c.productInfo}</p>
+            <div className={styles.detailPrice}><strong>{formatChf(itemOffer(profileId, detailProduct).eligible ? itemOffer(profileId, detailProduct).indicativeEffectiveChf : detailProduct.priceChf)}</strong>
+              {itemOffer(profileId, detailProduct).eligible && <del>{formatChf(detailProduct.priceChf)}</del>}</div>
+            {GIFT_OPTION_PRODUCT_IDS.has(detailProduct.id) && Object.entries(DEMO_VARIANTS).map(([id, option]) => <label key={id}>{id === "message" ? (language === "de" ? "Geschenknachricht" : "Gift message") : (language === "de" ? "Geschenkverpackung" : "Gift wrap")}
+              <select value={detailOptions[id]} onChange={(event) => setDetailOptions((current) => ({ ...current, [id]: event.target.value }))}>
+                {option.values.map((value) => <option key={value} value={value}>{({ None: c.none, "Happy Birthday": c.happyBirthday, "Thank you": c.thankYou, Standard: c.standard, Ribbon: c.ribbon })[value] || value}{id === "wrap" && value === "Ribbon" ? " · CHF 2.50" : ""}</option>)}
+              </select>
             </label>)}
-            <button className={styles.detailAdd} type="button" disabled={sampleStock(detailProduct.id, branchId) === 0} onClick={() => { mutateBasket(basketKey(detailProduct.id, detailOptions), 1, "add"); setDetailProductId(null); }}>
-              {sampleStock(detailProduct.id, branchId) === 0 ? `Unavailable at ${branch?.name}` : "Add configured item"}
+            <button className={styles.primaryAction} type="button" disabled={sampleStock(detailProduct.id, branchId) === 0}
+              onClick={() => { mutateBasket(basketKey(detailProduct.id, detailOptions), 1, "add"); setDetailProductId(null); }}>
+              {sampleStock(detailProduct.id, branchId) === 0 ? c.unavailableAt + " " + branch?.name : c.addBasket}
             </button>
-            {sampleStock(detailProduct.id, branchId) === 0 && <p>Try the other branch; availability will be checked again.</p>}
           </div>
         </section>
       </div>}
 
-      {basketOpen && (
-        <div className={styles.drawerBackdrop} onMouseDown={closeBasket}>
-          <section
-            ref={drawerRef}
-            className={styles.basketDrawer}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="basket-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <header className={styles.drawerHeader}>
-              <div>
-                <span>Pickup</span>
-                <h2 id="basket-title">Your basket</h2>
-              </div>
-              <button ref={drawerCloseRef} type="button" onClick={closeBasket} aria-label="Close basket"><X aria-hidden="true" /></button>
-            </header>
+      {fulfillmentOpen && <div className={`${styles.modalBackdrop} ${styles.fulfillmentBackdrop}`} onMouseDown={() => setFulfillmentOpen(false)}>
+        <section className={styles.fulfillmentSheet} role="dialog" aria-modal="true" aria-labelledby="fulfillment-title" onMouseDown={(event) => event.stopPropagation()}>
+          <header><div><span className={styles.kicker}>{fulfillmentMode}</span><h2 id="fulfillment-title">{fulfillmentMode === "pickup" ? c.choosePickup : c.deliveryDetails}</h2></div>
+            <button className={styles.closeButton} type="button" onClick={() => setFulfillmentOpen(false)}><X /></button></header>
+          {fulfillmentMode === "pickup" ? <>
+            <span className={styles.fieldLabel}>{c.branch}</span>
+            <div className={styles.choiceGrid}>{DEMO_BRANCHES.map((item) => <button type="button" key={item.id} aria-pressed={branchId === item.id}
+              onClick={() => updatePickupPreference("branch", item.id)}>{item.name}<small>{item.address}</small></button>)}</div>
+            <span className={styles.fieldLabel}>{c.day}</span>
+            <div className={styles.dayGrid}>{pickupDays.map((day) => {
+              const first = availableSlots.find((slot) => slotDateId(slot.id) === day);
+              return <button type="button" key={day} aria-pressed={activePickupDay === day} onClick={() => choosePickupDay(day)}>{first ? slotDayLabel(first.id, language) : day}</button>;
+            })}</div>
+            <label className={styles.selectField}>{c.time}<select value={daySlots.some((slot) => slot.id === slotId) ? slotId : ""} onChange={(event) => updatePickupPreference("slot", event.target.value)}>
+              <option value="">{c.chooseTime}</option>{daySlots.map((slot) => {
+                const local = zurichParts(Number(slot.id));
+                return <option key={slot.id} value={slot.id}>{String(local.hour).padStart(2, "0")}:{String(local.minute).padStart(2, "0")}</option>;
+              })}
+            </select></label>
+          </> : <>
+            <label className={styles.selectField}>{c.address}<input value={deliveryAddress} onChange={(event) => changeDeliveryDetails("address", event.target.value)} /></label>
+            <span className={styles.fieldLabel}>{c.deliveryWindow}</span>
+            <div className={styles.windowList}>{deliveryWindows.map((window) => <button type="button" key={window.id} aria-pressed={deliveryWindowId === window.id}
+              onClick={() => changeDeliveryDetails("window", window.id)}>{window.label}</button>)}</div>
+          </>}
+          <button className={styles.primaryAction} type="button" onClick={() => setFulfillmentOpen(false)}
+            disabled={fulfillmentMode === "pickup" ? !slotId : !deliveryAddress.trim() || !deliveryWindowId}>{c.done}</button>
+        </section>
+      </div>}
 
-
-            {pickupSimulation && (
-              <div ref={pickupResultRef} className={styles.progressCard} role="status" tabIndex={-1}>
-                <span className={styles.eyebrow}>Pickup status</span>
-                <strong>Pickup code {pickupSimulation.pickupCode}</strong>
-                <span>{DEMO_BRANCHES.find((item) => item.id === pickupSimulation.branchId)?.name} · {slotLabel(pickupSimulation.slotId)}</span>
-                <ol className={styles.progressSteps} aria-label="Order progress">
-                  {["Received", "Preparing", "Ready"].map((stage, index) => (
-                    <li key={stage} data-complete={index <= pickupSimulation.stage}>{stage}</li>
-                  ))}
-                </ol>
-                {previewStatus(pickupSimulation) !== "Ready" && (
-                  <button type="button" onClick={advancePickup}>Update status</button>
-                )}
-              </div>
-            )}
-
-            {basketDetails.items.length === 0 ? (
-              <p className={styles.drawerEmpty}>Your basket is empty. Choose a branch and time, then add a product to plan your pickup.</p>
-            ) : (
-                <div className={styles.basketItems}>
-                  {basketDetails.items.map((item) => (
-                    <div className={styles.basketItem} key={item.productId}>
-                      <div>
-                        <strong>{item.name}</strong>
-                        {Object.keys(item.options || {}).length > 0 && <span>{Object.values(item.options).join(" · ")}</span>}
-                        <span>{formatChf(item.unitPriceChf)} each</span>
-                        <span data-short={item.quantity > sampleStock(item.productId, branchId)}>
-                          Available: {sampleStock(item.productId, branchId)}
-                        </span>
-                      </div>
-                      <div className={styles.basketItemRight}>
-                        <strong>{formatChf(item.lineTotalChf)}</strong>
-                        <div className={styles.miniStepper} aria-label={`${item.name} quantity in basket`}>
-                          <button type="button" onClick={() => mutateBasket(item.basketKey, 1, "remove")} aria-label={`Remove one ${item.name}`}><Minus size={15} aria-hidden="true" /></button>
-                          <span>{item.quantity}</span>
-                          <button type="button" onClick={() => mutateBasket(item.basketKey, 1, "add")} aria-label={`Add one ${item.name}`}><Plus size={15} aria-hidden="true" /></button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+      {basketOpen && <div className={styles.modalBackdrop} onMouseDown={closeBasket}>
+        <section ref={drawerRef} className={styles.reviewSheet} role="dialog" aria-modal="true" aria-labelledby="basket-title" onMouseDown={(event) => event.stopPropagation()}>
+          <header><div><span className={styles.kicker}>{c.review}</span><h2 id="basket-title">{c.yourOrder}</h2></div>
+            <button ref={drawerCloseRef} className={styles.closeButton} type="button" onClick={closeBasket} aria-label={c.closeReview}><X /></button></header>
+          <button className={styles.reviewFulfillment} type="button" onClick={() => setFulfillmentOpen(true)}>
+            {fulfillmentMode === "pickup" ? <Store size={20} /> : <Truck size={20} />}
+            <span><strong>{fulfillmentTitle}</strong><small>{fulfillmentSubtitle}</small></span><em>{c.change}</em>
+          </button>
+          {basketDetails.items.length ? <div className={styles.reviewItems}>
+            {basketDetails.items.map((item) => {
+              const product = productsById.get(item.productId);
+              return <article key={item.basketKey}>
+                <div className={styles.reviewThumb}>{product?.images?.[0] && <Image src={product.images[0].localPath} alt="" fill sizes="68px" />}</div>
+                <div className={styles.reviewItemCopy}><strong>{productName(product, language)}</strong>
+                  {Object.values(item.options || {}).length > 0 && <small>{Object.values(item.options).map((value) => ({ None: c.none, "Happy Birthday": c.happyBirthday, "Thank you": c.thankYou, Standard: c.standard, Ribbon: c.ribbon })[value] || value).join(" · ")}</small>}
+                  <div className={styles.reviewStepper}>
+                    <button type="button" aria-label={`${item.quantity === 1 ? c.removeItem : c.decrease} ${productName(product, language)}`} onClick={() => mutateBasket(item.basketKey, 1, "remove")}><Minus size={15} aria-hidden="true" /></button><span>{item.quantity}</span>
+                    <button type="button" aria-label={`${c.increase} ${productName(product, language)}`} onClick={() => mutateBasket(item.basketKey, 1, "add")}><Plus size={15} aria-hidden="true" /></button>
+                  </div>
                 </div>
-            )}
-                <section className={styles.pickupConfig} aria-label="Pickup choices">
-                  <h3>Plan your pickup</h3>
-                  <div className={styles.offerBox}>
-                    <strong className={styles.savingsHeadline}>{quote.savingsChf > 0 ? `You save ${formatChf(quote.savingsChf)}` : profileId === "guest" ? "No offer selected" : "Add eligible items"}</strong>
-                    <span>{quote.profileName} · {quote.description}</span>
-                    <span>Applies to {formatChf(quote.eligibleSubtotalChf)} in eligible items</span>
-                    <div className={styles.offerMath}>
-                      <span>List subtotal {formatChf(quote.subtotalChf)}</span>
-                      <strong>−{formatChf(quote.savingsChf)}</strong>
-                    </div>
-                  </div>
-                  <span className={styles.fieldLabel}>Pickup branch</span>
-                  <div className={styles.branchGrid} role="group" aria-label="Pickup branch">
-                    {DEMO_BRANCHES.map((item) => <button type="button" key={item.id}
-                      aria-pressed={branchId === item.id} onClick={() => updatePickupPreference("branch", item.id)}>
-                      {item.name}
-                    </button>)}
-                  </div>
-                  <span className={styles.branchAddress}>{branch?.address}</span>
-                  <span className={styles.fieldLabel}>Pickup time · Zurich</span>
-                  {availableSlots.length ? (
-                    <>
-                      <div className={styles.dayGrid} aria-label="Pickup day">
-                        {pickupDays.map((day) => {
-                          const first = availableSlots.find((slot) => slotDateId(slot.id) === day);
-                          return <button type="button" key={day} aria-pressed={activePickupDay === day} onClick={() => choosePickupDay(day)}>
-                            {first ? slotDayLabel(first.id) : day}
-                          </button>;
-                        })}
-                      </div>
-                      <select aria-label="Pickup time" value={daySlots.some((slot) => slot.id === slotId) ? slotId : ""}
-                        onChange={(event) => updatePickupPreference("slot", event.target.value)}>
-                        <option value="">Choose a time</option>
-                        {daySlots.map((slot) => {
-                          const local = zurichParts(Number(slot.id));
-                          return <option key={slot.id} value={slot.id}>
-                            {String(local.hour).padStart(2, "0")}:{String(local.minute).padStart(2, "0")}
-                          </option>;
-                        })}
-                      </select>
-                    </>
-                  ) : <p className={styles.optionWarning}>No pickup time can fit this basket. Reduce quantity or try the other branch.</p>}
-                  {pickupValidation.stockIssues.length > 0 && (
-                    <p className={styles.optionWarning}>Availability is limited at {branch?.name}. Reduce the flagged quantity or try the other branch.</p>
-                  )}
-                </section>
-
-                {hasBasket && <div className={styles.drawerFooter}>
-                  <div className={styles.total}><span>Total</span><strong>{formatChf(quote.exampleTotalChf)}</strong></div>
-                  {pickupValidation.reason && <p className={styles.optionWarning} role="status">{pickupValidation.reason}</p>}
-                  {pickupError && <p className={styles.optionWarning} role="alert">{pickupError}</p>}
-                  {!pickupSimulation && (
-                    pendingReview ? <div className={styles.exactReview}>
-                      <strong>Ready to confirm</strong>
-                      <span>{basketDetails.itemCount} items · {branch?.name} · {slotLabel(slotId)} · {formatChf(quote.exampleTotalChf)}</span>
-                      <small>Check your items, offer, branch and pickup time. Any change will refresh this review.</small>
-                      <button className={styles.confirmPickup} type="button" onClick={() => approveExactReview("approve")}><Check size={18} aria-hidden="true" /> Confirm order</button>
-                    </div> : <button className={styles.confirmPickup} type="button" onClick={prepareExactReview} disabled={!pickupValidation.ok}>
-                      <Check size={18} aria-hidden="true" /> Review order
-                    </button>
-                  )}
-                </div>}
-          </section>
-        </div>
-      )}
+                <strong className={styles.linePrice}>{formatChf(item.lineTotalChf)}</strong>
+              </article>;
+            })}
+          </div> : <p className={styles.emptyBasket}>{c.emptyBasket}</p>}
+          {basketDetails.items.length > 0 && <div className={styles.reviewTotals}>
+            <div><span>{c.subtotal}</span><strong>{formatChf(quote.subtotalChf)}</strong></div>
+            {quote.savingsChf > 0 && <div className={styles.offerLine}><span>{c.offerApplied}</span><strong>−{formatChf(quote.savingsChf)}</strong></div>}
+            <div className={styles.totalLine}><span>{c.total}</span><strong>{formatChf(quote.exampleTotalChf)}</strong></div>
+          </div>}
+          {reviewAttempted && fulfillmentValidation.reason && <p className={styles.reviewWarning} role="alert">{localizeReason(fulfillmentValidation.reason, language)}</p>}
+          {pickupError && <p className={styles.reviewWarning} role="alert">{localizeReason(pickupError, language)}</p>}
+          <button className={styles.confirmOrder} type="button" disabled={!basketDetails.items.length} onClick={confirmTouchOrder}>
+            {fulfillmentMode === "pickup" && !slotId ? c.choosePickupTime : fulfillmentMode === "delivery" && (!deliveryAddress.trim() || !deliveryWindowId) ? c.chooseDeliveryWindow : c.confirmOrder + " · " + formatChf(quote.exampleTotalChf)}
+          </button>
+        </section>
+      </div>}
     </main>
   );
 }

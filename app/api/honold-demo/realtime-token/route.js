@@ -1,4 +1,4 @@
-import { bakeryDemoVoiceEnabled } from "../../../../src/bakery-demo-runtime.mjs";
+import { honoldVoiceEnabled } from "../../../../src/honold-demo/runtime.mjs";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -13,13 +13,10 @@ function noStoreJson(body, init = {}) {
 }
 
 export async function POST() {
-  if (!bakeryDemoVoiceEnabled()) {
-    return noStoreJson({ error: "Voice is unavailable on this public demo." }, { status: 503 });
-  }
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.HONOLD_OPENAI_API_KEY;
   const model = process.env.OPENAI_REALTIME_MODEL || "gpt-realtime";
 
-  if (!apiKey) {
+  if (!honoldVoiceEnabled() || !apiKey) {
     return noStoreJson(
       { error: "Voice service is not configured for this deployment." },
       { status: 503 },
