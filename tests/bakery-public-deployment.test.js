@@ -5,12 +5,12 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const root = path.join(__dirname, '..');
 
-test('public bakery deployments disable voice even when a shared API key exists', async () => {
+test('public Hausammann deployments disable voice even when a shared API key exists', async () => {
   const { bakeryDemoVoiceEnabled } = await import(pathToFileURL(path.join(root, 'src/bakery-demo-runtime.mjs')));
   assert.equal(bakeryDemoVoiceEnabled({}), true);
   for (const env of [{ VERCEL: '1' }, { VERCEL_ENV: 'production' }, { VERCEL_ENV: 'preview' }]) {
     assert.equal(bakeryDemoVoiceEnabled(env), false);
-    for (const brand of ['honold', 'hausammann']) {
+    for (const brand of ['hausammann']) {
       const source = fs.readFileSync(path.join(root, `app/api/${brand}-demo/realtime-token/route.js`), 'utf8')
         .replace(/^import .*;\n/gm, '').replace(/export /g, '');
       let calls = 0;

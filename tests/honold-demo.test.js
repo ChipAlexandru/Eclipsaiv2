@@ -8,6 +8,13 @@ const root = path.resolve(__dirname, "..");
 const catalog = JSON.parse(fs.readFileSync(path.join(root, "src/honold-demo/catalog.json"), "utf8"));
 const report = JSON.parse(fs.readFileSync(path.join(root, "src/honold-demo/catalog-report.json"), "utf8"));
 
+test("Honold production voice requires its dedicated key", async () => {
+  const { honoldVoiceEnabled } = await import(pathToFileURL(path.join(root, "src/honold-demo/runtime.mjs")));
+  assert.equal(honoldVoiceEnabled({}), false);
+  assert.equal(honoldVoiceEnabled({ OPENAI_API_KEY: "shared-only" }), false);
+  assert.equal(honoldVoiceEnabled({ VERCEL_ENV: "production", HONOLD_OPENAI_API_KEY: "dedicated" }), true);
+});
+
 test("all seven public shop pages have sourced, locally available products", () => {
   assert.equal(report.pagesFetched, 7);
   assert.equal(catalog.products.length, report.listedProductCount);
@@ -43,15 +50,29 @@ test("search, basket and simulated pickup remain bounded to catalogue IDs", asyn
 
 test("voice safeguards keep external actions bounded", () => {
   const source = fs.readFileSync(path.join(root, "src/honold-demo/HonoldVoiceShop.jsx"), "utf8");
+  const i18nSource = fs.readFileSync(path.join(root, "src/honold-demo/i18n.mjs"), "utf8");
   const route = fs.readFileSync(path.join(root, "app/api/honold-demo/realtime-token/route.js"), "utf8");
-  assert.match(source, /Never say an order, reservation, payment, pickup, or store message is real/);
+  assert.match(i18nSource, /Never claim an order, reservation, payment, pickup, delivery or store message is real/);
   const journeySource = fs.readFileSync(path.join(root, "src/honold-demo/pickupJourney.mjs"), "utf8");
   assert.match(journeySource, /Seestrasse 69/);
   assert.match(source, /honold-logo.svg/);
   assert.match(source, /awaitingExplicitApproval: true/);
   assert.match(source, /approve_simulated_order/);
   assert.doesNotMatch(source, /process\.env\.OPENAI_API_KEY/);
-  assert.match(route, /process\.env\.OPENAI_API_KEY/);
+  assert.match(route, /process\.env\.HONOLD_OPENAI_API_KEY/);
+  assert.doesNotMatch(route, /process\.env\.OPENAI_API_KEY/);
+});
+
+test("English and German copy preserve product IDs and localize voice instructions", async () => {
+  const i18n = await import(pathToFileURL(path.join(root, "src/honold-demo/i18n.mjs")));
+  assert.equal(i18n.copyFor("de").confirmOrder, "Bestellung bestätigen");
+  assert.equal(i18n.copyFor("en").confirmOrder, "Confirm order");
+  const product = { id: "same-id", name: "Buttergipfel 2 Portionen" };
+  assert.equal(product.id, "same-id");
+  assert.match(i18n.productName(product, "en"), /Butter croissant/);
+  assert.equal(i18n.productName(product, "de"), product.name);
+  assert.match(i18n.voiceInstructions("de", { basket: {} }), /Swiss Standard German/);
+  assert.match(i18n.voiceInstructions("en", { basket: {} }), /Always speak English/);
 });
 
 test("item offers remain indicative while basket caps and variant prices stay exact", async () => {
@@ -159,10 +180,31 @@ test("customer-specific savings preserve public prices and tracker changes only 
   const nowMs = Date.parse("2026-09-21T07:00:00Z");
   const slot = journey.futureSlots(nowMs, "erlenbach").find((item) => item.capacity >= 2);
   const preview = journey.makePreview({ basket, branchId: "erlenbach", slotId: slot.id, profileId: "regular", quote: regular, nowMs });
-  assert.equal(journey.previewStatus(preview), "Received");
+  assert.equal(journey.previewStatus(preview), "Confirmed");
   assert.equal(journey.previewStatus(journey.advancePreview(preview)), "Preparing");
   assert.equal(journey.previewStatus(journey.advancePreview(journey.advancePreview(preview))), "Ready");
   assert.equal(journey.previewStatus(journey.advancePreview(journey.advancePreview(journey.advancePreview(preview)))), "Ready");
   assert.match(preview.pickupCode, /^H-\d{4}$/);
   assert.equal(preview.simulated, true);
+});
+
+test("delivery validation and order QR identities stay bound to the confirmed order", async () => {
+  const journey = await import(pathToFileURL(path.join(root, "src/honold-demo/pickupJourney.mjs")));
+  const qr = await import(pathToFileURL(path.join(root, "src/honold-demo/orderQr.mjs")));
+  const nowMs = Date.parse("2026-09-21T07:00:00Z");
+  const product = catalog.products.find((item) => journey.sampleStock(item.id, "erlenbach") > 0);
+  const basket = { [product.id]: 1 };
+  const window = journey.futureDeliveryWindows(nowMs)[0];
+  assert.equal(journey.fulfillmentCheck({ basket, mode: "delivery", branchId: "erlenbach", address: "", deliveryWindowId: window.id, nowMs }).ok, false);
+  assert.equal(journey.fulfillmentCheck({ basket, mode: "delivery", branchId: "erlenbach", address: journey.DEMO_DELIVERY_ADDRESS, deliveryWindowId: window.id, nowMs }).ok, true);
+  const preview = journey.makePreview({ basket, mode: "delivery", branchId: "erlenbach", address: journey.DEMO_DELIVERY_ADDRESS, deliveryWindowId: window.id, profileId: "guest", quote: { exampleTotalChf: product.priceChf }, nowMs });
+  assert.equal(journey.previewStatus(preview), "Confirmed");
+  assert.equal(journey.previewStatus(journey.advancePreview(preview)), "Packing");
+  assert.equal(journey.previewStatus(journey.advancePreview(journey.advancePreview(preview))), "On the way");
+  const identity = qr.orderIdentity({ ...preview, orderId: "order-123" });
+  const matrix = qr.qrMatrix(identity);
+  assert.match(identity, /^HONOLD\|order-123\|H-\d{4}\|erlenbach\|null$/);
+  assert.equal(matrix.length, 33);
+  assert.ok(matrix.every((row) => row.length === 33));
+  assert.notDeepEqual(matrix, qr.qrMatrix(identity.replace("order-123", "order-124")));
 });

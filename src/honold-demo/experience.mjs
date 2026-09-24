@@ -1,4 +1,4 @@
-export const EXPERIENCE_VERSION = 1;
+export const EXPERIENCE_VERSION = 2;
 export const DEMO_VARIANTS = {
   message: { label: "Gift message", values: ["None", "Happy Birthday", "Thank you"], priceDeltaChf: 0 },
   wrap: { label: "Gift wrap", values: ["Standard", "Ribbon"], priceDeltaChf: 2.5 },
@@ -30,8 +30,10 @@ export function itemOffer(profileId, product) {
   return { eligible, rate, indicativeSavingsChf,
     indicativeEffectiveChf: Number(((product?.priceChf || 0) - indicativeSavingsChf).toFixed(2)) };
 }
-export function reviewFingerprint({ basket, branchId, slotId, profileId, exampleTotalChf }) {
-  return JSON.stringify({ basket: Object.entries(basket).sort(), branchId, slotId, profileId, exampleTotalChf });
+export function reviewFingerprint({ basket, mode = "pickup", branchId, slotId, address, deliveryWindowId, profileId, exampleTotalChf }) {
+  return JSON.stringify({ basket: Object.entries(basket).sort(), mode, branchId, slotId: mode === "pickup" ? slotId : null,
+    address: mode === "delivery" ? String(address || "").trim() : null,
+    deliveryWindowId: mode === "delivery" ? deliveryWindowId : null, profileId, exampleTotalChf });
 }
 export function approveReview(review, intent, nowMs) {
   if (!review?.fingerprint || !review.reviewId || !/^(approve|confirm)$/i.test(String(intent || ""))) throw new Error("Clear approval of the visible review is required.");

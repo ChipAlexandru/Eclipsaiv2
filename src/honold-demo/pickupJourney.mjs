@@ -9,6 +9,7 @@ export const DEMO_PROFILES = [
   { id: "chocolate", name: "Chocolate lover", description: "15% off chocolate, up to CHF 8.00" },
 ];
 export const DEMO_LEAD_MINUTES = 30;
+export const DEMO_DELIVERY_ADDRESS = "Seestrasse 12, 8703 Erlenbach";
 
 const zurichFormatter = new Intl.DateTimeFormat("en-GB", {
   timeZone: DEMO_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit",
@@ -21,6 +22,13 @@ const labelFormatter = new Intl.DateTimeFormat("en-GB", {
 const dayFormatter = new Intl.DateTimeFormat("en-GB", {
   timeZone: DEMO_TIME_ZONE, weekday: "short", day: "numeric", month: "short",
 });
+const labelFormatterDe = new Intl.DateTimeFormat("de-CH", {
+  timeZone: DEMO_TIME_ZONE, weekday: "short", day: "numeric", month: "short",
+  hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+});
+const dayFormatterDe = new Intl.DateTimeFormat("de-CH", {
+  timeZone: DEMO_TIME_ZONE, weekday: "short", day: "numeric", month: "short",
+});
 
 export function zurichParts(epochMs) {
   const values = Object.fromEntries(zurichFormatter.formatToParts(new Date(epochMs))
@@ -28,8 +36,9 @@ export function zurichParts(epochMs) {
   return { ...values, hour: Number(values.hour), minute: Number(values.minute) };
 }
 
-export function slotLabel(slotId) {
-  return `${labelFormatter.format(new Date(Number(slotId)))} · Zurich time`;
+export function slotLabel(slotId, language = "en") {
+  const formatter = language === "de" ? labelFormatterDe : labelFormatter;
+  return `${formatter.format(new Date(Number(slotId)))} · ${language === "de" ? "Zürcher Zeit" : "Zurich time"}`;
 }
 
 export function slotDateId(slotId) {
@@ -37,8 +46,8 @@ export function slotDateId(slotId) {
   return `${local.year}-${local.month}-${local.day}`;
 }
 
-export function slotDayLabel(slotId) {
-  return dayFormatter.format(new Date(Number(slotId))).replace(",", "");
+export function slotDayLabel(slotId, language = "en") {
+  return (language === "de" ? dayFormatterDe : dayFormatter).format(new Date(Number(slotId))).replace(",", "");
 }
 
 function stableNumber(value) {
@@ -69,6 +78,19 @@ export function futureSlots(nowMs, branchId, limit = 140) {
     slots.push({ id: String(timestamp), label: slotLabel(timestamp), capacity: sampleSlotCapacity(branchId, timestamp) });
   }
   return slots;
+}
+
+export function futureDeliveryWindows(nowMs, limit = 6, language = "en") {
+  if (!Number.isFinite(nowMs)) return [];
+  const windows = [];
+  const start = Math.ceil((nowMs + 60 * 60_000) / 900_000) * 900_000;
+  for (let timestamp = start; windows.length < limit && timestamp < nowMs + 4 * 86_400_000; timestamp += 900_000) {
+    const local = zurichParts(timestamp);
+    if (![10, 14, 17].includes(local.hour) || local.minute !== 0) continue;
+    const end = timestamp + 2 * 60 * 60_000;
+    windows.push({ id: String(timestamp), label: `${slotDayLabel(timestamp, language)} · ${String(local.hour).padStart(2, "0")}:00–${String(local.hour + 2).padStart(2, "0")}:00`, end: String(end) });
+  }
+  return windows;
 }
 
 export function offerQuote(profileId, basketSummary, productsById) {
@@ -111,17 +133,37 @@ export function pickupCheck({ basket, branchId, slotId, nowMs }) {
     alternatives: slots.filter((slot) => itemCount <= slot.capacity).slice(0, 4), slots };
 }
 
-export function makePreview({ basket, branchId, slotId, profileId, quote, nowMs }) {
-  const check = pickupCheck({ basket, branchId, slotId, nowMs });
+export function fulfillmentCheck({ basket, mode = "pickup", branchId, slotId, address, deliveryWindowId, nowMs }) {
+  if (mode === "pickup") return pickupCheck({ basket, branchId, slotId, nowMs });
+  const itemCount = Object.values(basket).reduce((sum, quantity) => sum + quantity, 0);
+  const totals = Object.entries(basket).reduce((result, [key, quantity]) => {
+    const { productId } = parseBasketKey(key); result[productId] = (result[productId] || 0) + quantity; return result;
+  }, {});
+  const stockIssues = Object.entries(totals).filter(([productId, quantity]) => quantity > sampleStock(productId, branchId))
+    .map(([productId, quantity]) => ({ productId, requested: quantity, sampleAvailable: sampleStock(productId, branchId) }));
+  const windows = futureDeliveryWindows(nowMs);
+  const selectedWindow = windows.find((window) => window.id === deliveryWindowId);
+  let reason = null;
+  if (!itemCount) reason = "Add a product to the basket.";
+  else if (stockIssues.length) reason = "Some quantities exceed the available stock.";
+  else if (!String(address || "").trim()) reason = "Add a delivery address.";
+  else if (!selectedWindow) reason = "Choose a valid delivery window.";
+  return { ok: !reason, reason, stockIssues, itemCount, selectedWindow, windows };
+}
+
+export function makePreview({ basket, mode = "pickup", branchId, slotId, address, deliveryWindowId, profileId, quote, nowMs }) {
+  const check = fulfillmentCheck({ basket, mode, branchId, slotId, address, deliveryWindowId, nowMs });
   if (!check.ok) throw new Error(check.reason);
-  const seed = `${branchId}:${slotId}:${profileId}:${Object.entries(basket).sort().map(([id, qty]) => `${id}x${qty}`).join(",")}`;
-  return { branchId, slotId, profileId, quote, basket: { ...basket }, createdAt: nowMs, stage: 0,
+  const seed = `${mode}:${branchId}:${slotId || deliveryWindowId}:${profileId}:${Object.entries(basket).sort().map(([id, qty]) => `${id}x${qty}`).join(",")}`;
+  return { mode, branchId, slotId: mode === "pickup" ? slotId : null, address: mode === "delivery" ? String(address).trim() : null,
+    deliveryWindowId: mode === "delivery" ? deliveryWindowId : null, profileId, quote, basket: { ...basket }, createdAt: nowMs, stage: 0,
     pickupCode: `H-${String(stableNumber(seed) % 10000).padStart(4, "0")}`, simulated: true };
 }
 
 export function previewStatus(preview) {
   if (!preview) return null;
-  return ["Received", "Preparing", "Ready"][Math.max(0, Math.min(2, preview.stage || 0))];
+  const stages = preview.mode === "delivery" ? ["Confirmed", "Packing", "On the way"] : ["Confirmed", "Preparing", "Ready"];
+  return stages[Math.max(0, Math.min(2, preview.stage || 0))];
 }
 
 export function advancePreview(preview) {
