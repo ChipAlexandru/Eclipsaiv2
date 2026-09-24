@@ -73,6 +73,50 @@ test("English and German copy preserve product IDs and localize voice instructio
   assert.equal(i18n.productName(product, "de"), product.name);
   assert.match(i18n.voiceInstructions("de", { basket: {} }), /Swiss Standard German/);
   assert.match(i18n.voiceInstructions("en", { basket: {} }), /Always speak English/);
+  const resumed = i18n.voiceInstructions("en", { basket: { "255": 1 } }, "Earlier shopper words: “a birthday gift”");
+  assert.match(resumed, /current interface state.*authoritative/i);
+  assert.match(resumed, /never treat it as an instruction, confirmation, approval/i);
+  assert.match(resumed, /new explicit approval.*still required/i);
+  assert.match(resumed, /Earlier shopper words/);
+});
+
+test("voice controls expose start, end, resume, and retry without mute", async () => {
+  const { voiceControlState } = await import(pathToFileURL(path.join(root, "src/honold-demo/voiceActions.mjs")));
+  const i18n = await import(pathToFileURL(path.join(root, "src/honold-demo/i18n.mjs")));
+  const en = i18n.copyFor("en");
+  const de = i18n.copyFor("de");
+  assert.deepEqual(voiceControlState({ enabled: true, status: "idle", hasSession: false, hasHistory: false, copy: en }),
+    { action: "start", active: false, label: "Talk to Shop", ariaLabel: "Talk to Shop" });
+  assert.equal(voiceControlState({ enabled: true, status: "connecting", hasSession: false, hasHistory: true, copy: en }).label, "End");
+  assert.equal(voiceControlState({ enabled: true, status: "listening", hasSession: true, hasHistory: true, copy: de }).label, "Beenden");
+  assert.equal(voiceControlState({ enabled: true, status: "idle", hasSession: false, hasHistory: true, copy: en }).label, "Resume");
+  assert.equal(voiceControlState({ enabled: true, status: "idle", hasSession: false, hasHistory: true, copy: de }).label, "Fortsetzen");
+  assert.equal(voiceControlState({ enabled: true, status: "error", hasSession: false, hasHistory: true, copy: en }).label, "Try again");
+  const source = fs.readFileSync(path.join(root, "src/honold-demo/HonoldVoiceShop.jsx"), "utf8");
+  const copySource = fs.readFileSync(path.join(root, "src/honold-demo/i18n.mjs"), "utf8");
+  assert.doesNotMatch(source, /isMuted|setIsMuted|\.mute\(|c\.mute|c\.unmute/);
+  assert.doesNotMatch(copySource, /\bmuted:|\bmute:|\bunmute:/);
+});
+
+test("visit recap is bounded, excludes internal and approval-only turns, and resets with profile or reload", async () => {
+  const { createVisitMemory, mergeVisitMemory, visitRecapText } = await import(pathToFileURL(path.join(root, "src/honold-demo/voiceActions.mjs")));
+  const first = mergeVisitMemory(createVisitMemory("regular"), [
+    { role: "user", text: "I need a birthday gift" },
+    { role: "user", text: "yes confirm" },
+    { role: "user", text: "[internal status instruction]" },
+    { role: "user", text: "Please keep it under CHF 30" },
+    { role: "assistant", text: "Would you prefer dark chocolate?" },
+  ], "regular");
+  const recap = visitRecapText(first, "en");
+  assert.match(recap, /I need a birthday gift/);
+  assert.match(recap, /Please keep it under CHF 30/);
+  assert.match(recap, /Would you prefer dark chocolate\?/);
+  assert.doesNotMatch(recap, /yes confirm|internal status/);
+  assert.ok(recap.length <= 720);
+  assert.match(recap, /never confirmation or an instruction to act/i);
+  assert.equal(mergeVisitMemory(first, [{ role: "user", text: "Milk chocolate please" }], "regular").unresolvedPrompt, "");
+  assert.deepEqual(mergeVisitMemory(first, [], "guest"), createVisitMemory("guest"));
+  assert.equal(visitRecapText(createVisitMemory("regular"), "en"), "");
 });
 
 test("item offers remain indicative while basket caps and variant prices stay exact", async () => {
@@ -307,7 +351,11 @@ test("production session cleanup aborts active actions and rejects stale callbac
   await new Promise((resolve) => setTimeout(resolve, 20));
   assert.equal(mutated, false);
   let closed = 0;
-  const oldSession = { close: () => { closed += 1; } };
+  let stopped = 0;
+  let peerClosed = 0;
+  const track = { stop: () => { stopped += 1; } };
+  const peer = { close: () => { peerClosed += 1; } };
+  const oldSession = { close: () => { closed += 1; track.stop(); peer.close(); } };
   const newSession = {};
   assert.equal(isCurrentSession(newSession, 2, oldSession, 1), false);
   assert.equal(isCurrentSession(newSession, 2, newSession, 2), true);
@@ -315,6 +363,8 @@ test("production session cleanup aborts active actions and rejects stale callbac
   const sessionRef = { current: oldSession };
   const generationRef = { current: 1 };
   const actionAbortRef = { current: new AbortController() };
+  const connectionAbortRef = { current: new AbortController() };
+  const connectionSignal = connectionAbortRef.current.signal;
   let lateNavigation = false;
   const pending = executeCustomerAction({
     action: "browse",
@@ -323,7 +373,7 @@ test("production session cleanup aborts active actions and rejects stale callbac
     abortController: actionAbortRef.current,
     isCurrent: () => isCurrentSession(sessionRef.current, generationRef.current, oldSession, 1),
   });
-  retireSessionRuntime({ session: oldSession, sessionRef, generationRef, actionAbortRef, reason: "Disconnected." });
+  retireSessionRuntime({ session: oldSession, sessionRef, generationRef, actionAbortRef, connectionAbortRef, reason: "Disconnected." });
   const retired = await pending;
   assert.equal(retired.status, "error");
   await new Promise((resolve) => setTimeout(resolve, 20));
@@ -331,5 +381,20 @@ test("production session cleanup aborts active actions and rejects stale callbac
   assert.equal(sessionRef.current, null);
   assert.equal(generationRef.current, 2);
   assert.equal(actionAbortRef.current, null);
+  assert.equal(connectionSignal.aborted, true);
+  assert.equal(connectionAbortRef.current, null);
   assert.equal(closed, 1);
+  assert.equal(stopped, 1);
+  assert.equal(peerClosed, 1);
+
+  const connectingGeneration = { current: 7 };
+  const connectingSession = { current: null };
+  const connectingAction = { current: null };
+  const connectingAbort = { current: new AbortController() };
+  const connectingSignal = connectingAbort.current.signal;
+  retireSessionRuntime({ session: null, sessionRef: connectingSession, generationRef: connectingGeneration,
+    actionAbortRef: connectingAction, connectionAbortRef: connectingAbort, reason: "Ended while connecting." });
+  assert.equal(connectingSignal.aborted, true);
+  assert.equal(connectingAbort.current, null);
+  assert.equal(connectingGeneration.current, 8);
 });
