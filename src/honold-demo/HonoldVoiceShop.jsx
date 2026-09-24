@@ -7,7 +7,6 @@ import {
   ChevronDown,
   Check,
   MapPin,
-  MicOff,
   Minus,
   Plus,
   ShoppingBag,
@@ -35,7 +34,7 @@ import {
 } from "./experience.mjs";
 import { orderIdentity, qrMatrix } from "./orderQr.mjs";
 import { LANGUAGES, copyFor, localeFor, localizeReason, localizeStatus, productName, voiceInstructions } from "./i18n.mjs";
-import { checkoutQuestion, connectionRecovery, createCustomerActionController, createPanelActionController, executeCustomerAction, isCurrentSession, resolvePanelTransition, retireSessionRuntime } from "./voiceActions.mjs";
+import { checkoutQuestion, connectionRecovery, createCustomerActionController, createPanelActionController, createVisitMemory, executeCustomerAction, isCurrentSession, mergeVisitMemory, resolvePanelTransition, retireSessionRuntime, visitRecapText, voiceControlState } from "./voiceActions.mjs";
 
 const IMAGE_WAIT_MS = 360;
 const VOICE_SESSION_DURATION_MS = 5 * 60 * 1000;
@@ -105,7 +104,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const [captionsOpen, setCaptionsOpen] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("idle");
   const [voiceMessage, setVoiceMessage] = useState("Talk to Shop");
-  const [isMuted, setIsMuted] = useState(false);
+  const [hasVoiceHistory, setHasVoiceHistory] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [pickupSimulation, setPickupSimulation] = useState(null);
   const [branchId, setBranchId] = useState("erlenbach");
@@ -162,6 +161,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const activeToolRef = useRef(null);
   const sessionGenerationRef = useRef(0);
   const customerActionAbortRef = useRef(null);
+  const connectionAbortRef = useRef(null);
+  const visitMemoryRef = useRef(createVisitMemory(profileId));
   const voiceStageRef = useRef(voiceStatus);
   const basketOpenRef = useRef(basketOpen);
   const fulfillmentOpenRef = useRef(fulfillmentOpen);
@@ -252,9 +253,9 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   });
   const isFullCatalogue = visibleIds.length === products.length
     && visibleIds.every((id, index) => id === products[index]?.id);
-  const visibleVoiceLabel = !voiceEnabled ? c.voiceButtonUnavailable
-    : voiceStatus === "error" ? c.voiceButtonRetry
-      : voiceStatus === "idle" ? c.voiceButtonIdle : voiceMessage;
+  const voiceControl = voiceControlState({ enabled: voiceEnabled, status: voiceStatus,
+    hasSession: Boolean(sessionRef.current), hasHistory: hasVoiceHistory, copy: c });
+  const visibleVoiceLabel = voiceControl.label;
 
   const stateSnapshot = useCallback(() => {
     const currentLanguage = languageRef.current;
@@ -696,27 +697,18 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
     clearVoiceTimeout();
     intentionalCloseRef.current = true;
     const session = sessionRef.current;
-    retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef });
+    retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef });
     updateVoiceStatus("idle");
-    setIsMuted(false);
     setVoiceMessage(message);
     setCaptionsOpen(false);
   }, [clearVoiceTimeout]);
 
   const disconnectVoice = useCallback(() => {
-    closeVoiceSession(copyFor(languageRef.current).talkShop);
+    closeVoiceSession(copyFor(languageRef.current).voiceEnded);
   }, [closeVoiceSession]);
 
-  const startVoice = useCallback(async () => {
+  const startVoiceSession = useCallback(async () => {
     if (!voiceEnabled) return;
-    if (sessionRef.current) {
-      const nextMuted = !isMuted;
-      sessionRef.current.mute(nextMuted);
-      setIsMuted(nextMuted);
-      updateVoiceStatus(nextMuted ? "muted" : "listening");
-      setVoiceMessage(nextMuted ? copyFor(languageRef.current).muted : copyFor(languageRef.current).listening);
-      return;
-    }
 
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
       updateVoiceStatus("unsupported");
@@ -726,6 +718,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
 
     updateVoiceStatus("connecting");
     setVoiceMessage(copyFor(languageRef.current).connecting);
+    setHasVoiceHistory(true);
     intentionalCloseRef.current = false;
     const generation = sessionGenerationRef.current + 1;
     sessionGenerationRef.current = generation;
@@ -736,20 +729,27 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         import("@openai/agents/realtime"),
         import("zod"),
       ]);
+      if (!mountedRef.current || sessionGenerationRef.current !== generation) return;
+      const connectionAbort = new AbortController();
+      connectionAbortRef.current = connectionAbort;
       const tokenResponse = await fetch("/api/honold-demo/realtime-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: connectionAbort.signal,
       });
       const tokenPayload = await tokenResponse.json().catch(() => ({}));
+      if (connectionAbortRef.current === connectionAbort) connectionAbortRef.current = null;
+      if (!mountedRef.current || sessionGenerationRef.current !== generation || connectionAbort.signal.aborted) return;
       if (!tokenResponse.ok || !tokenPayload.value) {
         throw new Error(copyFor(languageRef.current).voiceService);
       }
 
       const initialSummary = stateSnapshot();
+      const visitRecap = visitRecapText(visitMemoryRef.current, languageRef.current);
       const agent = new RealtimeAgent({
         name: "Honold voice shopper",
         voice: "marin",
-        instructions: voiceInstructions(languageRef.current, initialSummary),
+        instructions: voiceInstructions(languageRef.current, initialSummary, visitRecap),
         tools: buildTools(realtimeTool, z),
       });
 
@@ -778,7 +778,10 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         && isCurrentSession(sessionRef.current, sessionGenerationRef.current, session, generation);
 
       session.on("history_updated", (history) => {
-        if (currentSession()) setTranscript(transcriptFromHistory(history));
+        if (!currentSession()) return;
+        const nextTranscript = transcriptFromHistory(history);
+        setTranscript(nextTranscript);
+        visitMemoryRef.current = mergeVisitMemory(visitMemoryRef.current, nextTranscript, profileRef.current);
       });
       session.on("agent_start", () => {
         if (!currentSession()) return;
@@ -789,8 +792,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       session.on("agent_end", () => {
         if (!currentSession()) return;
         if (voiceStageRef.current !== "speaking") {
-          updateVoiceStatus(session.muted ? "muted" : "listening");
-          setVoiceMessage(session.muted ? copyFor(languageRef.current).muted : copyFor(languageRef.current).listening);
+          updateVoiceStatus("listening");
+          setVoiceMessage(copyFor(languageRef.current).listening);
         }
         recordVoiceStage("response_complete");
       });
@@ -816,12 +819,12 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       });
       session.on("audio_stopped", () => {
         if (!currentSession()) return;
-        updateVoiceStatus(session.muted ? "muted" : "listening");
-        setVoiceMessage(session.muted ? copyFor(languageRef.current).muted : copyFor(languageRef.current).listening);
+        updateVoiceStatus("listening");
+        setVoiceMessage(copyFor(languageRef.current).listening);
       });
       session.on("audio_interrupted", () => {
         if (!currentSession()) return;
-        updateVoiceStatus(session.muted ? "muted" : "listening");
+        updateVoiceStatus("listening");
         setVoiceMessage(copyFor(languageRef.current).listening);
       });
       session.on("error", (event) => {
@@ -829,7 +832,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         recordVoiceStage("error", { errorType: event?.error?.name || "RealtimeError" });
         clearVoiceTimeout();
         intentionalCloseRef.current = true;
-        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, reason: "The voice session failed." });
+        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef, reason: "The voice session failed." });
         updateVoiceStatus("error");
         setVoiceMessage(copyFor(languageRef.current).voiceFailed);
       });
@@ -841,12 +844,15 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         if (!recovery) return;
         clearVoiceTimeout();
         intentionalCloseRef.current = true;
-        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, reason: "The voice session disconnected." });
+        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef, reason: "The voice session disconnected." });
         updateVoiceStatus(recovery.voiceStatus);
-        setIsMuted(false);
         setVoiceMessage(copyFor(languageRef.current)[recovery.messageKey]);
       });
 
+      if (!mountedRef.current || sessionGenerationRef.current !== generation) {
+        session.close();
+        return;
+      }
       sessionRef.current = session;
       await session.connect({ apiKey: tokenPayload.value });
       if (!currentSession()) {
@@ -857,35 +863,41 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
       voiceTimeoutRef.current = window.setTimeout(() => {
         if (!currentSession()) return;
         intentionalCloseRef.current = true;
-        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, reason: "The voice session expired." });
+        retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef, reason: "The voice session expired." });
         updateVoiceStatus("error");
-        setIsMuted(false);
         setVoiceMessage(copyFor(languageRef.current).voiceExpired);
         recordVoiceStage("expired");
       }, VOICE_SESSION_DURATION_MS);
       updateVoiceStatus("listening");
       setVoiceMessage(copyFor(languageRef.current).listening);
       recordVoiceStage("connected");
-      session.sendMessage(languageRef.current === "de" ? "Begrüsse die Kundin oder den Kunden in einem kurzen Satz und frage, was sie oder er heute möchte." : "Greet the shopper in one short sentence, then ask what they would like today.");
+      session.sendMessage(visitRecap
+        ? (languageRef.current === "de" ? "[Begrüsse die zurückkehrende Person kurz und kontextbezogen anhand des aktuellen UI-Zustands und des Rückblicks. Liste den Warenkorb nicht auf.]" : "[Briefly welcome the returning shopper using the current UI state and recap. Do not list the basket.]")
+        : (languageRef.current === "de" ? "[Begrüsse die Kundin oder den Kunden in einem kurzen Satz und frage, was sie oder er heute möchte.]" : "[Greet the shopper in one short sentence, then ask what they would like today.]"));
     } catch (error) {
-      if (sessionGenerationRef.current !== generation) return;
+      if (sessionGenerationRef.current !== generation || connectionAbortRef.current?.signal.aborted || error?.name === "AbortError") return;
       clearVoiceTimeout();
       const session = sessionRef.current;
-      retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, reason: "The voice session could not start." });
+      retireSessionRuntime({ session, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef, reason: "The voice session could not start." });
       const denied = error?.name === "NotAllowedError" || /microphone|permission/i.test(error?.message || "");
       updateVoiceStatus("error");
       setVoiceMessage(denied
         ? copyFor(languageRef.current).micDenied
         : (error instanceof Error ? error.message : copyFor(languageRef.current).voiceService));
     }
-  }, [buildTools, clearVoiceTimeout, closeVoiceSession, isMuted, recordVoiceStage, stateSnapshot, voiceEnabled, voiceStatus]);
+  }, [buildTools, clearVoiceTimeout, recordVoiceStage, stateSnapshot, voiceEnabled]);
+
+  const toggleVoiceSession = useCallback(() => {
+    if (sessionRef.current || voiceStageRef.current === "connecting") disconnectVoice();
+    else startVoiceSession();
+  }, [disconnectVoice, startVoiceSession]);
 
   useEffect(() => {
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
       clearVoiceTimeout();
-      retireSessionRuntime({ session: sessionRef.current, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, reason: "The component unmounted." });
+      retireSessionRuntime({ session: sessionRef.current, sessionRef, generationRef: sessionGenerationRef, actionAbortRef: customerActionAbortRef, connectionAbortRef, reason: "The component unmounted." });
     };
   }, [clearVoiceTimeout]);
 
@@ -975,6 +987,10 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
   const applyScenario = useCallback((nextScenarioId) => {
     const scenario = PRESENTER_SCENARIOS.find((item) => item.id === nextScenarioId) || PRESENTER_SCENARIOS[0];
     const nextIds = products.map((product) => product.id);
+    if (sessionRef.current || voiceStageRef.current === "connecting") closeVoiceSession(copyFor(languageRef.current).talkShop);
+    visitMemoryRef.current = createVisitMemory(scenario.profileId);
+    setHasVoiceHistory(false);
+    setTranscript([]);
     setScenarioId(scenario.id);
     updatePickupPreference("profile", scenario.profileId);
     presentationSequenceRef.current += 1;
@@ -987,7 +1003,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
     setScenariosOpen(false);
     window.scrollTo({ top: 0, behavior: "auto" });
     queueMicrotask(() => sendInterfaceState("the presenter changed the shopping scenario"));
-  }, [products, sendInterfaceState, transitionUi, updatePickupPreference]);
+  }, [closeVoiceSession, products, sendInterfaceState, transitionUi, updatePickupPreference]);
 
   const invalidateOrderReview = useCallback(() => {
     pendingReviewRef.current = null; setPendingReview(null);
@@ -1017,14 +1033,14 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
     languageRef.current = nextLanguage;
     setLanguage(nextLanguage);
     const nextCopy = copyFor(nextLanguage);
-    setVoiceMessage((current) => voiceStatus === "idle" ? nextCopy.talkShop : voiceStatus === "muted" ? nextCopy.muted : voiceStatus === "speaking" ? nextCopy.speaking : voiceStatus === "connecting" ? nextCopy.connecting : current);
+    setVoiceMessage((current) => voiceStatus === "idle" ? (hasVoiceHistory ? nextCopy.voiceEnded : nextCopy.talkShop) : voiceStatus === "speaking" ? nextCopy.speaking : voiceStatus === "connecting" ? nextCopy.connecting : current);
     window.localStorage.setItem("honold-demo-language", nextLanguage);
     uiRef.current = { ...uiRef.current };
     const session = sessionRef.current;
     if (session?.transport?.status === "connected") {
       try {
         session.transport.updateSessionConfig({
-          instructions: voiceInstructions(nextLanguage, stateSnapshot()),
+          instructions: voiceInstructions(nextLanguage, stateSnapshot(), visitRecapText(visitMemoryRef.current, nextLanguage)),
           audio: { input: { transcription: { model: "gpt-4o-mini-transcribe", language: nextLanguage } } },
         });
         session.transport.sendMessage(
@@ -1033,7 +1049,7 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         );
       } catch {}
     }
-  }, [stateSnapshot, voiceStatus]);
+  }, [hasVoiceHistory, stateSnapshot, voiceStatus]);
 
   const openBasket = useCallback(() => {
     setReviewAttempted(false);
@@ -1524,10 +1540,10 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
 
       {!pickupSimulation && shopView === "shop" && <section className={styles.controlDock} data-status={voiceStatus} data-has-basket={hasBasket} aria-label={c.shoppingControls}>
         <div className={styles.dockActions}>
-        <button ref={voiceButtonRef} className={styles.voiceAction} type="button" onClick={startVoice}
-          aria-label={!voiceEnabled ? c.voiceUnavailable : sessionRef.current ? (isMuted ? "Unmute microphone" : "Mute microphone") : c.talkShop}
-          disabled={!voiceEnabled || voiceStatus === "connecting"}>
-          <span className={styles.voiceGlyph} aria-hidden="true">{isMuted ? <MicOff /> : <span className={styles.voiceBars}><span /><span /><span /><span /><span /></span>}</span>
+        <button ref={voiceButtonRef} className={styles.voiceAction} type="button" onClick={toggleVoiceSession}
+          aria-label={voiceControl.ariaLabel}
+          disabled={!voiceEnabled}>
+          <span className={styles.voiceGlyph} aria-hidden="true"><span className={styles.voiceBars}><span /><span /><span /><span /><span /></span></span>
           <strong>{visibleVoiceLabel}</strong>
         </button>
         {hasCaptions && <button ref={captionsButtonRef} className={styles.iconAction} type="button" aria-label={c.captions} onClick={() => setCaptionsOpen((open) => !open)}><Captions aria-hidden="true" /></button>}
@@ -1539,9 +1555,8 @@ export function HonoldVoiceShop({ catalog, voiceEnabled = false }) {
         {(voiceStatus === "error" || voiceStatus === "unsupported") && <p className={styles.voiceNotice} role="status">{voiceMessage}</p>}
       </section>}
 
-      {sessionRef.current && (pickupSimulation || shopView !== "shop" || basketOpen || fulfillmentOpen || Boolean(detailProduct)) && <aside className={styles.voiceSessionBar} aria-label={c.shoppingControls}>
+      {voiceControl.active && (pickupSimulation || shopView !== "shop" || basketOpen || fulfillmentOpen || Boolean(detailProduct)) && <aside className={styles.voiceSessionBar} aria-label={c.shoppingControls}>
         <span aria-live="polite">{voiceMessage}</span>
-        <button type="button" onClick={startVoice}>{isMuted ? c.unmute : c.mute}</button>
         <button type="button" onClick={disconnectVoice}>{c.endVoice}</button>
       </aside>}
 
