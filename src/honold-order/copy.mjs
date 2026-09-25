@@ -1,0 +1,33 @@
+export const COPY = {
+  de: {
+    pickupAt: "Abholen in", change: "Ändern", readyAt: "Bereit um", readyAsap: "So bald wie möglich", tomorrow: "morgen",
+    tagline: "Vorbestellen. Abholen ohne Anstehen.", greeting: (m) => (m < 660 ? "Guten Morgen." : m < 1080 ? "Grüezi." : "Guten Abend."), forYou: "Für Sie", add: "Hinzufügen",
+    basket: "Warenkorb", toCheckout: "Zur Kasse", items: (n) => (n === 1 ? "1 Artikel" : `${n} Artikel`),
+    yourOrder: "Ihre Bestellung", pickup: "Abholung", payment: "Zahlung", twint: "TWINT", total: "Total",
+    pay: (t) => `Mit TWINT bezahlen · ${t}`, paying: "TWINT wird bestätigt…", demoNote: "Konzept-Demo · keine echte Bestellung, keine Zahlung",
+    chooseStore: "Filiale & Zeit", store: "Filiale", time: "Zeit", today: "Heute", closed: "geschlossen", done: "Fertig",
+    pickupNumber: "Abholnummer", status: { confirmed: "Bestellt", preparing: "In Vorbereitung", ready: "Bereit" },
+    statusLead: { confirmed: "Danke! Ihre Bestellung ist eingegangen.", preparing: "Wir packen Ihre Bestellung.", ready: "Ihre Bestellung liegt bereit." },
+    counterHint: "Nennen Sie an der Theke Ihre Nummer – kein Anstehen.", timelapse: "Zeitraffer für die Demo",
+    newOrder: "Neue Bestellung", orderAgain: "Nochmals bestellen", lastOrder: "Letzte Bestellung", empty: "Ihr Warenkorb ist leer.",
+    talk: "Sprechen", youCanSay: "Sie können sagen", tryThis: "Probieren Sie", busy: "Einen kleinen Moment …", busyGiveUp: "Gerade sind viele Anfragen unterwegs. Bitte nochmals versuchen.", ask: "Was darf es sein?", send: "Senden", writing: "Honold schreibt…", speakingHint: "Sie können jederzeit unterbrechen", suggestion: "Vorschlag", addToBasket: "In den Warenkorb", pieces: (n) => `${n} Stück`, ribbon: "Schleife", card: "Karte", noCard: "Keine Karte", proposalNote: "Sie können alles anpassen – per Stimme oder Tippen.", talkHint: "Sagen Sie, was Sie möchten", listening: "Ich höre zu", thinking: "Einen Moment", speaking: "", connecting: "Verbinde…", end: "Beenden",
+    voiceOff: "Der Assistent ist in dieser Vorschau nicht aktiv.", micDenied: "Bitte Mikrofon im Browser erlauben.", voiceFailed: "Verbindung unterbrochen. Nochmals tippen.",
+    close: "Schliessen", back: "Zurück",
+  },
+  en: {
+    pickupAt: "Pick up at", change: "Change", readyAt: "Ready at", readyAsap: "As soon as possible", tomorrow: "tomorrow",
+    tagline: "Order ahead. Skip the queue.", greeting: (m) => (m < 720 ? "Good morning." : m < 1080 ? "Good afternoon." : "Good evening."), forYou: "For you", add: "Add",
+    basket: "Basket", toCheckout: "Checkout", items: (n) => (n === 1 ? "1 item" : `${n} items`),
+    yourOrder: "Your order", pickup: "Pickup", payment: "Payment", twint: "TWINT", total: "Total",
+    pay: (t) => `Pay with TWINT · ${t}`, paying: "Confirming TWINT…", demoNote: "Concept demo · no real order, no payment",
+    chooseStore: "Shop & time", store: "Shop", time: "Time", today: "Today", closed: "closed", done: "Done",
+    pickupNumber: "Pickup number", status: { confirmed: "Ordered", preparing: "Preparing", ready: "Ready" },
+    statusLead: { confirmed: "Thank you! Your order is in.", preparing: "We are packing your order.", ready: "Your order is ready." },
+    counterHint: "Say your number at the counter – no queue.", timelapse: "Time-lapse for the demo",
+    newOrder: "New order", orderAgain: "Order again", lastOrder: "Last order", empty: "Your basket is empty.",
+    talk: "Talk", youCanSay: "You can say", tryThis: "Try", busy: "Just a moment …", busyGiveUp: "Too many requests right now. Please try again.", ask: "What would you like?", send: "Send", writing: "Honold is writing…", speakingHint: "Interrupt any time", suggestion: "Suggestion", addToBasket: "Add to basket", pieces: (n) => `${n} pieces`, ribbon: "Ribbon", card: "Card", noCard: "No card", proposalNote: "Change anything, by voice or touch.", talkHint: "Say what you would like", listening: "Listening", thinking: "One moment", speaking: "", connecting: "Connecting…", end: "End",
+    voiceOff: "The assistant is not active in this preview.", micDenied: "Please allow the microphone in your browser.", voiceFailed: "Connection lost. Tap again.",
+    close: "Close", back: "Back",
+  },
+};
+export function t(lang) { return COPY[lang] || COPY.de; }
