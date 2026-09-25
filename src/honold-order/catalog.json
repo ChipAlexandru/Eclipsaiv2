@@ -1,0 +1,2692 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-19T06:31:03.662Z",
+  "source": {
+    "storefront": "https://shop.honold.ch",
+    "collectionUrl": "https://shop.honold.ch/shop/",
+    "currency": "CHF",
+    "note": "Public online-shop snapshot. Prices can change. No live stock, confirmed pickup, reservation, payment, or order data."
+  },
+  "products": [
+    {
+      "id": "1366",
+      "handle": "cremeschnitte",
+      "name": "Cremeschnitte",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/cremeschnitte/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.1,
+      "images": [
+        {
+          "alt": "Cremeschnitte",
+          "localPath": "/honold-demo/products/1366.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-27506.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-27506-300x300.png",
+          "downloadedBytes": 29339
+        }
+      ]
+    },
+    {
+      "id": "1573",
+      "handle": "laugenbroetchen-mit-roastbeef",
+      "name": "Laugenbrötchen Roastbeef",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugenbroetchen-mit-roastbeef/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.7,
+      "images": [
+        {
+          "alt": "Laugenbrötchen Roastbeef",
+          "localPath": "/honold-demo/products/1573.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30110.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30110-300x300.png",
+          "downloadedBytes": 17547
+        }
+      ]
+    },
+    {
+      "id": "2504",
+      "handle": "charlotte-honold-8-portionen",
+      "name": "Charlotte Honold 8 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/charlotte-honold-8-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 48.5,
+      "images": [
+        {
+          "alt": "Charlotte Honold 8 Portionen",
+          "localPath": "/honold-demo/products/2504.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20030.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20030-300x300.png",
+          "downloadedBytes": 40438
+        }
+      ]
+    },
+    {
+      "id": "2513",
+      "handle": "pain-de-genes-versandbereit-4-6-portionen",
+      "name": "Pain de Gênes -versandbereit 4-6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-versandbereit-4-6-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 27.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes -versandbereit 4-6 Portionen",
+          "localPath": "/honold-demo/products/2513.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/08/Pain-de-Gene-in-Versandbox-2.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/08/Pain-de-Gene-in-Versandbox-2.png",
+          "downloadedBytes": 87665
+        }
+      ]
+    },
+    {
+      "id": "1917",
+      "handle": "honold-parisette-18h",
+      "name": "Parisette Honold 18h",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/honold-parisette-18h/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.2,
+      "images": [
+        {
+          "alt": "Parisette Honold 18h",
+          "localPath": "/honold-demo/products/1917.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11064a.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11064a-300x300.png",
+          "downloadedBytes": 14555
+        }
+      ]
+    },
+    {
+      "id": "1545",
+      "handle": "butterbretzel",
+      "name": "Butterbretzel",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/butterbretzel/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.6,
+      "images": [
+        {
+          "alt": "Butterbretzel",
+          "localPath": "/honold-demo/products/1545.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30050.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30050-300x300.png",
+          "downloadedBytes": 41673
+        }
+      ]
+    },
+    {
+      "id": "1575",
+      "handle": "laugenbroetchen-mit-thon",
+      "name": "Laugenbrötchen Thon",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugenbroetchen-mit-thon/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.7,
+      "images": [
+        {
+          "alt": "Laugenbrötchen Thon",
+          "localPath": "/honold-demo/products/1575.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30133.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30133-300x300.png",
+          "downloadedBytes": 17860
+        }
+      ]
+    },
+    {
+      "id": "1571",
+      "handle": "granola-laugenring-frischkaese",
+      "name": "Granola Laugenring Frischkäse",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/granola-laugenring-frischkaese/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.6,
+      "images": [
+        {
+          "alt": "Granola Laugenring Frischkäse",
+          "localPath": "/honold-demo/products/1571.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/Bild-2-1024x1024.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/Bild-2-300x300.png",
+          "downloadedBytes": 31465
+        }
+      ]
+    },
+    {
+      "id": "1937",
+      "handle": "weggli",
+      "name": "Weggli",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/weggli/",
+      "priceCurrency": "CHF",
+      "priceChf": 2,
+      "images": [
+        {
+          "alt": "Weggli",
+          "localPath": "/honold-demo/products/1937.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/B-11206_Weggli.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/B-11206_Weggli.png",
+          "downloadedBytes": 36641
+        }
+      ]
+    },
+    {
+      "id": "1579",
+      "handle": "mini-quiche-kaese",
+      "name": "Mini Quiches Käse",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mini-quiche-kaese/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "images": [
+        {
+          "alt": "Mini Quiches Käse",
+          "localPath": "/honold-demo/products/1579.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/quiche-kaese-500x500-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/quiche-kaese-500x500-1-300x300.png",
+          "downloadedBytes": 44276
+        }
+      ]
+    },
+    {
+      "id": "2519",
+      "handle": "toastbrot-eckig-geschnitten",
+      "name": "Toastbrot eckig 500g geschnitten",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/toastbrot-eckig-geschnitten/",
+      "priceCurrency": "CHF",
+      "priceChf": 11.2,
+      "images": [
+        {
+          "alt": "Toastbrot eckig 500g geschnitten",
+          "localPath": "/honold-demo/products/2519.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bt-11195a.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bt-11195a-300x300.png",
+          "downloadedBytes": 20731
+        }
+      ]
+    },
+    {
+      "id": "2506",
+      "handle": "fleur-framboise-8-portionen",
+      "name": "Fleur Framboise 8 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/fleur-framboise-8-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Fleur Framboise 8 Portionen",
+          "localPath": "/honold-demo/products/2506.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20213.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20213-300x300.png",
+          "downloadedBytes": 31860
+        }
+      ]
+    },
+    {
+      "id": "1577",
+      "handle": "laugenbroetchen-mit-lachs",
+      "name": "Laugenbrötchen Lachs",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugenbroetchen-mit-lachs/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.8,
+      "images": [
+        {
+          "alt": "Laugenbrötchen Lachs",
+          "localPath": "/honold-demo/products/1577.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30113.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30113-300x300.png",
+          "downloadedBytes": 23797
+        }
+      ]
+    },
+    {
+      "id": "1391",
+      "handle": "mousse-au-chocolat",
+      "name": "Mousse au Chocolat",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mousse-au-chocolat/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.1,
+      "images": [
+        {
+          "alt": "Mousse au Chocolat",
+          "localPath": "/honold-demo/products/1391.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40031.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40031-300x300.png",
+          "downloadedBytes": 34775
+        }
+      ]
+    },
+    {
+      "id": "1925",
+      "handle": "brioche",
+      "name": "Brioches",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/brioche/",
+      "priceCurrency": "CHF",
+      "priceChf": 3,
+      "images": [
+        {
+          "alt": "Brioches",
+          "localPath": "/honold-demo/products/1925.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11200.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11200-300x300.png",
+          "downloadedBytes": 30297
+        }
+      ]
+    },
+    {
+      "id": "1555",
+      "handle": "parisette-pouletschnitzel",
+      "name": "Parisette Pouletschnitzel",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/parisette-pouletschnitzel/",
+      "priceCurrency": "CHF",
+      "priceChf": 9.8,
+      "images": [
+        {
+          "alt": "Parisette Pouletschnitzel",
+          "localPath": "/honold-demo/products/1555.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/T-20263_Parisette-Pouletschnitzel-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/T-20263_Parisette-Pouletschnitzel-1.png",
+          "downloadedBytes": 196411
+        }
+      ]
+    },
+    {
+      "id": "1416",
+      "handle": "himbeerroulade",
+      "name": "Himbeer Roulade 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/himbeerroulade/",
+      "priceCurrency": "CHF",
+      "priceChf": 23.5,
+      "images": [
+        {
+          "alt": "Himbeer Roulade 6 Portionen",
+          "localPath": "/honold-demo/products/1416.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23030.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23030-300x300.png",
+          "downloadedBytes": 29342
+        }
+      ]
+    },
+    {
+      "id": "1565",
+      "handle": "laugengipfel-ei",
+      "name": "Laugengipfel-Ei",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugengipfel-ei/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.2,
+      "images": [
+        {
+          "alt": "Laugengipfel-Ei",
+          "localPath": "/honold-demo/products/1565.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/Laugengipfel-Ei.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/Laugengipfel-Ei-300x300.png",
+          "downloadedBytes": 26463
+        }
+      ]
+    },
+    {
+      "id": "1519",
+      "handle": "birchermueesli",
+      "name": "Birchermüesli",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/birchermueesli/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.9,
+      "images": [
+        {
+          "alt": "Birchermüesli",
+          "localPath": "/honold-demo/products/1519.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-32000.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-32000-300x300.png",
+          "downloadedBytes": 31149
+        }
+      ]
+    },
+    {
+      "id": "2508",
+      "handle": "mousse-grand-cru-chakra-4-portionen",
+      "name": "Mousse Grand Cru Chakra 4 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mousse-grand-cru-chakra-4-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 28.1,
+      "images": [
+        {
+          "alt": "Mousse Grand Cru Chakra 4 Portionen",
+          "localPath": "/honold-demo/products/2508.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20070.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20070-300x300.png",
+          "downloadedBytes": 30295
+        }
+      ]
+    },
+    {
+      "id": "1943",
+      "handle": "buttergipfel",
+      "name": "Buttergipfel",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/buttergipfel/",
+      "priceCurrency": "CHF",
+      "priceChf": 2,
+      "images": [
+        {
+          "alt": "Buttergipfel",
+          "localPath": "/honold-demo/products/1943.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/buttergipfeli_transparent.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/buttergipfeli_transparent.png",
+          "downloadedBytes": 74267
+        }
+      ]
+    },
+    {
+      "id": "283",
+      "handle": "salzmandeln-200g",
+      "name": "Salzmandeln 200g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/salzmandeln-200g/",
+      "priceCurrency": "CHF",
+      "priceChf": 18.7,
+      "images": [
+        {
+          "alt": "Salzmandeln 200g",
+          "localPath": "/honold-demo/products/283.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14614_Salzmandeln-200g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14614_Salzmandeln-200g-300x300.png",
+          "downloadedBytes": 16581
+        }
+      ]
+    },
+    {
+      "id": "2300",
+      "handle": "gugelhopf-schokostueckli-gestaeubt-8-portionen",
+      "name": "Gugelhopf Schokostückli gestäubt 8 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/gugelhopf-schokostueckli-gestaeubt-8-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 36.2,
+      "images": [
+        {
+          "alt": "Gugelhopf Schokostückli gestäubt 8 Portionen",
+          "localPath": "/honold-demo/products/2300.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/K-23012.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/K-23012-300x300.png",
+          "downloadedBytes": 34890
+        }
+      ]
+    },
+    {
+      "id": "1955",
+      "handle": "aprikosentoertchen",
+      "name": "Aprikosentörtchen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/aprikosentoertchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "images": [
+        {
+          "alt": "Aprikosentörtchen",
+          "localPath": "/honold-demo/products/1955.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11502.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11502-300x300.png",
+          "downloadedBytes": 29390
+        }
+      ]
+    },
+    {
+      "id": "254",
+      "handle": "jetons-mini-50g",
+      "name": "Jetons Mini, 50g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/jetons-mini-50g/",
+      "priceCurrency": "CHF",
+      "priceChf": 13.8,
+      "images": [
+        {
+          "alt": "Jetons Mini, 50g",
+          "localPath": "/honold-demo/products/254.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/P-5571_Jetons-Mini-50g-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/P-5571_Jetons-Mini-50g-1.png",
+          "downloadedBytes": 75612
+        }
+      ]
+    },
+    {
+      "id": "2509",
+      "handle": "mousse-grand-cru-chakra-8-portionen",
+      "name": "Mousse Grand Cru Chakra 8 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mousse-grand-cru-chakra-8-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Mousse Grand Cru Chakra 8 Portionen",
+          "localPath": "/honold-demo/products/2509.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20071.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20071-300x300.png",
+          "downloadedBytes": 35717
+        }
+      ]
+    },
+    {
+      "id": "2505",
+      "handle": "fleur-framboise-4-portionen",
+      "name": "Fleur Framboise 4 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/fleur-framboise-4-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 28.1,
+      "images": [
+        {
+          "alt": "Fleur Framboise 4 Portionen",
+          "localPath": "/honold-demo/products/2505.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20210.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20210-300x300.png",
+          "downloadedBytes": 31860
+        }
+      ]
+    },
+    {
+      "id": "2503",
+      "handle": "charlotte-honold-4-portionen",
+      "name": "Charlotte Honold 4 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/charlotte-honold-4-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 27.5,
+      "images": [
+        {
+          "alt": "Charlotte Honold 4 Portionen",
+          "localPath": "/honold-demo/products/2503.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20031.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20031-300x300.png",
+          "downloadedBytes": 40438
+        }
+      ]
+    },
+    {
+      "id": "1966",
+      "handle": "cake-aux-citrons",
+      "name": "Cake aux Citrons 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/cake-aux-citrons/",
+      "priceCurrency": "CHF",
+      "priceChf": 23,
+      "images": [
+        {
+          "alt": "Cake aux Citrons 6 Portionen",
+          "localPath": "/honold-demo/products/1966.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Cake-aux-Citrons-400x400-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Cake-aux-Citrons-400x400-1-300x300.png",
+          "downloadedBytes": 32660
+        }
+      ]
+    },
+    {
+      "id": "1563",
+      "handle": "laugengipfel-speck-ei",
+      "name": "Laugengipfel Speck-Ei",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugengipfel-speck-ei/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.9,
+      "images": [
+        {
+          "alt": "Laugengipfel Speck-Ei",
+          "localPath": "/honold-demo/products/1563.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30105.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-30105-300x300.png",
+          "downloadedBytes": 32468
+        }
+      ]
+    },
+    {
+      "id": "1561",
+      "handle": "hummus-rustico",
+      "name": "Mehrkornbrötchen Tomatenhummus (Vegan)",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/hummus-rustico/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.2,
+      "images": [
+        {
+          "alt": "Mehrkornbrötchen Tomatenhummus (Vegan)",
+          "localPath": "/honold-demo/products/1561.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/01/Bild-1024x1024.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/01/Bild-300x300.png",
+          "downloadedBytes": 22030
+        }
+      ]
+    },
+    {
+      "id": "1407",
+      "handle": "vermicellestoertchen",
+      "name": "Vermicelles Linzerteig",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/vermicellestoertchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.3,
+      "images": [
+        {
+          "alt": "Vermicelles Linzerteig",
+          "localPath": "/honold-demo/products/1407.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40999.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40999-300x300.png",
+          "downloadedBytes": 38411
+        }
+      ]
+    },
+    {
+      "id": "1133",
+      "handle": "honold-trauben",
+      "name": "Honold Trauben, Ballotin 150g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/honold-trauben/",
+      "priceCurrency": "CHF",
+      "priceChf": 35,
+      "images": [
+        {
+          "alt": "Honold Trauben, Ballotin 150g",
+          "localPath": "/honold-demo/products/1133.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/09/Honold-Trauben-3_web.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/09/Honold-Trauben-3_web-300x300.png",
+          "downloadedBytes": 15490
+        }
+      ]
+    },
+    {
+      "id": "286",
+      "handle": "flutes-aux-fleur-de-sel-120g",
+      "name": "Flûtes à la fleur de Sel 120g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/flutes-aux-fleur-de-sel-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 24.3,
+      "images": [
+        {
+          "alt": "Flûtes à la fleur de Sel 120g",
+          "localPath": "/honold-demo/products/286.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Flutes_a_la_Fleur_de_Sel_variante2-1-600x600-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Flutes_a_la_Fleur_de_Sel_variante2-1-600x600-1-300x300.png",
+          "downloadedBytes": 21072
+        }
+      ]
+    },
+    {
+      "id": "255",
+      "handle": "bouchees-himbeer-einz",
+      "name": "Bouchées Himbeer",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/bouchees-himbeer-einz/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.9,
+      "images": [
+        {
+          "alt": "Bouchées Himbeer",
+          "localPath": "/honold-demo/products/255.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/114-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-Kopie-1024x746.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/114-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-Kopie-1024x746.png",
+          "downloadedBytes": 1487299
+        }
+      ]
+    },
+    {
+      "id": "2521",
+      "handle": "truffes-cakes-4-6-portionen",
+      "name": "Truffes Cakes 4 – 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-cakes-4-6-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 23.7,
+      "images": [
+        {
+          "alt": "Truffes Cakes 4 – 6 Portionen",
+          "localPath": "/honold-demo/products/2521.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23040.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23040-300x300.png",
+          "downloadedBytes": 28625
+        }
+      ]
+    },
+    {
+      "id": "1549",
+      "handle": "quiche-kaese",
+      "name": "Quiche Käse",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/quiche-kaese/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.5,
+      "images": [
+        {
+          "alt": "Quiche Käse",
+          "localPath": "/honold-demo/products/1549.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-14660.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-14660-300x300.png",
+          "downloadedBytes": 44171
+        }
+      ]
+    },
+    {
+      "id": "284",
+      "handle": "chilimandeln-200g",
+      "name": "Chili Mandeln 200g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/chilimandeln-200g/",
+      "priceCurrency": "CHF",
+      "priceChf": 17.2,
+      "images": [
+        {
+          "alt": "Chili Mandeln 200g",
+          "localPath": "/honold-demo/products/284.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14615_Chili-Mandeln-200g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14615_Chili-Mandeln-200g-300x300.png",
+          "downloadedBytes": 20227
+        }
+      ]
+    },
+    {
+      "id": "2515",
+      "handle": "pain-de-genes-vanille-4-6-portionen",
+      "name": "Pain de Gênes Vanille 4 – 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-vanille-4-6-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 33.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes Vanille 4 – 6 Portionen",
+          "localPath": "/honold-demo/products/2515.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/95af77c1-59e7-43f7-9ae6-7cc6bc88af6e.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/95af77c1-59e7-43f7-9ae6-7cc6bc88af6e-300x300.png",
+          "downloadedBytes": 35078
+        }
+      ]
+    },
+    {
+      "id": "2078",
+      "handle": "spitzbuben-200g",
+      "name": "Spitzbuben 200g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/spitzbuben-200g/",
+      "priceCurrency": "CHF",
+      "priceChf": 29.3,
+      "images": [
+        {
+          "alt": "Spitzbuben 200g",
+          "localPath": "/honold-demo/products/2078.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-14058.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-14058-300x300.png",
+          "downloadedBytes": 36094
+        }
+      ]
+    },
+    {
+      "id": "1945",
+      "handle": "granola-laugengipfel",
+      "name": "Granola Laugengipfel",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/granola-laugengipfel/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.4,
+      "images": [
+        {
+          "alt": "Granola Laugengipfel",
+          "localPath": "/honold-demo/products/1945.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Granolagipfel_1-1024x683.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Granolagipfel_1-1024x683.png",
+          "downloadedBytes": 183931
+        }
+      ]
+    },
+    {
+      "id": "1584",
+      "handle": "mini-quiche-tomate-mit-ricotta",
+      "name": "Mini Quiches Tomate mit Ricotta",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mini-quiche-tomate-mit-ricotta/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "images": [
+        {
+          "alt": "Mini Quiches Tomate mit Ricotta",
+          "localPath": "/honold-demo/products/1584.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/image-25-bearbeitet.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/image-25-bearbeitet.png",
+          "downloadedBytes": 23862
+        }
+      ]
+    },
+    {
+      "id": "1582",
+      "handle": "mini-quiche-spinat-mit-eierschwaemmli",
+      "name": "Mini Quiches Spinat mit Eierschwämmli",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mini-quiche-spinat-mit-eierschwaemmli/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.5,
+      "images": [
+        {
+          "alt": "Mini Quiches Spinat mit Eierschwämmli",
+          "localPath": "/honold-demo/products/1582.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/quiche-spinat-500x500-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/12/quiche-spinat-500x500-1-300x300.png",
+          "downloadedBytes": 45953
+        }
+      ]
+    },
+    {
+      "id": "1547",
+      "handle": "quiche-spinat-mit-eierschwaemmchen",
+      "name": "Quiche Spinat mit Eierschwämmchen",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/quiche-spinat-mit-eierschwaemmchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.5,
+      "images": [
+        {
+          "alt": "Quiche Spinat mit Eierschwämmchen",
+          "localPath": "/honold-demo/products/1547.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-14665.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-t-14665-300x300.png",
+          "downloadedBytes": 46798
+        }
+      ]
+    },
+    {
+      "id": "1381",
+      "handle": "carac",
+      "name": "Carac",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/carac/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.5,
+      "images": [
+        {
+          "alt": "Carac",
+          "localPath": "/honold-demo/products/1381.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-27504.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-27504-300x300.png",
+          "downloadedBytes": 23974
+        }
+      ]
+    },
+    {
+      "id": "278",
+      "handle": "caramel-tuilles-130g",
+      "name": "Caramel Tuiles 130g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/caramel-tuilles-130g/",
+      "priceCurrency": "CHF",
+      "priceChf": 25.5,
+      "images": [
+        {
+          "alt": "Caramel Tuiles 130g",
+          "localPath": "/honold-demo/products/278.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-14061.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-14061-300x300.png",
+          "downloadedBytes": 22321
+        }
+      ]
+    },
+    {
+      "id": "2522",
+      "handle": "truffes-cakes-6-8-portionen",
+      "name": "Truffes Cakes 6 – 8 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-cakes-6-8-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 34.2,
+      "images": [
+        {
+          "alt": "Truffes Cakes 6 – 8 Portionen",
+          "localPath": "/honold-demo/products/2522.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23041.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-23041-300x300.png",
+          "downloadedBytes": 28625
+        }
+      ]
+    },
+    {
+      "id": "1931",
+      "handle": "kuesnachterli-rustique",
+      "name": "Küsnachterli Rustique",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/kuesnachterli-rustique/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.1,
+      "images": [
+        {
+          "alt": "Küsnachterli Rustique",
+          "localPath": "/honold-demo/products/1931.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/kues.-rustique.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/kues.-rustique.png",
+          "downloadedBytes": 26152
+        }
+      ]
+    },
+    {
+      "id": "279",
+      "handle": "florentiner-150g",
+      "name": "Florentiner 150g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/florentiner-150g/",
+      "priceCurrency": "CHF",
+      "priceChf": 27.9,
+      "images": [
+        {
+          "alt": "Florentiner 150g",
+          "localPath": "/honold-demo/products/279.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Florentiner-500x500-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Florentiner-500x500-1-300x300.png",
+          "downloadedBytes": 17457
+        }
+      ]
+    },
+    {
+      "id": "2081",
+      "handle": "amaretti-au-kirsch-150g",
+      "name": "Amaretti au Kirsch 150g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/amaretti-au-kirsch-150g/",
+      "priceCurrency": "CHF",
+      "priceChf": 26.3,
+      "images": [
+        {
+          "alt": "Amaretti au Kirsch 150g",
+          "localPath": "/honold-demo/products/2081.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/image-24-bearbeitet.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/image-24-bearbeitet.png",
+          "downloadedBytes": 30179
+        }
+      ]
+    },
+    {
+      "id": "2059",
+      "handle": "schokoladen-bretzel",
+      "name": "Schokoladen-Bretzel",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/schokoladen-bretzel/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.4,
+      "images": [
+        {
+          "alt": "Schokoladen-Bretzel",
+          "localPath": "/honold-demo/products/2059.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-27006.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-27006-300x300.png",
+          "downloadedBytes": 20929
+        }
+      ]
+    },
+    {
+      "id": "1933",
+      "handle": "urdinkelbroetli",
+      "name": "Urdinkelbrötli",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/urdinkelbroetli/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.1,
+      "images": [
+        {
+          "alt": "Urdinkelbrötli",
+          "localPath": "/honold-demo/products/1933.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Petit-Pain-Leventina.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Petit-Pain-Leventina.png",
+          "downloadedBytes": 168270
+        }
+      ]
+    },
+    {
+      "id": "1411",
+      "handle": "mini-gugelhoepfli-pain-de-genes",
+      "name": "Mini Gugelhöpfli Pain de Gênes",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mini-gugelhoepfli-pain-de-genes/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.7,
+      "images": [
+        {
+          "alt": "Mini Gugelhöpfli Pain de Gênes",
+          "localPath": "/honold-demo/products/1411.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/mini-Gugelhoepli-Pain-de-Gene-1920x1920-1-1024x1024.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/mini-Gugelhoepli-Pain-de-Gene-1920x1920-1-300x300.png",
+          "downloadedBytes": 17783
+        }
+      ]
+    },
+    {
+      "id": "270",
+      "handle": "caramel-amandes-100g",
+      "name": "Plaque Caramel/Amandes 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/caramel-amandes-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.8,
+      "images": [
+        {
+          "alt": "Plaque Caramel/Amandes 100g",
+          "localPath": "/honold-demo/products/270.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5408_Plaque-CaramelAmandes-100g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5408_Plaque-CaramelAmandes-100g.png",
+          "downloadedBytes": 30803
+        }
+      ]
+    },
+    {
+      "id": "1964",
+      "handle": "aprikosenkuchen",
+      "name": "Aprikosenkuchen 4 – 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/aprikosenkuchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 26.5,
+      "images": [
+        {
+          "alt": "Aprikosenkuchen 4 – 6 Portionen",
+          "localPath": "/honold-demo/products/1964.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20015.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20015-300x300.png",
+          "downloadedBytes": 37754
+        }
+      ]
+    },
+    {
+      "id": "1959",
+      "handle": "apfelstreuseltorte",
+      "name": "Apfel Streusel 4 – 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/apfelstreuseltorte/",
+      "priceCurrency": "CHF",
+      "priceChf": 28,
+      "images": [
+        {
+          "alt": "Apfel Streusel 4 – 6 Portionen",
+          "localPath": "/honold-demo/products/1959.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20010.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20010-300x300.png",
+          "downloadedBytes": 43585
+        }
+      ]
+    },
+    {
+      "id": "263",
+      "handle": "macadamia-au-chocolat-120g",
+      "name": "Macadamia au Chocolat 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/macadamia-au-chocolat-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Macadamia au Chocolat 120g",
+          "localPath": "/honold-demo/products/263.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5557a_Macadamia-au-Chocolat-120g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5557a_Macadamia-au-Chocolat-120g.png",
+          "downloadedBytes": 68081
+        }
+      ]
+    },
+    {
+      "id": "251",
+      "handle": "branchli-dunkel-braun",
+      "name": "Branchli Noir",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/branchli-dunkel-braun/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.4,
+      "images": [
+        {
+          "alt": "Branchli Noir",
+          "localPath": "/honold-demo/products/251.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5516_Branchli-Noir.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5516_Branchli-Noir.png",
+          "downloadedBytes": 49387
+        }
+      ]
+    },
+    {
+      "id": "247",
+      "handle": "kirschstangeli-ballotin-145g",
+      "name": "Kirschstängeli, Ballotin 145g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/kirschstangeli-ballotin-145g/",
+      "priceCurrency": "CHF",
+      "priceChf": 30.3,
+      "images": [
+        {
+          "alt": "Kirschstängeli, Ballotin 145g",
+          "localPath": "/honold-demo/products/247.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Kirschstaengeli-3_web.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Kirschstaengeli-3_web-300x300.png",
+          "downloadedBytes": 16612
+        }
+      ]
+    },
+    {
+      "id": "244",
+      "handle": "les-cocktails-9er",
+      "name": "Les Cocktails 9er, 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/les-cocktails-9er/",
+      "priceCurrency": "CHF",
+      "priceChf": 36.1,
+      "images": [
+        {
+          "alt": "Les Cocktails 9er, 100g",
+          "localPath": "/honold-demo/products/244.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/les-cocktail.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/les-cocktail.png",
+          "downloadedBytes": 111903
+        }
+      ]
+    },
+    {
+      "id": "2518",
+      "handle": "pralines-maison-16er",
+      "name": "Pralinés Maison 16er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pralines-maison-16er/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Pralinés Maison 16er",
+          "localPath": "/honold-demo/products/2518.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3019.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3019.png",
+          "downloadedBytes": 340124
+        }
+      ]
+    },
+    {
+      "id": "2516",
+      "handle": "pain-de-genes-vanille-8-10-portionen",
+      "name": "Pain de Gênes Vanille 8 – 10 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-vanille-8-10-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 48.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes Vanille 8 – 10 Portionen",
+          "localPath": "/honold-demo/products/2516.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/95af77c1-59e7-43f7-9ae6-7cc6bc88af6e.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/11/95af77c1-59e7-43f7-9ae6-7cc6bc88af6e-300x300.png",
+          "downloadedBytes": 35078
+        }
+      ]
+    },
+    {
+      "id": "2511",
+      "handle": "pain-de-genes-4-6-portionen",
+      "name": "Pain de Gênes 4 – 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-4-6-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 27.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes 4 – 6 Portionen",
+          "localPath": "/honold-demo/products/2511.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20065.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20065-300x300.png",
+          "downloadedBytes": 33734
+        }
+      ]
+    },
+    {
+      "id": "2266",
+      "handle": "dekor-schild-klein-happy-birthday",
+      "name": "Dekor Schild klein “Happy Birthday”",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/dekor-schild-klein-happy-birthday/",
+      "priceCurrency": "CHF",
+      "priceChf": 9.6,
+      "images": [
+        {
+          "alt": "Dekor Schild klein “Happy Birthday”",
+          "localPath": "/honold-demo/products/2266.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002a.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002a.png",
+          "downloadedBytes": 11662
+        }
+      ]
+    },
+    {
+      "id": "1939",
+      "handle": "laugenbroetchen",
+      "name": "Laugenbrötchen",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugenbroetchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.2,
+      "images": [
+        {
+          "alt": "Laugenbrötchen",
+          "localPath": "/honold-demo/products/1939.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bt-30056.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bt-30056-300x300.png",
+          "downloadedBytes": 20009
+        }
+      ]
+    },
+    {
+      "id": "1923",
+      "handle": "pain-au-chocolat",
+      "name": "Pain au Chocolat",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-au-chocolat/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.5,
+      "images": [
+        {
+          "alt": "Pain au Chocolat",
+          "localPath": "/honold-demo/products/1923.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11205.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11205-300x300.png",
+          "downloadedBytes": 34397
+        }
+      ]
+    },
+    {
+      "id": "1914",
+      "handle": "pain-rustique-18h",
+      "name": "Pain Rustique 18h",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-rustique-18h/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.2,
+      "images": [
+        {
+          "alt": "Pain Rustique 18h",
+          "localPath": "/honold-demo/products/1914.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Pain-Rustique-2.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Pain-Rustique-2.png",
+          "downloadedBytes": 211555
+        }
+      ]
+    },
+    {
+      "id": "1782",
+      "handle": "tarte-aux-vermicelles-kopie",
+      "name": "Tarte aux Fruits 6 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/tarte-aux-vermicelles-kopie/",
+      "priceCurrency": "CHF",
+      "priceChf": 38,
+      "images": [
+        {
+          "alt": "Tarte aux Fruits 6 Portionen",
+          "localPath": "/honold-demo/products/1782.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Produktbild-Tarte-aux-Fruits-1920x1920-1-1024x1024.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Produktbild-Tarte-aux-Fruits-1920x1920-1-300x300.png",
+          "downloadedBytes": 25498
+        }
+      ]
+    },
+    {
+      "id": "1189",
+      "handle": "grand-cru-chakra-16er-lait-et-noir",
+      "name": "Grand Cru Chakra 16er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/grand-cru-chakra-16er-lait-et-noir/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Grand Cru Chakra 16er",
+          "localPath": "/honold-demo/products/1189.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/Design-ohne-Titel-2.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/Design-ohne-Titel-2.jpg",
+          "downloadedBytes": 17141
+        }
+      ]
+    },
+    {
+      "id": "1135",
+      "handle": "paves-glaces",
+      "name": "Pavés Glacés 150g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/paves-glaces/",
+      "priceCurrency": "CHF",
+      "priceChf": 29.2,
+      "images": [
+        {
+          "alt": "Pavés Glacés 150g",
+          "localPath": "/honold-demo/products/1135.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-5001.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-5001-300x300.png",
+          "downloadedBytes": 18236
+        }
+      ]
+    },
+    {
+      "id": "274",
+      "handle": "chakra-noir-70-kakaonibs-100g",
+      "name": "Plaque Grand Cru Chakra Noir 70%/66h, 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/chakra-noir-70-kakaonibs-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.8,
+      "images": [
+        {
+          "alt": "Plaque Grand Cru Chakra Noir 70%/66h, 100g",
+          "localPath": "/honold-demo/products/274.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Grand-Cru-Chakra-Noir-3-500x500-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Grand-Cru-Chakra-Noir-3-500x500-1-300x300.png",
+          "downloadedBytes": 11951
+        }
+      ]
+    },
+    {
+      "id": "266",
+      "handle": "5er-sacki-mit-truffes-au-champagne-60g",
+      "name": "Truffes au Champagne 5er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/5er-sacki-mit-truffes-au-champagne-60g/",
+      "priceCurrency": "CHF",
+      "priceChf": 10,
+      "images": [
+        {
+          "alt": "Truffes au Champagne 5er",
+          "localPath": "/honold-demo/products/266.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Truffe-au-Champagne-5er_web.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Truffe-au-Champagne-5er_web-300x300.png",
+          "downloadedBytes": 15778
+        }
+      ]
+    },
+    {
+      "id": "260",
+      "handle": "tranches-d-oranges-lait-et-noir-120g",
+      "name": "Tranche d’Orange Lait/Noir,120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/tranches-d-oranges-lait-et-noir-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Tranche d’Orange Lait/Noir,120g",
+          "localPath": "/honold-demo/products/260.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Tranches-dOranges-400x400-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Tranches-dOranges-400x400-1-300x300.png",
+          "downloadedBytes": 13831
+        }
+      ]
+    },
+    {
+      "id": "250",
+      "handle": "branchli-hell-rosa",
+      "name": "Branchli Lait",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/branchli-hell-rosa/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.4,
+      "images": [
+        {
+          "alt": "Branchli Lait",
+          "localPath": "/honold-demo/products/250.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5515_Branchli-Lait-2.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5515_Branchli-Lait-2.png",
+          "downloadedBytes": 53528
+        }
+      ]
+    },
+    {
+      "id": "249",
+      "handle": "herzli-gross",
+      "name": "Schokoladen Herzli gross",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/herzli-gross/",
+      "priceCurrency": "CHF",
+      "priceChf": 10.4,
+      "images": [
+        {
+          "alt": "Schokoladen Herzli gross",
+          "localPath": "/honold-demo/products/249.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5520.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5520.png",
+          "downloadedBytes": 9754
+        }
+      ]
+    },
+    {
+      "id": "237",
+      "handle": "pralines-maison-ballotin-150g",
+      "name": "Pralinés Maison Ballotin 150g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pralines-maison-ballotin-150g/",
+      "priceCurrency": "CHF",
+      "priceChf": 26.5,
+      "images": [
+        {
+          "alt": "Pralinés Maison Ballotin 150g",
+          "localPath": "/honold-demo/products/237.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Maison-Ballotin.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Maison-Ballotin-300x300.png",
+          "downloadedBytes": 22787
+        }
+      ]
+    },
+    {
+      "id": "2520",
+      "handle": "toastbrot-eckig-ungeschnitten",
+      "name": "Toastbrot eckig 500g",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/toastbrot-eckig-ungeschnitten/",
+      "priceCurrency": "CHF",
+      "priceChf": 10.2,
+      "images": [
+        {
+          "alt": "Toastbrot eckig 500g",
+          "localPath": "/honold-demo/products/2520.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Toastbrot-eckig-400x400-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Toastbrot-eckig-400x400-1-300x300.png",
+          "downloadedBytes": 20731
+        }
+      ]
+    },
+    {
+      "id": "2507",
+      "handle": "fleur-framboise-12-portionen",
+      "name": "Fleur Framboise 12 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/fleur-framboise-12-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 90.2,
+      "images": [
+        {
+          "alt": "Fleur Framboise 12 Portionen",
+          "localPath": "/honold-demo/products/2507.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20212.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20212-300x300.png",
+          "downloadedBytes": 31860
+        }
+      ]
+    },
+    {
+      "id": "1977",
+      "handle": "schinkengipfel",
+      "name": "Schinkengipfel",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/schinkengipfel/",
+      "priceCurrency": "CHF",
+      "priceChf": 5,
+      "images": [
+        {
+          "alt": "Schinkengipfel",
+          "localPath": "/honold-demo/products/1977.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-14656.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-14656-300x300.png",
+          "downloadedBytes": 34214
+        }
+      ]
+    },
+    {
+      "id": "1927",
+      "handle": "petit-pain-a-lorientale",
+      "name": "Petit Pain à l’Orientale",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/petit-pain-a-lorientale/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.6,
+      "images": [
+        {
+          "alt": "Petit Pain à l’Orientale",
+          "localPath": "/honold-demo/products/1927.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11213.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11213-300x300.png",
+          "downloadedBytes": 35418
+        }
+      ]
+    },
+    {
+      "id": "264",
+      "handle": "nonpareilles-100g",
+      "name": "Nonpareilles Säckli 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/nonpareilles-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 17.3,
+      "images": [
+        {
+          "alt": "Nonpareilles Säckli 100g",
+          "localPath": "/honold-demo/products/264.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5559_Nonpareilles-Saeckli-100g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5559_Nonpareilles-Saeckli-100g-300x300.png",
+          "downloadedBytes": 29246
+        }
+      ]
+    },
+    {
+      "id": "257",
+      "handle": "chocolat-rape-dose",
+      "name": "Chocolat Râpé Dose, 300g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/chocolat-rape-dose/",
+      "priceCurrency": "CHF",
+      "priceChf": 29.3,
+      "images": [
+        {
+          "alt": "Chocolat Râpé Dose, 300g",
+          "localPath": "/honold-demo/products/257.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Chocolat_Rape-_Dose-600x600-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Chocolat_Rape-_Dose-600x600-1-300x300.png",
+          "downloadedBytes": 10880
+        }
+      ]
+    },
+    {
+      "id": "256",
+      "handle": "bouchees-mandarine-einz",
+      "name": "Bouchées Mandarin",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/bouchees-mandarine-einz/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.9,
+      "images": [
+        {
+          "alt": "Bouchées Mandarin",
+          "localPath": "/honold-demo/products/256.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/113-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-freigestellt-1024x798.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/113-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-freigestellt-1024x798.png",
+          "downloadedBytes": 1306810
+        }
+      ]
+    },
+    {
+      "id": "2296",
+      "handle": "patricks-sommer-mueesli",
+      "name": "Patricks Sommer Müesli",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/patricks-sommer-mueesli/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.9,
+      "images": [
+        {
+          "alt": "Patricks Sommer Müesli",
+          "localPath": "/honold-demo/products/2296.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/Patrick.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/Patrick-300x300.png",
+          "downloadedBytes": 23793
+        }
+      ]
+    },
+    {
+      "id": "2256",
+      "handle": "schokoladen-sable-elefant",
+      "name": "Schokoladen-Sablé-Elefant",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/schokoladen-sable-elefant/",
+      "priceCurrency": "CHF",
+      "priceChf": 4,
+      "images": [
+        {
+          "alt": "Schokoladen-Sablé-Elefant",
+          "localPath": "/honold-demo/products/2256.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/BP-48053.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/BP-48053.png",
+          "downloadedBytes": 137190
+        }
+      ]
+    },
+    {
+      "id": "2158",
+      "handle": "lottis-best-9er-2",
+      "name": "Lotti’s Best 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/lottis-best-9er-2/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Lotti’s Best 9er",
+          "localPath": "/honold-demo/products/2158.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3089a.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3089a.png",
+          "downloadedBytes": 350245
+        }
+      ]
+    },
+    {
+      "id": "1957",
+      "handle": "mie-de-pain",
+      "name": "Mie de Pain, 250g",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mie-de-pain/",
+      "priceCurrency": "CHF",
+      "priceChf": 5.9,
+      "images": [
+        {
+          "alt": "Mie de Pain, 250g",
+          "localPath": "/honold-demo/products/1957.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Paniermehl_web-400x400-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Paniermehl_web-400x400-1-300x300.png",
+          "downloadedBytes": 20003
+        }
+      ]
+    },
+    {
+      "id": "1947",
+      "handle": "mandelgipfel",
+      "name": "Mandelgipfel",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mandelgipfel/",
+      "priceCurrency": "CHF",
+      "priceChf": 5,
+      "images": [
+        {
+          "alt": "Mandelgipfel",
+          "localPath": "/honold-demo/products/1947.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-27560.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-27560-300x300.png",
+          "downloadedBytes": 19747
+        }
+      ]
+    },
+    {
+      "id": "1941",
+      "handle": "laugengipfel",
+      "name": "Laugengipfel",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/laugengipfel/",
+      "priceCurrency": "CHF",
+      "priceChf": 2.3,
+      "images": [
+        {
+          "alt": "Laugengipfel",
+          "localPath": "/honold-demo/products/1941.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Laugengipfel_transparent.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Laugengipfel_transparent.png",
+          "downloadedBytes": 79379
+        }
+      ]
+    },
+    {
+      "id": "1929",
+      "handle": "kuesnachterli",
+      "name": "Küsnachterli",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/kuesnachterli/",
+      "priceCurrency": "CHF",
+      "priceChf": 2,
+      "images": [
+        {
+          "alt": "Küsnachterli",
+          "localPath": "/honold-demo/products/1929.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11212.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11212-300x300.png",
+          "downloadedBytes": 37357
+        }
+      ]
+    },
+    {
+      "id": "1082",
+      "handle": "sable-herzen",
+      "name": "Vanille- und Schokoladen-Bretzel, 100g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/sable-herzen/",
+      "priceCurrency": "CHF",
+      "priceChf": 14.5,
+      "images": [
+        {
+          "alt": "Vanille- und Schokoladen-Bretzel, 100g",
+          "localPath": "/honold-demo/products/1082.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-5556.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-bp-5556.png",
+          "downloadedBytes": 42308
+        }
+      ]
+    },
+    {
+      "id": "275",
+      "handle": "noisettes-au-lait-60g",
+      "name": "Petite Plaque Noisette Lait 60g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/noisettes-au-lait-60g/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.9,
+      "images": [
+        {
+          "alt": "Petite Plaque Noisette Lait 60g",
+          "localPath": "/honold-demo/products/275.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-84047_Petite-Plaque-Noisette-Lait-60g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-84047_Petite-Plaque-Noisette-Lait-60g-300x300.png",
+          "downloadedBytes": 24132
+        }
+      ]
+    },
+    {
+      "id": "272",
+      "handle": "fraises-baie-rose-100g",
+      "name": "Plaque Fraises/Baies Roses 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/fraises-baie-rose-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.8,
+      "images": [
+        {
+          "alt": "Plaque Fraises/Baies Roses 100g",
+          "localPath": "/honold-demo/products/272.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5403_Plaque-FraisesBaies-Roses-100g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5403_Plaque-FraisesBaies-Roses-100g.png",
+          "downloadedBytes": 32604
+        }
+      ]
+    },
+    {
+      "id": "2517",
+      "handle": "pralines-maison-9er",
+      "name": "Pralinés Maison 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pralines-maison-9er/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Pralinés Maison 9er",
+          "localPath": "/honold-demo/products/2517.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3019.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3019.png",
+          "downloadedBytes": 340124
+        }
+      ]
+    },
+    {
+      "id": "2512",
+      "handle": "pain-de-genes-8-10-portionen",
+      "name": "Pain de Gênes 8 – 10 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-8-10-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 40.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes 8 – 10 Portionen",
+          "localPath": "/honold-demo/products/2512.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20066.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20066-300x300.png",
+          "downloadedBytes": 33734
+        }
+      ]
+    },
+    {
+      "id": "2510",
+      "handle": "mousse-grand-cru-chakra-12-portionen",
+      "name": "Mousse Grand Cru Chakra 12 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mousse-grand-cru-chakra-12-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 90.2,
+      "images": [
+        {
+          "alt": "Mousse Grand Cru Chakra 12 Portionen",
+          "localPath": "/honold-demo/products/2510.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20072.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-20072-300x300.png",
+          "downloadedBytes": 30295
+        }
+      ]
+    },
+    {
+      "id": "2425",
+      "handle": "heidelbeer-tartelettes",
+      "name": "Heidelbeer Tartelettes",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/heidelbeer-tartelettes/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "images": [
+        {
+          "alt": "Heidelbeer Tartelettes",
+          "localPath": "/honold-demo/products/2425.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/07/Heidelbeer-Tartelettes.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/07/Heidelbeer-Tartelettes-300x300.png",
+          "downloadedBytes": 12517
+        }
+      ]
+    },
+    {
+      "id": "2272",
+      "handle": "dekor-schild-gross-happy-birthday",
+      "name": "Dekor Schild gross “Happy Birthday”",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/dekor-schild-gross-happy-birthday/",
+      "priceCurrency": "CHF",
+      "priceChf": 11.2,
+      "images": [
+        {
+          "alt": "Dekor Schild gross “Happy Birthday”",
+          "localPath": "/honold-demo/products/2272.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002b.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002b.png",
+          "downloadedBytes": 25678
+        }
+      ]
+    },
+    {
+      "id": "1968",
+      "handle": "gourmet-gipfeli-gefroren-350g",
+      "name": "Gourmet Gipfeli gefroren 350g",
+      "productType": "traiteur",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/gourmet-gipfeli-gefroren-350g/",
+      "priceCurrency": "CHF",
+      "priceChf": 35.4,
+      "images": [
+        {
+          "alt": "Gourmet Gipfeli gefroren 350g",
+          "localPath": "/honold-demo/products/1968.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Gourmet-Gipfel-Gefroren-350g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Gourmet-Gipfel-Gefroren-350g-300x300.png",
+          "downloadedBytes": 28613
+        }
+      ]
+    },
+    {
+      "id": "1951",
+      "handle": "apfeltoertchen",
+      "name": "Apfeltörtchen",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/apfeltoertchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "images": [
+        {
+          "alt": "Apfeltörtchen",
+          "localPath": "/honold-demo/products/1951.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Apfeltoertchen_web.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/03/Apfeltoertchen_web-300x300.png",
+          "downloadedBytes": 29956
+        }
+      ]
+    },
+    {
+      "id": "1649",
+      "handle": "herzdose-rot-truffes-au-champagne",
+      "name": "Herzdose rot Truffes au Champagne",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/herzdose-rot-truffes-au-champagne/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Herzdose rot Truffes au Champagne",
+          "localPath": "/honold-demo/products/1649.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/01/Herzdose-rot-offen-truffes-1-300x300-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/01/Herzdose-rot-offen-truffes-1-300x300-1.png",
+          "downloadedBytes": 31161
+        }
+      ]
+    },
+    {
+      "id": "1132",
+      "handle": "tartufi",
+      "name": "Tartufi 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/tartufi/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Tartufi 120g",
+          "localPath": "/honold-demo/products/1132.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-81310.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-81310.jpg",
+          "downloadedBytes": 19128
+        }
+      ]
+    },
+    {
+      "id": "1131",
+      "handle": "truffes-ile-maurice-120g",
+      "name": "Truffes ile Maurice 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-ile-maurice-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Truffes ile Maurice 120g",
+          "localPath": "/honold-demo/products/1131.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80099a.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80099a.jpg",
+          "downloadedBytes": 34750
+        }
+      ]
+    },
+    {
+      "id": "282",
+      "handle": "macaron-coco-150g",
+      "name": "Macaron Coco 150g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/macaron-coco-150g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.2,
+      "images": [
+        {
+          "alt": "Macaron Coco 150g",
+          "localPath": "/honold-demo/products/282.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Macaron_Coco_150g_ws-600x600-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Macaron_Coco_150g_ws-600x600-1-300x300.png",
+          "downloadedBytes": 19423
+        }
+      ]
+    },
+    {
+      "id": "276",
+      "handle": "noisettes-noir-60g",
+      "name": "Petite Plaque Noisettes Noir 60g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/noisettes-noir-60g/",
+      "priceCurrency": "CHF",
+      "priceChf": 7.9,
+      "images": [
+        {
+          "alt": "Petite Plaque Noisettes Noir 60g",
+          "localPath": "/honold-demo/products/276.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-81048_Petite-Plaque-Noisettes-Noir-60g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-81048_Petite-Plaque-Noisettes-Noir-60g-300x300.png",
+          "downloadedBytes": 26867
+        }
+      ]
+    },
+    {
+      "id": "273",
+      "handle": "chakra-lait-40-kakaonibs-100g",
+      "name": "Plaque Grand Cru Chakra Lait 40%/36h, 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/chakra-lait-40-kakaonibs-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.8,
+      "images": [
+        {
+          "alt": "Plaque Grand Cru Chakra Lait 40%/36h, 100g",
+          "localPath": "/honold-demo/products/273.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Grand-Cru-Chakra-Lait-3-500x500-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Grand-Cru-Chakra-Lait-3-500x500-1-300x300.png",
+          "downloadedBytes": 11488
+        }
+      ]
+    },
+    {
+      "id": "271",
+      "handle": "oranges-amandes-100g",
+      "name": "Plaque Oranges/Amandes 100g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/oranges-amandes-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 16.8,
+      "images": [
+        {
+          "alt": "Plaque Oranges/Amandes 100g",
+          "localPath": "/honold-demo/products/271.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-5404.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-5404.png",
+          "downloadedBytes": 315662
+        }
+      ]
+    },
+    {
+      "id": "265",
+      "handle": "5er-sacki-mit-pralines-58g",
+      "name": "Pralinés Maison 5er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/5er-sacki-mit-pralines-58g/",
+      "priceCurrency": "CHF",
+      "priceChf": 10,
+      "images": [
+        {
+          "alt": "Pralinés Maison 5er",
+          "localPath": "/honold-demo/products/265.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Pralines-Maison-5er_web-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Pralines-Maison-5er_web-1-300x300.png",
+          "downloadedBytes": 16725
+        }
+      ]
+    },
+    {
+      "id": "262",
+      "handle": "amandes-au-chocolat-blanc-120g",
+      "name": "Amandes au Chocolat Blanc 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/amandes-au-chocolat-blanc-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Amandes au Chocolat Blanc 120g",
+          "localPath": "/honold-demo/products/262.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5555_Amandes-au-chocolat-blanc-120g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5555_Amandes-au-chocolat-blanc-120g.png",
+          "downloadedBytes": 68201
+        }
+      ]
+    },
+    {
+      "id": "261",
+      "handle": "rochers-lait-et-noir-120g",
+      "name": "Rochers Lait/Noir 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/rochers-lait-et-noir-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Rochers Lait/Noir 120g",
+          "localPath": "/honold-demo/products/261.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Rochers-400x400-2.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Rochers-400x400-2-300x300.png",
+          "downloadedBytes": 14578
+        }
+      ]
+    },
+    {
+      "id": "242",
+      "handle": "truffes-aux-fruits-9er",
+      "name": "Truffes aux Fruits 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-aux-fruits-9er/",
+      "priceCurrency": "CHF",
+      "priceChf": 32,
+      "images": [
+        {
+          "alt": "Truffes aux Fruits 9er",
+          "localPath": "/honold-demo/products/242.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Truffes-aux-Fruits-3_web.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/05/Truffes-aux-Fruits-3_web.png",
+          "downloadedBytes": 344865
+        }
+      ]
+    },
+    {
+      "id": "2573",
+      "handle": "marrons-glaces",
+      "name": "Marrons glacés Stange (6 Stk.)",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/marrons-glaces/",
+      "priceCurrency": "CHF",
+      "priceChf": 31.5,
+      "images": [
+        {
+          "alt": "Marrons glacés Stange (6 Stk.)",
+          "localPath": "/honold-demo/products/2573.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/09/image__1_-removebg-preview.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/09/image__1_-removebg-preview.png",
+          "downloadedBytes": 22926
+        }
+      ]
+    },
+    {
+      "id": "2566",
+      "handle": "marrons-glaces-chakra",
+      "name": "Marrons glacés Chakra Stange (4 Stk.)",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/marrons-glaces-chakra/",
+      "priceCurrency": "CHF",
+      "priceChf": 28,
+      "images": [
+        {
+          "alt": "Marrons glacés Chakra Stange (4 Stk.)",
+          "localPath": "/honold-demo/products/2566.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/09/Marrons_Glaces_4er_Schachtel_ohne-hintergrund-1__1_-removebg-preview-4.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/09/Marrons_Glaces_4er_Schachtel_ohne-hintergrund-1__1_-removebg-preview-4.png",
+          "downloadedBytes": 39192
+        }
+      ]
+    },
+    {
+      "id": "2526",
+      "handle": "truffes-au-champagne-16er-2",
+      "name": "Truffes au Champagne 16er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-au-champagne-16er-2/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Truffes au Champagne 16er",
+          "localPath": "/honold-demo/products/2526.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3052.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3052.png",
+          "downloadedBytes": 327184
+        }
+      ]
+    },
+    {
+      "id": "2525",
+      "handle": "truffes-au-champagne-9er-2",
+      "name": "Truffes au Champagne 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-au-champagne-9er-2/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Truffes au Champagne 9er",
+          "localPath": "/honold-demo/products/2525.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3052.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-3052.png",
+          "downloadedBytes": 327184
+        }
+      ]
+    },
+    {
+      "id": "2524",
+      "handle": "truffes-maison-sommer-16er",
+      "name": "Truffes Maison Sommer 16er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-maison-sommer-16er/",
+      "priceCurrency": "CHF",
+      "priceChf": 52.4,
+      "images": [
+        {
+          "alt": "Truffes Maison Sommer 16er",
+          "localPath": "/honold-demo/products/2524.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3046S.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3046S.png",
+          "downloadedBytes": 100097
+        }
+      ]
+    },
+    {
+      "id": "2523",
+      "handle": "truffes-maison-sommer-9er",
+      "name": "Truffes Maison Sommer 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/truffes-maison-sommer-9er/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Truffes Maison Sommer 9er",
+          "localPath": "/honold-demo/products/2523.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3046S.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3046S.png",
+          "downloadedBytes": 100097
+        }
+      ]
+    },
+    {
+      "id": "2514",
+      "handle": "pain-de-genes-versandbereit-8-10-portionen",
+      "name": "Pain de Gênes -versandbereit 8-10 Portionen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/pain-de-genes-versandbereit-8-10-portionen/",
+      "priceCurrency": "CHF",
+      "priceChf": 40.5,
+      "images": [
+        {
+          "alt": "Pain de Gênes -versandbereit 8-10 Portionen",
+          "localPath": "/honold-demo/products/2514.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/08/Pain-de-Gene-in-Versandbox-2.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/08/Pain-de-Gene-in-Versandbox-2.png",
+          "downloadedBytes": 87665
+        }
+      ]
+    },
+    {
+      "id": "2309",
+      "handle": "schokoladen-herzli-klein",
+      "name": "Schokoladen Herzli klein",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/schokoladen-herzli-klein/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.4,
+      "images": [
+        {
+          "alt": "Schokoladen Herzli klein",
+          "localPath": "/honold-demo/products/2309.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5520.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5520.png",
+          "downloadedBytes": 9754
+        }
+      ]
+    },
+    {
+      "id": "2288",
+      "handle": "dekor-schild-gross-alles-gute",
+      "name": "Dekor Schild gross “Alles Gute”",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/dekor-schild-gross-alles-gute/",
+      "priceCurrency": "CHF",
+      "priceChf": 11.2,
+      "images": [
+        {
+          "alt": "Dekor Schild gross “Alles Gute”",
+          "localPath": "/honold-demo/products/2288.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002d.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002d.png",
+          "downloadedBytes": 26655
+        }
+      ]
+    },
+    {
+      "id": "2280",
+      "handle": "herzdose-hellgruen-truffes-maison",
+      "name": "Herzdose hellgrün Truffes Maison",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/herzdose-hellgruen-truffes-maison/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Herzdose hellgrün Truffes Maison",
+          "localPath": "/honold-demo/products/2280.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3058.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3058-300x300.png",
+          "downloadedBytes": 24811
+        }
+      ]
+    },
+    {
+      "id": "2278",
+      "handle": "herzdose-hellblau-truffes-maison",
+      "name": "Herzdose hellblau Truffes Maison",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/herzdose-hellblau-truffes-maison/",
+      "priceCurrency": "CHF",
+      "priceChf": 32.9,
+      "images": [
+        {
+          "alt": "Herzdose hellblau Truffes Maison",
+          "localPath": "/honold-demo/products/2278.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3042.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-3042-300x300.png",
+          "downloadedBytes": 25292
+        }
+      ]
+    },
+    {
+      "id": "2270",
+      "handle": "dekor-schild-klein-alles-gute",
+      "name": "Dekor Schild klein “Alles Gute”",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/dekor-schild-klein-alles-gute/",
+      "priceCurrency": "CHF",
+      "priceChf": 9.6,
+      "images": [
+        {
+          "alt": "Dekor Schild klein “Alles Gute”",
+          "localPath": "/honold-demo/products/2270.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002c.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/KP-24002c.png",
+          "downloadedBytes": 13090
+        }
+      ]
+    },
+    {
+      "id": "2258",
+      "handle": "le-trio-noir-9er-2",
+      "name": "Le Trio Noir 9er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/le-trio-noir-9er-2/",
+      "priceCurrency": "CHF",
+      "priceChf": 36.1,
+      "images": [
+        {
+          "alt": "Le Trio Noir 9er",
+          "localPath": "/honold-demo/products/2258.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-81327.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-81327.png",
+          "downloadedBytes": 351373
+        }
+      ]
+    },
+    {
+      "id": "1953",
+      "handle": "zwetschgentoertchen",
+      "name": "Zwetschgentörtchen",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/zwetschgentoertchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 6.5,
+      "images": [
+        {
+          "alt": "Zwetschgentörtchen",
+          "localPath": "/honold-demo/products/1953.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11506.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-11506.png",
+          "downloadedBytes": 222875
+        }
+      ]
+    },
+    {
+      "id": "1949",
+      "handle": "prussiens",
+      "name": "Prussien",
+      "productType": "baeckerei",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/prussiens/",
+      "priceCurrency": "CHF",
+      "priceChf": 3.4,
+      "images": [
+        {
+          "alt": "Prussien",
+          "localPath": "/honold-demo/products/1949.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-27004.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-b-27004-300x300.png",
+          "downloadedBytes": 26383
+        }
+      ]
+    },
+    {
+      "id": "1409",
+      "handle": "vermicelles-diplomate",
+      "name": "Vermicelles Diplomate",
+      "productType": "patisserie und torten",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/vermicelles-diplomate/",
+      "priceCurrency": "CHF",
+      "priceChf": 4.6,
+      "images": [
+        {
+          "alt": "Vermicelles Diplomate",
+          "localPath": "/honold-demo/products/1409.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40998.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-k-40998-300x300.png",
+          "downloadedBytes": 39569
+        }
+      ]
+    },
+    {
+      "id": "1130",
+      "handle": "champagner-truffes-trauben",
+      "name": "Champagner Truffes Trauben",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/champagner-truffes-trauben/",
+      "priceCurrency": "CHF",
+      "priceChf": 19.7,
+      "images": [
+        {
+          "alt": "Champagner Truffes Trauben",
+          "localPath": "/honold-demo/products/1130.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80610.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80610.jpg",
+          "downloadedBytes": 21651
+        }
+      ]
+    },
+    {
+      "id": "1128",
+      "handle": "igel-2",
+      "name": "Igel 2er",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/igel-2/",
+      "priceCurrency": "CHF",
+      "priceChf": 10.8,
+      "images": [
+        {
+          "alt": "Igel 2er",
+          "localPath": "/honold-demo/products/1128.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80620.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80620.jpg",
+          "downloadedBytes": 9185
+        }
+      ]
+    },
+    {
+      "id": "1117",
+      "handle": "eichhoernchen",
+      "name": "Eichhörnchen",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/eichhoernchen/",
+      "priceCurrency": "CHF",
+      "priceChf": 8,
+      "images": [
+        {
+          "alt": "Eichhörnchen",
+          "localPath": "/honold-demo/products/1117.jpg",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80635.jpg",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/04/product-p-80635.jpg",
+          "downloadedBytes": 13863
+        }
+      ]
+    },
+    {
+      "id": "281",
+      "handle": "sable-herzli-100g",
+      "name": "Sablé-Herzen 100g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/sable-herzli-100g/",
+      "priceCurrency": "CHF",
+      "priceChf": 9.8,
+      "images": [
+        {
+          "alt": "Sablé-Herzen 100g",
+          "localPath": "/honold-demo/products/281.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Sables-Herzen-100g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/Sables-Herzen-100g.png",
+          "downloadedBytes": 139807
+        }
+      ]
+    },
+    {
+      "id": "280",
+      "handle": "huppen-200g",
+      "name": "Hüppen 200g",
+      "productType": "konfekt",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/huppen-200g/",
+      "priceCurrency": "CHF",
+      "priceChf": 23.5,
+      "images": [
+        {
+          "alt": "Hüppen 200g",
+          "localPath": "/honold-demo/products/280.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14080_Hueppen-200g-1.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-14080_Hueppen-200g-1-300x300.png",
+          "downloadedBytes": 17863
+        }
+      ]
+    },
+    {
+      "id": "259",
+      "handle": "mendiants-sackli-120g",
+      "name": "Mendiants 120g",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/mendiants-sackli-120g/",
+      "priceCurrency": "CHF",
+      "priceChf": 22.2,
+      "images": [
+        {
+          "alt": "Mendiants 120g",
+          "localPath": "/honold-demo/products/259.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5434_Mendiants-120g.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2026/06/P-5434_Mendiants-120g-300x300.png",
+          "downloadedBytes": 17548
+        }
+      ]
+    },
+    {
+      "id": "258",
+      "handle": "teddybar-lait-1er",
+      "name": "Teddybär Lait",
+      "productType": "schokolade",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://shop.honold.ch/product/teddybar-lait-1er/",
+      "priceCurrency": "CHF",
+      "priceChf": 5,
+      "images": [
+        {
+          "alt": "Teddybär Lait",
+          "localPath": "/honold-demo/products/258.png",
+          "sourceUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/109-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-862x1024.png",
+          "requestUrl": "https://shop.honold.ch/wp-content/uploads/2025/04/109-Honold_Broschuere_2025©Adrian_Ehrbar_Photography-862x1024.png",
+          "downloadedBytes": 504914
+        }
+      ]
+    }
+  ]
+}
