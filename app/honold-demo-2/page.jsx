@@ -13,5 +13,5 @@ export const viewport = { themeColor: "#5a2d18" };
 export const dynamic = "force-dynamic";
 
 export default function HonoldOrderPage() {
-  return <HonoldOrder catalog={catalog} voiceEnabled={Boolean(process.env.HONOLD_ORDER_OPENAI_API_KEY)} />;
+  return <HonoldOrder catalog={catalog} voiceEnabled={Boolean(process.env.HONOLD_ORDER_OPENAI_API_KEY || process.env.Honold2)} />;
 }

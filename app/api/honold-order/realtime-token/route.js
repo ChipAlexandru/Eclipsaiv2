@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 // Short-lived voice token for /honold-order. The OpenAI key stays on the server.
 // Env (Vercel → Project → Settings → Environment Variables):
-//   HONOLD_ORDER_OPENAI_API_KEY   required — dedicated key for this demo (never falls back to other keys)
+//   HONOLD_ORDER_OPENAI_API_KEY   dedicated key for this demo; Honold2 is the production alias
 //   HONOLD_ORDER_REALTIME_MODEL   optional — default gpt-realtime-2.1
 //   HONOLD_ORDER_REASONING        optional — minimal (default: fastest, no filler sentences) | low | medium
 export const runtime = "nodejs";
@@ -18,7 +18,7 @@ function noStore(body, init = {}) {
 }
 
 export async function POST() {
-  const apiKey = process.env.HONOLD_ORDER_OPENAI_API_KEY;
+  const apiKey = process.env.HONOLD_ORDER_OPENAI_API_KEY || process.env.Honold2;
   const model = process.env.HONOLD_ORDER_REALTIME_MODEL || "gpt-realtime-2.1";
   const reasoning = REASONING.has(process.env.HONOLD_ORDER_REASONING) ? process.env.HONOLD_ORDER_REASONING : "minimal";
   if (!apiKey) return noStore({ error: "Voice is not configured for this deployment." }, { status: 503 });

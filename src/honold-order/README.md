@@ -27,6 +27,8 @@ Why it should feel smoother than `/honold-demo`: full menu in the prompt (no sea
 
 ## Setup: OpenAI key
 
+Production currently stores the dedicated V2 key as `Honold2`; this is accepted as an alias for `HONOLD_ORDER_OPENAI_API_KEY`. Neither path falls back to the shared key or V1 key.
+
 The browser never sees the key. The server route `/api/honold-order/realtime-token` uses it to get a short-lived token.
 
 | Variable | Needed | Value |
