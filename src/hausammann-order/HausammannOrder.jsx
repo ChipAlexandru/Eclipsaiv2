@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { Check, ChevronRight, Clock, Mic, Minus, Plus, ShoppingBag, Store, X } from "lucide-react";
 import styles from "./hausammannOrder.module.css";
 import { CATEGORIES, basketTotals, buildMenu, chf, statusAt, STATUS_STEPS } from "./menu.mjs";
@@ -375,7 +376,7 @@ export function HausammannOrder({ catalog, voiceEnabled }) {
                   const qty = state.proposal ? state.proposal.items.find((i) => i.id === p.id)?.quantity || 0 : state.basket[p.id] || 0;
                   return (
                     <article key={p.id} className={styles.item} data-in-basket={qty > 0}>
-                      <div className={styles.photo}>{p.image && <img src={p.image} alt="" loading="lazy" />}</div>
+                      <div className={styles.photo}>{p.image && <Image src={p.image} alt="" width={74} height={74} sizes="65px" />}</div>
                       <div className={styles.itemText}>
                         <h3>{p.name}</h3>
                         <span>{chf(p.priceChf, state.lang)}</span>
@@ -495,7 +496,7 @@ function ProposalSheet({ lang, proposal, menu, store, pickup, now, onQty, onHead
       <div className={styles.lines}>
         {lines.map((l) => (
           <div key={l.id} className={styles.line}>
-            <div className={styles.linePhoto}>{l.image && <img src={l.image} alt="" />}</div>
+            <div className={styles.linePhoto}>{l.image && <Image src={l.image} alt="" width={48} height={48} sizes="41px" />}</div>
             <span className={styles.lineName}>{l.name}</span>
             <div className={styles.stepper}>
               <button type="button" aria-label="−" onClick={() => onQty(l.id, l.quantity - 1)}><Minus size={14} /></button>
@@ -533,7 +534,7 @@ function CheckoutSheet({ lang, totals, gifts, store, pickup, now, paying, propos
       <div className={styles.lines}>
         {totals.lines.map((l) => (
           <div key={l.id} className={styles.line}>
-            <div className={styles.linePhoto}>{l.image && <img src={l.image} alt="" />}</div>
+            <div className={styles.linePhoto}>{l.image && <Image src={l.image} alt="" width={48} height={48} sizes="41px" />}</div>
             <span className={styles.lineName}>{l.name}</span>
             <div className={styles.stepper}>
               <button type="button" aria-label="−" onClick={() => onQty(l.id, l.quantity - 1)}><Minus size={14} /></button>
