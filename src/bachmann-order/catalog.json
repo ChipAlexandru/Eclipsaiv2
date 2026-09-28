@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-22T19:47:53.342Z",
+  "source": {
+    "storefront": "https://www.confiserie.ch/",
+    "collectionUrl": "https://www.confiserie.ch/en",
+    "currency": "CHF",
+    "note": "Official homepage bestseller snapshot. Prices can change. No live branch stock, confirmed pickup, reservation, payment, or order data."
+  },
+  "products": [
+    {
+      "id": "29658",
+      "handle": "the-xxl-sticks",
+      "name": "The XXL Sticks",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/the-xxl-sticks",
+      "priceCurrency": "CHF",
+      "priceChf": 17.9,
+      "images": [
+        {
+          "alt": "The XXL Sticks",
+          "localPath": "/bachmann-demo-2/products/29658.webp",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/mpiowebpcache/2765542505660baab28ecd555e27366e/t/h/the_xxl_sticks_v3_4_.webp",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/mpiowebpcache/2765542505660baab28ecd555e27366e/t/h/the_xxl_sticks_v3_4_.webp",
+          "downloadedBytes": 7730
+        }
+      ]
+    },
+    {
+      "id": "17370",
+      "handle": "frischschokolade-herbst",
+      "name": "Fresh Chocolate Autumn",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/frischschokolade-herbst",
+      "priceCurrency": "CHF",
+      "priceChf": 9.8,
+      "images": [
+        {
+          "alt": "Fresh Chocolate Autumn",
+          "localPath": "/bachmann-demo-2/products/17370.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/g/i/give_away_herbst_set_1.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/g/i/give_away_herbst_set_1.jpg",
+          "downloadedBytes": 5196
+        }
+      ]
+    },
+    {
+      "id": "3621",
+      "handle": "caramelisierte-mandeln",
+      "name": "Caramelised Almonds",
+      "productType": "confections",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/caramelisierte-mandeln",
+      "priceCurrency": "CHF",
+      "priceChf": 5.8,
+      "images": [
+        {
+          "alt": "Caramelised Almonds",
+          "localPath": "/bachmann-demo-2/products/3621.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/maneln_caramelisiert2.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/maneln_caramelisiert2.jpg",
+          "downloadedBytes": 6560
+        }
+      ]
+    },
+    {
+      "id": "3198",
+      "handle": "rahmtaefeli",
+      "name": "Little Cream Treats",
+      "productType": "confections",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/rahmtaefeli",
+      "priceCurrency": "CHF",
+      "priceChf": 4.9,
+      "images": [
+        {
+          "alt": "Little Cream Treats",
+          "localPath": "/bachmann-demo-2/products/3198.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/r/a/rahmtaefeli_1.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/r/a/rahmtaefeli_1.jpg",
+          "downloadedBytes": 6485
+        }
+      ]
+    },
+    {
+      "id": "3197",
+      "handle": "magenbrot",
+      "name": "Magenbrot (Spiced Bread)",
+      "productType": "confections",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/magenbrot",
+      "priceCurrency": "CHF",
+      "priceChf": 5.9,
+      "images": [
+        {
+          "alt": "Magenbrot (Spiced Bread)",
+          "localPath": "/bachmann-demo-2/products/3197.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/magenbrot_4.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/magenbrot_4.jpg",
+          "downloadedBytes": 7499
+        }
+      ]
+    },
+    {
+      "id": "1467",
+      "handle": "gemischte-truffes-9er",
+      "name": "Mixed Truffles 9 pc. Gift Box",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/gemischte-truffes-9er",
+      "priceCurrency": "CHF",
+      "priceChf": 18.7,
+      "images": [
+        {
+          "alt": "Mixed Truffles 9 pc. Gift Box",
+          "localPath": "/bachmann-demo-2/products/1467.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/9/e/9er_box_truffes_13720.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/9/e/9er_box_truffes_13720.jpg",
+          "downloadedBytes": 6193
+        }
+      ]
+    },
+    {
+      "id": "1439",
+      "handle": "grand-cru-16",
+      "name": "Grand Cru 16pc.",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/grand-cru-16",
+      "priceCurrency": "CHF",
+      "priceChf": 31.3,
+      "images": [
+        {
+          "alt": "Grand Cru 16pc.",
+          "localPath": "/bachmann-demo-2/products/1439.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/6/16er_box_grandcru_pralin__13708.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/6/16er_box_grandcru_pralin__13708.jpg",
+          "downloadedBytes": 6414
+        }
+      ]
+    },
+    {
+      "id": "1465",
+      "handle": "gemischte-truffes-16",
+      "name": "Mixed Truffles 16 pc.",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/gemischte-truffes-16",
+      "priceCurrency": "CHF",
+      "priceChf": 29.2,
+      "images": [
+        {
+          "alt": "Mixed Truffles 16 pc.",
+          "localPath": "/bachmann-demo-2/products/1465.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/6/16er_box_truffes_13709.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/6/16er_box_truffes_13709.jpg",
+          "downloadedBytes": 6983
+        }
+      ]
+    },
+    {
+      "id": "1445",
+      "handle": "schutzengeliherz-12er",
+      "name": "Guardian Angel ® 12pc. Heart",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/schutzengeliherz-12er",
+      "priceCurrency": "CHF",
+      "priceChf": 29.2,
+      "images": [
+        {
+          "alt": "Guardian Angel ® 12pc. Heart",
+          "localPath": "/bachmann-demo-2/products/1445.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/s/c/schutz.12er_1.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/s/c/schutz.12er_1.jpg",
+          "downloadedBytes": 7765
+        }
+      ]
+    },
+    {
+      "id": "1291",
+      "handle": "macaron-variation",
+      "name": "Macaron Variation",
+      "productType": "patisserie",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/macaron-variation",
+      "priceCurrency": "CHF",
+      "priceChf": 29.8,
+      "images": [
+        {
+          "alt": "Macaron Variation",
+          "localPath": "/bachmann-demo-2/products/1291.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/macaron-variation_3.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/a/macaron-variation_3.jpg",
+          "downloadedBytes": 8476
+        }
+      ]
+    },
+    {
+      "id": "1479",
+      "handle": "gemischte-pralines-20er-mit-alkohol",
+      "name": "Mixed Pralines 20 pc.",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/gemischte-pralines-20er-mit-alkohol",
+      "priceCurrency": "CHF",
+      "priceChf": 36.2,
+      "images": [
+        {
+          "alt": "Mixed Pralines 20 pc.",
+          "localPath": "/bachmann-demo-2/products/1479.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/2/0/20er_mit_alk.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/2/0/20er_mit_alk.jpg",
+          "downloadedBytes": 9032
+        }
+      ]
+    },
+    {
+      "id": "8949",
+      "handle": "bruschettas-karton-gross",
+      "name": "Bruschette Cardboard Plate big 20 pcs.",
+      "productType": "savoury",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/bruschettas-karton-gross",
+      "priceCurrency": "CHF",
+      "priceChf": 76,
+      "images": [
+        {
+          "alt": "Bruschette Cardboard Plate big 20 pcs.",
+          "localPath": "/bachmann-demo-2/products/8949.webp",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/mpiowebpcache/2765542505660baab28ecd555e27366e/b/r/bruschette-20-stueck.webp",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/mpiowebpcache/2765542505660baab28ecd555e27366e/b/r/bruschette-20-stueck.webp",
+          "downloadedBytes": 12634
+        }
+      ]
+    },
+    {
+      "id": "1335",
+      "handle": "linzertorte",
+      "name": "Linzer Tart 6 People",
+      "productType": "patisserie",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/linzertorte",
+      "priceCurrency": "CHF",
+      "priceChf": 14.9,
+      "images": [
+        {
+          "alt": "Linzer Tart 6 People",
+          "localPath": "/bachmann-demo-2/products/1335.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/l/i/linzertorte_offe.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/l/i/linzertorte_offe.jpg",
+          "downloadedBytes": 9947
+        }
+      ]
+    },
+    {
+      "id": "1444",
+      "handle": "schutzengeli-16er",
+      "name": "Guardian Angel ® 16 pc.",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/schutzengeli-16er",
+      "priceCurrency": "CHF",
+      "priceChf": 35.5,
+      "images": [
+        {
+          "alt": "Guardian Angel ® 16 pc.",
+          "localPath": "/bachmann-demo-2/products/1444.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/s/c/schutzengeli_16er_2021_verpackung.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/s/c/schutzengeli_16er_2021_verpackung.jpg",
+          "downloadedBytes": 8432
+        }
+      ]
+    },
+    {
+      "id": "1283",
+      "handle": "chatzestreckerli",
+      "name": "Chatzestreckerli Classic",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/chatzestreckerli",
+      "priceCurrency": "CHF",
+      "priceChf": 17.6,
+      "images": [
+        {
+          "alt": "Chatzestreckerli Classic",
+          "localPath": "/bachmann-demo-2/products/1283.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/c/h/chatzestreckerli_classic_hauptbild.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/c/h/chatzestreckerli_classic_hauptbild.jpg",
+          "downloadedBytes": 8859
+        }
+      ]
+    },
+    {
+      "id": "1305",
+      "handle": "wasserturmstein-6er",
+      "name": "Wasserturm Stein® 6 pc.",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/wasserturmstein-6er",
+      "priceCurrency": "CHF",
+      "priceChf": 24.4,
+      "images": [
+        {
+          "alt": "Wasserturm Stein® 6 pc.",
+          "localPath": "/bachmann-demo-2/products/1305.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/w/t/wts_6er_kirsch_verpackung_2022.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/w/t/wts_6er_kirsch_verpackung_2022.jpg",
+          "downloadedBytes": 8772
+        }
+      ]
+    },
+    {
+      "id": "1389",
+      "handle": "mini-tartufi-nero-und-bianco",
+      "name": "Mini Tartufi Nero & Bianco",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/mini-tartufi-nero-und-bianco",
+      "priceCurrency": "CHF",
+      "priceChf": 15.5,
+      "images": [
+        {
+          "alt": "Mini Tartufi Nero & Bianco",
+          "localPath": "/bachmann-demo-2/products/1389.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/i/mini-tartufi_2.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/m/i/mini-tartufi_2.jpg",
+          "downloadedBytes": 7432
+        }
+      ]
+    },
+    {
+      "id": "1492",
+      "handle": "dose-lucerne-pralines-ohne-alk",
+      "name": "Tin Box Lucerne Pralines without Alcohol",
+      "productType": "chocolate",
+      "tags": [],
+      "description": "",
+      "sourceUrl": "https://www.confiserie.ch/en/dose-lucerne-pralines-ohne-alk",
+      "priceCurrency": "CHF",
+      "priceChf": 31,
+      "images": [
+        {
+          "alt": "Tin Box Lucerne Pralines without Alcohol",
+          "localPath": "/bachmann-demo-2/products/1492.jpg",
+          "sourceUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/5/15er_dose.jpg",
+          "requestUrl": "https://www.confiserie.ch/media/catalog/product/cache/2765542505660baab28ecd555e27366e/1/5/15er_dose.jpg",
+          "downloadedBytes": 10472
+        }
+      ]
+    }
+  ]
+}
