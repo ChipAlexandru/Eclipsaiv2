@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronRight, Clock, Mic, Minus, Plus, ShoppingBag, Store, X } from "lucide-react";
 import styles from "./bachmannOrder.module.css";
-import { CATEGORIES, basketTotals, buildMenu, chf, statusAt, STATUS_STEPS } from "./menu.mjs";
+import { CATEGORIES, basketTotals, buildMenu, chf, orderSummary, statusAt, STATUS_STEPS } from "./menu.mjs";
 import { DEFAULT_STORE, STORES, hhmm, hoursLabel, hoursOn, localClock, resolvePickup, slotsFor, storeById } from "./stores.mjs";
 import { t } from "./copy.mjs";
 import * as actions from "./actions.mjs";
@@ -48,8 +48,8 @@ const INITIAL = {
 };
 
 export function BachmannOrder({ catalog, voiceEnabled }) {
-  const menu = useMemo(() => buildMenu(catalog), [catalog]);
   const [state, setState] = useState(INITIAL);
+  const menu = useMemo(() => buildMenu(catalog, state.lang), [catalog, state.lang]);
   const stateRef = useRef(INITIAL);
   const [nowMs, setNowMs] = useState(null);
   const [toasts, setToasts] = useState([]);
@@ -107,7 +107,8 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
   // ---------- one entry point for every button, used by touch and voice ----------
   const run = useCallback((name, args = {}, { viaVoice = false } = {}) => {
     const before = stateRef.current;
-    const out = actions[name](before, args, { menu, nowMs: Date.now() });
+    const actionMenu = name === "setLanguage" ? buildMenu(catalog, /^en/i.test(args.language) ? "en" : "de") : menu;
+    const out = actions[name](before, args, { menu: actionMenu, nowMs: Date.now() });
     if (out.next) commit(out.next);
     if (!out.result.ok && !viaVoice) toast(({ basket_quantity_limit: "Maximal 99 pro Produkt", proposal_pending: "Bitte Auswahl zuerst übernehmen oder verwerfen", quantity_out_of_range: "Menge von 0 bis 99" })[out.result.reason] || "Bitte Auswahl prüfen");
     if (viaVoice) toolStateRef.current = stateRef.current;
@@ -123,7 +124,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
     if (name === "setLanguage" && out.next) writeStore("bachmann-order-2-lang", out.next.lang);
     if (out.effect === "pay") {
       writeStore("bachmann-order-2-last", after.lastOrder);
-      memoryRef.current = rememberOrder(memoryRef.current, { storeId: after.storeId, summary: after.lastOrder.summary });
+      memoryRef.current = rememberOrder(memoryRef.current, { storeId: after.storeId, summary: after.lastOrder.summary, basket: after.lastOrder.basket, order: after.lastOrder.order });
       saveMemory(memoryRef.current);
       setTimeout(() => commit((s) => s.paying && s.order?.placedAtMs === after.order?.placedAtMs
         ? { ...s, paying: false, sheet: null, view: "order", basket: {}, basketOrder: [], forYou: null, acceptedProposal: null }
@@ -134,7 +135,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
       saveMemory(memoryRef.current);
     }
     return out.result;
-  }, [commit, menu, toast]);
+  }, [catalog, commit, menu, toast]);
 
   const runRef = useRef(run);
   useEffect(() => { runRef.current = run; }, [run]);
@@ -176,7 +177,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
     if (!session || session.transport?.status !== "connected") return;
     try {
       session.transport.updateSessionConfig({
-        instructions: voiceInstructions({ lang: state.lang, menu, stateLine: stateLine(), memoryLine: memoryContext(memoryRef.current, Date.now(), storeById(memoryRef.current.storeId)?.name) }),
+        instructions: voiceInstructions({ lang: state.lang, menu, stateLine: stateLine(), memoryLine: memoryContext(memoryRef.current, Date.now(), storeById(memoryRef.current.storeId)?.name, menu.byId) }),
         audio: { input: { transcription: { model: "gpt-4o-mini-transcribe", language: state.lang } } },
       });
     } catch {}
@@ -213,7 +214,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
       const token = await tokenRes.json().catch(() => ({}));
       if (generation !== sessionGenerationRef.current) return;
       if (!tokenRes.ok || !token.value) throw new Error("token");
-      const memoryLine = memoryContext(memoryRef.current, Date.now(), storeById(memoryRef.current.storeId)?.name);
+      const memoryLine = memoryContext(memoryRef.current, Date.now(), storeById(memoryRef.current.storeId)?.name, menu.byId);
       memoryRef.current = rememberVisit(memoryRef.current, Date.now());
       saveMemory(memoryRef.current);
       const viaVoice = (name) => (args) => generation === sessionGenerationRef.current && sessionRef.current
@@ -353,7 +354,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
 
             {state.lastOrder && !totals.count && (
               <div className={styles.again}>
-                <span><small>{c.lastOrder}</small>{state.lastOrder.summary}</span>
+                <span><small>{c.lastOrder}</small>{orderSummary(state.lastOrder, menu.byId)}</span>
                 <button type="button" onClick={() => run("orderAgain")}>{c.orderAgain}</button>
               </div>
             )}
@@ -398,7 +399,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
         )}
 
         {state.view === "order" && state.order && (
-          <OrderView order={state.order} status={status} lang={state.lang} now={now}
+          <OrderView order={state.order} status={status} lang={state.lang} now={now} menu={menu}
             onSkip={() => commit((s) => ({ ...s, order: actions.skipAhead(s.order) }))}
             onNew={() => run("newOrder")} />
         )}
@@ -609,7 +610,7 @@ function PickupSheet({ lang, state, now, onStore, onWhen, onDone }) {
   );
 }
 
-function OrderView({ order, status, lang, now, onSkip, onNew }) {
+function OrderView({ order, status, lang, now, menu, onSkip, onNew }) {
   const c = t(lang);
   const store = storeById(order.storeId);
   const stepIndex = STATUS_STEPS.indexOf(status);
@@ -637,7 +638,7 @@ function OrderView({ order, status, lang, now, onSkip, onNew }) {
       </button>
       <p className={styles.counterHint}>{c.counterHint}</p>
       <div className={styles.orderLines}>
-        {order.lines.map((l) => <div key={l.id}><span>{l.quantity}× {l.name}{l.gift && <small className={styles.giftNote}>{actions.giftLabel(l.gift, lang)}</small>}</span><span>{chf(l.lineChf, lang)}</span></div>)}
+        {order.lines.map((l) => <div key={l.id}><span>{l.quantity}× {menu.byId[l.id]?.name || l.name}{l.gift && <small className={styles.giftNote}>{actions.giftLabel(l.gift, lang)}</small>}</span><span>{chf(l.lineChf, lang)}</span></div>)}
         <div className={styles.orderTotal}><span>{c.total} · TWINT</span><strong>{chf(order.totalChf, lang)}</strong></div>
       </div>
       <p className={styles.address}>{store?.address}</p>

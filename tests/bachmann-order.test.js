@@ -26,10 +26,38 @@ test("official bestseller snapshot maps every product to one tab and a local ima
   assert.equal(CATEGORIES.reduce((n, c) => n + menu.byCategory[c.id].length, 0), 18);
   for (const p of menu.products) {
     assert.ok(p.priceChf > 0);
+    assert.ok(p.nameDe && p.nameEn);
     assert.ok(fs.existsSync(path.join(root, "public", p.image)), p.image);
   }
+  for (const product of catalog.products) assert.equal(product.sourceUrlDe, product.sourceUrl.replace("/en/", "/de/"));
   assert.equal(menu.byId["29658"].priceChf, 17.9);
   assert.equal(menu.byId["8949"].category, "apero");
+});
+
+test("German and English product names change without changing ids, prices or basket quantities", async () => {
+  const { buildMenu, basketTotals, orderSummary } = await load("menu.mjs");
+  const de = buildMenu(catalog, "de"), en = buildMenu(catalog, "en");
+  assert.equal(de.byId["17370"].name, "Frischschokolade Herbst");
+  assert.equal(en.byId["17370"].name, "Fresh Chocolate Autumn");
+  assert.equal(de.byId["1492"].name, "Dose Lucerne Pralinés");
+  assert.equal(en.byId["1492"].name, "Tin Box Lucerne Pralines without Alcohol");
+  assert.deepEqual(de.products.map((p) => [p.id, p.priceChf]), en.products.map((p) => [p.id, p.priceChf]));
+  const basket = { 17370: 2, 1492: 1 };
+  assert.equal(basketTotals(basket, de.byId).totalChf, basketTotals(basket, en.byId).totalChf);
+  const last = { basket, order: ["17370", "1492"], summary: "2× Frischschokolade Herbst, 1× Dose Lucerne Pralinés" };
+  assert.match(orderSummary(last, en.byId), /Fresh Chocolate Autumn/);
+  assert.doesNotMatch(orderSummary(last, en.byId), /Frischschokolade/);
+});
+
+test("proposal and voice action results use the active product language", async () => {
+  const { actions, ctx } = await setup();
+  const deDraft = actions.proposeOrder(BASE, { title: "Geschenk", items: [{ id: "17370", quantity: 1 }] }, ctx);
+  assert.match(deDraft.result.screen.proposal_open, /Frischschokolade Herbst/);
+  const { buildMenu } = await load("menu.mjs");
+  const enCtx = { ...ctx, menu: buildMenu(catalog, "en") };
+  const enState = { ...deDraft.next, lang: "en" };
+  assert.match(actions.screenSummary(enState, enCtx.menu, MON_0802).proposal_open, /Fresh Chocolate Autumn/);
+  assert.deepEqual(actions.showProducts(enState, { ids: ["17370"] }, enCtx).result.shown, ["Fresh Chocolate Autumn"]);
 });
 
 test("pickup uses published Zurich hours and closes Bleicherweg on Sunday", async () => {
@@ -109,6 +137,13 @@ test("language, memory and voice prompt remain Bachmann-scoped", async () => {
   assert.match(prompt, /Confiserie Bachmann/);
   assert.doesNotMatch(prompt, /Honold|Buttergipfel|Küsnacht/);
   for (const p of ctx.menu.products) assert.ok(prompt.includes(`${p.id}|`));
+  assert.match(prompt, /17370\|Frischschokolade Herbst\|Fresh Chocolate Autumn/);
+  const { buildMenu } = await load("menu.mjs");
+  const en = buildMenu(catalog, "en");
+  const enPrompt = voice.voiceInstructions({ lang: "en", menu: en, stateLine: "{}", memoryLine: "First visit" });
+  assert.match(enPrompt, /17370\|Fresh Chocolate Autumn\|Frischschokolade Herbst/);
+  const remembered = memory.rememberOrder(memory.EMPTY_MEMORY, { storeId: "stadelhofen", summary: "2× Frischschokolade Herbst", basket: { 17370: 2 }, order: ["17370"] });
+  assert.match(memory.memoryContext(remembered, MON_0802, "Stadelhofen", en.byId), /2× Fresh Chocolate Autumn/);
 });
 
 test("voice tools deduplicate calls, reject stale sessions and require explicit payment consent", async () => {

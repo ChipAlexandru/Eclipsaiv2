@@ -11,17 +11,19 @@ export function categoryOf(product) {
   return ({ chocolate: "schokolade", confections: "konfekt", patisserie: "patisserie", savoury: "apero" })[type] || "konfekt";
 }
 
-export function buildMenu(catalog) {
+export function buildMenu(catalog, lang = "de") {
   const products = catalog.products.map((p) => ({
     id: String(p.id),
-    name: p.name.replace(/\s+-versandbereit\s*/i, " · versandbereit · ").replace(/\s{2,}/g, " ").trim(),
+    name: (lang === "en" ? p.name : p.nameDe || p.name).replace(/\s+-versandbereit\s*/i, " · versandbereit · ").replace(/\s{2,}/g, " ").trim(),
+    nameDe: p.nameDe || p.name,
+    nameEn: p.name,
     priceChf: p.priceChf,
     category: categoryOf(p),
     image: p.images?.[0]?.localPath || null,
   }));
   const byId = Object.fromEntries(products.map((p) => [p.id, p]));
   const byCategory = Object.fromEntries(CATEGORIES.map((c) => [c.id, products.filter((p) => p.category === c.id)]));
-  return { products, byId, byCategory };
+  return { lang, products, byId, byCategory };
 }
 
 export function chf(value, lang = "de") {
@@ -60,6 +62,11 @@ export function basketTotals(basket, byId, order = []) {
   return { lines, count: lines.reduce((s, l) => s + l.quantity, 0), totalChf: round2(lines.reduce((s, l) => s + l.lineChf, 0)) };
 }
 
+export function orderSummary(lastOrder, byId) {
+  if (!lastOrder?.basket) return lastOrder?.summary || "";
+  return basketLines(lastOrder.basket, byId, lastOrder.order).map((l) => `${l.quantity}× ${l.name}`).join(", ") || lastOrder.summary || "";
+}
+
 export function round2(v) { return Math.round(v * 100) / 100; }
 
 export function pickupNumber(placedAtMs) { return `B${101 + (Math.floor(placedAtMs / 1000) % 899)}`; }
@@ -74,7 +81,7 @@ export function statusAt(order, nowMs) {
 
 /** Compact menu for the voice model: one line per product. */
 export function menuForVoice(menu) {
-  return CATEGORIES.map((c) => `${c.de}:\n${menu.byCategory[c.id].map((p) => `${p.id}|${p.name}|${p.priceChf.toFixed(2)}`).join("\n")}`).join("\n");
+  return CATEGORIES.map((c) => `${menu.lang === "en" ? c.en : c.de}:\n${menu.byCategory[c.id].map((p) => `${p.id}|${p.name}|${p.name === p.nameDe ? p.nameEn : p.nameDe}|${p.priceChf.toFixed(2)}`).join("\n")}`).join("\n");
 }
 
 /** Plain local search used by touch and as a fallback. */
@@ -83,6 +90,6 @@ export function searchMenu(menu, query, limit = 8) {
   if (!words.length) return [];
   const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   return menu.products
-    .map((p) => ({ p, score: words.reduce((s, w) => s + (norm(p.name).includes(w) ? 2 : 0) + (norm(p.category).includes(w) ? 1 : 0), 0) }))
+    .map((p) => ({ p, score: words.reduce((s, w) => s + (norm(p.name).includes(w) || norm(p.nameDe).includes(w) || norm(p.nameEn).includes(w) ? 2 : 0) + (norm(p.category).includes(w) ? 1 : 0), 0) }))
     .filter((x) => x.score > 0).sort((a, b) => b.score - a.score).slice(0, limit).map((x) => x.p);
 }

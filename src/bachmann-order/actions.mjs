@@ -1,7 +1,7 @@
 // Every button in the shop, as a pure action: (state, args, ctx) → { next, result }.
 // Touch and voice both go through these, so voice can do exactly what the buttons do.
 // result = { ok, ...facts, screen, next_step } — short, so the voice model answers fast.
-import { CATEGORIES, applyBasket, basketTotals, chf, nextOrder, pickupNumber, statusAt } from "./menu.mjs";
+import { CATEGORIES, applyBasket, basketTotals, chf, nextOrder, orderSummary, pickupNumber, statusAt } from "./menu.mjs";
 import { STORES, hhmm, hoursLabel, parseClock, resolvePickup, slotsFor, storeById } from "./stores.mjs";
 
 const readyLabel = (p) => (p?.ok ? `${p.dayOffset === 1 ? "tomorrow " : p.dayOffset > 1 ? `in ${p.dayOffset} days ` : "today "}${hhmm(p.minute)}` : "shop closed");
@@ -17,10 +17,10 @@ export function screenSummary(state, menu, nowMs) {
     total: chf(tot.totalChf, "de"),
     shop: storeById(state.storeId)?.name,
     ready: readyLabel(pickup) + (state.when.mode === "asap" ? " (asap)" : ""),
-    ...(state.proposal ? { proposal_open: proposalText(state.proposal, menu), proposal_headcount: state.proposal.headcount,
+    ...(state.proposal ? { proposal_open: proposalText(state.proposal, menu, state.lang), proposal_headcount: state.proposal.headcount,
       proposal_constraints: state.proposal.constraints || "", proposal_total: chf(state.proposal.items.reduce((sum, i) => sum + (menu.byId[i.id]?.priceChf || 0) * i.quantity, 0), "de") } : {}),
     ...(state.acceptedProposal ? { accepted_selection_editable: true } : {}),
-    ...(Object.keys(state.gifts || {}).length ? { gifts: giftText(state.gifts, menu) } : {}),
+    ...(Object.keys(state.gifts || {}).length ? { gifts: giftText(state.gifts, menu, state.lang) } : {}),
     ...(state.order ? { order: `#${state.order.number} ${statusAt(state.order, nowMs)}` } : {}),
     language: state.lang,
   };
@@ -169,7 +169,7 @@ export function orderAgain(state, _args, ctx) {
   if (!state.lastOrder) return done(state, null, ctx, { ok: false, reason: "no_previous_order" }, "Say there is no earlier order on this phone and ask what they would like.");
   const basket = Object.fromEntries(Object.entries(state.lastOrder.basket).filter(([id]) => ctx.menu.byId[id]));
   const next = { ...state, basket, basketOrder: nextOrder(state.lastOrder.order || [], basket), gifts: { ...(state.lastOrder.gifts || {}) }, storeId: state.lastOrder.storeId || state.storeId, when: { mode: "asap" }, view: "menu", sheet: null, proposal: null, acceptedProposal: null };
-  return done(state, next, ctx, { ok: true, basket: state.lastOrder.summary }, "Say it's in the basket like last time and offer: anything else, or zur Kasse.");
+  return done(state, next, ctx, { ok: true, basket: orderSummary(state.lastOrder, ctx.menu.byId) }, "Say it's in the basket like last time and offer: anything else, or zur Kasse.");
 }
 
 export function newOrder(state, _args, ctx) {
@@ -203,11 +203,11 @@ export function giftLabel(gift, lang = "de") {
   if (gift.card) parts.push(lang === "en" ? `card «${gift.card}»` : `Karte «${gift.card}»`);
   return parts.join(" · ");
 }
-function giftText(gifts, menu) {
-  return Object.entries(gifts).map(([id, g]) => `${menu.byId[id]?.name}: ${giftLabel(g, "en")}`).join("; ");
+function giftText(gifts, menu, lang) {
+  return Object.entries(gifts).map(([id, g]) => `${menu.byId[id]?.name}: ${giftLabel(g, lang)}`).join("; ");
 }
-function proposalText(p, menu) {
-  return `${p.title}${p.headcount ? ` · ${p.headcount} people` : ""}: ${p.items.map((i) => `${i.quantity}× ${menu.byId[i.id]?.name} [${i.id}]${i.gift ? ` (${giftLabel(i.gift, "en")})` : ""}`).join(", ")}`;
+function proposalText(p, menu, lang) {
+  return `${p.title}${p.headcount ? ` · ${p.headcount} ${lang === "en" ? "people" : "Personen"}` : ""}: ${p.items.map((i) => `${i.quantity}× ${menu.byId[i.id]?.name} [${i.id}]${i.gift ? ` (${giftLabel(i.gift, lang)})` : ""}`).join(", ")}`;
 }
 
 function purposeTitle(title, headcount) {
