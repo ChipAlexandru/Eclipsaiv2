@@ -318,7 +318,7 @@ export function BachmannOrder({ catalog, voiceEnabled }) {
       <div className={styles.app} data-voice={voiceActive}>
         <header className={styles.header}>
           <button type="button" className={styles.logoButton} onClick={() => run("goTo", { view: "menu" })} aria-label="Bachmann">
-            <img src="/bachmann-demo-2/brand/bachmann-logo.jpg" alt="Bachmann" className={styles.logo} />
+            <img src="/bachmann-demo-3/brand/bachmann-logo.jpg" alt="Bachmann" className={styles.logo} />
           </button>
           <div className={styles.lang} role="group" aria-label="Sprache / Language">
             {["de", "en"].map((l) => (

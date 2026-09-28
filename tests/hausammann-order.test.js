@@ -33,7 +33,7 @@ test('official Hausammann catalogue maps to five categories with local photograp
     assert.ok(p.priceChf > 0);
     assert.equal(p.priceChf, samplePriceChf(catalog.products.find((item) => item.id === p.id)));
   }
-  assert.ok(fs.existsSync(path.join(root, 'public/hausammann-demo-2/brand/zopfbeck-logo-white.png')));
+  assert.ok(fs.existsSync(path.join(root, 'public/hausammann-demo-4/brand/zopfbeck-logo-white.png')));
 });
 
 test('verified shop hours and pickup lead vary by branch and day', async () => {
